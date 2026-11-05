@@ -28,6 +28,31 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)}catch(e){}})()`,
           }}
         />
+        {/* Schema.org Person — Septian Panjaya */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Septian Panjaya",
+              url: "https://www.linkedin.com/in/septian-panjaya",
+              jobTitle: "Finance Risk Analytics",
+              knowsAbout: ["Credit Risk", "Fraud/AML Analytics", "Financial Modeling", "Financial Statement Analysis"],
+              sameAs: [
+                "https://www.linkedin.com/in/septian-panjaya",
+                "https://github.com/rwnliwan",
+                "https://fmva-sprint.pages.dev/",
+                "https://fsa-lab.pages.dev/",
+                "https://credit-desk-afy.pages.dev/",
+                "https://investment-desk.pages.dev/",
+                "https://simulator-fmva.pages.dev/",
+                "https://learn-platform-cyo.pages.dev/v2",
+                "https://radar.omdanny.site/",
+              ],
+            }),
+          }}
+        />
       </head>
       <body>
         <div style={{ position: "fixed", top: "12px", right: "12px", zIndex: 100 }}>
