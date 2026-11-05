@@ -769,7 +769,7 @@ export default function Workspace({ lesson }: { lesson: V2Lesson }) {
               {step.note && (
                 <div className={`note${step.note.type === "risk" ? " risk" : ""}`}>
                   <h4>{step.note.title}</h4>
-                  <p>{step.note.body}</p>
+                  <p>{renderInline(step.note.body)}</p>
                 </div>
               )}
               {(step.hints?.length ?? 0) > 0 && (

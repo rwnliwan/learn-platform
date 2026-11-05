@@ -112,7 +112,7 @@ html[data-theme="dark"] .v2{
 .v2 .btn:hover{background:var(--bg-hover)}
 .v2 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
 .v2 .btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
-.v2 .btn.ghost{border-color:var(--border-strong);background:var(--bg-panel);color:var(--text)}
+.v2 .btn.ghost{border:1px solid var(--border-strong);background:var(--bg-panel);color:var(--text)}
 .v2 .btn.ghost:hover{background:var(--bg-hover);color:var(--text)}
 /* unscoped fallback: tombol ghost di luar wrapper .v2 (mis. Beranda).
    Warna di-hardcode karena var(--*) hanya terdefinisi di scope .v2. */
