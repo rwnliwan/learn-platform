@@ -258,7 +258,7 @@ export default function KebingunganClient() {
             tertunggak. Terus belajar dan tinjau ulang — peta ini terisi
             begitu friksinya muncul.
           </p>
-          <Link className="btn" href="/v2/review">
+          <Link prefetch={false} className="btn" href="/v2/review">
             Buka Tinjau Ulang
           </Link>
         </div>

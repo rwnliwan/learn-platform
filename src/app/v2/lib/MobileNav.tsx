@@ -43,7 +43,7 @@ export default function MobileNav() {
   function tab(it: { href: string; label: string; icon: string }) {
     const active = it.href === "/v2" ? path === "/v2" : path.startsWith(it.href);
     return (
-      <Link key={it.href} href={it.href} prefetch={it.href === "/v2/learn" || it.href === "/v2/misi" ? false : undefined} aria-current={active ? "page" : undefined} onClick={() => setOpen(false)}>
+      <Link key={it.href} href={it.href} prefetch={it.href === "/v2/learn" || it.href === "/v2/misi" || it.href === "/v2/karier" || it.href === "/v2/review" ? false : undefined} aria-current={active ? "page" : undefined} onClick={() => setOpen(false)}>
         <Icon name={it.icon} />
         <span>{it.label}</span>
       </Link>

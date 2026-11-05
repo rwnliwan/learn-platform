@@ -139,7 +139,7 @@ export default function WarisanClient() {
             pernah kamu nilai. Mulai belajar dan tinjau ulang beberapa kartu —
             proyeksi akan muncul di sini begitu datanya ada.
           </p>
-          <Link className="btn" href="/v2/review">
+          <Link prefetch={false} className="btn" href="/v2/review">
             Buka Tinjau Ulang
           </Link>
         </div>

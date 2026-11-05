@@ -305,7 +305,7 @@ export default function FocusPanel() {
             <>
               <div className="fpnum">{dueCount}</div>
               <div className="fpmeta">kartu jatuh tempo hari ini</div>
-              <Link className="fpcta" href="/v2/review">
+              <Link prefetch={false} className="fpcta" href="/v2/review">
                 Tinjau ulang
               </Link>
             </>

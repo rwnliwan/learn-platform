@@ -33,17 +33,17 @@ export default function DashboardNav({ active }: { active: "beranda" | "mulai" |
           <Icon name="play" />
           <span className="nlbl">Mulai</span>
         </Link>
-        {/* prefetch={false} on /v2/learn + /v2/misi below: their RSC payloads are ~20MB / ~3MB (full lesson/misi index) — prefetching them on every dashboard view kills slow networks (2026-11-05). */}
+        {/* prefetch={false} on /v2/learn + /v2/misi + /v2/karier + /v2/review below: their RSC payloads are ~20MB / ~3MB / ~118KB / ~118KB (full lesson/misi index, karier/review data) — prefetching them on every dashboard view kills slow networks (2026-11-05). */}
         <Link prefetch={false} href="/v2/learn" aria-current={active === "kurikulum" ? "page" : undefined} title="Kurikulum">
           <Icon name="layers" />
           <span className="nlbl">Kurikulum</span>
         </Link>
         {/* Additive 2026-10-14: /v2/karier (ITEM 5+7 program upgrade). */}
-        <Link href="/v2/karier" aria-current={active === "karier" ? "page" : undefined} title="Kesiapan karier">
+        <Link prefetch={false} href="/v2/karier" aria-current={active === "karier" ? "page" : undefined} title="Kesiapan karier">
           <Icon name="target" />
           <span className="nlbl">Kesiapan karier</span>
         </Link>
-        <Link href="/v2/review" aria-current={active === "tinjau" ? "page" : undefined} title="Tinjau ulang">
+        <Link prefetch={false} href="/v2/review" aria-current={active === "tinjau" ? "page" : undefined} title="Tinjau ulang">
           <Icon name="refresh" />
           <span className="nlbl">Tinjau ulang</span>
         </Link>
