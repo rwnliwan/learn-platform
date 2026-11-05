@@ -37,9 +37,7 @@ float). Checker ini memakai Decimal. Jangan membulatkan angka mentah — C1 menu
 
 File ini (`benchmark.csv`) dan `public/v2/data/benchmark.csv` (yang tampil di web)
 sebelumnya DUA salinan yang menyimpang: file ini 35 angka, file web 41 angka, dengan
-pilihan pos dan pembulatan yang berbeda. Sejak 5 Nov 2026, **isi keduanya identik
-(41 angka)** — file web adalah sumber kebenaran, file ini adalah port-nya ke format
-yang dipakai `reconcile.py`. Bila ada angka baru, ubah file web DULU, lalu port ke sini.
+pilihan pos dan pembulatan yang berbeda. Sejak 5 Nov 2026, **keduanya memuat 41 baris benchmark yang bersesuaian (41 corresponding benchmark rows, with documented display precision)** — 38 angka eksak sama, 3 rasio berbeda presisi tampilan (file ini 2 desimal, file web 1 desimal: gross margin 39,71/39,7; net margin 9,93/9,9; ROE 14,66/14,7 — semuanya pembulatan yang benar). File web adalah sumber kebenaran, file ini adalah port-nya ke format yang dipakai `reconcile.py`. Bila ada angka baru, ubah file web DULU, lalu port ke sini.
 
 Konvensi port (format `reconcile.py` dipertahankan, bukan sebaliknya):
 - `pos` snake_case; rasio ber-prefix `rasio:` (wajib — `reconcile.py` memakai prefix ini
@@ -57,7 +55,7 @@ Baris lama yang DIHAPUS karena tidak ada di file web (12): KLBF `laba_sebelum_pa
 `rasio:roe`, `rasio:roa`, `rasio:loan_to_asset`; BBCA `total_aset`, `total_ekuitas`,
 `rasio:casa_ratio`, `rasio:ldr_naive`. Semuanya angka filing yang valid, tetapi bukan
 bagian dari benchmark kanonis 41 angka — dan `rasio:ldr_naive` (80,65, hitungan
-kredit/DPK) sengaja diganti rasio LDR resmi bank 88,85. Catatan: cek C3 di
+kredit/DPK) sengaja dihapus; yang dipakai adalah LDR resmi bank (BBCA 78,67; BBRI 88,85). Catatan: cek C3 di
 `reconcile.py` membaca INPUT learner (bukan benchmark), jadi aturan konsistensi
 (neraca balance KLBF dkk.) tetap jalan selama input mengandung pos-posnya — dataset
 sampel tetap memuat `total_aset_lancar`/`total_aset_tidak_lancar` karena itu.
