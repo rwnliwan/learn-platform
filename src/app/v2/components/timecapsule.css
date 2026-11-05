@@ -1,0 +1,70 @@
+/* Time Capsule Predictions (Gelombang H) — aditif, mengikuti token v2.css */
+.tc-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-2, 12px);
+  background: var(--bg-soft, rgba(255, 255, 255, 0.02));
+  padding: 18px 18px 16px;
+  margin: 0 0 22px;
+}
+.tc-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.tc-badge {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--accent, #d4a24e);
+  border: 1px solid var(--accent, #d4a24e);
+  border-radius: 999px; padding: 2px 10px; white-space: nowrap;
+}
+.tc-title { font-size: 18px; line-height: 1.35; margin: 0; }
+.tc-intro { margin: 4px 0 8px; }
+.tc-guard { font-size: 13px; color: var(--text-faint); margin: 0 0 12px; }
+.tc-muted { font-size: 13px; color: var(--text-faint); }
+.tc-err { color: #e5484d; font-size: 13px; font-weight: 600; }
+
+.tc-field { margin-bottom: 12px; }
+.tc-field > label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.tc-field-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.tc-input {
+  width: 130px; padding: 8px 10px; font-size: 15px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg, transparent); color: inherit;
+}
+.tc-unit { font-size: 13px; color: var(--text-faint); }
+.tc-conf { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 400; flex: 1 1 220px; }
+.tc-conf input[type="range"] { flex: 1; accent-color: var(--accent, #d4a24e); }
+.tc-area {
+  width: 100%; padding: 8px 10px; font-size: 14px; font-family: inherit;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg, transparent); color: inherit; resize: vertical;
+}
+.tc-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+.tc-sealed-note { font-size: 14px; margin: 0 0 10px; }
+.tc-sealed-q {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 14px; padding: 6px 0; border-top: 1px dashed var(--border);
+}
+.tc-reason { font-size: 13px; color: var(--text-faint); font-style: italic; }
+
+.tc-resolved .tc-score, .tc-summary .tc-score { font-size: 15px; margin: 6px 0 12px; }
+.tc-score-note { color: var(--text-faint); font-size: 13px; font-weight: 400; }
+.tc-qres { border-top: 1px dashed var(--border); padding: 8px 0; font-size: 14px; }
+.tc-qres-q { font-weight: 600; margin-bottom: 4px; }
+.tc-qres-row { display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-faint); }
+.tc-qres-row b { color: inherit; }
+.tc-mark { font-weight: 700; }
+.tc-qres.ok .tc-mark { color: #3fb950; }
+.tc-qres.no .tc-mark { color: #e5484d; }
+.tc-oow { font-size: 13px; color: var(--text-faint); font-style: italic; }
+.tc-skipped .btn { margin-top: 6px; }
+
+.tc-sumlist { list-style: none; margin: 8px 0; padding: 0; }
+.tc-sumlist li {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 14px; padding: 7px 0; border-top: 1px dashed var(--border);
+}
+.tc-sumstat { color: var(--text-faint); white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .tc-card { padding: 14px 14px 12px; }
+  .tc-sealed-q { flex-direction: column; gap: 2px; }
+  .tc-input { width: 110px; }
+}

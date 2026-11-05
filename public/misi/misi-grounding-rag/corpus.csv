@@ -1,0 +1,21 @@
+chunk_id,judul,isi
+CH-001,Cuti tahunan,Karyawan tetap berhak atas 12 hari cuti tahunan setelah 12 bulan masa kerja. Pengajuan cuti dilakukan melalui aplikasi HRIS minimal 7 hari sebelum tanggal cuti.
+CH-002,Cuti sakit,"Cuti sakit diberikan maksimal 3 hari kerja per kejadian dengan surat keterangan dokter. Tanpa surat dokter, ketidakhadiran dihitung memotong cuti tahunan."
+CH-003,Kerja WFH,Karyawan boleh bekerja dari rumah (WFH) maksimal 2 hari per minggu dengan persetujuan atasan langsung. Hari WFH wajib tercatat di aplikasi absensi sebelum pukul 09.00.
+CH-004,Reimbursement,Klaim reimbursement diajukan maksimal 30 hari setelah pengeluaran dengan nota asli. Klaim di atas Rp5.000.000 membutuhkan persetujuan manajer dan finance.
+CH-005,Kata sandi,Kata sandi akun perusahaan minimal 12 karakter dan diganti setiap 90 hari. Dilarang memakai ulang 5 kata sandi terakhir.
+CH-006,Phishing,Laporkan email phishing ke tim keamanan melalui tombol Report di aplikasi email. Jangan klik tautan atau lampiran dari pengirim tak dikenal.
+CH-007,Onboarding,Karyawan baru mengikuti orientasi 3 hari di minggu pertama. Akun sistem aktif maksimal 2 hari kerja setelah dokumen lengkap.
+CH-008,Lembur,"Lembur maksimal 3 jam per hari dan 14 jam per minggu, wajib ada surat perintah lembur. Uang lembur dibayar bersama gaji bulan berikutnya."
+CH-009,Perjalanan dinas,Perjalanan dinas luar kota membutuhkan surat tugas yang disetujui direktur. Uang harian perjalanan dinas mengikuti tabel tarif per kota.
+CH-010,Pengadaan laptop,Permintaan laptop baru diajukan melalui tiket IT dengan justifikasi atasan. Masa pakai standar laptop adalah 4 tahun sebelum penggantian.
+CH-011,Evaluasi kinerja,Evaluasi kinerja dilakukan dua kali setahun pada bulan Juni dan Desember. Hasil evaluasi menjadi dasar keputusan bonus dan promosi.
+CH-012,Bonus tahunan,Bonus tahunan dibayarkan pada bulan Maret berdasarkan capaian KPI individu dan laba perusahaan. Karyawan harus masih aktif saat pembayaran.
+CH-013,Jenjang karier,Kenaikan jenjang membutuhkan minimal 2 tahun di jenjang saat ini dan nilai evaluasi minimal Baik. Usulan promosi diajukan atasan tiap kuartal.
+CH-014,Data pribadi,Data pribadi karyawan hanya boleh diakses tim HR dan atasan langsung. Penyebaran data pribadi tanpa izin dikenai sanksi disiplin berat.
+CH-015,Rapat,Rapat rutin maksimal 45 menit dan wajib memiliki agenda tertulis. Notulen rapat dibagikan maksimal 1 hari kerja setelah rapat.
+CH-016,Cuti melahirkan,"Cuti melahirkan diberikan 3 bulan: 1,5 bulan sebelum dan 1,5 bulan sesudah kelahiran. Selama cuti, karyawan menerima gaji penuh."
+CH-017,Resign,Pengunduran diri diajukan tertulis minimal 30 hari sebelumnya. Karyawan wajib menyelesaikan serah terima tugas selama masa notice.
+CH-018,Training,Setiap karyawan berhak atas anggaran training Rp10.000.000 per tahun. Pengajuan training membutuhkan persetujuan atasan dan HR.
+CH-019,Jam kerja,Jam kerja normal adalah Senin-Jumat pukul 08.00-17.00 dengan istirahat 1 jam. Keterlambatan lebih dari 3 kali sebulan memicu surat peringatan.
+CH-020,Whistleblowing,Laporan pelanggaran dapat disampaikan anonim melalui kanal whistleblowing. Identitas pelapor dilindungi dan dilarang ada pembalasan.

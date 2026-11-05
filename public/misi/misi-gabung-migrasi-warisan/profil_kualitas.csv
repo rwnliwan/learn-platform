@@ -1,0 +1,9 @@
+tabel,kolom,total_baris,null_pct,duplikat,nilai_tak_valid,aturan_yang_seharusnya_ada
+pelanggan,email,2000,3.0,40,0,"NOT NULL, UNIQUE"
+pelanggan,telepon,2000,0.0,0,83,"format ^08[0-9]{9,13}$"
+orders,pelanggan_id,8000,0.0,0,97,FK -> pelanggan.id (belum pernah ditegakkan)
+orders,tanggal,8000,0.0,0,76,CHECK tanggal <= CURRENT_DATE
+orders,total,8000,0.0,0,108,CHECK total >= 0 (refund = tabel terpisah)
+orders,status,8000,0.0,0,180,"IN (baru, diproses, selesai, batal)"
+pembayaran,order_id,7500,0.0,0,91,FK -> orders.id (belum pernah ditegakkan)
+produk,harga,300,0.0,0,0,CHECK harga > 0

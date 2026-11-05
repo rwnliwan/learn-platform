@@ -1,0 +1,10 @@
+[2026-03-11 02:00:01] pipeline_harian v2.3 START partisi=2026-03-10
+[2026-03-11 02:00:04] extract OK: 600 baris dari transaksi_harian.csv
+[2026-03-11 02:00:07] transform OK: join master_pelanggan (inner)
+[2026-03-11 02:00:09] transform OK: dedup key=(pelanggan_id, nominal, tanggal)
+[2026-03-11 02:00:12] load OK: 565 baris -> fact_transaksi
+[2026-03-11 02:00:12] RUN OK -- input=600, output=565, dropped=0
+[2026-03-11 02:00:13] staging_transaksi dibersihkan: YA
+[2026-03-10 02:00:12] RUN OK -- input=612, output=577, dropped=0
+[2026-03-09 02:00:11] RUN OK -- input=588, output=553, dropped=0
+[2026-03-08 02:00:01] partisi=2026-03-07 SKIP -- sudah diproses kemarin

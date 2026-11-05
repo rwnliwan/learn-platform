@@ -1,0 +1,7 @@
+tabel,kolom,tipe,deskripsi
+transaksi,customer_id,VARCHAR(20),ID pelanggan
+transaksi,trx_date,DATE,Tanggal settlement
+transaksi,amount,"DECIMAL(18,2)",Nominal dalam IDR
+transaksi,cust_segment,VARCHAR(20),Segmen dari CRM (diisi manual)
+transaksi,channel,VARCHAR(20),Kanal transaksi
+transaksi,status,VARCHAR(10),Status transaksi

@@ -1,0 +1,8 @@
+tabel,kolom,tipe,deskripsi
+transaksi,cust_id,VARCHAR(20),ID pelanggan
+transaksi,trx_date,DATE,Tanggal input operator
+transaksi,amount,VARCHAR(20),Nominal format teks 1.250.000
+transaksi,customer_segment,VARCHAR(20),Segmen hasil model ML (otomatis)
+transaksi,channel,VARCHAR(20),Kanal transaksi
+transaksi,status,VARCHAR(10),Status transaksi
+transaksi,promo_code,VARCHAR(20),Kode promo (baru)

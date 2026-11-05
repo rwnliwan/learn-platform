@@ -1,0 +1,38 @@
+mobile-375: overflow=False bad_elements=0
+mobile-390: overflow=False bad_elements=0
+tablet-768: overflow=False bad_elements=0
+desktop-1280: overflow=False bad_elements=0
+{
+ "defects": 0,
+ "results": {
+  "mobile-375": {
+   "viewport": 375,
+   "scrollWidth": 375,
+   "horizontalOverflow": false,
+   "overflowingElements": [],
+   "unreachableControls": []
+  },
+  "mobile-390": {
+   "viewport": 390,
+   "scrollWidth": 390,
+   "horizontalOverflow": false,
+   "overflowingElements": [],
+   "unreachableControls": []
+  },
+  "tablet-768": {
+   "viewport": 768,
+   "scrollWidth": 768,
+   "horizontalOverflow": false,
+   "overflowingElements": [],
+   "unreachableControls": []
+  },
+  "desktop-1280": {
+   "viewport": 1280,
+   "scrollWidth": 1280,
+   "horizontalOverflow": false,
+   "overflowingElements": [],
+   "unreachableControls": []
+  }
+ }
+}
+EXIT=0

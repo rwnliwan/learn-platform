@@ -1,0 +1,55 @@
+{
+  "agent": "CS-Agen v2",
+  "gate_policy": "Tool tier 'write' WAJIB memanggil minta_konfirmasi bila amount >= 100 (ribuan rupiah), kecuali tool ada di allowlist. Gerbang ditegakkan di router tool (kode), bukan di prompt.",
+  "tools": {
+    "search_docs": {
+      "tier": "read",
+      "requires_confirmation": false,
+      "audit_log": true,
+      "description": "Cari dokumen kebijakan di knowledge base. Mengembalikan chunk + skor + indexed_at."
+    },
+    "query_db": {
+      "tier": "read",
+      "requires_confirmation": false,
+      "audit_log": true,
+      "description": "Baca data order pelanggan (read-only)."
+    },
+    "web_search": {
+      "tier": "read",
+      "requires_confirmation": false,
+      "audit_log": true,
+      "description": "Cari informasi di web publik."
+    },
+    "minta_konfirmasi": {
+      "tier": "gate",
+      "requires_confirmation": false,
+      "audit_log": true,
+      "description": "Meminta persetujuan manusia sebelum tool tulis dieksekusi. Mengembalikan token approval."
+    },
+    "send_email": {
+      "tier": "write",
+      "requires_confirmation": true,
+      "confirmation_threshold_ribuan": 100,
+      "audit_log": false,
+      "description": "Kirim email ke pelanggan.",
+      "params": {
+        "to": {
+          "type": "string",
+          "description": "Alamat email pelanggan."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subjek email."
+        },
+        "template": {
+          "type": "string",
+          "description": "ID template email."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Nominal refund. Satuan mengikuti konfigurasi template email — lihat dokumentasi template."
+        }
+      }
+    }
+  }
+}

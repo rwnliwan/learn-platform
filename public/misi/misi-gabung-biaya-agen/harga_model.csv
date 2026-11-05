@@ -1,0 +1,4 @@
+model,usd_per_1k_input,usd_per_1k_output
+pro,0.005,0.025
+flash,0.0005,0.0015
+nano,0.0001,0.0004

@@ -1,0 +1,1401 @@
+negara,tahun,indikator,nilai,sumber,catatan
+BGD,2000,DTP3,82.0,WUENIC,
+BGD,2001,DTP3,85.0,WUENIC,
+BGD,2002,DTP3,83.0,WUENIC,
+BGD,2003,DTP3,87.0,WUENIC,
+BGD,2004,DTP3,99.0,WUENIC,
+BGD,2005,DTP3,93.0,WUENIC,
+BGD,2006,DTP3,94.0,WUENIC,
+BGD,2007,DTP3,94.0,WUENIC,
+BGD,2008,DTP3,96.0,WUENIC,
+BGD,2009,DTP3,97.0,WUENIC,
+BGD,2010,DTP3,94.0,WUENIC,
+BGD,2011,DTP3,96.0,WUENIC,
+BGD,2012,DTP3,94.0,WUENIC,
+BGD,2013,DTP3,96.0,WUENIC,
+BGD,2014,DTP3,97.0,WUENIC,
+BGD,2015,DTP3,98.0,WUENIC,
+BGD,2016,DTP3,98.0,WUENIC,
+BGD,2017,DTP3,98.0,WUENIC,
+BGD,2018,DTP3,98.0,WUENIC,
+BGD,2019,DTP3,98.0,WUENIC,
+BGD,2020,DTP3,97.0,WUENIC,
+BGD,2021,DTP3,97.0,WUENIC,
+BGD,2022,DTP3,97.0,WUENIC,
+BGD,2023,DTP3,97.0,WUENIC,
+BGD,2024,DTP3,97.0,WUENIC,
+BGD,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2007,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2008,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2009,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2010,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2011,MCV2,0.0,WUENIC,usia rekomendasi lokal
+BGD,2012,MCV2,41.0,WUENIC,usia rekomendasi lokal
+BGD,2013,MCV2,82.0,WUENIC,usia rekomendasi lokal
+BGD,2014,MCV2,89.0,WUENIC,usia rekomendasi lokal
+BGD,2015,MCV2,90.0,WUENIC,usia rekomendasi lokal
+BGD,2016,MCV2,92.0,WUENIC,usia rekomendasi lokal
+BGD,2017,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2018,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2019,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2020,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2021,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2022,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2023,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2024,MCV2,93.0,WUENIC,usia rekomendasi lokal
+BGD,2000,U5MR,56.28,UN-IGME,WQ5-terkaya; interval [51.3-61.8]
+BGD,2000,U5MR,108.67,UN-IGME,WQ1-termiskin; interval [100.7-117.1]
+BGD,2000,U5MR,85.51,UN-IGME,nasional; interval [82.6-88.4]
+BGD,2001,U5MR,52.94,UN-IGME,WQ5-terkaya; interval [48.2-58.0]
+BGD,2001,U5MR,80.19,UN-IGME,nasional; interval [77.5-83.0]
+BGD,2001,U5MR,101.79,UN-IGME,WQ1-termiskin; interval [94.3-109.5]
+BGD,2002,U5MR,95.46,UN-IGME,WQ1-termiskin; interval [88.3-103.0]
+BGD,2002,U5MR,49.72,UN-IGME,WQ5-terkaya; interval [45.2-54.5]
+BGD,2002,U5MR,75.31,UN-IGME,nasional; interval [72.7-77.9]
+BGD,2003,U5MR,70.84,UN-IGME,nasional; interval [68.4-73.3]
+BGD,2003,U5MR,46.68,UN-IGME,WQ5-terkaya; interval [42.4-51.3]
+BGD,2003,U5MR,89.69,UN-IGME,WQ1-termiskin; interval [82.9-96.6]
+BGD,2004,U5MR,66.76,UN-IGME,nasional; interval [64.4-69.1]
+BGD,2004,U5MR,44.04,UN-IGME,WQ5-terkaya; interval [39.9-48.3]
+BGD,2004,U5MR,84.42,UN-IGME,WQ1-termiskin; interval [78.1-91.1]
+BGD,2005,U5MR,63.03,UN-IGME,nasional; interval [60.8-65.2]
+BGD,2005,U5MR,79.77,UN-IGME,WQ1-termiskin; interval [73.9-86.1]
+BGD,2005,U5MR,41.63,UN-IGME,WQ5-terkaya; interval [37.8-45.7]
+BGD,2006,U5MR,75.51,UN-IGME,WQ1-termiskin; interval [70.0-81.3]
+BGD,2006,U5MR,59.6,UN-IGME,nasional; interval [57.5-61.7]
+BGD,2006,U5MR,39.38,UN-IGME,WQ5-terkaya; interval [35.8-43.2]
+BGD,2007,U5MR,56.48,UN-IGME,nasional; interval [54.5-58.6]
+BGD,2007,U5MR,71.71,UN-IGME,WQ1-termiskin; interval [66.5-77.2]
+BGD,2007,U5MR,37.39,UN-IGME,WQ5-terkaya; interval [33.9-41.0]
+BGD,2008,U5MR,68.06,UN-IGME,WQ1-termiskin; interval [63.2-73.1]
+BGD,2008,U5MR,53.64,UN-IGME,nasional; interval [51.7-55.6]
+BGD,2008,U5MR,35.55,UN-IGME,WQ5-terkaya; interval [32.3-39.0]
+BGD,2009,U5MR,33.96,UN-IGME,WQ5-terkaya; interval [30.8-37.4]
+BGD,2009,U5MR,64.95,UN-IGME,WQ1-termiskin; interval [60.1-70.0]
+BGD,2009,U5MR,51.06,UN-IGME,nasional; interval [49.2-53.0]
+BGD,2010,U5MR,48.71,UN-IGME,nasional; interval [46.9-50.6]
+BGD,2010,U5MR,32.54,UN-IGME,WQ5-terkaya; interval [29.5-35.8]
+BGD,2010,U5MR,61.93,UN-IGME,WQ1-termiskin; interval [57.3-66.9]
+BGD,2011,U5MR,59.29,UN-IGME,WQ1-termiskin; interval [54.7-64.1]
+BGD,2011,U5MR,46.53,UN-IGME,nasional; interval [44.8-48.4]
+BGD,2011,U5MR,31.24,UN-IGME,WQ5-terkaya; interval [28.2-34.5]
+BGD,2012,U5MR,44.44,UN-IGME,nasional; interval [42.7-46.3]
+BGD,2012,U5MR,56.71,UN-IGME,WQ1-termiskin; interval [52.2-61.5]
+BGD,2012,U5MR,29.92,UN-IGME,WQ5-terkaya; interval [27.0-33.1]
+BGD,2013,U5MR,54.24,UN-IGME,WQ1-termiskin; interval [49.9-58.9]
+BGD,2013,U5MR,42.43,UN-IGME,nasional; interval [40.8-44.3]
+BGD,2013,U5MR,28.67,UN-IGME,WQ5-terkaya; interval [25.9-31.8]
+BGD,2014,U5MR,51.76,UN-IGME,WQ1-termiskin; interval [47.6-56.3]
+BGD,2014,U5MR,40.46,UN-IGME,nasional; interval [38.8-42.3]
+BGD,2014,U5MR,27.44,UN-IGME,WQ5-terkaya; interval [24.8-30.4]
+BGD,2015,U5MR,49.38,UN-IGME,WQ1-termiskin; interval [45.3-53.7]
+BGD,2015,U5MR,26.17,UN-IGME,WQ5-terkaya; interval [23.5-29.1]
+BGD,2015,U5MR,38.53,UN-IGME,nasional; interval [36.9-40.3]
+BGD,2016,U5MR,47.03,UN-IGME,WQ1-termiskin; interval [43.1-51.1]
+BGD,2016,U5MR,24.94,UN-IGME,WQ5-terkaya; interval [22.4-27.8]
+BGD,2016,U5MR,36.68,UN-IGME,nasional; interval [35.1-38.3]
+BGD,2017,U5MR,23.78,UN-IGME,WQ5-terkaya; interval [21.2-26.6]
+BGD,2017,U5MR,34.96,UN-IGME,nasional; interval [33.3-36.6]
+BGD,2017,U5MR,45.09,UN-IGME,WQ1-termiskin; interval [41.1-49.2]
+BGD,2018,U5MR,43.33,UN-IGME,WQ1-termiskin; interval [39.3-47.4]
+BGD,2018,U5MR,33.48,UN-IGME,nasional; interval [31.8-35.0]
+BGD,2018,U5MR,22.81,UN-IGME,WQ5-terkaya; interval [20.2-25.6]
+BGD,2019,U5MR,42.01,UN-IGME,WQ1-termiskin; interval [38.0-46.0]
+BGD,2019,U5MR,22.05,UN-IGME,WQ5-terkaya; interval [19.4-24.9]
+BGD,2019,U5MR,32.3,UN-IGME,nasional; interval [30.6-33.7]
+BGD,2020,U5MR,31.44,UN-IGME,nasional; interval [29.9-32.7]
+BGD,2020,U5MR,21.48,UN-IGME,WQ5-terkaya; interval [18.8-24.4]
+BGD,2020,U5MR,40.98,UN-IGME,WQ1-termiskin; interval [37.0-45.0]
+BGD,2021,U5MR,40.29,UN-IGME,WQ1-termiskin; interval [36.4-44.3]
+BGD,2021,U5MR,30.9,UN-IGME,nasional; interval [29.7-32.0]
+BGD,2021,U5MR,21.12,UN-IGME,WQ5-terkaya; interval [18.5-24.0]
+BGD,2022,U5MR,30.66,UN-IGME,nasional; interval [29.7-31.7]
+BGD,2022,U5MR,39.97,UN-IGME,WQ1-termiskin; interval [36.1-44.0]
+BGD,2022,U5MR,20.93,UN-IGME,WQ5-terkaya; interval [18.3-23.8]
+BGD,2023,U5MR,20.9,UN-IGME,WQ5-terkaya; interval [18.2-24.0]
+BGD,2023,U5MR,39.92,UN-IGME,WQ1-termiskin; interval [35.7-44.4]
+BGD,2023,U5MR,30.61,UN-IGME,nasional; interval [29.2-32.1]
+BGD,2024,U5MR,30.5,UN-IGME,nasional; interval [28.6-33.1]
+BGD,2024,U5MR,39.85,UN-IGME,WQ1-termiskin; interval [35.2-45.3]
+BGD,2024,U5MR,20.85,UN-IGME,WQ5-terkaya; interval [18.0-24.4]
+BRA,2000,DTP3,98.0,WUENIC,
+BRA,2001,DTP3,98.0,WUENIC,
+BRA,2002,DTP3,99.0,WUENIC,
+BRA,2003,DTP3,99.0,WUENIC,
+BRA,2004,DTP3,99.0,WUENIC,
+BRA,2005,DTP3,99.0,WUENIC,
+BRA,2006,DTP3,99.0,WUENIC,
+BRA,2007,DTP3,99.0,WUENIC,
+BRA,2008,DTP3,99.0,WUENIC,
+BRA,2009,DTP3,99.0,WUENIC,
+BRA,2010,DTP3,99.0,WUENIC,
+BRA,2011,DTP3,99.0,WUENIC,
+BRA,2012,DTP3,95.0,WUENIC,
+BRA,2013,DTP3,97.0,WUENIC,
+BRA,2014,DTP3,93.0,WUENIC,
+BRA,2015,DTP3,96.0,WUENIC,
+BRA,2016,DTP3,89.0,WUENIC,
+BRA,2017,DTP3,83.0,WUENIC,
+BRA,2018,DTP3,87.0,WUENIC,
+BRA,2019,DTP3,70.0,WUENIC,
+BRA,2020,DTP3,77.0,WUENIC,
+BRA,2021,DTP3,68.0,WUENIC,
+BRA,2022,DTP3,77.0,WUENIC,
+BRA,2023,DTP3,86.0,WUENIC,
+BRA,2024,DTP3,90.0,WUENIC,
+BRA,2000,MCV2,95.0,WUENIC,usia rekomendasi lokal
+BRA,2001,MCV2,95.0,WUENIC,usia rekomendasi lokal
+BRA,2002,MCV2,80.0,WUENIC,usia rekomendasi lokal
+BRA,2003,MCV2,74.0,WUENIC,usia rekomendasi lokal
+BRA,2004,MCV2,68.0,WUENIC,usia rekomendasi lokal
+BRA,2005,MCV2,61.0,WUENIC,usia rekomendasi lokal
+BRA,2006,MCV2,55.0,WUENIC,usia rekomendasi lokal
+BRA,2007,MCV2,49.0,WUENIC,usia rekomendasi lokal
+BRA,2008,MCV2,56.0,WUENIC,usia rekomendasi lokal
+BRA,2009,MCV2,55.0,WUENIC,usia rekomendasi lokal
+BRA,2010,MCV2,53.0,WUENIC,usia rekomendasi lokal
+BRA,2011,MCV2,71.0,WUENIC,usia rekomendasi lokal
+BRA,2012,MCV2,70.0,WUENIC,usia rekomendasi lokal
+BRA,2013,MCV2,69.0,WUENIC,usia rekomendasi lokal
+BRA,2014,MCV2,89.0,WUENIC,usia rekomendasi lokal
+BRA,2015,MCV2,80.0,WUENIC,usia rekomendasi lokal
+BRA,2016,MCV2,77.0,WUENIC,usia rekomendasi lokal
+BRA,2017,MCV2,67.0,WUENIC,usia rekomendasi lokal
+BRA,2018,MCV2,76.0,WUENIC,usia rekomendasi lokal
+BRA,2019,MCV2,54.0,WUENIC,usia rekomendasi lokal
+BRA,2020,MCV2,44.0,WUENIC,usia rekomendasi lokal
+BRA,2021,MCV2,46.0,WUENIC,usia rekomendasi lokal
+BRA,2022,MCV2,58.0,WUENIC,usia rekomendasi lokal
+BRA,2023,MCV2,69.0,WUENIC,usia rekomendasi lokal
+BRA,2024,MCV2,81.0,WUENIC,usia rekomendasi lokal
+BRA,2000,U5MR,19.67,UN-IGME,WQ5-terkaya; interval [15.0-25.2]
+BRA,2000,U5MR,52.11,UN-IGME,WQ1-termiskin; interval [44.6-60.8]
+BRA,2000,U5MR,34.44,UN-IGME,nasional; interval [32.2-36.8]
+BRA,2001,U5MR,32.23,UN-IGME,nasional; interval [30.1-34.5]
+BRA,2001,U5MR,18.47,UN-IGME,WQ5-terkaya; interval [14.1-23.6]
+BRA,2001,U5MR,48.87,UN-IGME,WQ1-termiskin; interval [41.7-57.0]
+BRA,2002,U5MR,30.13,UN-IGME,nasional; interval [28.2-32.2]
+BRA,2002,U5MR,45.78,UN-IGME,WQ1-termiskin; interval [38.9-53.3]
+BRA,2002,U5MR,17.31,UN-IGME,WQ5-terkaya; interval [13.2-22.2]
+BRA,2003,U5MR,28.18,UN-IGME,nasional; interval [26.3-30.1]
+BRA,2003,U5MR,16.24,UN-IGME,WQ5-terkaya; interval [12.3-20.9]
+BRA,2003,U5MR,42.86,UN-IGME,WQ1-termiskin; interval [36.4-49.9]
+BRA,2004,U5MR,40.07,UN-IGME,WQ1-termiskin; interval [33.9-46.8]
+BRA,2004,U5MR,15.25,UN-IGME,WQ5-terkaya; interval [11.6-19.6]
+BRA,2004,U5MR,26.33,UN-IGME,nasional; interval [24.6-28.1]
+BRA,2005,U5MR,24.63,UN-IGME,nasional; interval [23.1-26.2]
+BRA,2005,U5MR,37.45,UN-IGME,WQ1-termiskin; interval [31.8-43.7]
+BRA,2005,U5MR,14.32,UN-IGME,WQ5-terkaya; interval [10.9-18.4]
+BRA,2006,U5MR,23.08,UN-IGME,nasional; interval [21.8-24.5]
+BRA,2006,U5MR,35.08,UN-IGME,WQ1-termiskin; interval [29.7-41.0]
+BRA,2006,U5MR,13.5,UN-IGME,WQ5-terkaya; interval [10.2-17.4]
+BRA,2007,U5MR,21.72,UN-IGME,nasional; interval [20.6-22.9]
+BRA,2007,U5MR,32.97,UN-IGME,WQ1-termiskin; interval [28.0-38.6]
+BRA,2007,U5MR,12.75,UN-IGME,WQ5-terkaya; interval [9.6-16.4]
+BRA,2008,U5MR,12.08,UN-IGME,WQ5-terkaya; interval [9.2-15.6]
+BRA,2008,U5MR,31.14,UN-IGME,WQ1-termiskin; interval [26.4-36.3]
+BRA,2008,U5MR,20.52,UN-IGME,nasional; interval [19.6-21.5]
+BRA,2009,U5MR,29.53,UN-IGME,WQ1-termiskin; interval [25.1-34.4]
+BRA,2009,U5MR,19.49,UN-IGME,nasional; interval [18.8-20.2]
+BRA,2009,U5MR,11.51,UN-IGME,WQ5-terkaya; interval [8.7-14.9]
+BRA,2010,U5MR,28.14,UN-IGME,WQ1-termiskin; interval [23.9-32.8]
+BRA,2010,U5MR,11.02,UN-IGME,WQ5-terkaya; interval [8.3-14.2]
+BRA,2010,U5MR,18.61,UN-IGME,nasional; interval [18.1-19.1]
+BRA,2011,U5MR,17.86,UN-IGME,nasional; interval [17.5-18.2]
+BRA,2011,U5MR,26.96,UN-IGME,WQ1-termiskin; interval [22.9-31.4]
+BRA,2011,U5MR,10.61,UN-IGME,WQ5-terkaya; interval [8.0-13.7]
+BRA,2012,U5MR,25.96,UN-IGME,WQ1-termiskin; interval [22.1-30.2]
+BRA,2012,U5MR,17.24,UN-IGME,nasional; interval [16.9-17.6]
+BRA,2012,U5MR,10.26,UN-IGME,WQ5-terkaya; interval [7.7-13.2]
+BRA,2013,U5MR,16.73,UN-IGME,nasional; interval [16.4-17.1]
+BRA,2013,U5MR,9.97,UN-IGME,WQ5-terkaya; interval [7.5-12.9]
+BRA,2013,U5MR,25.14,UN-IGME,WQ1-termiskin; interval [21.4-29.3]
+BRA,2014,U5MR,24.48,UN-IGME,WQ1-termiskin; interval [20.8-28.5]
+BRA,2014,U5MR,9.74,UN-IGME,WQ5-terkaya; interval [7.3-12.6]
+BRA,2014,U5MR,16.31,UN-IGME,nasional; interval [15.9-16.7]
+BRA,2015,U5MR,23.93,UN-IGME,WQ1-termiskin; interval [20.3-28.0]
+BRA,2015,U5MR,15.96,UN-IGME,nasional; interval [15.4-16.5]
+BRA,2015,U5MR,9.54,UN-IGME,WQ5-terkaya; interval [7.2-12.4]
+BRA,2016,U5MR,24.54,UN-IGME,WQ1-termiskin; interval [20.7-28.7]
+BRA,2016,U5MR,10.49,UN-IGME,WQ5-terkaya; interval [7.9-13.6]
+BRA,2016,U5MR,16.77,UN-IGME,nasional; interval [16.1-17.5]
+BRA,2017,U5MR,9.25,UN-IGME,WQ5-terkaya; interval [6.9-12.0]
+BRA,2017,U5MR,15.43,UN-IGME,nasional; interval [14.7-16.2]
+BRA,2017,U5MR,23.04,UN-IGME,WQ1-termiskin; interval [19.4-27.1]
+BRA,2018,U5MR,9.14,UN-IGME,WQ5-terkaya; interval [6.8-11.9]
+BRA,2018,U5MR,15.22,UN-IGME,nasional; interval [14.4-16.0]
+BRA,2018,U5MR,22.71,UN-IGME,WQ1-termiskin; interval [19.1-26.6]
+BRA,2019,U5MR,9.04,UN-IGME,WQ5-terkaya; interval [6.8-11.8]
+BRA,2019,U5MR,22.38,UN-IGME,WQ1-termiskin; interval [18.7-26.4]
+BRA,2019,U5MR,15.03,UN-IGME,nasional; interval [14.2-15.9]
+BRA,2020,U5MR,22.1,UN-IGME,WQ1-termiskin; interval [18.4-26.2]
+BRA,2020,U5MR,14.87,UN-IGME,nasional; interval [13.9-15.9]
+BRA,2020,U5MR,8.96,UN-IGME,WQ5-terkaya; interval [6.7-11.7]
+BRA,2021,U5MR,14.72,UN-IGME,nasional; interval [13.6-16.0]
+BRA,2021,U5MR,21.86,UN-IGME,WQ1-termiskin; interval [18.1-26.0]
+BRA,2021,U5MR,8.89,UN-IGME,WQ5-terkaya; interval [6.6-11.6]
+BRA,2022,U5MR,21.62,UN-IGME,WQ1-termiskin; interval [17.7-26.0]
+BRA,2022,U5MR,14.59,UN-IGME,nasional; interval [13.2-16.2]
+BRA,2022,U5MR,8.82,UN-IGME,WQ5-terkaya; interval [6.5-11.6]
+BRA,2023,U5MR,14.42,UN-IGME,nasional; interval [12.7-16.4]
+BRA,2023,U5MR,8.74,UN-IGME,WQ5-terkaya; interval [6.4-11.6]
+BRA,2023,U5MR,21.34,UN-IGME,WQ1-termiskin; interval [17.2-26.1]
+BRA,2024,U5MR,14.22,UN-IGME,nasional; interval [12.2-16.6]
+BRA,2024,U5MR,21.01,UN-IGME,WQ1-termiskin; interval [16.6-26.3]
+BRA,2024,U5MR,8.62,UN-IGME,WQ5-terkaya; interval [6.2-11.6]
+ETH,2000,DTP3,30.0,WUENIC,
+ETH,2001,DTP3,32.0,WUENIC,
+ETH,2002,DTP3,35.0,WUENIC,
+ETH,2003,DTP3,37.0,WUENIC,
+ETH,2004,DTP3,39.0,WUENIC,
+ETH,2005,DTP3,43.0,WUENIC,
+ETH,2006,DTP3,46.0,WUENIC,
+ETH,2007,DTP3,50.0,WUENIC,
+ETH,2008,DTP3,54.0,WUENIC,
+ETH,2009,DTP3,58.0,WUENIC,
+ETH,2010,DTP3,61.0,WUENIC,
+ETH,2011,DTP3,65.0,WUENIC,
+ETH,2012,DTP3,61.0,WUENIC,
+ETH,2013,DTP3,59.0,WUENIC,
+ETH,2014,DTP3,61.0,WUENIC,
+ETH,2015,DTP3,62.0,WUENIC,
+ETH,2016,DTP3,64.0,WUENIC,
+ETH,2017,DTP3,65.0,WUENIC,
+ETH,2018,DTP3,68.0,WUENIC,
+ETH,2019,DTP3,70.0,WUENIC,
+ETH,2020,DTP3,71.0,WUENIC,
+ETH,2021,DTP3,69.0,WUENIC,
+ETH,2022,DTP3,71.0,WUENIC,
+ETH,2023,DTP3,75.0,WUENIC,
+ETH,2024,DTP3,75.0,WUENIC,
+ETH,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2007,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2008,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2009,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2010,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2011,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2012,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2013,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2014,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2015,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2016,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2017,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2018,MCV2,0.0,WUENIC,usia rekomendasi lokal
+ETH,2019,MCV2,47.0,WUENIC,usia rekomendasi lokal
+ETH,2020,MCV2,51.0,WUENIC,usia rekomendasi lokal
+ETH,2021,MCV2,52.0,WUENIC,usia rekomendasi lokal
+ETH,2022,MCV2,61.0,WUENIC,usia rekomendasi lokal
+ETH,2023,MCV2,62.0,WUENIC,usia rekomendasi lokal
+ETH,2024,MCV2,64.0,WUENIC,usia rekomendasi lokal
+ETH,2000,U5MR,135.67,UN-IGME,WQ1-termiskin; interval [121.1-151.3]
+ETH,2000,U5MR,140.13,UN-IGME,nasional; interval [130.5-150.6]
+ETH,2000,U5MR,114.22,UN-IGME,WQ5-terkaya; interval [101.6-128.5]
+ETH,2001,U5MR,108.64,UN-IGME,WQ5-terkaya; interval [96.6-122.3]
+ETH,2001,U5MR,131.21,UN-IGME,WQ1-termiskin; interval [117.1-146.1]
+ETH,2001,U5MR,133.83,UN-IGME,nasional; interval [124.7-143.9]
+ETH,2002,U5MR,126.6,UN-IGME,WQ1-termiskin; interval [113.3-141.1]
+ETH,2002,U5MR,127.43,UN-IGME,nasional; interval [118.8-137.2]
+ETH,2002,U5MR,103.11,UN-IGME,WQ5-terkaya; interval [91.7-116.0]
+ETH,2003,U5MR,121.05,UN-IGME,nasional; interval [112.7-130.2]
+ETH,2003,U5MR,98.08,UN-IGME,WQ5-terkaya; interval [86.7-110.7]
+ETH,2003,U5MR,121.77,UN-IGME,WQ1-termiskin; interval [108.7-135.9]
+ETH,2004,U5MR,114.58,UN-IGME,nasional; interval [106.7-123.3]
+ETH,2004,U5MR,116.75,UN-IGME,WQ1-termiskin; interval [104.0-130.8]
+ETH,2004,U5MR,93.01,UN-IGME,WQ5-terkaya; interval [82.1-105.3]
+ETH,2005,U5MR,111.79,UN-IGME,WQ1-termiskin; interval [99.4-125.7]
+ETH,2005,U5MR,108.35,UN-IGME,nasional; interval [100.7-116.8]
+ETH,2005,U5MR,88.1,UN-IGME,WQ5-terkaya; interval [77.7-100.0]
+ETH,2006,U5MR,83.52,UN-IGME,WQ5-terkaya; interval [73.4-94.9]
+ETH,2006,U5MR,106.81,UN-IGME,WQ1-termiskin; interval [94.4-120.5]
+ETH,2006,U5MR,102.43,UN-IGME,nasional; interval [95.0-110.7]
+ETH,2007,U5MR,96.94,UN-IGME,nasional; interval [89.7-104.8]
+ETH,2007,U5MR,101.94,UN-IGME,WQ1-termiskin; interval [89.8-115.2]
+ETH,2007,U5MR,79.24,UN-IGME,WQ5-terkaya; interval [69.4-90.5]
+ETH,2008,U5MR,91.83,UN-IGME,nasional; interval [84.7-99.4]
+ETH,2008,U5MR,97.29,UN-IGME,WQ1-termiskin; interval [85.6-110.1]
+ETH,2008,U5MR,75.27,UN-IGME,WQ5-terkaya; interval [65.8-86.2]
+ETH,2009,U5MR,71.54,UN-IGME,WQ5-terkaya; interval [62.4-82.2]
+ETH,2009,U5MR,92.87,UN-IGME,WQ1-termiskin; interval [81.6-105.2]
+ETH,2009,U5MR,87.06,UN-IGME,nasional; interval [80.2-94.4]
+ETH,2010,U5MR,82.68,UN-IGME,nasional; interval [76.0-90.0]
+ETH,2010,U5MR,88.66,UN-IGME,WQ1-termiskin; interval [77.7-100.7]
+ETH,2010,U5MR,68.15,UN-IGME,WQ5-terkaya; interval [59.3-78.2]
+ETH,2011,U5MR,64.97,UN-IGME,WQ5-terkaya; interval [56.4-74.9]
+ETH,2011,U5MR,84.71,UN-IGME,WQ1-termiskin; interval [74.1-96.3]
+ETH,2011,U5MR,78.61,UN-IGME,nasional; interval [72.0-85.9]
+ETH,2012,U5MR,74.79,UN-IGME,nasional; interval [68.2-82.0]
+ETH,2012,U5MR,61.74,UN-IGME,WQ5-terkaya; interval [53.3-71.4]
+ETH,2012,U5MR,81.01,UN-IGME,WQ1-termiskin; interval [70.7-92.4]
+ETH,2013,U5MR,71.2,UN-IGME,nasional; interval [64.4-78.6]
+ETH,2013,U5MR,77.53,UN-IGME,WQ1-termiskin; interval [67.2-88.9]
+ETH,2013,U5MR,58.71,UN-IGME,WQ5-terkaya; interval [50.3-68.2]
+ETH,2014,U5MR,55.57,UN-IGME,WQ5-terkaya; interval [47.3-65.2]
+ETH,2014,U5MR,67.71,UN-IGME,nasional; interval [60.8-75.4]
+ETH,2014,U5MR,74.1,UN-IGME,WQ1-termiskin; interval [63.7-85.8]
+ETH,2015,U5MR,52.66,UN-IGME,WQ5-terkaya; interval [44.3-62.5]
+ETH,2015,U5MR,64.42,UN-IGME,nasional; interval [57.1-72.6]
+ETH,2015,U5MR,70.91,UN-IGME,WQ1-termiskin; interval [60.5-82.9]
+ETH,2016,U5MR,67.89,UN-IGME,WQ1-termiskin; interval [57.1-80.5]
+ETH,2016,U5MR,61.27,UN-IGME,nasional; interval [53.6-70.2]
+ETH,2016,U5MR,49.92,UN-IGME,WQ5-terkaya; interval [41.5-59.8]
+ETH,2017,U5MR,58.41,UN-IGME,nasional; interval [50.1-68.1]
+ETH,2017,U5MR,47.46,UN-IGME,WQ5-terkaya; interval [38.7-57.9]
+ETH,2017,U5MR,65.05,UN-IGME,WQ1-termiskin; interval [53.8-78.4]
+ETH,2018,U5MR,62.54,UN-IGME,WQ1-termiskin; interval [50.8-76.5]
+ETH,2018,U5MR,55.85,UN-IGME,nasional; interval [47.0-66.4]
+ETH,2018,U5MR,45.24,UN-IGME,WQ5-terkaya; interval [36.2-56.2]
+ETH,2019,U5MR,60.29,UN-IGME,WQ1-termiskin; interval [47.8-75.5]
+ETH,2019,U5MR,53.59,UN-IGME,nasional; interval [43.9-65.3]
+ETH,2019,U5MR,43.33,UN-IGME,WQ5-terkaya; interval [33.9-54.9]
+ETH,2020,U5MR,41.56,UN-IGME,WQ5-terkaya; interval [31.7-54.0]
+ETH,2020,U5MR,51.52,UN-IGME,nasional; interval [41.0-64.4]
+ETH,2020,U5MR,58.17,UN-IGME,WQ1-termiskin; interval [44.9-74.7]
+ETH,2021,U5MR,77.07,UN-IGME,WQ1-termiskin; interval [57.6-101.5]
+ETH,2021,U5MR,60.63,UN-IGME,WQ5-terkaya; interval [45.3-81.0]
+ETH,2021,U5MR,70.35,UN-IGME,nasional; interval [54.4-90.6]
+ETH,2022,U5MR,68.06,UN-IGME,nasional; interval [50.8-90.6]
+ETH,2022,U5MR,58.66,UN-IGME,WQ5-terkaya; interval [42.5-80.6]
+ETH,2022,U5MR,74.75,UN-IGME,WQ1-termiskin; interval [54.5-101.3]
+ETH,2023,U5MR,58.17,UN-IGME,WQ1-termiskin; interval [41.2-81.6]
+ETH,2023,U5MR,51.49,UN-IGME,nasional; interval [37.4-70.5]
+ETH,2023,U5MR,42.46,UN-IGME,WQ5-terkaya; interval [29.7-60.4]
+ETH,2024,U5MR,44.5,UN-IGME,nasional; interval [31.3-63.4]
+ETH,2024,U5MR,51.25,UN-IGME,WQ1-termiskin; interval [35.1-74.3]
+ETH,2024,U5MR,35.69,UN-IGME,WQ5-terkaya; interval [24.2-52.3]
+IDN,2000,DTP3,75.0,WUENIC,
+IDN,2001,DTP3,76.0,WUENIC,
+IDN,2002,DTP3,70.0,WUENIC,
+IDN,2003,DTP3,71.0,WUENIC,
+IDN,2004,DTP3,71.0,WUENIC,
+IDN,2005,DTP3,72.0,WUENIC,
+IDN,2006,DTP3,72.0,WUENIC,
+IDN,2007,DTP3,73.0,WUENIC,
+IDN,2008,DTP3,77.0,WUENIC,
+IDN,2009,DTP3,78.0,WUENIC,
+IDN,2010,DTP3,81.0,WUENIC,
+IDN,2011,DTP3,81.0,WUENIC,
+IDN,2012,DTP3,87.0,WUENIC,
+IDN,2013,DTP3,92.0,WUENIC,
+IDN,2014,DTP3,88.0,WUENIC,
+IDN,2015,DTP3,84.0,WUENIC,
+IDN,2016,DTP3,84.0,WUENIC,
+IDN,2017,DTP3,85.0,WUENIC,
+IDN,2018,DTP3,85.0,WUENIC,
+IDN,2019,DTP3,85.0,WUENIC,
+IDN,2020,DTP3,77.0,WUENIC,
+IDN,2021,DTP3,67.0,WUENIC,
+IDN,2022,DTP3,91.0,WUENIC,
+IDN,2023,DTP3,83.0,WUENIC,
+IDN,2024,DTP3,78.0,WUENIC,
+IDN,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IDN,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IDN,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IDN,2003,MCV2,21.0,WUENIC,usia rekomendasi lokal
+IDN,2004,MCV2,29.0,WUENIC,usia rekomendasi lokal
+IDN,2005,MCV2,23.0,WUENIC,usia rekomendasi lokal
+IDN,2006,MCV2,50.0,WUENIC,usia rekomendasi lokal
+IDN,2007,MCV2,73.0,WUENIC,usia rekomendasi lokal
+IDN,2008,MCV2,66.0,WUENIC,usia rekomendasi lokal
+IDN,2009,MCV2,67.0,WUENIC,usia rekomendasi lokal
+IDN,2010,MCV2,74.0,WUENIC,usia rekomendasi lokal
+IDN,2011,MCV2,76.0,WUENIC,usia rekomendasi lokal
+IDN,2012,MCV2,78.0,WUENIC,usia rekomendasi lokal
+IDN,2013,MCV2,76.0,WUENIC,usia rekomendasi lokal
+IDN,2014,MCV2,28.0,WUENIC,usia rekomendasi lokal
+IDN,2015,MCV2,31.0,WUENIC,usia rekomendasi lokal
+IDN,2016,MCV2,55.0,WUENIC,usia rekomendasi lokal
+IDN,2017,MCV2,63.0,WUENIC,usia rekomendasi lokal
+IDN,2018,MCV2,67.0,WUENIC,usia rekomendasi lokal
+IDN,2019,MCV2,71.0,WUENIC,usia rekomendasi lokal
+IDN,2020,MCV2,60.0,WUENIC,usia rekomendasi lokal
+IDN,2021,MCV2,53.0,WUENIC,usia rekomendasi lokal
+IDN,2022,MCV2,71.0,WUENIC,usia rekomendasi lokal
+IDN,2023,MCV2,69.0,WUENIC,usia rekomendasi lokal
+IDN,2024,MCV2,82.0,WUENIC,usia rekomendasi lokal
+IDN,2000,U5MR,29.75,UN-IGME,WQ5-terkaya; interval [25.6-34.6]
+IDN,2000,U5MR,75.12,UN-IGME,WQ1-termiskin; interval [67.8-83.0]
+IDN,2000,U5MR,51.38,UN-IGME,nasional; interval [48.6-54.2]
+IDN,2001,U5MR,49.0,UN-IGME,nasional; interval [46.3-51.8]
+IDN,2001,U5MR,28.47,UN-IGME,WQ5-terkaya; interval [24.5-33.1]
+IDN,2001,U5MR,71.8,UN-IGME,WQ1-termiskin; interval [64.7-79.5]
+IDN,2002,U5MR,27.22,UN-IGME,WQ5-terkaya; interval [23.4-31.6]
+IDN,2002,U5MR,68.67,UN-IGME,WQ1-termiskin; interval [61.7-76.0]
+IDN,2002,U5MR,46.75,UN-IGME,nasional; interval [44.1-49.5]
+IDN,2003,U5MR,26.09,UN-IGME,WQ5-terkaya; interval [22.4-30.4]
+IDN,2003,U5MR,65.65,UN-IGME,WQ1-termiskin; interval [58.9-72.9]
+IDN,2003,U5MR,44.61,UN-IGME,nasional; interval [42.1-47.3]
+IDN,2004,U5MR,31.04,UN-IGME,WQ5-terkaya; interval [26.6-36.0]
+IDN,2004,U5MR,48.64,UN-IGME,nasional; interval [45.8-51.6]
+IDN,2004,U5MR,68.88,UN-IGME,WQ1-termiskin; interval [61.7-76.4]
+IDN,2005,U5MR,23.95,UN-IGME,WQ5-terkaya; interval [20.5-27.8]
+IDN,2005,U5MR,40.71,UN-IGME,nasional; interval [38.2-43.3]
+IDN,2005,U5MR,60.22,UN-IGME,WQ1-termiskin; interval [53.8-66.9]
+IDN,2006,U5MR,57.76,UN-IGME,WQ1-termiskin; interval [51.6-64.1]
+IDN,2006,U5MR,38.93,UN-IGME,nasional; interval [36.5-41.4]
+IDN,2006,U5MR,23.0,UN-IGME,WQ5-terkaya; interval [19.7-26.7]
+IDN,2007,U5MR,55.38,UN-IGME,WQ1-termiskin; interval [49.4-61.5]
+IDN,2007,U5MR,22.06,UN-IGME,WQ5-terkaya; interval [18.9-25.6]
+IDN,2007,U5MR,37.22,UN-IGME,nasional; interval [34.9-39.7]
+IDN,2008,U5MR,53.01,UN-IGME,WQ1-termiskin; interval [47.4-59.0]
+IDN,2008,U5MR,21.21,UN-IGME,WQ5-terkaya; interval [18.2-24.6]
+IDN,2008,U5MR,35.61,UN-IGME,nasional; interval [33.3-38.1]
+IDN,2009,U5MR,50.9,UN-IGME,WQ1-termiskin; interval [45.5-56.5]
+IDN,2009,U5MR,34.08,UN-IGME,nasional; interval [31.8-36.5]
+IDN,2009,U5MR,20.39,UN-IGME,WQ5-terkaya; interval [17.5-23.6]
+IDN,2010,U5MR,32.61,UN-IGME,nasional; interval [30.4-35.1]
+IDN,2010,U5MR,19.55,UN-IGME,WQ5-terkaya; interval [16.9-22.7]
+IDN,2010,U5MR,48.67,UN-IGME,WQ1-termiskin; interval [43.4-54.2]
+IDN,2011,U5MR,31.2,UN-IGME,nasional; interval [29.0-33.7]
+IDN,2011,U5MR,18.8,UN-IGME,WQ5-terkaya; interval [16.1-22.0]
+IDN,2011,U5MR,46.61,UN-IGME,WQ1-termiskin; interval [41.4-52.1]
+IDN,2012,U5MR,44.56,UN-IGME,WQ1-termiskin; interval [39.5-50.0]
+IDN,2012,U5MR,18.07,UN-IGME,WQ5-terkaya; interval [15.5-21.2]
+IDN,2012,U5MR,29.87,UN-IGME,nasional; interval [27.7-32.4]
+IDN,2013,U5MR,17.37,UN-IGME,WQ5-terkaya; interval [14.9-20.4]
+IDN,2013,U5MR,42.58,UN-IGME,WQ1-termiskin; interval [37.7-47.9]
+IDN,2013,U5MR,28.58,UN-IGME,nasional; interval [26.4-31.1]
+IDN,2014,U5MR,40.73,UN-IGME,WQ1-termiskin; interval [36.0-46.0]
+IDN,2014,U5MR,27.34,UN-IGME,nasional; interval [25.2-29.9]
+IDN,2014,U5MR,16.75,UN-IGME,WQ5-terkaya; interval [14.3-19.7]
+IDN,2015,U5MR,16.07,UN-IGME,WQ5-terkaya; interval [13.6-19.1]
+IDN,2015,U5MR,26.12,UN-IGME,nasional; interval [23.9-28.8]
+IDN,2015,U5MR,38.87,UN-IGME,WQ1-termiskin; interval [34.2-44.3]
+IDN,2016,U5MR,37.13,UN-IGME,WQ1-termiskin; interval [32.4-42.7]
+IDN,2016,U5MR,24.97,UN-IGME,nasional; interval [22.7-27.7]
+IDN,2016,U5MR,15.39,UN-IGME,WQ5-terkaya; interval [12.9-18.4]
+IDN,2017,U5MR,14.76,UN-IGME,WQ5-terkaya; interval [12.2-17.8]
+IDN,2017,U5MR,35.4,UN-IGME,WQ1-termiskin; interval [30.7-41.1]
+IDN,2017,U5MR,23.85,UN-IGME,nasional; interval [21.6-26.7]
+IDN,2018,U5MR,22.79,UN-IGME,nasional; interval [20.5-25.8]
+IDN,2018,U5MR,33.82,UN-IGME,WQ1-termiskin; interval [29.0-39.7]
+IDN,2018,U5MR,14.14,UN-IGME,WQ5-terkaya; interval [11.6-17.3]
+IDN,2019,U5MR,13.56,UN-IGME,WQ5-terkaya; interval [11.0-16.7]
+IDN,2019,U5MR,32.25,UN-IGME,WQ1-termiskin; interval [27.5-38.2]
+IDN,2019,U5MR,21.78,UN-IGME,nasional; interval [19.4-24.9]
+IDN,2020,U5MR,20.81,UN-IGME,nasional; interval [18.3-24.1]
+IDN,2020,U5MR,30.79,UN-IGME,WQ1-termiskin; interval [26.0-36.9]
+IDN,2020,U5MR,12.95,UN-IGME,WQ5-terkaya; interval [10.5-16.2]
+IDN,2021,U5MR,12.42,UN-IGME,WQ5-terkaya; interval [9.9-15.7]
+IDN,2021,U5MR,19.91,UN-IGME,nasional; interval [17.4-23.3]
+IDN,2021,U5MR,29.4,UN-IGME,WQ1-termiskin; interval [24.6-35.7]
+IDN,2022,U5MR,11.94,UN-IGME,WQ5-terkaya; interval [9.4-15.2]
+IDN,2022,U5MR,19.11,UN-IGME,nasional; interval [16.4-22.6]
+IDN,2022,U5MR,28.19,UN-IGME,WQ1-termiskin; interval [23.2-34.5]
+IDN,2023,U5MR,18.36,UN-IGME,nasional; interval [15.6-22.2]
+IDN,2023,U5MR,27.04,UN-IGME,WQ1-termiskin; interval [21.9-33.7]
+IDN,2023,U5MR,11.48,UN-IGME,WQ5-terkaya; interval [8.9-14.8]
+IDN,2024,U5MR,17.69,UN-IGME,nasional; interval [14.6-21.8]
+IDN,2024,U5MR,26.02,UN-IGME,WQ1-termiskin; interval [20.7-32.9]
+IDN,2024,U5MR,11.06,UN-IGME,WQ5-terkaya; interval [8.5-14.5]
+IND,2000,DTP3,58.0,WUENIC,
+IND,2001,DTP3,59.0,WUENIC,
+IND,2002,DTP3,59.0,WUENIC,
+IND,2003,DTP3,61.0,WUENIC,
+IND,2004,DTP3,63.0,WUENIC,
+IND,2005,DTP3,65.0,WUENIC,
+IND,2006,DTP3,65.0,WUENIC,
+IND,2007,DTP3,64.0,WUENIC,
+IND,2008,DTP3,70.0,WUENIC,
+IND,2009,DTP3,74.0,WUENIC,
+IND,2010,DTP3,79.0,WUENIC,
+IND,2011,DTP3,82.0,WUENIC,
+IND,2012,DTP3,82.0,WUENIC,
+IND,2013,DTP3,83.0,WUENIC,
+IND,2014,DTP3,85.0,WUENIC,
+IND,2015,DTP3,87.0,WUENIC,
+IND,2016,DTP3,88.0,WUENIC,
+IND,2017,DTP3,89.0,WUENIC,
+IND,2018,DTP3,90.0,WUENIC,
+IND,2019,DTP3,91.0,WUENIC,
+IND,2020,DTP3,85.0,WUENIC,
+IND,2021,DTP3,85.0,WUENIC,
+IND,2022,DTP3,93.0,WUENIC,
+IND,2023,DTP3,91.0,WUENIC,
+IND,2024,DTP3,94.0,WUENIC,
+IND,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2007,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2008,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2009,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2010,MCV2,0.0,WUENIC,usia rekomendasi lokal
+IND,2011,MCV2,27.0,WUENIC,usia rekomendasi lokal
+IND,2012,MCV2,36.0,WUENIC,usia rekomendasi lokal
+IND,2013,MCV2,51.0,WUENIC,usia rekomendasi lokal
+IND,2014,MCV2,60.0,WUENIC,usia rekomendasi lokal
+IND,2015,MCV2,69.0,WUENIC,usia rekomendasi lokal
+IND,2016,MCV2,76.0,WUENIC,usia rekomendasi lokal
+IND,2017,MCV2,80.0,WUENIC,usia rekomendasi lokal
+IND,2018,MCV2,82.0,WUENIC,usia rekomendasi lokal
+IND,2019,MCV2,84.0,WUENIC,usia rekomendasi lokal
+IND,2020,MCV2,81.0,WUENIC,usia rekomendasi lokal
+IND,2021,MCV2,82.0,WUENIC,usia rekomendasi lokal
+IND,2022,MCV2,90.0,WUENIC,usia rekomendasi lokal
+IND,2023,MCV2,90.0,WUENIC,usia rekomendasi lokal
+IND,2024,MCV2,92.0,WUENIC,usia rekomendasi lokal
+IND,2000,U5MR,128.28,UN-IGME,WQ1-termiskin; interval [119.8-137.2]
+IND,2000,U5MR,91.78,UN-IGME,nasional; interval [88.3-95.4]
+IND,2000,U5MR,45.94,UN-IGME,WQ5-terkaya; interval [42.1-50.1]
+IND,2001,U5MR,122.94,UN-IGME,WQ1-termiskin; interval [114.8-131.6]
+IND,2001,U5MR,88.14,UN-IGME,nasional; interval [84.8-91.7]
+IND,2001,U5MR,44.37,UN-IGME,WQ5-terkaya; interval [40.6-48.5]
+IND,2002,U5MR,84.59,UN-IGME,nasional; interval [81.3-88.2]
+IND,2002,U5MR,117.71,UN-IGME,WQ1-termiskin; interval [110.2-125.8]
+IND,2002,U5MR,42.85,UN-IGME,WQ5-terkaya; interval [39.3-46.7]
+IND,2003,U5MR,113.5,UN-IGME,WQ1-termiskin; interval [105.8-121.8]
+IND,2003,U5MR,41.09,UN-IGME,WQ5-terkaya; interval [37.6-45.0]
+IND,2003,U5MR,81.11,UN-IGME,nasional; interval [77.9-84.7]
+IND,2004,U5MR,39.31,UN-IGME,WQ5-terkaya; interval [35.7-43.3]
+IND,2004,U5MR,77.69,UN-IGME,nasional; interval [74.5-81.2]
+IND,2004,U5MR,109.3,UN-IGME,WQ1-termiskin; interval [101.5-117.9]
+IND,2005,U5MR,74.35,UN-IGME,nasional; interval [71.2-77.8]
+IND,2005,U5MR,37.61,UN-IGME,WQ5-terkaya; interval [34.0-41.6]
+IND,2005,U5MR,105.26,UN-IGME,WQ1-termiskin; interval [97.2-113.8]
+IND,2006,U5MR,35.92,UN-IGME,WQ5-terkaya; interval [32.3-39.8]
+IND,2006,U5MR,101.1,UN-IGME,WQ1-termiskin; interval [93.4-109.3]
+IND,2006,U5MR,71.03,UN-IGME,nasional; interval [67.9-74.5]
+IND,2007,U5MR,67.75,UN-IGME,nasional; interval [64.7-71.2]
+IND,2007,U5MR,34.19,UN-IGME,WQ5-terkaya; interval [30.7-37.9]
+IND,2007,U5MR,97.01,UN-IGME,WQ1-termiskin; interval [89.7-104.9]
+IND,2008,U5MR,64.48,UN-IGME,nasional; interval [61.6-67.7]
+IND,2008,U5MR,32.51,UN-IGME,WQ5-terkaya; interval [29.2-36.1]
+IND,2008,U5MR,92.99,UN-IGME,WQ1-termiskin; interval [86.1-100.4]
+IND,2009,U5MR,30.81,UN-IGME,WQ5-terkaya; interval [27.7-34.2]
+IND,2009,U5MR,61.25,UN-IGME,nasional; interval [58.5-64.3]
+IND,2009,U5MR,88.96,UN-IGME,WQ1-termiskin; interval [82.7-95.9]
+IND,2010,U5MR,29.13,UN-IGME,WQ5-terkaya; interval [26.2-32.4]
+IND,2010,U5MR,58.07,UN-IGME,nasional; interval [55.5-60.9]
+IND,2010,U5MR,85.01,UN-IGME,WQ1-termiskin; interval [79.1-91.2]
+IND,2011,U5MR,54.97,UN-IGME,nasional; interval [52.5-57.6]
+IND,2011,U5MR,27.53,UN-IGME,WQ5-terkaya; interval [24.7-30.5]
+IND,2011,U5MR,81.09,UN-IGME,WQ1-termiskin; interval [75.8-86.7]
+IND,2012,U5MR,77.38,UN-IGME,WQ1-termiskin; interval [72.8-82.2]
+IND,2012,U5MR,51.98,UN-IGME,nasional; interval [49.6-54.4]
+IND,2012,U5MR,25.98,UN-IGME,WQ5-terkaya; interval [23.4-28.8]
+IND,2013,U5MR,73.3,UN-IGME,WQ1-termiskin; interval [68.4-78.3]
+IND,2013,U5MR,24.6,UN-IGME,WQ5-terkaya; interval [22.0-27.4]
+IND,2013,U5MR,49.09,UN-IGME,nasional; interval [46.8-51.4]
+IND,2014,U5MR,46.35,UN-IGME,nasional; interval [44.2-48.5]
+IND,2014,U5MR,69.4,UN-IGME,WQ1-termiskin; interval [64.3-74.5]
+IND,2014,U5MR,23.26,UN-IGME,WQ5-terkaya; interval [20.7-26.1]
+IND,2015,U5MR,65.62,UN-IGME,WQ1-termiskin; interval [60.4-71.0]
+IND,2015,U5MR,22.04,UN-IGME,WQ5-terkaya; interval [19.5-24.9]
+IND,2015,U5MR,43.74,UN-IGME,nasional; interval [41.7-45.8]
+IND,2016,U5MR,41.3,UN-IGME,nasional; interval [39.3-43.3]
+IND,2016,U5MR,20.85,UN-IGME,WQ5-terkaya; interval [18.3-23.8]
+IND,2016,U5MR,62.22,UN-IGME,WQ1-termiskin; interval [56.9-67.7]
+IND,2017,U5MR,58.88,UN-IGME,WQ1-termiskin; interval [53.6-64.4]
+IND,2017,U5MR,39.02,UN-IGME,nasional; interval [37.1-40.9]
+IND,2017,U5MR,19.73,UN-IGME,WQ5-terkaya; interval [17.2-22.6]
+IND,2018,U5MR,18.7,UN-IGME,WQ5-terkaya; interval [16.2-21.6]
+IND,2018,U5MR,36.87,UN-IGME,nasional; interval [35.0-38.7]
+IND,2018,U5MR,55.8,UN-IGME,WQ1-termiskin; interval [50.4-61.4]
+IND,2019,U5MR,34.86,UN-IGME,nasional; interval [33.0-36.8]
+IND,2019,U5MR,17.73,UN-IGME,WQ5-terkaya; interval [15.3-20.5]
+IND,2019,U5MR,52.87,UN-IGME,WQ1-termiskin; interval [47.6-58.4]
+IND,2020,U5MR,32.98,UN-IGME,nasional; interval [31.1-34.9]
+IND,2020,U5MR,50.12,UN-IGME,WQ1-termiskin; interval [44.8-55.6]
+IND,2020,U5MR,16.83,UN-IGME,WQ5-terkaya; interval [14.4-19.6]
+IND,2021,U5MR,31.19,UN-IGME,nasional; interval [29.2-33.3]
+IND,2021,U5MR,47.52,UN-IGME,WQ1-termiskin; interval [42.2-53.2]
+IND,2021,U5MR,15.98,UN-IGME,WQ5-terkaya; interval [13.6-18.8]
+IND,2022,U5MR,29.53,UN-IGME,nasional; interval [27.4-31.8]
+IND,2022,U5MR,15.21,UN-IGME,WQ5-terkaya; interval [12.9-18.0]
+IND,2022,U5MR,44.98,UN-IGME,WQ1-termiskin; interval [39.6-50.8]
+IND,2023,U5MR,14.5,UN-IGME,WQ5-terkaya; interval [12.1-17.3]
+IND,2023,U5MR,42.67,UN-IGME,WQ1-termiskin; interval [37.1-48.6]
+IND,2023,U5MR,27.99,UN-IGME,nasional; interval [25.7-30.5]
+IND,2024,U5MR,26.58,UN-IGME,nasional; interval [24.1-29.4]
+IND,2024,U5MR,40.52,UN-IGME,WQ1-termiskin; interval [34.9-46.6]
+IND,2024,U5MR,13.82,UN-IGME,WQ5-terkaya; interval [11.4-16.7]
+KEN,2000,DTP3,82.0,WUENIC,
+KEN,2001,DTP3,80.0,WUENIC,
+KEN,2002,DTP3,84.0,WUENIC,
+KEN,2003,DTP3,73.0,WUENIC,
+KEN,2004,DTP3,73.0,WUENIC,
+KEN,2005,DTP3,76.0,WUENIC,
+KEN,2006,DTP3,80.0,WUENIC,
+KEN,2007,DTP3,81.0,WUENIC,
+KEN,2008,DTP3,88.0,WUENIC,
+KEN,2009,DTP3,88.0,WUENIC,
+KEN,2010,DTP3,90.0,WUENIC,
+KEN,2011,DTP3,96.0,WUENIC,
+KEN,2012,DTP3,94.0,WUENIC,
+KEN,2013,DTP3,87.0,WUENIC,
+KEN,2014,DTP3,92.0,WUENIC,
+KEN,2015,DTP3,89.0,WUENIC,
+KEN,2016,DTP3,88.0,WUENIC,
+KEN,2017,DTP3,81.0,WUENIC,
+KEN,2018,DTP3,91.0,WUENIC,
+KEN,2019,DTP3,93.0,WUENIC,
+KEN,2020,DTP3,93.0,WUENIC,
+KEN,2021,DTP3,95.0,WUENIC,
+KEN,2022,DTP3,94.0,WUENIC,
+KEN,2023,DTP3,93.0,WUENIC,
+KEN,2024,DTP3,91.0,WUENIC,
+KEN,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2007,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2008,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2009,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2010,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2011,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2012,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2013,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2014,MCV2,0.0,WUENIC,usia rekomendasi lokal
+KEN,2015,MCV2,28.0,WUENIC,usia rekomendasi lokal
+KEN,2016,MCV2,35.0,WUENIC,usia rekomendasi lokal
+KEN,2017,MCV2,41.0,WUENIC,usia rekomendasi lokal
+KEN,2018,MCV2,53.0,WUENIC,usia rekomendasi lokal
+KEN,2019,MCV2,60.0,WUENIC,usia rekomendasi lokal
+KEN,2020,MCV2,67.0,WUENIC,usia rekomendasi lokal
+KEN,2021,MCV2,71.0,WUENIC,usia rekomendasi lokal
+KEN,2022,MCV2,70.0,WUENIC,usia rekomendasi lokal
+KEN,2023,MCV2,76.0,WUENIC,usia rekomendasi lokal
+KEN,2024,MCV2,76.0,WUENIC,usia rekomendasi lokal
+KEN,2000,U5MR,95.19,UN-IGME,nasional; interval [88.5-102.5]
+KEN,2000,U5MR,72.47,UN-IGME,WQ5-terkaya; interval [64.1-81.9]
+KEN,2000,U5MR,118.79,UN-IGME,WQ1-termiskin; interval [106.6-132.0]
+KEN,2001,U5MR,112.39,UN-IGME,WQ1-termiskin; interval [100.7-125.2]
+KEN,2001,U5MR,90.52,UN-IGME,nasional; interval [84.1-97.5]
+KEN,2001,U5MR,69.05,UN-IGME,WQ5-terkaya; interval [60.9-78.3]
+KEN,2002,U5MR,85.64,UN-IGME,nasional; interval [79.4-92.1]
+KEN,2002,U5MR,105.68,UN-IGME,WQ1-termiskin; interval [94.1-117.9]
+KEN,2002,U5MR,65.53,UN-IGME,WQ5-terkaya; interval [57.6-74.4]
+KEN,2003,U5MR,99.08,UN-IGME,WQ1-termiskin; interval [88.2-110.6]
+KEN,2003,U5MR,62.05,UN-IGME,WQ5-terkaya; interval [54.3-70.6]
+KEN,2003,U5MR,80.83,UN-IGME,nasional; interval [74.8-87.1]
+KEN,2004,U5MR,92.63,UN-IGME,WQ1-termiskin; interval [82.2-103.7]
+KEN,2004,U5MR,58.56,UN-IGME,WQ5-terkaya; interval [51.2-66.8]
+KEN,2004,U5MR,76.1,UN-IGME,nasional; interval [70.1-82.3]
+KEN,2005,U5MR,54.9,UN-IGME,WQ5-terkaya; interval [47.8-62.7]
+KEN,2005,U5MR,71.2,UN-IGME,nasional; interval [65.4-77.2]
+KEN,2005,U5MR,86.15,UN-IGME,WQ1-termiskin; interval [76.2-96.8]
+KEN,2006,U5MR,51.68,UN-IGME,WQ5-terkaya; interval [44.8-59.2]
+KEN,2006,U5MR,80.24,UN-IGME,WQ1-termiskin; interval [70.9-90.4]
+KEN,2006,U5MR,66.85,UN-IGME,nasional; interval [61.2-72.7]
+KEN,2007,U5MR,48.72,UN-IGME,WQ5-terkaya; interval [42.2-56.0]
+KEN,2007,U5MR,62.91,UN-IGME,nasional; interval [57.5-68.5]
+KEN,2007,U5MR,75.08,UN-IGME,WQ1-termiskin; interval [66.0-84.5]
+KEN,2008,U5MR,57.97,UN-IGME,nasional; interval [53.0-63.2]
+KEN,2008,U5MR,44.92,UN-IGME,WQ5-terkaya; interval [39.0-51.7]
+KEN,2008,U5MR,68.89,UN-IGME,WQ1-termiskin; interval [60.7-77.6]
+KEN,2009,U5MR,65.23,UN-IGME,WQ1-termiskin; interval [57.6-73.4]
+KEN,2009,U5MR,42.84,UN-IGME,WQ5-terkaya; interval [37.2-49.3]
+KEN,2009,U5MR,55.2,UN-IGME,nasional; interval [50.5-60.2]
+KEN,2010,U5MR,62.33,UN-IGME,WQ1-termiskin; interval [55.1-70.1]
+KEN,2010,U5MR,41.31,UN-IGME,WQ5-terkaya; interval [35.9-47.6]
+KEN,2010,U5MR,53.14,UN-IGME,nasional; interval [48.7-57.9]
+KEN,2011,U5MR,51.67,UN-IGME,nasional; interval [47.3-56.4]
+KEN,2011,U5MR,40.26,UN-IGME,WQ5-terkaya; interval [35.0-46.3]
+KEN,2011,U5MR,60.1,UN-IGME,WQ1-termiskin; interval [53.1-67.6]
+KEN,2012,U5MR,58.92,UN-IGME,WQ1-termiskin; interval [52.1-66.5]
+KEN,2012,U5MR,39.48,UN-IGME,WQ5-terkaya; interval [34.2-45.6]
+KEN,2012,U5MR,50.66,UN-IGME,nasional; interval [46.3-55.5]
+KEN,2013,U5MR,57.69,UN-IGME,WQ1-termiskin; interval [50.9-65.4]
+KEN,2013,U5MR,49.44,UN-IGME,nasional; interval [45.1-54.3]
+KEN,2013,U5MR,38.53,UN-IGME,WQ5-terkaya; interval [33.2-44.7]
+KEN,2014,U5MR,37.63,UN-IGME,WQ5-terkaya; interval [32.3-43.9]
+KEN,2014,U5MR,56.37,UN-IGME,WQ1-termiskin; interval [49.6-63.9]
+KEN,2014,U5MR,48.28,UN-IGME,nasional; interval [44.0-53.1]
+KEN,2015,U5MR,46.79,UN-IGME,nasional; interval [42.6-51.5]
+KEN,2015,U5MR,54.6,UN-IGME,WQ1-termiskin; interval [47.9-62.1]
+KEN,2015,U5MR,36.49,UN-IGME,WQ5-terkaya; interval [31.3-42.6]
+KEN,2016,U5MR,45.46,UN-IGME,nasional; interval [41.3-50.3]
+KEN,2016,U5MR,53.12,UN-IGME,WQ1-termiskin; interval [46.5-60.6]
+KEN,2016,U5MR,35.43,UN-IGME,WQ5-terkaya; interval [30.3-41.5]
+KEN,2017,U5MR,34.88,UN-IGME,WQ5-terkaya; interval [29.8-41.0]
+KEN,2017,U5MR,44.72,UN-IGME,nasional; interval [40.6-49.6]
+KEN,2017,U5MR,52.31,UN-IGME,WQ1-termiskin; interval [45.7-59.9]
+KEN,2018,U5MR,51.07,UN-IGME,WQ1-termiskin; interval [44.5-58.7]
+KEN,2018,U5MR,34.09,UN-IGME,WQ5-terkaya; interval [29.1-40.3]
+KEN,2018,U5MR,43.68,UN-IGME,nasional; interval [39.5-48.6]
+KEN,2019,U5MR,42.71,UN-IGME,nasional; interval [38.4-47.9]
+KEN,2019,U5MR,33.35,UN-IGME,WQ5-terkaya; interval [28.3-39.6]
+KEN,2019,U5MR,49.94,UN-IGME,WQ1-termiskin; interval [43.3-57.7]
+KEN,2020,U5MR,32.83,UN-IGME,WQ5-terkaya; interval [27.6-39.3]
+KEN,2020,U5MR,49.43,UN-IGME,WQ1-termiskin; interval [42.4-57.9]
+KEN,2020,U5MR,42.09,UN-IGME,nasional; interval [37.3-47.7]
+KEN,2021,U5MR,48.67,UN-IGME,WQ1-termiskin; interval [41.1-57.8]
+KEN,2021,U5MR,41.3,UN-IGME,nasional; interval [36.1-47.5]
+KEN,2021,U5MR,32.15,UN-IGME,WQ5-terkaya; interval [26.6-39.1]
+KEN,2022,U5MR,31.54,UN-IGME,WQ5-terkaya; interval [25.6-39.0]
+KEN,2022,U5MR,47.97,UN-IGME,WQ1-termiskin; interval [39.7-57.8]
+KEN,2022,U5MR,40.54,UN-IGME,nasional; interval [34.7-47.5]
+KEN,2023,U5MR,46.95,UN-IGME,WQ1-termiskin; interval [38.1-57.8]
+KEN,2023,U5MR,30.8,UN-IGME,WQ5-terkaya; interval [24.6-38.8]
+KEN,2023,U5MR,39.62,UN-IGME,nasional; interval [33.1-47.5]
+KEN,2024,U5MR,38.85,UN-IGME,nasional; interval [31.7-47.6]
+KEN,2024,U5MR,46.2,UN-IGME,WQ1-termiskin; interval [36.5-58.0]
+KEN,2024,U5MR,30.15,UN-IGME,WQ5-terkaya; interval [23.5-38.8]
+MYS,2000,DTP3,98.0,WUENIC,
+MYS,2001,DTP3,96.0,WUENIC,
+MYS,2002,DTP3,94.0,WUENIC,
+MYS,2003,DTP3,96.0,WUENIC,
+MYS,2004,DTP3,95.0,WUENIC,
+MYS,2005,DTP3,96.0,WUENIC,
+MYS,2006,DTP3,95.0,WUENIC,
+MYS,2007,DTP3,97.0,WUENIC,
+MYS,2008,DTP3,97.0,WUENIC,
+MYS,2009,DTP3,97.0,WUENIC,
+MYS,2010,DTP3,96.0,WUENIC,
+MYS,2011,DTP3,96.0,WUENIC,
+MYS,2012,DTP3,97.0,WUENIC,
+MYS,2013,DTP3,97.0,WUENIC,
+MYS,2014,DTP3,97.0,WUENIC,
+MYS,2015,DTP3,99.0,WUENIC,
+MYS,2016,DTP3,98.0,WUENIC,
+MYS,2017,DTP3,99.0,WUENIC,
+MYS,2018,DTP3,99.0,WUENIC,
+MYS,2019,DTP3,98.0,WUENIC,
+MYS,2020,DTP3,98.0,WUENIC,
+MYS,2021,DTP3,95.0,WUENIC,
+MYS,2022,DTP3,97.0,WUENIC,
+MYS,2023,DTP3,95.0,WUENIC,
+MYS,2024,DTP3,93.0,WUENIC,
+MYS,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+MYS,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+MYS,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+MYS,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+MYS,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+MYS,2005,MCV2,91.0,WUENIC,usia rekomendasi lokal
+MYS,2006,MCV2,90.0,WUENIC,usia rekomendasi lokal
+MYS,2007,MCV2,92.0,WUENIC,usia rekomendasi lokal
+MYS,2008,MCV2,93.0,WUENIC,usia rekomendasi lokal
+MYS,2009,MCV2,95.0,WUENIC,usia rekomendasi lokal
+MYS,2010,MCV2,95.0,WUENIC,usia rekomendasi lokal
+MYS,2011,MCV2,95.0,WUENIC,usia rekomendasi lokal
+MYS,2012,MCV2,99.0,WUENIC,usia rekomendasi lokal
+MYS,2013,MCV2,99.0,WUENIC,usia rekomendasi lokal
+MYS,2014,MCV2,99.0,WUENIC,usia rekomendasi lokal
+MYS,2015,MCV2,99.0,WUENIC,usia rekomendasi lokal
+MYS,2016,MCV2,99.0,WUENIC,usia rekomendasi lokal
+MYS,2017,MCV2,99.0,WUENIC,usia rekomendasi lokal
+MYS,2018,MCV2,88.0,WUENIC,usia rekomendasi lokal
+MYS,2019,MCV2,87.0,WUENIC,usia rekomendasi lokal
+MYS,2020,MCV2,84.0,WUENIC,usia rekomendasi lokal
+MYS,2021,MCV2,98.0,WUENIC,usia rekomendasi lokal
+MYS,2022,MCV2,96.0,WUENIC,usia rekomendasi lokal
+MYS,2023,MCV2,95.0,WUENIC,usia rekomendasi lokal
+MYS,2024,MCV2,93.0,WUENIC,usia rekomendasi lokal
+MYS,2000,U5MR,9.9,UN-IGME,nasional; interval [9.7-10.1]
+MYS,2001,U5MR,9.27,UN-IGME,nasional; interval [9.1-9.4]
+MYS,2002,U5MR,8.84,UN-IGME,nasional; interval [8.7-9.0]
+MYS,2003,U5MR,8.56,UN-IGME,nasional; interval [8.4-8.7]
+MYS,2004,U5MR,8.41,UN-IGME,nasional; interval [8.3-8.6]
+MYS,2005,U5MR,8.34,UN-IGME,nasional; interval [8.2-8.5]
+MYS,2006,U5MR,8.29,UN-IGME,nasional; interval [8.1-8.4]
+MYS,2007,U5MR,8.26,UN-IGME,nasional; interval [8.1-8.4]
+MYS,2008,U5MR,8.22,UN-IGME,nasional; interval [8.1-8.4]
+MYS,2009,U5MR,8.18,UN-IGME,nasional; interval [8.0-8.3]
+MYS,2010,U5MR,8.14,UN-IGME,nasional; interval [8.0-8.3]
+MYS,2011,U5MR,8.09,UN-IGME,nasional; interval [7.9-8.2]
+MYS,2012,U5MR,8.05,UN-IGME,nasional; interval [7.9-8.2]
+MYS,2013,U5MR,8.05,UN-IGME,nasional; interval [7.9-8.2]
+MYS,2014,U5MR,8.09,UN-IGME,nasional; interval [7.9-8.2]
+MYS,2015,U5MR,8.15,UN-IGME,nasional; interval [8.0-8.3]
+MYS,2016,U5MR,8.19,UN-IGME,nasional; interval [8.0-8.4]
+MYS,2017,U5MR,8.2,UN-IGME,nasional; interval [7.9-8.5]
+MYS,2018,U5MR,8.2,UN-IGME,nasional; interval [7.9-8.5]
+MYS,2019,U5MR,8.2,UN-IGME,nasional; interval [7.8-8.6]
+MYS,2020,U5MR,8.19,UN-IGME,nasional; interval [7.8-8.6]
+MYS,2021,U5MR,8.2,UN-IGME,nasional; interval [7.7-8.7]
+MYS,2022,U5MR,8.23,UN-IGME,nasional; interval [7.7-8.8]
+MYS,2023,U5MR,8.26,UN-IGME,nasional; interval [7.6-9.0]
+MYS,2024,U5MR,8.31,UN-IGME,nasional; interval [7.5-9.2]
+NGA,2000,DTP3,29.0,WUENIC,
+NGA,2001,DTP3,27.0,WUENIC,
+NGA,2002,DTP3,25.0,WUENIC,
+NGA,2003,DTP3,29.0,WUENIC,
+NGA,2004,DTP3,33.0,WUENIC,
+NGA,2005,DTP3,36.0,WUENIC,
+NGA,2006,DTP3,40.0,WUENIC,
+NGA,2007,DTP3,42.0,WUENIC,
+NGA,2008,DTP3,53.0,WUENIC,
+NGA,2009,DTP3,63.0,WUENIC,
+NGA,2010,DTP3,56.0,WUENIC,
+NGA,2011,DTP3,49.0,WUENIC,
+NGA,2012,DTP3,42.0,WUENIC,
+NGA,2013,DTP3,43.0,WUENIC,
+NGA,2014,DTP3,43.0,WUENIC,
+NGA,2015,DTP3,42.0,WUENIC,
+NGA,2016,DTP3,53.0,WUENIC,
+NGA,2017,DTP3,55.0,WUENIC,
+NGA,2018,DTP3,61.0,WUENIC,
+NGA,2019,DTP3,66.0,WUENIC,
+NGA,2020,DTP3,62.0,WUENIC,
+NGA,2021,DTP3,50.0,WUENIC,
+NGA,2022,DTP3,55.0,WUENIC,
+NGA,2023,DTP3,63.0,WUENIC,
+NGA,2024,DTP3,63.0,WUENIC,
+NGA,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2007,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2008,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2009,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2010,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2011,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2012,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2013,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2014,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2015,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2016,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2017,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2018,MCV2,0.0,WUENIC,usia rekomendasi lokal
+NGA,2019,MCV2,9.0,WUENIC,usia rekomendasi lokal
+NGA,2020,MCV2,16.0,WUENIC,usia rekomendasi lokal
+NGA,2021,MCV2,23.0,WUENIC,usia rekomendasi lokal
+NGA,2022,MCV2,30.0,WUENIC,usia rekomendasi lokal
+NGA,2023,MCV2,33.0,WUENIC,usia rekomendasi lokal
+NGA,2024,MCV2,35.0,WUENIC,usia rekomendasi lokal
+NGA,2000,U5MR,215.95,UN-IGME,WQ1-termiskin; interval [197.6-235.1]
+NGA,2000,U5MR,94.18,UN-IGME,WQ5-terkaya; interval [84.2-104.7]
+NGA,2000,U5MR,177.28,UN-IGME,nasional; interval [167.0-188.0]
+NGA,2001,U5MR,209.67,UN-IGME,WQ1-termiskin; interval [192.6-227.8]
+NGA,2001,U5MR,170.54,UN-IGME,nasional; interval [160.6-180.8]
+NGA,2001,U5MR,90.16,UN-IGME,WQ5-terkaya; interval [81.0-100.0]
+NGA,2002,U5MR,86.16,UN-IGME,WQ5-terkaya; interval [77.7-95.4]
+NGA,2002,U5MR,163.87,UN-IGME,nasional; interval [154.4-173.9]
+NGA,2002,U5MR,203.46,UN-IGME,WQ1-termiskin; interval [187.5-220.8]
+NGA,2003,U5MR,197.62,UN-IGME,WQ1-termiskin; interval [182.1-214.3]
+NGA,2003,U5MR,157.43,UN-IGME,nasional; interval [148.4-167.2]
+NGA,2003,U5MR,82.8,UN-IGME,WQ5-terkaya; interval [74.7-91.2]
+NGA,2004,U5MR,79.54,UN-IGME,WQ5-terkaya; interval [72.2-87.3]
+NGA,2004,U5MR,151.38,UN-IGME,nasional; interval [142.6-160.8]
+NGA,2004,U5MR,192.13,UN-IGME,WQ1-termiskin; interval [177.5-207.6]
+NGA,2005,U5MR,186.84,UN-IGME,WQ1-termiskin; interval [173.4-201.4]
+NGA,2005,U5MR,145.84,UN-IGME,nasional; interval [137.3-154.9]
+NGA,2005,U5MR,76.59,UN-IGME,WQ5-terkaya; interval [69.8-83.9]
+NGA,2006,U5MR,182.33,UN-IGME,WQ1-termiskin; interval [168.7-196.4]
+NGA,2006,U5MR,73.73,UN-IGME,WQ5-terkaya; interval [67.1-80.8]
+NGA,2006,U5MR,140.88,UN-IGME,nasional; interval [132.5-149.7]
+NGA,2007,U5MR,177.03,UN-IGME,WQ1-termiskin; interval [163.3-191.3]
+NGA,2007,U5MR,71.16,UN-IGME,WQ5-terkaya; interval [64.7-78.1]
+NGA,2007,U5MR,136.46,UN-IGME,nasional; interval [128.1-145.2]
+NGA,2008,U5MR,68.77,UN-IGME,WQ5-terkaya; interval [62.2-75.9]
+NGA,2008,U5MR,172.59,UN-IGME,WQ1-termiskin; interval [158.9-187.0]
+NGA,2008,U5MR,132.55,UN-IGME,nasional; interval [124.3-141.3]
+NGA,2009,U5MR,129.22,UN-IGME,nasional; interval [120.9-137.7]
+NGA,2009,U5MR,66.7,UN-IGME,WQ5-terkaya; interval [60.2-73.6]
+NGA,2009,U5MR,168.62,UN-IGME,WQ1-termiskin; interval [154.8-183.0]
+NGA,2010,U5MR,165.32,UN-IGME,WQ1-termiskin; interval [151.5-179.8]
+NGA,2010,U5MR,126.34,UN-IGME,nasional; interval [118.0-134.9]
+NGA,2010,U5MR,64.88,UN-IGME,WQ5-terkaya; interval [58.6-71.7]
+NGA,2011,U5MR,162.21,UN-IGME,WQ1-termiskin; interval [148.5-176.6]
+NGA,2011,U5MR,63.25,UN-IGME,WQ5-terkaya; interval [57.1-70.0]
+NGA,2011,U5MR,123.8,UN-IGME,nasional; interval [115.4-132.6]
+NGA,2012,U5MR,121.64,UN-IGME,nasional; interval [113.2-130.6]
+NGA,2012,U5MR,159.27,UN-IGME,WQ1-termiskin; interval [145.6-173.8]
+NGA,2012,U5MR,61.79,UN-IGME,WQ5-terkaya; interval [55.6-68.3]
+NGA,2013,U5MR,60.53,UN-IGME,WQ5-terkaya; interval [54.6-67.1]
+NGA,2013,U5MR,156.92,UN-IGME,WQ1-termiskin; interval [143.7-171.4]
+NGA,2013,U5MR,119.93,UN-IGME,nasional; interval [111.5-129.0]
+NGA,2014,U5MR,155.46,UN-IGME,WQ1-termiskin; interval [141.7-170.1]
+NGA,2014,U5MR,118.68,UN-IGME,nasional; interval [110.1-127.9]
+NGA,2014,U5MR,59.65,UN-IGME,WQ5-terkaya; interval [53.6-66.4]
+NGA,2015,U5MR,117.82,UN-IGME,nasional; interval [109.1-127.3]
+NGA,2015,U5MR,58.98,UN-IGME,WQ5-terkaya; interval [52.9-65.8]
+NGA,2015,U5MR,154.5,UN-IGME,WQ1-termiskin; interval [140.8-169.5]
+NGA,2016,U5MR,58.92,UN-IGME,WQ5-terkaya; interval [52.5-66.0]
+NGA,2016,U5MR,153.86,UN-IGME,WQ1-termiskin; interval [139.8-169.5]
+NGA,2016,U5MR,117.35,UN-IGME,nasional; interval [108.4-127.2]
+NGA,2017,U5MR,58.92,UN-IGME,WQ5-terkaya; interval [52.4-66.3]
+NGA,2017,U5MR,117.17,UN-IGME,nasional; interval [107.9-127.4]
+NGA,2017,U5MR,153.43,UN-IGME,WQ1-termiskin; interval [138.9-169.3]
+NGA,2018,U5MR,59.28,UN-IGME,WQ5-terkaya; interval [52.6-67.0]
+NGA,2018,U5MR,117.19,UN-IGME,nasional; interval [107.7-127.9]
+NGA,2018,U5MR,153.08,UN-IGME,WQ1-termiskin; interval [138.0-169.2]
+NGA,2019,U5MR,59.5,UN-IGME,WQ5-terkaya; interval [52.4-67.9]
+NGA,2019,U5MR,117.37,UN-IGME,nasional; interval [107.3-128.5]
+NGA,2019,U5MR,153.27,UN-IGME,WQ1-termiskin; interval [137.0-170.6]
+NGA,2020,U5MR,153.15,UN-IGME,WQ1-termiskin; interval [136.1-172.2]
+NGA,2020,U5MR,117.42,UN-IGME,nasional; interval [106.6-129.7]
+NGA,2020,U5MR,59.77,UN-IGME,WQ5-terkaya; interval [52.1-68.7]
+NGA,2021,U5MR,153.08,UN-IGME,WQ1-termiskin; interval [134.1-174.0]
+NGA,2021,U5MR,117.56,UN-IGME,nasional; interval [105.4-131.1]
+NGA,2021,U5MR,60.03,UN-IGME,WQ5-terkaya; interval [51.7-69.6]
+NGA,2022,U5MR,117.46,UN-IGME,nasional; interval [104.0-132.8]
+NGA,2022,U5MR,152.88,UN-IGME,WQ1-termiskin; interval [131.9-176.2]
+NGA,2022,U5MR,60.17,UN-IGME,WQ5-terkaya; interval [51.0-71.0]
+NGA,2023,U5MR,59.99,UN-IGME,WQ5-terkaya; interval [50.1-72.2]
+NGA,2023,U5MR,152.12,UN-IGME,WQ1-termiskin; interval [129.3-178.7]
+NGA,2023,U5MR,116.82,UN-IGME,nasional; interval [101.8-134.5]
+NGA,2024,U5MR,115.65,UN-IGME,nasional; interval [98.8-136.2]
+NGA,2024,U5MR,150.69,UN-IGME,WQ1-termiskin; interval [125.6-181.0]
+NGA,2024,U5MR,59.51,UN-IGME,WQ5-terkaya; interval [48.8-73.2]
+PHL,2000,DTP3,78.0,WUENIC,
+PHL,2001,DTP3,79.0,WUENIC,
+PHL,2002,DTP3,79.0,WUENIC,
+PHL,2003,DTP3,84.0,WUENIC,
+PHL,2004,DTP3,88.0,WUENIC,
+PHL,2005,DTP3,89.0,WUENIC,
+PHL,2006,DTP3,88.0,WUENIC,
+PHL,2007,DTP3,87.0,WUENIC,
+PHL,2008,DTP3,87.0,WUENIC,
+PHL,2009,DTP3,88.0,WUENIC,
+PHL,2010,DTP3,88.0,WUENIC,
+PHL,2011,DTP3,89.0,WUENIC,
+PHL,2012,DTP3,89.0,WUENIC,
+PHL,2013,DTP3,85.0,WUENIC,
+PHL,2014,DTP3,80.0,WUENIC,
+PHL,2015,DTP3,76.0,WUENIC,
+PHL,2016,DTP3,84.0,WUENIC,
+PHL,2017,DTP3,84.0,WUENIC,
+PHL,2018,DTP3,84.0,WUENIC,
+PHL,2019,DTP3,84.0,WUENIC,
+PHL,2020,DTP3,83.0,WUENIC,
+PHL,2021,DTP3,69.0,WUENIC,
+PHL,2022,DTP3,84.0,WUENIC,
+PHL,2023,DTP3,89.0,WUENIC,
+PHL,2024,DTP3,71.0,WUENIC,
+PHL,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2007,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2008,MCV2,0.0,WUENIC,usia rekomendasi lokal
+PHL,2009,MCV2,19.0,WUENIC,usia rekomendasi lokal
+PHL,2010,MCV2,10.0,WUENIC,usia rekomendasi lokal
+PHL,2011,MCV2,36.0,WUENIC,usia rekomendasi lokal
+PHL,2012,MCV2,42.0,WUENIC,usia rekomendasi lokal
+PHL,2013,MCV2,54.0,WUENIC,usia rekomendasi lokal
+PHL,2014,MCV2,54.0,WUENIC,usia rekomendasi lokal
+PHL,2015,MCV2,57.0,WUENIC,usia rekomendasi lokal
+PHL,2016,MCV2,62.0,WUENIC,usia rekomendasi lokal
+PHL,2017,MCV2,64.0,WUENIC,usia rekomendasi lokal
+PHL,2018,MCV2,65.0,WUENIC,usia rekomendasi lokal
+PHL,2019,MCV2,67.0,WUENIC,usia rekomendasi lokal
+PHL,2020,MCV2,68.0,WUENIC,usia rekomendasi lokal
+PHL,2021,MCV2,55.0,WUENIC,usia rekomendasi lokal
+PHL,2022,MCV2,64.0,WUENIC,usia rekomendasi lokal
+PHL,2023,MCV2,69.0,WUENIC,usia rekomendasi lokal
+PHL,2024,MCV2,71.0,WUENIC,usia rekomendasi lokal
+PHL,2000,U5MR,55.91,UN-IGME,WQ1-termiskin; interval [49.9-62.3]
+PHL,2000,U5MR,18.77,UN-IGME,WQ5-terkaya; interval [15.8-22.2]
+PHL,2000,U5MR,36.79,UN-IGME,nasional; interval [34.1-39.7]
+PHL,2001,U5MR,18.36,UN-IGME,WQ5-terkaya; interval [15.4-21.7]
+PHL,2001,U5MR,54.68,UN-IGME,WQ1-termiskin; interval [48.6-61.0]
+PHL,2001,U5MR,35.99,UN-IGME,nasional; interval [33.3-38.9]
+PHL,2002,U5MR,53.52,UN-IGME,WQ1-termiskin; interval [47.5-59.7]
+PHL,2002,U5MR,35.2,UN-IGME,nasional; interval [32.5-38.1]
+PHL,2002,U5MR,17.94,UN-IGME,WQ5-terkaya; interval [15.1-21.3]
+PHL,2003,U5MR,52.29,UN-IGME,WQ1-termiskin; interval [46.3-58.6]
+PHL,2003,U5MR,17.53,UN-IGME,WQ5-terkaya; interval [14.7-20.9]
+PHL,2003,U5MR,34.4,UN-IGME,nasional; interval [31.7-37.3]
+PHL,2004,U5MR,33.6,UN-IGME,nasional; interval [31.0-36.5]
+PHL,2004,U5MR,50.95,UN-IGME,WQ1-termiskin; interval [45.1-57.3]
+PHL,2004,U5MR,17.14,UN-IGME,WQ5-terkaya; interval [14.3-20.3]
+PHL,2005,U5MR,16.73,UN-IGME,WQ5-terkaya; interval [14.0-19.9]
+PHL,2005,U5MR,49.8,UN-IGME,WQ1-termiskin; interval [44.0-56.0]
+PHL,2005,U5MR,32.8,UN-IGME,nasional; interval [30.2-35.6]
+PHL,2006,U5MR,32.04,UN-IGME,nasional; interval [29.4-34.9]
+PHL,2006,U5MR,16.37,UN-IGME,WQ5-terkaya; interval [13.6-19.6]
+PHL,2006,U5MR,48.65,UN-IGME,WQ1-termiskin; interval [42.9-54.7]
+PHL,2007,U5MR,47.55,UN-IGME,WQ1-termiskin; interval [41.9-53.6]
+PHL,2007,U5MR,31.32,UN-IGME,nasional; interval [28.8-34.2]
+PHL,2007,U5MR,16.02,UN-IGME,WQ5-terkaya; interval [13.3-19.2]
+PHL,2008,U5MR,46.49,UN-IGME,WQ1-termiskin; interval [40.8-52.5]
+PHL,2008,U5MR,15.69,UN-IGME,WQ5-terkaya; interval [13.0-18.8]
+PHL,2008,U5MR,30.66,UN-IGME,nasional; interval [28.1-33.5]
+PHL,2009,U5MR,45.57,UN-IGME,WQ1-termiskin; interval [39.9-51.6]
+PHL,2009,U5MR,30.06,UN-IGME,nasional; interval [27.5-33.0]
+PHL,2009,U5MR,15.41,UN-IGME,WQ5-terkaya; interval [12.8-18.6]
+PHL,2010,U5MR,15.15,UN-IGME,WQ5-terkaya; interval [12.5-18.2]
+PHL,2010,U5MR,29.52,UN-IGME,nasional; interval [26.9-32.5]
+PHL,2010,U5MR,44.72,UN-IGME,WQ1-termiskin; interval [39.1-50.8]
+PHL,2011,U5MR,29.01,UN-IGME,nasional; interval [26.4-32.0]
+PHL,2011,U5MR,43.88,UN-IGME,WQ1-termiskin; interval [38.4-50.1]
+PHL,2011,U5MR,14.94,UN-IGME,WQ5-terkaya; interval [12.3-18.1]
+PHL,2012,U5MR,28.59,UN-IGME,nasional; interval [25.9-31.7]
+PHL,2012,U5MR,43.07,UN-IGME,WQ1-termiskin; interval [37.4-49.2]
+PHL,2012,U5MR,14.75,UN-IGME,WQ5-terkaya; interval [12.1-17.9]
+PHL,2013,U5MR,28.25,UN-IGME,nasional; interval [25.4-31.4]
+PHL,2013,U5MR,14.65,UN-IGME,WQ5-terkaya; interval [11.9-17.9]
+PHL,2013,U5MR,42.48,UN-IGME,WQ1-termiskin; interval [36.8-48.7]
+PHL,2014,U5MR,14.55,UN-IGME,WQ5-terkaya; interval [11.8-17.8]
+PHL,2014,U5MR,41.97,UN-IGME,WQ1-termiskin; interval [36.1-48.3]
+PHL,2014,U5MR,28.01,UN-IGME,nasional; interval [25.0-31.3]
+PHL,2015,U5MR,41.65,UN-IGME,WQ1-termiskin; interval [35.7-48.3]
+PHL,2015,U5MR,14.51,UN-IGME,WQ5-terkaya; interval [11.7-17.9]
+PHL,2015,U5MR,27.86,UN-IGME,nasional; interval [24.8-31.4]
+PHL,2016,U5MR,27.8,UN-IGME,nasional; interval [24.5-31.7]
+PHL,2016,U5MR,41.5,UN-IGME,WQ1-termiskin; interval [35.2-48.6]
+PHL,2016,U5MR,14.51,UN-IGME,WQ5-terkaya; interval [11.6-18.0]
+PHL,2017,U5MR,27.83,UN-IGME,nasional; interval [24.2-32.1]
+PHL,2017,U5MR,14.55,UN-IGME,WQ5-terkaya; interval [11.5-18.3]
+PHL,2017,U5MR,41.47,UN-IGME,WQ1-termiskin; interval [34.9-49.1]
+PHL,2018,U5MR,41.59,UN-IGME,WQ1-termiskin; interval [34.5-50.0]
+PHL,2018,U5MR,27.95,UN-IGME,nasional; interval [23.9-32.8]
+PHL,2018,U5MR,14.63,UN-IGME,WQ5-terkaya; interval [11.5-18.6]
+PHL,2019,U5MR,28.04,UN-IGME,nasional; interval [23.5-33.7]
+PHL,2019,U5MR,41.65,UN-IGME,WQ1-termiskin; interval [33.9-51.2]
+PHL,2019,U5MR,14.73,UN-IGME,WQ5-terkaya; interval [11.4-19.0]
+PHL,2020,U5MR,14.76,UN-IGME,WQ5-terkaya; interval [11.2-19.4]
+PHL,2020,U5MR,28.05,UN-IGME,nasional; interval [22.9-34.7]
+PHL,2020,U5MR,41.6,UN-IGME,WQ1-termiskin; interval [33.1-52.5]
+PHL,2021,U5MR,27.85,UN-IGME,nasional; interval [22.2-35.4]
+PHL,2021,U5MR,41.24,UN-IGME,WQ1-termiskin; interval [32.1-53.8]
+PHL,2021,U5MR,14.69,UN-IGME,WQ5-terkaya; interval [11.0-19.8]
+PHL,2022,U5MR,14.51,UN-IGME,WQ5-terkaya; interval [10.6-20.1]
+PHL,2022,U5MR,40.63,UN-IGME,WQ1-termiskin; interval [30.7-54.4]
+PHL,2022,U5MR,27.46,UN-IGME,nasional; interval [21.4-36.0]
+PHL,2023,U5MR,26.98,UN-IGME,nasional; interval [20.4-36.4]
+PHL,2023,U5MR,39.94,UN-IGME,WQ1-termiskin; interval [29.4-54.6]
+PHL,2023,U5MR,14.32,UN-IGME,WQ5-terkaya; interval [10.2-20.4]
+PHL,2024,U5MR,26.46,UN-IGME,nasional; interval [19.4-36.5]
+PHL,2024,U5MR,39.14,UN-IGME,WQ1-termiskin; interval [28.0-54.9]
+PHL,2024,U5MR,14.09,UN-IGME,WQ5-terkaya; interval [9.7-20.6]
+SGP,2000,DTP3,98.0,WUENIC,
+SGP,2001,DTP3,96.0,WUENIC,
+SGP,2002,DTP3,94.0,WUENIC,
+SGP,2003,DTP3,96.0,WUENIC,
+SGP,2004,DTP3,95.0,WUENIC,
+SGP,2005,DTP3,96.0,WUENIC,
+SGP,2006,DTP3,95.0,WUENIC,
+SGP,2007,DTP3,97.0,WUENIC,
+SGP,2008,DTP3,97.0,WUENIC,
+SGP,2009,DTP3,97.0,WUENIC,
+SGP,2010,DTP3,96.0,WUENIC,
+SGP,2011,DTP3,96.0,WUENIC,
+SGP,2012,DTP3,97.0,WUENIC,
+SGP,2013,DTP3,97.0,WUENIC,
+SGP,2014,DTP3,96.0,WUENIC,
+SGP,2015,DTP3,96.0,WUENIC,
+SGP,2016,DTP3,97.0,WUENIC,
+SGP,2017,DTP3,96.0,WUENIC,
+SGP,2018,DTP3,97.0,WUENIC,
+SGP,2019,DTP3,97.0,WUENIC,
+SGP,2020,DTP3,98.0,WUENIC,
+SGP,2021,DTP3,98.0,WUENIC,
+SGP,2022,DTP3,97.0,WUENIC,
+SGP,2023,DTP3,98.0,WUENIC,
+SGP,2024,DTP3,97.0,WUENIC,
+SGP,2000,MCV2,98.0,WUENIC,usia rekomendasi lokal
+SGP,2001,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2002,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2003,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2004,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2005,MCV2,95.0,WUENIC,usia rekomendasi lokal
+SGP,2006,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2007,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2008,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2009,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2010,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2011,MCV2,96.0,WUENIC,usia rekomendasi lokal
+SGP,2012,MCV2,95.0,WUENIC,usia rekomendasi lokal
+SGP,2013,MCV2,90.0,WUENIC,usia rekomendasi lokal
+SGP,2014,MCV2,90.0,WUENIC,usia rekomendasi lokal
+SGP,2015,MCV2,90.0,WUENIC,usia rekomendasi lokal
+SGP,2016,MCV2,88.0,WUENIC,usia rekomendasi lokal
+SGP,2017,MCV2,90.0,WUENIC,usia rekomendasi lokal
+SGP,2018,MCV2,91.0,WUENIC,usia rekomendasi lokal
+SGP,2019,MCV2,92.0,WUENIC,usia rekomendasi lokal
+SGP,2020,MCV2,94.0,WUENIC,usia rekomendasi lokal
+SGP,2021,MCV2,93.0,WUENIC,usia rekomendasi lokal
+SGP,2022,MCV2,92.0,WUENIC,usia rekomendasi lokal
+SGP,2023,MCV2,92.0,WUENIC,usia rekomendasi lokal
+SGP,2024,MCV2,93.0,WUENIC,usia rekomendasi lokal
+SGP,2000,U5MR,3.85,UN-IGME,nasional; interval [3.6-4.1]
+SGP,2001,U5MR,3.61,UN-IGME,nasional; interval [3.4-3.8]
+SGP,2002,U5MR,3.39,UN-IGME,nasional; interval [3.2-3.6]
+SGP,2003,U5MR,3.21,UN-IGME,nasional; interval [3.0-3.4]
+SGP,2004,U5MR,3.07,UN-IGME,nasional; interval [2.9-3.3]
+SGP,2005,U5MR,2.96,UN-IGME,nasional; interval [2.8-3.2]
+SGP,2006,U5MR,2.9,UN-IGME,nasional; interval [2.7-3.1]
+SGP,2007,U5MR,2.86,UN-IGME,nasional; interval [2.7-3.1]
+SGP,2008,U5MR,2.84,UN-IGME,nasional; interval [2.7-3.0]
+SGP,2009,U5MR,2.83,UN-IGME,nasional; interval [2.7-3.0]
+SGP,2010,U5MR,2.82,UN-IGME,nasional; interval [2.6-3.0]
+SGP,2011,U5MR,2.8,UN-IGME,nasional; interval [2.6-3.0]
+SGP,2012,U5MR,2.78,UN-IGME,nasional; interval [2.6-3.0]
+SGP,2013,U5MR,2.75,UN-IGME,nasional; interval [2.6-2.9]
+SGP,2014,U5MR,2.72,UN-IGME,nasional; interval [2.5-2.9]
+SGP,2015,U5MR,2.68,UN-IGME,nasional; interval [2.5-2.9]
+SGP,2016,U5MR,2.64,UN-IGME,nasional; interval [2.5-2.8]
+SGP,2017,U5MR,2.59,UN-IGME,nasional; interval [2.4-2.8]
+SGP,2018,U5MR,2.53,UN-IGME,nasional; interval [2.3-2.7]
+SGP,2019,U5MR,2.47,UN-IGME,nasional; interval [2.3-2.7]
+SGP,2020,U5MR,2.43,UN-IGME,nasional; interval [2.2-2.6]
+SGP,2021,U5MR,2.44,UN-IGME,nasional; interval [2.2-2.6]
+SGP,2022,U5MR,2.49,UN-IGME,nasional; interval [2.3-2.7]
+SGP,2023,U5MR,2.58,UN-IGME,nasional; interval [2.3-2.8]
+SGP,2024,U5MR,2.68,UN-IGME,nasional; interval [2.4-3.1]
+THA,2000,DTP3,97.0,WUENIC,
+THA,2001,DTP3,96.0,WUENIC,
+THA,2002,DTP3,96.0,WUENIC,
+THA,2003,DTP3,98.0,WUENIC,
+THA,2004,DTP3,98.0,WUENIC,
+THA,2005,DTP3,98.0,WUENIC,
+THA,2006,DTP3,98.0,WUENIC,
+THA,2007,DTP3,98.0,WUENIC,
+THA,2008,DTP3,99.0,WUENIC,
+THA,2009,DTP3,99.0,WUENIC,
+THA,2010,DTP3,99.0,WUENIC,
+THA,2011,DTP3,99.0,WUENIC,
+THA,2012,DTP3,99.0,WUENIC,
+THA,2013,DTP3,99.0,WUENIC,
+THA,2014,DTP3,99.0,WUENIC,
+THA,2015,DTP3,99.0,WUENIC,
+THA,2016,DTP3,99.0,WUENIC,
+THA,2017,DTP3,99.0,WUENIC,
+THA,2018,DTP3,97.0,WUENIC,
+THA,2019,DTP3,97.0,WUENIC,
+THA,2020,DTP3,97.0,WUENIC,
+THA,2021,DTP3,92.0,WUENIC,
+THA,2022,DTP3,92.0,WUENIC,
+THA,2023,DTP3,92.0,WUENIC,
+THA,2024,DTP3,92.0,WUENIC,
+THA,2000,MCV2,99.0,WUENIC,usia rekomendasi lokal
+THA,2001,MCV2,86.0,WUENIC,usia rekomendasi lokal
+THA,2002,MCV2,89.0,WUENIC,usia rekomendasi lokal
+THA,2003,MCV2,92.0,WUENIC,usia rekomendasi lokal
+THA,2004,MCV2,95.0,WUENIC,usia rekomendasi lokal
+THA,2005,MCV2,95.0,WUENIC,usia rekomendasi lokal
+THA,2006,MCV2,94.0,WUENIC,usia rekomendasi lokal
+THA,2007,MCV2,94.0,WUENIC,usia rekomendasi lokal
+THA,2008,MCV2,91.0,WUENIC,usia rekomendasi lokal
+THA,2009,MCV2,91.0,WUENIC,usia rekomendasi lokal
+THA,2010,MCV2,91.0,WUENIC,usia rekomendasi lokal
+THA,2011,MCV2,91.0,WUENIC,usia rekomendasi lokal
+THA,2012,MCV2,91.0,WUENIC,usia rekomendasi lokal
+THA,2013,MCV2,94.0,WUENIC,usia rekomendasi lokal
+THA,2014,MCV2,94.0,WUENIC,usia rekomendasi lokal
+THA,2015,MCV2,95.0,WUENIC,usia rekomendasi lokal
+THA,2016,MCV2,95.0,WUENIC,usia rekomendasi lokal
+THA,2017,MCV2,95.0,WUENIC,usia rekomendasi lokal
+THA,2018,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2019,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2020,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2021,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2022,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2023,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2024,MCV2,87.0,WUENIC,usia rekomendasi lokal
+THA,2000,U5MR,13.92,UN-IGME,WQ5-terkaya; interval [10.1-18.7]
+THA,2000,U5MR,21.71,UN-IGME,nasional; interval [19.0-23.9]
+THA,2000,U5MR,30.29,UN-IGME,WQ1-termiskin; interval [24.1-36.7]
+THA,2001,U5MR,13.27,UN-IGME,WQ5-terkaya; interval [9.7-17.9]
+THA,2001,U5MR,28.91,UN-IGME,WQ1-termiskin; interval [23.0-35.1]
+THA,2001,U5MR,20.69,UN-IGME,nasional; interval [18.0-22.9]
+THA,2002,U5MR,27.65,UN-IGME,WQ1-termiskin; interval [21.9-33.6]
+THA,2002,U5MR,12.66,UN-IGME,WQ5-terkaya; interval [9.2-17.1]
+THA,2002,U5MR,19.74,UN-IGME,nasional; interval [17.1-21.9]
+THA,2003,U5MR,18.86,UN-IGME,nasional; interval [16.2-20.9]
+THA,2003,U5MR,26.47,UN-IGME,WQ1-termiskin; interval [20.9-32.1]
+THA,2003,U5MR,12.09,UN-IGME,WQ5-terkaya; interval [8.7-16.3]
+THA,2004,U5MR,25.32,UN-IGME,WQ1-termiskin; interval [20.0-30.8]
+THA,2004,U5MR,11.54,UN-IGME,WQ5-terkaya; interval [8.3-15.6]
+THA,2004,U5MR,18.02,UN-IGME,nasional; interval [15.5-20.0]
+THA,2005,U5MR,11.04,UN-IGME,WQ5-terkaya; interval [7.9-14.9]
+THA,2005,U5MR,24.28,UN-IGME,WQ1-termiskin; interval [19.0-29.6]
+THA,2005,U5MR,17.25,UN-IGME,nasional; interval [14.7-19.2]
+THA,2006,U5MR,10.59,UN-IGME,WQ5-terkaya; interval [7.6-14.3]
+THA,2006,U5MR,23.28,UN-IGME,WQ1-termiskin; interval [18.3-28.3]
+THA,2006,U5MR,16.52,UN-IGME,nasional; interval [14.1-18.4]
+THA,2007,U5MR,22.34,UN-IGME,WQ1-termiskin; interval [17.5-27.2]
+THA,2007,U5MR,10.15,UN-IGME,WQ5-terkaya; interval [7.3-13.7]
+THA,2007,U5MR,15.85,UN-IGME,nasional; interval [13.4-17.6]
+THA,2008,U5MR,21.49,UN-IGME,WQ1-termiskin; interval [16.8-26.1]
+THA,2008,U5MR,15.23,UN-IGME,nasional; interval [12.9-16.9]
+THA,2008,U5MR,9.76,UN-IGME,WQ5-terkaya; interval [7.0-13.2]
+THA,2009,U5MR,9.4,UN-IGME,WQ5-terkaya; interval [6.7-12.6]
+THA,2009,U5MR,20.71,UN-IGME,WQ1-termiskin; interval [16.1-25.1]
+THA,2009,U5MR,14.66,UN-IGME,nasional; interval [12.4-16.2]
+THA,2010,U5MR,9.06,UN-IGME,WQ5-terkaya; interval [6.4-12.2]
+THA,2010,U5MR,19.97,UN-IGME,WQ1-termiskin; interval [15.5-24.2]
+THA,2010,U5MR,14.12,UN-IGME,nasional; interval [11.9-15.6]
+THA,2011,U5MR,19.27,UN-IGME,WQ1-termiskin; interval [15.0-23.3]
+THA,2011,U5MR,8.74,UN-IGME,WQ5-terkaya; interval [6.2-11.8]
+THA,2011,U5MR,13.61,UN-IGME,nasional; interval [11.5-15.0]
+THA,2012,U5MR,8.44,UN-IGME,WQ5-terkaya; interval [6.0-11.4]
+THA,2012,U5MR,18.6,UN-IGME,WQ1-termiskin; interval [14.5-22.5]
+THA,2012,U5MR,13.14,UN-IGME,nasional; interval [11.1-14.4]
+THA,2013,U5MR,17.96,UN-IGME,WQ1-termiskin; interval [14.0-21.8]
+THA,2013,U5MR,12.69,UN-IGME,nasional; interval [10.8-14.0]
+THA,2013,U5MR,8.17,UN-IGME,WQ5-terkaya; interval [5.8-11.0]
+THA,2014,U5MR,12.27,UN-IGME,nasional; interval [10.5-13.5]
+THA,2014,U5MR,7.91,UN-IGME,WQ5-terkaya; interval [5.7-10.6]
+THA,2014,U5MR,17.38,UN-IGME,WQ1-termiskin; interval [13.6-21.0]
+THA,2015,U5MR,11.86,UN-IGME,nasional; interval [10.2-13.1]
+THA,2015,U5MR,16.8,UN-IGME,WQ1-termiskin; interval [13.2-20.4]
+THA,2015,U5MR,7.66,UN-IGME,WQ5-terkaya; interval [5.5-10.3]
+THA,2016,U5MR,16.25,UN-IGME,WQ1-termiskin; interval [12.8-19.7]
+THA,2016,U5MR,7.44,UN-IGME,WQ5-terkaya; interval [5.4-10.0]
+THA,2016,U5MR,11.48,UN-IGME,nasional; interval [10.0-12.7]
+THA,2017,U5MR,7.21,UN-IGME,WQ5-terkaya; interval [5.2-9.7]
+THA,2017,U5MR,15.72,UN-IGME,WQ1-termiskin; interval [12.5-19.2]
+THA,2017,U5MR,11.11,UN-IGME,nasional; interval [9.8-12.4]
+THA,2018,U5MR,10.76,UN-IGME,nasional; interval [9.6-12.2]
+THA,2018,U5MR,15.22,UN-IGME,WQ1-termiskin; interval [12.2-18.7]
+THA,2018,U5MR,6.98,UN-IGME,WQ5-terkaya; interval [5.1-9.5]
+THA,2019,U5MR,6.78,UN-IGME,WQ5-terkaya; interval [4.9-9.3]
+THA,2019,U5MR,14.72,UN-IGME,WQ1-termiskin; interval [11.8-18.2]
+THA,2019,U5MR,10.42,UN-IGME,nasional; interval [9.3-12.0]
+THA,2020,U5MR,10.09,UN-IGME,nasional; interval [9.1-11.8]
+THA,2020,U5MR,14.23,UN-IGME,WQ1-termiskin; interval [11.5-17.8]
+THA,2020,U5MR,6.56,UN-IGME,WQ5-terkaya; interval [4.8-9.1]
+THA,2021,U5MR,13.81,UN-IGME,WQ1-termiskin; interval [11.1-17.5]
+THA,2021,U5MR,9.79,UN-IGME,nasional; interval [8.9-11.7]
+THA,2021,U5MR,6.37,UN-IGME,WQ5-terkaya; interval [4.7-8.9]
+THA,2022,U5MR,6.18,UN-IGME,WQ5-terkaya; interval [4.5-8.8]
+THA,2022,U5MR,13.38,UN-IGME,WQ1-termiskin; interval [10.8-17.3]
+THA,2022,U5MR,9.5,UN-IGME,nasional; interval [8.6-11.6]
+THA,2023,U5MR,9.22,UN-IGME,nasional; interval [8.3-11.6]
+THA,2023,U5MR,12.99,UN-IGME,WQ1-termiskin; interval [10.4-17.0]
+THA,2023,U5MR,6.01,UN-IGME,WQ5-terkaya; interval [4.4-8.6]
+THA,2024,U5MR,8.96,UN-IGME,nasional; interval [7.9-11.5]
+THA,2024,U5MR,12.62,UN-IGME,WQ1-termiskin; interval [10.0-16.9]
+THA,2024,U5MR,5.85,UN-IGME,WQ5-terkaya; interval [4.2-8.5]
+VNM,2000,DTP3,96.0,WUENIC,
+VNM,2001,DTP3,96.0,WUENIC,
+VNM,2002,DTP3,75.0,WUENIC,
+VNM,2003,DTP3,99.0,WUENIC,
+VNM,2004,DTP3,96.0,WUENIC,
+VNM,2005,DTP3,95.0,WUENIC,
+VNM,2006,DTP3,94.0,WUENIC,
+VNM,2007,DTP3,92.0,WUENIC,
+VNM,2008,DTP3,93.0,WUENIC,
+VNM,2009,DTP3,96.0,WUENIC,
+VNM,2010,DTP3,93.0,WUENIC,
+VNM,2011,DTP3,95.0,WUENIC,
+VNM,2012,DTP3,97.0,WUENIC,
+VNM,2013,DTP3,59.0,WUENIC,
+VNM,2014,DTP3,95.0,WUENIC,
+VNM,2015,DTP3,97.0,WUENIC,
+VNM,2016,DTP3,96.0,WUENIC,
+VNM,2017,DTP3,94.0,WUENIC,
+VNM,2018,DTP3,75.0,WUENIC,
+VNM,2019,DTP3,89.0,WUENIC,
+VNM,2020,DTP3,94.0,WUENIC,
+VNM,2021,DTP3,83.0,WUENIC,
+VNM,2022,DTP3,91.0,WUENIC,
+VNM,2023,DTP3,65.0,WUENIC,
+VNM,2024,DTP3,97.0,WUENIC,
+VNM,2000,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2001,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2002,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2003,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2004,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2005,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2006,MCV2,0.0,WUENIC,usia rekomendasi lokal
+VNM,2007,MCV2,18.0,WUENIC,usia rekomendasi lokal
+VNM,2008,MCV2,97.0,WUENIC,usia rekomendasi lokal
+VNM,2009,MCV2,96.0,WUENIC,usia rekomendasi lokal
+VNM,2010,MCV2,98.0,WUENIC,usia rekomendasi lokal
+VNM,2011,MCV2,93.0,WUENIC,usia rekomendasi lokal
+VNM,2012,MCV2,83.0,WUENIC,usia rekomendasi lokal
+VNM,2013,MCV2,86.0,WUENIC,usia rekomendasi lokal
+VNM,2014,MCV2,94.0,WUENIC,usia rekomendasi lokal
+VNM,2015,MCV2,92.0,WUENIC,usia rekomendasi lokal
+VNM,2016,MCV2,95.0,WUENIC,usia rekomendasi lokal
+VNM,2017,MCV2,93.0,WUENIC,usia rekomendasi lokal
+VNM,2018,MCV2,90.0,WUENIC,usia rekomendasi lokal
+VNM,2019,MCV2,92.0,WUENIC,usia rekomendasi lokal
+VNM,2020,MCV2,93.0,WUENIC,usia rekomendasi lokal
+VNM,2021,MCV2,85.0,WUENIC,usia rekomendasi lokal
+VNM,2022,MCV2,81.0,WUENIC,usia rekomendasi lokal
+VNM,2023,MCV2,86.0,WUENIC,usia rekomendasi lokal
+VNM,2024,MCV2,95.0,WUENIC,usia rekomendasi lokal
+VNM,2000,U5MR,17.72,UN-IGME,WQ5-terkaya; interval [13.4-22.9]
+VNM,2000,U5MR,47.36,UN-IGME,WQ1-termiskin; interval [38.3-57.0]
+VNM,2000,U5MR,30.28,UN-IGME,nasional; interval [25.5-34.8]
+VNM,2001,U5MR,45.49,UN-IGME,WQ1-termiskin; interval [36.6-55.0]
+VNM,2001,U5MR,17.0,UN-IGME,WQ5-terkaya; interval [12.8-22.1]
+VNM,2001,U5MR,29.01,UN-IGME,nasional; interval [24.2-33.5]
+VNM,2002,U5MR,43.89,UN-IGME,WQ1-termiskin; interval [35.1-53.1]
+VNM,2002,U5MR,27.9,UN-IGME,nasional; interval [23.2-32.3]
+VNM,2002,U5MR,16.35,UN-IGME,WQ5-terkaya; interval [12.2-21.2]
+VNM,2003,U5MR,15.8,UN-IGME,WQ5-terkaya; interval [11.8-20.5]
+VNM,2003,U5MR,42.5,UN-IGME,WQ1-termiskin; interval [33.8-51.3]
+VNM,2003,U5MR,26.92,UN-IGME,nasional; interval [22.3-31.1]
+VNM,2004,U5MR,41.3,UN-IGME,WQ1-termiskin; interval [33.1-49.9]
+VNM,2004,U5MR,26.09,UN-IGME,nasional; interval [21.7-30.1]
+VNM,2004,U5MR,15.32,UN-IGME,WQ5-terkaya; interval [11.5-19.8]
+VNM,2005,U5MR,14.9,UN-IGME,WQ5-terkaya; interval [11.2-19.3]
+VNM,2005,U5MR,25.37,UN-IGME,nasional; interval [21.3-29.1]
+VNM,2005,U5MR,40.32,UN-IGME,WQ1-termiskin; interval [32.4-48.4]
+VNM,2006,U5MR,24.78,UN-IGME,nasional; interval [21.0-28.1]
+VNM,2006,U5MR,39.41,UN-IGME,WQ1-termiskin; interval [32.0-47.1]
+VNM,2006,U5MR,14.56,UN-IGME,WQ5-terkaya; interval [11.0-18.8]
+VNM,2007,U5MR,14.3,UN-IGME,WQ5-terkaya; interval [10.9-18.4]
+VNM,2007,U5MR,24.28,UN-IGME,nasional; interval [20.9-27.3]
+VNM,2007,U5MR,38.67,UN-IGME,WQ1-termiskin; interval [31.8-45.8]
+VNM,2008,U5MR,23.83,UN-IGME,nasional; interval [20.9-26.6]
+VNM,2008,U5MR,37.98,UN-IGME,WQ1-termiskin; interval [31.6-44.7]
+VNM,2008,U5MR,14.01,UN-IGME,WQ5-terkaya; interval [10.8-17.9]
+VNM,2009,U5MR,23.45,UN-IGME,nasional; interval [21.0-25.9]
+VNM,2009,U5MR,13.82,UN-IGME,WQ5-terkaya; interval [10.7-17.6]
+VNM,2009,U5MR,37.48,UN-IGME,WQ1-termiskin; interval [31.6-43.9]
+VNM,2010,U5MR,13.63,UN-IGME,WQ5-terkaya; interval [10.6-17.3]
+VNM,2010,U5MR,36.98,UN-IGME,WQ1-termiskin; interval [31.4-43.0]
+VNM,2010,U5MR,23.11,UN-IGME,nasional; interval [21.0-25.2]
+VNM,2011,U5MR,36.47,UN-IGME,WQ1-termiskin; interval [31.2-42.3]
+VNM,2011,U5MR,22.81,UN-IGME,nasional; interval [21.1-24.6]
+VNM,2011,U5MR,13.46,UN-IGME,WQ5-terkaya; interval [10.6-17.0]
+VNM,2012,U5MR,22.55,UN-IGME,nasional; interval [21.1-24.1]
+VNM,2012,U5MR,36.07,UN-IGME,WQ1-termiskin; interval [30.9-41.7]
+VNM,2012,U5MR,13.32,UN-IGME,WQ5-terkaya; interval [10.5-16.8]
+VNM,2013,U5MR,22.25,UN-IGME,nasional; interval [20.9-23.6]
+VNM,2013,U5MR,13.14,UN-IGME,WQ5-terkaya; interval [10.4-16.6]
+VNM,2013,U5MR,35.57,UN-IGME,WQ1-termiskin; interval [30.6-41.1]
+VNM,2014,U5MR,13.0,UN-IGME,WQ5-terkaya; interval [10.2-16.5]
+VNM,2014,U5MR,35.09,UN-IGME,WQ1-termiskin; interval [30.1-40.5]
+VNM,2014,U5MR,21.95,UN-IGME,nasional; interval [20.7-23.3]
+VNM,2015,U5MR,12.81,UN-IGME,WQ5-terkaya; interval [10.0-16.2]
+VNM,2015,U5MR,34.6,UN-IGME,WQ1-termiskin; interval [29.8-39.9]
+VNM,2015,U5MR,21.64,UN-IGME,nasional; interval [20.4-23.0]
+VNM,2016,U5MR,34.07,UN-IGME,WQ1-termiskin; interval [29.2-39.3]
+VNM,2016,U5MR,12.61,UN-IGME,WQ5-terkaya; interval [9.8-16.0]
+VNM,2016,U5MR,21.29,UN-IGME,nasional; interval [20.1-22.6]
+VNM,2017,U5MR,33.4,UN-IGME,WQ1-termiskin; interval [28.6-38.6]
+VNM,2017,U5MR,20.89,UN-IGME,nasional; interval [19.7-22.3]
+VNM,2017,U5MR,12.38,UN-IGME,WQ5-terkaya; interval [9.6-15.7]
+VNM,2018,U5MR,32.66,UN-IGME,WQ1-termiskin; interval [28.0-37.7]
+VNM,2018,U5MR,12.18,UN-IGME,WQ5-terkaya; interval [9.4-15.5]
+VNM,2018,U5MR,20.47,UN-IGME,nasional; interval [19.2-21.9]
+VNM,2019,U5MR,11.93,UN-IGME,WQ5-terkaya; interval [9.2-15.2]
+VNM,2019,U5MR,20.01,UN-IGME,nasional; interval [18.8-21.4]
+VNM,2019,U5MR,31.82,UN-IGME,WQ1-termiskin; interval [27.2-36.9]
+VNM,2020,U5MR,11.62,UN-IGME,WQ5-terkaya; interval [9.0-14.9]
+VNM,2020,U5MR,19.49,UN-IGME,nasional; interval [18.2-20.9]
+VNM,2020,U5MR,30.92,UN-IGME,WQ1-termiskin; interval [26.3-35.9]
+VNM,2021,U5MR,18.94,UN-IGME,nasional; interval [17.6-20.5]
+VNM,2021,U5MR,11.31,UN-IGME,WQ5-terkaya; interval [8.7-14.5]
+VNM,2021,U5MR,30.0,UN-IGME,WQ1-termiskin; interval [25.5-35.0]
+VNM,2022,U5MR,18.38,UN-IGME,nasional; interval [16.9-20.1]
+VNM,2022,U5MR,11.0,UN-IGME,WQ5-terkaya; interval [8.4-14.2]
+VNM,2022,U5MR,29.02,UN-IGME,WQ1-termiskin; interval [24.4-34.0]
+VNM,2023,U5MR,10.66,UN-IGME,WQ5-terkaya; interval [8.1-13.9]
+VNM,2023,U5MR,28.06,UN-IGME,WQ1-termiskin; interval [23.3-33.4]
+VNM,2023,U5MR,17.83,UN-IGME,nasional; interval [16.1-19.9]
+VNM,2024,U5MR,27.11,UN-IGME,WQ1-termiskin; interval [22.2-32.9]
+VNM,2024,U5MR,17.27,UN-IGME,nasional; interval [15.2-19.7]
+VNM,2024,U5MR,10.37,UN-IGME,WQ5-terkaya; interval [7.8-13.7]

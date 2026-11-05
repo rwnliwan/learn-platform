@@ -1,0 +1,40 @@
+{
+  "doc_id": "kebijakan_refund_v4",
+  "updated_at": "2026-10-10T14:00:00+08:00",
+  "version_history": [
+    {
+      "version": "v3",
+      "updated_at": "2026-09-28T10:00:00+08:00",
+      "max_per_incident_rupiah": 500000
+    },
+    {
+      "version": "v4",
+      "updated_at": "2026-10-10T14:00:00+08:00",
+      "max_per_incident_rupiah": 5000000,
+      "perubahan": "Batas maksimal per insiden naik Rp500.000 -> Rp5.000.000"
+    }
+  ],
+  "rules": [
+    {
+      "kondisi": "rusak dalam pengiriman",
+      "rate": 1.0,
+      "maks_rupiah": 5000000
+    },
+    {
+      "kondisi": "hilang dalam pengiriman",
+      "rate": 1.0,
+      "maks_rupiah": 5000000
+    },
+    {
+      "kondisi": "cacat produksi",
+      "rate": 1.0,
+      "maks_rupiah": 5000000
+    },
+    {
+      "kondisi": "berubah pikiran <= 14 hari",
+      "rate": 0.9,
+      "maks_rupiah": 2000000
+    }
+  ],
+  "contoh": "Order Rp4.750.000 rusak dalam pengiriman -> refund = min(4.750.000 x 1,0; 5.000.000) = Rp4.750.000"
+}

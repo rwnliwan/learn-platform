@@ -1,0 +1,7 @@
+aset,aset_label,kelompok,bobot_pct,derivatif_notional_pct,budget_risiko_pct
+saham_as,Saham AS,ekuitas,12.0,25.0,20.0
+saham_eropa,Saham Eropa,ekuitas,14.0,0.0,15.0
+obligasi,Obligasi Pemerintah,obligasi,28.0,0.0,15.0
+kredit_ig,Kredit Investment Grade,kredit,16.0,0.0,14.0
+kredit_hy,Kredit High Yield,kredit,14.0,10.0,15.0
+reit,REIT Global,ekuitas,16.0,0.0,21.0

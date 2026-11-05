@@ -1,0 +1,27 @@
+   ▲ Next.js 15.5.2
+   - Local:        http://localhost:3444
+   - Network:      http://198.19.0.2:3444
+
+ ✓ Starting...
+ ✓ Ready in 7.5s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1171ms (114 modules)
+ ○ Compiling /v2/lab-demo ...
+ ✓ Compiled /v2/lab-demo in 6.2s (573 modules)
+ GET /v2/lab-demo 200 in 580ms
+ GET /v2/lab-demo 200 in 417ms
+ GET /v2/lab-demo 200 in 663ms
+ GET /v2/lab-demo 200 in 335ms
+ GET /v2/lab-demo 200 in 376ms
+ GET /v2/lab-demo 200 in 473ms
+ GET /v2/lab-demo 200 in 749ms
+ GET /v2/lab-demo 200 in 1531ms
+ GET /v2/lab-demo 200 in 966ms
+ GET /v2/lab-demo 200 in 507ms
+ GET /v2/lab-demo 200 in 511ms
+ GET /v2/lab-demo 200 in 362ms
+ GET /v2/lab-demo 200 in 222ms
+ ✓ Compiled in 2.3s (687 modules)
+ GET /v2/lab-demo 200 in 1828ms
+ GET /v2/lab-demo 200 in 1164ms
+[?25h

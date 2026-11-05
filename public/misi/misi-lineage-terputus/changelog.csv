@@ -1,0 +1,5 @@
+tanggal,versi,perubahan,dicatat_oleh
+2026-08-01,v1.3,kolom status ditambahkan,tim_upstream
+2026-09-02,v2.0,kolom customer_segment ditambahkan,lead_upstream
+2026-09-02,v2.0,kolom promo_code ditambahkan,lead_upstream
+2026-09-02,v2.0,tipe kolom amount: DECIMAL menjadi VARCHAR,lead_upstream

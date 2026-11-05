@@ -1,0 +1,5 @@
+channel,koefisien_logit,kenaikan_peluang_pp
+display,0.9,9.21
+social,0.5,4.33
+email,0.7,6.6
+search,0.1,0.73

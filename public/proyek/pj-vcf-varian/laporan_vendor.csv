@@ -1,0 +1,14 @@
+ID,gen,klasifikasi_vendor,keyakinan,catatan
+var_0030,ATP7B,VUS,95%,sesuai referensi
+var_0042,G6PD,Patogenik,99%,sesuai referensi
+var_0062,LDLR,VUS,95%,sesuai referensi
+var_0083,LDLR,VUS,95%,sesuai referensi
+var_0140,ATP7B,VUS,95%,sesuai referensi
+var_0159,BRCA1,VUS,95%,sesuai referensi
+var_0177,HBB,VUS,95%,di bawah ambang keyakinan model
+var_0294,CFTR,VUS,95%,sesuai referensi
+var_0331,CFTR,Patogenik,99%,sesuai referensi
+var_0379,LDLR,VUS,95%,sesuai referensi
+var_0397,HBB,VUS,95%,sesuai referensi
+var_0108,TP53,Patogenik,99%,model AI prediktif — mengabaikan frekuensi populasi
+var_0256,CFTR,Patogenik,99%,model AI prediktif — mengabaikan frekuensi populasi

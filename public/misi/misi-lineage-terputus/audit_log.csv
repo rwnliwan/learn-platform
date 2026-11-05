@@ -1,0 +1,8 @@
+waktu,aktor,aksi,detail
+2026-09-02 03:12,deploy_bot,RENAME COLUMN customer_id TO cust_id,otomatis - tanpa entri changelog
+2026-09-02 03:13,deploy_bot,ALTER COLUMN amount TYPE VARCHAR,format baru: '1.250.000'
+2026-09-02 03:14,deploy_bot,ADD COLUMN customer_segment,segmen hasil model ML
+2026-09-02 03:15,deploy_bot,deskripsi trx_date diubah,'tanggal settlement' menjadi 'tanggal input operator'
+2026-09-05 09:00,analis_rina,tiket 4812: pendapatan harian turun 55 persen,diduga data hilang
+2026-09-06 10:30,lead_upstream,klaim: tidak ada perubahan breaking,changelog v2.0 diklaim lengkap
+2026-09-07 08:00,data_engineer,investigasi dimulai,misi lineage dibuka

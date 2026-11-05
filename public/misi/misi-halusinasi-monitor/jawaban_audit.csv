@@ -1,0 +1,501 @@
+id,pertanyaan,kategori,jawaban,sitasi,skor_grounding,didukung,sitasi_tepat
+J-0001,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-070,1.0,1,1
+J-0002,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-148,0.907,1,1
+J-0003,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-118,0.946,1,1
+J-0004,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-095,0.895,1,1
+J-0005,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-023,0.886,1,1
+J-0006,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-114,0.211,0,0
+J-0007,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-035,0.934,1,1
+J-0008,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-063,0.832,1,1
+J-0009,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-083,0.953,1,1
+J-0010,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-029,0.987,1,1
+J-0011,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-078,0.929,1,1
+J-0012,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-054,0.595,0,0
+J-0013,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-170,0.936,1,1
+J-0014,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-172,0.875,1,1
+J-0015,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-001,0.975,1,1
+J-0016,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-120,0.753,1,1
+J-0017,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-128,0.873,1,1
+J-0018,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-076,0.741,1,1
+J-0019,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-094,0.78,1,1
+J-0020,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-158,1.0,1,1
+J-0021,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-076,0.972,1,1
+J-0022,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-013,0.842,1,1
+J-0023,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-075,0.456,0,0
+J-0024,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-051,0.663,1,1
+J-0025,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-077,0.857,1,1
+J-0026,Berapa batas rate API per menit?,teknis,600 request per API key.,P-046,1.0,1,1
+J-0027,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-030,0.935,1,1
+J-0028,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-197,0.855,1,1
+J-0029,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-026,0.937,1,1
+J-0030,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-141,0.775,1,1
+J-0031,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-143,0.876,1,1
+J-0032,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-123,0.32,0,0
+J-0033,Berapa batas rate API per menit?,teknis,600 request per API key.,P-182,0.893,1,1
+J-0034,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-001,0.963,1,1
+J-0035,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-061,0.928,1,1
+J-0036,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-037,0.953,1,1
+J-0037,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-115,0.845,1,1
+J-0038,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-127,0.972,1,1
+J-0039,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-179,1.0,1,1
+J-0040,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-076,0.822,1,0
+J-0041,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-047,0.829,1,1
+J-0042,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-184,1.0,1,1
+J-0043,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-134,0.885,1,1
+J-0044,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-153,1.0,1,1
+J-0045,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-089,0.865,1,1
+J-0046,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-090,1.0,1,1
+J-0047,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-078,0.911,1,1
+J-0048,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-150,0.921,1,1
+J-0049,Berapa batas rate API per menit?,teknis,600 request per API key.,P-042,1.0,1,1
+J-0050,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-195,0.871,1,1
+J-0051,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-036,0.825,1,1
+J-0052,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-092,0.864,1,1
+J-0053,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-063,0.936,1,1
+J-0054,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-128,0.775,1,1
+J-0055,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-136,0.951,1,1
+J-0056,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-183,0.857,1,1
+J-0057,Berapa batas rate API per menit?,teknis,600 request per API key.,P-158,0.992,1,1
+J-0058,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-050,0.708,1,0
+J-0059,Berapa batas rate API per menit?,teknis,600 request per API key.,P-042,0.837,1,1
+J-0060,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-177,0.765,1,1
+J-0061,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-098,0.834,1,1
+J-0062,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-020,0.92,1,1
+J-0063,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-165,0.886,1,1
+J-0064,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-130,0.88,1,1
+J-0065,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-006,0.887,1,1
+J-0066,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-156,0.916,1,1
+J-0067,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-121,0.819,1,1
+J-0068,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-123,0.957,1,1
+J-0069,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-173,0.953,1,1
+J-0070,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-099,0.931,1,1
+J-0071,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-092,0.945,1,1
+J-0072,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-123,0.924,1,0
+J-0073,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-040,1.0,1,1
+J-0074,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-031,0.893,1,1
+J-0075,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-168,0.875,1,1
+J-0076,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-043,0.84,1,1
+J-0077,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-101,0.817,1,1
+J-0078,Berapa batas rate API per menit?,teknis,600 request per API key.,P-054,0.8,1,1
+J-0079,Berapa batas rate API per menit?,teknis,600 request per API key.,P-046,0.829,1,1
+J-0080,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-119,0.894,1,1
+J-0081,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-160,0.927,1,1
+J-0082,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-088,0.904,1,1
+J-0083,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-028,0.839,1,1
+J-0084,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-049,0.972,1,1
+J-0085,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-033,0.959,1,1
+J-0086,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-176,0.887,1,0
+J-0087,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-064,0.848,1,1
+J-0088,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-075,0.944,1,1
+J-0089,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-015,0.915,1,1
+J-0090,Berapa batas rate API per menit?,teknis,600 request per API key.,P-089,0.784,1,1
+J-0091,Berapa batas rate API per menit?,teknis,600 request per API key.,P-182,0.895,1,1
+J-0092,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-082,0.921,1,1
+J-0093,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-130,0.828,1,1
+J-0094,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-037,0.915,1,1
+J-0095,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-029,0.784,1,1
+J-0096,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-146,1.0,1,1
+J-0097,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-014,1.0,1,1
+J-0098,Berapa batas rate API per menit?,teknis,600 request per API key.,P-090,0.88,1,0
+J-0099,Berapa batas rate API per menit?,teknis,600 request per API key.,P-064,0.929,1,1
+J-0100,Berapa batas rate API per menit?,teknis,600 request per API key.,P-004,0.409,0,1
+J-0101,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-106,0.807,1,1
+J-0102,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-192,0.876,1,1
+J-0103,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-014,0.814,1,1
+J-0104,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-163,0.393,0,0
+J-0105,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-108,1.0,1,1
+J-0106,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-144,0.806,1,1
+J-0107,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-020,0.833,1,1
+J-0108,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-173,0.919,1,1
+J-0109,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-003,1.0,1,1
+J-0110,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-181,0.802,1,1
+J-0111,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-131,0.92,1,1
+J-0112,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-068,1.0,1,1
+J-0113,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-002,0.768,1,1
+J-0114,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-122,0.798,1,0
+J-0115,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-018,0.866,1,1
+J-0116,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-122,0.858,1,1
+J-0117,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-154,0.965,1,1
+J-0118,Berapa batas rate API per menit?,teknis,600 request per API key.,P-054,0.919,1,1
+J-0119,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-048,0.758,1,1
+J-0120,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-045,0.941,1,1
+J-0121,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-045,0.854,1,1
+J-0122,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-023,1.0,1,1
+J-0123,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-050,0.85,1,1
+J-0124,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-132,0.849,1,1
+J-0125,Berapa batas rate API per menit?,teknis,600 request per API key.,P-061,0.943,1,1
+J-0126,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-156,0.961,1,1
+J-0127,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-164,0.936,1,1
+J-0128,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-152,0.765,1,1
+J-0129,Berapa batas rate API per menit?,teknis,600 request per API key.,P-108,0.943,1,1
+J-0130,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-063,0.817,1,1
+J-0131,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-186,0.919,1,1
+J-0132,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-041,0.242,0,0
+J-0133,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-093,0.936,1,1
+J-0134,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-091,0.835,1,0
+J-0135,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-149,0.797,1,1
+J-0136,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-109,0.957,1,1
+J-0137,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-160,0.337,0,1
+J-0138,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-183,0.851,1,1
+J-0139,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-078,1.0,1,1
+J-0140,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-175,0.865,1,1
+J-0141,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-034,0.903,1,1
+J-0142,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-183,0.922,1,1
+J-0143,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-036,0.352,0,0
+J-0144,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-170,0.938,1,1
+J-0145,Berapa batas rate API per menit?,teknis,600 request per API key.,P-078,0.857,1,1
+J-0146,Berapa batas rate API per menit?,teknis,600 request per API key.,P-192,0.867,1,1
+J-0147,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-026,1.0,1,1
+J-0148,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-093,0.817,1,1
+J-0149,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-180,0.707,1,1
+J-0150,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-010,1.0,1,1
+J-0151,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-053,1.0,1,1
+J-0152,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-017,0.868,1,1
+J-0153,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-064,0.745,1,1
+J-0154,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-078,0.875,1,1
+J-0155,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-124,0.877,1,1
+J-0156,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-052,0.885,1,1
+J-0157,Berapa batas rate API per menit?,teknis,600 request per API key.,P-032,0.811,1,1
+J-0158,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-034,0.946,1,1
+J-0159,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-187,0.942,1,1
+J-0160,Berapa batas rate API per menit?,teknis,600 request per API key.,P-190,0.78,1,1
+J-0161,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-045,0.956,1,1
+J-0162,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-039,0.14,0,0
+J-0163,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-011,0.914,1,1
+J-0164,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-191,0.873,1,1
+J-0165,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-141,0.889,1,1
+J-0166,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-152,0.949,1,1
+J-0167,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-058,0.762,1,1
+J-0168,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-128,0.913,1,1
+J-0169,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-012,0.869,1,1
+J-0170,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-135,0.402,0,1
+J-0171,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-116,0.886,1,1
+J-0172,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-066,1.0,1,1
+J-0173,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-142,0.812,1,1
+J-0174,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-129,0.464,0,0
+J-0175,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-088,0.926,1,1
+J-0176,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-038,0.83,1,1
+J-0177,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-005,0.914,1,1
+J-0178,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-187,0.086,0,1
+J-0179,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-056,0.874,1,1
+J-0180,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-061,0.765,1,1
+J-0181,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-136,0.899,1,0
+J-0182,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-051,0.828,1,1
+J-0183,Berapa batas rate API per menit?,teknis,600 request per API key.,P-075,0.873,1,1
+J-0184,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-142,0.893,1,1
+J-0185,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-119,0.764,1,0
+J-0186,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-131,0.771,1,1
+J-0187,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-001,0.939,1,1
+J-0188,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-090,0.858,1,1
+J-0189,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-095,0.695,1,1
+J-0190,Berapa batas rate API per menit?,teknis,600 request per API key.,P-126,0.963,1,1
+J-0191,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-031,0.151,0,0
+J-0192,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-032,0.843,1,0
+J-0193,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-152,0.795,1,1
+J-0194,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-134,0.967,1,1
+J-0195,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-162,0.928,1,1
+J-0196,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-054,1.0,1,1
+J-0197,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-199,0.934,1,1
+J-0198,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-055,0.931,1,1
+J-0199,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-130,0.887,1,1
+J-0200,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-033,0.965,1,1
+J-0201,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-183,0.95,1,1
+J-0202,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-067,0.284,0,0
+J-0203,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-160,0.858,1,1
+J-0204,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-066,0.865,1,1
+J-0205,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-158,0.862,1,1
+J-0206,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-091,0.963,1,1
+J-0207,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-013,1.0,1,1
+J-0208,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-038,0.863,1,1
+J-0209,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-137,0.866,1,1
+J-0210,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-039,0.925,1,0
+J-0211,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-055,0.88,1,1
+J-0212,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-108,0.976,1,1
+J-0213,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-051,0.72,1,1
+J-0214,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-026,0.834,1,1
+J-0215,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-125,0.837,1,1
+J-0216,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-138,0.714,1,1
+J-0217,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-146,0.823,1,1
+J-0218,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-188,0.827,1,1
+J-0219,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-025,0.253,0,0
+J-0220,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-085,0.989,1,1
+J-0221,Berapa batas rate API per menit?,teknis,600 request per API key.,P-047,0.88,1,1
+J-0222,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-180,0.818,1,1
+J-0223,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-108,0.895,1,0
+J-0224,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-020,0.302,0,0
+J-0225,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-138,0.822,1,1
+J-0226,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-009,0.295,0,1
+J-0227,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-055,0.945,1,1
+J-0228,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-144,0.882,1,1
+J-0229,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-101,0.952,1,1
+J-0230,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-152,0.899,1,1
+J-0231,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-114,0.956,1,1
+J-0232,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-168,0.817,1,1
+J-0233,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-112,0.294,0,0
+J-0234,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-012,0.883,1,1
+J-0235,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-015,0.215,0,0
+J-0236,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-155,0.775,1,1
+J-0237,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-008,0.955,1,0
+J-0238,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-075,0.872,1,1
+J-0239,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-004,0.818,1,1
+J-0240,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-061,0.892,1,1
+J-0241,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-119,0.99,1,1
+J-0242,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-035,0.718,1,1
+J-0243,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-093,0.78,1,1
+J-0244,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-199,0.826,1,1
+J-0245,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-015,1.0,1,1
+J-0246,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-013,0.923,1,0
+J-0247,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-054,0.961,1,1
+J-0248,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-165,0.809,1,1
+J-0249,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-081,0.81,1,1
+J-0250,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-128,0.936,1,1
+J-0251,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-007,0.905,1,1
+J-0252,Berapa batas rate API per menit?,teknis,600 request per API key.,P-147,0.944,1,1
+J-0253,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-014,0.885,1,1
+J-0254,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-142,0.922,1,1
+J-0255,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-030,0.913,1,1
+J-0256,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-171,0.962,1,1
+J-0257,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-059,0.965,1,1
+J-0258,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-037,0.77,1,1
+J-0259,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-068,0.72,1,1
+J-0260,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-001,0.98,1,1
+J-0261,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-033,0.995,1,1
+J-0262,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-120,0.818,1,1
+J-0263,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-060,0.751,1,1
+J-0264,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-071,0.908,1,1
+J-0265,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-161,0.388,0,1
+J-0266,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-025,1.0,1,1
+J-0267,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-079,0.941,1,1
+J-0268,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-038,0.87,1,1
+J-0269,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-097,0.829,1,1
+J-0270,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-067,0.901,1,1
+J-0271,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-010,0.876,1,1
+J-0272,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-014,0.819,1,1
+J-0273,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-170,1.0,1,1
+J-0274,Berapa batas rate API per menit?,teknis,600 request per API key.,P-012,1.0,1,1
+J-0275,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-156,0.991,1,1
+J-0276,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-183,0.826,1,1
+J-0277,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-093,0.968,1,1
+J-0278,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-063,0.951,1,1
+J-0279,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-155,0.935,1,1
+J-0280,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-196,1.0,1,1
+J-0281,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-024,0.951,1,1
+J-0282,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-192,0.959,1,1
+J-0283,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-188,0.951,1,1
+J-0284,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-029,0.927,1,1
+J-0285,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-011,0.757,1,1
+J-0286,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-143,0.907,1,1
+J-0287,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-016,0.856,1,1
+J-0288,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-120,0.798,1,1
+J-0289,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-013,1.0,1,1
+J-0290,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-138,1.0,1,1
+J-0291,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-047,1.0,1,1
+J-0292,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-020,0.92,1,1
+J-0293,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-014,0.425,0,1
+J-0294,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-038,0.901,1,1
+J-0295,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-108,0.916,1,1
+J-0296,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-016,0.813,1,1
+J-0297,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-160,0.574,0,0
+J-0298,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-121,0.905,1,1
+J-0299,Berapa batas rate API per menit?,teknis,600 request per API key.,P-060,0.796,1,1
+J-0300,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-197,0.896,1,1
+J-0301,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-132,0.894,1,1
+J-0302,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-134,1.0,1,1
+J-0303,Berapa batas rate API per menit?,teknis,600 request per API key.,P-035,0.972,1,1
+J-0304,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-142,0.901,1,1
+J-0305,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-112,0.92,1,1
+J-0306,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-196,0.904,1,1
+J-0307,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-096,0.884,1,1
+J-0308,Berapa batas rate API per menit?,teknis,600 request per API key.,P-135,0.813,1,1
+J-0309,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-068,0.888,1,1
+J-0310,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-008,0.84,1,1
+J-0311,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-026,0.8,1,0
+J-0312,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-173,0.941,1,1
+J-0313,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-147,0.931,1,1
+J-0314,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-073,0.757,1,1
+J-0315,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-139,0.89,1,1
+J-0316,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-001,0.98,1,1
+J-0317,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-008,0.985,1,1
+J-0318,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-101,0.982,1,1
+J-0319,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-125,0.903,1,1
+J-0320,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-187,0.386,0,1
+J-0321,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-152,0.13,0,1
+J-0322,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-052,0.928,1,1
+J-0323,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-163,0.93,1,0
+J-0324,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-098,1.0,1,1
+J-0325,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-165,0.988,1,1
+J-0326,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-035,0.889,1,1
+J-0327,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-006,0.8,1,1
+J-0328,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-012,0.874,1,1
+J-0329,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-198,0.917,1,1
+J-0330,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-017,0.884,1,1
+J-0331,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-187,0.854,1,1
+J-0332,Berapa batas rate API per menit?,teknis,600 request per API key.,P-145,0.92,1,1
+J-0333,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-030,0.86,1,1
+J-0334,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-172,0.85,1,1
+J-0335,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-029,0.925,1,0
+J-0336,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-029,0.868,1,1
+J-0337,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-115,0.92,1,1
+J-0338,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-058,0.922,1,1
+J-0339,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-058,0.809,1,1
+J-0340,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-039,0.289,0,0
+J-0341,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-121,1.0,1,0
+J-0342,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-006,0.377,0,0
+J-0343,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-049,0.731,1,1
+J-0344,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-111,0.751,1,1
+J-0345,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-097,0.902,1,1
+J-0346,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-140,0.902,1,1
+J-0347,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-044,0.189,0,0
+J-0348,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-129,0.997,1,1
+J-0349,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-152,0.686,1,1
+J-0350,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-078,0.932,1,1
+J-0351,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-052,1.0,1,1
+J-0352,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-111,0.81,1,0
+J-0353,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-116,0.87,1,0
+J-0354,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-019,0.84,1,1
+J-0355,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-113,0.828,1,1
+J-0356,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-031,0.874,1,1
+J-0357,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-114,1.0,1,1
+J-0358,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-186,1.0,1,1
+J-0359,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-107,0.873,1,1
+J-0360,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-152,1.0,1,1
+J-0361,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-062,0.431,0,1
+J-0362,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-184,1.0,1,1
+J-0363,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-162,0.893,1,1
+J-0364,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-183,0.91,1,1
+J-0365,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-148,0.929,1,1
+J-0366,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-130,1.0,1,1
+J-0367,Berapa batas rate API per menit?,teknis,600 request per API key.,P-105,0.968,1,1
+J-0368,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-185,0.843,1,1
+J-0369,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-169,0.978,1,1
+J-0370,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-083,0.871,1,1
+J-0371,Berapa batas rate API per menit?,teknis,600 request per API key.,P-018,0.861,1,1
+J-0372,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-001,0.973,1,1
+J-0373,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-047,0.902,1,1
+J-0374,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-013,0.922,1,1
+J-0375,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-043,0.901,1,1
+J-0376,Berapa batas rate API per menit?,teknis,600 request per API key.,P-022,0.927,1,1
+J-0377,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-196,0.319,0,1
+J-0378,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-019,0.745,1,1
+J-0379,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-125,0.953,1,1
+J-0380,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-070,0.821,1,1
+J-0381,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-035,0.785,1,1
+J-0382,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-140,0.172,0,0
+J-0383,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-194,0.907,1,1
+J-0384,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-158,0.845,1,1
+J-0385,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-195,0.966,1,1
+J-0386,Berapa batas rate API per menit?,teknis,600 request per API key.,P-118,0.245,0,0
+J-0387,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-135,0.867,1,1
+J-0388,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-030,0.529,0,0
+J-0389,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-170,0.896,1,1
+J-0390,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-149,0.922,1,1
+J-0391,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-051,0.819,1,1
+J-0392,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-071,0.958,1,1
+J-0393,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-122,0.905,1,1
+J-0394,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-003,0.749,1,1
+J-0395,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-163,0.743,1,1
+J-0396,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-056,0.899,1,1
+J-0397,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-015,0.882,1,1
+J-0398,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-066,0.892,1,1
+J-0399,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-167,0.898,1,0
+J-0400,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-055,0.918,1,1
+J-0401,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-108,0.976,1,1
+J-0402,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-162,0.342,0,0
+J-0403,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-007,0.806,1,1
+J-0404,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-152,0.813,1,1
+J-0405,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-058,0.391,0,0
+J-0406,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-139,1.0,1,1
+J-0407,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-038,0.865,1,1
+J-0408,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-028,0.7,1,1
+J-0409,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-157,0.764,1,1
+J-0410,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-161,0.299,0,0
+J-0411,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-196,0.855,1,1
+J-0412,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-135,0.867,1,1
+J-0413,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-093,0.903,1,1
+J-0414,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-039,0.875,1,1
+J-0415,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-059,0.984,1,1
+J-0416,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-129,0.846,1,1
+J-0417,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-069,0.831,1,1
+J-0418,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-097,0.938,1,1
+J-0419,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-034,0.777,1,1
+J-0420,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-088,0.522,0,0
+J-0421,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-048,0.908,1,1
+J-0422,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-023,0.888,1,1
+J-0423,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-027,1.0,1,1
+J-0424,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-104,0.85,1,1
+J-0425,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-073,1.0,1,1
+J-0426,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-020,0.882,1,1
+J-0427,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-103,0.798,1,1
+J-0428,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-033,0.906,1,1
+J-0429,Berapa batas rate API per menit?,teknis,600 request per API key.,P-004,0.814,1,1
+J-0430,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-027,0.84,1,0
+J-0431,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-090,0.648,0,0
+J-0432,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-190,0.944,1,1
+J-0433,Berapa batas rate API per menit?,teknis,600 request per API key.,P-049,0.85,1,0
+J-0434,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-057,0.979,1,1
+J-0435,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-049,0.993,1,0
+J-0436,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-071,1.0,1,1
+J-0437,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-143,0.942,1,1
+J-0438,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-065,1.0,1,1
+J-0439,Berapa batas rate API per menit?,teknis,600 request per API key.,P-131,0.75,1,1
+J-0440,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-179,0.875,1,1
+J-0441,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-189,0.831,1,1
+J-0442,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-113,0.91,1,1
+J-0443,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-142,0.854,1,1
+J-0444,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-183,0.887,1,1
+J-0445,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-157,1.0,1,1
+J-0446,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-060,0.886,1,1
+J-0447,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-027,0.491,0,0
+J-0448,Di mana syarat layanan versi terbaru disimpan?,dokumen,Di repositori dokumen internal v3.2.,P-023,0.881,1,1
+J-0449,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-176,0.906,1,1
+J-0450,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-111,0.9,1,1
+J-0451,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-059,0.936,1,0
+J-0452,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-069,0.993,1,1
+J-0453,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-057,1.0,1,1
+J-0454,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-160,0.925,1,1
+J-0455,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-122,0.947,1,1
+J-0456,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-176,0.808,1,1
+J-0457,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-061,0.025,0,1
+J-0458,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-095,0.975,1,1
+J-0459,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-025,0.969,1,1
+J-0460,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-194,0.917,1,1
+J-0461,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-102,0.971,1,1
+J-0462,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-111,0.939,1,1
+J-0463,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-083,0.553,0,0
+J-0464,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-054,0.923,1,1
+J-0465,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-189,0.872,1,1
+J-0466,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-098,0.927,1,1
+J-0467,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-135,0.666,1,1
+J-0468,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-008,0.343,0,1
+J-0469,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-055,0.608,1,1
+J-0470,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-160,0.762,1,1
+J-0471,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-018,0.936,1,1
+J-0472,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-021,0.938,1,1
+J-0473,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-162,0.807,1,1
+J-0474,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-062,0.843,1,1
+J-0475,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-055,1.0,1,1
+J-0476,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-113,0.861,1,1
+J-0477,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-039,1.0,1,1
+J-0478,Berapa batas rate API per menit?,teknis,600 request per API key.,P-009,0.9,1,1
+J-0479,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-001,0.933,1,1
+J-0480,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-016,1.0,1,1
+J-0481,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-032,0.91,1,1
+J-0482,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-139,0.82,1,0
+J-0483,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-060,0.891,1,1
+J-0484,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-015,0.897,1,1
+J-0485,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-003,0.791,1,1
+J-0486,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-095,0.88,1,1
+J-0487,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-168,0.841,1,1
+J-0488,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-068,0.974,1,1
+J-0489,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-013,0.903,1,1
+J-0490,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-046,0.877,1,1
+J-0491,Di region mana data utama disimpan?,teknis,Asia Tenggara (Singapura).,P-100,0.892,1,1
+J-0492,Apakah data pelanggan boleh dipakai melatih model?,kebijakan,Tidak tanpa persetujuan tertulis.,P-038,0.918,1,1
+J-0493,Siapa yang menyetujui akses data sensitif?,kebijakan,Kepala keamanan data.,P-195,0.949,1,1
+J-0494,Berapa batas pengembalian dana paket Pro?,produk,14 hari sejak pembayaran pertama.,P-152,0.82,1,1
+J-0495,Berapa lama retensi log akses?,kebijakan,"90 hari, lalu dianonimkan.",P-069,0.817,1,1
+J-0496,Versi TLS minimum yang didukung?,teknis,TLS 1.2.,P-190,0.988,1,1
+J-0497,Berapa kapasitas penyimpanan paket Dasar?,produk,50 GB per workspace.,P-065,0.867,1,1
+J-0498,Kapan audit dokumen terakhir dilakukan?,dokumen,"Maret, oleh tim kepatuhan.",P-028,0.787,1,1
+J-0499,Apakah paket Tim mendukung SSO?,produk,"Ya, SSO tersedia mulai paket Tim.",P-187,0.936,1,1
+J-0500,Siapa penanggung jawab dokumen arsitektur?,dokumen,"Tim platform, diperbarui tiap kuartal.",P-191,0.937,1,1

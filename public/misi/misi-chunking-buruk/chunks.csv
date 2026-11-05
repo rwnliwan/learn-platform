@@ -1,0 +1,121 @@
+chunk_id,doc_id,strategi,n_token,rusak_tabel,heading_yatim,kalimat_terpotong,ter_retrieve,relevan
+C-001,D-02,Semantic v2,508,1,0,0,0,0
+C-002,D-03,Semantic v2,507,1,0,1,1,1
+C-003,D-04,Semantic v2,528,0,0,1,0,0
+C-004,D-05,Semantic v2,514,1,0,0,1,1
+C-005,D-06,Semantic v2,533,1,1,0,0,0
+C-006,D-07,Semantic v2,505,0,0,0,1,1
+C-007,D-08,Semantic v2,528,0,0,0,1,1
+C-008,D-09,Semantic v2,481,0,1,1,1,1
+C-009,D-10,Semantic v2,496,0,0,1,0,0
+C-010,D-11,Semantic v2,494,0,0,0,1,1
+C-011,D-12,Semantic v2,547,0,0,0,0,0
+C-012,D-13,Semantic v2,509,1,0,1,0,1
+C-013,D-14,Semantic v2,527,0,0,0,1,1
+C-014,D-15,Semantic v2,496,1,0,1,0,0
+C-015,D-16,Semantic v2,497,0,0,1,1,1
+C-016,D-17,Semantic v2,522,0,0,0,1,1
+C-017,D-18,Semantic v2,542,0,0,1,0,0
+C-018,D-19,Semantic v2,511,0,0,0,1,1
+C-019,D-20,Semantic v2,452,0,0,0,0,1
+C-020,D-21,Semantic v2,529,0,0,0,0,0
+C-021,D-22,Semantic v2,514,0,0,1,1,1
+C-022,D-23,Semantic v2,480,0,0,0,1,1
+C-023,D-24,Semantic v2,555,1,0,1,0,0
+C-024,D-25,Semantic v2,469,1,0,0,0,1
+C-025,D-26,Semantic v2,496,0,0,1,0,1
+C-026,D-27,Semantic v2,520,0,0,0,1,1
+C-027,D-28,Semantic v2,494,1,0,1,0,0
+C-028,D-29,Semantic v2,540,0,0,1,1,1
+C-029,D-30,Semantic v2,514,0,0,0,0,0
+C-030,D-01,Semantic v2,524,1,1,0,1,1
+C-031,D-02,Semantic v2,507,0,1,0,0,1
+C-032,D-03,Semantic v2,474,1,0,0,1,1
+C-033,D-04,Semantic v2,512,0,0,0,0,1
+C-034,D-05,Semantic v2,568,0,0,0,0,0
+C-035,D-06,Semantic v2,494,0,1,0,0,0
+C-036,D-07,Semantic v2,513,0,0,0,0,0
+C-037,D-08,Semantic v2,474,1,0,0,0,0
+C-038,D-09,Semantic v2,498,0,1,0,0,0
+C-039,D-10,Semantic v2,546,1,0,0,0,0
+C-040,D-11,Semantic v2,565,1,0,1,0,0
+C-041,D-12,Fixed-512 + overlap-50,483,0,0,1,0,0
+C-042,D-13,Fixed-512 + overlap-50,528,0,0,1,0,1
+C-043,D-14,Fixed-512 + overlap-50,536,0,0,1,1,1
+C-044,D-15,Fixed-512 + overlap-50,524,0,0,0,1,1
+C-045,D-16,Fixed-512 + overlap-50,531,0,0,0,0,1
+C-046,D-17,Fixed-512 + overlap-50,478,0,0,0,1,1
+C-047,D-18,Fixed-512 + overlap-50,536,1,0,0,1,1
+C-048,D-19,Fixed-512 + overlap-50,531,1,0,0,1,0
+C-049,D-20,Fixed-512 + overlap-50,494,1,0,0,1,1
+C-050,D-21,Fixed-512 + overlap-50,521,0,0,1,0,1
+C-051,D-22,Fixed-512 + overlap-50,537,0,0,1,1,1
+C-052,D-23,Fixed-512 + overlap-50,494,0,0,0,0,0
+C-053,D-24,Fixed-512 + overlap-50,512,0,0,0,0,0
+C-054,D-25,Fixed-512 + overlap-50,523,0,0,0,0,0
+C-055,D-26,Fixed-512 + overlap-50,552,0,0,0,0,0
+C-056,D-27,Fixed-512 + overlap-50,518,1,0,1,0,0
+C-057,D-28,Fixed-512 + overlap-50,519,0,0,0,1,1
+C-058,D-29,Fixed-512 + overlap-50,557,1,0,0,0,0
+C-059,D-30,Fixed-512 + overlap-50,496,0,0,0,0,1
+C-060,D-01,Fixed-512 + overlap-50,492,1,0,1,1,1
+C-061,D-02,Fixed-512 + overlap-50,509,0,0,0,0,0
+C-062,D-03,Fixed-512 + overlap-50,490,0,1,0,0,0
+C-063,D-04,Fixed-512 + overlap-50,510,0,1,0,1,1
+C-064,D-05,Fixed-512 + overlap-50,474,0,0,1,1,1
+C-065,D-06,Fixed-512 + overlap-50,494,1,0,0,0,0
+C-066,D-07,Fixed-512 + overlap-50,524,0,0,0,1,1
+C-067,D-08,Fixed-512 + overlap-50,482,0,0,0,1,1
+C-068,D-09,Fixed-512 + overlap-50,526,0,0,1,1,1
+C-069,D-10,Fixed-512 + overlap-50,496,0,0,0,1,1
+C-070,D-11,Fixed-512 + overlap-50,495,1,0,0,1,0
+C-071,D-12,Fixed-512 + overlap-50,481,1,0,0,1,1
+C-072,D-13,Fixed-512 + overlap-50,530,1,0,0,1,1
+C-073,D-14,Fixed-512 + overlap-50,540,0,1,1,0,0
+C-074,D-15,Fixed-512 + overlap-50,568,0,0,0,0,0
+C-075,D-16,Fixed-512 + overlap-50,538,0,0,0,0,0
+C-076,D-17,Fixed-512 + overlap-50,490,0,0,1,1,1
+C-077,D-18,Fixed-512 + overlap-50,515,0,0,1,1,1
+C-078,D-19,Fixed-512 + overlap-50,481,0,0,1,1,1
+C-079,D-20,Fixed-512 + overlap-50,509,0,0,0,1,1
+C-080,D-21,Fixed-512 + overlap-50,503,0,0,0,0,0
+C-081,D-22,Struktur-aware,272,0,0,0,0,0
+C-082,D-23,Struktur-aware,286,0,0,0,1,1
+C-083,D-24,Struktur-aware,259,0,0,0,1,1
+C-084,D-25,Struktur-aware,288,0,0,1,1,1
+C-085,D-26,Struktur-aware,407,0,0,1,1,1
+C-086,D-27,Struktur-aware,301,0,0,0,0,0
+C-087,D-28,Struktur-aware,279,1,0,0,1,1
+C-088,D-29,Struktur-aware,317,0,0,0,0,0
+C-089,D-30,Struktur-aware,331,0,0,0,0,1
+C-090,D-01,Struktur-aware,286,0,0,0,0,0
+C-091,D-02,Struktur-aware,378,0,0,0,0,0
+C-092,D-03,Struktur-aware,68,0,0,1,0,0
+C-093,D-04,Struktur-aware,404,0,0,0,0,0
+C-094,D-05,Struktur-aware,372,0,0,0,0,0
+C-095,D-06,Struktur-aware,377,0,0,0,0,0
+C-096,D-07,Struktur-aware,144,0,0,0,0,1
+C-097,D-08,Struktur-aware,179,0,0,0,0,0
+C-098,D-09,Struktur-aware,255,0,0,0,1,1
+C-099,D-10,Struktur-aware,264,0,0,0,0,0
+C-100,D-11,Struktur-aware,294,0,0,0,0,1
+C-101,D-12,Struktur-aware,403,0,0,0,0,0
+C-102,D-13,Struktur-aware,353,0,0,0,0,0
+C-103,D-14,Struktur-aware,191,0,0,0,0,1
+C-104,D-15,Struktur-aware,230,0,0,0,1,1
+C-105,D-16,Struktur-aware,131,0,0,0,0,0
+C-106,D-17,Struktur-aware,245,0,0,0,1,1
+C-107,D-18,Struktur-aware,286,0,0,0,0,0
+C-108,D-19,Struktur-aware,293,0,0,0,0,0
+C-109,D-20,Struktur-aware,184,0,0,0,0,1
+C-110,D-21,Struktur-aware,298,0,0,0,1,1
+C-111,D-22,Struktur-aware,209,0,0,0,0,0
+C-112,D-23,Struktur-aware,250,0,0,0,0,1
+C-113,D-24,Struktur-aware,356,0,0,0,0,0
+C-114,D-25,Struktur-aware,275,0,0,0,1,1
+C-115,D-26,Struktur-aware,378,0,0,0,0,0
+C-116,D-27,Struktur-aware,281,0,0,0,0,0
+C-117,D-28,Struktur-aware,168,0,0,0,0,0
+C-118,D-29,Struktur-aware,102,0,0,0,0,0
+C-119,D-30,Struktur-aware,268,0,0,0,0,0
+C-120,D-01,Struktur-aware,325,0,0,0,1,1

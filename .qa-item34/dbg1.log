@@ -1,0 +1,11 @@
+sqllab count: 2
+status 0 : SQL siap
+status 1 : SQL siap
+initSqlJs: function
+--- console/network ---
+REQFAIL: https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap :: net::ERR_TUNNEL_CONNECTION_FAILED
+error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED
+info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+log: [Fast Refresh] done in 1791995416917ms
+log: [Fast Refresh] rebuilding
+EXIT=0

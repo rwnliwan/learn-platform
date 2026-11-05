@@ -1,0 +1,20 @@
+{
+  "nama": "dr. Ardi Wibowo",
+  "usia": 45,
+  "kota": "Makassar",
+  "investable_pv_jt": 8000.0,
+  "tabungan_tahunan_jt": 250.0,
+  "horizon_tahun": 15,
+  "target_dana_pensiun_jt": 16000.0,
+  "target_pendidikan_jt": 2000.0,
+  "target_waris_jt": 2000.0,
+  "kebutuhan_likuiditas_18bln_jt": 800.0,
+  "dana_darurat_jt": 300.0,
+  "pph_final_obligasi": 0.1,
+  "pph_final_deposito": 0.2,
+  "pph_final_pasar_uang": 0.2,
+  "pph_final_dividen": 0.1,
+  "batas_ekuitas": 0.4,
+  "batas_likuid_min": 0.15,
+  "batas_single_name": 0.1
+}

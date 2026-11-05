@@ -1,0 +1,35 @@
+/* /v2/warisan — "Warisan Pengetahuan" (Gelombang F, ide #45). Scope di bawah .v2. */
+.v2 .wr-wrap{max-width:860px;display:flex;flex-direction:column;gap:var(--sp-3)}
+.v2 .wr-intro{font-size:15px;line-height:1.7;color:var(--text)}
+.v2 .wr-muted{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0}
+.v2 .wr-tight{margin-top:calc(var(--sp-2) * -1)}
+.v2 .wr-seg{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-3)}
+.v2 .wr-segbtn{border:1px solid var(--border);background:var(--bg-panel);color:var(--text);border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;cursor:pointer}
+.v2 .wr-segbtn:hover{border-color:var(--accent)}
+.v2 .wr-segbtn.sel{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text)}
+.v2 .wr-assume{background:var(--bg-sunken);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text-muted)}
+.v2 .wr-assume b{color:var(--text)}
+.v2 .wr-h2{font-family:var(--font-display);font-size:20px;margin:var(--sp-5) 0 0}
+.v2 .wr-tracks{display:flex;flex-direction:column;gap:var(--sp-3);margin-top:var(--sp-1)}
+.v2 .wr-trackhead{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-2);margin-bottom:6px}
+.v2 .wr-trackname{font-weight:700;font-size:14px}
+.v2 .wr-trackmeta{font-size:12px;color:var(--text-muted);text-align:right}
+.v2 .wr-band{position:relative;height:14px;border-radius:7px;background:var(--bg-sunken);border:1px solid var(--border)}
+.v2 .wr-range{position:absolute;top:0;bottom:0;border-radius:6px;background:var(--accent-soft);border:1px solid var(--accent)}
+.v2 .wr-mean{position:absolute;top:-3px;bottom:-3px;width:3px;border-radius:2px;background:var(--accent)}
+.v2 .wr-list{list-style:none;margin:var(--sp-1) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--sp-2)}
+.v2 .wr-item{background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.v2 .wr-itemtitle{font-weight:600;font-size:14px;color:var(--accent-text);text-decoration:none}
+.v2 .wr-itemtitle:hover{text-decoration:underline}
+.v2 .wr-itemmeta{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+.v2 .wr-method{border-top:1px solid var(--border);margin-top:var(--sp-5);padding-top:var(--sp-2)}
+.v2 .wr-method ul{margin:var(--sp-2) 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--text-muted);line-height:1.65}
+.v2 .wr-method b{color:var(--text)}
+.v2 .wr-empty{background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;padding:var(--sp-6);text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);max-width:560px}
+.v2 .wr-empty h2{margin:0;font-family:var(--font-display);font-size:22px}
+.v2 .wr-empty p{margin:0;color:var(--text-muted);font-size:14px;line-height:1.7}
+.v2 .wr-empty-ic{width:40px;height:40px;color:var(--accent)}
+@media (max-width:640px){
+  .v2 .wr-trackhead{flex-direction:column;align-items:flex-start;gap:2px}
+  .v2 .wr-trackmeta{text-align:left}
+}

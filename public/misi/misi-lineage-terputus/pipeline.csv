@@ -1,0 +1,8 @@
+pipeline,kolom_dipakai,sumber,status,catatan
+etl_harian,transaksi.customer_id,tabel transaksi,aktif,baca kolom langsung
+agg_pendapatan,transaksi.amount,tabel transaksi,aktif,SUM(amount) harian
+dashboard_crm,transaksi.cust_segment,tabel transaksi,aktif,filter segmen
+laporan_keuangan,transaksi.trx_date,tabel transaksi,aktif,cutoff tanggal laporan
+etl_arsip,transaksi.channel,tabel transaksi,aktif,arsip mentah
+backup_mingguan,*,tabel transaksi,aktif,SELECT bintang - lolos tanpa error
+notifikasi_wa,transaksi.status,tabel transaksi,nonaktif,pilot dihentikan

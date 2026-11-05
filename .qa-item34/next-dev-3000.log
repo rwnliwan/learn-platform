@@ -1,0 +1,16 @@
+
+> learn-platform@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.2
+   - Local:        http://localhost:3000
+   - Network:      http://198.19.0.2:3000
+
+ ✓ Starting...
+ ✓ Ready in 207.2s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 2.8s (114 modules)
+ ○ Compiling /v2/lab-demo ...
+ ✓ Compiled /v2/lab-demo in 99.5s (573 modules)
+ ○ Compiling /_not-found ...
+[?25h

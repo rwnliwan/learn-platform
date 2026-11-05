@@ -1,0 +1,13 @@
+query_id,pertanyaan,jawaban,sitasi
+Q-01,Berapa hari cuti tahunan yang saya dapat setelah setahun bekerja?,"Menurut dokumen kebijakan internal [CH-001], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-001
+Q-02,Bolehkah saya WFH dan bagaimana aturan jam kerjanya?,"Menurut dokumen kebijakan internal [CH-003] [CH-019], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-003;CH-019
+Q-03,Sampai kapan nota bisa diklaim reimbursement?,"Menurut dokumen kebijakan internal [CH-004], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-004
+Q-04,Apa yang harus saya lakukan jika menerima email phishing?,"Menurut dokumen kebijakan internal [CH-006] [CH-904], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-006;CH-904
+Q-05,Bagaimana aturan lembur dan kapan bonus tahunan dibayar?,"Menurut dokumen kebijakan internal [CH-008] [CH-012], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-008;CH-012
+Q-06,Berapa lama notice period jika saya resign?,"Menurut dokumen kebijakan internal [CH-017], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-017
+Q-07,Berapa lama cuti melahirkan dan apakah digaji penuh?,"Menurut dokumen kebijakan internal [CH-016], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-016
+Q-08,Apa aturan kata sandi dan siapa yang boleh mengakses data pribadi saya?,"Menurut dokumen kebijakan internal [CH-005] [CH-014], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-005;CH-014
+Q-09,Apa syarat perjalanan dinas luar kota?,"Menurut dokumen kebijakan internal [CH-917], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-917
+Q-10,Kapan evaluasi kinerja dilakukan?,"Menurut dokumen kebijakan internal [CH-011], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-011
+Q-11,Bagaimana cara melapor pelanggaran secara anonim?,"Menurut dokumen kebijakan internal [CH-020] [CH-923], ketentuan di atas berlaku untuk seluruh karyawan tetap.",CH-020;CH-923
+Q-12,Berapa anggaran training tahunan saya?,Setiap karyawan mendapat anggaran training tahunan sesuai kebijakan perusahaan.,

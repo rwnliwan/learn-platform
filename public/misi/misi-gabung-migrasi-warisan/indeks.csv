@@ -1,0 +1,11 @@
+nama,tabel,kolom,dipakai_30_hari,ukuran_kb,tulis_per_hari
+idx_orders_id,orders,id,5400,18432,8012
+idx_orders_pelanggan,orders,pelanggan_id,1200,20480,8012
+idx_orders_status,orders,status,0,46080,8012
+idx_orders_tanggal,orders,tanggal,450,30720,8012
+idx_orders_tanggal_status,orders,"(tanggal, status)",380,34816,8012
+idx_pelanggan_email,pelanggan,email,2100,12288,400
+idx_pelanggan_telp_lower,pelanggan,LOWER(telepon),0,15360,400
+idx_produk_nama,produk,nama,0,5120,60
+idx_bayar_order,pembayaran,order_id,800,12288,7500
+idx_bayar_tanggal,pembayaran,tanggal_bayar,150,10240,7500

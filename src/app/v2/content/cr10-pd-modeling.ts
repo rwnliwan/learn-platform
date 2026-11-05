@@ -1,0 +1,285 @@
+import type { V2Lesson } from "../lib/types";
+
+export const cr10: V2Lesson = {
+  slug: "cr10-pd-modeling",
+  track: "Credit Risk",
+  module: "Scorecard & Pemodelan PD",
+  title: "CR10 — PD Modeling: TTC, PIT & Lifetime",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita",
+      eyebrow: "Langkah 1 · Cerita",
+      title: "\"Jadi PD-nya 2% atau 4,5%?\"",
+      prose: [
+        "Rapat Bank Nusantara. Andi (tim modal): \"PD portofolio 2%.\" Rina (tim akuntansi): \"PD portofolio 4,5%.\" Direktur: \"Jadi PD-nya 2% atau 4,5%? Kalian pakai data yang sama?!\"",
+        "Keduanya benar. Andi memakai PD TTC (Through-the-Cycle): rata-rata jangka panjang \"iklim\" risiko — stabil, untuk modal. Rina memakai PD PIT (Point-in-Time): \"cuaca\" saat ini — naik saat resesi, untuk ECL.",
+        "Bank modern menjalankan dua PD sekaligus untuk tujuan berbeda — dan kekacauan terjadi saat orang mencampuradukkan. Lesson ini memastikan kamu tidak pernah tertukar.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Memakai PD yang benar di tempat yang salah = sebahaya memakai PD yang salah. Memakai PIT untuk modal = modal gonjang-ganjing tiap kuartal. Memakai TTC untuk ECL = cadangan tidak responsif.",
+      },
+      reference: "TTC = iklim (modal) · PIT = cuaca (ECL/pricing).",
+    },
+    {
+      id: "ttc-pit",
+      eyebrow: "Langkah 2 · TTC vs PIT",
+      title: "Iklim vs cuaca",
+      prose: [
+        "PD TTC (Through-the-Cycle): rata-rata peluang default sepanjang siklus ekonomi (boom + resesi). Stabil, tidak reaktif. Dipakai untuk modal (Basel/IRB) — regulator tidak mau modal naik-turun tiap kuartal.",
+        "PD PIT (Point-in-Time): peluang default kondisi saat ini (12 bulan ke depan dari hari ini). Reaktif terhadap siklus. Dipakai untuk ECL/PSAK 71 & pricing — cadangan harus mencerminkan realita kini.",
+        "TTC seperti iklim Jakarta — \"rata-rata 28°C\" (stabil, untuk perencanaan jangka panjang). PIT seperti ramalan besok — \"besok hujan badai\" (reaktif, untuk keputusan harian). Contoh: 2020 (resesi) — PIT melonjak 4,5%, ECL ikut melonjak (ingat cerita CR4B!); TTC tetap 2%, modal tidak panik. 2022 (boom) — PIT turun 1,6%, ECL ringan. Pelajaran: ECL itu procyclical — kritik utama PSAK 71 yang harus dipahami analis.",
+      ],
+      formula: String.raw`\text{PD}_{\text{PIT}}(z) = \text{PD}_{\text{TTC}} \times e^{-0{,}5\, z}`,
+      formulaNote: "z = kondisi ekonomi (−2 resesi berat … +2 boom). PIT berayun di sekitar TTC: TTC = jangkar, PIT = ayunan.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"PD ya PD — satu angka untuk semua keperluan.\" PD TTC untuk modal, PD PIT untuk ECL — dua angka berbeda dari filosofi berbeda. Bank besar memelihara keduanya dengan penyesuaian siklus yang terdokumentasi.",
+      },
+      reference: "Kapan pakai apa? TTC → modal (Basel, stabil). PIT → ECL (PSAK 71, responsif).",
+    },
+    {
+      id: "lab-ttc-pit",
+      eyebrow: "Langkah 3 · Lab TTC/PIT",
+      title: "Dua cara membaca cuaca risiko",
+      prose: [
+        "TTC = 2% (tetap). PIT mengikuti siklus: pd_pit = ttc × e^(−0,5×z). Tugasmu: hitung PD PIT saat resesi berat (z = −2) dan saat boom (z = 1,5) — rasakan ayunannya di sekitar jangkar TTC.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `pit_resesi` (%) dengan z = −2" },
+        { id: "t2", text: "Hitung `pit_boom` (%) dengan z = 1,5" },
+        { id: "t3", text: "Cetak ketiganya dengan `print`" },
+      ],
+      expected: "ttc=2.0 resesi=5.44 boom=0.94",
+      hints: [
+        "Gunakan math.exp untuk e pangkat sesuatu.",
+        "Kalikan 100 untuk persen.",
+        "pit_resesi = ttc * math.exp(-0.5 * -2) * 100",
+      ],
+      code: {
+        starter: `import math\n\nttc = 0.02  # 2%, jangkar iklim\n\n# TULIS KODEMU: PD PIT (%) di dua kondisi ekonomi\npit_resesi = \npit_boom = \n\nprint(f"ttc={ttc*100:.1f} resesi={pit_resesi:.2f} boom={pit_boom:.2f}")`,
+        lockLines: 3,
+        solution: `import math\n\nttc = 0.02  # 2%, jangkar iklim\n\n# TULIS KODEMU: PD PIT (%) di dua kondisi ekonomi\npit_resesi = ttc * math.exp(-0.5 * -2) * 100\npit_boom = ttc * math.exp(-0.5 * 1.5) * 100\n\nprint(f"ttc={ttc*100:.1f} resesi={pit_resesi:.2f} boom={pit_boom:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "pit_resesi", value: 5.44, tol: 0.05, label: "`pit_resesi` sekitar 5.44", msg: "0.02 × e^1 × 100 ≈ 5.44." },
+          { kind: "equal", task: "t2", name: "pit_boom", value: 0.94, tol: 0.05, label: "`pit_boom` sekitar 0.94", msg: "0.02 × e^(−0.75) × 100 ≈ 0.94." },
+          { kind: "stdout_matches", task: "t3", pattern: "ttc=2\\.0\\s+resesi=5\\.44\\s+boom=0\\.94", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Resesi: PIT melonjak 2,7× TTC. Boom: PIT separuh TTC. Modal (TTC) tidak ikut panik.",
+    },
+    {
+      id: "kalibrasi",
+      eyebrow: "Langkah 4 · Kalibrasi",
+      title: "Ranking benar, angka harus benar",
+      prose: [
+        "Kalibrasi = apakah PD prediksi cocok dengan realisasi? Model memprediksi PD 4% untuk 1.000 nasabah → harusnya ~40 yang default. Kalau aktualnya 80 → miskalibrasi (underestimate 2×).",
+        "Bedanya dengan diskriminasi (CR7B): diskriminasi = ranking benar (yang diprediksi berisiko memang lebih banyak default). Kalibrasi = angka benar. Model bisa ranking sempurna tetapi angka meleset 2× — untuk ECL/modal, angka yang menentukan rupiah. Setiap rupiah ECL yang dihitung dari PD yang miskalibrasi 2× = kekecilan ~2×. Solusi: rekalibrasi (sesuaikan PD per grade dengan faktor koreksi) — tidak perlu rebuild total.",
+        "Urutan validasi: diskriminasi dulu (apakah ranking benar?), kalibrasi kemudian (apakah angka benar?) — keduanya wajib lolos.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"Gini tinggi = model siap pakai untuk ECL.\" Gini mengukur ranking, bukan angka. Model Gini 0,6 tetapi kalibrasi meleset 2× akan menghasilkan CKPN yang salah 2× — dan auditor akan menolaknya.",
+      },
+      reference: "Gini untuk seleksi; kalibrasi untuk ECL/modal. Keduanya wajib.",
+    },
+    {
+      id: "master-scale",
+      eyebrow: "Langkah 5 · Master Scale",
+      title: "Raport kelas untuk semua",
+      prose: [
+        "Master scale = tangga rating internal bank (mirip AAA–D ala Pefindo/S&P) yang memetakan setiap skor/PD ke grade. Syarat: tiap grade punya rentang PD yang monotonik (grade lebih baik = PD lebih kecil) dan terkalibrasi (PD grade = default rate aktual historis).",
+        "Mengapa perlu? Tiga alasan: (1) komunikasi — \"rating BB\" dimengerti direksi, \"PD 1,83%\" tidak; (2) konsistensi — segmen retail & korporasi bicara bahasa yang sama; (3) regulasi — IRB mewajibkan rating scale dengan PD per grade.",
+        "PD antar grade naik eksponensial, bukan linear: AAA→AA bedanya 0,07 poin; B→CCC bedanya 12,5 poin! Satu notch downgrade di ujung bawah (B→CCC) jauh lebih \"mahal\" dari di ujung atas. Inilah mengapa analis korporasi (CR17) sangat serius soal rating migration — dan mengapa cliff antara investment grade (BBB) vs speculative (BB) begitu politis.",
+      ],
+      tasks: [],
+      reference: "Jumlah grade ideal 7–10 untuk performing; tiap grade butuh ratusan–ribuan rekening untuk validasi.",
+    },
+    {
+      id: "lifetime",
+      eyebrow: "Langkah 6 · Lifetime PD",
+      title: "Merangkai tahun demi tahun",
+      prose: [
+        "Lifetime PD = peluang default kumulatif selama sisa tenor (bukan 12 bulan). Dibutuhkan untuk ECL Stage 2/3 (PSAK 71). Dihitung dari PD marginal (peluang default di tahun ke-t dengan syarat selamat sampai tahun t−1). Logikanya: peluang selamat T tahun = kalikan peluang selamat tiap tahun; lifetime PD = 1 − itu.",
+        "Contoh: PD marginal thn1 2%, thn2 1,8%, thn3 1,5%. Peluang selamat: 0,98 × 0,982 × 0,985 = 0,948. Lifetime PD = 1 − 0,948 = 5,2%. Bandingkan dengan PD 12-bulan (2%): lifetime 2,6× lipat — inilah \"bahan bakar\" cliff effect Stage 1→2.",
+        "Lifetime PD bukan PD 12-bulan × tenor (itu double counting — menghitung yang sudah default dua kali). PD marginal biasanya menurun seiring waktu (seasoning — yang lemah gugur duluan, CR6). Dan ingat: lifetime PD untuk ECL memakai PIT, bukan TTC.",
+      ],
+      formula: String.raw`\text{PD}_{\text{lifetime}} = 1 - \prod_{t=1}^{T} (1 - \text{PD}_t)`,
+      formulaNote: "PD_t = PD marginal tahun ke-t. Kalikan peluang selamat tiap tahun, lalu 1 minus hasilnya.",
+      tasks: [],
+      reference: "Lifetime KPR 15 tahun bisa 12% vs PD 12-bulan 1,2% — lompatan inilah yang membuat pindah stage menghantam laba.",
+    },
+    {
+      id: "lab-lifetime",
+      eyebrow: "Langkah 7 · Lab Lifetime",
+      title: "PD tenor dari PD tahunan",
+      prose: [
+        "PD marginal per tahun: [2,0%; 1,8%; 1,5%; 1,2%; 1,0%]. Tugasmu: hitung PD lifetime 5 tahun (dalam %) dan rasionya terhadap PD 12-bulan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `pd_lifetime` (%) = (1 − Π(1−p)) × 100" },
+        { id: "t2", text: "Hitung `rasio` = pd_lifetime / (pd tahun pertama × 100)" },
+        { id: "t3", text: "Cetak keduanya dengan `print`" },
+      ],
+      expected: "lifetime=7.28 rasio=3.6",
+      hints: [
+        "Kalikan (1-p) tiap tahun untuk peluang selamat.",
+        "Lifetime = 1 − peluang selamat, kali 100.",
+        "survive = 1.0; untuk tiap p: survive *= (1 - p)",
+      ],
+      code: {
+        starter: `pd_tahunan = [0.020, 0.018, 0.015, 0.012, 0.010]  # PD marginal per tahun\n\n# TULIS KODEMU\nsurvive = \npd_lifetime = \nrasio = \n\nprint(f"lifetime={pd_lifetime:.2f} rasio={rasio:.1f}")`,
+        lockLines: 1,
+        solution: `pd_tahunan = [0.020, 0.018, 0.015, 0.012, 0.010]  # PD marginal per tahun\n\n# TULIS KODEMU\nsurvive = 1.0\nfor p in pd_tahunan:\n    survive *= (1 - p)\npd_lifetime = (1 - survive) * 100\nrasio = pd_lifetime / (pd_tahunan[0] * 100)\n\nprint(f"lifetime={pd_lifetime:.2f} rasio={rasio:.1f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "pd_lifetime", value: 7.28, tol: 0.05, label: "`pd_lifetime` sekitar 7.28", msg: "1 − 0.98×0.982×0.985×0.988×0.99 ≈ 0.0728." },
+          { kind: "equal", task: "t2", name: "rasio", value: 3.64, tol: 0.05, label: "`rasio` sekitar 3.6", msg: "7.28 / 2.0 ≈ 3.6 — bukan 5× (double counting dihindari)." },
+          { kind: "stdout_matches", task: "t3", pattern: "lifetime=7\\.28\\s+rasio=3\\.6", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Coba: PD tahun 1-2 tinggi (0.05, 0.04) lalu menurun — pola 'maturing' umum.",
+    },
+    {
+      id: "peta-keputusan",
+      eyebrow: "Langkah 8 · Peta keputusan",
+      title: "Peta keputusan: PD mana untuk apa",
+      prose: [
+        "Skenario 1 — Menghitung kebutuhan modal (IRB/Basel). → Pakai PD TTC (Through-the-Cycle): rata-rata sepanjang siklus, stabil. Alasan: regulator tidak mau modal naik-turun tiap kuartal mengikuti cuaca ekonomi.",
+        "Skenario 2 — Menghitung ECL/PSAK 71 atau menetapkan pricing. → Pakai PD PIT (Point-in-Time): 'cuaca' saat ini. Contoh nyata: 2020, PIT melonjak 2% → 4,5% sehingga ECL ikut melonjak — cadangan harus mencerminkan realita kini, bukan iklim rata-rata.",
+        "Skenario 3 — Kredit masuk Stage 2/3. → Pakai lifetime PD dari PD marginal (1 − Π(1−PD_t)), bukan PD 12-bulan × tenor. Contoh nyata: PD marginal 2%/1,8%/1,5% → lifetime 5,2% — 2,6× lipat PD tahunan. Inilah 'bahan bakar' cliff effect Stage 1→2.",
+        "Skenario 4 — Data default rapi baru tersedia sejak 2015. → Jangan rata-rata mentah: reweight boom vs tekanan 50:50. Contoh nyata: rata-rata 2016–2025 = 2,4%, tetapi komposisi 7 tahun tenang + 3 tahun tekanan → TTC yang benar 2,8%. Selisih 0,4 poin × Rp 30 T × LGD 45% = Rp 54 M modal yang tidak dibentuk.",
+        "Skenario 5 — Model miskalibrasi: realisasi 1,5× prediksi di semua grade, tetapi Gini stabil. → Rekalibrasi (faktor koreksi ke master scale, 2 minggu) — bukan rebuild (6 bulan). Rebuild hanya bila ranking rusak (Gini jatuh) atau populasi bergeser (PSI tinggi).",
+        "Aturan praktis 10 detik: modal = TTC, cadangan = PIT, tenor panjang = lifetime; campur aduk = KPMM jebol di resesi atau ECL salah di boom.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Memakai PD PIT untuk perhitungan modal IRB — 2020: PIT 2% → 4,5%, RWA melonjak 30%, KPMM jatuh 14% → 10,5%, bank dipaksa menahan ekspansi + memotong dividen tepat di tengah krisis. Lingkaran setan procyclical yang ingin dicegah Basel dengan TTC.",
+      },
+    },
+    {
+      id: "minicase",
+      eyebrow: "Langkah 9 · Mini-case",
+      title: "Modal jebol karena salah PD",
+      prose: [
+        "Bank Nusantara memakai PD PIT untuk perhitungan modal IRB (kesalahan konseptual). 2020: PIT melonjak 2% → 4,5%. RWA melonjak 30% → KPMM jatuh 14% → 10,5%. OJK mempertanyakan metodologi; bank terpaksa menahan ekspansi + memotong dividen di tengah krisis — tepat saat ekonomi butuh kredit. Padahal jika memakai TTC (tetap ~2%), KPMM hanya turun ke 13,2% (akibat rugi), masih lega.",
+        "Pembahasan: procyclical — saat resesi, PIT naik → modal terkunci lebih banyak → bank mengurangi kredit → ekonomi makin sulit → PIT naik lagi. Lingkaran setan yang memperparah krisis — persis yang ingin dicegah Basel dengan TTC.",
+        "Perbaikan: (1) pisahkan dua PD — TTC untuk modal (dengan dokumentasi penyesuaian siklus), PIT untuk ECL; (2) bangun buffer di masa boom (capital conservation buffer Basel III) agar saat resesi bank tidak perlu memotong kredit.",
+      ],
+      tasks: [],
+      reference: "Dua PD, satu debitur, dua keputusan — PT Maju Bersama: PD TTC 1,5% vs PD PIT 4% (CR11 lanjutan).",
+    },
+    {
+      id: "ttc-estimasi",
+      eyebrow: "Langkah 10 · Estimasi TTC",
+      title: "TTC dari siklus yang tidak lengkap",
+      prose: [
+        "TTC idealnya rata-rata satu siklus ekonomi penuh — 7 sampai 10 tahun yang mencakup boom dan resesi. Masalah praktis bank Indonesia: data default yang rapi sering baru tersedia sejak 2015–2016. Satu dekade itu mencakup boom panjang, Covid, dan pemulihan — tetapi bukan \"siklus penuh\" yang seimbang. Rata-rata mentah dari jendela yang timpang menghasilkan TTC yang timpang.",
+        "Contoh dengan angka: rata-rata default 2016–2025 = 2,4%. Tetapi komposisinya: 7 tahun boom/tenang (rata-rata 1,8%) dan 3 tahun tekanan (rata-rata 3,8%). Jika siklus netral yang benar adalah 50:50, TTC seharusnya ≈ 0,5×1,8 + 0,5×3,8 = 2,8% — bukan 2,4%. Memakai 2,4% berarti modal dihitung dari iklim yang \"kebetulan cerah\". Selisih 0,4 poin pada portofolio Rp 30 T dengan LGD 45% = Rp 54 M modal yang tidak dibentuk. Dan hari ini (boom, z=+1, PIT 1,4%) adalah saat yang paling menggoda untuk memakai angka kecil itu.",
+        "Cara salah yang umum: memakai rata-rata 5 tahun terakhir sebagai \"jangka panjang\" — 5 tahun bukan siklus, itu cuaca. Cara benar: sesuaikan dengan posisi siklus (tambah bobot pada tahun tekanan), atau petakan dari PIT hari ini mundur ke TTC memakai hubungan siklus yang terdokumentasi. Keduanya butuh judgment — dan keduanya harus ditulis, bukan diingat-ingat.",
+        "Aturan keputusan. Satu: data minimum 7 tahun yang mencakup minimal satu episode tekanan; jika tidak ada, pakai data eksternal/benchmark sebagai jangkar. Dua: uji kewajaran — TTC tidak boleh di bawah rata-rata 3 tahun terburuk dibagi 2; jika ya, tulis justifikasi satu halaman. Tiga: dokumentasikan posisi siklus saat estimasi (\"diestimasi saat boom\") agar pengguna TTC 3 tahun kemudian tahu konteksnya. Empat: review TTC tiap 2–3 tahun, bukan tiap kuartal — jangkar yang digeser tiap kuartal bukan jangkar.",
+      ],
+      tasks: [],
+      reference: "TTC = rata-rata SIKLUS PENUH. Jendela timpang → sesuaikan, jangan telan mentah.",
+    },
+    {
+      id: "low-default",
+      eyebrow: "Langkah 11 · Low-default",
+      title: "Portofolio yang (hampir) tidak pernah default",
+      prose: [
+        "Untuk portofolio sovereign, bank, dan korporasi besar, default internal nyaris nol — bukan karena risikonya nol, melainkan karena populasinya kecil dan sejarahnya pendek. \"Belum pernah default dalam 10 tahun\" tidak sama dengan \"PD = 0%\". PD 0% berarti modal 0 — klaim yang tidak akan dipercaya regulator, auditor, atau akal sehat.",
+        "Contoh dengan angka: 200 counterparty bank, 0 default dalam 10 tahun. Estimasi naif: 0%. Aturan praktis statistik \"rule of three\": dengan 0 kejadian dari n observasi, batas atas 95% ≈ 3/n = 3/200 = 1,5%. Artinya data ini masih konsisten dengan PD sampai 1,5%! Praktik yang benar: petakan ke rating eksternal (misalnya BBB → PD ~0,2%), terapkan floor regulasi 0,03%, lalu tambahkan margin konservatisme karena ketidakpastian. Hasilnya PD 0,2–0,5% — jauh dari 0%, dan bisa dipertahankan di depan validator.",
+        "Cara salah yang klasik: memakai rating induk untuk anak perusahaan tanpa notch-down (anak perusahaan bisa gagal meski induk sehat — double leverage), atau memakai \"PD grup\" untuk debitur yang sebenarnya standalone. Cara benar: shadow rating — replikasi metodologi lembaga pemeringkat dengan data internal, lalu petakan ke tabel default historis mereka yang berbasis ribuan observasi.",
+        "Aturan keputusan. Satu: tidak ada PD di bawah 0,03% — floor absolut, tanpa pengecualian. Dua: untuk portofolio dengan <20 default historis, wajib ada pembanding eksternal (lembaga pemeringkat, data konsorsium). Tiga: uji \"rule of three\" sebagai kewajaran — jika PD-mu jauh di bawah 3/n, kamu mengklaim presisi yang datamu tidak mendukung. Empat: review pemetaan tiap tahun; migrasi rating eksternal adalah sinyal awal sebelum default internal muncul.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: kalibrasi adalah janji, bukan ramalan",
+        body: "Berhenti menilai model PD dari \"apakah ia menunjuk siapa yang akan default\" — itu pekerjaan diskriminasi (ranking). Nilai model dari janjinya per ember: dari 1.000 debitur yang kuberi PD 4%, apakah ~40 yang default? Itulah kalibrasi — dan untuk ECL serta modal, kalibrasi adalah segalanya karena rumusnya MENGALIKAN PD secara langsung. Heuristik yang jarang disadari: model dengan Gini biasa-biasa saja tetapi kalibrasi pas LEBIH BERHARGA daripada model dengan Gini spektakuler tetapi kalibrasi meleset 2×. Yang pertama memberi CKPN yang benar; yang kedua memberi CKPN yang salah dengan percaya diri. ECL linear terhadap PD tetapi hanya ordinal terhadap ranking — rupiah mengikuti angka, bukan urutan. Maka urutan kerja yang benar: kejar ranking secukupnya (Gini memadai), lalu obsesilah pada kalibrasi (backtest per grade, rekalibrasi berkala). Model yang \"jago ranking tetapi ngawur angka\" adalah mobil balap tanpa speedometer — cepat, mengesankan, dan menabrak. Ritualnya: setiap kali menerima model baru, hal pertama yang dibuka bukan Gini-nya melainkan tabel kalibrasi per grade — bandingkan prediksi vs realisasi, cari pola sistematis. Butuh lima menit, dan menyelamatkanmu dari 90% model \"hebat\" yang angkanya ngawur.",
+      },
+      reference: "Rupiah mengikuti angka PD, bukan urutan ranking. Kalibrasi dulu, kagum kemudian.",
+    },
+    {
+      id: "rekalibrasi",
+      eyebrow: "Langkah 12 · Rekalibrasi",
+      title: "Rekalibrasi vs rebuild: pilih obatnya",
+      prose: [
+        "Model miskalibrasi tidak selalu butuh dibangun ulang. Jika ranking masih bagus (Gini stabil) tetapi angka meleset sistematis (semua grade underestimate 1,5×), obatnya rekalibrasi: kalikan PD tiap grade dengan faktor koreksi dari backtest, atau geser master scale. Murah, cepat, dan tidak mengubah logika bisnis. Rebuild hanya jika rankingnya rusak (Gini jatuh) atau populasinya berubah (PSI tinggi) — karena rebuild berarti validasi ulang penuh, dokumentasi baru, dan persetujuan komite.",
+        "Contoh: backtest 3 tahun menunjukkan realisasi 1,4–1,6× prediksi di SEMUA grade — pola sistematis, bukan acak. Faktor koreksi 1,5× diterapkan ke master scale; Gini tetap 0,55 (ranking tidak disentuh). Selesai dalam 2 minggu vs rebuild 6 bulan. Aturan keputusan: miskalibrasi sistematis + Gini stabil → rekalibrasi. Gini jatuh >10 poin atau PSI >0,25 → rebuild. Jangan rebuild untuk penyakit yang bisa disembuhkan recalibrasi — dan jangan rekalibrasi untuk penyakit yang butuh rebuild.",
+      ],
+      tasks: [],
+      reference: "Angka meleset + ranking sehat = rekalibrasi. Ranking rusak = rebuild.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+      ],
+      tasks: [],
+      summary: [
+        "TTC (iklim, stabil) untuk modal; PIT (cuaca, reaktif) untuk ECL/pricing.",
+        "Kalibrasi (angka benar) ≠ diskriminasi (ranking benar) — ECL butuh keduanya.",
+        "Master scale = bahasa manusia untuk PD: komunikasi, konsistensi, regulasi IRB.",
+        "Lifetime PD = 1 − Π(1−PD_t) — bukan PD × tenor (double counting).",
+        "Memakai PIT untuk modal = procyclical: memperparah krisis.",
+      ],
+      next: { label: "CR11 — Forward-Looking", href: "/learn/cr11-forward-looking" },
+      quiz: [
+        {
+          q: "PD TTC vs PIT — pasangan yang benar?",
+          options: [
+            { text: "TTC untuk ECL, PIT untuk modal", why: "Terbalik: modal butuh stabilitas (TTC), ECL butuh responsivitas (PIT)." },
+            { text: "TTC (iklim, stabil) untuk modal; PIT (cuaca, reaktif) untuk ECL/pricing", why: "Tertukar = modal gonjang-ganjing atau cadangan tidak responsif.", correct: true },
+            { text: "Keduanya sama, hanya beda nama", why: "Filosofinya berbeda: rata-rata siklus vs kondisi kini." },
+            { text: "TTC untuk retail, PIT untuk korporasi", why: "Bukan pembagian segmen — ini pembagian keperluan." },
+          ],
+        },
+        {
+          q: "PD marginal tahunan: 2%, 1,8%, 1,5%. Lifetime PD 3 tahun?",
+          options: [
+            { text: "5,3% (2+1,8+1,5 — dijumlah)", why: "Dijumlah = double counting (menghitung yang sudah default dua kali)." },
+            { text: "≈5,2% (1 − 0,98×0,982×0,985) — via peluang selamat", why: "Satu-satunya cara yang benar: kalikan peluang selamat.", correct: true },
+            { text: "2% (pakai tahun pertama saja)", why: "Itu PD 12-bulan, bukan lifetime." },
+            { text: "6% (2% × 3)", why: "Perkalian sederhana = double counting." },
+          ],
+        },
+        {
+          q: "Model Gini 0,6 tapi untuk PD prediksi 4%, aktualnya 8%. Masalahnya?",
+          options: [
+            { text: "Diskriminasi buruk", why: "Gini 0,6 = diskriminasi bagus." },
+            { text: "Miskalibrasi — ranking mungkin benar tapi angkanya underestimate 2×; ECL dari PD ini kekecilan", why: "Untuk ECL/modal yang menentukan rupiah adalah ANGKA PD, bukan ranking. Solusi: rekalibrasi.", correct: true },
+            { text: "Tidak ada masalah — Gini tinggi cukup", why: "Gini tinggi tanpa kalibrasi = salah dengan percaya diri." },
+            { text: "Data kurang", why: "Bukan soal jumlah data." },
+          ],
+        },
+        {
+          q: "Bank memakai PD PIT untuk modal. Saat resesi, apa yang terjadi?",
+          options: [
+            { text: "Tidak ada — PD hanya angka", why: "PD menggerakkan RWA dan modal." },
+            { text: "Procyclical: modal terkunci naik → kredit dipotong → ekonomi memburuk → spiral; inilah yang dicegah Basel dengan TTC", why: "Modal harus menjadi peredam guncangan (stabil via TTC), bukan penambah guncangan.", correct: true },
+            { text: "Modal justru turun", why: "Kebutuhan modal naik, bukan turun." },
+            { text: "OJK memberi penghargaan", why: "OJK justru mempertanyakan metodologi." },
+          ],
+        },
+        {
+          q: "Lifetime PD KPR 15 tahun adalah 12%, PD 12-bulan 1,2%. Mengapa lifetime jauh lebih besar dan kapan dipakai?",
+          options: [
+            { text: "Karena PD 12-bulan × 15 = 18% — tinggal kalikan", why: "Itu double counting." },
+            { text: "Lifetime = 1 − (peluang selamat tiap tahun dikalikan); dipakai untuk ECL Stage 2/3 (PSAK 71) — inilah bahan bakar cliff effect", why: "Lompatan 1,2% → 12% inilah yang membuat perpindahan stage menghantam laba.", correct: true },
+            { text: "Lifetime selalu = 10× PD 12-bulan", why: "Tidak ada kelipatan tetap." },
+            { text: "Tidak dipakai di mana-mana", why: "Dipakai untuk ECL Stage 2/3." },
+          ],
+        },
+      ],
+    },
+  ],
+};

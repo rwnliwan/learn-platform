@@ -1,0 +1,26 @@
+table_name,column_name,data_type,nullable,contract_version,definition,owner,retention_days,kategori
+core_rekening,rekening_id,VARCHAR(32),NO,v3,ID rekening unik core banking,Tim Data Platform,90,mentah
+core_rekening,nasabah_id,VARCHAR(32),NO,v3,ID nasabah pemilik rekening,Tim Data Platform,90,mentah
+core_rekening,limit_kredit,"DECIMAL(18,2)",YES,v3,Plafon kredit disetujui (IDR),Tim Data Platform,90,mentah
+core_rekening,status_rekening,VARCHAR(20),NO,v3,,Tim Data Platform,90,mentah
+core_rekening,tgl_buka,DATE,NO,v3,Tanggal pembukaan rekening,Tim Data Platform,90,mentah
+core_nasabah,nasabah_id,VARCHAR(32),NO,v2,ID nasabah unik,,1825,mentah
+core_nasabah,nama,VARCHAR(128),NO,v2,Nama lengkap nasabah (PII),,1825,mentah
+core_nasabah,nik_hash,VARCHAR(64),NO,v2,Hash NIK (PII sensitif),,1825,mentah
+core_nasabah,tgl_lahir,DATE,YES,v2,Tanggal lahir (PII),,1825,mentah
+risk_score_harian,nasabah_id,VARCHAR(32),NO,v4,ID nasabah,Tim Risiko,90,mentah
+risk_score_harian,skor,"DECIMAL(5,2)",NO,v4,"Skor risiko 0-100, makin besar makin berisiko",Tim Risiko,90,mentah
+risk_score_harian,tgl_skor,DATE,NO,v4,Tanggal perhitungan skor,Tim Risiko,90,mentah
+risk_score_harian,model_version,VARCHAR(16),NO,v4,,Tim Risiko,90,mentah
+dm_kredit,nasabah_id,VARCHAR(32),NO,v5,ID nasabah,Tim Analitik Risiko,1095,mart
+dm_kredit,rekening_id,VARCHAR(32),NO,v5,ID rekening,Tim Analitik Risiko,1095,mart
+dm_kredit,limit_kredit,"DECIMAL(18,2)",YES,v5,Plafon kredit (disalin dari core_rekening),,1095,mart
+dm_kredit,skor_risiko,"DECIMAL(5,2)",YES,v5,Skor risiko terakhir (disalin dari risk_score_harian),Tim Analitik Risiko,1095,mart
+dm_kredit,status_nasabah,VARCHAR(20),NO,v5,Status nasabah — LIHAT GLOSARIUM (konflik),Tim Analitik Risiko,1095,mart
+dm_kredit,tgl_snapshot,DATE,NO,v5,Tanggal snapshot mart,Tim Analitik Risiko,1095,mart
+lap_risiko_bulanan,periode,VARCHAR(7),NO,v2,Periode YYYY-MM,Tim Analitik Risiko,2555,laporan
+lap_risiko_bulanan,total_eksposur,"DECIMAL(20,2)",NO,v2,Total baki debet (IDR),Tim Analitik Risiko,2555,laporan
+lap_risiko_bulanan,n_nasabah_macet,INT,NO,v2,Nasabah kolektibilitas 4-5,Tim Analitik Risiko,2555,laporan
+lap_risiko_bulanan,rasio_npl,"DECIMAL(5,2)",NO,v2,% kredit macet thd total,Tim Analitik Risiko,2555,laporan
+arsip_laporan,periode,VARCHAR(7),NO,v1,Periode arsip,,,laporan
+arsip_laporan,file_path,VARCHAR(256),NO,v1,Lokasi file arsip,,,laporan

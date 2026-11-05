@@ -1,0 +1,1001 @@
+id,rekening_giro,durasi_bulan,riwayat_kredit,tujuan,plafon_kredit,tabungan,lama_kerja,cicilan_pct,usia,hunian,kredit_berjalan,pekerjaan,status
+1,saldo negatif,6,kritis/ada kredit lain,radio/televisi,1169,tidak ada/tdk diketahui,>=7 tahun,4,67,milik sendiri,2,terampil/karyawan,lancar
+2,0-200 DM,48,kredit berjalan lancar,radio/televisi,5951,<100 DM,1-4 tahun,2,22,milik sendiri,1,terampil/karyawan,macet
+3,tanpa rekening giro,12,kritis/ada kredit lain,pendidikan,2096,<100 DM,4-7 tahun,2,49,milik sendiri,1,tidak terampil (residen),lancar
+4,saldo negatif,42,kredit berjalan lancar,furnitur/elektronik,7882,<100 DM,4-7 tahun,2,45,gratis,1,terampil/karyawan,lancar
+5,saldo negatif,24,pernah menunggak,mobil baru,4870,<100 DM,1-4 tahun,3,53,gratis,2,terampil/karyawan,macet
+6,tanpa rekening giro,36,kredit berjalan lancar,pendidikan,9055,tidak ada/tdk diketahui,1-4 tahun,2,35,gratis,1,tidak terampil (residen),lancar
+7,tanpa rekening giro,24,kredit berjalan lancar,furnitur/elektronik,2835,500-1000 DM,>=7 tahun,3,53,milik sendiri,1,terampil/karyawan,lancar
+8,0-200 DM,36,kredit berjalan lancar,mobil bekas,6948,<100 DM,1-4 tahun,2,35,sewa,1,manajer/wiraswasta,lancar
+9,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,3059,>=1000 DM,4-7 tahun,2,61,milik sendiri,1,tidak terampil (residen),lancar
+10,0-200 DM,30,kritis/ada kredit lain,mobil baru,5234,<100 DM,menganggur,4,28,milik sendiri,2,manajer/wiraswasta,macet
+11,0-200 DM,12,kredit berjalan lancar,mobil baru,1295,<100 DM,<1 tahun,3,25,sewa,1,terampil/karyawan,macet
+12,saldo negatif,48,kredit berjalan lancar,usaha,4308,<100 DM,<1 tahun,3,24,sewa,1,terampil/karyawan,macet
+13,0-200 DM,12,kredit berjalan lancar,radio/televisi,1567,<100 DM,1-4 tahun,1,22,milik sendiri,1,terampil/karyawan,lancar
+14,saldo negatif,24,kritis/ada kredit lain,mobil baru,1199,<100 DM,>=7 tahun,4,60,milik sendiri,2,tidak terampil (residen),macet
+15,saldo negatif,15,kredit berjalan lancar,mobil baru,1403,<100 DM,1-4 tahun,2,28,sewa,1,terampil/karyawan,lancar
+16,saldo negatif,24,kredit berjalan lancar,radio/televisi,1282,100-500 DM,1-4 tahun,4,32,milik sendiri,1,tidak terampil (residen),macet
+17,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,2424,tidak ada/tdk diketahui,>=7 tahun,4,53,milik sendiri,2,terampil/karyawan,lancar
+18,saldo negatif,30,lunas tepat waktu,usaha,8072,tidak ada/tdk diketahui,<1 tahun,2,25,milik sendiri,3,terampil/karyawan,lancar
+19,0-200 DM,24,kredit berjalan lancar,mobil bekas,12579,<100 DM,>=7 tahun,4,44,gratis,1,manajer/wiraswasta,macet
+20,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,3430,500-1000 DM,>=7 tahun,3,31,milik sendiri,1,terampil/karyawan,lancar
+21,tanpa rekening giro,9,kritis/ada kredit lain,mobil baru,2134,<100 DM,1-4 tahun,4,48,milik sendiri,3,terampil/karyawan,lancar
+22,saldo negatif,6,kredit berjalan lancar,radio/televisi,2647,500-1000 DM,1-4 tahun,2,44,sewa,1,terampil/karyawan,lancar
+23,saldo negatif,10,kritis/ada kredit lain,mobil baru,2241,<100 DM,<1 tahun,1,48,sewa,2,tidak terampil (residen),lancar
+24,0-200 DM,12,kritis/ada kredit lain,mobil bekas,1804,100-500 DM,<1 tahun,3,44,milik sendiri,1,terampil/karyawan,lancar
+25,tanpa rekening giro,10,kritis/ada kredit lain,furnitur/elektronik,2069,tidak ada/tdk diketahui,1-4 tahun,2,26,milik sendiri,2,terampil/karyawan,lancar
+26,saldo negatif,6,kredit berjalan lancar,furnitur/elektronik,1374,<100 DM,1-4 tahun,1,36,milik sendiri,1,tidak terampil (residen),lancar
+27,tanpa rekening giro,6,lunas tepat waktu,radio/televisi,426,<100 DM,>=7 tahun,4,39,milik sendiri,1,tidak terampil (residen),lancar
+28,>=200 DM / gaji >=1 thn,12,lunas di bank ini,radio/televisi,409,>=1000 DM,1-4 tahun,3,42,sewa,2,terampil/karyawan,lancar
+29,0-200 DM,7,kredit berjalan lancar,radio/televisi,2415,<100 DM,1-4 tahun,3,34,milik sendiri,1,terampil/karyawan,lancar
+30,saldo negatif,60,pernah menunggak,usaha,6836,<100 DM,>=7 tahun,3,63,milik sendiri,2,terampil/karyawan,macet
+31,0-200 DM,18,kredit berjalan lancar,usaha,1913,>=1000 DM,<1 tahun,3,36,milik sendiri,1,terampil/karyawan,lancar
+32,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,4020,<100 DM,1-4 tahun,2,27,milik sendiri,1,terampil/karyawan,lancar
+33,0-200 DM,18,kredit berjalan lancar,mobil baru,5866,100-500 DM,1-4 tahun,2,30,milik sendiri,2,terampil/karyawan,lancar
+34,tanpa rekening giro,12,kritis/ada kredit lain,usaha,1264,tidak ada/tdk diketahui,>=7 tahun,4,57,sewa,1,tidak terampil (residen),lancar
+35,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,furnitur/elektronik,1474,<100 DM,<1 tahun,4,33,milik sendiri,1,manajer/wiraswasta,lancar
+36,0-200 DM,45,kritis/ada kredit lain,radio/televisi,4746,<100 DM,<1 tahun,4,25,milik sendiri,2,tidak terampil (residen),macet
+37,tanpa rekening giro,48,kritis/ada kredit lain,pendidikan,6110,<100 DM,1-4 tahun,1,31,gratis,1,terampil/karyawan,lancar
+38,>=200 DM / gaji >=1 thn,18,kredit berjalan lancar,radio/televisi,2100,<100 DM,1-4 tahun,4,37,milik sendiri,1,terampil/karyawan,macet
+39,>=200 DM / gaji >=1 thn,10,kredit berjalan lancar,peralatan rumah tangga,1225,<100 DM,1-4 tahun,2,37,milik sendiri,1,terampil/karyawan,lancar
+40,0-200 DM,9,kredit berjalan lancar,radio/televisi,458,<100 DM,1-4 tahun,4,24,milik sendiri,1,terampil/karyawan,lancar
+41,tanpa rekening giro,30,kredit berjalan lancar,radio/televisi,2333,500-1000 DM,>=7 tahun,4,30,milik sendiri,1,manajer/wiraswasta,lancar
+42,0-200 DM,12,kredit berjalan lancar,radio/televisi,1158,500-1000 DM,1-4 tahun,3,26,milik sendiri,1,terampil/karyawan,lancar
+43,0-200 DM,18,pernah menunggak,renovasi,6204,<100 DM,1-4 tahun,2,44,milik sendiri,1,tidak terampil (residen),lancar
+44,saldo negatif,30,kritis/ada kredit lain,mobil bekas,6187,100-500 DM,4-7 tahun,1,24,sewa,2,terampil/karyawan,lancar
+45,saldo negatif,48,kritis/ada kredit lain,mobil bekas,6143,<100 DM,>=7 tahun,4,58,gratis,2,tidak terampil (residen),macet
+46,tanpa rekening giro,11,kritis/ada kredit lain,mobil baru,1393,<100 DM,<1 tahun,4,35,milik sendiri,2,manajer/wiraswasta,lancar
+47,tanpa rekening giro,36,kredit berjalan lancar,radio/televisi,2299,500-1000 DM,>=7 tahun,4,39,milik sendiri,1,terampil/karyawan,lancar
+48,saldo negatif,6,kredit berjalan lancar,mobil bekas,1352,500-1000 DM,menganggur,1,23,sewa,1,tidak terampil,lancar
+49,tanpa rekening giro,11,kritis/ada kredit lain,mobil baru,7228,<100 DM,1-4 tahun,1,39,milik sendiri,2,tidak terampil (residen),lancar
+50,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,2073,100-500 DM,1-4 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+51,0-200 DM,24,pernah menunggak,furnitur/elektronik,2333,tidak ada/tdk diketahui,<1 tahun,4,29,milik sendiri,1,tidak terampil (residen),lancar
+52,0-200 DM,27,pernah menunggak,mobil bekas,5965,<100 DM,>=7 tahun,1,30,milik sendiri,2,manajer/wiraswasta,lancar
+53,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,1262,<100 DM,1-4 tahun,3,25,milik sendiri,1,terampil/karyawan,lancar
+54,tanpa rekening giro,18,kredit berjalan lancar,mobil bekas,3378,tidak ada/tdk diketahui,1-4 tahun,2,31,milik sendiri,1,terampil/karyawan,lancar
+55,0-200 DM,36,pernah menunggak,mobil baru,2225,<100 DM,>=7 tahun,4,57,gratis,2,terampil/karyawan,macet
+56,tanpa rekening giro,6,lunas di bank ini,mobil baru,783,tidak ada/tdk diketahui,1-4 tahun,1,26,milik sendiri,1,tidak terampil (residen),lancar
+57,0-200 DM,12,kredit berjalan lancar,radio/televisi,6468,tidak ada/tdk diketahui,menganggur,2,52,milik sendiri,1,manajer/wiraswasta,macet
+58,tanpa rekening giro,36,kritis/ada kredit lain,radio/televisi,9566,<100 DM,1-4 tahun,2,31,milik sendiri,2,terampil/karyawan,lancar
+59,>=200 DM / gaji >=1 thn,18,kredit berjalan lancar,mobil baru,1961,<100 DM,>=7 tahun,3,23,milik sendiri,1,manajer/wiraswasta,lancar
+60,saldo negatif,36,kritis/ada kredit lain,furnitur/elektronik,6229,<100 DM,<1 tahun,4,23,sewa,2,tidak terampil (residen),macet
+61,0-200 DM,9,kredit berjalan lancar,usaha,1391,<100 DM,1-4 tahun,2,27,milik sendiri,1,terampil/karyawan,lancar
+62,0-200 DM,15,kritis/ada kredit lain,radio/televisi,1537,tidak ada/tdk diketahui,>=7 tahun,4,50,milik sendiri,2,terampil/karyawan,lancar
+63,0-200 DM,36,lunas tepat waktu,usaha,1953,<100 DM,>=7 tahun,4,61,gratis,1,manajer/wiraswasta,macet
+64,0-200 DM,48,lunas tepat waktu,usaha,14421,<100 DM,1-4 tahun,2,25,milik sendiri,1,terampil/karyawan,macet
+65,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,3181,<100 DM,<1 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+66,tanpa rekening giro,27,kredit berjalan lancar,renovasi,5190,tidak ada/tdk diketahui,>=7 tahun,4,48,milik sendiri,4,terampil/karyawan,lancar
+67,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,2171,<100 DM,<1 tahun,2,29,milik sendiri,1,terampil/karyawan,lancar
+68,0-200 DM,12,kredit berjalan lancar,mobil baru,1007,>=1000 DM,1-4 tahun,4,22,milik sendiri,1,terampil/karyawan,lancar
+69,tanpa rekening giro,36,kredit berjalan lancar,pendidikan,1819,<100 DM,1-4 tahun,4,37,gratis,1,terampil/karyawan,macet
+70,tanpa rekening giro,36,kredit berjalan lancar,radio/televisi,2394,tidak ada/tdk diketahui,1-4 tahun,4,25,milik sendiri,1,terampil/karyawan,lancar
+71,tanpa rekening giro,36,kredit berjalan lancar,mobil bekas,8133,<100 DM,1-4 tahun,1,30,milik sendiri,1,terampil/karyawan,lancar
+72,tanpa rekening giro,7,kritis/ada kredit lain,radio/televisi,730,tidak ada/tdk diketahui,>=7 tahun,4,46,sewa,2,tidak terampil (residen),lancar
+73,saldo negatif,8,kritis/ada kredit lain,lainnya,1164,<100 DM,>=7 tahun,3,51,gratis,2,manajer/wiraswasta,lancar
+74,0-200 DM,42,kritis/ada kredit lain,usaha,5954,<100 DM,4-7 tahun,2,41,milik sendiri,2,tidak terampil (residen),lancar
+75,saldo negatif,36,kredit berjalan lancar,pendidikan,1977,tidak ada/tdk diketahui,>=7 tahun,4,40,milik sendiri,1,manajer/wiraswasta,macet
+76,saldo negatif,12,kritis/ada kredit lain,mobil bekas,1526,<100 DM,>=7 tahun,4,66,gratis,2,manajer/wiraswasta,lancar
+77,saldo negatif,42,kredit berjalan lancar,radio/televisi,3965,<100 DM,<1 tahun,4,34,milik sendiri,1,terampil/karyawan,macet
+78,0-200 DM,11,pernah menunggak,radio/televisi,4771,<100 DM,4-7 tahun,2,51,milik sendiri,1,terampil/karyawan,lancar
+79,tanpa rekening giro,54,lunas tepat waktu,mobil bekas,9436,tidak ada/tdk diketahui,1-4 tahun,2,39,milik sendiri,1,tidak terampil (residen),lancar
+80,0-200 DM,30,kredit berjalan lancar,furnitur/elektronik,3832,<100 DM,<1 tahun,2,22,milik sendiri,1,terampil/karyawan,lancar
+81,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,5943,tidak ada/tdk diketahui,<1 tahun,1,44,milik sendiri,2,terampil/karyawan,macet
+82,tanpa rekening giro,15,kredit berjalan lancar,radio/televisi,1213,500-1000 DM,>=7 tahun,4,47,milik sendiri,1,terampil/karyawan,lancar
+83,tanpa rekening giro,18,kredit berjalan lancar,usaha,1568,100-500 DM,1-4 tahun,3,24,sewa,1,tidak terampil (residen),lancar
+84,saldo negatif,24,kredit berjalan lancar,lainnya,1755,<100 DM,>=7 tahun,4,58,milik sendiri,1,tidak terampil (residen),lancar
+85,saldo negatif,10,kredit berjalan lancar,radio/televisi,2315,<100 DM,>=7 tahun,3,52,milik sendiri,1,tidak terampil (residen),lancar
+86,tanpa rekening giro,12,kritis/ada kredit lain,usaha,1412,<100 DM,1-4 tahun,4,29,milik sendiri,2,manajer/wiraswasta,lancar
+87,0-200 DM,18,kritis/ada kredit lain,furnitur/elektronik,1295,<100 DM,<1 tahun,4,27,milik sendiri,2,terampil/karyawan,lancar
+88,0-200 DM,36,kredit berjalan lancar,pendidikan,12612,100-500 DM,1-4 tahun,1,47,gratis,1,terampil/karyawan,macet
+89,saldo negatif,18,kredit berjalan lancar,mobil baru,2249,100-500 DM,4-7 tahun,4,30,milik sendiri,1,manajer/wiraswasta,lancar
+90,saldo negatif,12,lunas tepat waktu,renovasi,1108,<100 DM,4-7 tahun,4,28,milik sendiri,2,terampil/karyawan,macet
+91,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,618,<100 DM,>=7 tahun,4,56,milik sendiri,1,terampil/karyawan,lancar
+92,saldo negatif,12,kritis/ada kredit lain,mobil bekas,1409,<100 DM,>=7 tahun,4,54,milik sendiri,1,terampil/karyawan,lancar
+93,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,797,tidak ada/tdk diketahui,>=7 tahun,4,33,milik sendiri,1,tidak terampil (residen),macet
+94,>=200 DM / gaji >=1 thn,24,kritis/ada kredit lain,furnitur/elektronik,3617,tidak ada/tdk diketahui,>=7 tahun,4,20,sewa,2,terampil/karyawan,lancar
+95,0-200 DM,12,kredit berjalan lancar,mobil baru,1318,>=1000 DM,>=7 tahun,4,54,milik sendiri,1,terampil/karyawan,lancar
+96,0-200 DM,54,lunas tepat waktu,usaha,15945,<100 DM,<1 tahun,3,58,sewa,1,terampil/karyawan,macet
+97,tanpa rekening giro,12,kritis/ada kredit lain,pendidikan,2012,tidak ada/tdk diketahui,4-7 tahun,4,61,milik sendiri,1,terampil/karyawan,lancar
+98,0-200 DM,18,kredit berjalan lancar,usaha,2622,100-500 DM,1-4 tahun,4,34,milik sendiri,1,terampil/karyawan,lancar
+99,0-200 DM,36,kritis/ada kredit lain,radio/televisi,2337,<100 DM,>=7 tahun,4,36,milik sendiri,1,terampil/karyawan,lancar
+100,0-200 DM,20,pernah menunggak,mobil bekas,7057,tidak ada/tdk diketahui,4-7 tahun,3,36,sewa,2,manajer/wiraswasta,lancar
+101,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,1469,100-500 DM,>=7 tahun,4,41,sewa,1,tidak terampil (residen),lancar
+102,0-200 DM,36,kredit berjalan lancar,radio/televisi,2323,<100 DM,4-7 tahun,4,24,sewa,1,terampil/karyawan,lancar
+103,tanpa rekening giro,6,pernah menunggak,radio/televisi,932,<100 DM,1-4 tahun,3,24,milik sendiri,1,terampil/karyawan,lancar
+104,0-200 DM,9,kritis/ada kredit lain,furnitur/elektronik,1919,<100 DM,4-7 tahun,4,35,sewa,1,terampil/karyawan,lancar
+105,tanpa rekening giro,12,kredit berjalan lancar,mobil bekas,2445,tidak ada/tdk diketahui,<1 tahun,2,26,sewa,1,terampil/karyawan,lancar
+106,0-200 DM,24,kritis/ada kredit lain,lainnya,11938,<100 DM,1-4 tahun,2,39,milik sendiri,2,manajer/wiraswasta,macet
+107,tanpa rekening giro,18,lunas di bank ini,mobil baru,6458,<100 DM,>=7 tahun,2,39,milik sendiri,2,manajer/wiraswasta,macet
+108,0-200 DM,12,kredit berjalan lancar,mobil baru,6078,<100 DM,4-7 tahun,2,32,milik sendiri,1,terampil/karyawan,lancar
+109,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,7721,tidak ada/tdk diketahui,<1 tahun,1,30,milik sendiri,1,terampil/karyawan,lancar
+110,0-200 DM,14,kredit berjalan lancar,usaha,1410,500-1000 DM,>=7 tahun,1,35,milik sendiri,1,terampil/karyawan,lancar
+111,0-200 DM,6,pernah menunggak,usaha,1449,100-500 DM,>=7 tahun,1,31,milik sendiri,2,terampil/karyawan,lancar
+112,>=200 DM / gaji >=1 thn,15,kredit berjalan lancar,pendidikan,392,<100 DM,<1 tahun,4,23,sewa,1,terampil/karyawan,lancar
+113,0-200 DM,18,kredit berjalan lancar,mobil baru,6260,<100 DM,4-7 tahun,3,28,sewa,1,tidak terampil (residen),lancar
+114,tanpa rekening giro,36,kritis/ada kredit lain,mobil baru,7855,<100 DM,1-4 tahun,4,25,milik sendiri,2,terampil/karyawan,macet
+115,saldo negatif,12,kredit berjalan lancar,radio/televisi,1680,500-1000 DM,>=7 tahun,3,35,milik sendiri,1,terampil/karyawan,lancar
+116,tanpa rekening giro,48,kritis/ada kredit lain,radio/televisi,3578,tidak ada/tdk diketahui,>=7 tahun,4,47,milik sendiri,1,terampil/karyawan,lancar
+117,saldo negatif,42,kredit berjalan lancar,radio/televisi,7174,tidak ada/tdk diketahui,4-7 tahun,4,30,milik sendiri,1,manajer/wiraswasta,macet
+118,saldo negatif,10,kritis/ada kredit lain,furnitur/elektronik,2132,tidak ada/tdk diketahui,<1 tahun,2,27,sewa,2,terampil/karyawan,lancar
+119,saldo negatif,33,kritis/ada kredit lain,furnitur/elektronik,4281,500-1000 DM,1-4 tahun,1,23,milik sendiri,2,terampil/karyawan,macet
+120,0-200 DM,12,kritis/ada kredit lain,mobil baru,2366,500-1000 DM,4-7 tahun,3,36,milik sendiri,1,manajer/wiraswasta,lancar
+121,saldo negatif,21,kredit berjalan lancar,radio/televisi,1835,<100 DM,1-4 tahun,3,25,milik sendiri,2,terampil/karyawan,macet
+122,tanpa rekening giro,24,kritis/ada kredit lain,mobil bekas,3868,<100 DM,>=7 tahun,4,41,sewa,2,manajer/wiraswasta,lancar
+123,tanpa rekening giro,12,kredit berjalan lancar,furnitur/elektronik,1768,<100 DM,1-4 tahun,3,24,sewa,1,tidak terampil (residen),lancar
+124,>=200 DM / gaji >=1 thn,10,kritis/ada kredit lain,mobil baru,781,<100 DM,>=7 tahun,4,63,gratis,2,terampil/karyawan,lancar
+125,0-200 DM,18,kredit berjalan lancar,furnitur/elektronik,1924,tidak ada/tdk diketahui,<1 tahun,4,27,sewa,1,terampil/karyawan,macet
+126,saldo negatif,12,kritis/ada kredit lain,mobil baru,2121,<100 DM,1-4 tahun,4,30,milik sendiri,2,terampil/karyawan,lancar
+127,saldo negatif,12,kredit berjalan lancar,radio/televisi,701,<100 DM,1-4 tahun,4,40,milik sendiri,1,tidak terampil (residen),lancar
+128,0-200 DM,12,kredit berjalan lancar,renovasi,639,<100 DM,1-4 tahun,4,30,milik sendiri,1,terampil/karyawan,macet
+129,0-200 DM,12,kritis/ada kredit lain,mobil bekas,1860,<100 DM,menganggur,4,34,milik sendiri,2,manajer/wiraswasta,lancar
+130,saldo negatif,12,kritis/ada kredit lain,mobil baru,3499,<100 DM,1-4 tahun,3,29,milik sendiri,2,terampil/karyawan,macet
+131,0-200 DM,48,kredit berjalan lancar,mobil baru,8487,tidak ada/tdk diketahui,4-7 tahun,1,24,milik sendiri,1,terampil/karyawan,lancar
+132,saldo negatif,36,pernah menunggak,pendidikan,6887,<100 DM,1-4 tahun,4,29,milik sendiri,1,terampil/karyawan,macet
+133,tanpa rekening giro,15,kredit berjalan lancar,furnitur/elektronik,2708,<100 DM,<1 tahun,2,27,milik sendiri,2,tidak terampil (residen),lancar
+134,tanpa rekening giro,18,kredit berjalan lancar,furnitur/elektronik,1984,<100 DM,1-4 tahun,4,47,gratis,2,terampil/karyawan,lancar
+135,tanpa rekening giro,60,kredit berjalan lancar,radio/televisi,10144,100-500 DM,4-7 tahun,2,21,milik sendiri,1,terampil/karyawan,lancar
+136,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,1240,tidak ada/tdk diketahui,>=7 tahun,4,38,milik sendiri,2,terampil/karyawan,lancar
+137,tanpa rekening giro,27,pernah menunggak,mobil bekas,8613,>=1000 DM,1-4 tahun,2,27,milik sendiri,2,terampil/karyawan,lancar
+138,0-200 DM,12,kredit berjalan lancar,radio/televisi,766,500-1000 DM,1-4 tahun,4,66,milik sendiri,1,tidak terampil (residen),macet
+139,0-200 DM,15,kritis/ada kredit lain,radio/televisi,2728,tidak ada/tdk diketahui,4-7 tahun,4,35,milik sendiri,3,terampil/karyawan,lancar
+140,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,radio/televisi,1881,<100 DM,1-4 tahun,2,44,sewa,1,tidak terampil (residen),lancar
+141,>=200 DM / gaji >=1 thn,6,kredit berjalan lancar,mobil baru,709,>=1000 DM,<1 tahun,2,27,milik sendiri,1,tidak terampil,lancar
+142,0-200 DM,36,kredit berjalan lancar,radio/televisi,4795,<100 DM,<1 tahun,4,30,milik sendiri,1,manajer/wiraswasta,lancar
+143,saldo negatif,27,kredit berjalan lancar,radio/televisi,3416,<100 DM,1-4 tahun,3,27,milik sendiri,1,manajer/wiraswasta,lancar
+144,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,2462,<100 DM,1-4 tahun,2,22,milik sendiri,1,terampil/karyawan,macet
+145,tanpa rekening giro,21,kritis/ada kredit lain,furnitur/elektronik,2288,<100 DM,<1 tahun,4,23,milik sendiri,1,terampil/karyawan,lancar
+146,0-200 DM,48,lunas di bank ini,usaha,3566,100-500 DM,4-7 tahun,4,30,milik sendiri,1,terampil/karyawan,lancar
+147,saldo negatif,6,kritis/ada kredit lain,mobil baru,860,<100 DM,>=7 tahun,1,39,milik sendiri,2,terampil/karyawan,lancar
+148,tanpa rekening giro,12,kritis/ada kredit lain,mobil baru,682,100-500 DM,4-7 tahun,4,51,milik sendiri,2,terampil/karyawan,lancar
+149,saldo negatif,36,kritis/ada kredit lain,furnitur/elektronik,5371,<100 DM,1-4 tahun,3,28,milik sendiri,2,terampil/karyawan,lancar
+150,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,1582,>=1000 DM,>=7 tahun,4,46,milik sendiri,2,terampil/karyawan,lancar
+151,tanpa rekening giro,6,kredit berjalan lancar,radio/televisi,1346,100-500 DM,>=7 tahun,2,42,gratis,1,terampil/karyawan,lancar
+152,tanpa rekening giro,10,kredit berjalan lancar,radio/televisi,1924,<100 DM,1-4 tahun,1,38,milik sendiri,1,terampil/karyawan,lancar
+153,>=200 DM / gaji >=1 thn,36,kredit berjalan lancar,radio/televisi,5848,<100 DM,1-4 tahun,4,24,milik sendiri,1,terampil/karyawan,lancar
+154,0-200 DM,24,kritis/ada kredit lain,mobil bekas,7758,>=1000 DM,>=7 tahun,2,29,sewa,1,terampil/karyawan,lancar
+155,0-200 DM,24,pernah menunggak,usaha,6967,100-500 DM,4-7 tahun,4,36,sewa,1,manajer/wiraswasta,lancar
+156,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,1282,<100 DM,1-4 tahun,2,20,sewa,1,terampil/karyawan,macet
+157,saldo negatif,9,kritis/ada kredit lain,renovasi,1288,100-500 DM,>=7 tahun,3,48,milik sendiri,2,terampil/karyawan,lancar
+158,saldo negatif,12,lunas di bank ini,pelatihan ulang,339,<100 DM,>=7 tahun,4,45,milik sendiri,1,tidak terampil (residen),lancar
+159,0-200 DM,24,kredit berjalan lancar,mobil baru,3512,100-500 DM,4-7 tahun,2,38,milik sendiri,2,terampil/karyawan,lancar
+160,tanpa rekening giro,6,kritis/ada kredit lain,radio/televisi,1898,tidak ada/tdk diketahui,1-4 tahun,1,34,milik sendiri,2,tidak terampil (residen),lancar
+161,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,2872,100-500 DM,>=7 tahun,3,36,milik sendiri,1,terampil/karyawan,lancar
+162,tanpa rekening giro,18,kritis/ada kredit lain,mobil baru,1055,<100 DM,<1 tahun,4,30,milik sendiri,2,terampil/karyawan,lancar
+163,tanpa rekening giro,15,kredit berjalan lancar,peralatan rumah tangga,1262,500-1000 DM,4-7 tahun,4,36,milik sendiri,2,terampil/karyawan,lancar
+164,0-200 DM,10,kredit berjalan lancar,mobil baru,7308,<100 DM,menganggur,2,70,gratis,1,manajer/wiraswasta,lancar
+165,tanpa rekening giro,36,kredit berjalan lancar,mobil baru,909,500-1000 DM,>=7 tahun,4,36,milik sendiri,1,terampil/karyawan,lancar
+166,tanpa rekening giro,6,kredit berjalan lancar,furnitur/elektronik,2978,500-1000 DM,1-4 tahun,1,32,milik sendiri,1,terampil/karyawan,lancar
+167,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,1131,<100 DM,menganggur,4,33,milik sendiri,1,terampil/karyawan,macet
+168,0-200 DM,11,kredit berjalan lancar,furnitur/elektronik,1577,>=1000 DM,<1 tahun,4,20,milik sendiri,1,terampil/karyawan,lancar
+169,tanpa rekening giro,24,kredit berjalan lancar,furnitur/elektronik,3972,<100 DM,4-7 tahun,2,25,sewa,1,terampil/karyawan,lancar
+170,0-200 DM,24,kritis/ada kredit lain,usaha,1935,<100 DM,>=7 tahun,4,31,milik sendiri,2,terampil/karyawan,macet
+171,saldo negatif,15,lunas tepat waktu,mobil baru,950,<100 DM,>=7 tahun,4,33,sewa,2,terampil/karyawan,macet
+172,tanpa rekening giro,12,kredit berjalan lancar,furnitur/elektronik,763,<100 DM,1-4 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+173,0-200 DM,24,pernah menunggak,furnitur/elektronik,2064,<100 DM,menganggur,3,34,milik sendiri,1,manajer/wiraswasta,macet
+174,0-200 DM,8,kredit berjalan lancar,radio/televisi,1414,<100 DM,1-4 tahun,4,33,milik sendiri,1,terampil/karyawan,lancar
+175,saldo negatif,21,pernah menunggak,pendidikan,3414,<100 DM,<1 tahun,2,26,milik sendiri,2,terampil/karyawan,macet
+176,tanpa rekening giro,30,lunas di bank ini,mobil bekas,7485,tidak ada/tdk diketahui,menganggur,4,53,milik sendiri,1,manajer/wiraswasta,macet
+177,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,2577,<100 DM,1-4 tahun,2,42,milik sendiri,1,terampil/karyawan,lancar
+178,saldo negatif,6,kritis/ada kredit lain,radio/televisi,338,500-1000 DM,>=7 tahun,4,52,milik sendiri,2,terampil/karyawan,lancar
+179,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,1963,<100 DM,4-7 tahun,4,31,sewa,2,manajer/wiraswasta,lancar
+180,saldo negatif,21,kritis/ada kredit lain,mobil baru,571,<100 DM,>=7 tahun,4,65,milik sendiri,2,terampil/karyawan,lancar
+181,tanpa rekening giro,36,pernah menunggak,usaha,9572,<100 DM,<1 tahun,1,28,milik sendiri,2,terampil/karyawan,macet
+182,0-200 DM,36,pernah menunggak,usaha,4455,<100 DM,1-4 tahun,2,30,milik sendiri,2,manajer/wiraswasta,macet
+183,saldo negatif,21,lunas di bank ini,mobil baru,1647,tidak ada/tdk diketahui,1-4 tahun,4,40,milik sendiri,2,tidak terampil (residen),macet
+184,tanpa rekening giro,24,kritis/ada kredit lain,furnitur/elektronik,3777,>=1000 DM,1-4 tahun,4,50,milik sendiri,1,terampil/karyawan,lancar
+185,0-200 DM,18,kritis/ada kredit lain,mobil baru,884,<100 DM,>=7 tahun,4,36,milik sendiri,1,terampil/karyawan,macet
+186,tanpa rekening giro,15,kritis/ada kredit lain,radio/televisi,1360,<100 DM,1-4 tahun,4,31,milik sendiri,2,terampil/karyawan,lancar
+187,0-200 DM,9,lunas di bank ini,mobil bekas,5129,<100 DM,>=7 tahun,2,74,gratis,1,manajer/wiraswasta,macet
+188,0-200 DM,16,kritis/ada kredit lain,mobil baru,1175,<100 DM,menganggur,2,68,gratis,3,tidak terampil,lancar
+189,saldo negatif,12,kredit berjalan lancar,radio/televisi,674,100-500 DM,4-7 tahun,4,20,milik sendiri,1,terampil/karyawan,macet
+190,0-200 DM,18,lunas tepat waktu,furnitur/elektronik,3244,<100 DM,1-4 tahun,1,33,milik sendiri,2,terampil/karyawan,lancar
+191,tanpa rekening giro,24,kredit berjalan lancar,usaha,4591,>=1000 DM,1-4 tahun,2,54,milik sendiri,3,manajer/wiraswasta,macet
+192,0-200 DM,48,lunas tepat waktu,usaha,3844,100-500 DM,4-7 tahun,4,34,gratis,1,tidak terampil (residen),macet
+193,0-200 DM,27,kredit berjalan lancar,usaha,3915,<100 DM,1-4 tahun,4,36,milik sendiri,1,terampil/karyawan,macet
+194,tanpa rekening giro,6,kredit berjalan lancar,radio/televisi,2108,<100 DM,4-7 tahun,2,29,sewa,1,terampil/karyawan,lancar
+195,0-200 DM,45,kredit berjalan lancar,radio/televisi,3031,100-500 DM,1-4 tahun,4,21,sewa,1,terampil/karyawan,macet
+196,0-200 DM,9,kritis/ada kredit lain,pendidikan,1501,<100 DM,>=7 tahun,2,34,milik sendiri,2,manajer/wiraswasta,macet
+197,tanpa rekening giro,6,kritis/ada kredit lain,radio/televisi,1382,<100 DM,1-4 tahun,1,28,milik sendiri,2,terampil/karyawan,lancar
+198,0-200 DM,12,kredit berjalan lancar,furnitur/elektronik,951,100-500 DM,<1 tahun,4,27,sewa,4,terampil/karyawan,macet
+199,0-200 DM,24,kredit berjalan lancar,mobil bekas,2760,tidak ada/tdk diketahui,>=7 tahun,4,36,gratis,1,terampil/karyawan,lancar
+200,0-200 DM,18,pernah menunggak,furnitur/elektronik,4297,<100 DM,>=7 tahun,4,40,milik sendiri,1,manajer/wiraswasta,macet
+201,tanpa rekening giro,9,kritis/ada kredit lain,pendidikan,936,500-1000 DM,>=7 tahun,4,52,milik sendiri,2,terampil/karyawan,lancar
+202,saldo negatif,12,kredit berjalan lancar,mobil baru,1168,<100 DM,1-4 tahun,4,27,milik sendiri,1,tidak terampil (residen),lancar
+203,tanpa rekening giro,27,pernah menunggak,usaha,5117,<100 DM,4-7 tahun,3,26,milik sendiri,2,terampil/karyawan,lancar
+204,saldo negatif,12,kredit berjalan lancar,pelatihan ulang,902,<100 DM,4-7 tahun,4,21,sewa,1,terampil/karyawan,macet
+205,tanpa rekening giro,12,kritis/ada kredit lain,mobil baru,1495,<100 DM,>=7 tahun,4,38,milik sendiri,2,tidak terampil (residen),lancar
+206,saldo negatif,30,kritis/ada kredit lain,mobil bekas,10623,<100 DM,>=7 tahun,3,38,gratis,3,manajer/wiraswasta,lancar
+207,tanpa rekening giro,12,kritis/ada kredit lain,furnitur/elektronik,1935,<100 DM,>=7 tahun,4,43,milik sendiri,3,terampil/karyawan,lancar
+208,0-200 DM,12,kritis/ada kredit lain,peralatan rumah tangga,1424,<100 DM,4-7 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+209,saldo negatif,24,kredit berjalan lancar,usaha,6568,<100 DM,1-4 tahun,2,21,milik sendiri,1,tidak terampil (residen),lancar
+210,tanpa rekening giro,12,kredit berjalan lancar,mobil bekas,1413,>=1000 DM,4-7 tahun,3,55,milik sendiri,1,terampil/karyawan,lancar
+211,tanpa rekening giro,9,kritis/ada kredit lain,radio/televisi,3074,tidak ada/tdk diketahui,1-4 tahun,1,33,milik sendiri,2,terampil/karyawan,lancar
+212,tanpa rekening giro,36,kredit berjalan lancar,radio/televisi,3835,tidak ada/tdk diketahui,>=7 tahun,2,45,milik sendiri,1,tidak terampil (residen),lancar
+213,saldo negatif,27,lunas tepat waktu,usaha,5293,<100 DM,menganggur,2,50,milik sendiri,2,terampil/karyawan,macet
+214,>=200 DM / gaji >=1 thn,30,pernah menunggak,usaha,1908,<100 DM,>=7 tahun,4,66,milik sendiri,1,manajer/wiraswasta,macet
+215,tanpa rekening giro,36,kritis/ada kredit lain,radio/televisi,3342,tidak ada/tdk diketahui,>=7 tahun,4,51,milik sendiri,1,terampil/karyawan,lancar
+216,0-200 DM,6,kritis/ada kredit lain,pelatihan ulang,932,tidak ada/tdk diketahui,4-7 tahun,1,39,milik sendiri,2,tidak terampil (residen),lancar
+217,saldo negatif,18,lunas tepat waktu,usaha,3104,<100 DM,4-7 tahun,3,31,milik sendiri,1,terampil/karyawan,lancar
+218,>=200 DM / gaji >=1 thn,36,kredit berjalan lancar,radio/televisi,3913,<100 DM,1-4 tahun,2,23,milik sendiri,1,terampil/karyawan,lancar
+219,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,3021,<100 DM,1-4 tahun,2,24,sewa,1,tidak terampil (residen),lancar
+220,tanpa rekening giro,10,kredit berjalan lancar,mobil baru,1364,<100 DM,1-4 tahun,2,64,milik sendiri,1,terampil/karyawan,lancar
+221,0-200 DM,12,kredit berjalan lancar,radio/televisi,625,<100 DM,<1 tahun,4,26,milik sendiri,1,tidak terampil (residen),lancar
+222,saldo negatif,12,kredit berjalan lancar,pendidikan,1200,tidak ada/tdk diketahui,1-4 tahun,4,23,sewa,1,terampil/karyawan,lancar
+223,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,707,<100 DM,1-4 tahun,4,30,milik sendiri,2,terampil/karyawan,lancar
+224,tanpa rekening giro,24,pernah menunggak,usaha,2978,tidak ada/tdk diketahui,1-4 tahun,4,32,milik sendiri,2,terampil/karyawan,lancar
+225,tanpa rekening giro,15,kredit berjalan lancar,mobil bekas,4657,<100 DM,1-4 tahun,3,30,milik sendiri,1,terampil/karyawan,lancar
+226,tanpa rekening giro,36,lunas tepat waktu,renovasi,2613,<100 DM,1-4 tahun,4,27,milik sendiri,2,terampil/karyawan,lancar
+227,0-200 DM,48,kredit berjalan lancar,radio/televisi,10961,>=1000 DM,4-7 tahun,1,27,milik sendiri,2,terampil/karyawan,macet
+228,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,7865,<100 DM,>=7 tahun,4,53,gratis,1,manajer/wiraswasta,macet
+229,tanpa rekening giro,9,kredit berjalan lancar,radio/televisi,1478,<100 DM,4-7 tahun,4,22,milik sendiri,1,terampil/karyawan,macet
+230,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,3149,<100 DM,<1 tahun,4,22,gratis,1,terampil/karyawan,lancar
+231,>=200 DM / gaji >=1 thn,36,kredit berjalan lancar,radio/televisi,4210,<100 DM,1-4 tahun,4,26,milik sendiri,1,terampil/karyawan,macet
+232,tanpa rekening giro,9,kredit berjalan lancar,mobil baru,2507,500-1000 DM,>=7 tahun,2,51,gratis,1,tidak terampil (residen),lancar
+233,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,2141,100-500 DM,4-7 tahun,3,35,milik sendiri,1,terampil/karyawan,lancar
+234,0-200 DM,18,kredit berjalan lancar,radio/televisi,866,<100 DM,1-4 tahun,4,25,milik sendiri,1,tidak terampil (residen),lancar
+235,tanpa rekening giro,4,kritis/ada kredit lain,radio/televisi,1544,<100 DM,4-7 tahun,2,42,milik sendiri,3,tidak terampil (residen),lancar
+236,saldo negatif,24,kredit berjalan lancar,radio/televisi,1823,<100 DM,menganggur,4,30,milik sendiri,1,manajer/wiraswasta,macet
+237,0-200 DM,6,kredit berjalan lancar,mobil baru,14555,tidak ada/tdk diketahui,menganggur,1,23,milik sendiri,1,tidak terampil,macet
+238,0-200 DM,21,kredit berjalan lancar,usaha,2767,100-500 DM,>=7 tahun,4,61,sewa,2,tidak terampil (residen),macet
+239,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,1291,<100 DM,1-4 tahun,4,35,milik sendiri,2,terampil/karyawan,lancar
+240,saldo negatif,30,kredit berjalan lancar,radio/televisi,2522,<100 DM,>=7 tahun,1,39,milik sendiri,1,terampil/karyawan,lancar
+241,saldo negatif,24,kredit berjalan lancar,mobil baru,915,tidak ada/tdk diketahui,>=7 tahun,4,29,milik sendiri,1,terampil/karyawan,macet
+242,tanpa rekening giro,6,kredit berjalan lancar,radio/televisi,1595,<100 DM,4-7 tahun,3,51,milik sendiri,1,terampil/karyawan,lancar
+243,saldo negatif,48,lunas tepat waktu,mobil bekas,4605,<100 DM,>=7 tahun,3,24,gratis,2,terampil/karyawan,macet
+244,tanpa rekening giro,12,kritis/ada kredit lain,usaha,1185,<100 DM,1-4 tahun,3,27,milik sendiri,2,terampil/karyawan,lancar
+245,tanpa rekening giro,12,lunas di bank ini,pelatihan ulang,3447,500-1000 DM,1-4 tahun,4,35,milik sendiri,1,tidak terampil (residen),lancar
+246,tanpa rekening giro,24,kredit berjalan lancar,usaha,1258,<100 DM,4-7 tahun,4,25,milik sendiri,1,terampil/karyawan,lancar
+247,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,717,<100 DM,>=7 tahun,4,52,milik sendiri,3,terampil/karyawan,lancar
+248,tanpa rekening giro,6,lunas tepat waktu,mobil baru,1204,100-500 DM,1-4 tahun,4,35,sewa,1,terampil/karyawan,lancar
+249,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,furnitur/elektronik,1925,<100 DM,1-4 tahun,2,26,milik sendiri,1,terampil/karyawan,lancar
+250,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,433,<100 DM,menganggur,3,22,sewa,1,terampil/karyawan,macet
+251,saldo negatif,6,kritis/ada kredit lain,mobil baru,666,>=1000 DM,4-7 tahun,3,39,milik sendiri,2,tidak terampil (residen),lancar
+252,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,furnitur/elektronik,2251,<100 DM,1-4 tahun,1,46,milik sendiri,1,tidak terampil (residen),lancar
+253,0-200 DM,30,kredit berjalan lancar,mobil baru,2150,<100 DM,1-4 tahun,4,24,milik sendiri,1,terampil/karyawan,macet
+254,tanpa rekening giro,24,pernah menunggak,furnitur/elektronik,4151,100-500 DM,1-4 tahun,2,35,milik sendiri,2,terampil/karyawan,lancar
+255,0-200 DM,9,kredit berjalan lancar,furnitur/elektronik,2030,tidak ada/tdk diketahui,4-7 tahun,2,24,milik sendiri,1,terampil/karyawan,lancar
+256,0-200 DM,60,pernah menunggak,radio/televisi,7418,tidak ada/tdk diketahui,1-4 tahun,1,27,milik sendiri,1,tidak terampil (residen),lancar
+257,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,2684,<100 DM,1-4 tahun,4,35,milik sendiri,2,tidak terampil (residen),lancar
+258,saldo negatif,12,lunas di bank ini,radio/televisi,2149,<100 DM,1-4 tahun,4,29,gratis,1,terampil/karyawan,macet
+259,tanpa rekening giro,15,kredit berjalan lancar,mobil bekas,3812,100-500 DM,<1 tahun,1,23,milik sendiri,1,terampil/karyawan,lancar
+260,tanpa rekening giro,11,kritis/ada kredit lain,radio/televisi,1154,100-500 DM,menganggur,4,57,milik sendiri,3,tidak terampil (residen),lancar
+261,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,1657,<100 DM,1-4 tahun,2,27,milik sendiri,1,terampil/karyawan,lancar
+262,saldo negatif,24,kredit berjalan lancar,radio/televisi,1603,<100 DM,>=7 tahun,4,55,milik sendiri,1,terampil/karyawan,lancar
+263,saldo negatif,18,kritis/ada kredit lain,mobil baru,5302,<100 DM,>=7 tahun,2,36,gratis,3,manajer/wiraswasta,lancar
+264,tanpa rekening giro,12,kritis/ada kredit lain,pendidikan,2748,<100 DM,>=7 tahun,2,57,gratis,3,tidak terampil (residen),lancar
+265,tanpa rekening giro,10,kritis/ada kredit lain,mobil baru,1231,<100 DM,>=7 tahun,3,32,milik sendiri,2,tidak terampil (residen),lancar
+266,0-200 DM,15,kredit berjalan lancar,radio/televisi,802,<100 DM,>=7 tahun,4,37,milik sendiri,1,terampil/karyawan,macet
+267,tanpa rekening giro,36,kritis/ada kredit lain,usaha,6304,tidak ada/tdk diketahui,>=7 tahun,4,36,milik sendiri,2,terampil/karyawan,lancar
+268,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1533,<100 DM,<1 tahun,4,38,milik sendiri,1,terampil/karyawan,lancar
+269,saldo negatif,14,kredit berjalan lancar,mobil baru,8978,<100 DM,>=7 tahun,1,45,milik sendiri,1,manajer/wiraswasta,macet
+270,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,999,tidak ada/tdk diketahui,>=7 tahun,4,25,milik sendiri,2,terampil/karyawan,lancar
+271,tanpa rekening giro,18,kredit berjalan lancar,mobil baru,2662,tidak ada/tdk diketahui,4-7 tahun,4,32,milik sendiri,1,terampil/karyawan,lancar
+272,tanpa rekening giro,12,kritis/ada kredit lain,furnitur/elektronik,1402,500-1000 DM,4-7 tahun,3,37,sewa,1,terampil/karyawan,lancar
+273,0-200 DM,48,lunas di bank ini,mobil baru,12169,tidak ada/tdk diketahui,menganggur,4,36,gratis,1,manajer/wiraswasta,lancar
+274,0-200 DM,48,kredit berjalan lancar,radio/televisi,3060,<100 DM,4-7 tahun,4,28,milik sendiri,2,terampil/karyawan,macet
+275,saldo negatif,30,kredit berjalan lancar,renovasi,11998,<100 DM,<1 tahun,1,34,milik sendiri,1,tidak terampil (residen),macet
+276,tanpa rekening giro,9,kredit berjalan lancar,radio/televisi,2697,<100 DM,1-4 tahun,1,32,milik sendiri,1,terampil/karyawan,lancar
+277,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,2404,<100 DM,1-4 tahun,2,26,milik sendiri,2,terampil/karyawan,lancar
+278,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,1262,tidak ada/tdk diketahui,>=7 tahun,2,49,milik sendiri,1,tidak terampil (residen),lancar
+279,tanpa rekening giro,6,kredit berjalan lancar,furnitur/elektronik,4611,<100 DM,<1 tahun,1,32,milik sendiri,1,terampil/karyawan,macet
+280,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1901,100-500 DM,1-4 tahun,4,29,sewa,1,manajer/wiraswasta,lancar
+281,tanpa rekening giro,15,kritis/ada kredit lain,mobil bekas,3368,>=1000 DM,>=7 tahun,3,23,sewa,2,terampil/karyawan,lancar
+282,tanpa rekening giro,12,kredit berjalan lancar,furnitur/elektronik,1574,<100 DM,1-4 tahun,4,50,milik sendiri,1,terampil/karyawan,lancar
+283,>=200 DM / gaji >=1 thn,18,lunas di bank ini,radio/televisi,1445,tidak ada/tdk diketahui,4-7 tahun,4,49,milik sendiri,1,tidak terampil (residen),lancar
+284,tanpa rekening giro,15,kritis/ada kredit lain,furnitur/elektronik,1520,tidak ada/tdk diketahui,>=7 tahun,4,63,milik sendiri,1,terampil/karyawan,lancar
+285,0-200 DM,24,kritis/ada kredit lain,mobil baru,3878,100-500 DM,<1 tahun,4,37,milik sendiri,1,terampil/karyawan,lancar
+286,saldo negatif,47,kredit berjalan lancar,mobil baru,10722,<100 DM,<1 tahun,1,35,milik sendiri,1,tidak terampil (residen),lancar
+287,saldo negatif,48,kredit berjalan lancar,mobil bekas,4788,<100 DM,4-7 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+288,0-200 DM,48,pernah menunggak,lainnya,7582,100-500 DM,menganggur,2,31,gratis,1,manajer/wiraswasta,lancar
+289,0-200 DM,12,kredit berjalan lancar,radio/televisi,1092,<100 DM,1-4 tahun,4,49,milik sendiri,2,terampil/karyawan,lancar
+290,saldo negatif,24,pernah menunggak,radio/televisi,1024,<100 DM,<1 tahun,4,48,milik sendiri,1,terampil/karyawan,macet
+291,tanpa rekening giro,12,kredit berjalan lancar,usaha,1076,<100 DM,1-4 tahun,2,26,milik sendiri,1,terampil/karyawan,lancar
+292,0-200 DM,36,kredit berjalan lancar,mobil bekas,9398,<100 DM,<1 tahun,1,28,sewa,1,manajer/wiraswasta,macet
+293,saldo negatif,24,kritis/ada kredit lain,mobil bekas,6419,<100 DM,>=7 tahun,2,44,gratis,2,manajer/wiraswasta,lancar
+294,>=200 DM / gaji >=1 thn,42,kritis/ada kredit lain,mobil bekas,4796,<100 DM,>=7 tahun,4,56,gratis,1,terampil/karyawan,lancar
+295,tanpa rekening giro,48,kritis/ada kredit lain,usaha,7629,tidak ada/tdk diketahui,>=7 tahun,4,46,milik sendiri,2,manajer/wiraswasta,lancar
+296,0-200 DM,48,kredit berjalan lancar,furnitur/elektronik,9960,<100 DM,<1 tahun,1,26,milik sendiri,1,terampil/karyawan,macet
+297,tanpa rekening giro,12,kredit berjalan lancar,mobil bekas,4675,tidak ada/tdk diketahui,<1 tahun,1,20,sewa,1,terampil/karyawan,lancar
+298,tanpa rekening giro,10,kredit berjalan lancar,mobil baru,1287,tidak ada/tdk diketahui,>=7 tahun,4,45,milik sendiri,1,tidak terampil (residen),lancar
+299,tanpa rekening giro,18,kredit berjalan lancar,furnitur/elektronik,2515,<100 DM,1-4 tahun,3,43,milik sendiri,1,terampil/karyawan,lancar
+300,0-200 DM,21,kritis/ada kredit lain,furnitur/elektronik,2745,>=1000 DM,4-7 tahun,3,32,milik sendiri,2,terampil/karyawan,lancar
+301,tanpa rekening giro,6,kredit berjalan lancar,mobil baru,672,<100 DM,menganggur,1,54,milik sendiri,1,tidak terampil,lancar
+302,0-200 DM,36,lunas tepat waktu,radio/televisi,3804,<100 DM,1-4 tahun,4,42,milik sendiri,1,terampil/karyawan,macet
+303,>=200 DM / gaji >=1 thn,24,kritis/ada kredit lain,mobil baru,1344,tidak ada/tdk diketahui,4-7 tahun,4,37,milik sendiri,2,tidak terampil (residen),macet
+304,saldo negatif,10,kritis/ada kredit lain,mobil baru,1038,<100 DM,4-7 tahun,4,49,milik sendiri,2,terampil/karyawan,lancar
+305,tanpa rekening giro,48,kritis/ada kredit lain,mobil baru,10127,500-1000 DM,1-4 tahun,2,44,gratis,1,terampil/karyawan,macet
+306,tanpa rekening giro,6,kredit berjalan lancar,furnitur/elektronik,1543,>=1000 DM,1-4 tahun,4,33,milik sendiri,1,terampil/karyawan,lancar
+307,tanpa rekening giro,30,kredit berjalan lancar,mobil bekas,4811,tidak ada/tdk diketahui,4-7 tahun,2,24,sewa,1,tidak terampil (residen),lancar
+308,saldo negatif,12,kredit berjalan lancar,radio/televisi,727,100-500 DM,<1 tahun,4,33,milik sendiri,1,tidak terampil (residen),macet
+309,0-200 DM,8,kredit berjalan lancar,furnitur/elektronik,1237,<100 DM,1-4 tahun,3,24,milik sendiri,1,terampil/karyawan,macet
+310,0-200 DM,9,kredit berjalan lancar,mobil baru,276,<100 DM,1-4 tahun,4,22,sewa,1,tidak terampil (residen),lancar
+311,0-200 DM,48,kredit berjalan lancar,lainnya,5381,tidak ada/tdk diketahui,menganggur,3,40,gratis,1,tidak terampil,lancar
+312,tanpa rekening giro,24,kredit berjalan lancar,furnitur/elektronik,5511,100-500 DM,1-4 tahun,4,25,milik sendiri,1,terampil/karyawan,lancar
+313,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,furnitur/elektronik,3749,<100 DM,<1 tahun,2,26,milik sendiri,1,terampil/karyawan,lancar
+314,0-200 DM,12,kredit berjalan lancar,mobil baru,685,<100 DM,4-7 tahun,2,25,milik sendiri,1,tidak terampil (residen),macet
+315,>=200 DM / gaji >=1 thn,4,kredit berjalan lancar,mobil baru,1494,tidak ada/tdk diketahui,<1 tahun,1,29,milik sendiri,1,tidak terampil (residen),lancar
+316,saldo negatif,36,lunas di bank ini,furnitur/elektronik,2746,<100 DM,>=7 tahun,4,31,milik sendiri,1,terampil/karyawan,macet
+317,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,708,<100 DM,1-4 tahun,2,38,milik sendiri,1,tidak terampil (residen),lancar
+318,0-200 DM,24,kredit berjalan lancar,furnitur/elektronik,4351,tidak ada/tdk diketahui,1-4 tahun,1,48,milik sendiri,1,tidak terampil (residen),lancar
+319,tanpa rekening giro,12,kritis/ada kredit lain,pendidikan,701,<100 DM,1-4 tahun,4,32,milik sendiri,2,terampil/karyawan,lancar
+320,saldo negatif,15,pernah menunggak,furnitur/elektronik,3643,<100 DM,>=7 tahun,1,27,milik sendiri,2,tidak terampil (residen),lancar
+321,0-200 DM,30,kritis/ada kredit lain,mobil baru,4249,<100 DM,menganggur,4,28,milik sendiri,2,manajer/wiraswasta,macet
+322,saldo negatif,24,kredit berjalan lancar,radio/televisi,1938,<100 DM,<1 tahun,4,32,milik sendiri,1,terampil/karyawan,macet
+323,saldo negatif,24,kredit berjalan lancar,mobil bekas,2910,<100 DM,4-7 tahun,2,34,gratis,1,manajer/wiraswasta,lancar
+324,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,2659,>=1000 DM,1-4 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+325,tanpa rekening giro,18,kritis/ada kredit lain,mobil baru,1028,<100 DM,1-4 tahun,4,36,milik sendiri,2,terampil/karyawan,lancar
+326,saldo negatif,8,kritis/ada kredit lain,mobil baru,3398,<100 DM,4-7 tahun,1,39,milik sendiri,2,tidak terampil (residen),lancar
+327,tanpa rekening giro,12,kritis/ada kredit lain,furnitur/elektronik,5801,tidak ada/tdk diketahui,>=7 tahun,2,49,sewa,1,terampil/karyawan,lancar
+328,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,1525,>=1000 DM,4-7 tahun,4,34,milik sendiri,1,terampil/karyawan,lancar
+329,>=200 DM / gaji >=1 thn,36,kredit berjalan lancar,radio/televisi,4473,<100 DM,>=7 tahun,4,31,milik sendiri,1,terampil/karyawan,lancar
+330,0-200 DM,6,kredit berjalan lancar,radio/televisi,1068,<100 DM,>=7 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+331,saldo negatif,24,kritis/ada kredit lain,mobil bekas,6615,<100 DM,menganggur,2,75,gratis,2,manajer/wiraswasta,lancar
+332,tanpa rekening giro,18,kritis/ada kredit lain,pendidikan,1864,100-500 DM,1-4 tahun,4,30,milik sendiri,2,terampil/karyawan,macet
+333,0-200 DM,60,kredit berjalan lancar,mobil baru,7408,100-500 DM,<1 tahun,4,24,milik sendiri,1,manajer/wiraswasta,macet
+334,tanpa rekening giro,48,kritis/ada kredit lain,mobil bekas,11590,100-500 DM,1-4 tahun,2,24,sewa,2,tidak terampil (residen),macet
+335,saldo negatif,24,lunas tepat waktu,furnitur/elektronik,4110,<100 DM,>=7 tahun,3,23,sewa,2,terampil/karyawan,macet
+336,saldo negatif,6,kritis/ada kredit lain,furnitur/elektronik,3384,<100 DM,1-4 tahun,1,44,sewa,1,manajer/wiraswasta,macet
+337,0-200 DM,13,kredit berjalan lancar,radio/televisi,2101,<100 DM,<1 tahun,2,23,milik sendiri,1,tidak terampil (residen),lancar
+338,saldo negatif,15,kredit berjalan lancar,peralatan rumah tangga,1275,tidak ada/tdk diketahui,1-4 tahun,4,24,sewa,1,terampil/karyawan,macet
+339,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,4169,<100 DM,1-4 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+340,0-200 DM,10,kredit berjalan lancar,furnitur/elektronik,1521,<100 DM,1-4 tahun,4,31,milik sendiri,1,tidak terampil (residen),lancar
+341,0-200 DM,24,kritis/ada kredit lain,pendidikan,5743,<100 DM,<1 tahun,2,24,gratis,2,terampil/karyawan,lancar
+342,saldo negatif,21,kredit berjalan lancar,furnitur/elektronik,3599,<100 DM,4-7 tahun,1,26,sewa,1,tidak terampil (residen),lancar
+343,0-200 DM,18,kredit berjalan lancar,radio/televisi,3213,500-1000 DM,<1 tahun,1,25,sewa,1,terampil/karyawan,lancar
+344,0-200 DM,18,kredit berjalan lancar,usaha,4439,<100 DM,>=7 tahun,1,33,milik sendiri,1,manajer/wiraswasta,lancar
+345,>=200 DM / gaji >=1 thn,10,kredit berjalan lancar,mobil baru,3949,<100 DM,<1 tahun,1,37,milik sendiri,1,tidak terampil (residen),lancar
+346,tanpa rekening giro,15,kritis/ada kredit lain,radio/televisi,1459,<100 DM,1-4 tahun,4,43,milik sendiri,1,tidak terampil (residen),lancar
+347,0-200 DM,13,kritis/ada kredit lain,radio/televisi,882,<100 DM,<1 tahun,4,23,milik sendiri,2,terampil/karyawan,lancar
+348,0-200 DM,24,kredit berjalan lancar,radio/televisi,3758,500-1000 DM,menganggur,1,23,sewa,1,tidak terampil,lancar
+349,tanpa rekening giro,6,pernah menunggak,usaha,1743,100-500 DM,1-4 tahun,1,34,milik sendiri,2,tidak terampil (residen),lancar
+350,0-200 DM,9,kritis/ada kredit lain,pendidikan,1136,>=1000 DM,>=7 tahun,4,32,gratis,2,terampil/karyawan,macet
+351,tanpa rekening giro,9,kredit berjalan lancar,peralatan rumah tangga,1236,<100 DM,<1 tahun,1,23,sewa,1,terampil/karyawan,lancar
+352,0-200 DM,9,kredit berjalan lancar,furnitur/elektronik,959,<100 DM,1-4 tahun,1,29,milik sendiri,1,terampil/karyawan,macet
+353,tanpa rekening giro,18,kritis/ada kredit lain,mobil bekas,3229,tidak ada/tdk diketahui,menganggur,2,38,milik sendiri,1,manajer/wiraswasta,lancar
+354,saldo negatif,12,lunas tepat waktu,radio/televisi,6199,<100 DM,1-4 tahun,4,28,sewa,2,terampil/karyawan,macet
+355,tanpa rekening giro,10,kredit berjalan lancar,pendidikan,727,500-1000 DM,>=7 tahun,4,46,gratis,1,terampil/karyawan,lancar
+356,0-200 DM,24,kredit berjalan lancar,mobil baru,1246,<100 DM,<1 tahun,4,23,milik sendiri,1,tidak terampil (residen),macet
+357,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,2331,tidak ada/tdk diketahui,>=7 tahun,1,49,milik sendiri,1,terampil/karyawan,lancar
+358,tanpa rekening giro,36,pernah menunggak,radio/televisi,4463,<100 DM,1-4 tahun,4,26,milik sendiri,2,manajer/wiraswasta,macet
+359,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,776,<100 DM,1-4 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+360,saldo negatif,30,kredit berjalan lancar,furnitur/elektronik,2406,<100 DM,4-7 tahun,4,23,sewa,1,terampil/karyawan,macet
+361,0-200 DM,18,kredit berjalan lancar,pendidikan,1239,tidak ada/tdk diketahui,1-4 tahun,4,61,gratis,1,terampil/karyawan,lancar
+362,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,radio/televisi,3399,tidak ada/tdk diketahui,>=7 tahun,2,37,milik sendiri,1,manajer/wiraswasta,lancar
+363,>=200 DM / gaji >=1 thn,12,pernah menunggak,mobil baru,2247,<100 DM,1-4 tahun,2,36,milik sendiri,2,terampil/karyawan,lancar
+364,tanpa rekening giro,6,kredit berjalan lancar,furnitur/elektronik,1766,<100 DM,1-4 tahun,1,21,sewa,1,terampil/karyawan,lancar
+365,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,2473,<100 DM,menganggur,4,25,milik sendiri,1,tidak terampil,macet
+366,tanpa rekening giro,12,kredit berjalan lancar,usaha,1542,<100 DM,4-7 tahun,2,36,milik sendiri,1,terampil/karyawan,lancar
+367,tanpa rekening giro,18,kritis/ada kredit lain,mobil bekas,3850,<100 DM,4-7 tahun,3,27,milik sendiri,2,terampil/karyawan,lancar
+368,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,3650,<100 DM,<1 tahun,1,22,sewa,1,terampil/karyawan,lancar
+369,saldo negatif,36,kredit berjalan lancar,furnitur/elektronik,3446,<100 DM,>=7 tahun,4,42,milik sendiri,1,terampil/karyawan,macet
+370,0-200 DM,18,kredit berjalan lancar,furnitur/elektronik,3001,<100 DM,4-7 tahun,2,40,sewa,1,terampil/karyawan,lancar
+371,tanpa rekening giro,36,kredit berjalan lancar,mobil baru,3079,tidak ada/tdk diketahui,1-4 tahun,4,36,milik sendiri,1,terampil/karyawan,lancar
+372,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,6070,<100 DM,>=7 tahun,3,33,milik sendiri,2,terampil/karyawan,lancar
+373,tanpa rekening giro,10,kritis/ada kredit lain,furnitur/elektronik,2146,<100 DM,<1 tahun,1,23,sewa,2,terampil/karyawan,lancar
+374,tanpa rekening giro,60,kritis/ada kredit lain,mobil baru,13756,tidak ada/tdk diketahui,>=7 tahun,2,63,gratis,1,manajer/wiraswasta,lancar
+375,0-200 DM,60,lunas di bank ini,lainnya,14782,100-500 DM,>=7 tahun,3,60,gratis,2,manajer/wiraswasta,macet
+376,saldo negatif,48,lunas di bank ini,usaha,7685,<100 DM,4-7 tahun,2,37,sewa,1,terampil/karyawan,macet
+377,tanpa rekening giro,18,pernah menunggak,radio/televisi,2320,<100 DM,menganggur,2,34,milik sendiri,2,terampil/karyawan,lancar
+378,tanpa rekening giro,7,pernah menunggak,radio/televisi,846,tidak ada/tdk diketahui,>=7 tahun,3,36,gratis,1,terampil/karyawan,lancar
+379,0-200 DM,36,kredit berjalan lancar,mobil baru,14318,<100 DM,>=7 tahun,4,57,gratis,1,manajer/wiraswasta,macet
+380,tanpa rekening giro,6,kritis/ada kredit lain,mobil baru,362,100-500 DM,1-4 tahun,4,52,milik sendiri,2,tidak terampil (residen),lancar
+381,saldo negatif,20,kredit berjalan lancar,furnitur/elektronik,2212,tidak ada/tdk diketahui,4-7 tahun,4,39,milik sendiri,1,terampil/karyawan,lancar
+382,0-200 DM,18,kredit berjalan lancar,mobil bekas,12976,<100 DM,menganggur,3,38,gratis,1,manajer/wiraswasta,macet
+383,tanpa rekening giro,22,kredit berjalan lancar,mobil baru,1283,tidak ada/tdk diketahui,4-7 tahun,4,25,sewa,1,terampil/karyawan,lancar
+384,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,mobil baru,1330,<100 DM,<1 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+385,tanpa rekening giro,30,pernah menunggak,usaha,4272,100-500 DM,1-4 tahun,2,26,milik sendiri,2,tidak terampil (residen),lancar
+386,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,2238,<100 DM,1-4 tahun,2,25,milik sendiri,2,terampil/karyawan,lancar
+387,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,1126,tidak ada/tdk diketahui,<1 tahun,4,21,sewa,1,terampil/karyawan,lancar
+388,0-200 DM,18,kritis/ada kredit lain,furnitur/elektronik,7374,<100 DM,menganggur,4,40,milik sendiri,2,manajer/wiraswasta,lancar
+389,0-200 DM,15,kritis/ada kredit lain,usaha,2326,500-1000 DM,1-4 tahun,2,27,milik sendiri,1,terampil/karyawan,lancar
+390,tanpa rekening giro,9,kredit berjalan lancar,usaha,1449,<100 DM,4-7 tahun,3,27,milik sendiri,2,terampil/karyawan,lancar
+391,tanpa rekening giro,18,kredit berjalan lancar,mobil baru,1820,<100 DM,1-4 tahun,2,30,milik sendiri,1,manajer/wiraswasta,lancar
+392,0-200 DM,12,kredit berjalan lancar,furnitur/elektronik,983,>=1000 DM,<1 tahun,1,19,sewa,1,tidak terampil (residen),lancar
+393,saldo negatif,36,kredit berjalan lancar,mobil baru,3249,<100 DM,4-7 tahun,2,39,gratis,1,manajer/wiraswasta,lancar
+394,saldo negatif,6,kritis/ada kredit lain,radio/televisi,1957,<100 DM,4-7 tahun,1,31,milik sendiri,1,terampil/karyawan,lancar
+395,tanpa rekening giro,9,kritis/ada kredit lain,furnitur/elektronik,2406,<100 DM,menganggur,2,31,milik sendiri,1,manajer/wiraswasta,lancar
+396,0-200 DM,39,pernah menunggak,pendidikan,11760,100-500 DM,4-7 tahun,2,32,sewa,1,terampil/karyawan,lancar
+397,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,2578,<100 DM,menganggur,3,55,gratis,1,manajer/wiraswasta,lancar
+398,saldo negatif,36,kritis/ada kredit lain,furnitur/elektronik,2348,<100 DM,1-4 tahun,3,46,milik sendiri,2,terampil/karyawan,lancar
+399,0-200 DM,12,kredit berjalan lancar,mobil baru,1223,<100 DM,>=7 tahun,1,46,sewa,2,terampil/karyawan,macet
+400,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,1516,>=1000 DM,1-4 tahun,4,43,milik sendiri,2,tidak terampil (residen),lancar
+401,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,1473,<100 DM,<1 tahun,3,39,milik sendiri,1,terampil/karyawan,lancar
+402,0-200 DM,18,kritis/ada kredit lain,usaha,1887,tidak ada/tdk diketahui,1-4 tahun,4,28,milik sendiri,2,terampil/karyawan,lancar
+403,tanpa rekening giro,24,pernah menunggak,usaha,8648,<100 DM,<1 tahun,2,27,milik sendiri,2,terampil/karyawan,macet
+404,tanpa rekening giro,14,pernah menunggak,mobil baru,802,<100 DM,1-4 tahun,4,27,milik sendiri,2,tidak terampil (residen),lancar
+405,0-200 DM,18,pernah menunggak,mobil baru,2899,tidak ada/tdk diketahui,>=7 tahun,4,43,milik sendiri,1,terampil/karyawan,lancar
+406,0-200 DM,24,kredit berjalan lancar,radio/televisi,2039,<100 DM,<1 tahun,1,22,milik sendiri,1,terampil/karyawan,macet
+407,tanpa rekening giro,24,kritis/ada kredit lain,mobil bekas,2197,tidak ada/tdk diketahui,4-7 tahun,4,43,milik sendiri,2,terampil/karyawan,lancar
+408,saldo negatif,15,kredit berjalan lancar,radio/televisi,1053,<100 DM,<1 tahun,4,27,milik sendiri,1,terampil/karyawan,lancar
+409,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,3235,500-1000 DM,>=7 tahun,3,26,milik sendiri,1,manajer/wiraswasta,lancar
+410,>=200 DM / gaji >=1 thn,12,kritis/ada kredit lain,mobil baru,939,500-1000 DM,4-7 tahun,4,28,milik sendiri,3,terampil/karyawan,macet
+411,0-200 DM,24,kredit berjalan lancar,radio/televisi,1967,<100 DM,>=7 tahun,4,20,milik sendiri,1,terampil/karyawan,lancar
+412,tanpa rekening giro,33,kritis/ada kredit lain,mobil bekas,7253,<100 DM,4-7 tahun,3,35,milik sendiri,2,manajer/wiraswasta,lancar
+413,tanpa rekening giro,12,kritis/ada kredit lain,usaha,2292,<100 DM,menganggur,4,42,milik sendiri,2,manajer/wiraswasta,macet
+414,tanpa rekening giro,10,kredit berjalan lancar,mobil baru,1597,500-1000 DM,1-4 tahun,3,40,sewa,1,tidak terampil (residen),lancar
+415,saldo negatif,24,kredit berjalan lancar,mobil baru,1381,tidak ada/tdk diketahui,1-4 tahun,4,35,milik sendiri,1,terampil/karyawan,macet
+416,tanpa rekening giro,36,kritis/ada kredit lain,mobil bekas,5842,<100 DM,>=7 tahun,2,35,milik sendiri,2,terampil/karyawan,lancar
+417,saldo negatif,12,kredit berjalan lancar,mobil baru,2579,<100 DM,<1 tahun,4,33,milik sendiri,1,tidak terampil (residen),macet
+418,saldo negatif,18,pernah menunggak,pendidikan,8471,tidak ada/tdk diketahui,1-4 tahun,1,23,sewa,2,terampil/karyawan,lancar
+419,tanpa rekening giro,21,kredit berjalan lancar,mobil baru,2782,500-1000 DM,4-7 tahun,1,31,milik sendiri,1,manajer/wiraswasta,lancar
+420,0-200 DM,18,kredit berjalan lancar,mobil baru,1042,tidak ada/tdk diketahui,1-4 tahun,4,33,milik sendiri,1,terampil/karyawan,macet
+421,tanpa rekening giro,15,kredit berjalan lancar,mobil baru,3186,>=1000 DM,4-7 tahun,2,20,sewa,1,terampil/karyawan,lancar
+422,0-200 DM,12,kredit berjalan lancar,mobil bekas,2028,tidak ada/tdk diketahui,1-4 tahun,4,30,milik sendiri,1,terampil/karyawan,lancar
+423,0-200 DM,12,kritis/ada kredit lain,mobil baru,958,<100 DM,4-7 tahun,2,47,milik sendiri,2,tidak terampil (residen),lancar
+424,tanpa rekening giro,21,pernah menunggak,furnitur/elektronik,1591,100-500 DM,4-7 tahun,4,34,milik sendiri,2,manajer/wiraswasta,lancar
+425,0-200 DM,12,kredit berjalan lancar,furnitur/elektronik,2762,tidak ada/tdk diketahui,>=7 tahun,1,25,milik sendiri,1,terampil/karyawan,macet
+426,0-200 DM,18,kredit berjalan lancar,mobil bekas,2779,<100 DM,1-4 tahun,1,21,sewa,1,terampil/karyawan,lancar
+427,tanpa rekening giro,28,kritis/ada kredit lain,radio/televisi,2743,<100 DM,>=7 tahun,4,29,milik sendiri,2,terampil/karyawan,lancar
+428,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,1149,>=1000 DM,1-4 tahun,4,46,milik sendiri,2,terampil/karyawan,lancar
+429,tanpa rekening giro,9,kredit berjalan lancar,furnitur/elektronik,1313,<100 DM,>=7 tahun,1,20,milik sendiri,1,terampil/karyawan,lancar
+430,saldo negatif,18,kritis/ada kredit lain,renovasi,1190,<100 DM,menganggur,2,55,gratis,3,tidak terampil,macet
+431,tanpa rekening giro,5,kredit berjalan lancar,usaha,3448,<100 DM,4-7 tahun,1,74,milik sendiri,1,tidak terampil (residen),lancar
+432,0-200 DM,24,kredit berjalan lancar,lainnya,11328,<100 DM,1-4 tahun,2,29,milik sendiri,2,manajer/wiraswasta,macet
+433,saldo negatif,6,kritis/ada kredit lain,furnitur/elektronik,1872,<100 DM,menganggur,4,36,gratis,3,manajer/wiraswasta,lancar
+434,tanpa rekening giro,24,kritis/ada kredit lain,renovasi,2058,<100 DM,1-4 tahun,4,33,milik sendiri,2,terampil/karyawan,lancar
+435,saldo negatif,9,kredit berjalan lancar,furnitur/elektronik,2136,<100 DM,1-4 tahun,3,25,milik sendiri,1,terampil/karyawan,lancar
+436,0-200 DM,12,kredit berjalan lancar,radio/televisi,1484,tidak ada/tdk diketahui,1-4 tahun,2,25,milik sendiri,1,terampil/karyawan,macet
+437,tanpa rekening giro,6,kredit berjalan lancar,renovasi,660,500-1000 DM,4-7 tahun,2,23,sewa,1,tidak terampil (residen),lancar
+438,tanpa rekening giro,24,kritis/ada kredit lain,mobil baru,1287,>=1000 DM,>=7 tahun,4,37,milik sendiri,2,terampil/karyawan,lancar
+439,saldo negatif,42,kritis/ada kredit lain,renovasi,3394,<100 DM,menganggur,4,65,milik sendiri,2,tidak terampil,lancar
+440,>=200 DM / gaji >=1 thn,12,lunas di bank ini,usaha,609,<100 DM,<1 tahun,4,26,milik sendiri,1,tidak terampil,macet
+441,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,1884,<100 DM,>=7 tahun,4,39,milik sendiri,1,manajer/wiraswasta,lancar
+442,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,1620,<100 DM,1-4 tahun,2,30,milik sendiri,1,terampil/karyawan,lancar
+443,0-200 DM,20,pernah menunggak,lainnya,2629,<100 DM,1-4 tahun,2,29,milik sendiri,2,terampil/karyawan,lancar
+444,tanpa rekening giro,12,kredit berjalan lancar,pendidikan,719,<100 DM,>=7 tahun,4,41,milik sendiri,1,tidak terampil (residen),macet
+445,0-200 DM,48,kritis/ada kredit lain,furnitur/elektronik,5096,<100 DM,1-4 tahun,2,30,milik sendiri,1,manajer/wiraswasta,macet
+446,tanpa rekening giro,9,kritis/ada kredit lain,pendidikan,1244,tidak ada/tdk diketahui,>=7 tahun,4,41,sewa,2,tidak terampil (residen),lancar
+447,saldo negatif,36,kredit berjalan lancar,mobil baru,1842,<100 DM,<1 tahun,4,34,milik sendiri,1,terampil/karyawan,macet
+448,0-200 DM,7,kredit berjalan lancar,radio/televisi,2576,<100 DM,1-4 tahun,2,35,milik sendiri,1,terampil/karyawan,lancar
+449,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,furnitur/elektronik,1424,tidak ada/tdk diketahui,>=7 tahun,3,55,milik sendiri,1,manajer/wiraswasta,lancar
+450,0-200 DM,15,pernah menunggak,renovasi,1512,>=1000 DM,1-4 tahun,3,61,milik sendiri,2,terampil/karyawan,macet
+451,tanpa rekening giro,36,kritis/ada kredit lain,mobil bekas,11054,tidak ada/tdk diketahui,1-4 tahun,4,30,milik sendiri,1,manajer/wiraswasta,lancar
+452,tanpa rekening giro,6,kredit berjalan lancar,radio/televisi,518,<100 DM,1-4 tahun,3,29,milik sendiri,1,terampil/karyawan,lancar
+453,tanpa rekening giro,12,lunas tepat waktu,furnitur/elektronik,2759,<100 DM,>=7 tahun,2,34,milik sendiri,2,terampil/karyawan,lancar
+454,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,2670,<100 DM,>=7 tahun,4,35,milik sendiri,1,manajer/wiraswasta,lancar
+455,saldo negatif,24,kredit berjalan lancar,mobil baru,4817,<100 DM,4-7 tahun,2,31,milik sendiri,1,terampil/karyawan,macet
+456,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,2679,<100 DM,<1 tahun,4,29,milik sendiri,1,manajer/wiraswasta,lancar
+457,saldo negatif,11,kritis/ada kredit lain,mobil baru,3905,<100 DM,1-4 tahun,2,36,sewa,2,terampil/karyawan,lancar
+458,saldo negatif,12,kredit berjalan lancar,mobil bekas,3386,<100 DM,>=7 tahun,3,35,gratis,1,terampil/karyawan,macet
+459,saldo negatif,6,kredit berjalan lancar,peralatan rumah tangga,343,<100 DM,<1 tahun,4,27,milik sendiri,1,terampil/karyawan,lancar
+460,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,4594,<100 DM,<1 tahun,3,32,milik sendiri,1,terampil/karyawan,lancar
+461,saldo negatif,36,kredit berjalan lancar,furnitur/elektronik,3620,<100 DM,1-4 tahun,1,37,milik sendiri,1,terampil/karyawan,lancar
+462,saldo negatif,15,kredit berjalan lancar,mobil baru,1721,<100 DM,<1 tahun,2,36,milik sendiri,1,terampil/karyawan,lancar
+463,0-200 DM,12,kredit berjalan lancar,furnitur/elektronik,3017,<100 DM,<1 tahun,3,34,sewa,1,manajer/wiraswasta,lancar
+464,0-200 DM,12,kredit berjalan lancar,pelatihan ulang,754,tidak ada/tdk diketahui,>=7 tahun,4,38,milik sendiri,2,terampil/karyawan,lancar
+465,tanpa rekening giro,18,kredit berjalan lancar,usaha,1950,<100 DM,4-7 tahun,4,34,milik sendiri,2,terampil/karyawan,lancar
+466,saldo negatif,24,kredit berjalan lancar,mobil bekas,2924,<100 DM,1-4 tahun,3,63,milik sendiri,1,terampil/karyawan,lancar
+467,saldo negatif,24,pernah menunggak,radio/televisi,1659,<100 DM,<1 tahun,4,29,sewa,1,tidak terampil (residen),macet
+468,tanpa rekening giro,48,pernah menunggak,radio/televisi,7238,tidak ada/tdk diketahui,>=7 tahun,3,32,milik sendiri,2,terampil/karyawan,lancar
+469,tanpa rekening giro,33,pernah menunggak,usaha,2764,<100 DM,1-4 tahun,2,26,milik sendiri,2,terampil/karyawan,lancar
+470,tanpa rekening giro,24,pernah menunggak,mobil bekas,4679,<100 DM,4-7 tahun,3,35,milik sendiri,2,tidak terampil (residen),lancar
+471,0-200 DM,24,kredit berjalan lancar,radio/televisi,3092,100-500 DM,<1 tahun,3,22,sewa,1,terampil/karyawan,macet
+472,saldo negatif,6,kredit berjalan lancar,pendidikan,448,<100 DM,<1 tahun,4,23,milik sendiri,1,terampil/karyawan,macet
+473,saldo negatif,9,kredit berjalan lancar,mobil baru,654,<100 DM,1-4 tahun,4,28,milik sendiri,1,tidak terampil (residen),macet
+474,tanpa rekening giro,6,kredit berjalan lancar,pelatihan ulang,1238,tidak ada/tdk diketahui,menganggur,4,36,milik sendiri,1,manajer/wiraswasta,lancar
+475,0-200 DM,18,kritis/ada kredit lain,radio/televisi,1245,<100 DM,1-4 tahun,4,33,milik sendiri,1,terampil/karyawan,macet
+476,saldo negatif,18,lunas tepat waktu,furnitur/elektronik,3114,<100 DM,<1 tahun,1,26,sewa,1,terampil/karyawan,macet
+477,tanpa rekening giro,39,kredit berjalan lancar,mobil bekas,2569,500-1000 DM,1-4 tahun,4,24,milik sendiri,1,terampil/karyawan,lancar
+478,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,radio/televisi,5152,<100 DM,4-7 tahun,4,25,milik sendiri,1,terampil/karyawan,lancar
+479,0-200 DM,12,kredit berjalan lancar,usaha,1037,100-500 DM,4-7 tahun,3,39,milik sendiri,1,tidak terampil (residen),lancar
+480,saldo negatif,15,kritis/ada kredit lain,furnitur/elektronik,1478,<100 DM,>=7 tahun,4,44,milik sendiri,2,terampil/karyawan,lancar
+481,0-200 DM,12,kritis/ada kredit lain,radio/televisi,3573,<100 DM,1-4 tahun,1,23,milik sendiri,1,tidak terampil (residen),lancar
+482,0-200 DM,24,kredit berjalan lancar,mobil baru,1201,<100 DM,<1 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+483,saldo negatif,30,kredit berjalan lancar,furnitur/elektronik,3622,>=1000 DM,>=7 tahun,4,57,sewa,2,terampil/karyawan,lancar
+484,tanpa rekening giro,15,pernah menunggak,furnitur/elektronik,960,>=1000 DM,4-7 tahun,3,30,milik sendiri,2,terampil/karyawan,lancar
+485,tanpa rekening giro,12,kritis/ada kredit lain,mobil baru,1163,500-1000 DM,1-4 tahun,4,44,milik sendiri,1,terampil/karyawan,lancar
+486,0-200 DM,6,pernah menunggak,mobil baru,1209,<100 DM,menganggur,4,47,milik sendiri,1,manajer/wiraswasta,macet
+487,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,3077,<100 DM,1-4 tahun,2,52,milik sendiri,1,terampil/karyawan,lancar
+488,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,3757,<100 DM,>=7 tahun,4,62,gratis,1,terampil/karyawan,lancar
+489,tanpa rekening giro,10,kredit berjalan lancar,mobil baru,1418,100-500 DM,1-4 tahun,3,35,sewa,1,tidak terampil (residen),lancar
+490,tanpa rekening giro,6,kredit berjalan lancar,mobil baru,3518,<100 DM,1-4 tahun,2,26,sewa,1,terampil/karyawan,lancar
+491,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,1934,<100 DM,>=7 tahun,2,26,milik sendiri,2,terampil/karyawan,lancar
+492,0-200 DM,27,lunas tepat waktu,usaha,8318,<100 DM,>=7 tahun,2,42,gratis,2,manajer/wiraswasta,macet
+493,tanpa rekening giro,6,kritis/ada kredit lain,radio/televisi,1237,100-500 DM,1-4 tahun,1,27,milik sendiri,2,terampil/karyawan,lancar
+494,0-200 DM,6,kredit berjalan lancar,radio/televisi,368,tidak ada/tdk diketahui,>=7 tahun,4,38,milik sendiri,1,terampil/karyawan,lancar
+495,saldo negatif,12,kritis/ada kredit lain,mobil baru,2122,<100 DM,1-4 tahun,3,39,sewa,2,tidak terampil (residen),lancar
+496,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,2996,tidak ada/tdk diketahui,1-4 tahun,2,20,milik sendiri,1,terampil/karyawan,macet
+497,0-200 DM,36,kredit berjalan lancar,furnitur/elektronik,9034,100-500 DM,<1 tahun,4,29,sewa,1,manajer/wiraswasta,macet
+498,tanpa rekening giro,24,kritis/ada kredit lain,furnitur/elektronik,1585,<100 DM,4-7 tahun,4,40,milik sendiri,2,terampil/karyawan,lancar
+499,0-200 DM,18,kredit berjalan lancar,radio/televisi,1301,<100 DM,>=7 tahun,4,32,milik sendiri,1,tidak terampil (residen),lancar
+500,>=200 DM / gaji >=1 thn,6,kritis/ada kredit lain,mobil baru,1323,100-500 DM,>=7 tahun,2,28,milik sendiri,2,terampil/karyawan,lancar
+501,saldo negatif,24,kredit berjalan lancar,mobil baru,3123,<100 DM,<1 tahun,4,27,milik sendiri,1,terampil/karyawan,macet
+502,saldo negatif,36,kredit berjalan lancar,mobil bekas,5493,<100 DM,>=7 tahun,2,42,gratis,1,terampil/karyawan,lancar
+503,>=200 DM / gaji >=1 thn,9,kredit berjalan lancar,radio/televisi,1126,100-500 DM,>=7 tahun,2,49,milik sendiri,1,terampil/karyawan,lancar
+504,0-200 DM,24,kritis/ada kredit lain,radio/televisi,1216,100-500 DM,<1 tahun,4,38,milik sendiri,2,terampil/karyawan,macet
+505,saldo negatif,24,kredit berjalan lancar,mobil baru,1207,<100 DM,<1 tahun,4,24,sewa,1,terampil/karyawan,macet
+506,tanpa rekening giro,10,kredit berjalan lancar,mobil baru,1309,tidak ada/tdk diketahui,1-4 tahun,4,27,milik sendiri,1,tidak terampil (residen),macet
+507,>=200 DM / gaji >=1 thn,15,kritis/ada kredit lain,mobil bekas,2360,500-1000 DM,1-4 tahun,2,36,milik sendiri,1,terampil/karyawan,lancar
+508,0-200 DM,15,lunas di bank ini,mobil baru,6850,100-500 DM,menganggur,1,34,milik sendiri,1,manajer/wiraswasta,macet
+509,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1413,<100 DM,1-4 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+510,tanpa rekening giro,39,kredit berjalan lancar,mobil bekas,8588,100-500 DM,>=7 tahun,4,45,milik sendiri,1,manajer/wiraswasta,lancar
+511,saldo negatif,12,kredit berjalan lancar,mobil baru,759,<100 DM,4-7 tahun,4,26,milik sendiri,1,terampil/karyawan,macet
+512,tanpa rekening giro,36,kredit berjalan lancar,mobil bekas,4686,<100 DM,1-4 tahun,2,32,gratis,1,manajer/wiraswasta,lancar
+513,>=200 DM / gaji >=1 thn,15,kredit berjalan lancar,usaha,2687,<100 DM,4-7 tahun,2,26,sewa,1,terampil/karyawan,lancar
+514,0-200 DM,12,pernah menunggak,radio/televisi,585,<100 DM,1-4 tahun,4,20,sewa,2,terampil/karyawan,lancar
+515,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,2255,tidak ada/tdk diketahui,<1 tahun,4,54,milik sendiri,1,terampil/karyawan,lancar
+516,saldo negatif,6,kritis/ada kredit lain,mobil baru,609,<100 DM,4-7 tahun,4,37,milik sendiri,2,terampil/karyawan,lancar
+517,saldo negatif,6,kritis/ada kredit lain,mobil baru,1361,<100 DM,<1 tahun,2,40,milik sendiri,1,tidak terampil (residen),lancar
+518,tanpa rekening giro,36,kritis/ada kredit lain,furnitur/elektronik,7127,<100 DM,<1 tahun,2,23,sewa,2,terampil/karyawan,macet
+519,saldo negatif,6,kredit berjalan lancar,mobil baru,1203,100-500 DM,>=7 tahun,3,43,milik sendiri,1,terampil/karyawan,lancar
+520,tanpa rekening giro,6,kritis/ada kredit lain,radio/televisi,700,tidak ada/tdk diketahui,>=7 tahun,4,36,gratis,2,terampil/karyawan,lancar
+521,tanpa rekening giro,24,kritis/ada kredit lain,renovasi,5507,<100 DM,>=7 tahun,3,44,gratis,2,terampil/karyawan,lancar
+522,saldo negatif,18,kredit berjalan lancar,radio/televisi,3190,<100 DM,1-4 tahun,2,24,milik sendiri,1,terampil/karyawan,macet
+523,saldo negatif,48,lunas tepat waktu,furnitur/elektronik,7119,<100 DM,1-4 tahun,3,53,gratis,2,terampil/karyawan,macet
+524,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,3488,100-500 DM,4-7 tahun,3,23,milik sendiri,1,terampil/karyawan,lancar
+525,0-200 DM,18,kredit berjalan lancar,radio/televisi,1113,<100 DM,1-4 tahun,4,26,milik sendiri,1,tidak terampil (residen),lancar
+526,0-200 DM,26,kredit berjalan lancar,mobil bekas,7966,<100 DM,<1 tahun,2,30,milik sendiri,2,terampil/karyawan,lancar
+527,tanpa rekening giro,15,kritis/ada kredit lain,pendidikan,1532,100-500 DM,1-4 tahun,4,31,milik sendiri,1,terampil/karyawan,lancar
+528,tanpa rekening giro,4,kritis/ada kredit lain,radio/televisi,1503,<100 DM,4-7 tahun,2,42,milik sendiri,2,tidak terampil (residen),lancar
+529,saldo negatif,36,kredit berjalan lancar,radio/televisi,2302,<100 DM,1-4 tahun,4,31,sewa,1,terampil/karyawan,macet
+530,saldo negatif,6,kredit berjalan lancar,mobil baru,662,<100 DM,<1 tahun,3,41,milik sendiri,1,tidak terampil (residen),lancar
+531,0-200 DM,36,kredit berjalan lancar,pendidikan,2273,<100 DM,4-7 tahun,3,32,milik sendiri,2,terampil/karyawan,lancar
+532,0-200 DM,15,kredit berjalan lancar,mobil baru,2631,100-500 DM,1-4 tahun,2,28,sewa,2,terampil/karyawan,macet
+533,tanpa rekening giro,12,pernah menunggak,mobil bekas,1503,<100 DM,1-4 tahun,4,41,sewa,1,terampil/karyawan,lancar
+534,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1311,100-500 DM,4-7 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+535,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,3105,tidak ada/tdk diketahui,<1 tahun,4,25,milik sendiri,2,terampil/karyawan,lancar
+536,>=200 DM / gaji >=1 thn,21,kritis/ada kredit lain,pendidikan,2319,<100 DM,<1 tahun,2,33,sewa,1,terampil/karyawan,macet
+537,saldo negatif,6,kredit berjalan lancar,mobil baru,1374,tidak ada/tdk diketahui,menganggur,4,75,milik sendiri,1,manajer/wiraswasta,lancar
+538,0-200 DM,18,kritis/ada kredit lain,furnitur/elektronik,3612,<100 DM,>=7 tahun,3,37,milik sendiri,1,terampil/karyawan,lancar
+539,saldo negatif,48,kredit berjalan lancar,mobil baru,7763,<100 DM,>=7 tahun,4,42,gratis,1,manajer/wiraswasta,macet
+540,>=200 DM / gaji >=1 thn,18,kredit berjalan lancar,furnitur/elektronik,3049,<100 DM,<1 tahun,1,45,milik sendiri,1,tidak terampil (residen),lancar
+541,0-200 DM,12,kredit berjalan lancar,radio/televisi,1534,<100 DM,<1 tahun,1,23,sewa,1,terampil/karyawan,macet
+542,tanpa rekening giro,24,pernah menunggak,mobil baru,2032,<100 DM,>=7 tahun,4,60,gratis,2,terampil/karyawan,lancar
+543,saldo negatif,30,kredit berjalan lancar,furnitur/elektronik,6350,tidak ada/tdk diketahui,>=7 tahun,4,31,milik sendiri,1,terampil/karyawan,macet
+544,>=200 DM / gaji >=1 thn,18,kredit berjalan lancar,furnitur/elektronik,2864,<100 DM,1-4 tahun,2,34,milik sendiri,1,tidak terampil (residen),macet
+545,tanpa rekening giro,12,kritis/ada kredit lain,mobil baru,1255,<100 DM,>=7 tahun,4,61,milik sendiri,2,tidak terampil (residen),lancar
+546,saldo negatif,24,pernah menunggak,mobil baru,1333,<100 DM,menganggur,4,43,gratis,2,terampil/karyawan,macet
+547,tanpa rekening giro,24,kritis/ada kredit lain,mobil baru,2022,<100 DM,1-4 tahun,4,37,milik sendiri,1,terampil/karyawan,lancar
+548,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1552,<100 DM,4-7 tahun,3,32,milik sendiri,1,terampil/karyawan,lancar
+549,saldo negatif,12,lunas di bank ini,radio/televisi,626,<100 DM,1-4 tahun,4,24,milik sendiri,1,tidak terampil (residen),macet
+550,tanpa rekening giro,48,kritis/ada kredit lain,mobil bekas,8858,tidak ada/tdk diketahui,4-7 tahun,2,35,gratis,2,terampil/karyawan,lancar
+551,tanpa rekening giro,12,kritis/ada kredit lain,renovasi,996,tidak ada/tdk diketahui,4-7 tahun,4,23,milik sendiri,2,terampil/karyawan,lancar
+552,tanpa rekening giro,6,lunas di bank ini,radio/televisi,1750,500-1000 DM,>=7 tahun,2,45,milik sendiri,1,tidak terampil (residen),lancar
+553,saldo negatif,48,kredit berjalan lancar,radio/televisi,6999,<100 DM,4-7 tahun,1,34,milik sendiri,2,terampil/karyawan,macet
+554,0-200 DM,12,kritis/ada kredit lain,mobil baru,1995,100-500 DM,<1 tahun,4,27,milik sendiri,1,terampil/karyawan,lancar
+555,0-200 DM,9,kredit berjalan lancar,pendidikan,1199,<100 DM,4-7 tahun,4,67,milik sendiri,2,manajer/wiraswasta,lancar
+556,0-200 DM,12,kredit berjalan lancar,radio/televisi,1331,<100 DM,<1 tahun,2,22,milik sendiri,1,terampil/karyawan,macet
+557,0-200 DM,18,lunas tepat waktu,mobil baru,2278,100-500 DM,<1 tahun,3,28,milik sendiri,2,terampil/karyawan,macet
+558,tanpa rekening giro,21,lunas tepat waktu,mobil baru,5003,tidak ada/tdk diketahui,1-4 tahun,1,29,milik sendiri,2,terampil/karyawan,macet
+559,saldo negatif,24,lunas di bank ini,furnitur/elektronik,3552,<100 DM,4-7 tahun,3,27,milik sendiri,1,terampil/karyawan,macet
+560,0-200 DM,18,kritis/ada kredit lain,furnitur/elektronik,1928,<100 DM,<1 tahun,2,31,milik sendiri,2,tidak terampil (residen),macet
+561,saldo negatif,24,kredit berjalan lancar,mobil bekas,2964,tidak ada/tdk diketahui,>=7 tahun,4,49,gratis,1,terampil/karyawan,lancar
+562,saldo negatif,24,lunas di bank ini,radio/televisi,1546,<100 DM,4-7 tahun,4,24,sewa,1,tidak terampil (residen),macet
+563,>=200 DM / gaji >=1 thn,6,pernah menunggak,radio/televisi,683,<100 DM,<1 tahun,2,29,milik sendiri,1,terampil/karyawan,lancar
+564,0-200 DM,36,kredit berjalan lancar,mobil baru,12389,tidak ada/tdk diketahui,1-4 tahun,1,37,gratis,1,terampil/karyawan,macet
+565,0-200 DM,24,pernah menunggak,usaha,4712,tidak ada/tdk diketahui,1-4 tahun,4,37,milik sendiri,2,manajer/wiraswasta,lancar
+566,0-200 DM,24,pernah menunggak,radio/televisi,1553,100-500 DM,4-7 tahun,3,23,sewa,2,terampil/karyawan,lancar
+567,saldo negatif,12,kredit berjalan lancar,mobil baru,1372,<100 DM,4-7 tahun,2,36,milik sendiri,1,terampil/karyawan,macet
+568,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,2578,>=1000 DM,>=7 tahun,2,34,milik sendiri,1,terampil/karyawan,lancar
+569,0-200 DM,48,kredit berjalan lancar,radio/televisi,3979,tidak ada/tdk diketahui,4-7 tahun,4,41,milik sendiri,2,terampil/karyawan,lancar
+570,saldo negatif,48,kredit berjalan lancar,radio/televisi,6758,<100 DM,1-4 tahun,3,31,milik sendiri,1,terampil/karyawan,macet
+571,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,3234,<100 DM,<1 tahun,4,23,sewa,1,tidak terampil (residen),macet
+572,tanpa rekening giro,30,kritis/ada kredit lain,radio/televisi,5954,<100 DM,4-7 tahun,3,38,milik sendiri,1,terampil/karyawan,lancar
+573,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,5433,tidak ada/tdk diketahui,menganggur,2,26,sewa,1,manajer/wiraswasta,lancar
+574,saldo negatif,15,kredit berjalan lancar,usaha,806,<100 DM,1-4 tahun,4,22,milik sendiri,1,tidak terampil (residen),lancar
+575,0-200 DM,9,kredit berjalan lancar,radio/televisi,1082,<100 DM,>=7 tahun,4,27,milik sendiri,2,tidak terampil (residen),lancar
+576,tanpa rekening giro,15,kritis/ada kredit lain,furnitur/elektronik,2788,<100 DM,4-7 tahun,2,24,milik sendiri,2,terampil/karyawan,lancar
+577,0-200 DM,12,kredit berjalan lancar,radio/televisi,2930,<100 DM,4-7 tahun,2,27,milik sendiri,1,terampil/karyawan,lancar
+578,tanpa rekening giro,24,kritis/ada kredit lain,pendidikan,1927,tidak ada/tdk diketahui,1-4 tahun,3,33,milik sendiri,2,terampil/karyawan,lancar
+579,0-200 DM,36,kritis/ada kredit lain,mobil baru,2820,<100 DM,<1 tahun,4,27,milik sendiri,2,terampil/karyawan,macet
+580,tanpa rekening giro,24,kredit berjalan lancar,pelatihan ulang,937,<100 DM,<1 tahun,4,27,milik sendiri,2,tidak terampil (residen),lancar
+581,0-200 DM,18,kritis/ada kredit lain,mobil baru,1056,<100 DM,>=7 tahun,3,30,milik sendiri,2,terampil/karyawan,macet
+582,0-200 DM,12,kritis/ada kredit lain,mobil baru,3124,<100 DM,<1 tahun,1,49,milik sendiri,2,tidak terampil (residen),lancar
+583,tanpa rekening giro,9,kredit berjalan lancar,furnitur/elektronik,1388,<100 DM,1-4 tahun,4,26,sewa,1,terampil/karyawan,lancar
+584,0-200 DM,36,kredit berjalan lancar,renovasi,2384,<100 DM,<1 tahun,4,33,sewa,1,tidak terampil (residen),macet
+585,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,2133,tidak ada/tdk diketahui,>=7 tahun,4,52,gratis,1,manajer/wiraswasta,lancar
+586,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,2039,<100 DM,1-4 tahun,1,20,sewa,1,terampil/karyawan,macet
+587,saldo negatif,9,kritis/ada kredit lain,mobil baru,2799,<100 DM,1-4 tahun,2,36,sewa,2,terampil/karyawan,lancar
+588,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,1289,<100 DM,1-4 tahun,4,21,milik sendiri,1,tidak terampil (residen),lancar
+589,saldo negatif,18,kredit berjalan lancar,peralatan rumah tangga,1217,<100 DM,1-4 tahun,4,47,milik sendiri,1,tidak terampil (residen),macet
+590,saldo negatif,12,kritis/ada kredit lain,furnitur/elektronik,2246,<100 DM,>=7 tahun,3,60,milik sendiri,2,terampil/karyawan,macet
+591,saldo negatif,12,kritis/ada kredit lain,radio/televisi,385,<100 DM,4-7 tahun,4,58,milik sendiri,4,tidak terampil (residen),lancar
+592,0-200 DM,24,pernah menunggak,mobil baru,1965,tidak ada/tdk diketahui,1-4 tahun,4,42,sewa,2,terampil/karyawan,lancar
+593,tanpa rekening giro,21,kredit berjalan lancar,usaha,1572,>=1000 DM,>=7 tahun,4,36,milik sendiri,1,tidak terampil (residen),lancar
+594,0-200 DM,24,kredit berjalan lancar,mobil baru,2718,<100 DM,1-4 tahun,3,20,sewa,1,tidak terampil (residen),macet
+595,saldo negatif,24,lunas di bank ini,lainnya,1358,tidak ada/tdk diketahui,>=7 tahun,4,40,milik sendiri,1,manajer/wiraswasta,macet
+596,0-200 DM,6,lunas di bank ini,mobil baru,931,100-500 DM,<1 tahun,1,32,milik sendiri,1,tidak terampil (residen),macet
+597,saldo negatif,24,kredit berjalan lancar,mobil baru,1442,<100 DM,4-7 tahun,4,23,sewa,2,terampil/karyawan,macet
+598,0-200 DM,24,lunas tepat waktu,usaha,4241,<100 DM,1-4 tahun,1,36,milik sendiri,3,tidak terampil (residen),macet
+599,tanpa rekening giro,18,kritis/ada kredit lain,mobil baru,2775,<100 DM,4-7 tahun,2,31,milik sendiri,2,terampil/karyawan,macet
+600,tanpa rekening giro,24,pernah menunggak,usaha,3863,<100 DM,1-4 tahun,1,32,gratis,1,terampil/karyawan,lancar
+601,0-200 DM,7,kredit berjalan lancar,radio/televisi,2329,<100 DM,<1 tahun,1,45,milik sendiri,1,terampil/karyawan,lancar
+602,0-200 DM,9,kredit berjalan lancar,furnitur/elektronik,918,<100 DM,1-4 tahun,4,30,milik sendiri,1,terampil/karyawan,macet
+603,0-200 DM,24,lunas di bank ini,pendidikan,1837,<100 DM,4-7 tahun,4,34,gratis,1,tidak terampil (residen),macet
+604,tanpa rekening giro,36,kredit berjalan lancar,furnitur/elektronik,3349,<100 DM,1-4 tahun,4,28,milik sendiri,1,manajer/wiraswasta,macet
+605,>=200 DM / gaji >=1 thn,10,kredit berjalan lancar,furnitur/elektronik,1275,<100 DM,<1 tahun,4,23,milik sendiri,1,terampil/karyawan,lancar
+606,saldo negatif,24,lunas di bank ini,furnitur/elektronik,2828,500-1000 DM,1-4 tahun,4,22,milik sendiri,1,terampil/karyawan,lancar
+607,tanpa rekening giro,24,kritis/ada kredit lain,usaha,4526,<100 DM,1-4 tahun,3,74,milik sendiri,1,manajer/wiraswasta,lancar
+608,0-200 DM,36,kredit berjalan lancar,radio/televisi,2671,100-500 DM,1-4 tahun,4,50,gratis,1,terampil/karyawan,macet
+609,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,2051,<100 DM,<1 tahun,4,33,milik sendiri,1,terampil/karyawan,lancar
+610,tanpa rekening giro,15,kredit berjalan lancar,mobil bekas,1300,tidak ada/tdk diketahui,>=7 tahun,4,45,gratis,1,terampil/karyawan,lancar
+611,saldo negatif,12,kredit berjalan lancar,peralatan rumah tangga,741,100-500 DM,menganggur,4,22,milik sendiri,1,terampil/karyawan,macet
+612,>=200 DM / gaji >=1 thn,10,kredit berjalan lancar,mobil baru,1240,100-500 DM,>=7 tahun,1,48,gratis,1,tidak terampil (residen),macet
+613,saldo negatif,21,kredit berjalan lancar,radio/televisi,3357,>=1000 DM,<1 tahun,4,29,milik sendiri,1,terampil/karyawan,lancar
+614,saldo negatif,24,lunas di bank ini,mobil bekas,3632,<100 DM,1-4 tahun,1,22,sewa,1,terampil/karyawan,lancar
+615,tanpa rekening giro,18,pernah menunggak,furnitur/elektronik,1808,<100 DM,4-7 tahun,4,22,milik sendiri,1,terampil/karyawan,macet
+616,0-200 DM,48,lunas tepat waktu,usaha,12204,tidak ada/tdk diketahui,1-4 tahun,2,48,milik sendiri,1,manajer/wiraswasta,lancar
+617,0-200 DM,60,pernah menunggak,radio/televisi,9157,tidak ada/tdk diketahui,1-4 tahun,2,27,gratis,1,manajer/wiraswasta,lancar
+618,saldo negatif,6,kritis/ada kredit lain,mobil baru,3676,<100 DM,1-4 tahun,1,37,sewa,3,terampil/karyawan,lancar
+619,0-200 DM,30,kredit berjalan lancar,furnitur/elektronik,3441,100-500 DM,1-4 tahun,2,21,sewa,1,terampil/karyawan,macet
+620,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,640,<100 DM,1-4 tahun,4,49,milik sendiri,1,tidak terampil (residen),lancar
+621,0-200 DM,21,kritis/ada kredit lain,usaha,3652,<100 DM,4-7 tahun,2,27,milik sendiri,2,terampil/karyawan,lancar
+622,tanpa rekening giro,18,kritis/ada kredit lain,mobil baru,1530,<100 DM,1-4 tahun,3,32,milik sendiri,2,terampil/karyawan,macet
+623,tanpa rekening giro,48,kredit berjalan lancar,usaha,3914,tidak ada/tdk diketahui,1-4 tahun,4,38,milik sendiri,1,terampil/karyawan,macet
+624,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,1858,<100 DM,<1 tahun,4,22,sewa,1,terampil/karyawan,lancar
+625,saldo negatif,18,kredit berjalan lancar,radio/televisi,2600,<100 DM,1-4 tahun,4,65,gratis,2,terampil/karyawan,macet
+626,tanpa rekening giro,15,kredit berjalan lancar,radio/televisi,1979,tidak ada/tdk diketahui,>=7 tahun,4,35,milik sendiri,1,terampil/karyawan,lancar
+627,>=200 DM / gaji >=1 thn,6,kredit berjalan lancar,furnitur/elektronik,2116,<100 DM,1-4 tahun,2,41,milik sendiri,1,terampil/karyawan,lancar
+628,0-200 DM,9,lunas di bank ini,mobil baru,1437,100-500 DM,4-7 tahun,2,29,milik sendiri,1,terampil/karyawan,macet
+629,tanpa rekening giro,42,kritis/ada kredit lain,furnitur/elektronik,4042,500-1000 DM,1-4 tahun,4,36,milik sendiri,2,terampil/karyawan,lancar
+630,tanpa rekening giro,9,kredit berjalan lancar,pendidikan,3832,tidak ada/tdk diketahui,>=7 tahun,1,64,milik sendiri,1,tidak terampil (residen),lancar
+631,saldo negatif,24,kredit berjalan lancar,radio/televisi,3660,<100 DM,1-4 tahun,2,28,milik sendiri,1,terampil/karyawan,lancar
+632,saldo negatif,18,lunas di bank ini,furnitur/elektronik,1553,<100 DM,1-4 tahun,4,44,milik sendiri,1,terampil/karyawan,macet
+633,0-200 DM,15,kredit berjalan lancar,radio/televisi,1444,tidak ada/tdk diketahui,<1 tahun,4,23,milik sendiri,1,terampil/karyawan,lancar
+634,tanpa rekening giro,9,kredit berjalan lancar,furnitur/elektronik,1980,<100 DM,<1 tahun,2,19,sewa,2,terampil/karyawan,macet
+635,0-200 DM,24,kredit berjalan lancar,mobil baru,1355,<100 DM,<1 tahun,3,25,milik sendiri,1,tidak terampil (residen),macet
+636,tanpa rekening giro,12,kredit berjalan lancar,pendidikan,1393,<100 DM,>=7 tahun,4,47,milik sendiri,3,terampil/karyawan,lancar
+637,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1376,500-1000 DM,4-7 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+638,tanpa rekening giro,60,pernah menunggak,radio/televisi,15653,<100 DM,4-7 tahun,2,21,milik sendiri,2,terampil/karyawan,lancar
+639,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,1493,<100 DM,<1 tahun,4,34,milik sendiri,1,terampil/karyawan,lancar
+640,saldo negatif,42,pernah menunggak,radio/televisi,4370,<100 DM,4-7 tahun,3,26,milik sendiri,2,terampil/karyawan,macet
+641,saldo negatif,18,kredit berjalan lancar,pendidikan,750,<100 DM,menganggur,4,27,milik sendiri,1,tidak terampil,macet
+642,0-200 DM,15,kredit berjalan lancar,renovasi,1308,<100 DM,>=7 tahun,4,38,milik sendiri,2,tidak terampil (residen),lancar
+643,tanpa rekening giro,15,kredit berjalan lancar,pendidikan,4623,100-500 DM,1-4 tahun,3,40,milik sendiri,1,manajer/wiraswasta,macet
+644,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,1851,<100 DM,4-7 tahun,4,33,milik sendiri,2,terampil/karyawan,lancar
+645,saldo negatif,18,kritis/ada kredit lain,radio/televisi,1880,<100 DM,4-7 tahun,4,32,milik sendiri,2,manajer/wiraswasta,lancar
+646,tanpa rekening giro,36,pernah menunggak,usaha,7980,tidak ada/tdk diketahui,<1 tahun,4,27,sewa,2,terampil/karyawan,macet
+647,saldo negatif,30,lunas tepat waktu,furnitur/elektronik,4583,<100 DM,1-4 tahun,2,32,milik sendiri,2,terampil/karyawan,lancar
+648,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,1386,500-1000 DM,1-4 tahun,2,26,milik sendiri,1,terampil/karyawan,macet
+649,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,mobil baru,947,<100 DM,4-7 tahun,4,38,gratis,1,terampil/karyawan,macet
+650,saldo negatif,12,kredit berjalan lancar,pendidikan,684,<100 DM,1-4 tahun,4,40,sewa,1,tidak terampil (residen),macet
+651,saldo negatif,48,kredit berjalan lancar,pendidikan,7476,<100 DM,4-7 tahun,4,50,gratis,1,manajer/wiraswasta,lancar
+652,0-200 DM,12,kredit berjalan lancar,furnitur/elektronik,1922,<100 DM,1-4 tahun,4,37,milik sendiri,1,tidak terampil (residen),macet
+653,saldo negatif,24,kredit berjalan lancar,mobil baru,2303,<100 DM,>=7 tahun,4,45,milik sendiri,1,terampil/karyawan,macet
+654,0-200 DM,36,pernah menunggak,mobil baru,8086,100-500 DM,>=7 tahun,2,42,milik sendiri,4,manajer/wiraswasta,macet
+655,tanpa rekening giro,24,kritis/ada kredit lain,mobil bekas,2346,<100 DM,4-7 tahun,4,35,milik sendiri,2,terampil/karyawan,lancar
+656,saldo negatif,14,kredit berjalan lancar,mobil baru,3973,<100 DM,menganggur,1,22,gratis,1,terampil/karyawan,lancar
+657,0-200 DM,12,kredit berjalan lancar,mobil baru,888,<100 DM,>=7 tahun,4,41,milik sendiri,1,tidak terampil (residen),macet
+658,tanpa rekening giro,48,kredit berjalan lancar,radio/televisi,10222,tidak ada/tdk diketahui,4-7 tahun,4,37,milik sendiri,1,terampil/karyawan,lancar
+659,0-200 DM,30,lunas tepat waktu,usaha,4221,<100 DM,1-4 tahun,2,28,milik sendiri,2,terampil/karyawan,lancar
+660,0-200 DM,18,kritis/ada kredit lain,furnitur/elektronik,6361,<100 DM,>=7 tahun,2,41,milik sendiri,1,terampil/karyawan,lancar
+661,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,radio/televisi,1297,<100 DM,1-4 tahun,3,23,sewa,1,terampil/karyawan,lancar
+662,saldo negatif,12,kredit berjalan lancar,mobil baru,900,tidak ada/tdk diketahui,1-4 tahun,4,23,milik sendiri,1,terampil/karyawan,macet
+663,tanpa rekening giro,21,kredit berjalan lancar,furnitur/elektronik,2241,<100 DM,>=7 tahun,4,50,milik sendiri,2,terampil/karyawan,lancar
+664,0-200 DM,6,pernah menunggak,furnitur/elektronik,1050,<100 DM,menganggur,4,35,milik sendiri,2,manajer/wiraswasta,lancar
+665,>=200 DM / gaji >=1 thn,6,kritis/ada kredit lain,pendidikan,1047,<100 DM,1-4 tahun,2,50,milik sendiri,1,tidak terampil (residen),lancar
+666,tanpa rekening giro,24,kritis/ada kredit lain,lainnya,6314,<100 DM,menganggur,4,27,milik sendiri,2,manajer/wiraswasta,lancar
+667,0-200 DM,30,lunas di bank ini,furnitur/elektronik,3496,>=1000 DM,1-4 tahun,4,34,milik sendiri,1,terampil/karyawan,lancar
+668,tanpa rekening giro,48,lunas di bank ini,usaha,3609,<100 DM,1-4 tahun,1,27,milik sendiri,1,terampil/karyawan,lancar
+669,saldo negatif,12,kritis/ada kredit lain,mobil baru,4843,<100 DM,>=7 tahun,3,43,sewa,2,terampil/karyawan,macet
+670,>=200 DM / gaji >=1 thn,30,kritis/ada kredit lain,radio/televisi,3017,<100 DM,>=7 tahun,4,47,milik sendiri,1,terampil/karyawan,lancar
+671,tanpa rekening giro,24,kritis/ada kredit lain,usaha,4139,100-500 DM,1-4 tahun,3,27,milik sendiri,2,tidak terampil (residen),lancar
+672,tanpa rekening giro,36,kredit berjalan lancar,usaha,5742,100-500 DM,4-7 tahun,2,31,milik sendiri,2,terampil/karyawan,lancar
+673,tanpa rekening giro,60,kredit berjalan lancar,mobil baru,10366,<100 DM,>=7 tahun,2,42,milik sendiri,1,manajer/wiraswasta,lancar
+674,tanpa rekening giro,6,kritis/ada kredit lain,mobil baru,2080,500-1000 DM,1-4 tahun,1,24,milik sendiri,1,terampil/karyawan,lancar
+675,tanpa rekening giro,21,pernah menunggak,usaha,2580,500-1000 DM,<1 tahun,4,41,milik sendiri,1,tidak terampil (residen),macet
+676,tanpa rekening giro,30,kritis/ada kredit lain,radio/televisi,4530,<100 DM,4-7 tahun,4,26,sewa,1,manajer/wiraswasta,lancar
+677,tanpa rekening giro,24,kritis/ada kredit lain,furnitur/elektronik,5150,<100 DM,>=7 tahun,4,33,milik sendiri,1,terampil/karyawan,lancar
+678,0-200 DM,72,kredit berjalan lancar,radio/televisi,5595,100-500 DM,1-4 tahun,2,24,milik sendiri,1,terampil/karyawan,macet
+679,saldo negatif,24,kredit berjalan lancar,radio/televisi,2384,<100 DM,>=7 tahun,4,64,sewa,1,tidak terampil (residen),lancar
+680,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,1453,<100 DM,<1 tahun,3,26,milik sendiri,1,terampil/karyawan,lancar
+681,tanpa rekening giro,6,kredit berjalan lancar,pendidikan,1538,<100 DM,<1 tahun,1,56,milik sendiri,1,terampil/karyawan,lancar
+682,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,2279,tidak ada/tdk diketahui,1-4 tahun,4,37,gratis,1,terampil/karyawan,lancar
+683,tanpa rekening giro,15,pernah menunggak,radio/televisi,1478,<100 DM,1-4 tahun,4,33,milik sendiri,2,terampil/karyawan,lancar
+684,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,5103,<100 DM,<1 tahun,3,47,gratis,3,terampil/karyawan,lancar
+685,0-200 DM,36,pernah menunggak,usaha,9857,100-500 DM,4-7 tahun,1,31,milik sendiri,2,tidak terampil (residen),lancar
+686,tanpa rekening giro,60,kredit berjalan lancar,mobil baru,6527,tidak ada/tdk diketahui,1-4 tahun,4,34,gratis,1,terampil/karyawan,lancar
+687,>=200 DM / gaji >=1 thn,10,kritis/ada kredit lain,radio/televisi,1347,tidak ada/tdk diketahui,4-7 tahun,4,27,milik sendiri,2,terampil/karyawan,lancar
+688,0-200 DM,36,pernah menunggak,mobil baru,2862,100-500 DM,>=7 tahun,4,30,gratis,1,terampil/karyawan,lancar
+689,tanpa rekening giro,9,kredit berjalan lancar,radio/televisi,2753,100-500 DM,>=7 tahun,3,35,milik sendiri,1,terampil/karyawan,lancar
+690,saldo negatif,12,kredit berjalan lancar,mobil baru,3651,>=1000 DM,1-4 tahun,1,31,milik sendiri,1,terampil/karyawan,lancar
+691,saldo negatif,15,kritis/ada kredit lain,furnitur/elektronik,975,<100 DM,1-4 tahun,2,25,milik sendiri,2,terampil/karyawan,lancar
+692,0-200 DM,15,kredit berjalan lancar,renovasi,2631,100-500 DM,1-4 tahun,3,25,milik sendiri,1,tidak terampil (residen),lancar
+693,0-200 DM,24,kredit berjalan lancar,radio/televisi,2896,100-500 DM,<1 tahun,2,29,milik sendiri,1,terampil/karyawan,lancar
+694,saldo negatif,6,kritis/ada kredit lain,mobil baru,4716,tidak ada/tdk diketahui,<1 tahun,1,44,milik sendiri,2,tidak terampil (residen),lancar
+695,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,2284,<100 DM,4-7 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+696,tanpa rekening giro,6,kredit berjalan lancar,mobil bekas,1236,500-1000 DM,1-4 tahun,2,50,sewa,1,terampil/karyawan,lancar
+697,0-200 DM,12,kredit berjalan lancar,radio/televisi,1103,<100 DM,4-7 tahun,4,29,milik sendiri,2,terampil/karyawan,lancar
+698,tanpa rekening giro,12,kritis/ada kredit lain,mobil baru,926,<100 DM,menganggur,1,38,milik sendiri,1,tidak terampil,lancar
+699,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,1800,<100 DM,1-4 tahun,4,24,milik sendiri,2,terampil/karyawan,lancar
+700,>=200 DM / gaji >=1 thn,15,kredit berjalan lancar,pendidikan,1905,<100 DM,>=7 tahun,4,40,sewa,1,manajer/wiraswasta,lancar
+701,tanpa rekening giro,12,kredit berjalan lancar,furnitur/elektronik,1123,500-1000 DM,1-4 tahun,4,29,sewa,1,tidak terampil (residen),macet
+702,saldo negatif,48,kritis/ada kredit lain,mobil bekas,6331,<100 DM,>=7 tahun,4,46,gratis,2,terampil/karyawan,macet
+703,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,radio/televisi,1377,100-500 DM,>=7 tahun,4,47,gratis,1,terampil/karyawan,lancar
+704,0-200 DM,30,pernah menunggak,usaha,2503,100-500 DM,>=7 tahun,4,41,milik sendiri,2,terampil/karyawan,lancar
+705,0-200 DM,27,kredit berjalan lancar,usaha,2528,<100 DM,<1 tahun,4,32,milik sendiri,1,terampil/karyawan,lancar
+706,tanpa rekening giro,15,kredit berjalan lancar,mobil baru,5324,500-1000 DM,>=7 tahun,1,35,gratis,1,terampil/karyawan,lancar
+707,0-200 DM,48,kredit berjalan lancar,mobil baru,6560,100-500 DM,4-7 tahun,3,24,milik sendiri,1,terampil/karyawan,macet
+708,0-200 DM,12,lunas tepat waktu,furnitur/elektronik,2969,<100 DM,<1 tahun,4,25,sewa,2,terampil/karyawan,macet
+709,0-200 DM,9,kredit berjalan lancar,radio/televisi,1206,<100 DM,>=7 tahun,4,25,milik sendiri,1,terampil/karyawan,lancar
+710,0-200 DM,9,kredit berjalan lancar,radio/televisi,2118,<100 DM,1-4 tahun,2,37,milik sendiri,1,tidak terampil (residen),lancar
+711,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,629,500-1000 DM,>=7 tahun,4,32,milik sendiri,2,manajer/wiraswasta,lancar
+712,saldo negatif,6,lunas di bank ini,pendidikan,1198,<100 DM,>=7 tahun,4,35,gratis,1,terampil/karyawan,macet
+713,tanpa rekening giro,21,kredit berjalan lancar,mobil bekas,2476,tidak ada/tdk diketahui,>=7 tahun,4,46,milik sendiri,1,manajer/wiraswasta,lancar
+714,saldo negatif,9,kritis/ada kredit lain,radio/televisi,1138,<100 DM,1-4 tahun,4,25,milik sendiri,2,tidak terampil (residen),lancar
+715,0-200 DM,60,kredit berjalan lancar,mobil baru,14027,<100 DM,4-7 tahun,4,27,milik sendiri,1,manajer/wiraswasta,macet
+716,tanpa rekening giro,30,kritis/ada kredit lain,mobil bekas,7596,tidak ada/tdk diketahui,>=7 tahun,1,63,milik sendiri,2,terampil/karyawan,lancar
+717,tanpa rekening giro,30,kritis/ada kredit lain,radio/televisi,3077,tidak ada/tdk diketahui,>=7 tahun,3,40,milik sendiri,2,terampil/karyawan,lancar
+718,tanpa rekening giro,18,kredit berjalan lancar,radio/televisi,1505,<100 DM,1-4 tahun,4,32,gratis,1,manajer/wiraswasta,lancar
+719,>=200 DM / gaji >=1 thn,24,kritis/ada kredit lain,radio/televisi,3148,tidak ada/tdk diketahui,1-4 tahun,3,31,milik sendiri,2,terampil/karyawan,lancar
+720,0-200 DM,20,lunas tepat waktu,mobil bekas,6148,100-500 DM,>=7 tahun,3,31,milik sendiri,2,terampil/karyawan,lancar
+721,>=200 DM / gaji >=1 thn,9,lunas tepat waktu,radio/televisi,1337,<100 DM,<1 tahun,4,34,milik sendiri,2,manajer/wiraswasta,macet
+722,0-200 DM,6,lunas di bank ini,pendidikan,433,>=1000 DM,<1 tahun,4,24,sewa,1,terampil/karyawan,macet
+723,saldo negatif,12,kredit berjalan lancar,mobil baru,1228,<100 DM,1-4 tahun,4,24,milik sendiri,1,tidak terampil (residen),macet
+724,0-200 DM,9,kredit berjalan lancar,radio/televisi,790,500-1000 DM,1-4 tahun,4,66,milik sendiri,1,tidak terampil (residen),lancar
+725,tanpa rekening giro,27,kredit berjalan lancar,mobil baru,2570,<100 DM,1-4 tahun,3,21,sewa,1,terampil/karyawan,macet
+726,tanpa rekening giro,6,kritis/ada kredit lain,mobil baru,250,>=1000 DM,1-4 tahun,2,41,milik sendiri,2,tidak terampil (residen),lancar
+727,tanpa rekening giro,15,kritis/ada kredit lain,radio/televisi,1316,500-1000 DM,1-4 tahun,2,47,milik sendiri,2,tidak terampil (residen),lancar
+728,saldo negatif,18,kredit berjalan lancar,radio/televisi,1882,<100 DM,1-4 tahun,4,25,sewa,2,terampil/karyawan,macet
+729,0-200 DM,48,lunas di bank ini,usaha,6416,<100 DM,>=7 tahun,4,59,sewa,1,terampil/karyawan,macet
+730,>=200 DM / gaji >=1 thn,24,kritis/ada kredit lain,usaha,1275,>=1000 DM,1-4 tahun,2,36,milik sendiri,2,terampil/karyawan,lancar
+731,0-200 DM,24,pernah menunggak,radio/televisi,6403,<100 DM,<1 tahun,1,33,milik sendiri,1,terampil/karyawan,lancar
+732,saldo negatif,24,kredit berjalan lancar,radio/televisi,1987,<100 DM,1-4 tahun,2,21,sewa,1,tidak terampil (residen),macet
+733,0-200 DM,8,kredit berjalan lancar,radio/televisi,760,<100 DM,4-7 tahun,4,44,milik sendiri,1,tidak terampil (residen),lancar
+734,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,2603,>=1000 DM,1-4 tahun,2,28,sewa,1,terampil/karyawan,lancar
+735,tanpa rekening giro,4,kritis/ada kredit lain,mobil baru,3380,<100 DM,4-7 tahun,1,37,milik sendiri,1,terampil/karyawan,lancar
+736,0-200 DM,36,lunas di bank ini,peralatan rumah tangga,3990,tidak ada/tdk diketahui,<1 tahun,3,29,milik sendiri,1,tidak terampil,lancar
+737,0-200 DM,24,kredit berjalan lancar,mobil bekas,11560,<100 DM,1-4 tahun,1,23,sewa,2,manajer/wiraswasta,macet
+738,saldo negatif,18,kredit berjalan lancar,mobil baru,4380,100-500 DM,1-4 tahun,3,35,milik sendiri,1,tidak terampil (residen),lancar
+739,tanpa rekening giro,6,kritis/ada kredit lain,mobil baru,6761,<100 DM,4-7 tahun,1,45,milik sendiri,2,manajer/wiraswasta,lancar
+740,0-200 DM,30,lunas tepat waktu,usaha,4280,100-500 DM,1-4 tahun,4,26,sewa,2,tidak terampil (residen),macet
+741,saldo negatif,24,lunas di bank ini,mobil baru,2325,100-500 DM,4-7 tahun,2,32,milik sendiri,1,terampil/karyawan,lancar
+742,0-200 DM,10,lunas di bank ini,radio/televisi,1048,<100 DM,1-4 tahun,4,23,milik sendiri,1,tidak terampil (residen),lancar
+743,tanpa rekening giro,21,kredit berjalan lancar,radio/televisi,3160,tidak ada/tdk diketahui,>=7 tahun,4,41,milik sendiri,1,terampil/karyawan,lancar
+744,saldo negatif,24,lunas di bank ini,furnitur/elektronik,2483,500-1000 DM,1-4 tahun,4,22,milik sendiri,1,terampil/karyawan,lancar
+745,saldo negatif,39,kritis/ada kredit lain,furnitur/elektronik,14179,tidak ada/tdk diketahui,4-7 tahun,4,30,milik sendiri,2,manajer/wiraswasta,lancar
+746,saldo negatif,13,kritis/ada kredit lain,usaha,1797,<100 DM,<1 tahun,3,28,milik sendiri,2,tidak terampil (residen),lancar
+747,saldo negatif,15,kredit berjalan lancar,mobil baru,2511,<100 DM,menganggur,1,23,sewa,1,terampil/karyawan,lancar
+748,saldo negatif,12,kredit berjalan lancar,mobil baru,1274,<100 DM,<1 tahun,3,37,milik sendiri,1,tidak terampil (residen),macet
+749,tanpa rekening giro,21,kredit berjalan lancar,mobil bekas,5248,tidak ada/tdk diketahui,1-4 tahun,1,26,milik sendiri,1,terampil/karyawan,lancar
+750,tanpa rekening giro,15,kredit berjalan lancar,mobil bekas,3029,<100 DM,4-7 tahun,2,33,milik sendiri,1,terampil/karyawan,lancar
+751,saldo negatif,6,kredit berjalan lancar,furnitur/elektronik,428,<100 DM,>=7 tahun,2,49,milik sendiri,1,terampil/karyawan,lancar
+752,saldo negatif,18,kredit berjalan lancar,mobil baru,976,<100 DM,<1 tahun,1,23,milik sendiri,1,tidak terampil (residen),macet
+753,0-200 DM,12,kredit berjalan lancar,usaha,841,100-500 DM,4-7 tahun,2,23,sewa,1,tidak terampil (residen),lancar
+754,tanpa rekening giro,30,kritis/ada kredit lain,radio/televisi,5771,<100 DM,4-7 tahun,4,25,milik sendiri,2,terampil/karyawan,lancar
+755,tanpa rekening giro,12,pernah menunggak,renovasi,1555,>=1000 DM,>=7 tahun,4,55,gratis,2,terampil/karyawan,macet
+756,saldo negatif,24,kredit berjalan lancar,mobil baru,1285,tidak ada/tdk diketahui,4-7 tahun,4,32,sewa,1,terampil/karyawan,macet
+757,>=200 DM / gaji >=1 thn,6,kritis/ada kredit lain,mobil baru,1299,<100 DM,1-4 tahun,1,74,milik sendiri,3,tidak terampil,lancar
+758,>=200 DM / gaji >=1 thn,15,kritis/ada kredit lain,radio/televisi,1271,tidak ada/tdk diketahui,1-4 tahun,3,39,gratis,2,terampil/karyawan,macet
+759,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,1393,<100 DM,1-4 tahun,2,31,milik sendiri,1,terampil/karyawan,lancar
+760,saldo negatif,12,kritis/ada kredit lain,mobil baru,691,<100 DM,>=7 tahun,4,35,milik sendiri,2,terampil/karyawan,macet
+761,tanpa rekening giro,15,kritis/ada kredit lain,mobil baru,5045,tidak ada/tdk diketahui,>=7 tahun,1,59,milik sendiri,1,terampil/karyawan,lancar
+762,saldo negatif,18,kritis/ada kredit lain,furnitur/elektronik,2124,<100 DM,1-4 tahun,4,24,sewa,2,terampil/karyawan,macet
+763,saldo negatif,12,kredit berjalan lancar,radio/televisi,2214,<100 DM,1-4 tahun,4,24,milik sendiri,1,tidak terampil (residen),lancar
+764,tanpa rekening giro,21,kritis/ada kredit lain,mobil baru,12680,tidak ada/tdk diketahui,>=7 tahun,4,30,gratis,1,manajer/wiraswasta,macet
+765,tanpa rekening giro,24,kritis/ada kredit lain,mobil baru,2463,100-500 DM,4-7 tahun,4,27,milik sendiri,2,terampil/karyawan,lancar
+766,0-200 DM,12,kredit berjalan lancar,radio/televisi,1155,<100 DM,>=7 tahun,3,40,milik sendiri,2,tidak terampil (residen),lancar
+767,saldo negatif,30,kredit berjalan lancar,furnitur/elektronik,3108,<100 DM,<1 tahun,2,31,milik sendiri,1,tidak terampil (residen),macet
+768,tanpa rekening giro,10,kredit berjalan lancar,mobil bekas,2901,tidak ada/tdk diketahui,<1 tahun,1,31,sewa,1,terampil/karyawan,lancar
+769,0-200 DM,12,kritis/ada kredit lain,furnitur/elektronik,3617,<100 DM,>=7 tahun,1,28,sewa,3,terampil/karyawan,lancar
+770,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,1655,<100 DM,>=7 tahun,2,63,milik sendiri,2,tidak terampil (residen),lancar
+771,saldo negatif,24,kredit berjalan lancar,mobil bekas,2812,tidak ada/tdk diketahui,>=7 tahun,2,26,sewa,1,terampil/karyawan,lancar
+772,saldo negatif,36,kritis/ada kredit lain,pendidikan,8065,<100 DM,1-4 tahun,3,25,milik sendiri,2,manajer/wiraswasta,macet
+773,tanpa rekening giro,21,kritis/ada kredit lain,mobil bekas,3275,<100 DM,>=7 tahun,1,36,milik sendiri,1,manajer/wiraswasta,lancar
+774,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,2223,100-500 DM,>=7 tahun,4,52,milik sendiri,2,terampil/karyawan,lancar
+775,>=200 DM / gaji >=1 thn,12,kritis/ada kredit lain,mobil baru,1480,500-1000 DM,menganggur,2,66,gratis,3,tidak terampil,lancar
+776,saldo negatif,24,kredit berjalan lancar,mobil baru,1371,tidak ada/tdk diketahui,1-4 tahun,4,25,sewa,1,terampil/karyawan,macet
+777,tanpa rekening giro,36,kritis/ada kredit lain,mobil baru,3535,<100 DM,4-7 tahun,4,37,milik sendiri,2,terampil/karyawan,lancar
+778,saldo negatif,18,kredit berjalan lancar,radio/televisi,3509,<100 DM,4-7 tahun,4,25,milik sendiri,1,terampil/karyawan,lancar
+779,tanpa rekening giro,36,kritis/ada kredit lain,mobil bekas,5711,>=1000 DM,>=7 tahun,4,38,milik sendiri,2,manajer/wiraswasta,lancar
+780,0-200 DM,18,kredit berjalan lancar,renovasi,3872,<100 DM,menganggur,2,67,milik sendiri,1,terampil/karyawan,lancar
+781,0-200 DM,39,kritis/ada kredit lain,radio/televisi,4933,<100 DM,4-7 tahun,2,25,milik sendiri,2,terampil/karyawan,macet
+782,tanpa rekening giro,24,kritis/ada kredit lain,mobil baru,1940,>=1000 DM,>=7 tahun,4,60,milik sendiri,1,terampil/karyawan,lancar
+783,0-200 DM,12,lunas tepat waktu,pelatihan ulang,1410,<100 DM,1-4 tahun,2,31,milik sendiri,1,tidak terampil (residen),lancar
+784,0-200 DM,12,kredit berjalan lancar,mobil baru,836,100-500 DM,<1 tahun,4,23,milik sendiri,1,tidak terampil (residen),macet
+785,0-200 DM,20,kredit berjalan lancar,mobil bekas,6468,tidak ada/tdk diketahui,menganggur,1,60,milik sendiri,1,manajer/wiraswasta,lancar
+786,0-200 DM,18,kredit berjalan lancar,usaha,1941,>=1000 DM,1-4 tahun,4,35,milik sendiri,1,tidak terampil (residen),lancar
+787,tanpa rekening giro,22,kredit berjalan lancar,radio/televisi,2675,500-1000 DM,>=7 tahun,3,40,milik sendiri,1,terampil/karyawan,lancar
+788,tanpa rekening giro,48,kritis/ada kredit lain,mobil bekas,2751,tidak ada/tdk diketahui,>=7 tahun,4,38,milik sendiri,2,terampil/karyawan,lancar
+789,0-200 DM,48,pernah menunggak,pendidikan,6224,<100 DM,>=7 tahun,4,50,gratis,1,terampil/karyawan,macet
+790,saldo negatif,40,kritis/ada kredit lain,pendidikan,5998,<100 DM,1-4 tahun,4,27,milik sendiri,1,terampil/karyawan,macet
+791,0-200 DM,21,kredit berjalan lancar,usaha,1188,<100 DM,>=7 tahun,2,39,milik sendiri,1,terampil/karyawan,macet
+792,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,6313,tidak ada/tdk diketahui,>=7 tahun,3,41,milik sendiri,1,manajer/wiraswasta,lancar
+793,tanpa rekening giro,6,kritis/ada kredit lain,furnitur/elektronik,1221,tidak ada/tdk diketahui,1-4 tahun,1,27,milik sendiri,2,terampil/karyawan,lancar
+794,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,furnitur/elektronik,2892,<100 DM,>=7 tahun,3,51,gratis,1,terampil/karyawan,lancar
+795,tanpa rekening giro,24,kredit berjalan lancar,furnitur/elektronik,3062,500-1000 DM,>=7 tahun,4,32,sewa,1,terampil/karyawan,lancar
+796,tanpa rekening giro,9,kredit berjalan lancar,furnitur/elektronik,2301,100-500 DM,<1 tahun,2,22,sewa,1,terampil/karyawan,lancar
+797,saldo negatif,18,kredit berjalan lancar,mobil bekas,7511,tidak ada/tdk diketahui,>=7 tahun,1,51,gratis,1,terampil/karyawan,macet
+798,tanpa rekening giro,12,kritis/ada kredit lain,furnitur/elektronik,1258,<100 DM,<1 tahun,2,22,sewa,2,tidak terampil (residen),lancar
+799,tanpa rekening giro,24,pernah menunggak,mobil baru,717,tidak ada/tdk diketahui,>=7 tahun,4,54,milik sendiri,2,terampil/karyawan,lancar
+800,0-200 DM,9,kredit berjalan lancar,mobil baru,1549,tidak ada/tdk diketahui,<1 tahun,4,35,milik sendiri,1,tidak terampil,lancar
+801,tanpa rekening giro,24,kritis/ada kredit lain,pendidikan,1597,<100 DM,>=7 tahun,4,54,gratis,2,terampil/karyawan,lancar
+802,0-200 DM,18,kritis/ada kredit lain,radio/televisi,1795,<100 DM,>=7 tahun,3,48,sewa,2,tidak terampil (residen),lancar
+803,saldo negatif,20,kritis/ada kredit lain,furnitur/elektronik,4272,<100 DM,>=7 tahun,1,24,milik sendiri,2,terampil/karyawan,lancar
+804,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,976,tidak ada/tdk diketahui,>=7 tahun,4,35,milik sendiri,2,terampil/karyawan,lancar
+805,0-200 DM,12,kredit berjalan lancar,mobil baru,7472,tidak ada/tdk diketahui,menganggur,1,24,sewa,1,tidak terampil,lancar
+806,saldo negatif,36,kredit berjalan lancar,mobil baru,9271,<100 DM,4-7 tahun,2,24,milik sendiri,1,terampil/karyawan,macet
+807,0-200 DM,6,kredit berjalan lancar,radio/televisi,590,<100 DM,<1 tahun,3,26,milik sendiri,1,tidak terampil (residen),lancar
+808,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,930,tidak ada/tdk diketahui,>=7 tahun,4,65,milik sendiri,4,terampil/karyawan,lancar
+809,0-200 DM,42,lunas di bank ini,mobil bekas,9283,<100 DM,menganggur,1,55,gratis,1,manajer/wiraswasta,lancar
+810,0-200 DM,15,lunas tepat waktu,mobil baru,1778,<100 DM,<1 tahun,2,26,sewa,2,tidak terampil,macet
+811,0-200 DM,8,kredit berjalan lancar,usaha,907,<100 DM,<1 tahun,3,26,milik sendiri,1,terampil/karyawan,lancar
+812,0-200 DM,6,kredit berjalan lancar,radio/televisi,484,<100 DM,4-7 tahun,3,28,milik sendiri,1,tidak terampil (residen),lancar
+813,saldo negatif,36,kritis/ada kredit lain,mobil bekas,9629,<100 DM,4-7 tahun,4,24,milik sendiri,2,terampil/karyawan,macet
+814,saldo negatif,48,kredit berjalan lancar,peralatan rumah tangga,3051,<100 DM,1-4 tahun,3,54,milik sendiri,1,terampil/karyawan,macet
+815,saldo negatif,48,kredit berjalan lancar,mobil baru,3931,<100 DM,4-7 tahun,4,46,gratis,1,terampil/karyawan,macet
+816,0-200 DM,36,pernah menunggak,mobil baru,7432,<100 DM,1-4 tahun,2,54,sewa,1,terampil/karyawan,lancar
+817,tanpa rekening giro,6,kredit berjalan lancar,peralatan rumah tangga,1338,500-1000 DM,1-4 tahun,1,62,milik sendiri,1,terampil/karyawan,lancar
+818,tanpa rekening giro,6,kritis/ada kredit lain,radio/televisi,1554,<100 DM,4-7 tahun,1,24,sewa,2,terampil/karyawan,lancar
+819,saldo negatif,36,kredit berjalan lancar,lainnya,15857,<100 DM,menganggur,2,43,milik sendiri,1,manajer/wiraswasta,lancar
+820,saldo negatif,18,kredit berjalan lancar,radio/televisi,1345,<100 DM,1-4 tahun,4,26,milik sendiri,1,terampil/karyawan,macet
+821,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,1101,<100 DM,1-4 tahun,3,27,milik sendiri,2,terampil/karyawan,lancar
+822,>=200 DM / gaji >=1 thn,12,kredit berjalan lancar,radio/televisi,3016,<100 DM,1-4 tahun,3,24,milik sendiri,1,terampil/karyawan,lancar
+823,saldo negatif,36,kredit berjalan lancar,furnitur/elektronik,2712,<100 DM,>=7 tahun,2,41,milik sendiri,1,terampil/karyawan,macet
+824,saldo negatif,8,kritis/ada kredit lain,mobil baru,731,<100 DM,>=7 tahun,4,47,milik sendiri,2,tidak terampil (residen),lancar
+825,tanpa rekening giro,18,kritis/ada kredit lain,furnitur/elektronik,3780,<100 DM,<1 tahun,3,35,milik sendiri,2,manajer/wiraswasta,lancar
+826,saldo negatif,21,kritis/ada kredit lain,mobil baru,1602,<100 DM,>=7 tahun,4,30,milik sendiri,2,terampil/karyawan,lancar
+827,saldo negatif,18,kritis/ada kredit lain,mobil baru,3966,<100 DM,>=7 tahun,1,33,sewa,3,terampil/karyawan,macet
+828,tanpa rekening giro,18,lunas tepat waktu,usaha,4165,<100 DM,1-4 tahun,2,36,milik sendiri,2,terampil/karyawan,macet
+829,saldo negatif,36,kredit berjalan lancar,mobil bekas,8335,tidak ada/tdk diketahui,>=7 tahun,3,47,gratis,1,terampil/karyawan,macet
+830,0-200 DM,48,pernah menunggak,usaha,6681,tidak ada/tdk diketahui,1-4 tahun,4,38,gratis,1,terampil/karyawan,lancar
+831,tanpa rekening giro,24,pernah menunggak,usaha,2375,500-1000 DM,1-4 tahun,4,44,milik sendiri,2,terampil/karyawan,lancar
+832,saldo negatif,18,kredit berjalan lancar,mobil baru,1216,<100 DM,<1 tahun,4,23,sewa,1,terampil/karyawan,macet
+833,saldo negatif,45,lunas tepat waktu,usaha,11816,<100 DM,>=7 tahun,2,29,sewa,2,terampil/karyawan,macet
+834,0-200 DM,24,kredit berjalan lancar,radio/televisi,5084,tidak ada/tdk diketahui,>=7 tahun,2,42,milik sendiri,1,terampil/karyawan,lancar
+835,>=200 DM / gaji >=1 thn,15,kredit berjalan lancar,radio/televisi,2327,<100 DM,<1 tahun,2,25,milik sendiri,1,tidak terampil (residen),macet
+836,saldo negatif,12,lunas tepat waktu,mobil baru,1082,<100 DM,1-4 tahun,4,48,milik sendiri,2,terampil/karyawan,macet
+837,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,886,tidak ada/tdk diketahui,1-4 tahun,4,21,milik sendiri,1,terampil/karyawan,lancar
+838,tanpa rekening giro,4,kredit berjalan lancar,furnitur/elektronik,601,<100 DM,<1 tahun,1,23,sewa,1,tidak terampil (residen),lancar
+839,saldo negatif,24,kritis/ada kredit lain,mobil bekas,2957,<100 DM,>=7 tahun,4,63,milik sendiri,2,terampil/karyawan,lancar
+840,tanpa rekening giro,24,kritis/ada kredit lain,radio/televisi,2611,<100 DM,>=7 tahun,4,46,milik sendiri,2,terampil/karyawan,lancar
+841,saldo negatif,36,kredit berjalan lancar,furnitur/elektronik,5179,<100 DM,4-7 tahun,4,29,milik sendiri,1,terampil/karyawan,macet
+842,tanpa rekening giro,21,pernah menunggak,mobil bekas,2993,<100 DM,1-4 tahun,3,28,milik sendiri,2,tidak terampil (residen),lancar
+843,tanpa rekening giro,18,kredit berjalan lancar,renovasi,1943,<100 DM,<1 tahun,4,23,milik sendiri,1,terampil/karyawan,macet
+844,tanpa rekening giro,24,lunas di bank ini,usaha,1559,<100 DM,4-7 tahun,4,50,milik sendiri,1,terampil/karyawan,lancar
+845,tanpa rekening giro,18,kredit berjalan lancar,furnitur/elektronik,3422,<100 DM,>=7 tahun,4,47,milik sendiri,3,terampil/karyawan,lancar
+846,0-200 DM,21,kredit berjalan lancar,furnitur/elektronik,3976,tidak ada/tdk diketahui,4-7 tahun,2,35,milik sendiri,1,terampil/karyawan,lancar
+847,tanpa rekening giro,18,kredit berjalan lancar,mobil baru,6761,tidak ada/tdk diketahui,1-4 tahun,2,68,sewa,2,terampil/karyawan,macet
+848,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,1249,<100 DM,<1 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+849,saldo negatif,9,kredit berjalan lancar,radio/televisi,1364,<100 DM,4-7 tahun,3,59,milik sendiri,1,terampil/karyawan,lancar
+850,saldo negatif,12,kredit berjalan lancar,radio/televisi,709,<100 DM,>=7 tahun,4,57,milik sendiri,1,tidak terampil (residen),macet
+851,saldo negatif,20,kritis/ada kredit lain,mobil baru,2235,<100 DM,1-4 tahun,4,33,sewa,2,terampil/karyawan,macet
+852,tanpa rekening giro,24,kritis/ada kredit lain,mobil bekas,4042,tidak ada/tdk diketahui,4-7 tahun,3,43,milik sendiri,2,terampil/karyawan,lancar
+853,tanpa rekening giro,15,kritis/ada kredit lain,radio/televisi,1471,<100 DM,1-4 tahun,4,35,gratis,2,terampil/karyawan,lancar
+854,saldo negatif,18,lunas di bank ini,mobil baru,1442,<100 DM,4-7 tahun,4,32,gratis,2,tidak terampil (residen),macet
+855,tanpa rekening giro,36,pernah menunggak,mobil baru,10875,<100 DM,>=7 tahun,2,45,milik sendiri,2,terampil/karyawan,lancar
+856,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,1474,100-500 DM,<1 tahun,4,33,milik sendiri,1,terampil/karyawan,lancar
+857,tanpa rekening giro,10,kredit berjalan lancar,pelatihan ulang,894,tidak ada/tdk diketahui,4-7 tahun,4,40,milik sendiri,1,terampil/karyawan,lancar
+858,tanpa rekening giro,15,kritis/ada kredit lain,furnitur/elektronik,3343,<100 DM,1-4 tahun,4,28,gratis,1,terampil/karyawan,lancar
+859,saldo negatif,15,kredit berjalan lancar,mobil baru,3959,<100 DM,1-4 tahun,3,29,milik sendiri,1,terampil/karyawan,macet
+860,tanpa rekening giro,9,kredit berjalan lancar,mobil baru,3577,100-500 DM,1-4 tahun,1,26,sewa,1,terampil/karyawan,lancar
+861,tanpa rekening giro,24,kritis/ada kredit lain,mobil bekas,5804,>=1000 DM,1-4 tahun,4,27,milik sendiri,2,terampil/karyawan,lancar
+862,tanpa rekening giro,18,pernah menunggak,usaha,2169,<100 DM,1-4 tahun,4,28,milik sendiri,1,terampil/karyawan,macet
+863,saldo negatif,24,kredit berjalan lancar,radio/televisi,2439,<100 DM,<1 tahun,4,35,milik sendiri,1,terampil/karyawan,macet
+864,tanpa rekening giro,27,kritis/ada kredit lain,furnitur/elektronik,4526,>=1000 DM,<1 tahun,4,32,milik sendiri,2,tidak terampil (residen),lancar
+865,tanpa rekening giro,10,kredit berjalan lancar,furnitur/elektronik,2210,<100 DM,1-4 tahun,2,25,sewa,1,tidak terampil (residen),macet
+866,tanpa rekening giro,15,kredit berjalan lancar,furnitur/elektronik,2221,500-1000 DM,1-4 tahun,2,20,sewa,1,terampil/karyawan,lancar
+867,saldo negatif,18,kredit berjalan lancar,radio/televisi,2389,<100 DM,<1 tahun,4,27,milik sendiri,1,terampil/karyawan,lancar
+868,tanpa rekening giro,12,kritis/ada kredit lain,furnitur/elektronik,3331,<100 DM,>=7 tahun,2,42,milik sendiri,1,terampil/karyawan,lancar
+869,tanpa rekening giro,36,kredit berjalan lancar,usaha,7409,tidak ada/tdk diketahui,>=7 tahun,3,37,milik sendiri,2,terampil/karyawan,lancar
+870,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,652,<100 DM,>=7 tahun,4,24,sewa,1,terampil/karyawan,lancar
+871,tanpa rekening giro,36,pernah menunggak,furnitur/elektronik,7678,500-1000 DM,4-7 tahun,2,40,milik sendiri,2,terampil/karyawan,lancar
+872,>=200 DM / gaji >=1 thn,6,kritis/ada kredit lain,mobil baru,1343,<100 DM,>=7 tahun,1,46,milik sendiri,2,terampil/karyawan,lancar
+873,saldo negatif,24,kritis/ada kredit lain,usaha,1382,100-500 DM,4-7 tahun,4,26,milik sendiri,2,terampil/karyawan,lancar
+874,tanpa rekening giro,15,kredit berjalan lancar,peralatan rumah tangga,874,tidak ada/tdk diketahui,<1 tahun,4,24,milik sendiri,1,terampil/karyawan,lancar
+875,saldo negatif,12,kredit berjalan lancar,furnitur/elektronik,3590,<100 DM,1-4 tahun,2,29,milik sendiri,1,tidak terampil (residen),lancar
+876,0-200 DM,11,kritis/ada kredit lain,mobil baru,1322,>=1000 DM,1-4 tahun,4,40,milik sendiri,2,terampil/karyawan,lancar
+877,saldo negatif,18,lunas di bank ini,radio/televisi,1940,<100 DM,<1 tahun,3,36,gratis,1,manajer/wiraswasta,lancar
+878,tanpa rekening giro,36,kredit berjalan lancar,radio/televisi,3595,<100 DM,>=7 tahun,4,28,milik sendiri,1,terampil/karyawan,lancar
+879,saldo negatif,9,kredit berjalan lancar,mobil baru,1422,<100 DM,<1 tahun,3,27,gratis,1,manajer/wiraswasta,macet
+880,tanpa rekening giro,30,kritis/ada kredit lain,radio/televisi,6742,tidak ada/tdk diketahui,4-7 tahun,2,36,milik sendiri,2,terampil/karyawan,lancar
+881,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,7814,<100 DM,4-7 tahun,3,38,milik sendiri,1,manajer/wiraswasta,lancar
+882,tanpa rekening giro,24,kredit berjalan lancar,mobil bekas,9277,tidak ada/tdk diketahui,1-4 tahun,2,48,gratis,1,terampil/karyawan,lancar
+883,0-200 DM,30,kritis/ada kredit lain,mobil baru,2181,tidak ada/tdk diketahui,>=7 tahun,4,36,milik sendiri,2,terampil/karyawan,lancar
+884,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,1098,<100 DM,menganggur,4,65,milik sendiri,2,tidak terampil,lancar
+885,0-200 DM,24,kredit berjalan lancar,furnitur/elektronik,4057,<100 DM,4-7 tahun,3,43,milik sendiri,1,terampil/karyawan,macet
+886,saldo negatif,12,kredit berjalan lancar,pendidikan,795,<100 DM,<1 tahun,4,53,milik sendiri,1,terampil/karyawan,macet
+887,0-200 DM,24,kritis/ada kredit lain,usaha,2825,tidak ada/tdk diketahui,4-7 tahun,4,34,milik sendiri,2,terampil/karyawan,lancar
+888,0-200 DM,48,kredit berjalan lancar,usaha,15672,<100 DM,1-4 tahun,2,23,milik sendiri,1,terampil/karyawan,macet
+889,tanpa rekening giro,36,kritis/ada kredit lain,mobil baru,6614,<100 DM,>=7 tahun,4,34,milik sendiri,2,manajer/wiraswasta,lancar
+890,tanpa rekening giro,28,lunas di bank ini,mobil bekas,7824,tidak ada/tdk diketahui,<1 tahun,3,40,sewa,2,terampil/karyawan,lancar
+891,saldo negatif,27,kritis/ada kredit lain,usaha,2442,<100 DM,>=7 tahun,4,43,milik sendiri,4,manajer/wiraswasta,lancar
+892,tanpa rekening giro,15,kritis/ada kredit lain,radio/televisi,1829,<100 DM,>=7 tahun,4,46,milik sendiri,2,terampil/karyawan,lancar
+893,saldo negatif,12,kritis/ada kredit lain,mobil baru,2171,<100 DM,1-4 tahun,4,38,milik sendiri,2,tidak terampil (residen),lancar
+894,0-200 DM,36,kritis/ada kredit lain,mobil bekas,5800,<100 DM,1-4 tahun,3,34,milik sendiri,2,terampil/karyawan,lancar
+895,tanpa rekening giro,18,kritis/ada kredit lain,radio/televisi,1169,tidak ada/tdk diketahui,1-4 tahun,4,29,milik sendiri,2,terampil/karyawan,lancar
+896,tanpa rekening giro,36,pernah menunggak,mobil bekas,8947,tidak ada/tdk diketahui,4-7 tahun,3,31,milik sendiri,1,manajer/wiraswasta,lancar
+897,saldo negatif,21,kredit berjalan lancar,radio/televisi,2606,<100 DM,<1 tahun,4,28,sewa,1,manajer/wiraswasta,lancar
+898,tanpa rekening giro,12,kritis/ada kredit lain,furnitur/elektronik,1592,>=1000 DM,4-7 tahun,3,35,milik sendiri,1,terampil/karyawan,lancar
+899,tanpa rekening giro,15,kredit berjalan lancar,furnitur/elektronik,2186,tidak ada/tdk diketahui,4-7 tahun,1,33,sewa,1,tidak terampil (residen),lancar
+900,saldo negatif,18,kredit berjalan lancar,furnitur/elektronik,4153,<100 DM,1-4 tahun,2,42,milik sendiri,1,terampil/karyawan,macet
+901,saldo negatif,16,kritis/ada kredit lain,mobil baru,2625,<100 DM,>=7 tahun,2,43,sewa,1,terampil/karyawan,macet
+902,tanpa rekening giro,20,kritis/ada kredit lain,mobil baru,3485,tidak ada/tdk diketahui,<1 tahun,2,44,milik sendiri,2,terampil/karyawan,lancar
+903,tanpa rekening giro,36,kritis/ada kredit lain,mobil bekas,10477,tidak ada/tdk diketahui,>=7 tahun,2,42,gratis,2,terampil/karyawan,lancar
+904,tanpa rekening giro,15,kredit berjalan lancar,radio/televisi,1386,tidak ada/tdk diketahui,1-4 tahun,4,40,sewa,1,terampil/karyawan,lancar
+905,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,1278,<100 DM,>=7 tahun,4,36,milik sendiri,1,manajer/wiraswasta,lancar
+906,saldo negatif,12,kredit berjalan lancar,radio/televisi,1107,<100 DM,1-4 tahun,2,20,sewa,1,manajer/wiraswasta,lancar
+907,saldo negatif,21,kredit berjalan lancar,mobil baru,3763,tidak ada/tdk diketahui,4-7 tahun,2,24,milik sendiri,1,tidak terampil (residen),lancar
+908,0-200 DM,36,kredit berjalan lancar,pendidikan,3711,tidak ada/tdk diketahui,1-4 tahun,2,27,milik sendiri,1,terampil/karyawan,lancar
+909,tanpa rekening giro,15,pernah menunggak,mobil bekas,3594,<100 DM,<1 tahun,1,46,milik sendiri,2,tidak terampil (residen),lancar
+910,0-200 DM,9,kredit berjalan lancar,mobil baru,3195,tidak ada/tdk diketahui,1-4 tahun,1,33,milik sendiri,1,tidak terampil (residen),lancar
+911,tanpa rekening giro,36,pernah menunggak,radio/televisi,4454,<100 DM,1-4 tahun,4,34,milik sendiri,2,terampil/karyawan,lancar
+912,0-200 DM,24,kritis/ada kredit lain,furnitur/elektronik,4736,<100 DM,<1 tahun,2,25,milik sendiri,1,tidak terampil (residen),macet
+913,0-200 DM,30,kredit berjalan lancar,radio/televisi,2991,tidak ada/tdk diketahui,>=7 tahun,2,25,milik sendiri,1,terampil/karyawan,lancar
+914,tanpa rekening giro,11,kredit berjalan lancar,usaha,2142,>=1000 DM,>=7 tahun,1,28,milik sendiri,1,terampil/karyawan,lancar
+915,saldo negatif,24,lunas di bank ini,usaha,3161,<100 DM,1-4 tahun,4,31,sewa,1,terampil/karyawan,macet
+916,0-200 DM,48,lunas tepat waktu,lainnya,18424,<100 DM,1-4 tahun,1,32,milik sendiri,1,manajer/wiraswasta,macet
+917,tanpa rekening giro,10,kredit berjalan lancar,mobil bekas,2848,100-500 DM,1-4 tahun,1,32,milik sendiri,1,terampil/karyawan,lancar
+918,saldo negatif,6,kredit berjalan lancar,mobil baru,14896,<100 DM,>=7 tahun,1,68,milik sendiri,1,manajer/wiraswasta,macet
+919,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,2359,100-500 DM,menganggur,1,33,milik sendiri,1,terampil/karyawan,macet
+920,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,3345,<100 DM,>=7 tahun,4,39,sewa,1,manajer/wiraswasta,macet
+921,tanpa rekening giro,18,kritis/ada kredit lain,furnitur/elektronik,1817,<100 DM,1-4 tahun,4,28,milik sendiri,2,terampil/karyawan,lancar
+922,tanpa rekening giro,48,pernah menunggak,radio/televisi,12749,500-1000 DM,4-7 tahun,4,37,milik sendiri,1,manajer/wiraswasta,lancar
+923,saldo negatif,9,kredit berjalan lancar,radio/televisi,1366,<100 DM,<1 tahun,3,22,sewa,1,terampil/karyawan,macet
+924,0-200 DM,12,kredit berjalan lancar,mobil baru,2002,<100 DM,4-7 tahun,3,30,sewa,1,terampil/karyawan,lancar
+925,saldo negatif,24,lunas di bank ini,furnitur/elektronik,6872,<100 DM,<1 tahun,2,55,milik sendiri,1,terampil/karyawan,macet
+926,saldo negatif,12,lunas di bank ini,mobil baru,697,<100 DM,<1 tahun,4,46,milik sendiri,2,terampil/karyawan,macet
+927,saldo negatif,18,kritis/ada kredit lain,furnitur/elektronik,1049,<100 DM,<1 tahun,4,21,sewa,1,terampil/karyawan,lancar
+928,saldo negatif,48,kredit berjalan lancar,mobil bekas,10297,<100 DM,4-7 tahun,4,39,gratis,3,terampil/karyawan,macet
+929,tanpa rekening giro,30,kredit berjalan lancar,radio/televisi,1867,tidak ada/tdk diketahui,>=7 tahun,4,58,milik sendiri,1,terampil/karyawan,lancar
+930,saldo negatif,12,pernah menunggak,mobil baru,1344,<100 DM,1-4 tahun,4,43,milik sendiri,2,tidak terampil (residen),lancar
+931,saldo negatif,24,kredit berjalan lancar,furnitur/elektronik,1747,<100 DM,<1 tahun,4,24,milik sendiri,1,tidak terampil (residen),lancar
+932,0-200 DM,9,kredit berjalan lancar,radio/televisi,1670,<100 DM,<1 tahun,4,22,milik sendiri,1,terampil/karyawan,macet
+933,tanpa rekening giro,9,kritis/ada kredit lain,mobil baru,1224,<100 DM,1-4 tahun,3,30,milik sendiri,2,terampil/karyawan,lancar
+934,tanpa rekening giro,12,kritis/ada kredit lain,radio/televisi,522,500-1000 DM,>=7 tahun,4,42,milik sendiri,2,terampil/karyawan,lancar
+935,saldo negatif,12,kredit berjalan lancar,radio/televisi,1498,<100 DM,1-4 tahun,4,23,milik sendiri,1,terampil/karyawan,lancar
+936,0-200 DM,30,pernah menunggak,radio/televisi,1919,100-500 DM,<1 tahun,4,30,milik sendiri,2,manajer/wiraswasta,macet
+937,>=200 DM / gaji >=1 thn,9,kredit berjalan lancar,radio/televisi,745,<100 DM,1-4 tahun,3,28,milik sendiri,1,tidak terampil (residen),macet
+938,0-200 DM,6,kredit berjalan lancar,radio/televisi,2063,<100 DM,<1 tahun,4,30,sewa,1,manajer/wiraswasta,lancar
+939,0-200 DM,60,kredit berjalan lancar,pendidikan,6288,<100 DM,1-4 tahun,4,42,gratis,1,terampil/karyawan,macet
+940,tanpa rekening giro,24,kritis/ada kredit lain,mobil bekas,6842,tidak ada/tdk diketahui,1-4 tahun,2,46,milik sendiri,2,manajer/wiraswasta,lancar
+941,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,3527,tidak ada/tdk diketahui,<1 tahun,2,45,milik sendiri,1,manajer/wiraswasta,lancar
+942,tanpa rekening giro,10,kredit berjalan lancar,mobil baru,1546,<100 DM,1-4 tahun,3,31,milik sendiri,1,tidak terampil (residen),lancar
+943,tanpa rekening giro,24,kredit berjalan lancar,furnitur/elektronik,929,tidak ada/tdk diketahui,4-7 tahun,4,31,milik sendiri,1,terampil/karyawan,lancar
+944,tanpa rekening giro,4,kritis/ada kredit lain,mobil baru,1455,<100 DM,4-7 tahun,2,42,milik sendiri,3,tidak terampil (residen),lancar
+945,saldo negatif,15,kredit berjalan lancar,furnitur/elektronik,1845,<100 DM,<1 tahun,4,46,sewa,1,terampil/karyawan,lancar
+946,0-200 DM,48,lunas tepat waktu,mobil baru,8358,500-1000 DM,<1 tahun,1,30,milik sendiri,2,terampil/karyawan,lancar
+947,saldo negatif,24,lunas di bank ini,furnitur/elektronik,3349,500-1000 DM,<1 tahun,4,30,gratis,1,terampil/karyawan,macet
+948,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,2859,tidak ada/tdk diketahui,menganggur,4,38,milik sendiri,1,manajer/wiraswasta,lancar
+949,tanpa rekening giro,18,kredit berjalan lancar,furnitur/elektronik,1533,<100 DM,<1 tahun,4,43,milik sendiri,1,tidak terampil (residen),macet
+950,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,3621,100-500 DM,>=7 tahun,2,31,milik sendiri,2,terampil/karyawan,macet
+951,0-200 DM,18,kritis/ada kredit lain,usaha,3590,<100 DM,menganggur,3,40,milik sendiri,3,tidak terampil,lancar
+952,saldo negatif,36,pernah menunggak,usaha,2145,<100 DM,4-7 tahun,2,24,milik sendiri,2,terampil/karyawan,macet
+953,0-200 DM,24,kredit berjalan lancar,mobil bekas,4113,500-1000 DM,<1 tahun,3,28,sewa,1,terampil/karyawan,macet
+954,tanpa rekening giro,36,kredit berjalan lancar,furnitur/elektronik,10974,<100 DM,menganggur,4,26,milik sendiri,2,manajer/wiraswasta,macet
+955,saldo negatif,12,kredit berjalan lancar,mobil baru,1893,<100 DM,1-4 tahun,4,29,milik sendiri,1,terampil/karyawan,lancar
+956,saldo negatif,24,kritis/ada kredit lain,radio/televisi,1231,>=1000 DM,>=7 tahun,4,57,sewa,2,manajer/wiraswasta,lancar
+957,>=200 DM / gaji >=1 thn,30,kritis/ada kredit lain,radio/televisi,3656,tidak ada/tdk diketahui,>=7 tahun,4,49,milik sendiri,2,tidak terampil (residen),lancar
+958,0-200 DM,9,kritis/ada kredit lain,radio/televisi,1154,<100 DM,>=7 tahun,2,37,milik sendiri,3,tidak terampil (residen),lancar
+959,saldo negatif,28,kredit berjalan lancar,mobil baru,4006,<100 DM,1-4 tahun,3,45,milik sendiri,1,tidak terampil (residen),macet
+960,0-200 DM,24,kredit berjalan lancar,furnitur/elektronik,3069,100-500 DM,>=7 tahun,4,30,gratis,1,terampil/karyawan,lancar
+961,tanpa rekening giro,6,kritis/ada kredit lain,radio/televisi,1740,<100 DM,>=7 tahun,2,30,sewa,2,terampil/karyawan,lancar
+962,0-200 DM,21,pernah menunggak,mobil baru,2353,<100 DM,1-4 tahun,1,47,milik sendiri,2,terampil/karyawan,lancar
+963,tanpa rekening giro,15,kredit berjalan lancar,mobil baru,3556,tidak ada/tdk diketahui,1-4 tahun,3,29,milik sendiri,1,terampil/karyawan,lancar
+964,tanpa rekening giro,24,kredit berjalan lancar,radio/televisi,2397,500-1000 DM,>=7 tahun,3,35,milik sendiri,2,terampil/karyawan,macet
+965,0-200 DM,6,kredit berjalan lancar,renovasi,454,<100 DM,<1 tahun,3,22,milik sendiri,1,tidak terampil (residen),lancar
+966,0-200 DM,30,kredit berjalan lancar,radio/televisi,1715,tidak ada/tdk diketahui,1-4 tahun,4,26,milik sendiri,1,terampil/karyawan,lancar
+967,0-200 DM,27,kritis/ada kredit lain,radio/televisi,2520,500-1000 DM,1-4 tahun,4,23,milik sendiri,2,tidak terampil (residen),macet
+968,tanpa rekening giro,15,kredit berjalan lancar,radio/televisi,3568,<100 DM,>=7 tahun,4,54,sewa,1,manajer/wiraswasta,lancar
+969,tanpa rekening giro,42,kredit berjalan lancar,radio/televisi,7166,tidak ada/tdk diketahui,4-7 tahun,2,29,sewa,1,terampil/karyawan,lancar
+970,saldo negatif,11,kritis/ada kredit lain,mobil baru,3939,<100 DM,1-4 tahun,1,40,milik sendiri,2,tidak terampil (residen),lancar
+971,0-200 DM,15,kredit berjalan lancar,renovasi,1514,100-500 DM,1-4 tahun,4,22,milik sendiri,1,terampil/karyawan,lancar
+972,tanpa rekening giro,24,kredit berjalan lancar,mobil baru,7393,<100 DM,1-4 tahun,1,43,milik sendiri,1,tidak terampil (residen),lancar
+973,saldo negatif,24,lunas di bank ini,mobil baru,1193,<100 DM,menganggur,1,29,sewa,2,tidak terampil,macet
+974,saldo negatif,60,kredit berjalan lancar,usaha,7297,<100 DM,>=7 tahun,4,36,sewa,1,terampil/karyawan,macet
+975,tanpa rekening giro,30,kritis/ada kredit lain,radio/televisi,2831,<100 DM,1-4 tahun,4,33,milik sendiri,1,terampil/karyawan,lancar
+976,>=200 DM / gaji >=1 thn,24,kredit berjalan lancar,radio/televisi,1258,500-1000 DM,1-4 tahun,3,57,milik sendiri,1,tidak terampil (residen),lancar
+977,0-200 DM,6,kredit berjalan lancar,radio/televisi,753,<100 DM,1-4 tahun,2,64,milik sendiri,1,terampil/karyawan,lancar
+978,0-200 DM,18,pernah menunggak,usaha,2427,tidak ada/tdk diketahui,>=7 tahun,4,42,milik sendiri,2,terampil/karyawan,lancar
+979,tanpa rekening giro,24,pernah menunggak,mobil baru,2538,<100 DM,>=7 tahun,4,47,milik sendiri,2,tidak terampil (residen),macet
+980,0-200 DM,15,lunas di bank ini,mobil baru,1264,100-500 DM,1-4 tahun,2,25,sewa,1,terampil/karyawan,macet
+981,0-200 DM,30,kritis/ada kredit lain,furnitur/elektronik,8386,<100 DM,4-7 tahun,2,49,milik sendiri,1,terampil/karyawan,macet
+982,tanpa rekening giro,48,kredit berjalan lancar,usaha,4844,<100 DM,menganggur,3,33,sewa,1,manajer/wiraswasta,macet
+983,>=200 DM / gaji >=1 thn,21,kredit berjalan lancar,mobil baru,2923,100-500 DM,1-4 tahun,1,28,milik sendiri,1,manajer/wiraswasta,lancar
+984,saldo negatif,36,kredit berjalan lancar,mobil bekas,8229,<100 DM,1-4 tahun,2,26,milik sendiri,1,terampil/karyawan,macet
+985,tanpa rekening giro,24,kritis/ada kredit lain,furnitur/elektronik,2028,<100 DM,4-7 tahun,2,30,milik sendiri,2,tidak terampil (residen),lancar
+986,saldo negatif,15,kritis/ada kredit lain,furnitur/elektronik,1433,<100 DM,1-4 tahun,4,25,sewa,2,terampil/karyawan,lancar
+987,>=200 DM / gaji >=1 thn,42,lunas tepat waktu,usaha,6289,<100 DM,<1 tahun,2,33,milik sendiri,2,terampil/karyawan,lancar
+988,tanpa rekening giro,13,kredit berjalan lancar,radio/televisi,1409,100-500 DM,menganggur,2,64,milik sendiri,1,terampil/karyawan,lancar
+989,saldo negatif,24,kredit berjalan lancar,mobil bekas,6579,<100 DM,menganggur,4,29,gratis,1,manajer/wiraswasta,lancar
+990,0-200 DM,24,kritis/ada kredit lain,radio/televisi,1743,<100 DM,>=7 tahun,4,48,milik sendiri,2,tidak terampil (residen),lancar
+991,tanpa rekening giro,12,kritis/ada kredit lain,pendidikan,3565,tidak ada/tdk diketahui,<1 tahun,2,37,milik sendiri,2,tidak terampil (residen),lancar
+992,tanpa rekening giro,15,lunas di bank ini,radio/televisi,1569,100-500 DM,>=7 tahun,4,34,milik sendiri,1,tidak terampil (residen),lancar
+993,saldo negatif,18,kredit berjalan lancar,radio/televisi,1936,tidak ada/tdk diketahui,4-7 tahun,2,23,sewa,2,tidak terampil (residen),lancar
+994,saldo negatif,36,kredit berjalan lancar,furnitur/elektronik,3959,<100 DM,menganggur,4,30,milik sendiri,1,manajer/wiraswasta,lancar
+995,tanpa rekening giro,12,kredit berjalan lancar,mobil baru,2390,tidak ada/tdk diketahui,>=7 tahun,4,50,milik sendiri,1,terampil/karyawan,lancar
+996,tanpa rekening giro,12,kredit berjalan lancar,furnitur/elektronik,1736,<100 DM,4-7 tahun,3,31,milik sendiri,1,tidak terampil (residen),lancar
+997,saldo negatif,30,kredit berjalan lancar,mobil bekas,3857,<100 DM,1-4 tahun,4,40,milik sendiri,1,manajer/wiraswasta,lancar
+998,tanpa rekening giro,12,kredit berjalan lancar,radio/televisi,804,<100 DM,>=7 tahun,4,38,milik sendiri,1,terampil/karyawan,lancar
+999,saldo negatif,45,kredit berjalan lancar,radio/televisi,1845,<100 DM,1-4 tahun,4,23,gratis,1,terampil/karyawan,macet
+1000,0-200 DM,45,kritis/ada kredit lain,mobil bekas,4576,100-500 DM,menganggur,3,27,milik sendiri,1,terampil/karyawan,lancar

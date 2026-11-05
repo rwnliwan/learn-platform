@@ -1,0 +1,37 @@
+customer_id,nama,segmen,mulai
+C001,PT Sinar Abadi,Enterprise,2024-11-01
+C002,PT Cahaya Timur,Enterprise,2025-12-08
+C003,PT Berkah Jaya,Enterprise,2025-04-05
+C004,PT Nusa Digital,Enterprise,2024-12-22
+C005,PT Tunas Bangsa,Enterprise,2024-12-19
+C006,PT Wira Kencana,Enterprise,2024-07-01
+C007,PT Mitra Sejati,Enterprise,2025-02-07
+C008,PT Artha Graha,Enterprise,2025-04-17
+C009,PT Samudra Biru,Enterprise,2024-10-18
+C010,PT Puncak Jaya,Enterprise,2025-04-23
+C011,PT Lentera Hati,Enterprise,2025-11-08
+C012,PT Karya Mandiri,Enterprise,2025-08-26
+C013,PT Bumi Persada,SMB,2025-01-25
+C014,PT Citra Lestari,SMB,2025-03-23
+C015,PT Duta Pratama,SMB,2025-07-09
+C016,PT Eka Satya,SMB,2025-03-07
+C017,PT Fajar Mulia,SMB,2025-06-04
+C018,PT Guna Karya,SMB,2025-02-13
+C019,PT Hasta Wijaya,SMB,2025-02-12
+C020,PT Indah Purnama,SMB,2025-06-20
+C021,PT Jaya Sentosa,SMB,2025-05-26
+C022,PT Kencana Sakti,SMB,2025-01-24
+C023,PT Lintas Nusa,SMB,2024-08-13
+C024,PT Mega Artha,SMB,2025-02-18
+C025,PT Nusa Persada,SMB,2025-05-27
+C026,PT Omni Cipta,SMB,2025-11-19
+C027,PT Prima Solusi,SMB,2025-04-23
+C028,PT Ratu Adil,SMB,2025-02-02
+C029,PT Sakti Mandraguna,SMB,2024-11-25
+C030,PT Tirta Segara,SMB,2025-05-03
+C031,PT Usaha Bersama,SMB,2025-04-28
+C032,PT Wahana Baru,SMB,2025-02-13
+C033,PT Yakultama,SMB,2025-05-15
+C034,PT Zenith Data,SMB,2025-11-06
+C035,PT Alpha Reka,SMB,2025-06-12
+C036,PT Beta Guna,SMB,2025-04-22

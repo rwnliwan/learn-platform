@@ -1,0 +1,243 @@
+import type { V2Lesson } from "../lib/types";
+
+export const fr20: V2Lesson = {
+  slug: "fr20-capstone",
+  track: "Fraud & AML Analytics",
+  module: "Capstone",
+  title: "FR20 — Capstone",
+  estMinutes: 55,
+  steps: [
+    {
+      id: "brief",
+      eyebrow: "Langkah 1 · Brief",
+      title: "Kamu diterima — ini tugas pertamamu",
+      prose: [
+        "Selamat — kamu diterima sebagai Fraud Analyst di \"NusaPay\". Hari pertama, VP Risk memberimu brief: \"Kami proses 2 juta transaksi per bulan. Fraud rate 0,4%. Rata-rata loss Rp380 ribu. Hitung eksposur kami, lalu bangun sistem pertahanan pertamamu. Kamu punya 5 langkah.\"",
+        "Ini capstone: semua yang kamu pelajari di FR1–FR19 dipakai di sini. Tidak ada teori baru — hanya eksekusi end-to-end.",
+      ],
+      tasks: [],
+      reference: "Capstone = eksekusi. FR1–FR19 adalah bahannya; ini masakannya.",
+    },
+    {
+      id: "eksposur",
+      eyebrow: "Langkah 2 · Eksposur",
+      title: "Berapa yang dipertaruhkan?",
+      prose: [
+        "Langkah pertama analis: kuantifikasi masalah. E[Loss] = volume x fraud rate x loss per kejadian = 2.000.000 x 0,004 x Rp380.000 = Rp3,04 miliar per bulan. Itu eksposur tanpa pertahanan.",
+        "Angka ini = bahasamu ke direksi. Bukan \"fraud rate 0,4%\" (abstrak) — tapi \"Rp3,04 miliar per bulan\" (konkret). Setiap proposal pertahanan dinilai terhadap angka ini.",
+      ],
+      formula: String.raw`E[\text{Loss}] = N \times P(\text{fraud}) \times \text{loss per kejadian}`,
+      formulaNote: "2.000.000 x 0,004 x Rp380.000 = Rp3,04 M/bln.",
+      tasks: [
+        { id: "t1", text: "Hitung E[Loss] bulanan NusaPay" },
+        { id: "t2", text: "Cetak dalam Rp miliar" },
+      ],
+      expected: "E[Loss] = Rp3.04 M/bln",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Tanpa angka eksposur, semua proposal keamanan = 'minta budget karena takut'. Dengan angka eksposur, proposal = 'investasi RpX untuk menyelamatkan RpY'. Analis yang membawa angka didengarkan; yang membawa ketakutan diabaikan.",
+      },
+      hints: [
+        "e_loss = N * rate * loss.",
+        "N=2_000_000, rate=0.004, loss=380_000.",
+        "print(f'E[Loss] = Rp{e_loss/1e9:.2f} M/bln').",
+      ],
+      code: {
+        starter: `# Langkah 1 capstone: kuantifikasi eksposur.\n# TULIS KODEMU\nN, rate, loss = 2_000_000, 0.004, 380_000\ne_loss =\nprint(f"E[Loss] = Rp{e_loss/1e9:.2f} M/bln")`,
+        lockLines: 2,
+        solution: `# Langkah 1 capstone: kuantifikasi eksposur.\n# TULIS KODEMU\nN, rate, loss = 2_000_000, 0.004, 380_000\ne_loss = N * rate * loss\nprint(f"E[Loss] = Rp{e_loss/1e9:.2f} M/bln")`,
+        checks: [
+          { kind: "stdout_matches", task: "t2", pattern: "E\\[Loss\\] = Rp3\\.04 M/bln", label: "E[Loss] = Rp3.04 M/bln", msg: "2.000.000 x 0,004 x Rp380.000 = Rp3,04 miliar/bln." },
+        ],
+      },
+      reference: "E[Loss] = bahasa direksi. Konkret mengalahkan abstrak.",
+    },
+    {
+      id: "pipeline",
+      eyebrow: "Langkah 3 · Pipeline",
+      title: "Bangun pertahanan end-to-end",
+      prose: [
+        "Simulasi 10.000 transaksi (fraud 0,4% = 39 kasus), skor dari model, threshold 0,6. Hasil: 36 tertangkap, 3 lolos, 0 FP. Diselamatkan Rp13,68 jt − biaya Rp1,14 jt = NET Rp12,54 jt/bulan, ROI 11,0x.",
+        "Perhatikan rantai keputusan yang kamu pakai (tanpa sadar): data → fitur → skor → threshold → triage → net rupiah. Itulah FR3 → FR6 → FR7 → FR11 → FR14 → FR9 dalam satu aliran. Capstone = melihatnya sebagai satu sistem, bukan 19 lesson terpisah.",
+      ],
+      tasks: [
+        { id: "t1", text: "Generate 10.000 transaksi dengan skor (beta berbeda fraud/normal)" },
+        { id: "t2", text: "Terapkan threshold 0.6, hitung TP/FP/FN" },
+        { id: "t3", text: "Hitung net rupiah + ROI, cetak business case" },
+      ],
+      expected: "36 tertangkap, 3 lolos, NET Rp12.54 jt/bln, ROI 11.0x",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"Capstone = model terbaik.\" Capstone = SISTEM terbaik. Model dengan ROI 11x dan threshold tepat mengalahkan model 'lebih akurat' yang threshold-nya 0,5 default. Sistem = data + fitur + model + threshold + triage + monitoring. Satu rantai putus = semua gagal.",
+      },
+      hints: [
+        "fraud: betavariate(8,2); normal: betavariate(1,12).",
+        "tp/fp/fn dari aturan s > 0.6.",
+        "net = tp*LOSS - (fp*REVIEW + fn*LOSS); roi = net/biaya.",
+      ],
+      code: {
+        starter: `# Capstone: pipeline penuh -> business case.\nimport random\nrandom.seed(120)\nN, RATE, LOSS, REVIEW, TAU = 10000, 0.004, 380_000, 25_000, 0.6\ndata = []\nfor _ in range(N):\n    f = random.random() < RATE\n    s = random.betavariate(8, 2) if f else random.betavariate(1, 12)\n    data.append((s, f))\n\n# TULIS KODEMU\ntp =\nfp =\nfn =\ndiselamatkan = tp * LOSS\nbiaya = fp * REVIEW + fn * LOSS\nnet = diselamatkan - biaya\nprint(f"tertangkap={tp} lolos={fn} FP={fp}")\nprint(f"NET=Rp{net/1e6:.2f} jt/bln ROI={net/biaya:.1f}x")`,
+        lockLines: 7,
+        solution: `# Capstone: pipeline penuh -> business case.\nimport random\nrandom.seed(120)\nN, RATE, LOSS, REVIEW, TAU = 10000, 0.004, 380_000, 25_000, 0.6\ndata = []\nfor _ in range(N):\n    f = random.random() < RATE\n    s = random.betavariate(8, 2) if f else random.betavariate(1, 12)\n    data.append((s, f))\n\n# TULIS KODEMU\ntp = sum(1 for s, f in data if s > TAU and f)\nfp = sum(1 for s, f in data if s > TAU and not f)\nfn = sum(1 for s, f in data if s <= TAU and f)\ndiselamatkan = tp * LOSS\nbiaya = fp * REVIEW + fn * LOSS\nnet = diselamatkan - biaya\nprint(f"tertangkap={tp} lolos={fn} FP={fp}")\nprint(f"NET=Rp{net/1e6:.2f} jt/bln ROI={net/biaya:.1f}x")`,
+        checks: [
+          { kind: "stdout_matches", task: "t3", pattern: "tertangkap=36 lolos=3 FP=0", label: "36 tertangkap, 3 lolos", msg: "Threshold 0,6: 36 dari 39 fraud tertangkap, tanpa FP." },
+          { kind: "stdout_matches", task: "t3", pattern: "NET=Rp12\\.54 jt/bln ROI=11\\.0x", label: "NET Rp12.54 jt, ROI 11.0x", msg: "Business case: net positif, ROI 11x." },
+        ],
+      },
+      reference: "Capstone = sistem, bukan model. Satu rantai putus = semua gagal.",
+    },
+    {
+      id: "peta",
+      eyebrow: "Langkah 4 · Peta 90 hari",
+      title: "Rencana pertahanan NusaPay",
+      prose: [
+        "Milestone alokasi: data + label + rule + fitur = 55% (fondasi), model = 20%, threshold + triage + monitoring = 25%. Urutan 90 hari: hari 1–30 = rule pakar + pipeline data + label mulai terkumpul; hari 31–60 = unsupervised sebagai penjaga sementara + fitur engineering; hari 61–90 = supervised pertama + threshold dari kapasitas + shadow mode.",
+        "Yang TIDAK dilakukan di 90 hari pertama: membeli model mahal, membangun GNN, atau mengejar akurasi 99%. Fondasi dulu — kecanggihan kemudian.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Godaan terbesar analis baru: membangun model canggih di minggu pertama. Model canggih di atas data berantakan = menara di atas pasir. 55% usaha untuk fondasi (data, label, rule, fitur) bukan kemunduran — itu urutan yang benar.",
+      },
+      reference: "90 hari: rule (30) → unsupervised + fitur (60) → supervised + threshold + shadow (90).",
+    },
+    {
+      id: "presentasi",
+      eyebrow: "Langkah 5 · Presentasi",
+      title: "Pitch ke VP Risk",
+      prose: [
+        "Struktur pitch 5 menit: (1) eksposur — \"Rp3,04 M/bulan tanpa pertahanan\"; (2) rencana 90 hari — fondasi dulu; (3) business case simulasi — \"NET Rp12,54 jt/bulan per 10.000 trx, ROI 11x\"; (4) risiko & mitigasi — \"label butuh 90 hari matang; sementara rule + unsupervised\"; (5) minta keputusan — \"budget X untuk Y\".",
+        "Aturan pitch: angka dulu, metodologi kemudian. VP tidak butuh tahu beta distribution — ia butuh tahu berapa yang diselamatkan dan berapa biayanya.",
+      ],
+      tasks: [],
+      reference: "Pitch: eksposur → rencana → business case → risiko → minta keputusan. Angka dulu.",
+    },
+    {
+      id: "anggaran",
+      eyebrow: "Langkah 6 · Anggaran",
+      title: "Rp2,5 miliar yang tidak boleh dihabiskan",
+      prose: [
+        "Rp2,5 miliar per bulan = Rp30 miliar per tahun — anggaran yang membuat banyak Head of Fraud iri. Tetapi angka pertama yang harus dihitung bukan \"mau beli apa\", melainkan \"berapa eksposur kita\": bank digital baru, 500 ribu transaksi/bulan, fraud rate 0,4%, loss Rp380 ribu = Rp760 juta per bulan eksposur. Budget 3,3x eksposur = sehat dan defensible. Analis yang meminta Rp2,5 M tanpa bisa menyebut Rp760 juta akan ditertawakan direksi; yang menyebut keduanya akan didengarkan. Anggaran = jawaban atas eksposur, bukan daftar belanja.",
+        "Prinsip belanja: setiap rupiah harus mengurangi expected loss atau biaya operasional — bukan \"terlihat canggih\". Urutan belanja mengikuti rantai nilai FR1–FR19: fondasi dulu (data, rule, orang), kecanggihan kemudian (ML platform, GNN). Godaan terbesar dengan budget besar: membeli platform ML Rp8 miliar di bulan pertama sementara belum ada label yang benar — menara di atas pasir dengan harga menara.",
+        "Alokasi SDM (Rp214 juta/bulan): 1 Head of Fraud (Rp60 juta — pemilik strategi + bicara ke direksi), 2 data scientist (Rp70 juta — model + feature engineering), 3 investigator (Rp60 juta — 1 senior triage, 1 forensik, 1 junior dengan rotasi), 2 analis junior (Rp24 juta — review tier-1 + dokumentasi). Delapan orang — bukan 30. Tim kecil yang tajam mengalahkan tim besar yang birokratis; setiap orang harus bisa menjelaskan bagaimana pekerjaannya mengurangi Rp760 juta eksposur.",
+        "Tiga investigator — alokasi yang tepat: Investigator 1 (senior): triage + keputusan hold/block + narasi OJK — ia penjaga gerbang, 60% waktunya untuk 20% kasus tersulit. Investigator 2 (forensik): rantai dana, mule network, kerja sama dengan PPATK/polisi — ia pemburu, waktunya untuk kasus besar. Investigator 3 (junior): review tier-1 + dokumentasi + rotasi tiap 6 bulan ke posisi 1/2 (kaderisasi). Tanpa rotasi, investigator 3 menjadi \"tukang stempel\" permanen dan resign dalam 18 bulan — biaya rekrut Rp30 juta + 3 bulan produktivitas hilang. Rotasi = retensi.",
+        "Alokasi teknologi (Rp300 juta/bulan): case management Rp150 juta (atau build 3 bulan Rp200 juta sekali + Rp20 juta/bulan — untuk bank baru, BUILD lebih murah tahun ke-2); device intelligence Rp80 juta (fingerprint + IP reputation); email/phishing security Rp30 juta; data enrichment (NIK Dukcapil, SLIK) Rp40 juta. Setiap vendor dievaluasi dengan pertanyaan: \"berapa loss yang ia cegah per bulan vs harganya?\" Vendor Rp80 juta yang mencegah Rp200 juta = keeper; yang mencegah Rp50 juta = pecat. Review vendor tiap 6 bulan — tanpa kecuali, tanpa \"sudah langganan lama\".",
+        "Alokasi infrastruktur (Rp100 juta/bulan): real-time scoring Rp80 juta (angka FR13) + data warehouse Rp20 juta. Alokasi operasional (Rp90 juta/bulan): pelatihan Rp30 juta (CAMS/CFE untuk tim + drill), red team Rp20 juta, audit eksternal Rp40 juta. Alokasi cadangan insiden: Rp200 juta/bulan (tidak dibelanjakan rutin — untuk insiden besar). Total teralokasi: Rp214 + 300 + 100 + 90 + 200 = Rp904 juta. Sisa: Rp1,596 miliar — 64% budget TIDAK dibelanjakan.",
+        "Sisa Rp1,6 miliar bukan kegagalan menyerap anggaran — ia keputusan strategis: (1) Rp600 juta cadangan skala (bila volume 3x dalam 6 bulan, infra + SDM siap tanpa proposal darurat); (2) Rp500 juta dana inovasi tahun berjalan (pilot teknologi baru tanpa mengganggu operasional); (3) Rp500 juta dikembalikan/dihemat — Head of Fraud yang mengembalikan budget yang tidak dibutuhkan mendapatkan kepercayaan untuk meminta 2x lipat saat benar-benar butuh. Reputasi \"ia hemat\" = modal politik. Anggaran yang dihabiskan 100% setiap tahun = anggaran yang akan dipotong tahun depan (\"ternyata cukup segitu\").",
+        "Jebakan budget besar: (1) membeli sebelum membutuhkan (platform mahal menganggur 8 bulan); (2) merekrut sebelum ada kerjaan (10 analis tanpa pipeline = 10 orang membuat laporan untuk satu sama lain); (3) konsultan mahal untuk pekerjaan yang bisa dilakukan tim (Rp500 juta konsultan vs Rp50 juta lembur tim + belajar). Aturan: belanja mengikuti milestone 90 hari (langkah 4) — tidak ada belanja besar sebelum fondasi (data + rule + orang) berdiri. Budget = bahan bakar; milestone = mesin. Bahan bakar tanpa mesin = tumpahan.",
+        "Review budget kuartalan dengan 3 pertanyaan: (1) berapa loss aktual vs eksposur Rp760 juta? (turun = budget bekerja); (2) biaya per rupiah loss yang dicegah? (target < Rp0,30 — setiap Rp1 dicegah berharga < Rp0,30); (3) pos mana yang tidak menghasilkan? (potong tanpa ampun). Head of Fraud yang bisa menjawab ketiganya dalam 5 menit tidak pernah kehilangan budget-nya. Yang tidak bisa = budget-nya dipotong untuk \"efisiensi\".",
+        "Aturan keputusan anggaran ringkas: (1) hitung eksposur dulu (Rp760 juta), baru belanja; (2) fondasi > kecanggihan; (3) tiap rupiah = mengurangi loss atau biaya; (4) simpan 60%+ sebagai cadangan strategis — jangan habiskan; (5) review kuartalan dengan 3 pertanyaan. Anggaran Rp2,5 M yang dipakai Rp904 juta dengan loss turun 70% = keberhasilan. Anggaran Rp2,5 M yang dihabiskan Rp2,5 M dengan loss turun 20% = kegagalan yang mahal.",
+        "Benchmark gaji — bayar sesuai pasar atau kehilangan orang: investigator senior Rp20–30 juta (Jakarta, 2026), data scientist Rp30–45 juta, Head of Fraud Rp50–80 juta. Menawar 20% di bawah pasar = menghemat Rp12 juta/bulan gaji, kehilangan 1 orang per tahun = biaya rekrut Rp30 juta + 3 bulan onboarding (Rp60 juta produktivitas hilang) + pengetahuan kasus yang pergi. Total \"penghematan\": minus Rp78 juta. Aturan: gaji di persentil 60–75 pasar + bonus terkait KPI loss — orang terbaik untuk pekerjaan yang menentukan Rp760 juta/bulan bukan tempat berhemat Rp5 juta.",
+        "Biaya rekrutmen & onboarding yang jarang dihitung: rekrut 1 investigator = iklan + headhunter (Rp15–30 juta) + 40 jam interview tim (Rp8 juta) + onboarding 3 bulan (produktif 50% = Rp30 juta hilang) + \"hanya dia yang tahu kasus X\" risk. Total Rp53–68 juta per orang. Dengan 8 orang tim dan turnover 15%/tahun = 1,2 orang/tahun × Rp60 juta = Rp72 juta/tahun. Cara menekan: rotasi (retensi), gaji pasar, dan dokumentasi kasus yang rapi (pengetahuan tidak pergi bersama orangnya). Turnover = pajak atas manajemen yang buruk.",
+        "Capex vs opex — struktur yang benar: belanja modal (build case management Rp200 juta, setup infra Rp100 juta) = capex tahun 1, disusutkan 3 tahun; langganan vendor + gaji + cloud = opex bulanan. Direksi menyukai capex yang jelas ROI-nya (\"Rp300 juta sekali untuk menghemat Rp150 juta/bulan selamanya\") dan mewaspadai opex yang merayap (\"kok vendor naik 20% tiap tahun?\"). Aturan: yang dipakai > 2 tahun dan lebih murah di-build = capex; yang lain = opex dengan review tahunan. Struktur yang rapi = budget yang dipertahankan.",
+        "Roadmap budget 3 tahun: Tahun 1 (Rp10,8 M dipakai dari Rp30 M): fondasi — tim 8 orang, rule + ML v1, loss 0,4% → 0,12%. Tahun 2 (Rp14 M): skala — volume 3x, ML v2, fairness program, loss → 0,08%. Tahun 3 (Rp16 M): optimasi — biaya per rupiah dicegah Rp0,30 → Rp0,20, otomatisasi 80%. Setiap tahun: eksposur turun, efisiensi naik, cadangan tetap ada. Roadmap ini = jawaban atas pertanyaan direksi tahun ke-2 \"kenapa minta naik?\" — karena volume 3x, dan angkanya sudah disetujui tahun ke-1. Minta maaf tidak pernah semurah minta izin yang direncanakan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: Sisa anggaran yang tidak dibelanjakan adalah keputusan terbaik yang tidak terlihat",
+        body: "Investigator junior dengan budget Rp2,5 miliar berpikir \"apa yang bisa kubeli\"; Head of Fraud yang matang berpikir \"apa yang TIDAK perlu kubeli.\" Inilah intuisi yang berlawanan dengan insting: dalam organisasi, keberhasilan anggaran diukur dari penyerapan (habis = baik) — tetapi keberhasilan fraud diukur dari loss yang turun. Dua metrik ini bertabrakan, dan yang menang menentukan nasibmu: menghabiskan Rp2,5 M untuk hasil 20% = kamu \"berhasil menyerap\" tetapi gagal bekerja; memakai Rp904 juta untuk hasil 70% = kamu \"gagal menyerap\" tetapi berhasil total — dan direksi yang cerdas memberi bonus pada yang kedua. Intuisi kedua: cadangan Rp1,6 miliar bukan uang menganggur — ia OPSI. Opsi untuk skala 3x tanpa panik, opsi untuk pilot tanpa proposal, opsi untuk insiden tanpa memohon. Perusahaan membayar mahal untuk opsi di pasar finansial; di operasional, opsi gratis bernama \"tidak dibelanjakan\" justru dicurigai. Pertahankan dengan narasi: setiap rupiah cadangan punya NAMA (cadangan skala, dana inovasi, pengembalian) — uang yang bernama tidak terlihat menganggur. Dan intuisi ketiga: kembalikan sebagian. Head of Fraud yang mengembalikan Rp500 juta sambil menunjukkan loss turun 70% membeli sesuatu yang tidak bisa dibeli Rp500 juta: kepercayaan direksi untuk 5 tahun ke depan.",
+      },
+      reference: "Budget Rp2,5 M: pakai Rp904 jt, sisanya cadangan bernama. Ukur: loss turun, bukan serapan.",
+    },
+    {
+      id: "minicase",
+      eyebrow: "Langkah 7 · Mini-case",
+      title: "Capstone: bangun pertahanan KiranaBank dalam 90 hari",
+      prose: [
+        "Hari pertamamu sebagai Head of Fraud di KiranaBank — bank digital baru, launching 3 bulan lalu. Datanya: 500 ribu transaksi/bulan, fraud rate 0,4%, rata-rata loss Rp380 ribu → eksposur Rp760 juta/bulan. Pertahanan saat ini: NOL — hanya rule dasar dari core banking (limit transaksi) dan 1 analis paruh waktu. Direksi memberimu: budget Rp2,5 miliar/bulan, 3 investigator (belum direkrut), dan 90 hari untuk menunjukkan hasil. VP Risk berkata: \"Hari ke-91 saya mau lihat loss turun dan rencana tahun depan. Jangan minta tambah orang dulu.\"",
+        "Pertanyaan: rancang program fraud end-to-end — (1) arsitektur pertahanan (lapisan rule + ML + operasi); (2) alokasi budget Rp2,5 M/bulan; (3) milestone 30/60/90 hari dengan 3 investigator; (4) metrik keberhasilan hari ke-91.",
+        "Pembahasan: (1) ARSITEKTUR tiga lapis. Lapis RULE (hari 1–30, Rp50 juta): 15 rule pakar — velocity 3-dimensi (FR21), blocklist device/IP, threshold nominal, pola structuring; target menangkap 60% fraud kasar. Lapis OPERASI (hari 15–45, Rp100 juta): case management + triage (FR14) + hold risk-based (FR13) + 3 investigator bertugas; target MTTR < 4 jam. Lapis ML (hari 45–90, Rp200 juta): supervised v1 (data 60 hari + label dari rule) + shadow 2 minggu + threshold dari kapasitas; target precision 0,85, menangkap 30% sisanya. Tiga lapis = 60% + 25% + 10% = 95% coverage dengan pertahanan berlapis (satu lapis bobol, dua masih berdiri). (2) BUDGET: SDM 8 orang Rp214 juta + teknologi Rp300 juta + infra Rp100 juta + operasional Rp90 juta + cadangan insiden Rp200 juta = Rp904 juta/bulan; sisa Rp1,6 M = cadangan skala + dana inovasi + pengembalian (lihat langkah 6). (3) MILESTONE. Hari 1–30: rekrut 3 investigator + 2 analis (minggu 1–2), deploy 15 rule + case management (minggu 3–4), baseline metrik (loss Rp760 juta/bln, MTTR belum terukur). Hari 31–60: unsupervised sebagai penjaga sementara + feature engineering + hold procedure + drill tipping-off; label terkumpul 2.000+. Hari 61–90: supervised v1 training + shadow + threshold kalibrasi + game-day + laporan direksi. (4) METRIK hari ke-91: loss Rp760 juta → Rp230 juta/bulan (turun 70%); precision 0,85; MTTR 3 jam; 3 investigator penuh bertugas; budget terpakai Rp904 juta (36%). Rencana tahun depan: skala 3x volume dengan cadangan Rp600 juta + ML v2 + program fairness. Aturan yang dipakai: fondasi dulu (55% usaha), sistem > model, angka dulu ke direksi. Takeaway: 90 hari tidak membangun \"sistem sempurna\" — ia membangun sistem yang BEKERJA (rule + manusia) sambil menyiapkan sistem yang PINTAR (ML); dan Head of Fraud yang hebat diukur dari loss yang turun dengan budget yang tidak habis.",
+      ],
+      tasks: [],
+      reference: "90 hari: rule+manusia (bekerja) → ML (pintar). Loss turun 70%, budget 36% terpakai.",
+    },
+    {
+      id: "governance",
+      eyebrow: "Langkah 8 · Governance",
+      title: "Siapa memutuskan apa",
+      prose: [
+        "Program fraud tanpa governance = tim jagoan tanpa wasit: keputusan besar diambil di koridor, tidak ada yang bisa dimintai pertanggungjawaban saat salah. Struktur minimal: Komite Risiko Fraud (bulanan) — CRO (ketua), Head of Fraud, Head of Compliance, Head of IT Security; wewenang: menyetujui perubahan threshold besar, budget > Rp500 juta, dan risk appetite. Di bawahnya: forum operasional (mingguan) — Head of Fraud + investigator senior + data scientist; wewenang: rule darurat, eskalasi kasus, prioritas backlog. Aturan: tidak ada keputusan > Rp100 juta dampak yang diambil sendirian — selalu berdua (four-eyes) atau komite.",
+        "Risk appetite statement — satu halaman yang ditandatangani direksi: \"KiranaBank menerima fraud loss maksimal 0,15% dari volume transaksi (Rp285 juta/bulan pada skala saat ini); melebihi itu = mode darurat otomatis.\" Satu kalimat ini mengubah segalanya: Head of Fraud tidak perlu \"memohon\" saat loss Rp400 juta — appetite terlampaui = wewenang darurat aktif otomatis (tambah threshold, hold agresif, lembur). Tanpa appetite tertulis, setiap eskalasi = negosiasi politik. Dengan appetite: eskalasi = eksekusi prosedur. Tulis di bulan pertama; tanda tangani direksi; tempel di dinding.",
+        "Reporting berlapis — tiap lapisan punya bahasa: HARIAN (operasional, untuk tim): alert, MTTR, antrean hold — 1 dashboard, 5 menit. MINGGUAN (untuk CRO): loss minggu ini vs appetite, insiden, aksi — 1 halaman. BULANAN (untuk direksi): loss vs target, ROI program (Rp dicegah ÷ Rp dibelanjakan), risiko utama + mitigasi — 3 slide. KUARTALAN (untuk dewan komisaris): tren, audit fairness, rencana — 5 slide. Aturan: tidak ada laporan yang melebihi batasnya (laporan mingguan 10 halaman = tidak dibaca = tidak ada). Bahasa direksi = rupiah; bahasa tim = metrik operasional.",
+        "KPI program — 5 angka yang menentukan nasibmu: (1) fraud loss rate (% dari volume — target < 0,15%); (2) precision@kapasitas (target > 0,85); (3) MTTD & MTTR (target < 5 menit & < 4 jam); (4) biaya per rupiah dicegah (target < Rp0,30); (5) analis utilization (target 70–85% — di bawah 70% = kelebihan orang, di atas 85% = burnout menunggu). Lima KPI di 1 dashboard, direview bulanan di komite. KPI yang merah 2 bulan berturut-turut = action plan tertulis, bukan \"akan kami perhatikan\". Governance = KPI + konsekuensi.",
+        "Audit — dua lapis: INTERNAL (kuartalan, oleh tim audit bank): kepatuhan prosedur, dokumentasi STR, akses sistem — temuan ditutup 30 hari. EKSTERNAL (tahunan, oleh konsultan): efektivitas model, fairness, benchmark industri — Rp150–250 juta per audit, menghasilkan \"opini independen\" yang dipercaya direksi. Ditambah: self-assessment bulanan (checklist 20 item, 1 jam). Bank yang hanya diaudit saat ada masalah = pasien yang hanya ke dokter saat kritis. Jadwal audit = kalender kesehatan, bukan respons krisis.",
+        "Kebijakan tertulis — 5 dokumen hidup (direview tahunan): (1) kebijakan fraud & AML (induk); (2) SOP investigasi & eskalasi; (3) matriks keputusan threshold & hold; (4) kebijakan data & privasi model; (5) business continuity (mode degraded, kill switch). Dokumen yang tidak direview 2 tahun = dokumen mati — dan auditor tahu. Aturan: setiap dokumen punya pemilik + tanggal review berikutnya di halaman 1. Lima dokumen, 5 pemilik, 5 tanggal — governance yang terlihat.",
+        "Eskalasi — tangga yang jelas: analis → investigator senior (kasus > Rp100 juta atau ambigu) → Head of Fraud (> Rp500 juta atau pola baru) → komite risiko (> Rp1 miliar atau insiden sistemik) → direksi (appetite terlampaui). Setiap anak tangga: SLA respons (1 jam / 4 jam / 24 jam / 48 jam). Tangga eskalasi yang tidak jelas = analis menanggung Rp500 juta sendirian dalam diam (lihat FR23) ATAU semua hal naik ke direksi (direksi menjadi helpdesk). Kejelasan tangga = kecepatan yang aman.",
+        "Aturan keputusan governance ringkas: (1) komite bulanan + forum mingguan — tidak ada keputusan besar sendirian; (2) risk appetite 1 halaman, ditandatangani; (3) reporting berlapis, bahasa rupiah ke atas; (4) 5 KPI + konsekuensi; (5) audit kuartalan + tahunan; (6) 5 dokumen hidup; (7) tangga eskalasi + SLA. Governance bukan birokrasi — ia kecepatan yang aman: semua orang tahu siapa memutuskan apa, sehingga keputusan besar diambil dalam jam, bukan minggu.",
+        "RACI matrix — menghilangkan \"saya kira dia yang kerjakan\": untuk 10 keputusan kunci (ubah threshold, deploy model, hold > Rp1 M, lapor OJK, beli vendor...), tentukan R (pelaksana), A (penanggung jawab akhir — 1 orang!), C (dikonsultasi), I (diinformasikan). Aturan emas: A hanya SATU orang per keputusan — dua akuntabel = tidak ada yang akuntabel. Contoh: deploy model — R: data scientist, A: Head of Fraud, C: compliance + IT security, I: CRO. Matriks 10 baris ini ditempel di wiki tim; sengketa \"siapa yang memutuskan\" hilang dalam seminggu.",
+        "Konflik kepentingan fraud vs bisnis — dirancang, bukan dihindari: tim bisnis ingin approval rate tinggi (target 98%), tim fraud ingin loss rendah (target < 0,15%) — dua target yang tarik-menarik. Governance yang benar: (1) kedua target disetujui BERSAMA di komite (bukan masing-masing mengklaim); (2) trade-off dihitung terbuka (\"menaikkan approval 98%→99% = +Rp200 juta revenue, +Rp80 juta expected fraud loss → net +Rp120 juta → LAKUKAN\"); (3) bila konflik tak terselesaikan, CRO memutuskan dengan risk appetite sebagai wasit. Yang dilarang: tim fraud memblokir diam-diam tanpa angka, atau tim bisnis memaksa approve tanpa menanggung loss. Konflik yang dihitung = keputusan bisnis; konflik yang dipolitisasi = perang dingin.",
+        "Whistleblowing untuk fraud INTERNAL — ancaman dari dalam: investigator yang \"meloloskan\" kasus teman, analis yang menjual data. Saluran anonim + perlindungan + tindak lanjut 14 hari (lihat FR23 langkah 14). Kasus klasik: teller dan mule bekerja sama — terungkap karena rekan melapor via whistleblowing, bukan karena sistem. Biaya: Rp2 juta/bulan. Satu kasus internal yang dicegah (rata-rata Rp150 juta) = 75 bulan operasional terbayar. Ditambah: rotasi investigator tiap 12–18 bulan + cuti wajib 12 hari (FR23) — kontrol yang membuat kolusi internal mahal dan berisiko.",
+        "Pelaporan regulasi — kalender yang tidak boleh telat: LTKT/LTKM harian (otomatis), STR ≤ 3 hari kerja (FR23), laporan fraud ke BI/OJK periodik, laporan insiden besar < 24 jam. Satu orang pemilik kalender (compliance officer) + backup. Denda keterlambatan = Rp25 juta/hari per laporan (FR23) — kalender ini adalah jadwal denda yang menunggu. Governance yang baik = tidak ada tenggat regulasi yang \"lupa\".",
+      ],
+      tasks: [],
+      reference: "Governance = komite + appetite tertulis + 5 KPI + audit + tangga eskalasi. Kecepatan yang aman.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan sintesis dari seluruh track. Jawab satu per satu; setiap opsi punya alasan kenapa benar atau salah.",
+      ],
+      tasks: [],
+      summary: [
+        "Kuantifikasi dulu: E[Loss] = bahasa direksi.",
+        "Sistem > model: rantai data→fitur→skor→threshold→triage→monitoring.",
+        "90 hari: fondasi (55%) → model (20%) → operasi (25%).",
+        "Pitch: angka dulu, metodologi kemudian.",
+        "Kamu kini bisa merancang pertahanan fraud end-to-end.",
+      ],
+      next: { label: "FR21 — SQL untuk Fraud", href: "/learn/fr21-sql-fraud" },
+      quiz: [
+        {
+          q: "Hari pertama sebagai Fraud Analyst. Apa langkah PERTAMA?",
+          options: [
+            { text: "Bangun model ML", why: "Tanpa data/label yang benar, model = menara di atas pasir." },
+            { text: "Kuantifikasi eksposur: E[Loss] = volume x rate x loss — bahasa direksi untuk semua proposal", why: "Tanpa angka, proposal = 'minta budget karena takut'.", correct: true },
+            { text: "Beli tools mahal", why: "Tools tanpa fondasi = pemborosan." },
+            { text: "Rekrut tim", why: "Rekrut untuk apa? Hitung dulu kebutuhannya." },
+          ],
+        },
+        {
+          q: "Alokasi usaha 90 hari pertama yang benar?",
+          options: [
+            { text: "Model 80%, sisanya nanti", why: "Terbalik — fondasi dulu." },
+            { text: "Data+label+rule+fitur 55%, model 20%, threshold+triage+monitoring 25%", why: "Fondasi menentukan segalanya.", correct: true },
+            { text: "Sama rata semua", why: "Tidak semua sama penting di awal." },
+            { text: "Monitoring 55%", why: "Belum ada yang dimonitor di hari pertama." },
+          ],
+        },
+        {
+          q: "Model A akurasi 99%, threshold 0,5 default. Model B akurasi 97%, threshold dihitung dari kapasitas. Mana yang dipilih?",
+          options: [
+            { text: "A — akurasi tertinggi", why: "Akurasi tanpa threshold benar = alert membanjiri tim." },
+            { text: "B — sistem (threshold tepat) mengalahkan model 'lebih akurat' yang operasinya rusak", why: "Capstone = sistem, bukan model.", correct: true },
+            { text: "Seri", why: "B menang operasional." },
+            { text: "Tolak keduanya", why: "B layak dengan threshold tepat." },
+          ],
+        },
+        {
+          q: "VP Risk bertanya 'berapa budget yang kamu butuhkan?' Struktur jawaban?",
+          options: [
+            { text: "Sebut angka langsung", why: "Angka tanpa konteks = ditolak." },
+            { text: "Jelaskan metodologi 30 menit", why: "VP tidak butuh beta distribution." },
+            { text: "Eksposur (Rp3,04 M/bln) → rencana 90 hari → business case (ROI 11x) → minta keputusan", why: "Angka dulu, metodologi kemudian.", correct: true },
+            { text: "Minta waktu pikir-pikir", why: "Hari pertama = tunjukkan kamu siap." },
+          ],
+        },
+        {
+          q: "Satu kalimat: apa yang membedakan analis fraud senior dari junior?",
+          options: [
+            { text: "Bisa coding lebih cepat", why: "Bukan soal kecepatan coding." },
+            { text: "Senior merancang sistem end-to-end (data→model→threshold→operasi→monitoring) dan berbicara dalam rupiah; junior mengoptimasi model", why: "Itulah seluruh track FR ini.", correct: true },
+            { text: "Tahu lebih banyak algoritma", why: "Algoritma tanpa sistem = tidak berguna." },
+            { text: "Lebih lama pengalaman", why: "Pengalaman tanpa pola pikir sistem = junior yang lama." },
+          ],
+        },
+      ],
+    },
+  ],
+};

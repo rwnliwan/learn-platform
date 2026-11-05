@@ -1,0 +1,11 @@
+t=5s: ['Memuat SQL', 'Memuat SQL']
+t=10s: ['Memuat SQL', 'Memuat SQL']
+t=15s: ['Memuat SQL', 'Memuat SQL']
+t=20s: ['Memuat SQL', 'Memuat SQL']
+t=25s: ['Memuat SQL', 'Memuat SQL']
+t=30s: ['Memuat SQL', 'Memuat SQL']
+t=35s: ['Memuat SQL', 'Memuat SQL']
+t=40s: ['Memuat SQL', 'Memuat SQL']
+t=45s: ['Memuat SQL', 'Memuat SQL']
+t=50s: ['Memuat SQL', 'Memuat SQL']
+EXIT=0

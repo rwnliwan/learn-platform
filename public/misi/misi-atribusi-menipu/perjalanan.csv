@@ -1,0 +1,4001 @@
+journey_id,sentuhan,n_sentuhan,konversi,nilai_rp
+1,social > search,2,0,0
+2,social > email > search,3,0,0
+3,-,0,0,0
+4,email,1,0,0
+5,social,1,0,0
+6,display,1,0,0
+7,-,0,0,0
+8,social,1,0,0
+9,-,0,0,0
+10,display > search,2,0,0
+11,display,1,0,0
+12,search,1,0,0
+13,display > social,2,0,0
+14,social > display,2,0,0
+15,search,1,0,0
+16,display > email,2,0,0
+17,display > search,2,0,0
+18,display,1,0,0
+19,display > search,2,0,0
+20,display > search,2,0,0
+21,search,1,0,0
+22,display,1,1,250000
+23,email,1,0,0
+24,social,1,0,0
+25,email,1,0,0
+26,-,0,0,0
+27,display > search,2,0,0
+28,display > search,2,0,0
+29,-,0,0,0
+30,display > email,2,0,0
+31,display > search,2,0,0
+32,social > search > email,3,0,0
+33,display,1,1,250000
+34,-,0,0,0
+35,display,1,1,250000
+36,display > social > search,3,1,250000
+37,display,1,1,250000
+38,search,1,0,0
+39,display > search,2,0,0
+40,display,1,0,0
+41,display > social > email,3,0,0
+42,social,1,1,250000
+43,display > social,2,0,0
+44,display,1,0,0
+45,display > email > social > search,4,0,0
+46,display > search,2,0,0
+47,display > social > search,3,0,0
+48,social,1,0,0
+49,display,1,1,250000
+50,display,1,1,250000
+51,display,1,0,0
+52,search,1,0,0
+53,email,1,0,0
+54,search,1,0,0
+55,display > social,2,0,0
+56,social > search > email,3,0,0
+57,display,1,0,0
+58,display > social > email,3,0,0
+59,display > email > social,3,1,250000
+60,-,0,0,0
+61,display,1,0,0
+62,display,1,0,0
+63,social,1,0,0
+64,social,1,0,0
+65,-,0,0,0
+66,-,0,0,0
+67,display > social > search,3,1,250000
+68,display > social,2,0,0
+69,-,0,0,0
+70,display,1,0,0
+71,display,1,1,250000
+72,display,1,0,0
+73,-,0,0,0
+74,-,0,0,0
+75,display,1,0,0
+76,display > social,2,1,250000
+77,display > email,2,0,0
+78,display,1,1,250000
+79,-,0,0,0
+80,display,1,0,0
+81,social > email,2,0,0
+82,-,0,0,0
+83,search,1,0,0
+84,social,1,0,0
+85,social,1,0,0
+86,social > search,2,0,0
+87,social > search,2,0,0
+88,social,1,0,0
+89,search,1,0,0
+90,display,1,0,0
+91,display > search,2,0,0
+92,social,1,0,0
+93,display > email,2,1,250000
+94,-,0,0,0
+95,-,0,0,0
+96,search,1,0,0
+97,display > social,2,0,0
+98,social > email,2,0,0
+99,social > search,2,0,0
+100,-,0,0,0
+101,social > search,2,0,0
+102,-,0,0,0
+103,display > email > social,3,0,0
+104,social,1,0,0
+105,social > search,2,0,0
+106,social > display,2,0,0
+107,social > display,2,0,0
+108,display > social,2,0,0
+109,display > social,2,0,0
+110,display > search,2,0,0
+111,display,1,0,0
+112,email > search,2,0,0
+113,display > social,2,0,0
+114,display,1,0,0
+115,-,0,0,0
+116,-,0,1,250000
+117,display,1,0,0
+118,social,1,0,0
+119,display,1,1,250000
+120,display > email,2,0,0
+121,display > search,2,0,0
+122,social,1,1,250000
+123,display,1,0,0
+124,-,0,0,0
+125,display > email,2,1,250000
+126,display > search,2,0,0
+127,display > social > search,3,0,0
+128,display > social,2,1,250000
+129,-,0,0,0
+130,-,0,0,0
+131,-,0,0,0
+132,-,0,0,0
+133,display,1,0,0
+134,display > social,2,0,0
+135,-,0,0,0
+136,display,1,0,0
+137,-,0,1,250000
+138,-,0,0,0
+139,-,0,0,0
+140,display,1,0,0
+141,display,1,0,0
+142,search,1,0,0
+143,social,1,1,250000
+144,-,0,0,0
+145,display > social > search,3,0,0
+146,social,1,0,0
+147,-,0,0,0
+148,search,1,1,250000
+149,-,0,0,0
+150,social > search,2,0,0
+151,-,0,0,0
+152,display,1,0,0
+153,-,0,0,0
+154,social,1,0,0
+155,-,0,0,0
+156,display > social > search,3,0,0
+157,display > social,2,0,0
+158,display > social,2,0,0
+159,search,1,0,0
+160,-,0,0,0
+161,social > email,2,0,0
+162,search,1,0,0
+163,-,0,0,0
+164,-,0,0,0
+165,display > social > email,3,1,250000
+166,-,0,0,0
+167,social,1,0,0
+168,social,1,0,0
+169,social,1,0,0
+170,display > social,2,1,250000
+171,display > search > email,3,0,0
+172,social > display > search,3,0,0
+173,social,1,0,0
+174,display > social > search,3,1,250000
+175,display,1,0,0
+176,email,1,1,250000
+177,-,0,0,0
+178,display > search,2,1,250000
+179,social > display,2,0,0
+180,display,1,1,250000
+181,-,0,0,0
+182,display,1,0,0
+183,social,1,0,0
+184,social > email > search,3,0,0
+185,-,0,0,0
+186,display,1,0,0
+187,display > search > email,3,0,0
+188,social,1,0,0
+189,-,0,1,250000
+190,search,1,0,0
+191,display,1,1,250000
+192,social,1,0,0
+193,display,1,1,250000
+194,display > email > search,3,0,0
+195,display > social > email > search,4,0,0
+196,display > search,2,0,0
+197,search,1,0,0
+198,display,1,0,0
+199,display > email,2,1,250000
+200,display,1,1,250000
+201,display > social,2,0,0
+202,display > social > search,3,0,0
+203,display > social > email,3,1,250000
+204,search,1,0,0
+205,display > search,2,0,0
+206,-,0,0,0
+207,social,1,0,0
+208,-,0,1,250000
+209,social > search,2,0,0
+210,-,0,0,0
+211,display,1,1,250000
+212,display,1,1,250000
+213,social,1,0,0
+214,display,1,0,0
+215,display > social,2,0,0
+216,search,1,0,0
+217,display > social,2,0,0
+218,social,1,0,0
+219,-,0,0,0
+220,email > search,2,0,0
+221,social > email,2,1,250000
+222,search,1,0,0
+223,email,1,0,0
+224,social > email,2,0,0
+225,display > search,2,0,0
+226,-,0,0,0
+227,-,0,0,0
+228,search,1,1,250000
+229,-,0,0,0
+230,display,1,1,250000
+231,display,1,0,0
+232,display > social > search,3,0,0
+233,email,1,0,0
+234,-,0,0,0
+235,display,1,0,0
+236,display > social > email,3,0,0
+237,display > email,2,0,0
+238,display > social > email,3,1,250000
+239,-,0,1,250000
+240,social > search,2,0,0
+241,display,1,0,0
+242,display,1,0,0
+243,search,1,1,250000
+244,search,1,0,0
+245,display,1,0,0
+246,social > search,2,0,0
+247,-,0,0,0
+248,display,1,0,0
+249,email,1,0,0
+250,display > social > search,3,0,0
+251,display,1,0,0
+252,display,1,0,0
+253,display > search,2,0,0
+254,display > email,2,0,0
+255,display,1,0,0
+256,display > social,2,0,0
+257,display > email,2,0,0
+258,display,1,0,0
+259,display,1,0,0
+260,display,1,0,0
+261,social > search,2,1,250000
+262,-,0,0,0
+263,display,1,0,0
+264,display > social,2,0,0
+265,display > email,2,0,0
+266,display > search,2,0,0
+267,search,1,0,0
+268,display > email > social > search,4,0,0
+269,email,1,0,0
+270,display,1,0,0
+271,social,1,0,0
+272,display > email,2,1,250000
+273,social,1,0,0
+274,display > email,2,1,250000
+275,display > social,2,0,0
+276,-,0,0,0
+277,display,1,1,250000
+278,display > email > search,3,0,0
+279,-,0,0,0
+280,display,1,0,0
+281,social,1,0,0
+282,-,0,0,0
+283,display,1,0,0
+284,display > email > search,3,0,0
+285,social > email > search,3,0,0
+286,-,0,0,0
+287,display,1,0,0
+288,search > email,2,0,0
+289,social,1,0,0
+290,social > search,2,0,0
+291,display,1,0,0
+292,email,1,0,0
+293,-,0,0,0
+294,-,0,0,0
+295,social > email > search,3,1,250000
+296,social,1,0,0
+297,-,0,0,0
+298,-,0,0,0
+299,social,1,0,0
+300,display > email,2,0,0
+301,display > search,2,0,0
+302,display > social > email > search,4,1,250000
+303,search,1,0,0
+304,email,1,0,0
+305,email,1,1,250000
+306,email,1,1,250000
+307,social,1,0,0
+308,-,0,0,0
+309,display,1,1,250000
+310,display > search,2,0,0
+311,email > social,2,0,0
+312,display > social,2,0,0
+313,social > search,2,0,0
+314,display,1,0,0
+315,search,1,0,0
+316,-,0,0,0
+317,-,0,0,0
+318,-,0,0,0
+319,social,1,0,0
+320,display,1,0,0
+321,search,1,0,0
+322,social,1,1,250000
+323,display > search,2,0,0
+324,social,1,0,0
+325,display,1,0,0
+326,-,0,0,0
+327,-,0,0,0
+328,display > email,2,0,0
+329,-,0,0,0
+330,display > social > email > search,4,0,0
+331,search,1,0,0
+332,search,1,0,0
+333,display > social,2,0,0
+334,search,1,0,0
+335,-,0,0,0
+336,social,1,0,0
+337,-,0,0,0
+338,display > social,2,0,0
+339,-,0,0,0
+340,social,1,1,250000
+341,display > social > search,3,0,0
+342,email,1,0,0
+343,display > social > search,3,0,0
+344,search,1,0,0
+345,display,1,0,0
+346,-,0,0,0
+347,display > search,2,1,250000
+348,search,1,0,0
+349,display,1,0,0
+350,-,0,0,0
+351,search > social,2,0,0
+352,social,1,0,0
+353,email > social,2,0,0
+354,-,0,0,0
+355,display > email,2,1,250000
+356,-,0,0,0
+357,-,0,0,0
+358,display > social > search,3,0,0
+359,social > search,2,0,0
+360,social > search,2,0,0
+361,display > search,2,0,0
+362,-,0,0,0
+363,display > social,2,0,0
+364,display > social,2,0,0
+365,social,1,0,0
+366,display > social > search,3,0,0
+367,display > search,2,0,0
+368,email,1,0,0
+369,display > search,2,0,0
+370,display,1,1,250000
+371,display,1,1,250000
+372,display,1,1,250000
+373,display,1,0,0
+374,email,1,0,0
+375,display > social > search,3,0,0
+376,-,0,0,0
+377,display > social,2,0,0
+378,display > social,2,0,0
+379,display,1,0,0
+380,social,1,0,0
+381,email > social,2,0,0
+382,-,0,0,0
+383,-,0,0,0
+384,search,1,0,0
+385,-,0,1,250000
+386,-,0,0,0
+387,display,1,1,250000
+388,-,0,0,0
+389,display > social,2,0,0
+390,-,0,0,0
+391,social > search,2,1,250000
+392,social,1,0,0
+393,display,1,0,0
+394,social > search,2,0,0
+395,-,0,0,0
+396,search,1,0,0
+397,-,0,1,250000
+398,display > search,2,0,0
+399,email > search,2,0,0
+400,-,0,0,0
+401,-,0,0,0
+402,social > search,2,0,0
+403,search,1,0,0
+404,-,0,0,0
+405,display > social,2,0,0
+406,email,1,0,0
+407,-,0,0,0
+408,display > search,2,0,0
+409,display,1,0,0
+410,social,1,0,0
+411,display > search,2,0,0
+412,-,0,0,0
+413,-,0,0,0
+414,display > email,2,0,0
+415,-,0,0,0
+416,social,1,0,0
+417,social,1,0,0
+418,email > social,2,0,0
+419,-,0,0,0
+420,display > social > search,3,0,0
+421,-,0,0,0
+422,social,1,0,0
+423,-,0,0,0
+424,display > social > email,3,0,0
+425,social,1,0,0
+426,search > email,2,0,0
+427,display > social,2,0,0
+428,display,1,0,0
+429,display > social > email,3,0,0
+430,display,1,1,250000
+431,display > social > email,3,1,250000
+432,display > search,2,0,0
+433,display > search,2,0,0
+434,display > social > email,3,1,250000
+435,social,1,0,0
+436,-,0,1,250000
+437,email,1,0,0
+438,display > email,2,1,250000
+439,social > search,2,0,0
+440,-,0,1,250000
+441,display > social,2,0,0
+442,-,0,0,0
+443,social,1,0,0
+444,-,0,0,0
+445,social,1,0,0
+446,display > social,2,0,0
+447,email > social > search,3,0,0
+448,email,1,0,0
+449,social,1,0,0
+450,display,1,1,250000
+451,social > search,2,0,0
+452,email > social,2,0,0
+453,display,1,0,0
+454,display,1,0,0
+455,display > social > search,3,1,250000
+456,social > search,2,1,250000
+457,display > search,2,0,0
+458,email > search,2,1,250000
+459,search,1,1,250000
+460,search,1,0,0
+461,email > search,2,0,0
+462,-,0,0,0
+463,display,1,1,250000
+464,social,1,0,0
+465,search,1,0,0
+466,social > display > email,3,1,250000
+467,display,1,1,250000
+468,social > search,2,0,0
+469,search,1,0,0
+470,social,1,0,0
+471,display > email > search,3,1,250000
+472,-,0,0,0
+473,display > social > email,3,1,250000
+474,email > search,2,0,0
+475,display,1,0,0
+476,display > email,2,0,0
+477,search > email,2,0,0
+478,social > search,2,0,0
+479,display,1,0,0
+480,display > social > email > search,4,0,0
+481,search,1,0,0
+482,email,1,0,0
+483,display > social,2,0,0
+484,-,0,0,0
+485,-,0,0,0
+486,display > social > search,3,1,250000
+487,social > search,2,1,250000
+488,display,1,0,0
+489,display,1,0,0
+490,-,0,0,0
+491,-,0,0,0
+492,-,0,0,0
+493,display,1,0,0
+494,social,1,0,0
+495,email > social > search,3,1,250000
+496,social,1,0,0
+497,display > social,2,0,0
+498,display,1,0,0
+499,display,1,0,0
+500,email > social > search,3,0,0
+501,display > social > email,3,0,0
+502,display,1,0,0
+503,search,1,0,0
+504,display > search,2,0,0
+505,display > search,2,1,250000
+506,display > email > search,3,0,0
+507,social,1,0,0
+508,display,1,0,0
+509,display > search,2,1,250000
+510,social,1,0,0
+511,-,0,0,0
+512,-,0,0,0
+513,display,1,0,0
+514,social,1,0,0
+515,display > social > search > email,4,0,0
+516,display > social,2,0,0
+517,-,0,0,0
+518,display > social,2,0,0
+519,email,1,0,0
+520,social,1,1,250000
+521,display,1,0,0
+522,email,1,0,0
+523,display > social,2,1,250000
+524,social,1,0,0
+525,display > social,2,0,0
+526,email > search,2,1,250000
+527,email,1,0,0
+528,display,1,0,0
+529,search,1,0,0
+530,-,0,0,0
+531,display > search,2,1,250000
+532,email,1,0,0
+533,display,1,0,0
+534,social > search,2,0,0
+535,search,1,0,0
+536,social,1,0,0
+537,display,1,0,0
+538,email > social,2,0,0
+539,display > social,2,1,250000
+540,social,1,0,0
+541,-,0,0,0
+542,display,1,0,0
+543,social,1,0,0
+544,-,0,0,0
+545,social,1,0,0
+546,-,0,0,0
+547,display,1,0,0
+548,display > email,2,0,0
+549,social,1,0,0
+550,display > email,2,0,0
+551,email,1,0,0
+552,social > search > email,3,0,0
+553,display > social,2,0,0
+554,display,1,0,0
+555,email,1,0,0
+556,social > search > email,3,0,0
+557,display,1,0,0
+558,display > email > search,3,0,0
+559,display > email,2,0,0
+560,display,1,1,250000
+561,display > social,2,0,0
+562,social > search,2,0,0
+563,social,1,0,0
+564,-,0,0,0
+565,-,0,0,0
+566,display > social,2,0,0
+567,display,1,0,0
+568,display > email,2,0,0
+569,search,1,0,0
+570,-,0,0,0
+571,email,1,0,0
+572,display,1,0,0
+573,display > search,2,0,0
+574,search,1,0,0
+575,display > social,2,0,0
+576,-,0,0,0
+577,-,0,0,0
+578,display > social > email,3,0,0
+579,display,1,0,0
+580,search,1,1,250000
+581,-,0,0,0
+582,social > search,2,0,0
+583,display > social,2,0,0
+584,display > search,2,0,0
+585,social,1,0,0
+586,-,0,0,0
+587,-,0,0,0
+588,-,0,0,0
+589,social,1,0,0
+590,email,1,0,0
+591,search,1,0,0
+592,display > email > search,3,1,250000
+593,email,1,0,0
+594,email,1,0,0
+595,-,0,0,0
+596,display > social,2,0,0
+597,display > search,2,0,0
+598,social,1,0,0
+599,-,0,0,0
+600,display,1,0,0
+601,-,0,0,0
+602,display,1,0,0
+603,-,0,0,0
+604,display > email > search,3,1,250000
+605,social > search,2,0,0
+606,display > social,2,0,0
+607,social > search,2,0,0
+608,display,1,0,0
+609,social > email,2,0,0
+610,-,0,0,0
+611,search,1,0,0
+612,social > display,2,1,250000
+613,social,1,1,250000
+614,-,0,0,0
+615,display > email,2,0,0
+616,email > search,2,0,0
+617,social > email,2,0,0
+618,social > search,2,0,0
+619,social,1,0,0
+620,display,1,0,0
+621,display > social > search,3,0,0
+622,display > search,2,0,0
+623,email,1,1,250000
+624,display,1,0,0
+625,display,1,0,0
+626,display,1,0,0
+627,social > email,2,0,0
+628,search,1,0,0
+629,display > search,2,0,0
+630,-,0,0,0
+631,social > display > email,3,0,0
+632,display > social > search,3,1,250000
+633,social,1,1,250000
+634,-,0,1,250000
+635,social,1,0,0
+636,display > social > email,3,0,0
+637,social > email,2,0,0
+638,display > social,2,0,0
+639,display,1,0,0
+640,social > email,2,1,250000
+641,email > social,2,0,0
+642,-,0,0,0
+643,display,1,0,0
+644,display,1,1,250000
+645,social,1,0,0
+646,email,1,0,0
+647,-,0,0,0
+648,display > search,2,1,250000
+649,display,1,1,250000
+650,social > search,2,0,0
+651,-,0,0,0
+652,display,1,0,0
+653,-,0,0,0
+654,display > social > search,3,1,250000
+655,-,0,0,0
+656,display,1,0,0
+657,display > email,2,1,250000
+658,display,1,0,0
+659,-,0,0,0
+660,search,1,0,0
+661,email > search,2,0,0
+662,social > search,2,0,0
+663,-,0,0,0
+664,-,0,0,0
+665,display > search,2,0,0
+666,display,1,0,0
+667,-,0,0,0
+668,-,0,0,0
+669,display > search,2,0,0
+670,display > email,2,1,250000
+671,display > social,2,0,0
+672,email > search,2,0,0
+673,display > search,2,0,0
+674,display > social,2,0,0
+675,email,1,0,0
+676,search > email,2,0,0
+677,-,0,0,0
+678,social,1,0,0
+679,social > display,2,0,0
+680,-,0,0,0
+681,display,1,0,0
+682,email,1,0,0
+683,-,0,0,0
+684,search,1,0,0
+685,display > search,2,0,0
+686,-,0,0,0
+687,-,0,0,0
+688,social,1,0,0
+689,display,1,0,0
+690,social > email > search,3,0,0
+691,display > social,2,0,0
+692,display > email,2,0,0
+693,display > social,2,0,0
+694,email,1,0,0
+695,search,1,0,0
+696,social > search,2,0,0
+697,-,0,0,0
+698,-,0,1,250000
+699,display > social > search,3,1,250000
+700,-,0,0,0
+701,search,1,0,0
+702,-,0,0,0
+703,email,1,1,250000
+704,display,1,0,0
+705,social > search,2,0,0
+706,display,1,0,0
+707,display,1,0,0
+708,display > social,2,0,0
+709,display,1,0,0
+710,display,1,0,0
+711,-,0,0,0
+712,display > social,2,0,0
+713,display,1,0,0
+714,email > social,2,0,0
+715,social > search,2,0,0
+716,display > search,2,1,250000
+717,-,0,0,0
+718,display > email,2,0,0
+719,search,1,0,0
+720,-,0,0,0
+721,-,0,0,0
+722,social,1,0,0
+723,display > search,2,0,0
+724,display > search,2,0,0
+725,search,1,0,0
+726,display > search,2,0,0
+727,search,1,0,0
+728,social > email,2,0,0
+729,social > email > search,3,0,0
+730,display > search,2,0,0
+731,display,1,0,0
+732,email > search,2,0,0
+733,social > search,2,0,0
+734,social > email,2,0,0
+735,-,0,0,0
+736,display,1,0,0
+737,email > search,2,0,0
+738,display > search,2,0,0
+739,email > search,2,1,250000
+740,-,0,1,250000
+741,search,1,0,0
+742,-,0,0,0
+743,display > email,2,0,0
+744,social > display,2,0,0
+745,search,1,0,0
+746,-,0,0,0
+747,-,0,0,0
+748,display,1,0,0
+749,-,0,0,0
+750,display > email > search,3,1,250000
+751,social,1,0,0
+752,email,1,1,250000
+753,social,1,0,0
+754,-,0,0,0
+755,social > search,2,0,0
+756,display > email,2,1,250000
+757,social,1,0,0
+758,-,0,0,0
+759,display > social,2,0,0
+760,-,0,0,0
+761,-,0,0,0
+762,display > email,2,0,0
+763,social,1,0,0
+764,social > search,2,1,250000
+765,-,0,0,0
+766,social > search,2,0,0
+767,social,1,0,0
+768,display > search,2,0,0
+769,display,1,0,0
+770,search,1,0,0
+771,-,0,1,250000
+772,social > email > search,3,0,0
+773,email > search,2,1,250000
+774,display > email > search,3,0,0
+775,social > search,2,0,0
+776,display > search,2,0,0
+777,display > social,2,1,250000
+778,display > email,2,0,0
+779,display > search,2,1,250000
+780,email > social,2,0,0
+781,display > social > email,3,1,250000
+782,-,0,0,0
+783,-,0,0,0
+784,display > social > search,3,0,0
+785,display,1,0,0
+786,display > search,2,0,0
+787,-,0,0,0
+788,display > search,2,0,0
+789,display > social,2,1,250000
+790,-,0,0,0
+791,email > search,2,0,0
+792,social,1,0,0
+793,-,0,0,0
+794,email,1,0,0
+795,display > social,2,0,0
+796,-,0,0,0
+797,display > email,2,1,250000
+798,display,1,0,0
+799,search,1,0,0
+800,display,1,0,0
+801,display,1,0,0
+802,-,0,0,0
+803,display > social > search,3,0,0
+804,display > email,2,0,0
+805,display,1,0,0
+806,-,0,0,0
+807,search,1,0,0
+808,social,1,0,0
+809,search,1,0,0
+810,search,1,0,0
+811,display,1,1,250000
+812,social,1,0,0
+813,display > social,2,1,250000
+814,social,1,0,0
+815,social,1,0,0
+816,display > search > email,3,0,0
+817,email > search,2,0,0
+818,social > display > email,3,1,250000
+819,social,1,1,250000
+820,social,1,0,0
+821,social,1,0,0
+822,display > social > search,3,0,0
+823,social > email,2,1,250000
+824,display,1,0,0
+825,display > social,2,0,0
+826,search > email,2,0,0
+827,display > search,2,0,0
+828,search,1,0,0
+829,-,0,0,0
+830,-,0,0,0
+831,display > social,2,0,0
+832,display,1,0,0
+833,social > search,2,0,0
+834,social > email,2,0,0
+835,social > email,2,0,0
+836,social,1,0,0
+837,social,1,1,250000
+838,-,0,1,250000
+839,social,1,0,0
+840,display,1,0,0
+841,-,0,0,0
+842,display > social,2,0,0
+843,social,1,0,0
+844,display > search,2,0,0
+845,search,1,0,0
+846,email,1,0,0
+847,social,1,1,250000
+848,social,1,1,250000
+849,email > search,2,0,0
+850,search,1,1,250000
+851,email,1,0,0
+852,search,1,0,0
+853,social > display,2,1,250000
+854,display,1,0,0
+855,-,0,0,0
+856,email,1,1,250000
+857,email,1,0,0
+858,social > email,2,0,0
+859,-,0,0,0
+860,display > social > search,3,0,0
+861,display > search,2,0,0
+862,-,0,0,0
+863,-,0,0,0
+864,-,0,0,0
+865,social,1,0,0
+866,search,1,1,250000
+867,display,1,0,0
+868,display,1,1,250000
+869,display,1,0,0
+870,display > social,2,0,0
+871,display,1,0,0
+872,email > search,2,1,250000
+873,display > social,2,0,0
+874,display,1,0,0
+875,display > email > search,3,0,0
+876,display > search,2,0,0
+877,display,1,0,0
+878,-,0,0,0
+879,display > search,2,0,0
+880,-,0,0,0
+881,display > email,2,1,250000
+882,social,1,0,0
+883,-,0,0,0
+884,social,1,0,0
+885,display > social,2,0,0
+886,social > search,2,0,0
+887,display > email > social,3,1,250000
+888,display > social > email,3,0,0
+889,search,1,0,0
+890,search,1,0,0
+891,-,0,0,0
+892,email > search,2,0,0
+893,display,1,0,0
+894,social,1,0,0
+895,social,1,0,0
+896,social,1,0,0
+897,search,1,0,0
+898,search,1,0,0
+899,search,1,0,0
+900,display,1,0,0
+901,display > social > email,3,0,0
+902,social,1,0,0
+903,email,1,0,0
+904,-,0,0,0
+905,display > email > social,3,1,250000
+906,display > social,2,0,0
+907,display > social > search,3,0,0
+908,social > email,2,1,250000
+909,email,1,0,0
+910,-,0,0,0
+911,-,0,0,0
+912,social,1,0,0
+913,-,0,0,0
+914,social,1,0,0
+915,social > email,2,0,0
+916,display,1,1,250000
+917,email > search,2,0,0
+918,display,1,0,0
+919,social > email,2,1,250000
+920,-,0,0,0
+921,social > email,2,1,250000
+922,-,0,1,250000
+923,search,1,0,0
+924,display > social > search,3,0,0
+925,-,0,0,0
+926,search > social,2,0,0
+927,display > social,2,0,0
+928,social > display,2,0,0
+929,social > display > email,3,0,0
+930,display > email,2,0,0
+931,email,1,0,0
+932,display > social > search,3,0,0
+933,-,0,0,0
+934,display > social > email,3,1,250000
+935,social,1,0,0
+936,email,1,0,0
+937,email,1,0,0
+938,display > search,2,0,0
+939,display > search,2,0,0
+940,display > social,2,1,250000
+941,search,1,1,250000
+942,social,1,0,0
+943,display,1,0,0
+944,display > email,2,1,250000
+945,email,1,0,0
+946,display > social,2,0,0
+947,display > social,2,0,0
+948,display,1,1,250000
+949,search > email,2,1,250000
+950,social,1,1,250000
+951,-,0,0,0
+952,display > email,2,0,0
+953,social,1,0,0
+954,email,1,1,250000
+955,search,1,0,0
+956,display > social,2,0,0
+957,display > social,2,0,0
+958,-,0,0,0
+959,search,1,0,0
+960,email,1,0,0
+961,-,0,0,0
+962,social > search,2,1,250000
+963,display,1,0,0
+964,display,1,0,0
+965,display > social,2,0,0
+966,display > social,2,0,0
+967,-,0,0,0
+968,display > social,2,1,250000
+969,display > search,2,1,250000
+970,display > social > email,3,0,0
+971,display > email,2,1,250000
+972,display > email,2,0,0
+973,display > email,2,0,0
+974,-,0,0,0
+975,-,0,0,0
+976,social,1,0,0
+977,email,1,0,0
+978,search,1,0,0
+979,display,1,0,0
+980,social > search,2,0,0
+981,display > social,2,1,250000
+982,-,0,0,0
+983,-,0,0,0
+984,social,1,0,0
+985,display > email,2,1,250000
+986,display > search,2,0,0
+987,display > social,2,0,0
+988,social > email,2,0,0
+989,social,1,0,0
+990,social,1,0,0
+991,-,0,0,0
+992,-,0,0,0
+993,display > social > email,3,1,250000
+994,display,1,1,250000
+995,display > search,2,0,0
+996,display,1,0,0
+997,email,1,1,250000
+998,-,0,0,0
+999,display,1,0,0
+1000,-,0,0,0
+1001,search,1,0,0
+1002,social > email,2,0,0
+1003,social,1,1,250000
+1004,display > search,2,0,0
+1005,social,1,1,250000
+1006,display,1,1,250000
+1007,display,1,0,0
+1008,social > email,2,0,0
+1009,social,1,0,0
+1010,social > search,2,0,0
+1011,social,1,1,250000
+1012,display,1,0,0
+1013,social,1,0,0
+1014,display,1,0,0
+1015,-,0,0,0
+1016,-,0,0,0
+1017,social,1,0,0
+1018,display > search,2,0,0
+1019,display > email,2,0,0
+1020,search,1,0,0
+1021,display > search,2,0,0
+1022,display,1,0,0
+1023,display,1,1,250000
+1024,social,1,0,0
+1025,display > search,2,0,0
+1026,social,1,0,0
+1027,search,1,0,0
+1028,display > search,2,0,0
+1029,social,1,0,0
+1030,display,1,1,250000
+1031,display > search,2,0,0
+1032,-,0,0,0
+1033,display,1,0,0
+1034,display > social > email,3,0,0
+1035,display,1,0,0
+1036,display > social > search,3,0,0
+1037,display > social > email,3,0,0
+1038,display,1,0,0
+1039,email,1,0,0
+1040,social,1,0,0
+1041,email > search,2,0,0
+1042,-,0,0,0
+1043,-,0,0,0
+1044,display,1,0,0
+1045,display > social,2,0,0
+1046,social,1,0,0
+1047,-,0,0,0
+1048,-,0,0,0
+1049,social > search,2,0,0
+1050,-,0,0,0
+1051,search,1,0,0
+1052,email > search,2,0,0
+1053,search,1,0,0
+1054,display > email,2,0,0
+1055,display > social,2,0,0
+1056,display,1,0,0
+1057,email,1,1,250000
+1058,-,0,0,0
+1059,search,1,0,0
+1060,-,0,0,0
+1061,display > social > search,3,0,0
+1062,-,0,1,250000
+1063,-,0,0,0
+1064,-,0,0,0
+1065,search,1,0,0
+1066,display,1,0,0
+1067,social,1,0,0
+1068,search,1,0,0
+1069,-,0,0,0
+1070,-,0,0,0
+1071,display,1,0,0
+1072,email,1,1,250000
+1073,display > social > email,3,0,0
+1074,-,0,0,0
+1075,display > email,2,0,0
+1076,social,1,0,0
+1077,email,1,0,0
+1078,search,1,1,250000
+1079,search > email,2,1,250000
+1080,-,0,0,0
+1081,display > social > search,3,0,0
+1082,display > search,2,0,0
+1083,display > social,2,1,250000
+1084,email > search,2,0,0
+1085,display,1,0,0
+1086,display > social,2,0,0
+1087,-,0,1,250000
+1088,-,0,0,0
+1089,social,1,0,0
+1090,social,1,0,0
+1091,display > search,2,0,0
+1092,display > search,2,0,0
+1093,display > search > email,3,1,250000
+1094,display > social > search,3,1,250000
+1095,display,1,0,0
+1096,display > social > email,3,0,0
+1097,email,1,0,0
+1098,display > social,2,1,250000
+1099,-,0,0,0
+1100,social,1,0,0
+1101,email > social,2,0,0
+1102,display > social > email,3,1,250000
+1103,display > search,2,1,250000
+1104,social,1,0,0
+1105,display,1,0,0
+1106,social > email,2,0,0
+1107,-,0,0,0
+1108,-,0,1,250000
+1109,display,1,0,0
+1110,email,1,0,0
+1111,social,1,0,0
+1112,social > display,2,0,0
+1113,display > search,2,0,0
+1114,social > search,2,0,0
+1115,display,1,0,0
+1116,-,0,0,0
+1117,display > social,2,0,0
+1118,display > social,2,0,0
+1119,-,0,0,0
+1120,-,0,0,0
+1121,display > social,2,1,250000
+1122,display,1,0,0
+1123,social > search,2,1,250000
+1124,display,1,1,250000
+1125,display > social,2,0,0
+1126,display,1,0,0
+1127,social,1,0,0
+1128,search,1,0,0
+1129,display,1,0,0
+1130,display,1,1,250000
+1131,display,1,0,0
+1132,-,0,0,0
+1133,-,0,0,0
+1134,-,0,0,0
+1135,display > email > search,3,1,250000
+1136,display > social,2,0,0
+1137,display > search > social,3,0,0
+1138,display > social,2,0,0
+1139,-,0,0,0
+1140,email,1,0,0
+1141,email,1,0,0
+1142,email > social > search,3,0,0
+1143,social,1,0,0
+1144,social > search,2,0,0
+1145,display > social > search,3,1,250000
+1146,display > search,2,0,0
+1147,display,1,0,0
+1148,email,1,0,0
+1149,social,1,0,0
+1150,display,1,1,250000
+1151,-,0,0,0
+1152,display,1,0,0
+1153,search,1,0,0
+1154,display,1,0,0
+1155,-,0,0,0
+1156,-,0,0,0
+1157,social,1,0,0
+1158,display > search,2,0,0
+1159,social > search,2,1,250000
+1160,-,0,1,250000
+1161,display,1,0,0
+1162,-,0,0,0
+1163,-,0,0,0
+1164,display > email,2,1,250000
+1165,social > display > search,3,0,0
+1166,display,1,0,0
+1167,-,0,0,0
+1168,email,1,0,0
+1169,-,0,0,0
+1170,display,1,0,0
+1171,display,1,1,250000
+1172,display > social > email > search,4,1,250000
+1173,email > search,2,1,250000
+1174,display,1,0,0
+1175,-,0,0,0
+1176,-,0,0,0
+1177,search,1,0,0
+1178,display,1,0,0
+1179,-,0,0,0
+1180,social,1,0,0
+1181,search,1,0,0
+1182,display > social,2,1,250000
+1183,email > social,2,1,250000
+1184,display > social > email,3,1,250000
+1185,display > social > search,3,1,250000
+1186,social,1,0,0
+1187,display > social,2,0,0
+1188,email,1,0,0
+1189,display,1,0,0
+1190,-,0,0,0
+1191,display,1,0,0
+1192,display,1,0,0
+1193,email,1,0,0
+1194,social,1,0,0
+1195,-,0,0,0
+1196,social > search,2,0,0
+1197,display,1,0,0
+1198,-,0,0,0
+1199,-,0,0,0
+1200,display > email > social,3,1,250000
+1201,display,1,0,0
+1202,search,1,0,0
+1203,email,1,0,0
+1204,display > social,2,1,250000
+1205,display > search,2,0,0
+1206,display > email,2,0,0
+1207,display > search,2,0,0
+1208,-,0,0,0
+1209,social > search,2,0,0
+1210,social,1,0,0
+1211,social > search,2,0,0
+1212,social,1,0,0
+1213,-,0,0,0
+1214,display,1,0,0
+1215,display > search,2,0,0
+1216,social,1,1,250000
+1217,-,0,0,0
+1218,display,1,0,0
+1219,social,1,0,0
+1220,email,1,0,0
+1221,search,1,1,250000
+1222,email,1,0,0
+1223,display,1,0,0
+1224,-,0,0,0
+1225,display > search,2,1,250000
+1226,-,0,0,0
+1227,-,0,0,0
+1228,display > social,2,0,0
+1229,display > search,2,0,0
+1230,display > search,2,0,0
+1231,search,1,0,0
+1232,display > social,2,0,0
+1233,-,0,0,0
+1234,display > search,2,0,0
+1235,search,1,0,0
+1236,social,1,0,0
+1237,display > social > search,3,1,250000
+1238,email > search,2,0,0
+1239,-,0,0,0
+1240,display > email,2,0,0
+1241,display > social,2,1,250000
+1242,-,0,0,0
+1243,display > email,2,0,0
+1244,display,1,0,0
+1245,display > social > search,3,0,0
+1246,email,1,0,0
+1247,social,1,0,0
+1248,-,0,0,0
+1249,-,0,0,0
+1250,social,1,0,0
+1251,display,1,0,0
+1252,social,1,0,0
+1253,display,1,0,0
+1254,social > search > email,3,0,0
+1255,display,1,0,0
+1256,display,1,0,0
+1257,display > social,2,0,0
+1258,email > search,2,0,0
+1259,display > search,2,0,0
+1260,display,1,0,0
+1261,-,0,0,0
+1262,email,1,1,250000
+1263,display > social > email,3,0,0
+1264,-,0,0,0
+1265,display > email,2,0,0
+1266,-,0,0,0
+1267,social > display,2,0,0
+1268,display > social > search > email,4,1,250000
+1269,social,1,0,0
+1270,display > social,2,0,0
+1271,display > email > search,3,1,250000
+1272,email,1,0,0
+1273,social,1,0,0
+1274,social,1,0,0
+1275,-,0,0,0
+1276,-,0,0,0
+1277,display > social,2,0,0
+1278,display > social > search,3,0,0
+1279,social,1,0,0
+1280,-,0,0,0
+1281,display > email,2,0,0
+1282,display,1,0,0
+1283,display > email,2,1,250000
+1284,social > email,2,1,250000
+1285,display > social,2,1,250000
+1286,search > email,2,0,0
+1287,email,1,0,0
+1288,display > social,2,0,0
+1289,display > social,2,1,250000
+1290,social,1,0,0
+1291,display,1,0,0
+1292,-,0,0,0
+1293,display > social > search,3,0,0
+1294,display > search,2,0,0
+1295,-,0,0,0
+1296,search,1,0,0
+1297,-,0,0,0
+1298,-,0,0,0
+1299,display,1,0,0
+1300,email,1,0,0
+1301,display > search,2,0,0
+1302,social > display,2,0,0
+1303,display > social,2,0,0
+1304,search,1,0,0
+1305,display > search,2,0,0
+1306,display > social > search > email,4,1,250000
+1307,email,1,0,0
+1308,social,1,0,0
+1309,display > social,2,0,0
+1310,display > social > search,3,0,0
+1311,email > search,2,0,0
+1312,display > email > search,3,1,250000
+1313,display > email,2,1,250000
+1314,social,1,0,0
+1315,-,0,0,0
+1316,search,1,0,0
+1317,social,1,0,0
+1318,display > search,2,0,0
+1319,social,1,0,0
+1320,display > social > search,3,0,0
+1321,email,1,0,0
+1322,display > email,2,1,250000
+1323,display,1,0,0
+1324,-,0,0,0
+1325,search,1,0,0
+1326,display > social > search,3,0,0
+1327,display > search,2,0,0
+1328,social > display,2,1,250000
+1329,display > email,2,0,0
+1330,display > social > search,3,1,250000
+1331,display > email > search,3,0,0
+1332,social > search,2,0,0
+1333,social,1,0,0
+1334,display,1,1,250000
+1335,display > email,2,0,0
+1336,display > social,2,0,0
+1337,display,1,0,0
+1338,display > social,2,0,0
+1339,social,1,1,250000
+1340,display,1,0,0
+1341,display,1,0,0
+1342,social,1,0,0
+1343,email,1,0,0
+1344,social,1,1,250000
+1345,display > social,2,1,250000
+1346,display,1,0,0
+1347,-,0,0,0
+1348,email,1,0,0
+1349,-,0,0,0
+1350,social > search,2,0,0
+1351,email > search,2,0,0
+1352,social > search,2,0,0
+1353,display > search,2,1,250000
+1354,display > social,2,0,0
+1355,email,1,0,0
+1356,social,1,0,0
+1357,-,0,0,0
+1358,search > social,2,0,0
+1359,search,1,0,0
+1360,social,1,0,0
+1361,display > social,2,1,250000
+1362,display > email,2,1,250000
+1363,social > display > email,3,1,250000
+1364,-,0,0,0
+1365,-,0,0,0
+1366,social > email,2,0,0
+1367,email,1,0,0
+1368,social,1,0,0
+1369,-,0,0,0
+1370,email > search,2,1,250000
+1371,-,0,0,0
+1372,display > search,2,1,250000
+1373,display > social,2,0,0
+1374,email,1,0,0
+1375,social > search,2,0,0
+1376,display > search,2,0,0
+1377,display,1,0,0
+1378,social > email,2,0,0
+1379,-,0,0,0
+1380,social > search,2,0,0
+1381,display > search,2,0,0
+1382,search,1,0,0
+1383,display > search,2,1,250000
+1384,search,1,0,0
+1385,email,1,0,0
+1386,social > display > email,3,0,0
+1387,display > search,2,0,0
+1388,display > email > search,3,0,0
+1389,social,1,0,0
+1390,email > search,2,0,0
+1391,display,1,1,250000
+1392,social,1,0,0
+1393,-,0,0,0
+1394,social,1,0,0
+1395,display,1,1,250000
+1396,display > email > search,3,0,0
+1397,-,0,0,0
+1398,-,0,0,0
+1399,-,0,0,0
+1400,search,1,0,0
+1401,-,0,0,0
+1402,display,1,0,0
+1403,display > social,2,0,0
+1404,display > search,2,0,0
+1405,display > email,2,0,0
+1406,display,1,1,250000
+1407,social > email,2,1,250000
+1408,social > search,2,0,0
+1409,display,1,0,0
+1410,search,1,1,250000
+1411,email > search,2,0,0
+1412,display > social,2,0,0
+1413,display,1,0,0
+1414,-,0,0,0
+1415,display > search,2,0,0
+1416,social,1,0,0
+1417,display > social > search > email,4,0,0
+1418,display,1,0,0
+1419,social > search,2,0,0
+1420,email > search,2,0,0
+1421,display > search,2,0,0
+1422,search,1,0,0
+1423,search,1,0,0
+1424,social > email > search,3,1,250000
+1425,email > search,2,0,0
+1426,display,1,1,250000
+1427,display,1,0,0
+1428,display > search,2,1,250000
+1429,search,1,0,0
+1430,display,1,0,0
+1431,social > email,2,0,0
+1432,-,0,0,0
+1433,display > social,2,0,0
+1434,display > email,2,1,250000
+1435,social,1,0,0
+1436,social,1,0,0
+1437,social > email,2,1,250000
+1438,-,0,0,0
+1439,social > search,2,0,0
+1440,display > search,2,0,0
+1441,display > email,2,0,0
+1442,social > display,2,0,0
+1443,display > search > email,3,0,0
+1444,search,1,0,0
+1445,display > search,2,0,0
+1446,-,0,0,0
+1447,display > email,2,0,0
+1448,display,1,1,250000
+1449,display > search,2,1,250000
+1450,display > email > social,3,1,250000
+1451,display > search,2,0,0
+1452,social > display > search,3,0,0
+1453,display,1,1,250000
+1454,display > social,2,1,250000
+1455,social > search > email,3,1,250000
+1456,display,1,0,0
+1457,-,0,0,0
+1458,display > search,2,0,0
+1459,social > search,2,0,0
+1460,social,1,0,0
+1461,-,0,0,0
+1462,-,0,0,0
+1463,display,1,1,250000
+1464,search,1,0,0
+1465,display,1,0,0
+1466,social,1,0,0
+1467,search,1,0,0
+1468,display > search,2,0,0
+1469,display > search,2,1,250000
+1470,display > social,2,0,0
+1471,display > email > search,3,0,0
+1472,display,1,1,250000
+1473,email > search,2,1,250000
+1474,email,1,1,250000
+1475,-,0,0,0
+1476,social > email,2,1,250000
+1477,display,1,0,0
+1478,-,0,0,0
+1479,display > search,2,0,0
+1480,display > social,2,1,250000
+1481,-,0,0,0
+1482,display > email > search,3,0,0
+1483,social > email > search,3,0,0
+1484,social > display > search,3,0,0
+1485,social > email > search,3,0,0
+1486,-,0,0,0
+1487,display > social,2,0,0
+1488,display > search,2,1,250000
+1489,email,1,0,0
+1490,email,1,1,250000
+1491,display,1,0,0
+1492,display,1,0,0
+1493,social > email,2,0,0
+1494,social > search,2,0,0
+1495,display > email > search,3,0,0
+1496,-,0,0,0
+1497,-,0,0,0
+1498,-,0,0,0
+1499,display,1,0,0
+1500,search,1,0,0
+1501,display > social > search,3,0,0
+1502,display,1,1,250000
+1503,-,0,0,0
+1504,display > social,2,0,0
+1505,display > search,2,0,0
+1506,display > email,2,0,0
+1507,display,1,0,0
+1508,social > search,2,0,0
+1509,-,0,0,0
+1510,social > search,2,0,0
+1511,-,0,0,0
+1512,-,0,0,0
+1513,email > search,2,0,0
+1514,social,1,0,0
+1515,display,1,0,0
+1516,social,1,0,0
+1517,display > social,2,0,0
+1518,display > social,2,0,0
+1519,-,0,0,0
+1520,email,1,0,0
+1521,social,1,0,0
+1522,display,1,1,250000
+1523,display > social,2,0,0
+1524,email,1,0,0
+1525,email,1,1,250000
+1526,-,0,0,0
+1527,-,0,0,0
+1528,-,0,0,0
+1529,search,1,1,250000
+1530,display,1,0,0
+1531,display,1,0,0
+1532,-,0,0,0
+1533,email,1,0,0
+1534,display,1,0,0
+1535,social > search > email,3,1,250000
+1536,display > social,2,1,250000
+1537,display,1,0,0
+1538,social > search,2,0,0
+1539,social,1,0,0
+1540,display > email > search,3,1,250000
+1541,-,0,0,0
+1542,display > search,2,0,0
+1543,display > email,2,0,0
+1544,email,1,0,0
+1545,email,1,0,0
+1546,display > search,2,1,250000
+1547,display > social,2,0,0
+1548,-,0,0,0
+1549,-,0,0,0
+1550,display > email > search,3,0,0
+1551,-,0,0,0
+1552,-,0,0,0
+1553,social,1,0,0
+1554,display,1,0,0
+1555,display > search,2,1,250000
+1556,search,1,0,0
+1557,social,1,0,0
+1558,social > display > email,3,0,0
+1559,-,0,0,0
+1560,social > display,2,0,0
+1561,display,1,0,0
+1562,display,1,0,0
+1563,display > social > search,3,1,250000
+1564,display,1,0,0
+1565,social > email,2,0,0
+1566,email,1,1,250000
+1567,display > social,2,1,250000
+1568,display > search,2,0,0
+1569,social > email,2,0,0
+1570,display > search,2,0,0
+1571,-,0,0,0
+1572,display > social,2,0,0
+1573,social,1,0,0
+1574,social > search,2,1,250000
+1575,social > search > email,3,0,0
+1576,-,0,0,0
+1577,search,1,0,0
+1578,display,1,0,0
+1579,display,1,1,250000
+1580,social,1,0,0
+1581,display,1,1,250000
+1582,display,1,0,0
+1583,display,1,0,0
+1584,display > social,2,0,0
+1585,email,1,0,0
+1586,social > display,2,0,0
+1587,display > search,2,1,250000
+1588,display > search,2,0,0
+1589,-,0,0,0
+1590,display > social > search,3,0,0
+1591,display > social > search,3,0,0
+1592,search,1,1,250000
+1593,display > search,2,0,0
+1594,display,1,0,0
+1595,email,1,0,0
+1596,-,0,0,0
+1597,display > email,2,0,0
+1598,display > social,2,0,0
+1599,social,1,0,0
+1600,-,0,0,0
+1601,display,1,0,0
+1602,display,1,1,250000
+1603,-,0,0,0
+1604,display > email,2,0,0
+1605,display > social > email > search,4,1,250000
+1606,display > search,2,0,0
+1607,display > search,2,0,0
+1608,display > search,2,0,0
+1609,display > search,2,0,0
+1610,social,1,0,0
+1611,social > search,2,1,250000
+1612,-,0,0,0
+1613,display,1,0,0
+1614,display,1,1,250000
+1615,-,0,0,0
+1616,display,1,0,0
+1617,social,1,1,250000
+1618,search,1,0,0
+1619,social > email,2,0,0
+1620,social,1,1,250000
+1621,display > search,2,0,0
+1622,display > search,2,1,250000
+1623,social > search,2,0,0
+1624,display,1,0,0
+1625,display > social,2,0,0
+1626,display > social > search,3,0,0
+1627,display,1,0,0
+1628,social > search,2,0,0
+1629,social > email > search,3,0,0
+1630,-,0,0,0
+1631,-,0,0,0
+1632,display,1,0,0
+1633,social,1,1,250000
+1634,-,0,0,0
+1635,search,1,0,0
+1636,search,1,0,0
+1637,display,1,0,0
+1638,display > social,2,0,0
+1639,social > email,2,0,0
+1640,social,1,0,0
+1641,email,1,0,0
+1642,display,1,1,250000
+1643,display > email > social,3,0,0
+1644,social,1,0,0
+1645,social,1,0,0
+1646,email,1,0,0
+1647,email > search,2,0,0
+1648,social > search,2,0,0
+1649,display > email,2,0,0
+1650,email,1,0,0
+1651,email > search,2,0,0
+1652,display,1,0,0
+1653,social,1,0,0
+1654,search,1,0,0
+1655,social > search,2,1,250000
+1656,social,1,0,0
+1657,social > email,2,0,0
+1658,search,1,0,0
+1659,display > email,2,0,0
+1660,display > social > search,3,1,250000
+1661,-,0,0,0
+1662,display > email,2,1,250000
+1663,display > search,2,0,0
+1664,display > social > email,3,0,0
+1665,display > search,2,0,0
+1666,display > email,2,0,0
+1667,display,1,0,0
+1668,social > search,2,0,0
+1669,email,1,0,0
+1670,social > email,2,0,0
+1671,display > social > email,3,0,0
+1672,display,1,0,0
+1673,social,1,0,0
+1674,-,0,0,0
+1675,display,1,0,0
+1676,-,0,0,0
+1677,display > search,2,0,0
+1678,social > search,2,1,250000
+1679,display,1,0,0
+1680,display,1,0,0
+1681,display,1,0,0
+1682,display > email,2,0,0
+1683,display > social > email > search,4,1,250000
+1684,social,1,1,250000
+1685,social,1,1,250000
+1686,search,1,0,0
+1687,social > display,2,0,0
+1688,-,0,0,0
+1689,display > social,2,0,0
+1690,display > social > search,3,1,250000
+1691,display,1,0,0
+1692,display,1,1,250000
+1693,-,0,0,0
+1694,-,0,0,0
+1695,display,1,0,0
+1696,display > search,2,0,0
+1697,social > search,2,0,0
+1698,email,1,0,0
+1699,-,0,0,0
+1700,display > social,2,0,0
+1701,social > email,2,1,250000
+1702,email,1,1,250000
+1703,display,1,1,250000
+1704,email,1,1,250000
+1705,-,0,0,0
+1706,email,1,0,0
+1707,social,1,0,0
+1708,-,0,0,0
+1709,-,0,0,0
+1710,display,1,0,0
+1711,display,1,0,0
+1712,social,1,0,0
+1713,display,1,1,250000
+1714,-,0,0,0
+1715,social > search,2,0,0
+1716,display > social,2,0,0
+1717,social,1,0,0
+1718,social > search,2,0,0
+1719,display > social,2,1,250000
+1720,-,0,0,0
+1721,email,1,0,0
+1722,display > search,2,0,0
+1723,social,1,1,250000
+1724,email,1,0,0
+1725,display > search,2,0,0
+1726,search,1,0,0
+1727,search,1,0,0
+1728,email,1,0,0
+1729,social,1,0,0
+1730,search,1,0,0
+1731,-,0,0,0
+1732,social > email,2,0,0
+1733,display > social,2,0,0
+1734,display,1,0,0
+1735,display > social,2,0,0
+1736,display > social,2,0,0
+1737,display > email > social,3,0,0
+1738,social > search,2,1,250000
+1739,email > search,2,0,0
+1740,-,0,0,0
+1741,display,1,0,0
+1742,display > social > search,3,1,250000
+1743,display > social > search,3,0,0
+1744,display > social > email,3,1,250000
+1745,social > search > email,3,1,250000
+1746,-,0,0,0
+1747,display > social > email,3,0,0
+1748,display > social,2,0,0
+1749,social,1,0,0
+1750,-,0,1,250000
+1751,search,1,0,0
+1752,email > search,2,0,0
+1753,display,1,0,0
+1754,display > social,2,1,250000
+1755,search,1,0,0
+1756,-,0,0,0
+1757,-,0,0,0
+1758,display > search,2,1,250000
+1759,display > social,2,0,0
+1760,display > email,2,0,0
+1761,-,0,0,0
+1762,social,1,0,0
+1763,display > social > email,3,0,0
+1764,social,1,0,0
+1765,social > display > search,3,0,0
+1766,display > search,2,0,0
+1767,display > social,2,0,0
+1768,display,1,0,0
+1769,social > search,2,1,250000
+1770,-,0,0,0
+1771,-,0,0,0
+1772,display > search,2,1,250000
+1773,social > search,2,0,0
+1774,social > email,2,0,0
+1775,social > search,2,0,0
+1776,-,0,0,0
+1777,-,0,0,0
+1778,display,1,0,0
+1779,display,1,0,0
+1780,display > social > search,3,0,0
+1781,search,1,1,250000
+1782,display,1,0,0
+1783,display,1,0,0
+1784,-,0,0,0
+1785,social,1,0,0
+1786,display > search > social,3,0,0
+1787,email > social,2,0,0
+1788,email,1,0,0
+1789,display > social > search,3,1,250000
+1790,display,1,0,0
+1791,-,0,0,0
+1792,search > email,2,0,0
+1793,display,1,0,0
+1794,display,1,0,0
+1795,-,0,0,0
+1796,display > email,2,0,0
+1797,social > email > search,3,0,0
+1798,-,0,0,0
+1799,search > email,2,0,0
+1800,display > social,2,0,0
+1801,display,1,1,250000
+1802,display,1,0,0
+1803,search,1,0,0
+1804,display,1,0,0
+1805,display > email,2,0,0
+1806,-,0,0,0
+1807,-,0,1,250000
+1808,social > email,2,0,0
+1809,display > social,2,0,0
+1810,social > search,2,0,0
+1811,display > social > email,3,1,250000
+1812,display > social > search,3,0,0
+1813,display > social,2,0,0
+1814,display > search,2,0,0
+1815,search,1,0,0
+1816,search,1,0,0
+1817,social,1,0,0
+1818,-,0,0,0
+1819,-,0,0,0
+1820,display > social,2,0,0
+1821,display > search,2,1,250000
+1822,display > search,2,0,0
+1823,display > social,2,0,0
+1824,-,0,0,0
+1825,display,1,0,0
+1826,social > search,2,0,0
+1827,search,1,0,0
+1828,social,1,0,0
+1829,display > social,2,0,0
+1830,social,1,1,250000
+1831,display > search > email,3,0,0
+1832,display > search,2,1,250000
+1833,display,1,0,0
+1834,display > email,2,1,250000
+1835,-,0,0,0
+1836,display > email,2,0,0
+1837,display,1,0,0
+1838,-,0,1,250000
+1839,social,1,0,0
+1840,social,1,0,0
+1841,display > search,2,0,0
+1842,social,1,0,0
+1843,-,0,0,0
+1844,-,0,0,0
+1845,display > social > search,3,0,0
+1846,display > search,2,0,0
+1847,display,1,0,0
+1848,email,1,0,0
+1849,display,1,0,0
+1850,display > social > search,3,1,250000
+1851,email,1,0,0
+1852,search,1,0,0
+1853,display,1,0,0
+1854,-,0,0,0
+1855,display > social > email > search,4,0,0
+1856,email,1,0,0
+1857,email,1,0,0
+1858,social > email,2,0,0
+1859,display,1,0,0
+1860,social > search,2,0,0
+1861,social > email > search,3,0,0
+1862,search,1,0,0
+1863,display,1,0,0
+1864,social > email,2,0,0
+1865,social,1,0,0
+1866,-,0,0,0
+1867,social,1,0,0
+1868,display,1,1,250000
+1869,-,0,0,0
+1870,display > social > search,3,0,0
+1871,-,0,0,0
+1872,display > social,2,0,0
+1873,social > email,2,0,0
+1874,display,1,0,0
+1875,display > social > search,3,1,250000
+1876,display > social,2,0,0
+1877,search,1,0,0
+1878,-,0,0,0
+1879,-,0,0,0
+1880,social > search,2,0,0
+1881,social,1,0,0
+1882,-,0,0,0
+1883,display > email,2,0,0
+1884,display > search,2,0,0
+1885,social,1,0,0
+1886,display > social > search,3,0,0
+1887,email > search,2,0,0
+1888,email,1,0,0
+1889,display > search,2,0,0
+1890,display > search,2,0,0
+1891,display > search,2,0,0
+1892,social > search,2,0,0
+1893,social,1,0,0
+1894,-,0,0,0
+1895,social,1,1,250000
+1896,social > search,2,0,0
+1897,display > social > search,3,0,0
+1898,display > social,2,0,0
+1899,social,1,0,0
+1900,social,1,0,0
+1901,display,1,0,0
+1902,email > search,2,0,0
+1903,search,1,0,0
+1904,social > email,2,0,0
+1905,social,1,0,0
+1906,display > social,2,0,0
+1907,-,0,0,0
+1908,display > email,2,1,250000
+1909,display > social > search,3,0,0
+1910,-,0,0,0
+1911,display,1,0,0
+1912,display,1,0,0
+1913,display > email,2,0,0
+1914,display > social > search,3,0,0
+1915,search,1,1,250000
+1916,display,1,0,0
+1917,display,1,0,0
+1918,-,0,0,0
+1919,-,0,0,0
+1920,display,1,1,250000
+1921,display,1,0,0
+1922,email > search,2,1,250000
+1923,display > social,2,0,0
+1924,-,0,0,0
+1925,email > search,2,1,250000
+1926,email,1,0,0
+1927,display > search,2,0,0
+1928,display > email > search,3,1,250000
+1929,email,1,0,0
+1930,display > email,2,0,0
+1931,social > email,2,0,0
+1932,email,1,0,0
+1933,display > email,2,0,0
+1934,-,0,0,0
+1935,social > email,2,1,250000
+1936,search,1,0,0
+1937,display > social > search,3,0,0
+1938,search,1,0,0
+1939,social > search,2,0,0
+1940,display > social,2,0,0
+1941,display > social > email,3,1,250000
+1942,display > email > search,3,1,250000
+1943,social,1,0,0
+1944,display > email,2,0,0
+1945,display,1,0,0
+1946,email,1,0,0
+1947,display > search,2,0,0
+1948,display > social,2,0,0
+1949,email,1,0,0
+1950,-,0,0,0
+1951,email,1,0,0
+1952,display,1,0,0
+1953,search,1,0,0
+1954,display,1,0,0
+1955,display,1,0,0
+1956,social,1,0,0
+1957,social > display,2,1,250000
+1958,social,1,0,0
+1959,display > social,2,1,250000
+1960,social > email,2,0,0
+1961,email,1,0,0
+1962,social > email,2,0,0
+1963,display,1,0,0
+1964,display > social,2,0,0
+1965,display > social,2,1,250000
+1966,email > search,2,0,0
+1967,search,1,0,0
+1968,display > social > email > search,4,1,250000
+1969,search > email,2,0,0
+1970,display,1,0,0
+1971,social > display,2,1,250000
+1972,-,0,0,0
+1973,display > social > search,3,0,0
+1974,display > social,2,0,0
+1975,-,0,0,0
+1976,-,0,0,0
+1977,display > social,2,1,250000
+1978,display > social,2,0,0
+1979,-,0,0,0
+1980,search,1,0,0
+1981,search,1,0,0
+1982,-,0,0,0
+1983,display,1,0,0
+1984,-,0,1,250000
+1985,social > email,2,0,0
+1986,social,1,0,0
+1987,display > social > search,3,1,250000
+1988,-,0,0,0
+1989,-,0,0,0
+1990,-,0,0,0
+1991,-,0,0,0
+1992,display,1,0,0
+1993,display > search,2,0,0
+1994,-,0,0,0
+1995,social,1,0,0
+1996,social,1,0,0
+1997,display,1,0,0
+1998,social > search,2,0,0
+1999,social,1,0,0
+2000,display,1,0,0
+2001,social,1,0,0
+2002,-,0,0,0
+2003,social,1,0,0
+2004,social > email,2,0,0
+2005,display > search,2,0,0
+2006,-,0,0,0
+2007,social,1,1,250000
+2008,social > search,2,0,0
+2009,social > email,2,0,0
+2010,-,0,0,0
+2011,social,1,0,0
+2012,display > email,2,0,0
+2013,display > search,2,0,0
+2014,-,0,0,0
+2015,display > social,2,1,250000
+2016,display,1,0,0
+2017,display,1,0,0
+2018,display > social,2,0,0
+2019,email,1,1,250000
+2020,display > social > email,3,1,250000
+2021,-,0,0,0
+2022,social > search,2,0,0
+2023,-,0,0,0
+2024,social > display,2,0,0
+2025,display > email,2,1,250000
+2026,display,1,0,0
+2027,-,0,0,0
+2028,social > email > search,3,1,250000
+2029,display,1,0,0
+2030,display > social,2,0,0
+2031,search,1,0,0
+2032,social,1,1,250000
+2033,display > social,2,0,0
+2034,-,0,1,250000
+2035,social,1,0,0
+2036,display > email,2,0,0
+2037,-,0,0,0
+2038,search,1,0,0
+2039,search,1,0,0
+2040,search > email,2,0,0
+2041,display,1,0,0
+2042,display > search,2,0,0
+2043,social,1,0,0
+2044,display > email,2,0,0
+2045,social > display,2,0,0
+2046,display > social > email > search,4,1,250000
+2047,-,0,0,0
+2048,display > email > social,3,0,0
+2049,social > search,2,1,250000
+2050,display > search,2,0,0
+2051,display,1,0,0
+2052,email,1,0,0
+2053,search,1,0,0
+2054,display,1,0,0
+2055,social > email,2,0,0
+2056,display > email,2,0,0
+2057,social > search,2,0,0
+2058,display,1,1,250000
+2059,display > email,2,0,0
+2060,display > search,2,0,0
+2061,display,1,0,0
+2062,display > email,2,0,0
+2063,display > search,2,0,0
+2064,social > email > search,3,0,0
+2065,display,1,0,0
+2066,social > display,2,0,0
+2067,-,0,0,0
+2068,-,0,0,0
+2069,-,0,0,0
+2070,display > social,2,0,0
+2071,display > social,2,0,0
+2072,email,1,0,0
+2073,display > search,2,0,0
+2074,-,0,0,0
+2075,social,1,0,0
+2076,display > social,2,1,250000
+2077,social,1,0,0
+2078,social > display > email,3,0,0
+2079,display > search,2,0,0
+2080,email > social > search,3,0,0
+2081,-,0,0,0
+2082,social > display,2,0,0
+2083,search,1,0,0
+2084,email,1,0,0
+2085,email > search,2,0,0
+2086,display > social,2,1,250000
+2087,display > social > search,3,0,0
+2088,display > search,2,0,0
+2089,display > social > search,3,0,0
+2090,display,1,0,0
+2091,-,0,0,0
+2092,email,1,0,0
+2093,display > email > search,3,1,250000
+2094,search,1,0,0
+2095,display > social,2,0,0
+2096,email > search,2,0,0
+2097,social > search,2,0,0
+2098,display,1,0,0
+2099,-,0,0,0
+2100,-,0,0,0
+2101,display > social > search,3,0,0
+2102,display > search,2,0,0
+2103,search,1,0,0
+2104,display,1,0,0
+2105,social,1,1,250000
+2106,-,0,0,0
+2107,-,0,0,0
+2108,-,0,0,0
+2109,display,1,0,0
+2110,display > social > email,3,0,0
+2111,display,1,1,250000
+2112,email,1,0,0
+2113,social > email > search,3,1,250000
+2114,display > social > email,3,1,250000
+2115,-,0,0,0
+2116,display,1,1,250000
+2117,search,1,0,0
+2118,display,1,0,0
+2119,-,0,0,0
+2120,display > search,2,0,0
+2121,display,1,0,0
+2122,-,0,0,0
+2123,-,0,0,0
+2124,-,0,0,0
+2125,-,0,0,0
+2126,display > social,2,0,0
+2127,social,1,0,0
+2128,display > search,2,0,0
+2129,social,1,0,0
+2130,social,1,0,0
+2131,display > email > search,3,0,0
+2132,social > email > search,3,1,250000
+2133,email,1,0,0
+2134,social > search,2,0,0
+2135,social > email,2,0,0
+2136,display,1,0,0
+2137,display,1,1,250000
+2138,-,0,0,0
+2139,display > search,2,0,0
+2140,social > display,2,0,0
+2141,email,1,0,0
+2142,display > social,2,1,250000
+2143,social > email,2,0,0
+2144,display > social,2,0,0
+2145,display,1,1,250000
+2146,social,1,1,250000
+2147,-,0,0,0
+2148,display > social,2,0,0
+2149,social > search,2,0,0
+2150,-,0,0,0
+2151,display > email > social > search,4,0,0
+2152,-,0,1,250000
+2153,search,1,0,0
+2154,display > email,2,0,0
+2155,display,1,0,0
+2156,email,1,0,0
+2157,-,0,0,0
+2158,display > email > search,3,0,0
+2159,-,0,0,0
+2160,display > social,2,0,0
+2161,social,1,1,250000
+2162,email,1,0,0
+2163,search,1,1,250000
+2164,social > search,2,0,0
+2165,social > search,2,0,0
+2166,search,1,1,250000
+2167,display > social,2,1,250000
+2168,-,0,0,0
+2169,search,1,0,0
+2170,social,1,0,0
+2171,display,1,0,0
+2172,social,1,0,0
+2173,display > social,2,0,0
+2174,search,1,0,0
+2175,email,1,0,0
+2176,display > social,2,0,0
+2177,-,0,0,0
+2178,social > search,2,0,0
+2179,-,0,0,0
+2180,search,1,0,0
+2181,-,0,0,0
+2182,-,0,0,0
+2183,-,0,0,0
+2184,social > search,2,1,250000
+2185,display > social > search,3,0,0
+2186,display > email,2,0,0
+2187,display,1,1,250000
+2188,social > search,2,0,0
+2189,display,1,0,0
+2190,-,0,0,0
+2191,social > search,2,0,0
+2192,social > email,2,0,0
+2193,email,1,0,0
+2194,display,1,0,0
+2195,display > email,2,0,0
+2196,social > email,2,0,0
+2197,social > search,2,0,0
+2198,display > social,2,1,250000
+2199,display > social > email,3,1,250000
+2200,social,1,0,0
+2201,display > social > search,3,1,250000
+2202,-,0,0,0
+2203,social > email,2,0,0
+2204,search,1,0,0
+2205,display > social,2,0,0
+2206,display > email,2,1,250000
+2207,social,1,0,0
+2208,email,1,0,0
+2209,email > social,2,1,250000
+2210,search,1,0,0
+2211,display,1,1,250000
+2212,display > social,2,0,0
+2213,social,1,0,0
+2214,display > social,2,0,0
+2215,display,1,0,0
+2216,display,1,0,0
+2217,display,1,0,0
+2218,-,0,0,0
+2219,search,1,0,0
+2220,social > search,2,0,0
+2221,-,0,0,0
+2222,display > social > email,3,0,0
+2223,display > email,2,0,0
+2224,display > search,2,0,0
+2225,display > email > search,3,0,0
+2226,display,1,0,0
+2227,display,1,1,250000
+2228,display,1,0,0
+2229,display,1,0,0
+2230,social > search,2,1,250000
+2231,email > search,2,1,250000
+2232,display > social > search,3,0,0
+2233,social,1,0,0
+2234,display > search,2,0,0
+2235,display > social > email > search,4,0,0
+2236,display,1,1,250000
+2237,display > social,2,0,0
+2238,email,1,0,0
+2239,display,1,0,0
+2240,social,1,0,0
+2241,display,1,0,0
+2242,display,1,0,0
+2243,display,1,0,0
+2244,display,1,0,0
+2245,display,1,0,0
+2246,email,1,0,0
+2247,social > email,2,0,0
+2248,display > social > email > search,4,0,0
+2249,display > social,2,0,0
+2250,display,1,0,0
+2251,-,0,0,0
+2252,display > email > search,3,1,250000
+2253,-,0,0,0
+2254,display > search,2,0,0
+2255,social,1,0,0
+2256,-,0,0,0
+2257,-,0,0,0
+2258,display > email > search,3,0,0
+2259,-,0,0,0
+2260,-,0,0,0
+2261,-,0,0,0
+2262,search,1,0,0
+2263,display > search,2,0,0
+2264,display,1,0,0
+2265,search > social,2,0,0
+2266,social,1,0,0
+2267,email,1,0,0
+2268,display,1,0,0
+2269,display,1,0,0
+2270,search,1,1,250000
+2271,social > display,2,0,0
+2272,display,1,0,0
+2273,display,1,0,0
+2274,-,0,0,0
+2275,social,1,0,0
+2276,social > search,2,0,0
+2277,display > social > email,3,0,0
+2278,display > search,2,1,250000
+2279,display > email,2,0,0
+2280,display,1,0,0
+2281,-,0,0,0
+2282,search,1,0,0
+2283,social > search > email,3,0,0
+2284,-,0,0,0
+2285,display > search,2,0,0
+2286,display,1,0,0
+2287,social > email,2,0,0
+2288,email,1,0,0
+2289,social > email,2,0,0
+2290,email,1,0,0
+2291,social,1,0,0
+2292,display > email,2,1,250000
+2293,-,0,1,250000
+2294,display > social,2,0,0
+2295,social > display,2,1,250000
+2296,-,0,0,0
+2297,display > search,2,0,0
+2298,search,1,0,0
+2299,search,1,1,250000
+2300,-,0,0,0
+2301,social,1,0,0
+2302,search,1,0,0
+2303,display > social > search > email,4,1,250000
+2304,display,1,1,250000
+2305,-,0,0,0
+2306,display,1,0,0
+2307,display,1,0,0
+2308,-,0,0,0
+2309,-,0,0,0
+2310,display,1,0,0
+2311,display > social > search,3,0,0
+2312,display,1,0,0
+2313,display > search,2,0,0
+2314,-,0,0,0
+2315,-,0,0,0
+2316,-,0,0,0
+2317,social > email,2,0,0
+2318,search,1,0,0
+2319,display > social,2,0,0
+2320,email > search,2,0,0
+2321,display > search,2,1,250000
+2322,-,0,0,0
+2323,-,0,0,0
+2324,-,0,0,0
+2325,display > social > email,3,1,250000
+2326,display > social,2,0,0
+2327,display > search,2,1,250000
+2328,display > email > search,3,0,0
+2329,display > social,2,0,0
+2330,social > display > search,3,0,0
+2331,display,1,0,0
+2332,email > search,2,0,0
+2333,email,1,0,0
+2334,search,1,0,0
+2335,social,1,0,0
+2336,-,0,0,0
+2337,display > social,2,0,0
+2338,-,0,0,0
+2339,display > search,2,0,0
+2340,search,1,0,0
+2341,social > search,2,1,250000
+2342,display,1,0,0
+2343,-,0,0,0
+2344,email,1,0,0
+2345,-,0,0,0
+2346,display > search,2,0,0
+2347,display > social,2,0,0
+2348,display,1,0,0
+2349,social > search,2,1,250000
+2350,display > social,2,1,250000
+2351,-,0,0,0
+2352,search,1,0,0
+2353,email,1,0,0
+2354,display > social > email,3,0,0
+2355,-,0,0,0
+2356,social > display,2,0,0
+2357,display,1,0,0
+2358,social > search,2,0,0
+2359,-,0,0,0
+2360,social,1,0,0
+2361,display > social,2,0,0
+2362,social,1,0,0
+2363,social,1,0,0
+2364,email > search,2,0,0
+2365,-,0,0,0
+2366,display > email,2,0,0
+2367,display > search > email,3,0,0
+2368,social,1,0,0
+2369,social > search,2,0,0
+2370,social,1,0,0
+2371,email,1,0,0
+2372,social,1,0,0
+2373,display > social > search,3,0,0
+2374,social,1,0,0
+2375,social > email,2,0,0
+2376,social,1,0,0
+2377,-,0,0,0
+2378,display,1,0,0
+2379,social > display > email > search,4,1,250000
+2380,display > social > search,3,1,250000
+2381,display > social,2,0,0
+2382,email,1,1,250000
+2383,display,1,1,250000
+2384,-,0,1,250000
+2385,email,1,1,250000
+2386,social,1,0,0
+2387,display > email,2,0,0
+2388,email > social,2,1,250000
+2389,display > social > search,3,1,250000
+2390,-,0,0,0
+2391,-,0,0,0
+2392,display,1,0,0
+2393,display > social,2,0,0
+2394,display,1,0,0
+2395,-,0,0,0
+2396,search,1,0,0
+2397,search,1,0,0
+2398,email,1,0,0
+2399,email,1,0,0
+2400,email,1,0,0
+2401,email,1,0,0
+2402,display,1,0,0
+2403,social > email,2,1,250000
+2404,display > search,2,0,0
+2405,display > email,2,0,0
+2406,display > search,2,0,0
+2407,-,0,0,0
+2408,display > email > social,3,0,0
+2409,social,1,0,0
+2410,social > email,2,0,0
+2411,display,1,0,0
+2412,social > search,2,0,0
+2413,search,1,1,250000
+2414,display > search,2,0,0
+2415,display > social > email,3,0,0
+2416,display,1,0,0
+2417,display > email > search,3,0,0
+2418,social,1,0,0
+2419,social > search,2,0,0
+2420,display > social,2,0,0
+2421,-,0,0,0
+2422,social,1,0,0
+2423,display > social > email,3,1,250000
+2424,display,1,0,0
+2425,display > email > search,3,0,0
+2426,display > search,2,1,250000
+2427,-,0,0,0
+2428,-,0,0,0
+2429,display,1,0,0
+2430,-,0,0,0
+2431,display,1,0,0
+2432,display > social,2,1,250000
+2433,social,1,0,0
+2434,display > social > search,3,0,0
+2435,social > search,2,1,250000
+2436,-,0,0,0
+2437,display > social > search,3,1,250000
+2438,email,1,0,0
+2439,-,0,0,0
+2440,display > social,2,0,0
+2441,social > email,2,1,250000
+2442,display > social,2,1,250000
+2443,social > search,2,0,0
+2444,-,0,0,0
+2445,-,0,0,0
+2446,social > display,2,0,0
+2447,display > social,2,1,250000
+2448,display > social,2,0,0
+2449,social,1,1,250000
+2450,display > search,2,0,0
+2451,display,1,0,0
+2452,display,1,1,250000
+2453,-,0,0,0
+2454,social,1,0,0
+2455,-,0,1,250000
+2456,social > search,2,0,0
+2457,email,1,0,0
+2458,display > email,2,0,0
+2459,display > social > search,3,0,0
+2460,display,1,0,0
+2461,display > social,2,1,250000
+2462,-,0,1,250000
+2463,display > email > search,3,0,0
+2464,-,0,0,0
+2465,-,0,0,0
+2466,-,0,0,0
+2467,-,0,0,0
+2468,display > social,2,0,0
+2469,email > social,2,0,0
+2470,-,0,0,0
+2471,display > social,2,0,0
+2472,social,1,0,0
+2473,display,1,0,0
+2474,display > social,2,0,0
+2475,-,0,0,0
+2476,email,1,0,0
+2477,email,1,0,0
+2478,display > search,2,0,0
+2479,display > social,2,0,0
+2480,display > social > search,3,0,0
+2481,social,1,0,0
+2482,display > email,2,1,250000
+2483,search,1,1,250000
+2484,-,0,0,0
+2485,search > social,2,0,0
+2486,search > social,2,0,0
+2487,display > social,2,0,0
+2488,-,0,0,0
+2489,search,1,0,0
+2490,display,1,0,0
+2491,display,1,0,0
+2492,display > social,2,0,0
+2493,search,1,0,0
+2494,social,1,0,0
+2495,social > search > email,3,0,0
+2496,display > social > email,3,1,250000
+2497,search,1,1,250000
+2498,display > social,2,0,0
+2499,search,1,1,250000
+2500,social,1,0,0
+2501,social,1,0,0
+2502,display > social > search,3,0,0
+2503,social > display,2,0,0
+2504,email,1,0,0
+2505,search,1,0,0
+2506,-,0,0,0
+2507,-,0,0,0
+2508,social > display > search,3,0,0
+2509,display > search,2,0,0
+2510,social,1,0,0
+2511,display,1,1,250000
+2512,email > search,2,0,0
+2513,display > search,2,0,0
+2514,display > search,2,0,0
+2515,social > email,2,0,0
+2516,-,0,0,0
+2517,-,0,0,0
+2518,display,1,0,0
+2519,display,1,0,0
+2520,-,0,0,0
+2521,email > search,2,0,0
+2522,search,1,0,0
+2523,social,1,0,0
+2524,search > email,2,0,0
+2525,display,1,1,250000
+2526,-,0,0,0
+2527,email > social,2,0,0
+2528,social > email,2,0,0
+2529,-,0,0,0
+2530,social > search,2,0,0
+2531,social,1,0,0
+2532,search,1,0,0
+2533,social > search,2,0,0
+2534,social,1,0,0
+2535,social > display,2,1,250000
+2536,search,1,0,0
+2537,social,1,0,0
+2538,email,1,0,0
+2539,display,1,0,0
+2540,display > search,2,0,0
+2541,display > social,2,1,250000
+2542,search,1,0,0
+2543,search,1,0,0
+2544,display > social,2,1,250000
+2545,-,0,0,0
+2546,-,0,0,0
+2547,display > email > search > social,4,1,250000
+2548,display,1,0,0
+2549,-,0,0,0
+2550,display > social,2,0,0
+2551,display,1,0,0
+2552,display,1,0,0
+2553,social > email,2,0,0
+2554,-,0,0,0
+2555,display,1,0,0
+2556,display > social,2,0,0
+2557,display > email > social > search,4,1,250000
+2558,display > social > email,3,0,0
+2559,display > social > email,3,0,0
+2560,search,1,0,0
+2561,email,1,0,0
+2562,-,0,0,0
+2563,display,1,0,0
+2564,social > search,2,0,0
+2565,display > email > social,3,0,0
+2566,display,1,0,0
+2567,display > email,2,0,0
+2568,email,1,0,0
+2569,display > search,2,0,0
+2570,social > email,2,0,0
+2571,display > search,2,0,0
+2572,social > search,2,0,0
+2573,-,0,0,0
+2574,display > search,2,0,0
+2575,-,0,0,0
+2576,social > email,2,0,0
+2577,-,0,0,0
+2578,social,1,0,0
+2579,search > social,2,0,0
+2580,display,1,0,0
+2581,display,1,1,250000
+2582,email > search,2,0,0
+2583,email > search,2,1,250000
+2584,display > social,2,0,0
+2585,social,1,0,0
+2586,-,0,0,0
+2587,display,1,0,0
+2588,display > search,2,0,0
+2589,display > social,2,0,0
+2590,social,1,0,0
+2591,search,1,0,0
+2592,display > search,2,0,0
+2593,email,1,0,0
+2594,social > search,2,0,0
+2595,display > email > search,3,0,0
+2596,social,1,1,250000
+2597,display > social > email,3,0,0
+2598,-,0,0,0
+2599,email,1,0,0
+2600,-,0,0,0
+2601,search > social,2,0,0
+2602,search,1,0,0
+2603,social > email,2,1,250000
+2604,social,1,0,0
+2605,social > search,2,0,0
+2606,social,1,1,250000
+2607,display > social > email,3,0,0
+2608,display > social > search,3,1,250000
+2609,-,0,0,0
+2610,social > display > search,3,0,0
+2611,social > email,2,0,0
+2612,display > email > social > search,4,1,250000
+2613,display,1,0,0
+2614,-,0,0,0
+2615,display,1,0,0
+2616,-,0,0,0
+2617,email,1,0,0
+2618,email,1,0,0
+2619,display > social,2,0,0
+2620,display,1,0,0
+2621,display > search,2,0,0
+2622,social > search,2,0,0
+2623,display > search,2,0,0
+2624,display > email > social,3,1,250000
+2625,-,0,0,0
+2626,display > social > email,3,0,0
+2627,email,1,0,0
+2628,email,1,0,0
+2629,search,1,0,0
+2630,display > search,2,0,0
+2631,display,1,1,250000
+2632,social,1,1,250000
+2633,-,0,0,0
+2634,display,1,0,0
+2635,display > search,2,0,0
+2636,display > search,2,0,0
+2637,-,0,0,0
+2638,display > search,2,0,0
+2639,display,1,0,0
+2640,display,1,0,0
+2641,-,0,1,250000
+2642,email,1,0,0
+2643,display,1,0,0
+2644,display,1,0,0
+2645,-,0,0,0
+2646,email,1,0,0
+2647,-,0,0,0
+2648,display > social,2,0,0
+2649,-,0,0,0
+2650,-,0,0,0
+2651,display,1,0,0
+2652,-,0,0,0
+2653,display > social > search,3,0,0
+2654,email,1,1,250000
+2655,social,1,0,0
+2656,search,1,0,0
+2657,-,0,0,0
+2658,search,1,0,0
+2659,display,1,1,250000
+2660,email,1,0,0
+2661,social > search,2,0,0
+2662,search,1,0,0
+2663,-,0,0,0
+2664,display > search,2,1,250000
+2665,display > email > search,3,0,0
+2666,display > social > email > search,4,0,0
+2667,search,1,0,0
+2668,display,1,0,0
+2669,display > email > social,3,0,0
+2670,-,0,0,0
+2671,display > search,2,0,0
+2672,display > social > email,3,0,0
+2673,-,0,0,0
+2674,display > social,2,0,0
+2675,display,1,0,0
+2676,email,1,0,0
+2677,email,1,0,0
+2678,social,1,0,0
+2679,display,1,0,0
+2680,-,0,0,0
+2681,display,1,0,0
+2682,display,1,0,0
+2683,email,1,0,0
+2684,social,1,0,0
+2685,email > search,2,0,0
+2686,social,1,0,0
+2687,display > social > search,3,0,0
+2688,email,1,0,0
+2689,display > social > search,3,0,0
+2690,social,1,0,0
+2691,display > search,2,0,0
+2692,-,0,1,250000
+2693,-,0,0,0
+2694,search,1,0,0
+2695,display > search,2,0,0
+2696,display,1,0,0
+2697,display > social > email > search,4,0,0
+2698,-,0,0,0
+2699,email > search,2,1,250000
+2700,search,1,0,0
+2701,display > social,2,0,0
+2702,email > search,2,0,0
+2703,social > search,2,0,0
+2704,search,1,0,0
+2705,display > social,2,1,250000
+2706,display,1,0,0
+2707,display,1,0,0
+2708,display,1,0,0
+2709,search,1,0,0
+2710,social > search,2,0,0
+2711,display > email > search,3,0,0
+2712,email,1,0,0
+2713,display > search,2,1,250000
+2714,search,1,0,0
+2715,display > email,2,0,0
+2716,display > social > search,3,0,0
+2717,-,0,0,0
+2718,display > social,2,0,0
+2719,display,1,0,0
+2720,search,1,0,0
+2721,search,1,0,0
+2722,-,0,0,0
+2723,social,1,0,0
+2724,social > email,2,0,0
+2725,display,1,0,0
+2726,email,1,0,0
+2727,search,1,0,0
+2728,display > social,2,0,0
+2729,email,1,0,0
+2730,email > search,2,1,250000
+2731,display,1,0,0
+2732,-,0,1,250000
+2733,email > search,2,1,250000
+2734,display > social,2,0,0
+2735,display,1,0,0
+2736,search,1,0,0
+2737,display,1,0,0
+2738,-,0,0,0
+2739,social,1,0,0
+2740,social,1,0,0
+2741,email,1,0,0
+2742,search,1,0,0
+2743,search,1,0,0
+2744,display,1,1,250000
+2745,display > search,2,0,0
+2746,search,1,0,0
+2747,display > search,2,1,250000
+2748,search,1,0,0
+2749,display,1,0,0
+2750,display,1,0,0
+2751,email,1,1,250000
+2752,display,1,0,0
+2753,social > search,2,0,0
+2754,-,0,0,0
+2755,email,1,1,250000
+2756,-,0,0,0
+2757,-,0,0,0
+2758,display,1,1,250000
+2759,social > display > email > search,4,0,0
+2760,display > social,2,0,0
+2761,display,1,1,250000
+2762,-,0,1,250000
+2763,display > social > search,3,0,0
+2764,display > social > email > search,4,1,250000
+2765,email > search,2,0,0
+2766,-,0,0,0
+2767,display > social,2,0,0
+2768,display > search,2,1,250000
+2769,-,0,1,250000
+2770,display,1,1,250000
+2771,display,1,0,0
+2772,display > email > social,3,1,250000
+2773,email > search,2,0,0
+2774,search,1,0,0
+2775,email,1,0,0
+2776,display,1,0,0
+2777,display > social,2,0,0
+2778,display,1,1,250000
+2779,search,1,1,250000
+2780,display,1,0,0
+2781,display > email,2,0,0
+2782,social,1,1,250000
+2783,-,0,0,0
+2784,social,1,0,0
+2785,-,0,0,0
+2786,-,0,0,0
+2787,display > social,2,0,0
+2788,display > search,2,1,250000
+2789,email,1,0,0
+2790,social,1,1,250000
+2791,social > email,2,0,0
+2792,-,0,0,0
+2793,-,0,0,0
+2794,display,1,0,0
+2795,social,1,0,0
+2796,social,1,0,0
+2797,social,1,0,0
+2798,display > social > search,3,0,0
+2799,-,0,0,0
+2800,display > social,2,0,0
+2801,-,0,0,0
+2802,email,1,0,0
+2803,display > social,2,0,0
+2804,social > display,2,0,0
+2805,display > search,2,0,0
+2806,-,0,0,0
+2807,-,0,0,0
+2808,display > search,2,1,250000
+2809,display,1,0,0
+2810,display > social,2,0,0
+2811,-,0,0,0
+2812,display > search,2,0,0
+2813,display,1,1,250000
+2814,display > social > search,3,0,0
+2815,display > email,2,1,250000
+2816,-,0,0,0
+2817,display > email > social,3,1,250000
+2818,display > email > search,3,0,0
+2819,display > email,2,1,250000
+2820,display > social,2,0,0
+2821,display,1,0,0
+2822,social,1,0,0
+2823,display,1,0,0
+2824,email,1,0,0
+2825,display > search,2,1,250000
+2826,-,0,1,250000
+2827,display > social,2,1,250000
+2828,email,1,0,0
+2829,-,0,0,0
+2830,display,1,0,0
+2831,email,1,0,0
+2832,-,0,0,0
+2833,search,1,0,0
+2834,display > email,2,0,0
+2835,search,1,0,0
+2836,display > social,2,0,0
+2837,display > social,2,0,0
+2838,display,1,1,250000
+2839,-,0,0,0
+2840,search,1,0,0
+2841,display > social > email,3,0,0
+2842,display > email > social,3,0,0
+2843,search,1,0,0
+2844,social,1,0,0
+2845,-,0,0,0
+2846,email,1,0,0
+2847,search > email,2,0,0
+2848,search,1,0,0
+2849,display > email,2,1,250000
+2850,display,1,0,0
+2851,-,0,0,0
+2852,email,1,1,250000
+2853,-,0,1,250000
+2854,email,1,0,0
+2855,display > social,2,0,0
+2856,display,1,1,250000
+2857,social > search,2,0,0
+2858,email > social,2,0,0
+2859,-,0,0,0
+2860,display,1,0,0
+2861,-,0,0,0
+2862,search,1,0,0
+2863,display > search,2,0,0
+2864,display > search,2,0,0
+2865,-,0,0,0
+2866,-,0,0,0
+2867,display,1,0,0
+2868,-,0,0,0
+2869,-,0,0,0
+2870,display,1,0,0
+2871,social,1,0,0
+2872,-,0,0,0
+2873,display > email,2,0,0
+2874,-,0,0,0
+2875,social > search,2,0,0
+2876,-,0,0,0
+2877,display > search,2,0,0
+2878,social > search,2,0,0
+2879,display > social > search,3,0,0
+2880,email > search,2,1,250000
+2881,social > email,2,1,250000
+2882,search,1,1,250000
+2883,email,1,0,0
+2884,display > social > search,3,0,0
+2885,display > social > email,3,1,250000
+2886,-,0,0,0
+2887,display > social > search,3,0,0
+2888,search,1,0,0
+2889,email,1,0,0
+2890,search,1,0,0
+2891,social > search,2,0,0
+2892,display,1,1,250000
+2893,-,0,0,0
+2894,display,1,0,0
+2895,display > social,2,0,0
+2896,social > search,2,0,0
+2897,-,0,0,0
+2898,display > email,2,0,0
+2899,display,1,0,0
+2900,-,0,0,0
+2901,display > social > email > search,4,0,0
+2902,-,0,0,0
+2903,-,0,0,0
+2904,social,1,0,0
+2905,display,1,0,0
+2906,display,1,0,0
+2907,display > social,2,0,0
+2908,search,1,0,0
+2909,display,1,1,250000
+2910,display,1,1,250000
+2911,display > search,2,1,250000
+2912,social,1,0,0
+2913,display > search > email,3,0,0
+2914,display > social,2,0,0
+2915,display > search > email,3,0,0
+2916,-,0,0,0
+2917,display,1,0,0
+2918,-,0,0,0
+2919,-,0,1,250000
+2920,email,1,0,0
+2921,display > search,2,1,250000
+2922,display,1,0,0
+2923,display > search,2,0,0
+2924,display,1,0,0
+2925,display > search,2,0,0
+2926,-,0,0,0
+2927,-,0,0,0
+2928,social,1,0,0
+2929,display,1,0,0
+2930,display > social > email,3,1,250000
+2931,display > social,2,0,0
+2932,email,1,0,0
+2933,display,1,0,0
+2934,search,1,0,0
+2935,display > social > email > search,4,0,0
+2936,social > search,2,0,0
+2937,email > search,2,0,0
+2938,display > search,2,1,250000
+2939,-,0,0,0
+2940,display,1,0,0
+2941,social > search,2,0,0
+2942,-,0,0,0
+2943,display,1,1,250000
+2944,-,0,0,0
+2945,social > search,2,0,0
+2946,display,1,0,0
+2947,display > social > email,3,1,250000
+2948,-,0,0,0
+2949,social > email,2,0,0
+2950,display > email,2,0,0
+2951,display > social,2,0,0
+2952,search,1,1,250000
+2953,display,1,1,250000
+2954,search,1,0,0
+2955,social,1,0,0
+2956,email,1,0,0
+2957,-,0,0,0
+2958,-,0,0,0
+2959,display > search,2,1,250000
+2960,display > social > email > search,4,1,250000
+2961,social > email > search,3,0,0
+2962,-,0,0,0
+2963,email,1,0,0
+2964,search > social,2,0,0
+2965,-,0,0,0
+2966,display > email,2,0,0
+2967,display > social,2,0,0
+2968,display,1,0,0
+2969,display > search > email,3,1,250000
+2970,display > social > search,3,0,0
+2971,display,1,0,0
+2972,display > social,2,0,0
+2973,display > social > search,3,0,0
+2974,-,0,0,0
+2975,display > social > search,3,1,250000
+2976,search,1,0,0
+2977,display,1,0,0
+2978,social,1,0,0
+2979,display,1,0,0
+2980,display,1,0,0
+2981,display,1,1,250000
+2982,display > social,2,0,0
+2983,-,0,0,0
+2984,display,1,1,250000
+2985,display > social > email,3,1,250000
+2986,-,0,0,0
+2987,display > search > email,3,0,0
+2988,-,0,0,0
+2989,display > social,2,1,250000
+2990,display > social,2,0,0
+2991,social > search,2,1,250000
+2992,display,1,0,0
+2993,search,1,0,0
+2994,display > search,2,0,0
+2995,social,1,1,250000
+2996,display > search,2,0,0
+2997,-,0,0,0
+2998,social,1,0,0
+2999,search,1,0,0
+3000,display > search,2,1,250000
+3001,display > social > email,3,0,0
+3002,social,1,0,0
+3003,social,1,0,0
+3004,display,1,1,250000
+3005,display > search,2,1,250000
+3006,display > social > search,3,0,0
+3007,email > social > search,3,1,250000
+3008,search,1,0,0
+3009,-,0,0,0
+3010,display > social > search > email,4,1,250000
+3011,-,0,1,250000
+3012,display,1,0,0
+3013,-,0,0,0
+3014,social,1,0,0
+3015,email > search,2,0,0
+3016,display > social > email,3,1,250000
+3017,display > search,2,0,0
+3018,-,0,0,0
+3019,-,0,0,0
+3020,social,1,0,0
+3021,social > display,2,1,250000
+3022,social > email,2,0,0
+3023,social > email > search,3,0,0
+3024,display,1,1,250000
+3025,display,1,0,0
+3026,email,1,0,0
+3027,-,0,0,0
+3028,-,0,0,0
+3029,email,1,0,0
+3030,-,0,0,0
+3031,email > search,2,0,0
+3032,social > email > search,3,0,0
+3033,display > search,2,0,0
+3034,-,0,0,0
+3035,-,0,0,0
+3036,display,1,0,0
+3037,display,1,0,0
+3038,display,1,0,0
+3039,social,1,0,0
+3040,social,1,1,250000
+3041,-,0,0,0
+3042,-,0,0,0
+3043,social > email,2,0,0
+3044,display > email,2,0,0
+3045,-,0,0,0
+3046,-,0,0,0
+3047,email,1,0,0
+3048,display > social,2,0,0
+3049,display > social,2,1,250000
+3050,social,1,0,0
+3051,-,0,0,0
+3052,social,1,0,0
+3053,-,0,0,0
+3054,email,1,1,250000
+3055,display > email > search,3,0,0
+3056,display > social > search,3,0,0
+3057,display,1,0,0
+3058,-,0,0,0
+3059,display > search,2,1,250000
+3060,display,1,0,0
+3061,email,1,1,250000
+3062,display > social,2,0,0
+3063,display,1,0,0
+3064,display > email > search,3,0,0
+3065,social > search,2,0,0
+3066,social,1,0,0
+3067,search,1,0,0
+3068,social,1,0,0
+3069,social > search,2,1,250000
+3070,display > search > social,3,1,250000
+3071,display > social,2,0,0
+3072,social,1,0,0
+3073,display > search,2,0,0
+3074,display > social > search,3,0,0
+3075,social > search,2,0,0
+3076,social,1,0,0
+3077,-,0,0,0
+3078,display > social,2,0,0
+3079,display > social,2,1,250000
+3080,-,0,0,0
+3081,display > social,2,1,250000
+3082,social,1,0,0
+3083,display > social,2,0,0
+3084,display > search,2,0,0
+3085,social,1,0,0
+3086,display > social,2,1,250000
+3087,-,0,0,0
+3088,search > email,2,0,0
+3089,display > search,2,0,0
+3090,social,1,0,0
+3091,social,1,0,0
+3092,display,1,0,0
+3093,display,1,0,0
+3094,display > social,2,0,0
+3095,display > social,2,0,0
+3096,display > search,2,0,0
+3097,display > social > email,3,1,250000
+3098,display,1,0,0
+3099,-,0,0,0
+3100,display,1,0,0
+3101,display > email > social,3,1,250000
+3102,display,1,0,0
+3103,email > search,2,0,0
+3104,email,1,0,0
+3105,-,0,0,0
+3106,display > search,2,0,0
+3107,display > search,2,0,0
+3108,social,1,0,0
+3109,social,1,1,250000
+3110,-,0,0,0
+3111,-,0,0,0
+3112,display > search,2,1,250000
+3113,social > search,2,0,0
+3114,display > social,2,1,250000
+3115,email,1,0,0
+3116,-,0,0,0
+3117,social > display,2,0,0
+3118,display > search > email,3,1,250000
+3119,social,1,0,0
+3120,social,1,1,250000
+3121,-,0,0,0
+3122,social > display,2,0,0
+3123,-,0,0,0
+3124,social,1,0,0
+3125,-,0,0,0
+3126,display > search,2,0,0
+3127,email,1,0,0
+3128,display > search,2,0,0
+3129,display > social,2,1,250000
+3130,display,1,0,0
+3131,-,0,1,250000
+3132,display > social > search,3,0,0
+3133,display > email,2,0,0
+3134,display,1,0,0
+3135,-,0,0,0
+3136,display,1,0,0
+3137,-,0,0,0
+3138,-,0,0,0
+3139,-,0,0,0
+3140,social > search,2,1,250000
+3141,display > social,2,0,0
+3142,-,0,0,0
+3143,social,1,0,0
+3144,email,1,0,0
+3145,social > email,2,0,0
+3146,email > social,2,1,250000
+3147,social,1,1,250000
+3148,-,0,0,0
+3149,email > social,2,0,0
+3150,search,1,1,250000
+3151,display > search,2,1,250000
+3152,display > search,2,0,0
+3153,display > social,2,0,0
+3154,-,0,0,0
+3155,social,1,0,0
+3156,social,1,0,0
+3157,display > social > search,3,0,0
+3158,social > email > search,3,0,0
+3159,social > search,2,0,0
+3160,display > search > email,3,1,250000
+3161,email,1,1,250000
+3162,email > search,2,1,250000
+3163,email > social > search,3,0,0
+3164,email,1,0,0
+3165,display > social,2,0,0
+3166,social,1,1,250000
+3167,-,0,0,0
+3168,display,1,0,0
+3169,display > social > email > search,4,0,0
+3170,display,1,0,0
+3171,social > email,2,0,0
+3172,display > search,2,0,0
+3173,display > social > email,3,1,250000
+3174,social > email,2,1,250000
+3175,search,1,0,0
+3176,display,1,0,0
+3177,-,0,0,0
+3178,display,1,0,0
+3179,social,1,0,0
+3180,social > display,2,0,0
+3181,display > social,2,0,0
+3182,-,0,0,0
+3183,-,0,0,0
+3184,social > display > search,3,0,0
+3185,display > email,2,1,250000
+3186,-,0,0,0
+3187,display > email > search,3,1,250000
+3188,display,1,1,250000
+3189,search,1,0,0
+3190,social,1,0,0
+3191,email > search,2,0,0
+3192,-,0,0,0
+3193,-,0,0,0
+3194,-,0,0,0
+3195,social > email,2,0,0
+3196,search,1,0,0
+3197,social > email,2,1,250000
+3198,display > search,2,0,0
+3199,social > email,2,0,0
+3200,display > social,2,0,0
+3201,display,1,0,0
+3202,email > search,2,0,0
+3203,social,1,1,250000
+3204,-,0,0,0
+3205,email > search,2,0,0
+3206,display,1,0,0
+3207,display > email,2,0,0
+3208,display > social,2,1,250000
+3209,social,1,0,0
+3210,search,1,0,0
+3211,display > email,2,1,250000
+3212,social > display > search,3,1,250000
+3213,-,0,1,250000
+3214,display,1,0,0
+3215,search,1,0,0
+3216,search,1,0,0
+3217,display,1,1,250000
+3218,social,1,0,0
+3219,-,0,0,0
+3220,display > social > search,3,0,0
+3221,social > search,2,0,0
+3222,-,0,0,0
+3223,email > search,2,0,0
+3224,-,0,0,0
+3225,social,1,1,250000
+3226,display > search,2,0,0
+3227,display > search,2,0,0
+3228,display > social,2,0,0
+3229,email,1,0,0
+3230,display > social > search,3,0,0
+3231,display > email > search,3,0,0
+3232,social > search,2,0,0
+3233,display,1,0,0
+3234,-,0,0,0
+3235,search,1,0,0
+3236,social,1,0,0
+3237,email > social > search,3,1,250000
+3238,-,0,0,0
+3239,display > search,2,0,0
+3240,display,1,0,0
+3241,display > email > search,3,0,0
+3242,display,1,0,0
+3243,display,1,1,250000
+3244,-,0,0,0
+3245,social,1,0,0
+3246,social,1,1,250000
+3247,social,1,1,250000
+3248,-,0,0,0
+3249,display > search,2,0,0
+3250,social,1,0,0
+3251,email,1,0,0
+3252,-,0,0,0
+3253,display > email,2,1,250000
+3254,social,1,0,0
+3255,display > search,2,0,0
+3256,social > search,2,0,0
+3257,display > email,2,0,0
+3258,-,0,1,250000
+3259,-,0,0,0
+3260,display,1,1,250000
+3261,display,1,0,0
+3262,display > social > email,3,1,250000
+3263,-,0,0,0
+3264,search > social,2,1,250000
+3265,-,0,0,0
+3266,display > social > search,3,0,0
+3267,-,0,0,0
+3268,social,1,0,0
+3269,social > email,2,0,0
+3270,social,1,0,0
+3271,display > social,2,0,0
+3272,social > email,2,0,0
+3273,display,1,1,250000
+3274,display > search,2,1,250000
+3275,social,1,0,0
+3276,-,0,0,0
+3277,display > social > email > search,4,0,0
+3278,-,0,0,0
+3279,social,1,0,0
+3280,search,1,0,0
+3281,display > search,2,0,0
+3282,-,0,0,0
+3283,display,1,0,0
+3284,display > search,2,0,0
+3285,search,1,0,0
+3286,email,1,0,0
+3287,search,1,0,0
+3288,search,1,0,0
+3289,-,0,1,250000
+3290,-,0,0,0
+3291,-,0,0,0
+3292,display > social,2,0,0
+3293,-,0,0,0
+3294,display,1,0,0
+3295,email > social,2,0,0
+3296,display > email > social,3,1,250000
+3297,display,1,0,0
+3298,social > email > search,3,1,250000
+3299,display > search,2,0,0
+3300,email > search,2,0,0
+3301,search,1,0,0
+3302,display > email,2,0,0
+3303,-,0,0,0
+3304,-,0,0,0
+3305,social > email,2,1,250000
+3306,search,1,0,0
+3307,display,1,0,0
+3308,social,1,1,250000
+3309,-,0,0,0
+3310,social,1,0,0
+3311,email > social,2,0,0
+3312,social,1,0,0
+3313,display,1,0,0
+3314,display > email > search,3,1,250000
+3315,-,0,1,250000
+3316,-,0,1,250000
+3317,display,1,0,0
+3318,display > social > email,3,0,0
+3319,social,1,0,0
+3320,social > search,2,0,0
+3321,social > email,2,0,0
+3322,display > social,2,0,0
+3323,-,0,0,0
+3324,search,1,0,0
+3325,display > social > search,3,1,250000
+3326,social,1,0,0
+3327,display > email,2,0,0
+3328,social,1,0,0
+3329,display > search,2,0,0
+3330,display > social,2,0,0
+3331,-,0,0,0
+3332,display > social > email > search,4,1,250000
+3333,display,1,0,0
+3334,search,1,0,0
+3335,-,0,1,250000
+3336,social,1,0,0
+3337,display > social > email,3,0,0
+3338,display > social > search,3,0,0
+3339,social,1,0,0
+3340,display > email,2,1,250000
+3341,display > social,2,0,0
+3342,-,0,0,0
+3343,display > email,2,0,0
+3344,display,1,0,0
+3345,display > search,2,0,0
+3346,social,1,0,0
+3347,-,0,0,0
+3348,-,0,0,0
+3349,display > social,2,0,0
+3350,-,0,0,0
+3351,display > social,2,1,250000
+3352,social,1,0,0
+3353,-,0,0,0
+3354,search > social,2,1,250000
+3355,search,1,0,0
+3356,display,1,0,0
+3357,email > search,2,0,0
+3358,display > email,2,1,250000
+3359,display > email,2,1,250000
+3360,email > search,2,1,250000
+3361,email > social,2,1,250000
+3362,-,0,0,0
+3363,display > email,2,0,0
+3364,display > search,2,0,0
+3365,display,1,1,250000
+3366,display > social,2,1,250000
+3367,-,0,0,0
+3368,display > search,2,1,250000
+3369,-,0,0,0
+3370,display,1,0,0
+3371,email,1,0,0
+3372,search,1,1,250000
+3373,display > search,2,1,250000
+3374,display > social > search,3,1,250000
+3375,display,1,0,0
+3376,display > email,2,0,0
+3377,display,1,0,0
+3378,display > social,2,1,250000
+3379,display,1,0,0
+3380,display > social > search,3,0,0
+3381,display > email > search,3,0,0
+3382,-,0,0,0
+3383,social > email > search,3,0,0
+3384,-,0,0,0
+3385,display,1,0,0
+3386,-,0,0,0
+3387,-,0,0,0
+3388,search,1,0,0
+3389,-,0,0,0
+3390,display,1,1,250000
+3391,-,0,0,0
+3392,display > search,2,0,0
+3393,search,1,0,0
+3394,search,1,0,0
+3395,-,0,0,0
+3396,search,1,0,0
+3397,social,1,0,0
+3398,-,0,0,0
+3399,display,1,0,0
+3400,display > email,2,0,0
+3401,search,1,0,0
+3402,search,1,0,0
+3403,email,1,0,0
+3404,social,1,0,0
+3405,search > social,2,0,0
+3406,social > email > search,3,0,0
+3407,-,0,0,0
+3408,-,0,0,0
+3409,display,1,0,0
+3410,email,1,0,0
+3411,display,1,0,0
+3412,-,0,0,0
+3413,display,1,1,250000
+3414,social,1,0,0
+3415,display,1,0,0
+3416,search,1,0,0
+3417,display,1,0,0
+3418,display > social > search,3,0,0
+3419,-,0,1,250000
+3420,display > social,2,1,250000
+3421,display,1,0,0
+3422,social,1,0,0
+3423,social,1,0,0
+3424,social > search,2,0,0
+3425,display,1,0,0
+3426,display > email,2,0,0
+3427,display,1,0,0
+3428,display > social,2,0,0
+3429,display > social,2,0,0
+3430,display,1,0,0
+3431,display > email > social,3,1,250000
+3432,display > social > search,3,0,0
+3433,-,0,0,0
+3434,display > social > email > search,4,1,250000
+3435,social > email,2,0,0
+3436,display,1,0,0
+3437,email,1,0,0
+3438,social,1,0,0
+3439,search,1,0,0
+3440,search,1,0,0
+3441,-,0,0,0
+3442,social > search,2,0,0
+3443,email,1,1,250000
+3444,search,1,0,0
+3445,-,0,0,0
+3446,-,0,0,0
+3447,-,0,0,0
+3448,search > email,2,0,0
+3449,social,1,0,0
+3450,display,1,0,0
+3451,display > email > search,3,0,0
+3452,-,0,0,0
+3453,-,0,0,0
+3454,display > search,2,1,250000
+3455,-,0,0,0
+3456,social,1,0,0
+3457,display,1,0,0
+3458,display > search,2,0,0
+3459,social,1,0,0
+3460,display > search,2,0,0
+3461,email > search,2,0,0
+3462,search,1,0,0
+3463,social,1,0,0
+3464,display > social,2,1,250000
+3465,display,1,0,0
+3466,social,1,0,0
+3467,display > social > email,3,1,250000
+3468,display,1,0,0
+3469,social > email,2,0,0
+3470,social,1,1,250000
+3471,display > social,2,1,250000
+3472,display,1,0,0
+3473,display > social,2,0,0
+3474,email,1,0,0
+3475,social > search,2,1,250000
+3476,search,1,0,0
+3477,display > social > search,3,0,0
+3478,display > email,2,1,250000
+3479,display > social,2,0,0
+3480,social > display > search,3,1,250000
+3481,social,1,0,0
+3482,-,0,0,0
+3483,-,0,0,0
+3484,email,1,0,0
+3485,display > social > search,3,0,0
+3486,social > display,2,0,0
+3487,display > search,2,0,0
+3488,-,0,1,250000
+3489,display,1,0,0
+3490,search,1,0,0
+3491,social > search,2,0,0
+3492,social > search,2,1,250000
+3493,social,1,0,0
+3494,display > search,2,0,0
+3495,display > social,2,0,0
+3496,email > search,2,0,0
+3497,-,0,0,0
+3498,display > search,2,1,250000
+3499,display > email,2,1,250000
+3500,social > display,2,0,0
+3501,display > email,2,1,250000
+3502,display > search,2,0,0
+3503,display > search,2,0,0
+3504,email,1,0,0
+3505,social > display,2,0,0
+3506,display,1,0,0
+3507,email > search,2,0,0
+3508,-,0,0,0
+3509,email > search,2,0,0
+3510,social > email,2,1,250000
+3511,-,0,0,0
+3512,social,1,0,0
+3513,email,1,1,250000
+3514,-,0,0,0
+3515,display > email > social > search,4,0,0
+3516,email,1,1,250000
+3517,social,1,1,250000
+3518,display,1,1,250000
+3519,search,1,1,250000
+3520,display > social,2,0,0
+3521,email,1,0,0
+3522,social,1,0,0
+3523,-,0,0,0
+3524,social > search,2,0,0
+3525,display > social,2,0,0
+3526,-,0,0,0
+3527,-,0,0,0
+3528,social > search,2,0,0
+3529,display > search,2,0,0
+3530,search,1,0,0
+3531,display,1,0,0
+3532,-,0,0,0
+3533,display,1,0,0
+3534,display > search,2,0,0
+3535,display > social > email > search,4,0,0
+3536,display > search,2,0,0
+3537,display > social,2,0,0
+3538,display > social,2,0,0
+3539,display > email,2,0,0
+3540,display > social > email,3,0,0
+3541,display > search,2,0,0
+3542,email,1,0,0
+3543,search,1,1,250000
+3544,display > social > email > search,4,1,250000
+3545,search,1,0,0
+3546,social,1,0,0
+3547,-,0,0,0
+3548,email > search,2,0,0
+3549,-,0,0,0
+3550,-,0,0,0
+3551,display > search,2,0,0
+3552,-,0,0,0
+3553,display,1,0,0
+3554,display > search,2,0,0
+3555,social,1,0,0
+3556,display,1,1,250000
+3557,display,1,0,0
+3558,search,1,0,0
+3559,display > social,2,0,0
+3560,display,1,0,0
+3561,social > email,2,0,0
+3562,social,1,0,0
+3563,display,1,0,0
+3564,email,1,1,250000
+3565,-,0,0,0
+3566,-,0,0,0
+3567,display,1,0,0
+3568,social,1,0,0
+3569,email > search,2,0,0
+3570,display > email,2,0,0
+3571,display > search,2,0,0
+3572,-,0,0,0
+3573,display > social > search,3,0,0
+3574,display > search,2,0,0
+3575,display > social > email,3,1,250000
+3576,search,1,0,0
+3577,social,1,1,250000
+3578,-,0,0,0
+3579,search,1,0,0
+3580,display > search,2,0,0
+3581,-,0,0,0
+3582,display > social,2,0,0
+3583,display,1,0,0
+3584,-,0,0,0
+3585,display,1,0,0
+3586,-,0,0,0
+3587,search,1,0,0
+3588,social,1,0,0
+3589,email > search,2,0,0
+3590,email,1,0,0
+3591,email,1,0,0
+3592,email > search,2,0,0
+3593,-,0,0,0
+3594,display > social,2,0,0
+3595,social,1,0,0
+3596,display,1,0,0
+3597,social > search,2,1,250000
+3598,-,0,0,0
+3599,-,0,0,0
+3600,social > search,2,0,0
+3601,-,0,0,0
+3602,-,0,0,0
+3603,display,1,0,0
+3604,-,0,0,0
+3605,social,1,0,0
+3606,search,1,1,250000
+3607,-,0,0,0
+3608,-,0,0,0
+3609,-,0,1,250000
+3610,search,1,0,0
+3611,search,1,0,0
+3612,social > email,2,0,0
+3613,display,1,1,250000
+3614,social,1,0,0
+3615,display,1,1,250000
+3616,email,1,0,0
+3617,display > social,2,0,0
+3618,email,1,1,250000
+3619,social,1,0,0
+3620,display > social > email,3,0,0
+3621,display > search,2,0,0
+3622,email > search,2,0,0
+3623,-,0,0,0
+3624,social,1,0,0
+3625,-,0,0,0
+3626,social > display,2,0,0
+3627,-,0,0,0
+3628,-,0,0,0
+3629,display > search,2,0,0
+3630,display,1,0,0
+3631,-,0,0,0
+3632,-,0,0,0
+3633,-,0,0,0
+3634,-,0,0,0
+3635,social,1,0,0
+3636,display,1,0,0
+3637,-,0,0,0
+3638,display,1,0,0
+3639,social,1,0,0
+3640,social,1,0,0
+3641,search,1,0,0
+3642,social,1,0,0
+3643,social,1,0,0
+3644,display > social > search,3,0,0
+3645,display,1,0,0
+3646,-,0,0,0
+3647,display,1,0,0
+3648,-,0,0,0
+3649,email,1,0,0
+3650,search,1,0,0
+3651,-,0,0,0
+3652,search,1,0,0
+3653,social,1,0,0
+3654,display,1,0,0
+3655,social,1,0,0
+3656,display > search,2,0,0
+3657,display > social,2,0,0
+3658,email > search,2,0,0
+3659,social,1,0,0
+3660,search,1,0,0
+3661,social,1,0,0
+3662,social > display,2,0,0
+3663,-,0,0,0
+3664,display > social,2,0,0
+3665,display,1,0,0
+3666,social,1,0,0
+3667,display > search,2,0,0
+3668,search,1,0,0
+3669,display,1,0,0
+3670,display,1,0,0
+3671,social > display,2,0,0
+3672,display > social > search,3,0,0
+3673,social > email,2,0,0
+3674,social > search,2,0,0
+3675,display > search,2,1,250000
+3676,email,1,0,0
+3677,social,1,0,0
+3678,display,1,0,0
+3679,display > social > email,3,1,250000
+3680,display,1,0,0
+3681,social,1,0,0
+3682,social > email > search,3,1,250000
+3683,display,1,0,0
+3684,email,1,1,250000
+3685,display > social > email,3,1,250000
+3686,display > social > search,3,0,0
+3687,social > display > search,3,0,0
+3688,display > social > email,3,0,0
+3689,display > search,2,0,0
+3690,display > email,2,0,0
+3691,social > email,2,0,0
+3692,social,1,0,0
+3693,search,1,0,0
+3694,display > social > email > search,4,0,0
+3695,search,1,0,0
+3696,social > search,2,0,0
+3697,-,0,1,250000
+3698,-,0,0,0
+3699,social > search,2,0,0
+3700,display,1,0,0
+3701,display,1,0,0
+3702,display,1,1,250000
+3703,-,0,0,0
+3704,display > search,2,0,0
+3705,display,1,0,0
+3706,search,1,0,0
+3707,display > email > social,3,0,0
+3708,display,1,0,0
+3709,-,0,0,0
+3710,social,1,0,0
+3711,social > search,2,0,0
+3712,social,1,0,0
+3713,-,0,1,250000
+3714,search,1,0,0
+3715,email,1,0,0
+3716,display,1,0,0
+3717,display > social > email,3,0,0
+3718,-,0,0,0
+3719,display > social,2,1,250000
+3720,search,1,0,0
+3721,display > search,2,0,0
+3722,display > email,2,0,0
+3723,display,1,0,0
+3724,display > social > email,3,0,0
+3725,display > email,2,0,0
+3726,social,1,0,0
+3727,display > search,2,1,250000
+3728,display > email > search,3,0,0
+3729,email,1,0,0
+3730,display > search,2,0,0
+3731,display > social,2,0,0
+3732,display > social > email,3,0,0
+3733,-,0,0,0
+3734,social > search,2,0,0
+3735,display > email,2,0,0
+3736,social > search,2,0,0
+3737,display,1,0,0
+3738,social > email,2,0,0
+3739,social > email > search,3,1,250000
+3740,social,1,0,0
+3741,social > search > email,3,1,250000
+3742,social > display,2,0,0
+3743,display,1,1,250000
+3744,display > search,2,0,0
+3745,social,1,0,0
+3746,display,1,0,0
+3747,search,1,0,0
+3748,-,0,0,0
+3749,social > search,2,0,0
+3750,display > search,2,0,0
+3751,display,1,1,250000
+3752,-,0,1,250000
+3753,-,0,0,0
+3754,display,1,1,250000
+3755,-,0,0,0
+3756,email,1,1,250000
+3757,display > email,2,0,0
+3758,display > email > search,3,0,0
+3759,-,0,0,0
+3760,display > social > search,3,1,250000
+3761,social,1,1,250000
+3762,email,1,0,0
+3763,search,1,0,0
+3764,-,0,0,0
+3765,search,1,0,0
+3766,display > social,2,0,0
+3767,display > email > social,3,1,250000
+3768,-,0,0,0
+3769,social,1,0,0
+3770,display,1,0,0
+3771,-,0,0,0
+3772,social,1,0,0
+3773,display,1,0,0
+3774,display,1,0,0
+3775,display,1,0,0
+3776,-,0,0,0
+3777,display,1,0,0
+3778,search,1,0,0
+3779,display > social > search > email,4,1,250000
+3780,social > search > email,3,0,0
+3781,display > email > search,3,0,0
+3782,email,1,0,0
+3783,display > email,2,0,0
+3784,display,1,0,0
+3785,email,1,0,0
+3786,-,0,0,0
+3787,display > social > search,3,1,250000
+3788,display > search,2,0,0
+3789,display > email > search,3,1,250000
+3790,-,0,0,0
+3791,email,1,0,0
+3792,social,1,0,0
+3793,search,1,0,0
+3794,display,1,0,0
+3795,social,1,0,0
+3796,email > search,2,0,0
+3797,social > display > email,3,0,0
+3798,social > email,2,0,0
+3799,display > search,2,1,250000
+3800,search,1,0,0
+3801,search,1,0,0
+3802,social > email,2,0,0
+3803,email,1,0,0
+3804,display > search,2,0,0
+3805,display > email,2,0,0
+3806,display,1,0,0
+3807,email,1,0,0
+3808,display > email,2,0,0
+3809,display > social,2,0,0
+3810,display,1,0,0
+3811,display > email,2,1,250000
+3812,display,1,0,0
+3813,search > social > email,3,1,250000
+3814,-,0,0,0
+3815,email,1,1,250000
+3816,display > social,2,0,0
+3817,display > search,2,0,0
+3818,display,1,0,0
+3819,social > display > email,3,1,250000
+3820,display > social > search,3,0,0
+3821,-,0,0,0
+3822,social,1,0,0
+3823,-,0,0,0
+3824,-,0,0,0
+3825,display,1,0,0
+3826,display,1,0,0
+3827,-,0,0,0
+3828,display,1,0,0
+3829,social,1,0,0
+3830,social,1,1,250000
+3831,social,1,1,250000
+3832,display > social,2,0,0
+3833,search,1,0,0
+3834,-,0,0,0
+3835,display > email > search,3,0,0
+3836,-,0,0,0
+3837,-,0,0,0
+3838,display,1,0,0
+3839,display > email,2,0,0
+3840,email,1,0,0
+3841,social > email,2,0,0
+3842,display > search,2,0,0
+3843,email,1,0,0
+3844,search,1,0,0
+3845,-,0,0,0
+3846,email,1,0,0
+3847,email > social,2,0,0
+3848,display,1,0,0
+3849,social > search,2,0,0
+3850,search,1,0,0
+3851,-,0,1,250000
+3852,display > social > search,3,0,0
+3853,social > search,2,0,0
+3854,-,0,1,250000
+3855,display > social,2,0,0
+3856,display > email > search,3,0,0
+3857,-,0,0,0
+3858,display > email,2,0,0
+3859,social,1,0,0
+3860,social > display > email,3,1,250000
+3861,display > social > email > search,4,0,0
+3862,display > search,2,0,0
+3863,search,1,0,0
+3864,social,1,1,250000
+3865,-,0,0,0
+3866,social > search,2,0,0
+3867,display,1,0,0
+3868,-,0,0,0
+3869,email,1,0,0
+3870,display > email,2,0,0
+3871,display > email,2,0,0
+3872,display,1,0,0
+3873,social > search,2,0,0
+3874,search,1,1,250000
+3875,social,1,0,0
+3876,display,1,0,0
+3877,-,0,0,0
+3878,-,0,0,0
+3879,-,0,0,0
+3880,display > search,2,0,0
+3881,display > email > search,3,0,0
+3882,search,1,0,0
+3883,email > social,2,0,0
+3884,social > search,2,0,0
+3885,social > search,2,1,250000
+3886,social,1,0,0
+3887,display > social,2,0,0
+3888,-,0,0,0
+3889,display > social,2,0,0
+3890,social,1,0,0
+3891,display,1,0,0
+3892,email > search,2,0,0
+3893,-,0,0,0
+3894,display > social,2,0,0
+3895,display > social,2,0,0
+3896,display > email,2,0,0
+3897,search,1,0,0
+3898,display,1,0,0
+3899,display,1,0,0
+3900,social > email > search,3,0,0
+3901,-,0,0,0
+3902,-,0,0,0
+3903,display > social > email,3,1,250000
+3904,social,1,0,0
+3905,display,1,0,0
+3906,social,1,1,250000
+3907,-,0,0,0
+3908,-,0,0,0
+3909,display > social,2,0,0
+3910,social,1,0,0
+3911,social > email,2,1,250000
+3912,display,1,0,0
+3913,social,1,0,0
+3914,search,1,0,0
+3915,display,1,1,250000
+3916,search,1,0,0
+3917,display,1,0,0
+3918,-,0,0,0
+3919,social,1,0,0
+3920,email,1,0,0
+3921,display > social,2,0,0
+3922,display > search,2,0,0
+3923,social > display,2,0,0
+3924,display > social,2,0,0
+3925,email,1,0,0
+3926,display,1,0,0
+3927,display > search,2,0,0
+3928,-,0,0,0
+3929,-,0,0,0
+3930,email,1,0,0
+3931,social,1,0,0
+3932,display,1,0,0
+3933,display > email,2,1,250000
+3934,display > social > search,3,0,0
+3935,-,0,0,0
+3936,-,0,0,0
+3937,display,1,0,0
+3938,-,0,0,0
+3939,display > search,2,0,0
+3940,social,1,0,0
+3941,display > social,2,0,0
+3942,search,1,0,0
+3943,-,0,0,0
+3944,-,0,0,0
+3945,display > search,2,0,0
+3946,search,1,0,0
+3947,-,0,0,0
+3948,social,1,0,0
+3949,email,1,0,0
+3950,display,1,0,0
+3951,display > search > email,3,0,0
+3952,-,0,0,0
+3953,email > search,2,0,0
+3954,social > search,2,0,0
+3955,social,1,0,0
+3956,display > social > search,3,0,0
+3957,social,1,0,0
+3958,-,0,0,0
+3959,display > search,2,0,0
+3960,display > social > email > search,4,0,0
+3961,display > search,2,1,250000
+3962,display,1,0,0
+3963,display,1,0,0
+3964,-,0,0,0
+3965,display > social,2,0,0
+3966,-,0,0,0
+3967,display > social > search,3,0,0
+3968,-,0,0,0
+3969,social > search,2,1,250000
+3970,display,1,1,250000
+3971,search,1,0,0
+3972,social,1,0,0
+3973,social > email,2,0,0
+3974,email,1,0,0
+3975,display > email,2,0,0
+3976,-,0,0,0
+3977,email,1,0,0
+3978,display > email,2,1,250000
+3979,display,1,0,0
+3980,social,1,0,0
+3981,social,1,0,0
+3982,display > search,2,0,0
+3983,-,0,0,0
+3984,display > search,2,0,0
+3985,display > search,2,0,0
+3986,email > social,2,0,0
+3987,social > search,2,0,0
+3988,display,1,0,0
+3989,-,0,0,0
+3990,search,1,1,250000
+3991,display > social > email,3,0,0
+3992,email,1,0,0
+3993,display > social,2,0,0
+3994,display > social,2,0,0
+3995,-,0,0,0
+3996,social > search,2,0,0
+3997,search,1,0,0
+3998,display > social > search,3,1,250000
+3999,social > search,2,0,0
+4000,display,1,0,0

@@ -1,0 +1,13 @@
+kolom_asal,kolom_tujuan,transformasi,relasi
+nasabah.id_nasabah,nasabah_core.nasabah_id,salin langsung,duplikat
+nasabah.nama_lengkap,nasabah_core.full_name,tambah gelar di belakang nama,duplikat
+nasabah.kode_cabang,nasabah_core.branch_code,salin langsung,duplikat
+transaksi.id_transaksi,transaksi_rinci.trx_id,salin langsung,duplikat
+transaksi.no_rekening,transaksi_rinci.acct_no,salin langsung,duplikat
+transaksi.nominal,laporan_harian.total_nominal,SUM per hari,agregasi
+transaksi_rinci.jumlah,laporan_valas.total_valas,SUM per currency,agregasi
+risiko.skor_risiko_internal,laporan_modal.skor_agregat,rata-rata tertimbang,turunan
+risiko.pd_model_v3,laporan_modal.pd_portofolio,rata-rata,turunan
+nasabah.kode_cabang_lama,etl_cabang.mapping_lama,masih dibaca ETL malam,turunan
+rekening.saldo,laporan_modal.total_eksposur,SUM,agregasi
+nasabah.nik,mart_kepatuhan.nik_masked,masking 6 digit terakhir,turunan

@@ -1,0 +1,323 @@
+import type { V2Lesson } from "../lib/types";
+
+export const cr25: V2Lesson = {
+  slug: "cr25-capstone",
+  track: "Credit Risk",
+  module: "Capstone",
+  title: "CR25 — Capstone: Analisis Kredit End-to-End",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita",
+      eyebrow: "Langkah 1 · Cerita",
+      title: "Berkas di meja",
+      prose: [
+        "Senin pagi, 08:00. Di mejamu: berkas aplikasi kredit PT Sinar Abadi — distributor FMCG Jawa Timur, plafon Rp 50 miliar. Relationship manager sudah janji ke nasabah: \"Pasti cair minggu ini.\" Komite kredit: Kamis. Kamu punya 4 hari.",
+        "Berkasnya tebal: 3 tahun laporan keuangan, proyeksi, daftar agunan, SLIK. Di sinilah 24 lesson diuji — bukan sebagai teori, melainkan sebagai alat kerja: rasio (CR17a), rating (CR17b), PD/LGD (CR3, CR10, CR12), ECL (CR14), pricing (CR21), regulasi (CR23), memo (CR17b).",
+        "RM berbisik: \"Nasabah ini penting. Tolong dibuat bagus.\" Di sinilah integritas analis diuji — sebelum angka-angkanya. Lesson ini mensimulasikan persis itu: kamu mengerjakan analisisnya, lalu mempertahankan rekomendasimu. Selamat datang di pekerjaanmu.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "RM meminta 'dibuat bagus': tolak dengan argumen — integritas = satu-satunya aset analis; kredit yang menenggelamkan nasabah menghancurkan keduanya. Argumen bisnis (bukan moral) paling meyakinkan RM: 'Rp 35 M dengan struktur yang benar menyelamatkan hubungan jangka panjang; Rp 50 M tanpa struktur menghancurkan keduanya.'",
+      },
+      reference: "Independensi analis (CR19: three lines). Karakter/integritas adalah ujian penentu di wawancara.",
+    },
+    {
+      id: "brief",
+      eyebrow: "Langkah 2 · Brief",
+      title: "PT Sinar Abadi",
+      prose: [
+        "Distributor FMCG, Surabaya; berdiri 2008; 180 karyawan. Permohonan: KMK Rp 50 M, tenor 12 bulan, revolving — modal kerja musiman. Penjualan Rp 420 M (2025); 40% ke 2 jaringan modern market. Agunan: piutang + persediaan (fidusia), nilai Rp 60 M. SLIK: kolek 1, tidak ada tunggakan historis.",
+        "Keuangan 3 tahun (Rp Miliar): aset lancar 150 → 135 → 120; liabilitas lancar 83 → 90 → 100; total utang 294 → 312 → 320; ekuitas 140 → 120 → 100; EBITDA 57 → 51 → 45; beban bunga 7 → 8,4 → 10,5; arus kas operasi 28 → 18 → 10.",
+        "Seperti pasien yang terlihat sehat — masih jalan, masih bicara — tetapi hasil lab menunjukkan tren memburuk 3 tahun di semua parameter. Analis yang hanya membaca \"tahun terakhir\" akan lolos; yang membaca tren akan waspada.",
+      ],
+      tasks: [],
+      reference: "DER naik 3 tahun = perusahaan yang memakan ekuitasnya sendiri. Tren > titik.",
+    },
+    {
+      id: "lab-analisis",
+      eyebrow: "Langkah 3 · Lab Analisis",
+      title: "Dari nol: rasio → PD → ECL → pricing",
+      prose: [
+        "Data 2025 terkunci (Rp Miliar): aset lancar 120, liabilitas lancar 100, total utang 320, ekuitas 100, EBITDA 45, beban bunga 10,5. Mapping rating: ICR<2 → CCC (PD 8%); 2–4 → B (PD 4%); 4–7 → BB (PD 1,5%); >7 → BBB (PD 0,5%). EAD 50, LGD 45%. Pricing: CoF 6, opex 1,5, modal 8% × ROE 18%, margin 1. Tugasmu: kerjakan semua langkah analis.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `cr`, `der`, `icr`" },
+        { id: "t2", text: "Tentukan `rating`, `pd`, hitung `ecl`" },
+        { id: "t3", text: "Hitung `bunga_min`, lalu `print` semuanya" },
+      ],
+      expected: "CR=1.20 DER=3.20 ICR=4.29 BB PD=1.5% ECL=0.34 bunga=10.62",
+      hints: [
+        "icr = ebitda / beban_bunga.",
+        "ICR 4,29 di 4–7 → BB, PD 1,5%.",
+        "ecl = ead × pd × lgd; bunga = 6 + 1,5 + pd×lgd×100 + 1,44 + 1.",
+      ],
+      code: {
+        starter: `aset_lancar, liab_lancar = 120, 100\ntotal_utang, ekuitas = 320, 100\nebitda, beban_bunga = 45, 10.5\nead, lgd = 50, 0.45\n\n# TULIS KODEMU\ncr = \nder = \nicr = \nrating = \npd = \necl = \nbunga_min = \n\nprint(f"CR={cr:.2f} DER={der:.2f} ICR={icr:.2f} {rating} PD={pd:.1%} ECL={ecl:.2f} bunga={bunga_min:.2f}")`,
+        lockLines: 4,
+        solution: `aset_lancar, liab_lancar = 120, 100\ntotal_utang, ekuitas = 320, 100\nebitda, beban_bunga = 45, 10.5\nead, lgd = 50, 0.45\n\n# TULIS KODEMU\ncr = aset_lancar / liab_lancar\nder = total_utang / ekuitas\nicr = ebitda / beban_bunga\nrating = "CCC" if icr < 2 else ("B" if icr < 4 else ("BB" if icr < 7 else "BBB"))\npd = 0.08 if icr < 2 else (0.04 if icr < 4 else (0.015 if icr < 7 else 0.005))\necl = ead * pd * lgd\nbunga_min = 6.0 + 1.5 + pd*lgd*100 + 8.0*18/100 + 1.0\n\nprint(f"CR={cr:.2f} DER={der:.2f} ICR={icr:.2f} {rating} PD={pd:.1%} ECL={ecl:.2f} bunga={bunga_min:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "cr", value: 1.2, tol: 1e-9, label: "`cr` seharusnya 1.20", msg: "120 / 100 = 1.20 — likuiditas mepet." },
+          { kind: "equal", task: "t1", name: "der", value: 3.2, tol: 1e-9, label: "`der` seharusnya 3.20", msg: "320 / 100 = 3.20 — BERBAHAYA (>2,5)." },
+          { kind: "equal", task: "t1", name: "icr", value: 4.2857, tol: 0.01, label: "`icr` seharusnya 4.29", msg: "45 / 10,5 = 4,29 — mampu bayar, buffer tipis." },
+          { kind: "equal", task: "t2", name: "rating", value: "BB", label: "`rating` = BB", msg: "ICR 4,29 di rentang 4–7 → BB." },
+          { kind: "equal", task: "t2", name: "ecl", value: 0.3375, tol: 0.001, label: "`ecl` seharusnya 0.34", msg: "50 × 0,015 × 0,45 = 0,3375. Stage 1 (SLIK kolek 1, tidak ada SICR)." },
+          { kind: "equal", task: "t3", name: "bunga_min", value: 10.615, tol: 0.01, label: "`bunga_min` seharusnya 10.62", msg: "6 + 1,5 + 0,675 + 1,44 + 1 = 10,615." },
+          { kind: "stdout_matches", task: "t3", pattern: "CR=1\\.20\\s+DER=3\\.20\\s+ICR=4\\.29\\s+BB\\s+PD=1\\.5%\\s+ECL=0\\.34\\s+bunga=10\\.62", label: "`print` menampilkan semuanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Red flag terbesar: arus kas bebas (10) tidak cukup menutup bunga (18) — sisa negatif Rp 8 M.",
+    },
+    {
+      id: "lab-stres",
+      eyebrow: "Langkah 4 · Lab Stres",
+      title: "Skenario EBITDA −30%",
+      prose: [
+        "Jalankan Lab 1 dengan skenario stres: EBITDA turun 30% (45 → 31,5). Fungsi `skenario` terkunci: hitung ICR stres → rating → PD → ECL → bunga minimum. Tugasmu: hitung keempatnya.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `icr_s` dan `pd_s`" },
+        { id: "t2", text: "Hitung `ecl_s` dan `bunga_s`" },
+        { id: "t3", text: "Cetak semuanya dengan `print`" },
+      ],
+      expected: "ICR=3.00 B PD=4% ECL=0.90 bunga=11.74",
+      hints: [
+        "icr_s = 31,5 / 10,5.",
+        "ICR 3,0 di rentang 2–4 → B, PD 4%.",
+        "ecl_s = 50 × 0,04 × 0,45.",
+      ],
+      code: {
+        starter: `beban_bunga, ead, lgd = 10.5, 50, 0.45\nebitda_stres = 45 * 0.7\n\n# TULIS KODEMU\nicr_s = \npd_s = \necl_s = \nbunga_s = \n\nprint(f"ICR={icr_s:.2f} PD={pd_s:.0%} ECL={ecl_s:.2f} bunga={bunga_s:.2f}")`,
+        lockLines: 2,
+        solution: `beban_bunga, ead, lgd = 10.5, 50, 0.45\nebitda_stres = 45 * 0.7\n\n# TULIS KODEMU\nicr_s = ebitda_stres / beban_bunga\npd_s = 0.08 if icr_s < 2 else (0.04 if icr_s < 4 else (0.015 if icr_s < 7 else 0.005))\necl_s = ead * pd_s * lgd\nbunga_s = 6.0 + 1.5 + pd_s*lgd*100 + 8.0*18/100 + 1.0\n\nprint(f"ICR={icr_s:.2f} PD={pd_s:.0%} ECL={ecl_s:.2f} bunga={bunga_s:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "icr_s", value: 3.0, tol: 1e-9, label: "`icr_s` seharusnya 3.00", msg: "31,5 / 10,5 = 3,0 — mepet!" },
+          { kind: "equal", task: "t1", name: "pd_s", value: 0.04, tol: 1e-9, label: "`pd_s` seharusnya 4%", msg: "ICR 3,0 di 2–4 → B → PD 4%." },
+          { kind: "equal", task: "t2", name: "ecl_s", value: 0.9, tol: 1e-9, label: "`ecl_s` seharusnya 0.90", msg: "50 × 0,04 × 0,45 = 0,9 — 2,7× dari baseline!" },
+          { kind: "equal", task: "t2", name: "bunga_s", value: 11.74, tol: 0.01, label: "`bunga_s` seharusnya 11.74", msg: "6 + 1,5 + 1,8 + 1,44 + 1 = 11,74." },
+          { kind: "stdout_matches", task: "t3", pattern: "ICR=3\\.00\\s+PD=4%\\s+ECL=0\\.90\\s+bunga=11\\.74", label: "`print` menampilkan semuanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Keputusan stres: TOLAK atau plafon Rp 20 M dengan agunan keras — coverage bunga hampir jebol.",
+    },
+    {
+      id: "keputusan",
+      eyebrow: "Langkah 5 · Keputusan",
+      title: "Dari angka ke rekomendasi",
+      prose: [
+        "Bunga minimum 10,62%, pasar 10–12%. Strategi pricing: 11,5% — di atas minimum (buffer) + dalam rentang pasar. Di bawah minimum = subsidi pemegang saham; terlalu di atas pasar = adverse selection. Buffer = profesionalisme.",
+        "Skenario stres EBITDA −30% mengubah keputusan jadi TOLAK. Pelajaran: keputusan kredit harus tahan terhadap skenario buruk yang masuk akal — jika hanya lolos di skenario baik, itu bukan keputusan melainkan harapan. Inilah guna CR16.",
+        "ECL Stage 1 Rp 0,34 M. Kapan pindah Stage 2? Saat SICR: tetapkan pemicu eksplisit (misal DER >3,5x atau coverage <3x) — jangan tunggu macet (CR14a). Staging = forward-looking; pemicu eksplisit di memo = disiplin, bukan firasat.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Pada skenario turun 30% (sangat mungkin untuk distributor FMCG saat daya beli melemah), coverage bunga hampir jebol. KMK Rp 50 M pada perusahaan ini = menambah utang untuk membayar utang. Keputusan stres: TOLAK atau plafon Rp 20 M dengan agunan keras.",
+      },
+      reference: "Laba Rp 8 M tetapi arus kas bebas negatif setelah bayar bunga = red flag terbesar: utang dibayar dengan KAS bukan laba.",
+    },
+    {
+      id: "memo",
+      eyebrow: "Langkah 6 · Memo",
+      title: "Deliverable analis",
+      prose: [
+        "Memo kredit = produk kerja analis (CR17b). Struktur: nasabah & permohonan; analisis keuangan (CR 1,20x mepet — tren turun 3 thn; DER 3,20x BERBAHAYA; ICR 4,3x buffer tipis; arus kas operasi Rp 10 M — hanya 20% dari plafon); 3 risiko utama (leverage tinggi; konsentrasi pelanggan 40% ke 2 modern market; siklus musiman); mitigasi (agunan fidusia coverage 120%; covenant DER ≤3,0x kuartalan; pencairan bertahap sesuai musim); parameter (Rating BB | PD 1,5% | LGD 45% | ECL Rp 0,34 M | bunga min 11.7% (template memo asli); rekomendasi.",
+        "Rekomendasi: SETUJU BERSYARAT — plafon Rp 35 M (bukan 50 M), tenor 12 bulan, covenant DER, agunan fidusia 120%. 3 alasan: (1) tren memburuk 3 tahun + leverage berbahaya — plafon penuh Rp 50 M terlalu besar untuk profil ini; (2) arus kas bebas tidak menutup bunga — KMK akan menjadi oksigen, bukan bahan bakar ekspansi; (3) konsentrasi pelanggan 40% — satu kontrak hilang = guncangan besar.",
+      ],
+      tasks: [],
+      reference: "Aturan emas memo: rekomendasi di depan, jujur soal risiko, angka + narasi.",
+    },
+    {
+      id: "komite",
+      eyebrow: "Langkah 7 · Ruang Komite",
+      title: "Dari kelas ke pekerjaan",
+      prose: [
+        "Tiga bulan pertama sebagai analis baru: 30 hari jadi spons (pelajari portofolio + template + RM), 60 hari kirim 1 memo brilian, 90 hari bangun dashboard KRI pribadi. Dengarkan dulu, kirim sinyal lewat 1 memo brilian, lalu bangun sistem (dashboard). Reputasi analis dibangun dari memo pertama yang meyakinkan — bukan dari kritik di minggu pertama.",
+        "Di wawancara kerja, pewawancara bertanya: 'Ceritakan saat kamu menolak pengajuan yang ditekan bisnis.' Yang diuji: karakter/integritas — bukan jawaban benar/salah, melainkan bukti kamu berani benar saat ditekan. Struktur yang menang: fakta → analisis → tekanan → keputusan → hasil. Kasus Sinar Abadi di capstone ini adalah bahan ceritamu.",
+        "Sertifikasi BSMR level 1–5 = kredensial standar industri. Materi ujiannya = persis topik track ini (risiko kredit, regulasi, PSAK 71).",
+      ],
+      tasks: [],
+      reference: "30-60-90: spons → 1 memo brilian → dashboard KRI pribadi.",
+    },
+    {
+      id: "deliverable",
+      eyebrow: "Langkah 8 · Deliverable",
+      title: "Bukti penyelesaian track",
+      prose: [
+        "Tugas capstone (kumpulkan sebagai bukti penyelesaian track): (1) jalankan Lab 1 dengan skenario stres (EBITDA −30%): catat perubahan ICR → rating → PD → ECL → bunga minimum. (2) Susun memo kredit lengkap (pakai template): fakta, 3 risiko utama, mitigasi, parameter, rekomendasi + 3 alasan. (3) Tulis 1 paragraf: apa yang kamu katakan ke RM yang meminta \"dibuat bagus\"?",
+        "Contoh jawaban skenario stres: EBITDA 45 → 31,5: ICR 4,3x → 3,0x (mepet!); rating BB → B; PD 1,5% → 4%; ECL Rp 0,34 M → Rp 0,9 M (2,7×); bunga minimum 10,62% → 11,74%.",
+        "Deliverable 2: surat untuk dirimu setahun lagi — tulis apa yang paling ingin kamu ingat dari track ini, dan satu kebiasaan analis yang akan kamu jaga.",
+      ],
+      tasks: [],
+      reference: "Paragraf ke RM: 'Justru karena penting, kita tidak boleh memberinya kredit yang akan menenggelamkannya.'",
+    },
+    {
+      id: "ukuran-kredit",
+      eyebrow: "Langkah 9 · Ukuran plafon",
+      title: "Oksigen vs nutrisi: berapa plafon yang benar?",
+      prose: [
+        "Nasabah meminta Rp 50 miliar. Dari mana angka itu datang? Dari kebutuhan bisnisnya — atau dari ambisinya? Analis profesional tidak pernah memulai dari angka permintaan. Ia memulai dari siklus kas: berapa modal kerja yang benar-benar dibutuhkan operasi perusahaan? Rumusnya sederhana dan brutal: kebutuhan modal kerja bersih = piutang dagang + persediaan − utang dagang. Piutang adalah kas yang tertahan di tangan pelanggan; persediaan adalah kas yang tertidur di gudang; utang dagang adalah kas gratis dari pemasok. Selisih ketiganya = lubang kas yang harus ditutup kredit modal kerja. Untuk PT Sinar Abadi: piutang Rp 46 miliar (pelanggan modern market membayar 40 hari), persediaan Rp 48 miliar (stok FMCG 42 hari), utang dagang Rp 30 miliar (pemasok memberi 30 hari). Kebutuhan bersih = 46 + 48 − 30 = Rp 64 miliar. Angka permintaan Rp 50 miliar ternyata masih di bawah kebutuhan siklus — secara operasional, plafon itu bisa dibenarkan. Tetapi \"bisa dibenarkan siklus\" belum berarti \"boleh diberikan\". Plafon final = nilai terkecil dari tiga uji: kebutuhan siklus, kapasitas bayar, dan batas konsentrasi. Siklus menjawab \"berapa yang dibutuhkan\"; kapasitas menjawab \"berapa yang sanggup dilunasi\".",
+        "Uji kapasitas bayar inilah yang memangkas Rp 50 miliar menjadi Rp 35 miliar di memo lesson ini. Hitungannya: arus kas operasi Rp 10 miliar per tahun, beban bunga eksisting Rp 10,5 miliar — perusahaan bahkan tidak menghasilkan cukup kas untuk membayar bunganya sendiri, apalagi pokok. Tambah KMK Rp 50 miliar bunga 11,5% = beban bunga baru Rp 5,75 miliar per tahun; total beban bunga Rp 16,25 miliar melawan arus kas Rp 10 miliar — defisit Rp 6,25 miliar per tahun yang harus ditutup entah dari mana. Inilah beda oksigen vs nutrisi: kredit yang masuk ke perusahaan dengan arus kas operasi positif menjadi nutrisi — memutar roda dagang, menghasilkan laba, melunasi dirinya sendiri. Kredit yang masuk ke perusahaan dengan arus kas operasi negatif menjadi oksigen — menjaga pasien tetap bernapas tanpa menyembuhkan penyakitnya, dan setiap tahun dosisnya harus naik. Cara salah yang umum: menyetujui plafon karena \"agunan Rp 60 miliar cukup menutup\". Agunan menjawab pertanyaan \"bagaimana jika kita salah\", bukan \"berapa yang benar\". Bank yang memberi kredit berdasarkan agunan sedang menjalankan bisnis gadai, bukan bisnis kredit — dan bisnis gadai dengan tenor 12 bulan revolving adalah cara mahal untuk memiliki gudang berisi stok FMCG kedaluwarsa.",
+        "Mode kegagalan yang paling mahal di KMK korporasi adalah evergreening terselubung: kredit baru dipakai membayar bunga kredit lama. Gejalanya bisa dibaca sebelum pencairan. Uji bau KMK — tiga pertanyaan: pertama, apakah arus kas operasi menutup beban bunga eksisting? Jika tidak, KMK apapun bentuknya adalah oksigen. Kedua, ke mana tepatnya uang ini mengalir? Minta purchase order atau rencana belanja stok 3 bulan ke depan; \"modal kerja umum\" tanpa rincian adalah bendera merah. Ketiga, apakah plafon turun saat musim sepi? KMK musiman yang datar sepanjang tahun biasanya sudah berubah fungsi menjadi pinjaman permanen. Aturan keputusannya: jika uji pertama gagal (arus kas operasi < beban bunga), plafon dipotong minimum 30% dari permintaan ATAU tenor diperpendek dengan covenant arus kas kuartalan — pilih salah satu, tidak boleh keduanya dilonggarkan. Untuk Sinar Abadi: 50 × 70% = Rp 35 miliar — persis angka rekomendasi memo. Bukan kebetulan; itulah aritmetika disiplin. Dan pencairan dibuat bertahap mengikuti musim (40% di awal musim ramai, sisanya per purchase order) agar KMK tidak berubah menjadi dana talangan abadi.",
+        "Satu nuansa terakhir yang membedakan analis senior: plafon bukan angka mati — ia adalah fungsi dari informasi. Praktik terbaik bank-bank besar: plafon awal Rp 35 miliar dengan \"accordion\" — klausul kenaikan otomatis hingga Rp 45 miliar JIKA dua syarat terpenuhi: DER turun di bawah 2,8x dan arus kas operasi dua kuartal berturut-turut di atas Rp 4 miliar per kuartal. Ini menyelesaikan dilema \"RM ingin 50, risiko ingin 35\" tanpa kompromi membabi-buta: nasabah mendapat jalur menuju plafon impiannya, bank hanya membayar saat buktinya datang. Sebaliknya, sisipkan juga \"trap door\": jika coverage turun di bawah 3,0x, plafon otomatis dipangkas 20% tanpa perlu komite baru. Analis junior menetapkan plafon; analis senior menetapkan plafon yang bisa bernapas mengikuti fakta. Prinsipnya sama dengan pemicu SICR dan covenant di langkah berikutnya: keputusan kredit yang baik bukan ramalan sekali jadi — ia adalah sistem yang mengoreksi dirinya sendiri saat dunia berubah.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: Analis membaca paru-paru, bukan daftar belanja",
+        body: "Nasabah datang dengan daftar belanja: \"Saya butuh Rp 50 miliar.\" Analis amatir memeriksa daftarnya — wajar atau tidak, mahal atau murah. Analis profesional memeriksa paru-parunya: sanggupkah perusahaan ini bernapas dengan utang sebesar itu? Heuristiknya: jangan pernah menilai kewajaran plafon dari besarnya permintaan atau cukupnya agunan; nilailah dari dua hal saja — siklus (apakah uang ini benar-benar dibutuhkan operasi?) dan napas (apakah kas yang dihasilkan cukup membayar biayanya?). Permintaan adalah keinginan, agunan adalah asuransi, tetapi hanya siklus dan napas yang menentukan apakah kredit ini nutrisi atau oksigen. Tanda paling cepat: bandingkan arus kas operasi dengan beban bunga sebelum membaca halaman lain berkas. Jika kas operasi < bunga, berhentilah sejenak — kamu sedang melihat pasien yang butuh oksigen, bukan atlet yang butuh nutrisi. Struktur kredit untuk keduanya berbeda total: nutrisi boleh tenor panjang dan covenant longgar; oksigen wajib tenor pendek, covenant ketat, pencairan bertahap, dan pricing yang mencerminkan risiko. Analis yang salah memberi nutrisi kepada pasien oksigen akan menonton default yang \"tiba-tiba\" dua belas bulan kemudian — padahal angkanya sudah berteriak sejak hari pertama.",
+      },
+      reference: "Plafon = min(kebutuhan siklus, kapasitas bayar, batas konsentrasi). Agunan tidak masuk rumus.",
+    },
+    {
+      id: "peta-keputusan",
+      eyebrow: "Langkah 10 · Peta keputusan",
+      title: "Peta keputusan: dari berkas ke rekomendasi komite",
+      prose: [
+        "Skenario 1 — Berkas aplikasi masuk (PT Sinar Abadi, KMK Rp 50 M). → Baca TREN 3 tahun, bukan tahun terakhir: aset lancar 150→120, ekuitas 140→100, EBITDA 57→45, arus kas operasi 28→10 — pasien yang masih jalan tetapi hasil lab memburuk di semua parameter.",
+        "Skenario 2 — Menentukan plafon. → Hitung kebutuhan siklus: piutang + persediaan − utang dagang. Contoh nyata: Sinar Abadi 46+48−30 = Rp 64 M (permintaan Rp 50 M masih di bawahnya); bengkel 8+12−4 = Rp 16 M (permintaan Rp 20 M sudah 25% di atas kebutuhan — kelebihan Rp 4 M tidak punya alamat di siklus kas). Plafon mengikuti kas, bukan ambisi.",
+        "Skenario 3 — Sebelum ACC. → Tulis pemicu SICR eksplisit di memo: DER >3,5x dua kuartal, coverage <3x, DPD >15 hari. Contoh nyata: dua pemicu tersentuh 18 bulan kemudian → Stage 2 → ECL Rp 0,236 M → Rp 1,89 M (8× lipat). Staging = disiplin yang ditulis sebelum tinta kering, bukan firasat.",
+        "Skenario 4 — Menyusun perjanjian kredit. → Pasang covenant yang bisa ditegakkan (DER ≤3,75x, coverage ≥3x, diuji kuartalan) — beda dengan pemicu SICR: covenant yang dilanggar = technical default = bank berhak renegosiasi. Batasnya tidak sama dengan kondisi saat ini; ada headroom yang disengaja.",
+        "Skenario 5 — RM berbisik 'nasabah ini penting, tolong dibuat bagus.' → Struktur jawaban: fakta → analisis → tekanan → keputusan → hasil. Contoh nyata: rekomendasi SETUJU BERSYARAT Rp 35 M (bukan 50 M) + covenant DER + agunan 120% — dengan 3 alasan tertulis. Integritas analis = berani benar saat ditekan; kasus ini adalah bahan cerita wawancaramu.",
+        "Aturan praktis 10 detik: analis membaca paru-paru (arus kas, tren, kebutuhan siklus) bukan daftar belanja (angka permintaan); tulis pemicu SICR dan covenant SEBELUM ACC; dan keputusan harus tahan skenario buruk yang masuk akal — jika hanya lolos di skenario baik, itu harapan, bukan keputusan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Meng-ACC plafon penuh Rp 50 M karena 'masih di bawah kebutuhan siklus Rp 64 M' — mengabaikan tren leverage 3 tahun yang berbahaya (DER 3,2x), arus kas operasi yang tinggal 20% dari plafon, dan konsentrasi 40% ke 2 pelanggan. Angka kebutuhan menjawab 'berapa', tetapi tidak menjawab 'apakah pantas'.",
+      },
+    },
+    {
+      id: "minicase-kilat",
+      eyebrow: "Langkah 11 · Mini-case",
+      title: "KMK Rp 20 miliar untuk bengkel?",
+      prose: [
+        "PT Bengkel Maju — bengkel dan toko sparepart di Surabaya — mengajukan KMK Rp 20 miliar, tenor 12 bulan, revolving. Datanya: penjualan Rp 60 miliar per tahun; piutang Rp 8 miliar (kontrak servis armada korporat, bayar 50 hari); persediaan Rp 12 miliar (sparepart, perputaran 90 hari — banyak item slow-moving); utang dagang Rp 4 miliar; EBITDA Rp 9 miliar; utang bank eksisting Rp 15 miliar bunga 12%; ekuitas Rp 20 miliar; SLIK kolek 1, tidak ada tunggakan. RM mendukung penuh: \"Nasabah lama, tidak pernah macet, omzet naik terus.\"",
+        "Hitung kebutuhan siklus dulu: 8 + 12 − 4 = Rp 16 miliar. Permintaan Rp 20 miliar sudah 25% di atas kebutuhan — kelebihan Rp 4 miliar tidak punya alamat di siklus kas. Ke mana larinya? Lalu uji kualitas persediaan: perputaran 90 hari untuk sparepart artinya sepertiga stok tidak bergerak lebih dari 3 bulan; audit stock opname tahun lalu menemukan 30% persediaan berupa item >180 hari (hampir tidak laku). Koreksi: persediaan efektif = 12 × 70% = Rp 8,4 miliar → kebutuhan riil = 8 + 8,4 − 4 = Rp 12,4 miliar. Permintaan Rp 20 miliar ternyata 61% di atas kebutuhan riil. Uji napas: total utang bank menjadi 35 miliar; beban bunga 35 × 12% = Rp 4,2 miliar vs EBITDA 9 miliar → interest coverage 2,14x — mepet, di bawah ambang nyaman 3x. DER = 35/20 = 1,75x — masih di bawah 2,5x tetapi naik dari 0,75x. Satu guncangan (kontrak armada batal) dan coverage jebol.",
+        "Keputusan: SETUJU BERSYARAT Rp 14 miliar — bukan 20. Tiga alasan: pertama, kebutuhan riil Rp 12,4 miliar; plafon 14 memberi buffer 13% untuk fluktuasi musim tanpa memberi ruang untuk \"proyek lain-lain\". Kedua, persediaan slow-moving 30% tidak boleh dihitung sebagai dasar plafon — agunan persediaan dipotong (haircut) 40% dan wajib stock opname independen tiap kuartal; covenant: persediaan >180 hari tidak boleh melebihi 20% total stok. Ketiga, coverage 2,14x terlalu mepet untuk plafon penuh — Rp 14 miliar menahan beban bunga tambahan di Rp 1,68 miliar (total 3,48 miliar, coverage 2,6x) sambil memaksa disiplin: jika butuh 20, tunjukkan dulu purchase order-nya. Pelajarannya: \"nasabah lama tidak pernah macet\" adalah data masa lalu; kebutuhan siklus dan napas adalah data masa depan. Analis dibayar untuk masa depan.",
+      ],
+      tasks: [],
+      reference: "Kelebihan plafon di atas kebutuhan siklus = uang tanpa alamat — ia akan mencari masalah sendiri.",
+    },
+    {
+      id: "pemicu-sicr",
+      eyebrow: "Langkah 12 · Staging disiplin",
+      title: "Pemicu Stage 2 yang tertulis sebelum tinta kering",
+      prose: [
+        "Di langkah keputusan, staging disebut sekilas: tetapkan pemicu SICR eksplisit di memo. Ini layak pendalaman karena inilah titik di mana banyak analis gagal — bukan karena tidak tahu PSAK 71, melainkan karena pemicunya tidak pernah ditulis. Bayangkan Sinar Abadi di-ACC Rp 35 miliar hari ini. Memo menulis tiga pemicu SICR kuantitatif: (a) DER melewati 3,5x selama dua kuartal berturut-turut; (b) interest coverage turun di bawah 3,0x; (c) keterlambatan pembayaran melewati 15 hari. Saat ACC: DER 3,2x, coverage 4,3x, lancar — Stage 1, ECL 12 bulan = 35 × 1,5% × 45% = Rp 0,236 miliar. Kecil, nyaris tidak terasa di laba. Delapan belas bulan kemudian: penjualan turun 12%, DER menyentuh 3,7x dua kuartal berturut-turut, coverage 2,8x. Dua pemicu tersentuh → SICR → pindah Stage 2 → ECL lifetime: dengan PD lifetime 12% = 35 × 12% × 45% = Rp 1,89 miliar — delapan kali lipat ECL Stage 1, menghantam laba kuartal itu juga.",
+        "Bandingkan dengan cara salah yang umum: memo tanpa pemicu tertulis. Delapan belas bulan kemudian, RM berargumen \"masih kolek 1, belum macet, jangan pindahkan stage — nanti CKPN naik dan target laba cabang jebol\". Komite menunda. Dua kuartal kemudian debitur benar-benar menunggak 45 hari → Stage 2 (atau 3) dengan CKPN catch-up Rp 1,9 miliar sekaligus — laba kuartal hancur dalam sekali pukul, dan direksi bertanya kenapa tidak ada peringatan dini. Inilah \"SICR amnesia\": tanpa pemicu tertulis di hari pertama, setiap kuartal menjadi negosiasi politik antara risiko dan bisnis — dan bisnis hampir selalu menang sampai terlambat. Pemicu tertulis mengubah perdebatan dari \"apakah sudah waktunya?\" menjadi \"apakah angkanya tersentuh?\" — dari opini menjadi fakta. Aturan keputusannya: setiap memo kredit korporasi wajib memuat 2–3 pemicu SICR kuantitatif (rasio, bukan perasaan), nama unit yang memonitor, dan frekuensi pemantauan (kuartalan untuk korporasi). Pemicu yang baik punya tiga sifat: terukur dari laporan keuangan rutin, ditetapkan saat hubungan masih mesra (bukan saat sudah bermasalah), dan disepakati RM sejak awal — sehingga saat tersentuh, tidak ada yang bisa berargumen \"kita tidak pernah sepakat begitu\".",
+        "Angka Rp 1,89 miliar vs Rp 0,236 miliar mengajarkan satu hal lagi: staging bukan soal akuntansi, melainkan soal kejujuran waktu. ECL Stage 1 yang kecil bukan berarti risikonya kecil — ia berarti risikonya belum diakui. Analis yang menulis pemicu SICR di memo sedang memasang alarm kebakaran di gedung yang belum terbakar; analis yang tidak menulisnya sedang berharap tidak ada api. PSAK 71 memaksa pengakuan forward-looking justru agar bank tidak bisa berharap. Dan ada bonus tak terduga: debitur yang tahu covenant-nya dipantau kuartalan cenderung lebih disiplin — efek panoptikon. Beberapa bank bahkan melaporkan debitur memperbaiki struktur modalnya sendiri begitu tahu DER 3,5x memicu Stage 2. Pemicu yang tertulis bukan hanya alat akuntansi; ia adalah alat perilaku.",
+      ],
+      tasks: [],
+      reference: "Tulis pemicu saat mesra, bukan saat bermasalah — alarm dipasang sebelum api, bukan sesudah.",
+    },
+    {
+      id: "harga-adverse",
+      eyebrow: "Langkah 13 · Pricing & adverse selection",
+      title: "Harga yang mengusir nasabah bagus",
+      prose: [
+        "Di langkah keputusan, pricing disebut sekilas: pasang 11,5% — di atas minimum 10,62% tetapi dalam rentang pasar 10–12%. Di balik kalimat pendek itu ada jebakan paling elegan dalam kredit: adverse selection. Mekanismenya brutal dalam kesederhanaannya: bank yang mematok bunga terlalu tinggi tidak kehilangan semua nasabah — ia kehilangan nasabah yang bagus. Nasabah berkualitas (PD 0,5%, punya pilihan) melihat 13,5% lalu pindah ke bank sebelah yang menawarkan 11%. Nasabah yang tersisa adalah mereka yang tidak punya pilihan: ditolak tiga bank lain, PD-nya 4%, dan justru menganggap 13,5% sebagai \"berkah masih ada yang mau\". Portofolio bank perlahan berubah komposisi: dari campuran sehat menjadi kumpulan risiko tinggi — padahal setiap kreditnya \"lolos pricing\" karena bunga menutup PD individualnya. Inilah paradoksnya: bunga tinggi yang dimaksudkan untuk menutup risiko justru menarik risiko yang lebih tinggi lagi.",
+        "Angkanya: misalkan bank menargetkan 100 debitur korporasi menengah. Skenario A (pricing 11,5%, dalam pasar): komposisi alami — 70 debitur bagus (PD 1%), 30 debitur sedang (PD 3%) → PD rata-rata portofolio = (70×1% + 30×3%)/100 = 1,6%; expected loss dengan LGD 45% dan eksposur Rp 35 miliar per debitur = 100 × 35 × 1,6% × 45% = Rp 25,2 miliar; pendapatan bunga = 100 × 35 × 11,5% = Rp 402,5 miliar. Skenario B (pricing 13,5%, di atas pasar): 50 debitur bagus pergi, tersisa 20 bagus + 30 sedang + 20 debitur baru yang buruk (PD 6%, mengisi slot kosong karena \"mumpung ada yang ACC\") → PD rata-rata = (20×1% + 30×3% + 20×6%)/70 = 3,29%; expected loss = 70 × 35 × 3,29% × 45% = Rp 36,3 miliar; pendapatan bunga = 70 × 35 × 13,5% = Rp 330,75 miliar. Pendapatan turun Rp 71,75 miliar SEMENTARA kerugian naik Rp 11,1 miliar — dua pukulan sekaligus. Dan ini belum termasuk biaya collection yang membengkak untuk 20 debitur buruk. Pricing di atas pasar bukan strategi margin — ia adalah mesin seleksi terbalik.",
+        "Cara salah yang umum: \"Bunga kami 14% karena risiko kami tinggi — itu kan risk-based pricing.\" Risk-based pricing yang benar membedakan harga ANTAR debitur dalam satu bank (yang berisiko bayar lebih mahal dari yang aman), bukan menaikkan harga SEMUA debitur di atas pasar. Begitu harga rata-ratamu di atas pasar, kamu tidak lagi melakukan risk-based pricing — kamu sedang mengadakan lelang terbalik untuk nasabah terburuk. Aturan keputusannya tiga lapis. Pertama, bunga final harus di dalam rentang pasar untuk segmen itu (cek via data asosiasi perbankan atau deal comparable) — keluar dari rentang = butuh justifikasi tertulis yang disetujui komite, bukan keputusan RM. Kedua, diferensiasi internal: debitur PD 4% boleh dikenakan 13% ASALKAN debitur PD 1% di bank yang sama membayar 10,5% — spread internal mencerminkan risiko, level absolut mengikuti pasar. Ketiga, pantau komposisi, bukan hanya volume: dashboard pricing wajib menampilkan PD rata-rata portofolio baru per bulan; jika PD rata-rata naik tiga bulan berturut-turut sementara volume tumbuh, berhentilah merayakan pertumbuhan — kamu sedang panen adverse selection. Untuk Sinar Abadi: 11,5% memenuhi ketiga lapis — di atas minimum 10,62% (bank tidak mensubsidi), dalam pasar 10–12% (tidak mengusir yang bagus), dan spread 0,88 poin di atas minimum adalah buffer profesionalisme, bukan pajak ketakutan.",
+      ],
+      tasks: [],
+      reference: "Risk-based pricing = bedakan harga antar debitur; level harga mengikuti pasar. Kebalikannya = lelang terbalik.",
+    },
+    {
+      id: "covenant",
+      eyebrow: "Langkah 14 · Covenant",
+      title: "Janji yang bisa ditegakkan",
+      prose: [
+        "Memo di langkah 6 menyebut covenant DER kuartalan sekilas — padahal covenant adalah tempat analisis kredit berubah menjadi kontrak yang hidup. Covenant = janji debitur yang tertulis di perjanjian kredit, dengan konsekuensi jika dilanggar: rasio keuangan harus dijaga (DER ≤ batas, interest coverage ≥ batas), atau larangan bertindak (tidak boleh bagi dividen di atas X, tidak boleh akuisisi tanpa persetujuan bank — negative covenant). Bedanya dengan pemicu SICR: pemicu SICR mengubah perlakuan akuntansi (Stage 1 → 2); covenant yang dilanggar mengubah hubungan hukum (technical default — bank berhak menegosiasi ulang, menaikkan bunga, atau mempercepat pelunasan). Untuk Sinar Abadi: DER saat ini 3,2x, interest coverage 4,3x. Covenant yang profesional: DER ≤ 3,75x dan coverage ≥ 3,0x, diuji tiap kuartal dari laporan keuangan. Perhatikan — batasnya TIDAK sama dengan kondisi saat ini; ada headroom (ruang napas): DER boleh naik 0,55x (17%) sebelum tersentuh, coverage boleh turun 30%.",
+        "Dua cara salah yang sama-sama fatal. Pertama, covenant terlalu ketat: DER ≤ 3,0x saat kondisi saat ini 3,2x — langsung breach di kuartal pertama. Akibatnya? Bank memberi waiver (pengecualian), lalu waiver kedua, ketiga — sampai covenant menjadi lelucon yang tidak pernah ditegakkan. Debitur belajar bahwa janji ke bank tidak ada giginya; analis berikutnya mewarisi dokumen penuh janji mati. Kedua, covenant terlalu longgar: DER ≤ 6,0x — tidak akan pernah tersentuh kecuali perusahaan sudah sekarat; alarm kebakaran yang baru berbunyi saat gedung tinggal abu. Covenant yang benar: headroom 15–25% dari kondisi saat ini — cukup longgar untuk fluktuasi bisnis normal, cukup ketat untuk menangkap penurunan sebelum menjadi krisis. Dan yang sering dilupakan: definisinya harus preskriptif. \"DER\" versi siapa — total utang termasuk utang pemegang saham? Ekuitas dikurangi goodwill? Sengketa definisi saat breach adalah mimpi buruk; lampirkan rumus perhitungannya di perjanjian, bukan hanya namanya.",
+        "Mode kegagalan nyata: covenant-lite + waiver otomatis. Beberapa bank, demi memenangkan kompetisi, memberi covenant yang longgar lalu — saat breach terjadi — menerbitkan waiver rutin tanpa konsekuensi (\"ya sudah, lanjutkan\"). Hasilnya terukur: portofolio dengan waiver rate di atas 30% memiliki NPL 2–3x lipat dari portofolio disiplin — karena debitur yang tahu pelanggarannya tidak berakibat akan terus melanggar. Aturan keputusannya: pertama, setiap covenant breach WAJIB memicu minimal satu konsekuensi nyata — kenaikan bunga (misal +0,5%), pembatasan penarikan KMK, atau kewajiban injeksi modal pemilik. Waiver tanpa harga = undangan untuk melanggar lagi. Kedua, pantau waiver rate portofolio sebagai KRI: di atas 20% per tahun = standar covenant terlalu ketat ATAU disiplin penegakan runtuh — keduanya masalah yang harus diperbaiki, bukan dinormalisasi. Ketiga, untuk debitur seperti Sinar Abadi (tren memburuk 3 tahun), tambahkan covenant berbasis arus kas — bukan hanya neraca: misalnya operating cash flow kuartalan ≥ Rp 2 miliar. Neraca bisa dipoles dengan revaluasi aset; kas tidak bisa berbohong. Covenant yang baik bukan rantai yang membelenggu debitur — ia adalah pagar pembatas di tepi jurang: tidak terasa saat jalan lurus, menyelamatkan nyawa saat mobil oleng.",
+      ],
+      tasks: [],
+      reference: "Covenant = pagar di tepi jurang. Headroom 15–25%; breach wajib berkonsekuensi.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan penutup track. Setiap opsi punya alasan kenapa benar atau salah.",
+      ],
+      tasks: [],
+      summary: [
+        "Analisis end-to-end: rasio → rating/PD → ECL → pricing → rekomendasi.",
+        "Tren 3 tahun > snapshot: DER naik = perusahaan memakan ekuitasnya sendiri.",
+        "Arus kas bebas = kebenaran terakhir: laba tanpa kas = fatamorgana.",
+        "Keputusan harus tahan skenario stres yang masuk akal — bukan hanya skenario baik.",
+        "Integritas = satu-satunya aset analis. Rekomendasi di depan, jujur soal risiko.",
+      ],
+      next: { label: "MR1 — Trading Book", href: "/learn/mr1-trading-book" },
+      quiz: [
+        {
+          q: "DER 2,1 → 3,2 dalam 3 tahun. Sinyal utama?",
+          options: [
+            { text: "Fluktuasi normal", why: "3 tahun satu arah bukan fluktuasi." },
+            { text: "Perusahaan memakan ekuitasnya sendiri — struktur memburuk, bukan fluktuasi. Tren > titik", why: "Analis menilai film, bukan foto.", correct: true },
+            { text: "Semakin tinggi semakin baik", why: "Terbalik." },
+            { text: "Tidak relevan untuk KMK", why: "Sangat relevan." },
+          ],
+        },
+        {
+          q: "Laba Rp 8 M tetapi arus kas bebas negatif setelah bayar bunga. Kesimpulan?",
+          options: [
+            { text: "Sehat — laba positif", why: "Laba tanpa kas = fatamorgana." },
+            { text: "Red flag terbesar: utang dibayar dengan KAS bukan laba — selidiki dari mana bunga dibayar sebelum ACC", why: "Cash waterfall = kebenaran terakhir.", correct: true },
+            { text: "Laba tidak penting", why: "Laba penting — tetapi kas lebih penting." },
+            { text: "Naikkan plafon", why: "Itu mempercepat default." },
+          ],
+        },
+        {
+          q: "ECL Stage 1 Rp 0,34 M. Kapan pindah Stage 2?",
+          options: [
+            { text: "Saat sudah macet", why: "Terlambat — staging = forward-looking." },
+            { text: "Saat SICR: tetapkan pemicu eksplisit (misal DER >3,5x atau coverage <3x) — jangan tunggu macet (CR14a)", why: "Pemicu eksplisit di memo = disiplin, bukan firasat.", correct: true },
+            { text: "Tidak pernah", why: "Salah." },
+            { text: "Otomatis tiap tahun", why: "Bukan otomatis." },
+          ],
+        },
+        {
+          q: "Bunga minimum 10,62%, pasar 10-12%. Strategi pricing?",
+          options: [
+            { text: "Pasang 9% agar menang tender", why: "Di bawah minimum = subsidi pemegang saham." },
+            { text: "11,5%: di atas minimum (buffer) + dalam rentang pasar — di bawah minimum = subsidi pemegang saham", why: "Tidak terlalu di atas pasar (adverse selection). Buffer = profesionalisme.", correct: true },
+            { text: "Pasang 15% maksimal", why: "Terlalu di atas pasar = adverse selection." },
+            { text: "Ikuti kompetitor termurah", why: "Kompetitor mungkin mensubsidi." },
+          ],
+        },
+        {
+          q: "Skenario stres EBITDA −30% mengubah keputusan jadi TOLAK. Pelajaran?",
+          options: [
+            { text: "Stress testing tidak berguna", why: "Justru ini gunanya." },
+            { text: "Keputusan kredit harus tahan terhadap skenario buruk yang masuk akal — jika hanya lolos di skenario baik, itu bukan keputusan melainkan harapan", why: "Kredit yang hanya hidup di skenario optimis = harapan, bukan analisis.", correct: true },
+            { text: "Jangan pernah pakai skenario stres", why: "Terbalik." },
+            { text: "Stres selalu berarti tolak", why: "Tidak selalu — tergantung hasilnya." },
+          ],
+        },
+        {
+          q: "Arus kas operasi Rp 10 miliar, beban bunga Rp 10,5 miliar. KMK Rp 50 miliar dicairkan. Bahaya utamanya?",
+          options: [
+            { text: "Tidak ada — KMK revolving memang untuk menutup bunga", why: "KMK untuk membayar bunga = evergreening terselubung; pokok membesar sementara sumber pembayaran tidak membaik." },
+            { text: "KMK menjadi oksigen: menutup bunga tahun ini tetapi memperbesar pokok; tanpa perbaikan operasi, default hanya tertunda 12 bulan dan lebih besar", why: "Uji napas gagal (kas operasi < bunga) = setiap rupiah kredit baru adalah life support, bukan bahan bakar.", correct: true },
+            { text: "Bahayanya hanya jika agunan kurang dari plafon", why: "Agunan menjawab 'bagaimana jika salah', bukan 'berapa yang benar' — agunan cukup tidak menyembuhkan arus kas negatif." },
+            { text: "Naikkan plafon jadi Rp 70 miliar agar buffer lebih besar", why: "Menambah dosis oksigen kepada pasien yang butuh operasi — memperbesar default, bukan menghindarinya." },
+          ],
+        },
+        {
+          q: "Bank mematok bunga 14% — di atas pasar 10–12% — dengan alasan 'risiko kami tinggi'. Apa yang terjadi pada komposisi portofolio?",
+          options: [
+            { text: "Portofolio membaik — bunga tinggi menutup semua risiko", why: "Bunga menutup risiko individual, tetapi mengubah siapa yang mau menjadi nasabahmu." },
+            { text: "Adverse selection: nasabah bagus (punya pilihan) pergi ke bank lain; yang tersisa justru yang berisiko tinggi — PD rata-rata portofolio naik", why: "Harga di atas pasar = lelang terbalik: kamu memenangkan nasabah yang tidak diinginkan bank lain.", correct: true },
+            { text: "Tidak ada efek — nasabah tidak sensitif terhadap bunga", why: "Nasabah korporasi sangat sensitif; selisih 2% dari Rp 35 miliar = Rp 700 juta per tahun." },
+            { text: "Volume turun tetapi kualitas naik", why: "Terbalik — yang pergi duluan adalah yang punya pilihan, yaitu yang bagus." },
+          ],
+        },
+      ],
+    },
+  ],
+};

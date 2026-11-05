@@ -1,0 +1,6 @@
+feature,definisi_training,definisi_serving,monitoring_aktif
+tenure_months,bulan sejak aktivasi (CRM),bulan sejak aktivasi (CRM),false
+total_minutes,"sum menit pemakaian, trailing 30 hari","sum menit pemakaian, trailing 7 hari",false
+monthly_spend,rata-rata tagihan 3 bulan (billing),rata-rata tagihan 3 bulan (billing),false
+support_tickets,jumlah tiket 90 hari (helpdesk),jumlah tiket 90 hari (helpdesk),false
+days_since_last_login,as-of label_date + riwayat login 30 hari SETELAH label_date,as-of waktu inferensi,false

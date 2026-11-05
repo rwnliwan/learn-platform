@@ -1,0 +1,7 @@
+term,definition,steward,status
+limit_kredit,"Plafon maksimum fasilitas kredit yang disetujui untuk satu rekening, dalam IDR.",Tim Risiko,disetujui
+skor_risiko,Skor 0-100 dari model risiko; >=70 = watchlist.,Tim Analitik Risiko,disetujui
+status_nasabah,Nasabah dianggap AKTIF bila ada transaksi dalam 90 hari terakhir.,Tim Bisnis,konflik
+status_nasabah,Nasabah dianggap AKTIF bila rekening tidak berstatus diblokir/ditutup.,Tim Operasional,konflik
+rasio_npl,Persentase baki debet kolektibilitas 4-5 terhadap total baki debet.,Tim Analitik Risiko,disetujui
+periode_laporan,"Bulan kalender pelaporan, format YYYY-MM.",Tim Analitik Risiko,draf

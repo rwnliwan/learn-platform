@@ -1,0 +1,8 @@
+# METODE — Misi Rebalance: Keputusan 30 Menit di Tengah Kepanikan (misi-gabung-rebalance-krisis)
+
+- **Sumber data:** SINTETIS 100% — dibangkitkan oleh `gen_data.py` (seed 42, numpy default_rng) di folder ini. Data ini HANYA meniru POLA FRED 2020 (S&P 500 + VIX harian) — BUKAN data FRED asli; angka-angka bukan angka Federal Reserve Bank of St. Louis dan tidak boleh dikutip sebagai data pasar nyata.
+- **Seri:** `sp500_vix.csv`: 125 hari bursa 2020-01-02 s.d. 2020-06-30 (kolom tanggal, sp500, vix); tanpa libur pasar AS (1 Jan, 20 Jan, 17 Feb, 10 Apr, 25 Mei 2020). `holdings.csv`: 8 kelas aset, target vs aktual per 2020-03-16 (kolom kelas_aset, target_pct, aktual_pct; keduanya berjumlah 100%).
+- **Metode:** interpolasi linier antar titik jangkar pada log-harga (S&P 500) dan skala linier (VIX), ditambah noise Gaussian harian (σ=0,0022 log-return; σ=0,45 VIX, floor 8,0); nilai jangkar dipaksa tepat. Jangkar meniru pola 2020: puncak S&P 500 pertengahan Februari, lembah 23 Maret (drawdown −34,08%), VIX puncak 82,69 pada 16 Maret. Drawdown = harga / puncak-berjalan − 1. Drift per kelas = aktual − target (poin persen). Turnover satu event = 0,5 × jumlah |Δbobot| (dua sisi). Biaya transaksi = turnover × 30 bps (asumsi spread krisis misi ini). Rebalance parsial = tutup 50% drift tiap kelas.
+- **Seed:** 42 (numpy default_rng; satu seed untuk seluruh pembangkitan).
+- **Tanggal tangkapan:** 2026-10-15. Ukuran: sp500_vix.csv 3118 byte, holdings.csv 210 byte (di bawah 5 MB).
+- **Batas jujur:** data SINTETIS — bukan pasar nyata; pola meniru, angka bukan angka FRED; spread krisis 30 bps adalah asumsi misi (bukan estimasi empiris); tidak ada dividen, pajak, atau market impact di luar 30 bps; keputusan "30 menit" adalah bingkai narasi misi.

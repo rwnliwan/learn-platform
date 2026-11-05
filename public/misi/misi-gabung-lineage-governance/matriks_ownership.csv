@@ -1,0 +1,26 @@
+tabel,kolom,pemilik,status_pemilik,terakhir_verifikasi
+core_rekening,rekening_id,Tim Data Platform,terkonfirmasi,2024-11-02
+core_rekening,nasabah_id,Tim Data Platform,terkonfirmasi,2024-11-02
+core_rekening,limit_kredit,Tim Data Platform,terkonfirmasi,2024-11-02
+core_rekening,status_rekening,Tim Data Platform,belum_terverifikasi,
+core_rekening,tgl_buka,Tim Data Platform,terkonfirmasi,2024-11-02
+core_nasabah,nasabah_id,,orphan,
+core_nasabah,nama,,orphan,
+core_nasabah,nik_hash,,orphan,
+core_nasabah,tgl_lahir,,orphan,
+risk_score_harian,nasabah_id,Tim Risiko,terkonfirmasi,2025-02-14
+risk_score_harian,skor,Tim Risiko,terkonfirmasi,2025-02-14
+risk_score_harian,tgl_skor,Tim Risiko,belum_terverifikasi,
+risk_score_harian,model_version,Tim Risiko,belum_terverifikasi,
+dm_kredit,nasabah_id,Tim Analitik Risiko,terkonfirmasi,2025-05-30
+dm_kredit,rekening_id,Tim Analitik Risiko,terkonfirmasi,2025-05-30
+dm_kredit,limit_kredit,,orphan,
+dm_kredit,skor_risiko,Tim Analitik Risiko,belum_terverifikasi,
+dm_kredit,status_nasabah,Tim Analitik Risiko,belum_terverifikasi,
+dm_kredit,tgl_snapshot,Tim Analitik Risiko,terkonfirmasi,2025-05-30
+lap_risiko_bulanan,periode,Tim Analitik Risiko,terkonfirmasi,2025-05-30
+lap_risiko_bulanan,total_eksposur,Tim Analitik Risiko,terkonfirmasi,2025-05-30
+lap_risiko_bulanan,n_nasabah_macet,Tim Analitik Risiko,belum_terverifikasi,
+lap_risiko_bulanan,rasio_npl,Tim Analitik Risiko,terkonfirmasi,2025-05-30
+arsip_laporan,periode,,orphan,
+arsip_laporan,file_path,,orphan,

@@ -1,0 +1,453 @@
+⚡️ @cloudflare/next-on-pages CLI v.1.13.16
+⚡️ Detected Package Manager: npm (10.9.4)
+⚡️ Preparing project...
+⚡️ Project is ready
+⚡️ Building project...
+▲  Vercel CLI 47.0.4
+▲  WARN! Build not running on Vercel. System environment variables will not be available.
+▲  Installing dependencies...
+▲  up to date in 1s
+▲  49 packages are looking for funding
+▲  run `npm fund` for details
+▲  Detected Next.js version: 15.5.2
+▲  Running "npm run build"
+▲  > learn-platform@0.1.0 build
+▲  > next build
+▲  Attention: Next.js now collects completely anonymous telemetry regarding usage.
+▲  This information is used to shape Next.js' roadmap and prioritize features.
+▲  You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+▲  https://nextjs.org/telemetry
+▲  ▲ Next.js 15.5.2
+▲  
+▲  Creating an optimized production build ...
+▲  ✓ Compiled successfully in 3.1min
+▲  Linting and checking validity of types ...
+▲  Collecting page data ...
+▲  ⚠ Using edge runtime on a page currently disables static generation for that page
+▲  Generating static pages (0/1154) ...
+▲  Generating static pages (288/1154)
+▲  Generating static pages (576/1154)
+▲  Generating static pages (865/1154)
+▲  ✓ Generating static pages (1154/1154)
+▲  Finalizing page optimization ...
+▲  Collecting build traces ...
+▲  
+▲  Route (app)                                      Size  First Load JS
+▲  ┌ ○ /                                           142 B         102 kB
+▲  ├ ○ /_not-found                                  1 kB         103 kB
+▲  ├ ƒ /api/auth                                   142 B         102 kB
+▲  ├ ƒ /api/progress                               142 B         102 kB
+▲  ├ ƒ /api/setup                                  142 B         102 kB
+▲  ├ ƒ /api/v2/card                                142 B         102 kB
+▲  ├ ● /learn/[slug]                               730 B         106 kB
+▲  ├   ├ /learn/a11-tipe-data-skala
+▲  ├   └ /learn/hello
+▲  ├ ○ /learn/a11-tipe-data                        135 B         186 kB
+▲  ├ ○ /learn/a12-pemusatan                        135 B         186 kB
+▲  ├ ○ /learn/a13-sebaran                        2.76 kB         185 kB
+▲  ├ ○ /learn/a14-skewness-kurtosis              2.76 kB         185 kB
+▲  ├ ○ /learn/a15-kuantil-outlier                  135 B         186 kB
+▲  ├ ○ /learn/a16-korelasi                       2.76 kB         185 kB
+▲  ├ ○ /learn/a17-missing-data                   2.76 kB         185 kB
+▲  ├ ○ /learn/a18-visualisasi                    2.76 kB         185 kB
+▲  ├ ○ /learn/a19-eda-end-to-end                 2.76 kB         185 kB
+▲  ├ ○ /learn/a21-sampling-bias                    16 kB         198 kB
+▲  ├ ○ /learn/a210-power-sampel                  15.7 kB         198 kB
+▲  ├ ○ /learn/a211-ab-testing                    15.3 kB         197 kB
+▲  ├ ○ /learn/a212-bayesian                      15.8 kB         198 kB
+▲  ├ ○ /learn/a213-kausalitas                    15.4 kB         197 kB
+▲  ├ ○ /learn/a22-estimasi-mle                   16.3 kB         198 kB
+▲  ├ ○ /learn/a23-interval-kepercayaan           14.9 kB         197 kB
+▲  ├ ○ /learn/a24-uji-hipotesis                  15.7 kB         198 kB
+▲  ├ ○ /learn/a25-uji-t-anova                    15.5 kB         197 kB
+▲  ├ ○ /learn/a26-nonparametrik                    16 kB         198 kB
+▲  ├ ○ /learn/a27-effect-size                      15 kB         197 kB
+▲  ├ ○ /learn/a28-multiple-testing               15.2 kB         197 kB
+▲  ├ ○ /learn/a29-bootstrap                      15.1 kB         197 kB
+▲  ├ ○ /learn/a30-alur-modeling                  13.3 kB         119 kB
+▲  ├ ○ /learn/a31-regresi-ols                      16 kB         198 kB
+▲  ├ ○ /learn/a310-volatilitas                   14.6 kB         197 kB
+▲  ├ ○ /learn/a311-pca-clustering                14.9 kB         197 kB
+▲  ├ ○ /learn/a312-survival-analysis             14.7 kB         197 kB
+▲  ├ ○ /learn/a313-kausal                        14.7 kB         197 kB
+▲  ├ ○ /learn/a314-explainability                15.2 kB         197 kB
+▲  ├ ○ /learn/a315-tree-boosting                 15.4 kB         197 kB
+▲  ├ ○ /learn/a32-diagnostik-regresi             15.1 kB         197 kB
+▲  ├ ○ /learn/a33-regularisasi                   15.1 kB         197 kB
+▲  ├ ○ /learn/a34-logistic-glm                   14.9 kB         197 kB
+▲  ├ ○ /learn/a35-metrik-klasifikasi             14.1 kB         196 kB
+▲  ├ ○ /learn/a36-kalibrasi                      13.8 kB         196 kB
+▲  ├ ○ /learn/a37-imbalanced-data                13.8 kB         196 kB
+▲  ├ ○ /learn/a38-validasi-model                 14.5 kB         196 kB
+▲  ├ ○ /learn/a39-time-series                    15.3 kB         197 kB
+▲  ├ ○ /learn/b1-aksioma-peluang                 3.38 kB         185 kB
+▲  ├ ○ /learn/b10-copula                         3.38 kB         185 kB
+▲  ├ ○ /learn/b11-lln-clt                        3.38 kB         185 kB
+▲  ├ ○ /learn/b12-monte-carlo                    3.38 kB         185 kB
+▲  ├ ○ /learn/b13-vasicek                        3.38 kB         185 kB
+▲  ├ ○ /learn/b14-markov-chain                   3.38 kB         185 kB
+▲  ├ ○ /learn/b15-proses-stokastik               3.38 kB         185 kB
+▲  ├ ○ /learn/b16-heavy-tails-evt                3.38 kB         185 kB
+▲  ├ ○ /learn/b17-bayesian-praktis               3.38 kB         185 kB
+▲  ├ ○ /learn/b2-kombinatorik                    3.38 kB         185 kB
+▲  ├ ○ /learn/b3-peluang-bersyarat               3.38 kB         185 kB
+▲  ├ ○ /learn/b4-bayes                           3.38 kB         185 kB
+▲  ├ ○ /learn/b5-variabel-acak-ekspektasi        3.38 kB         185 kB
+▲  ├ ○ /learn/b6-distribusi-diskret-1            3.38 kB         185 kB
+▲  ├ ○ /learn/b6-distribusi-diskret-2            3.38 kB         185 kB
+▲  ├ ○ /learn/b7-distribusi-kontinu-1            3.38 kB         185 kB
+▲  ├ ○ /learn/b7-distribusi-kontinu-2            3.38 kB         185 kB
+▲  ├ ○ /learn/b8-fitting-distribusi              3.38 kB         185 kB
+▲  ├ ○ /learn/b9-joint-kovarians                 3.38 kB         185 kB
+▲  ├ ○ /learn/bi1-biologi-molekuler              14.4 kB         196 kB
+▲  ├ ○ /learn/bi10-statistik-bioinfo             13.6 kB         195 kB
+▲  ├ ○ /learn/bi11-single-cell                   13.9 kB         196 kB
+▲  ├ ○ /learn/bi12-genomika-populasi               15 kB         197 kB
+▲  ├ ○ /learn/bi13-epigenomik                    14.2 kB         196 kB
+▲  ├ ○ /learn/bi14-metagenomik                   13.5 kB         195 kB
+▲  ├ ○ /learn/bi15-proteomik                     13.8 kB         196 kB
+▲  ├ ○ /learn/bi16-ml-bio                        13.8 kB         196 kB
+▲  ├ ○ /learn/bi17-reprodusibilitas              13.8 kB         196 kB
+▲  ├ ○ /learn/bi18-capstone-de                   15.1 kB         197 kB
+▲  ├ ○ /learn/bi2-database                       13.8 kB         196 kB
+▲  ├ ○ /learn/bi3-format-data                    13.8 kB         196 kB
+▲  ├ ○ /learn/bi4-command-line                   13.7 kB         196 kB
+▲  ├ ○ /learn/bi5-biopython-r                    13.3 kB         195 kB
+▲  ├ ○ /learn/bi6-alignment                      14.1 kB         196 kB
+▲  ├ ○ /learn/bi7-filogenetika                   13.4 kB         195 kB
+▲  ├ ○ /learn/bi8-ngs-pipeline                   14.1 kB         196 kB
+▲  ├ ○ /learn/bi9-rna-seq                        14.9 kB         197 kB
+▲  ├ ○ /learn/c1-select-dasar                    3.38 kB         185 kB
+▲  ├ ○ /learn/c10-dedupe-pivot-yoy               3.25 kB         109 kB
+▲  ├ ○ /learn/c11-cohort-retention-funnel        3.25 kB         109 kB
+▲  ├ ○ /learn/c12-recursive-cte                  3.25 kB         109 kB
+▲  ├ ○ /learn/c13-risiko-dpd-rollrate            3.25 kB         109 kB
+▲  ├ ○ /learn/c14-fraud-velocity                 3.25 kB         109 kB
+▲  ├ ○ /learn/c15-data-quality                   3.25 kB         109 kB
+▲  ├ ○ /learn/c16-data-modeling                  3.25 kB         109 kB
+▲  ├ ○ /learn/c17-index-explain                  3.25 kB         109 kB
+▲  ├ ○ /learn/c18-transaksi-acid                 3.25 kB         109 kB
+▲  ├ ○ /learn/c2-null-logika                     3.25 kB         109 kB
+▲  ├ ○ /learn/c3-agregasi-groupby                3.38 kB         185 kB
+▲  ├ ○ /learn/c4-fungsi-tanggal-string           3.25 kB         109 kB
+▲  ├ ○ /learn/c5-join                            3.25 kB         109 kB
+▲  ├ ○ /learn/c6-subquery                        3.25 kB         109 kB
+▲  ├ ○ /learn/c7-cte                             3.25 kB         109 kB
+▲  ├ ○ /learn/c8-union-set                       3.25 kB         109 kB
+▲  ├ ○ /learn/c9-window-functions-1              3.25 kB         109 kB
+▲  ├ ○ /learn/c9-window-functions-2              3.25 kB         109 kB
+▲  ├ ○ /learn/cr1-produk-kredit                  16.9 kB         199 kB
+▲  ├ ○ /learn/cr10-pd-modeling                   15.5 kB         197 kB
+▲  ├ ○ /learn/cr11-forward-looking               15.2 kB         197 kB
+▲  ├ ○ /learn/cr12-lgd                           14.6 kB         197 kB
+▲  ├ ○ /learn/cr13-ead-ccf                       14.1 kB         196 kB
+▲  ├ ○ /learn/cr14a-ecl-staging                  14.9 kB         197 kB
+▲  ├ ○ /learn/cr14b-ecl-perhitungan              14.5 kB         120 kB
+▲  ├ ○ /learn/cr15-risiko-portofolio             14.9 kB         197 kB
+▲  ├ ○ /learn/cr16-stress-testing                  14 kB         119 kB
+▲  ├ ○ /learn/cr17a-corporate-credit-1           15.6 kB         197 kB
+▲  ├ ○ /learn/cr17b-corporate-credit-2           15.2 kB         197 kB
+▲  ├ ○ /learn/cr18-industry-country-risk         14.9 kB         120 kB
+▲  ├ ○ /learn/cr19-validasi-model                15.2 kB         197 kB
+▲  ├ ○ /learn/cr2-kolektibilitas                 15.9 kB         198 kB
+▲  ├ ○ /learn/cr20-monitoring-kri                14.7 kB         197 kB
+▲  ├ ○ /learn/cr21-pricing-risiko                15.1 kB         197 kB
+▲  ├ ○ /learn/cr22-collection-recovery           14.6 kB         120 kB
+▲  ├ ○ /learn/cr23-regulasi-indonesia            15.8 kB         198 kB
+▲  ├ ○ /learn/cr24-fairness-explainability       15.2 kB         197 kB
+▲  ├ ○ /learn/cr25-capstone                      16.9 kB         199 kB
+▲  ├ ○ /learn/cr3-pd-lgd-ead                     15.7 kB         198 kB
+▲  ├ ○ /learn/cr4a-basel-rwa-kpmm                16.1 kB         198 kB
+▲  ├ ○ /learn/cr4b-ifrs9-psak71                  15.5 kB         197 kB
+▲  ├ ○ /learn/cr5-definisi-default               15.1 kB         197 kB
+▲  ├ ○ /learn/cr6-analisis-portofolio            15.8 kB         198 kB
+▲  ├ ○ /learn/cr7a-application-scorecard-1       16.2 kB         198 kB
+▲  ├ ○ /learn/cr7b-application-scorecard-2       15.9 kB         198 kB
+▲  ├ ○ /learn/cr8-reject-inference                 15 kB         197 kB
+▲  ├ ○ /learn/cr9-behavioral-scorecard             15 kB         120 kB
+▲  ├ ○ /learn/d1-python-dasar                    3.25 kB         109 kB
+▲  ├ ○ /learn/d10-feature-engineering            3.25 kB         109 kB
+▲  ├ ○ /learn/d11-scipy-statsmodels              3.25 kB         109 kB
+▲  ├ ○ /learn/d12-sklearn                        3.25 kB         109 kB
+▲  ├ ○ /learn/d13-performa                       3.25 kB         109 kB
+▲  ├ ○ /learn/d14-rekayasa                       3.25 kB         109 kB
+▲  ├ ○ /learn/d15-sql-python-api                 3.25 kB         109 kB
+▲  ├ ○ /learn/d2-struktur-data                   3.25 kB         109 kB
+▲  ├ ○ /learn/d3-numpy                           3.25 kB         109 kB
+▲  ├ ○ /learn/d4-pandas-dasar                    3.25 kB         109 kB
+▲  ├ ○ /learn/d5-data-cleaning                   3.25 kB         109 kB
+▲  ├ ○ /learn/d6-wrangling                       3.25 kB         109 kB
+▲  ├ ○ /learn/d7-datetime-timeseries             3.25 kB         109 kB
+▲  ├ ○ /learn/d8-visualisasi-1                   3.25 kB         109 kB
+▲  ├ ○ /learn/d8-visualisasi-2                   3.25 kB         109 kB
+▲  ├ ○ /learn/d9-eda                             3.25 kB         109 kB
+▲  ├ ○ /learn/dm1-data-lifecycle                 17.6 kB         199 kB
+▲  ├ ○ /learn/dm10-metadata-lineage              15.4 kB         197 kB
+▲  ├ ○ /learn/dm11-master-data                   15.5 kB         197 kB
+▲  ├ ○ /learn/dm12-keamanan-privasi              15.9 kB         198 kB
+▲  ├ ○ /learn/dm13-data-risiko-regulasi          15.9 kB         198 kB
+▲  ├ ○ /learn/dm14-arsitektur-modern             15.7 kB         198 kB
+▲  ├ ○ /learn/dm15-cloud-dataops                 15.9 kB         198 kB
+▲  ├ ○ /learn/dm16-bi-analytics-engineering      15.4 kB         197 kB
+▲  ├ ○ /learn/dm17-strategi-data                 15.7 kB         198 kB
+▲  ├ ○ /learn/dm18-spark-pyspark                 14.9 kB         197 kB
+▲  ├ ○ /learn/dm19-capstone-dwh                  16.3 kB         198 kB
+▲  ├ ○ /learn/dm2-pemodelan-data                 16.2 kB         198 kB
+▲  ├ ○ /learn/dm3a-database-relasional           15.6 kB         198 kB
+▲  ├ ○ /learn/dm3b-database-nosql                16.2 kB         198 kB
+▲  ├ ○ /learn/dm4-data-warehouse                 15.7 kB         198 kB
+▲  ├ ○ /learn/dm5-orkestrasi-dbt                 15.6 kB         197 kB
+▲  ├ ○ /learn/dm6-batch-streaming                15.8 kB         198 kB
+▲  ├ ○ /learn/dm7-kualitas-data                  16.3 kB         198 kB
+▲  ├ ○ /learn/dm8-data-contract                  15.8 kB         198 kB
+▲  ├ ○ /learn/dm9-governance                     15.8 kB         198 kB
+▲  ├ ○ /learn/e1-struktur-pasar                    16 kB         121 kB
+▲  ├ ○ /learn/e10-derivatif                      15.7 kB         198 kB
+▲  ├ ○ /learn/e11-black-scholes                  16.8 kB         199 kB
+▲  ├ ○ /learn/e12-fx-suku-bunga                  15.7 kB         198 kB
+▲  ├ ○ /learn/e13-market-risk                    16.5 kB         198 kB
+▲  ├ ○ /learn/e14-money-market                   16.1 kB         198 kB
+▲  ├ ○ /learn/e15-indonesia                      16.8 kB         199 kB
+▲  ├ ○ /learn/e16-efisiensi-pasar                16.3 kB         122 kB
+▲  ├ ○ /learn/e17-makro-siklus                     16 kB         121 kB
+▲  ├ ○ /learn/e18-laporan-keuangan               16.8 kB         199 kB
+▲  ├ ○ /learn/e2-instrumen                       15.9 kB         121 kB
+▲  ├ ○ /learn/e3-tvm                             17.4 kB         199 kB
+▲  ├ ○ /learn/e4-obligasi                        16.5 kB         198 kB
+▲  ├ ○ /learn/e5-credit-spread                   15.8 kB         198 kB
+▲  ├ ○ /learn/e6-ekuitas                         16.5 kB         198 kB
+▲  ├ ○ /learn/e7-return-risiko                   16.7 kB         199 kB
+▲  ├ ○ /learn/e8-markowitz                       15.5 kB         197 kB
+▲  ├ ○ /learn/e9-capm                            16.2 kB         198 kB
+▲  ├ ○ /learn/fr1-lanskap-fraud                  17.6 kB         200 kB
+▲  ├ ○ /learn/fr10-drift                         15.6 kB         198 kB
+▲  ├ ○ /learn/fr11-threshold                     15.5 kB         197 kB
+▲  ├ ○ /learn/fr12-graph-analytics                 16 kB         198 kB
+▲  ├ ○ /learn/fr13-realtime                      15.3 kB         121 kB
+▲  ├ ○ /learn/fr14-case-management               15.5 kB         197 kB
+▲  ├ ○ /learn/fr15-aml                           16.4 kB         122 kB
+▲  ├ ○ /learn/fr16-anomali-time-series           15.6 kB         197 kB
+▲  ├ ○ /learn/fr17-explainability                16.2 kB         198 kB
+▲  ├ ○ /learn/fr18-mlops                         15.6 kB         197 kB
+▲  ├ ○ /learn/fr19-nlp-phishing                  15.8 kB         121 kB
+▲  ├ ○ /learn/fr2-fraud-vs-aml                   16.9 kB         199 kB
+▲  ├ ○ /learn/fr20-capstone                      15.9 kB         198 kB
+▲  ├ ○ /learn/fr21-sql-fraud                     14.9 kB         120 kB
+▲  ├ ○ /learn/fr22-chargeback                    15.6 kB         197 kB
+▲  ├ ○ /learn/fr23-regulasi-indonesia              16 kB         121 kB
+▲  ├ ○ /learn/fr3-data-fraud                     16.1 kB         198 kB
+▲  ├ ○ /learn/fr4-label-fraud                    15.4 kB         197 kB
+▲  ├ ○ /learn/fr5-rule-based                     16.2 kB         198 kB
+▲  ├ ○ /learn/fr6-feature-engineering            16.3 kB         198 kB
+▲  ├ ○ /learn/fr7-supervised-ml                    16 kB         198 kB
+▲  ├ ○ /learn/fr8-unsupervised                   15.8 kB         198 kB
+▲  ├ ○ /learn/fr9-evaluasi                       15.1 kB         197 kB
+▲  ├ ○ /learn/hd1-sistem-kesehatan               16.4 kB         198 kB
+▲  ├ ○ /learn/hd10-kausal-observasional          15.7 kB         198 kB
+▲  ├ ○ /learn/hd11-wrangling-ehr                 15.5 kB         197 kB
+▲  ├ ○ /learn/hd12-prediksi-klinis               15.1 kB         197 kB
+▲  ├ ○ /learn/hd13-fairness-kesehatan            15.1 kB         197 kB
+▲  ├ ○ /learn/hd14-nlp-klinis                    15.3 kB         197 kB
+▲  ├ ○ /learn/hd15-imaging-medis                 14.8 kB         197 kB
+▲  ├ ○ /learn/hd16-surveilans-wabah              16.5 kB         198 kB
+▲  ├ ○ /learn/hd17-ekonomi-kesehatan             15.5 kB         197 kB
+▲  ├ ○ /learn/hd18-privasi-etika                 14.9 kB         197 kB
+▲  ├ ○ /learn/hd19-pelaporan-klinis              15.3 kB         197 kB
+▲  ├ ○ /learn/hd2-standar                        15.5 kB         197 kB
+▲  ├ ○ /learn/hd20-capstone-readmission          15.9 kB         198 kB
+▲  ├ ○ /learn/hd3-epidemiologi                   15.3 kB         197 kB
+▲  ├ ○ /learn/hd4-desain-studi                   15.6 kB         198 kB
+▲  ├ ○ /learn/hd5-uji-klinis                     15.2 kB         197 kB
+▲  ├ ○ /learn/hd6-survival                       15.8 kB         198 kB
+▲  ├ ○ /learn/hd7-longitudinal                   15.4 kB         197 kB
+▲  ├ ○ /learn/hd8-missing-data                   14.9 kB         197 kB
+▲  ├ ○ /learn/hd9-uji-diagnostik                 14.9 kB         197 kB
+▲  ├ ○ /learn/mk1-funnel-aarrr                   22.9 kB         205 kB
+▲  ├ ○ /learn/mk10-incrementality                23.9 kB         206 kB
+▲  ├ ○ /learn/mk11-uplift                        25.4 kB         207 kB
+▲  ├ ○ /learn/mk12-attribution                   26.2 kB         208 kB
+▲  ├ ○ /learn/mk13-mmm                             27 kB         209 kB
+▲  ├ ○ /learn/mk14-pricing                         25 kB         207 kB
+▲  ├ ○ /learn/mk15-forecasting                   26.2 kB         208 kB
+▲  ├ ○ /learn/mk16-digital-ads                   24.5 kB         206 kB
+▲  ├ ○ /learn/mk17-text-analytics                24.5 kB         206 kB
+▲  ├ ○ /learn/mk18-etika                         24.9 kB         207 kB
+▲  ├ ○ /learn/mk19-capstone                      23.8 kB         206 kB
+▲  ├ ○ /learn/mk2-tracking                       26.6 kB         208 kB
+▲  ├ ○ /learn/mk3-deskriptif                     25.3 kB         207 kB
+▲  ├ ○ /learn/mk4-segmentasi                     25.4 kB         207 kB
+▲  ├ ○ /learn/mk5-clv                            21.9 kB         204 kB
+▲  ├ ○ /learn/mk6-churn                          23.8 kB         206 kB
+▲  ├ ○ /learn/mk7-propensity                     23.8 kB         206 kB
+▲  ├ ○ /learn/mk8-rekomendasi                    23.7 kB         206 kB
+▲  ├ ○ /learn/mk9-eksperimen                     23.6 kB         206 kB
+▲  ├ ○ /learn/mr1-trading-book                   16.6 kB         198 kB
+▲  ├ ○ /learn/mr10-irrbb                         16.1 kB         198 kB
+▲  ├ ○ /learn/mr11-options-risk                  17.1 kB         199 kB
+▲  ├ ○ /learn/mr12-fx-komoditas                  16.1 kB         198 kB
+▲  ├ ○ /learn/mr13-risiko-likuiditas               16 kB         198 kB
+▲  ├ ○ /learn/mr14-counterparty-risk             16.5 kB         198 kB
+▲  ├ ○ /learn/mr15-model-stokastik               17.2 kB         199 kB
+▲  ├ ○ /learn/mr16-regulasi-frtb                 16.7 kB         199 kB
+▲  ├ ○ /learn/mr17-limit-laporan                 16.3 kB         122 kB
+▲  ├ ○ /learn/mr18-validasi-model                16.6 kB         199 kB
+▲  ├ ○ /learn/mr19-capstone-var-es               16.1 kB         121 kB
+▲  ├ ○ /learn/mr2-volatilitas                    16.7 kB         199 kB
+▲  ├ ○ /learn/mr3-var                            17.5 kB         199 kB
+▲  ├ ○ /learn/mr4-var-lanjut                     16.6 kB         198 kB
+▲  ├ ○ /learn/mr5-expected-shortfall             16.4 kB         198 kB
+▲  ├ ○ /learn/mr6-backtesting                    16.3 kB         198 kB
+▲  ├ ○ /learn/mr7-stress-test                    16.3 kB         198 kB
+▲  ├ ○ /learn/mr8-risiko-suku-bunga              16.5 kB         198 kB
+▲  ├ ○ /learn/mr9-kurva-yield                      16 kB         198 kB
+▲  ├ ○ /learn/pm-a1-ethics                       18.2 kB         124 kB
+▲  ├ ○ /learn/pm-a10-portfolio-mgmt              19.1 kB         201 kB
+▲  ├ ○ /learn/pm-a2-quant-methods                19.1 kB         201 kB
+▲  ├ ○ /learn/pm-a3-economics                    19.2 kB         201 kB
+▲  ├ ○ /learn/pm-a4-financial-statements         19.1 kB         201 kB
+▲  ├ ○ /learn/pm-a5-corporate-issuers            16.8 kB         199 kB
+▲  ├ ○ /learn/pm-a6-equity                       16.4 kB         198 kB
+▲  ├ ○ /learn/pm-a7-fixed-income                 16.6 kB         199 kB
+▲  ├ ○ /learn/pm-a8-derivatives                  16.3 kB         198 kB
+▲  ├ ○ /learn/pm-a9-alternatives                 16.4 kB         198 kB
+▲  ├ ○ /learn/pm-b1-regresi                      16.9 kB         199 kB
+▲  ├ ○ /learn/pm-b2-timeseries                   16.9 kB         199 kB
+▲  ├ ○ /learn/pm-b3-ml-investasi                 16.7 kB         199 kB
+▲  ├ ○ /learn/pm-b4-valuasi-ekuitas                16 kB         198 kB
+▲  ├ ○ /learn/pm-b5-fixed-income-lanjut          16.7 kB         199 kB
+▲  ├ ○ /learn/pm-b6-valuasi-derivatif            15.7 kB         198 kB
+▲  ├ ○ /learn/pm-b7-currency                     16.5 kB         198 kB
+▲  ├ ○ /learn/pm-b8-faktor-risiko                  16 kB         198 kB
+▲  ├ ○ /learn/pm-b9-intercorporate               14.5 kB         196 kB
+▲  ├ ○ /learn/pm-c1-ips                          17.1 kB         199 kB
+▲  ├ ○ /learn/pm-c10-trading-execution           17.6 kB         199 kB
+▲  ├ ○ /learn/pm-c11-ethics-esg                  17.5 kB         123 kB
+▲  ├ ○ /learn/pm-c2-capital-market-expectations  15.2 kB         197 kB
+▲  ├ ○ /learn/pm-c3-asset-allocation             17.3 kB         199 kB
+▲  ├ ○ /learn/pm-c4-portfolio-construction       17.7 kB         200 kB
+▲  ├ ○ /learn/pm-c5-performance-evaluation       16.9 kB         199 kB
+▲  ├ ○ /learn/pm-c6-behavioral                   17.8 kB         200 kB
+▲  ├ ○ /learn/pm-c7-fixed-income-portfolio       17.3 kB         199 kB
+▲  ├ ○ /learn/pm-c8-equity-portfolio             17.9 kB         200 kB
+▲  ├ ○ /learn/pm-c9-derivatives-overlay          17.4 kB         199 kB
+▲  ├ ○ /learn/pm-d1-data-harga                     18 kB         200 kB
+▲  ├ ○ /learn/pm-d2-optimisasi                   17.7 kB         200 kB
+▲  ├ ○ /learn/pm-d3-regresi-faktor               16.9 kB         199 kB
+▲  ├ ○ /learn/pm-d4-backtesting                  17.2 kB         199 kB
+▲  ├ ○ /learn/pm-d5-metrik-kinerja               16.9 kB         199 kB
+▲  ├ ○ /learn/pm-d6-risk-reporting               16.1 kB         198 kB
+▲  ├ ○ /login                                      800 B         103 kB
+▲  ├ ○ /v2                                       2.81 kB        6.92 MB
+▲  ├ ○ /v2/buku                                   1.7 kB        6.82 MB
+▲  ├ ○ /v2/buku/bab-1                              161 B        6.97 MB
+▲  ├ ○ /v2/buku/bab-2                              161 B        6.97 MB
+▲  ├ ○ /v2/buku/bab-3                              160 B        6.97 MB
+▲  ├ ○ /v2/buku/bab-4                              161 B        6.97 MB
+▲  ├ ○ /v2/buku/bab-5                              161 B        6.97 MB
+▲  ├ ○ /v2/buku/bab-6                              161 B        6.97 MB
+▲  ├ ○ /v2/catatan                                 898 B        6.82 MB
+▲  ├ ○ /v2/karier                                3.74 kB        6.82 MB
+▲  ├ ○ /v2/kebingungan                           2.84 kB        6.82 MB
+▲  ├ ○ /v2/lab-bebas                             6.68 kB        6.83 MB
+▲  ├ ○ /v2/lab-demo                              5.31 kB         116 kB
+▲  ├ ○ /v2/learn                                 1.51 kB        6.82 MB
+▲  ├ ● /v2/learn/[slug]                            152 B         233 kB
+▲  ├   ├ /v2/learn/a11-tipe-data
+▲  ├   ├ /v2/learn/a12-pemusatan
+▲  ├   ├ /v2/learn/a13-sebaran
+▲  ├   └ [+736 more paths]
+▲  ├ ○ /v2/mentor                                5.19 kB        6.85 MB
+▲  ├ ○ /v2/misi                                  1.54 kB        6.82 MB
+▲  ├ ● /v2/misi/[slug]                             152 B         233 kB
+▲  ├   ├ /v2/misi/misi-dbd-surveilans
+▲  ├   ├ /v2/misi/misi-jejak-dana-blockchain
+▲  ├   ├ /v2/misi/misi-lab-sampel-tertukar
+▲  ├   └ [+72 more paths]
+▲  ├ ○ /v2/mulai                                 6.93 kB        6.92 MB
+▲  ├ ○ /v2/pengaturan                            1.44 kB        6.82 MB
+▲  ├ ○ /v2/pengaturan-ai                         4.81 kB        6.82 MB
+▲  ├ ○ /v2/peta                                  4.49 kB        6.85 MB
+▲  ├ ○ /v2/portofolio                              398 B        6.82 MB
+▲  ├ ● /v2/portofolio/[slug]                     49.1 kB        6.87 MB
+▲  ├   ├ /v2/portofolio/pj-audit-portofolio
+▲  ├   ├ /v2/portofolio/pj-scorecard-kredit
+▲  ├   ├ /v2/portofolio/pj-aml-monitoring
+▲  ├   └ [+4 more paths]
+▲  ├ ○ /v2/proyek                                  816 B        6.82 MB
+▲  ├ ● /v2/proyek/[slug]                           151 B         233 kB
+▲  ├   ├ /v2/proyek/pj-audit-portofolio
+▲  ├   ├ /v2/proyek/pj-scorecard-kredit
+▲  ├   ├ /v2/proyek/pj-aml-monitoring
+▲  ├   └ [+3 more paths]
+▲  ├ ○ /v2/review                                2.53 kB        6.82 MB
+▲  ├ ○ /v2/warisan                               2.69 kB        6.82 MB
+▲  └ ○ /v2/wawancara                             9.49 kB        6.85 MB
+▲  + First Load JS shared by all                  102 kB
+▲  ├ chunks/1255-f206d8cb7c37a3ff.js           45.5 kB
+▲  ├ chunks/4bd1b696-100b9d70ed4e49c1.js       54.2 kB
+▲  └ other shared chunks (total)               2.15 kB
+▲  
+▲  
+▲  ƒ Middleware                                  34.3 kB
+▲  ○  (Static)   prerendered as static content
+▲  ●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+▲  ƒ  (Dynamic)  server-rendered on demand
+▲  Traced Next.js server files in: 910.657ms
+▲  Created all serverless functions in: 3.612s
+▲  Collected static files (public/, static/, .next/static): 105.856ms
+▲  Build Completed in .vercel/output [7m]
+⚡️ Completed `npx vercel build`.
+⚡️ Invalid prerender config for /learn/[slug]
+⚡️ Invalid prerender config for /learn/[slug].rsc
+⚡️ Invalid prerender config for /v2/learn/[slug]
+⚡️ Invalid prerender config for /v2/learn/[slug].rsc
+⚡️ Invalid prerender config for /v2/misi/[slug]
+⚡️ Invalid prerender config for /v2/misi/[slug].rsc
+⚡️ Invalid prerender config for /v2/portofolio/[slug]
+⚡️ Invalid prerender config for /v2/portofolio/[slug].rsc
+⚡️ Invalid prerender config for /v2/proyek/[slug]
+⚡️ Invalid prerender config for /v2/proyek/[slug].rsc
+
+⚡️ Build Summary (@cloudflare/next-on-pages v1.13.16)
+⚡️ 
+⚡️ Middleware Functions (1)
+⚡️   - src/middleware
+⚡️ 
+⚡️ Edge Function Routes (4)
+⚡️   ┌ /api/auth
+⚡️   ├ /api/progress
+⚡️   ├ /api/setup
+⚡️   └ /api/v2/card
+⚡️ 
+⚡️ Prerendered Routes (2303)
+⚡️   ┌ /
+⚡️   ├ /_not-found
+⚡️   ├ /_not-found.rsc
+⚡️   ├ /favicon.ico
+⚡️   ├ /index.rsc
+⚡️   ├ /learn/a11-tipe-data
+⚡️   ├ /learn/a11-tipe-data-skala
+⚡️   ├ /learn/a11-tipe-data-skala.rsc
+⚡️   ├ /learn/a11-tipe-data.rsc
+⚡️   ├ /learn/a12-pemusatan
+⚡️   ├ /learn/a12-pemusatan.rsc
+⚡️   ├ /learn/a13-sebaran
+⚡️   ├ /learn/a13-sebaran.rsc
+⚡️   ├ /learn/a14-skewness-kurtosis
+⚡️   ├ /learn/a14-skewness-kurtosis.rsc
+⚡️   ├ /learn/a15-kuantil-outlier
+⚡️   ├ /learn/a15-kuantil-outlier.rsc
+⚡️   ├ /learn/a16-korelasi
+⚡️   ├ /learn/a16-korelasi.rsc
+⚡️   └ ... 2284 more
+⚡️ 
+⚡️ Other Static Assets (767)
+⚡️   ┌ /_app.rsc.json
+⚡️   ├ /_document.rsc.json
+⚡️   ├ /_error.rsc.json
+⚡️   ├ /404.html
+⚡️   └ ... 763 more
+
+⚡️ Build log saved to '.vercel/output/static/_worker.js/nop-build-log.json'
+⚡️ Generated '.vercel/output/static/_worker.js/index.js'.
+⚡️ Build completed in 11.53s

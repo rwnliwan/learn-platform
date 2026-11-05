@@ -1,0 +1,222 @@
+import type { V2Lesson } from "../lib/types";
+
+export const dm6: V2Lesson = {
+  slug: "dm6-batch-streaming",
+  track: "Data Management",
+  module: "Pipeline",
+  title: "Batch vs Streaming: Koran Pagi Ini atau Kabar Detik Ini?",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita-fraud",
+      eyebrow: "Langkah 1 · Cerita pembuka",
+      title: "Rp2 miliar yang lolos semalam",
+      prose: [
+        "Bank AmanSentosa punya sistem deteksi fraud batch: tiap jam 1 pagi, job memindai transaksi kemarin. Suatu malam, sindikat menguras 40 rekening — masing-masing Rp50 juta — antara jam 2 sampai 4 pagi. Jam 1 pagi berikutnya sistem berteriak \"FRAUD!\". Tapi uangnya sudah ditarik tunai jam 6 pagi dan hilang.",
+        "Sistemnya bekerja sempurna — ia menemukan semua fraud. Masalahnya bukan akurasi, melainkan waktu. Batch menjawab \"apa yang terjadi kemarin\"; fraud butuh jawaban \"apa yang terjadi 10 detik lalu\". Untuk sebagian masalah, jawaban yang telat = jawaban yang salah.",
+      ],
+      tasks: [],
+      reference: "Pilih kapan data diproses berdasarkan nilai waktu, bukan gengsi teknologi.",
+    },
+    {
+      id: "batch",
+      eyebrow: "Langkah 2 · Batch",
+      title: "Si pekerja shift malam",
+      prose: [
+        "Batch = kumpulkan data selama periode, proses sekaligus. Kelebihan: sederhana (kode biasa, gampang debug), murah (compute bisa dimatikan antar jadwal), throughput raksasa, dan exactly-once lebih mudah (baca file utuh, tulis ulang partisi — idempoten alami seperti DM5).",
+        "Kelemahan: latensi = interval jadwal. Buta total antar-jadwal. Cocok untuk laporan harian, agregat KPI, training model ML, backfill historis — semua yang \"telat 24 jam tidak masalah\". Batch adalah default yang benar untuk sekitar 80% kasus.",
+      ],
+      tasks: [],
+      reference: "Default = batch. Naik ke streaming hanya jika ada nilai bisnis per jam-nya.",
+    },
+    {
+      id: "streaming",
+      eyebrow: "Langkah 3 · Streaming",
+      title: "Si penjaga real-time",
+      prose: [
+        "Streaming = proses tiap event saat tiba, latensi detik/sub-detik. Konsep kuncinya: event time vs processing time — kapan kejadian terjadi vs kapan diproses. Data telat (misal HP mati 2 jam) punya event time lama tapi processing time kini; sistem streaming harus menangani keduanya.",
+        "Window: \"hitung X per 10 menit terakhir\" — tumbling (tidak overlap), sliding (overlap), session (berdasarkan aktivitas). Watermark: \"saya tunggu data telat sampai batas ini, selebihnya dianggap hilang\" — trade-off kelengkapan vs ketepatan waktu. Tanpa watermark, window tidak pernah bisa ditutup.",
+        "Micro-batch (Spark): kompromi — proses tiap beberapa detik/menit. Memberi 90% manfaat streaming dengan 20% kompleksitasnya. Untuk dashboard \"nyaris real-time\", ini biasanya cukup.",
+      ],
+      tasks: [],
+      reference: "Streaming mahal dan kompleks — hanya jika nilai waktu membenarkannya.",
+    },
+    {
+      id: "kafka",
+      eyebrow: "Langkah 4 · Kafka",
+      title: "Sistem saraf pusat data",
+      prose: [
+        "Apache Kafka = distributed event log: tempat semua event mengalir, disimpan berurutan, bisa dibaca banyak consumer independen. Semua aplikasi, warehouse, dan ML terhubung ke satu tulang punggung, bukan kabel point-to-point yang kusut.",
+        "Anatomi (wajib untuk interview): topic = kanal bernama (\"transaksi\", \"klik\"); partition = topic dibagi N partisi untuk paralelisme — urutan hanya dijamin dalam satu partisi, bukan antar-partisi; producer = pengirim event; consumer = pembaca; consumer group = sekumpulan consumer berbagi baca satu topic, tiap partisi dibaca tepat 1 consumer dalam grup.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "\"Kafka menjamin urutan event global.\" Yang benar: urutan hanya dijamin per partisi. Butuh riwayat per rekening berurutan? Partition key = ID entitas (nasabah_id) sejak hari pertama.",
+        type: "pitfall",
+      },
+      reference: "Tambah consumer = tambah throughput, maksimal = jumlah partisi.",
+    },
+    {
+      id: "cdc",
+      eyebrow: "Langkah 5 · CDC",
+      title: "Mata-mata di buku harian database",
+      prose: [
+        "Change Data Capture = menangkap perubahan database sumber dengan membaca log transaksinya (WAL) — bukan dengan query SELECT * berkala. Tools: Debezium (open source, baca WAL Postgres/MySQL → kirim ke Kafka).",
+        "Kenapa ini pola standar OLTP → warehouse: (1) ringan — tidak membebani database operasional dengan scan raksasa; (2) real-time — perubahan mengalir detik setelah commit; (3) lengkap — INSERT/UPDATE/DELETE semua tertangkap, termasuk urutan dan nilai sebelum/sesudah. Ingat DM3A? WAL dibuat untuk durability — CDC \"menumpang\" infrastruktur yang sama untuk replikasi.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: CDC menumpang, bukan mengawasi",
+        body: "Wawasan yang tidak obvious: CDC nyaris tidak membebani database sumber karena WAL memang sudah ditulis untuk durability — database menuliskannya untuk dirinya sendiri, CDC hanya membaca file yang sudah ada. Ini satu-satunya pola replikasi yang tidak menambah satu query pun ke database produksi. Konsekuensinya: kalau tim infrastruktur menolak replikasi karena \"takut membebani database\", CDC adalah jawaban yang tepat, bukan kompromi. Tetapi ada satu syarat yang tidak bisa ditawar: WAL retention. Kalau consumer lag melebihi masa retensi WAL, log yang belum dibaca terhapus dan data hilang diam-diam. Aturannya: monitor consumer lag seperti memonitor detak jantung — alert jika lag melewati 50% masa retensi. CDC memindahkan biaya dari sumber ke consumer; pastikan consumer-nya dijaga.",
+      },
+      reference: "Satu mekanisme (WAL), dua manfaat: durability + replikasi.",
+    },
+    {
+      id: "semantik-lab",
+      eyebrow: "Langkah 6 · Semantik · lab",
+      title: "Exactly-once: janji yang mahal",
+      prose: [
+        "Tiga semantik pengiriman: at-most-once (kirim sekali, hilang ya sudah — murah, cocok untuk metrik yang boleh bolong), at-least-once (kirim sampai dapat ack — bisa duplikat; default kebanyakan sistem), exactly-once (tepat sekali — mahal, butuh transaksi terkoordinasi, hanya untuk yang kritis seperti uang).",
+        "Rumus praktis industri: at-least-once + consumer idempoten memberi efek setara exactly-once dengan biaya jauh lebih murah. Inilah kenapa DM5 (idempotency) adalah prasyarat arsitektur streaming.",
+        "Contoh angkanya: serangan 400 transaksi @Rp5 juta = Rp2 miliar dalam 25 menit. Batch (jalan 06.00, 45 menit) mendeteksi jam 06.45 — recovery rate dana fraud yang terdeteksi >4 jam hanya ~15%. Streaming (latensi p99 3 detik) memicu pola \"5 transaksi >Rp1 juta dalam 10 menit\" di transaksi ke-7, menit ke-2 serangan. Rasakan bedanya di lab.",
+      ],
+      tasks: [
+        { id: "t1", text: "Lengkapi fungsi `deteksi`: kembalikan (transaksi_ke, menit) saat pola terpicu" },
+        { id: "t2", text: "Simpan hasilnya ke `picu_ke` dan `menit`" },
+        { id: "t3", text: "Cetak keduanya dengan `print`" },
+      ],
+      expected: "picu_ke=7  menit=10",
+      hints: [
+        "Untuk tiap transaksi > 1 jt, hitung berapa transaksi > 1 jt dalam 10 menit ke belakang.",
+        "Gunakan tx[:i+1] dan syarat m - m2 <= 10.",
+        "Jika hitungan >= 5: return i + 1, m",
+      ],
+      code: {
+        starter: `# pola: 5 transaksi > Rp1 jt dalam 10 menit dari 1 kartu\ntx = [  # (menit, nominal_jt)\n    (0, 0.5), (2, 0.5), (4, 5), (6, 5), (8, 5), (9, 5), (10, 5), (14, 2),\n]\n\n# TULIS KODEMU: kembalikan (transaksi_ke, menit) saat pola pertama kali terpicu\ndef deteksi(tx):\n    for i, (m, n) in enumerate(tx):\n        if n <= 1:\n            continue\n        hitung = ...\n        if ...:\n            return ...\n    return None, None\n\npicu_ke, menit = deteksi(tx)\nprint(f"picu_ke={picu_ke}  menit={menit}")`,
+        lockLines: 5,
+        solution: `# pola: 5 transaksi > Rp1 jt dalam 10 menit dari 1 kartu\ntx = [  # (menit, nominal_jt)\n    (0, 0.5), (2, 0.5), (4, 5), (6, 5), (8, 5), (9, 5), (10, 5), (14, 2),\n]\n\n# TULIS KODEMU: kembalikan (transaksi_ke, menit) saat pola pertama kali terpicu\ndef deteksi(tx):\n    for i, (m, n) in enumerate(tx):\n        if n <= 1:\n            continue\n        hitung = sum(1 for (m2, n2) in tx[:i+1] if n2 > 1 and m - m2 <= 10)\n        if hitung >= 5:\n            return i + 1, m\n    return None, None\n\npicu_ke, menit = deteksi(tx)\nprint(f"picu_ke={picu_ke}  menit={menit}")`,
+        checks: [
+          { kind: "equal", task: "t2", name: "picu_ke", value: 7, tol: 0, label: "`picu_ke` seharusnya 7", msg: "Pola 5× dalam 10 menit pertama kali terpenuhi di transaksi ke-7." },
+          { kind: "equal", task: "t2", name: "menit", value: 10, tol: 0, label: "`menit` seharusnya 10", msg: "Transaksi ke-7 terjadi di menit ke-10." },
+          { kind: "stdout_matches", task: "t3", pattern: "picu_ke=7\\s+menit=10", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Batch mendeteksi jam 06.45 (uang hilang); streaming di menit ke-10 (bisa diblokir).",
+    },
+    {
+      id: "minicase-notif",
+      eyebrow: "Langkah 7 · Mini-case",
+      title: "Notifikasi \"saldo berubah\" yang ngaco",
+      prose: [
+        "Bank meluncurkan notifikasi real-time \"saldo berubah\" via Kafka (at-least-once). Keluhan: (1) nasabah dapat notifikasi ganda untuk 1 transaksi; (2) kadang notifikasi saldo lama datang setelah saldo baru — urutan terbalik.",
+        "Penyebab: (1) at-least-once → duplikat saat retry; (2) event satu nasabah tersebar di banyak partisi → urutan antar-partisi tidak dijamin. Perbaikan: (1) idempotent consumer — dedup by event_id sebelum kirim notifikasi; (2) partition key = nasabah_id agar semua event satu nasabah berurutan.",
+        "Kenapa tidak sekalian pakai exactly-once? Mahal dan kompleks (transaksi terkoordinasi). Untuk notifikasi, \"at-least-once + idempoten\" memberi efek sama dengan biaya jauh lebih murah.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Notifikasi ganda mungkin cuma mengganggu, tapi pola yang sama (duplikat + urutan terbalik) di pemrosesan transaksi berarti double-debit atau saldo yang salah tampil. Klasifikasikan: notifikasi = at-least-once + idempoten cukup; pemindahan uang = butuh jaminan lebih kuat.",
+      },
+      reference: "Duplikat pasti terjadi → consumer wajib idempoten (DM5).",
+    },
+    {
+      id: "ekonomi-keputusan",
+      eyebrow: "Langkah 8 · Ekonomi & keputusan",
+      title: "Berapa harga satu detik?",
+      prose: [
+        "Hitung dulu harganya sebelum jatuh cinta pada teknologinya. Ambil marketplace \"BelanjaKu\": 250.000 order per hari. Opsi A, batch 15 menit di cloud: Rp8 juta per bulan — compute yang bisa dimatikan antar jadwal, storage murah, satu engineer paruh waktu. Opsi B, Kafka plus Flink terkelola: Rp45 juta per bulan — broker yang jalan 24/7, compute streaming yang tidak pernah mati, storage topic dengan retensi, plus engineer yang paham checkpointing dan watermark (gajinya lebih mahal karena skill-nya langka). Selisihnya Rp37 juta per bulan, atau Rp444 juta per tahun. Angka ini harus ditulis di dokumen keputusan arsitektur sebelum satu baris kode streaming ditulis — karena \"real-time\" yang tidak bisa menjelaskan Rp444 juta per tahunnya adalah hobi mahal, bukan arsitektur.",
+        "Kapan selisih Rp444 juta itu terbayar? Kembali ke cerita fraud di langkah 1: satu serangan Rp2 miliar lolos karena deteksi telat 24 jam. Jika streaming mencegah satu serangan seperti itu per kuartal, nilainya Rp8 miliar per tahun — delapan belas kali lipat biayanya, keputusan yang mudah. Tetapi jika frekuensi fraud hanya satu kasus Rp50 juta per tahun, streaming merugi Rp394 juta per tahun dibanding batch. Rumus keputusannya eksplisit: nilai waktu = (kerugian per kejadian × frekuensi kejadian × fraksi yang bisa dicegah oleh kecepatan) − biaya infrastruktur streaming. Fraksi ketiga itu penting: tidak semua fraud bisa dicegah walau terdeteksi cepat — kalau proses blokirnya butuh persetujuan manual dua jam, deteksi tiga detik tidak ada gunanya. Hitung rantai nilainya ujung ke ujung, bukan hanya kecepatan deteksinya.",
+        "Contoh kontras yang nyata: startup edutech dengan 20.000 pendaftar per bulan membangun pipeline Flink untuk \"dashboard jumlah pendaftar harian\". Dua engineer menghabiskan tiga bulan debugging checkpointing, state backend, dan late data — untuk dashboard yang dibuka tim marketing sekali sehari jam 9 pagi. Batch satu jam sudah lebih dari cukup, karena tidak ada keputusan marketing yang berubah dalam hitungan menit. Tiga bulan engineer time (sekitar Rp150 juta biaya gaji) plus infrastruktur streaming dibakar untuk kebutuhan yang sebenarnya batch. Pelajarannya pahit: kompleksitas adalah utang berbunga. Setiap komponen streaming yang kamu adopsi — broker, stream processor, state store — menagih \"cicilan\" berupa maintenance, on-call, dan debugging selamanya. Adopsi hanya jika bunganya terbayar oleh nilai waktu.",
+        "Mode kegagalan khas streaming adalah late data, dan ia tidak bisa dihindari — hanya bisa dikelola. Contoh: kurir mematikan HP dua jam di daerah tanpa sinyal; 40 event pengiriman punya event time dua jam lalu tetapi tiba sekarang. Watermark 30 menit berarti window sudah ditutup; 40 event itu \"telat\". Tiga kebijakan yang mungkin: buang (kehilangan data), masukkan ke side output untuk diproses terpisah, atau update hasil yang sudah dikeluarkan (retraction — mahal dan membingungkan downstream). Praktik industri yang sehat: streaming untuk aksi (alert, blokir, notifikasi), batch harian untuk kebenaran akhir. Dashboard fraud real-time boleh menunjukkan angka sementara; laporan keuangan akhir bulan harus dari batch yang sudah merekonsiliasi semua late data. Aturan: \"streaming menjawab sekarang dengan 99% data; batch menjawab besok dengan 100% data.\" Jangan paksa streaming menjadi sistem pencatatan resmi.",
+        "Kekuatan streaming yang jarang dimanfaatkan adalah replay — mesin waktu bawaan. Kafka menyimpan topic selama masa retensi (umumnya 7 hari), artinya kamu bisa memutar ulang tujuh hari event terakhir kapan saja. Skenario: deploy Jumat sore membawa bug yang merusak agregat; bug baru disadari Senin pagi — tiga hari kemudian. Dengan batch, kamu menulis ulang job backfill manual. Dengan streaming, kamu reset offset consumer ke tiga hari lalu dan biarkan ia memproses ulang dengan kode yang sudah diperbaiki. Aturan praktisnya: masa retensi minimal dua kali SLA investigasimu. Kalau timmu butuh rata-rata tiga hari untuk menyadari bug, retensi tujuh hari adalah batas bawah, bukan kemewahan. Dan catat: replay hanya aman jika consumer-mu idempoten — memproses ulang event yang sama tidak boleh menggandakan efek. Lagi-lagi idempotency (langkah 6, DM5) adalah fondasi yang menopang semuanya.",
+        "Exactly-once terdengar seperti jawaban untuk semua masalah duplikat, tetapi harganya nyata dan harus dihitung. Implementasinya butuh transactional sink: producer idempoten plus transaksi terkoordinasi antara Kafka dan sistem tujuan (misalnya database). Biayanya: latensi naik 20–30% karena commit dua fase, throughput turun sekitar 30%, dan kompleksitas operasional melonjak — debugging transaksi yang setengah commit adalah pekerjaan spesialis. Aturan keputusannya per use case, bukan per prinsip. Pemindahan uang atau pengurangan stok: butuh jaminan kuat — pakai exactly-once, atau pola yang lebih murah yaitu at-least-once plus consumer idempoten yang memberi efek setara. Notifikasi, metrik, dashboard: at-most-once atau at-least-once biasa sudah cukup; duplikat sesekali tidak merugikan siapa pun. Kesalahan termahal adalah membayar harga exactly-once untuk use case at-most-once — seperti menyewa pengawal bersenjata untuk mengantar surat biasa.",
+        "Metrik kesehatan streaming nomor satu adalah consumer lag: jarak antara posisi baca consumer dan ujung terbaru topic, diukur dalam jumlah pesan atau waktu. Lag nol berarti consumer mengikuti real-time; lag yang tumbuh berarti consumer lebih lambat dari laju event masuk — antrean menumpuk dan \"real-time\" menjadi fiksi. Aturannya: alert jika lag melewati ambang (misalnya 10.000 pesan atau 5 menit) dan page jika trennya naik terus selama 15 menit. Obatnya: tambah consumer — tetapi ingat batas keras dari langkah 4, jumlah consumer efektif maksimal sama dengan jumlah partisi. Jika lag tetap tumbuh setelah consumer maksimal, masalahnya bukan paralelisme melainkan logika consumer yang terlalu berat atau downstream yang lambat. Dan satu peringatan keras: jika lag melampaui masa retensi topic, pesan yang belum dibaca terhapus — data loss yang tidak bisa di-replay. Monitor lag seperti monitor detak jantung pasien ICU: diam-diam tetapi menentukan hidup mati.",
+        "Evolusi skema adalah bom waktu di sistem streaming. Produsen menambah field baru ke format event; consumer lama yang tidak mengenal field itu crash saat parsing — dan karena streaming tidak pernah berhenti, crash berarti lag menumpuk dalam hitungan menit. Solusi industri: schema registry. Setiap event terdaftar dengan skema berversi; CI menolak perubahan yang tidak backward-compatible (misalnya menghapus field wajib atau mengubah tipe) sebelum mencapai produksi. Produsen hanya boleh menambah field opsional; consumer wajib mengabaikan field yang tidak dikenal (forward compatibility). Aturan yang menyelamatkan banyak malam: \"tidak ada deploy produsen tanpa cek kompatibilitas skema di CI.\" Dan untuk perubahan besar yang memang breaking: buat topic atau versi event baru, jalankan dua versi paralel selama masa transisi, lalu pensiunkan yang lama — persis etika versioning di dunia data contract.",
+        "Desain partition key menentukan nasib performamu. Dua kegagalan klasik di ujung yang berlawanan. Hot partition: key = kota, dan 70% transaksimu dari Jakarta — satu partisi menerima 70% beban sementara partisi lain menganggur; consumer partisi itu lag selamanya dan scale-out tidak membantu karena urutan per key harus dipertahankan. Terlalu banyak partisi: 1.000 partisi untuk topic kecil — setiap rebalance consumer group menjadi lambat, metadata membengkak, dan broker terbebani. Aturan praktis: key = entitas bisnis yang butuh urutan (nasabah_id, order_id) — bukan atribut skew seperti kota; jumlah partisi = 2× jumlah consumer pada beban puncak, memberi ruang tumbuh tanpa rebalance mahal. Uji skew sejak hari pertama dengan distribusi nyata, bukan asumsi: \"tiga key teratas menguasai berapa persen traffic?\" Kalau jawabannya di atas 30%, rancang ulang key-mu sekarang, bukan setelah incident.",
+        "Masalah yang tidak terlihat sampai merugikan adalah dual-write: aplikasi menulis ke database DAN mengirim event ke Kafka sebagai dua operasi terpisah. Jika kirim ke Kafka gagal setelah database commit, event hilang selamanya tanpa ada yang tahu — database dan downstream tidak sinkron diam-diam. Solusi standarnya adalah transactional outbox: aplikasi menulis data bisnis dan event ke tabel outbox dalam satu transaksi database yang sama (atomik — keduanya sukses atau keduanya gagal), lalu relay terpisah membaca tabel outbox dan meneruskannya ke Kafka. Pola ini mengubah masalah distributed transaction yang mustahil menjadi dua masalah lokal yang mudah: transaksi database biasa plus relay idempoten. Aturannya: \"tidak ada logika bisnis yang mengirim ke Kafka langsung dari request handler.\" Semua event keluar lewat outbox. Ini satu pola yang memisahkan arsitektur amatir dari arsitektur produksi.",
+        "Testing sistem streaming jauh lebih sulit daripada testing batch, dan justru karena itu lebih penting. Batch bisa di-test dengan file sample; streaming butuh simulasi waktu. Praktik yang bekerja: rekam topic produksi selama satu jam (atau buat generator event sintetis dengan pola yang realistis, termasuk late data dan duplikat), lalu replay rekaman itu ke environment test dan verifikasi outputnya sama persis setiap kali — determinisme adalah syarat test yang bisa dipercaya. Uji kekacauan (chaos) yang wajib: matikan consumer di tengah processing lalu nyalakan lagi — pastikan tidak ada event yang hilang atau terhitung ganda (inilah uji idempotency yang sesungguhnya); kirim batch event duplikat sengaja; kirim event dengan event time tiga jam lalu. Kalau pipeline-mu lolos keempat uji ini, kamu boleh tidur nyenyak. Kalau tidak, lebih baik ketahuan sekarang di test daripada jam 3 pagi di produksi.",
+        "Tutup dengan checklist sepuluh detik yang ditempel di dinding tim. Satu: keputusan bisnis apa yang berubah jika datanya datang dalam hitungan menit versus hitungan jam? Tidak ada jawaban konkret = batch. Dua: berapa rupiah nilai satu jam kecepatan itu, dikali frekuensinya, dikurangi Rp444 juta per tahun? Negatif = batch. Tiga: apakah tim punya orang yang bisa di-page jam 3 pagi untuk masalah watermark dan checkpointing? Tidak = batch, atau pakai managed service dan hitung biayanya. Empat: mulai dari batch selalu — naik ke micro-batch saat interval 15 menit terbukti kurang, naik ke streaming penuh hanya saat micro-batch terbukti kurang. Tangga ini (batch → micro-batch → streaming) menaikkan kompleksitas bertahap sesuai bukti, bukan sesuai ambisi. Arsitek yang baik bukan yang membangun sistem paling canggih, melainkan yang membangun sistem paling sederhana yang masih menjawab kebutuhan bisnis — dan bisa menjelaskan kenapa tidak lebih sederhana lagi.",
+        "Backpressure adalah mekanisme bertahan hidup yang membedakan sistem streaming dewasa dari yang rapuh. Ketika consumer lebih lambat dari producer — misalnya downstream database sedang maintenance — pesan menumpuk. Tanpa backpressure, penumpukan ini menghabiskan memori consumer sampai crash (out of memory), lalu restart, lalu menumpuk lagi: siklus kematian. Dengan backpressure yang sehat, consumer memberi sinyal \"pelan-pelan\" ke upstream: Kafka secara alami menyediakannya karena consumer mengontrol sendiri kecepatan polling-nya — pesan menunggu aman di topic, bukan di memori consumer. Aturan desainnya: tidak ada komponen yang menyimpan antrean tak terbatas di memori; setiap buffer punya batas dan perilaku saat penuh (block, drop dengan pencatatan, atau spill ke disk). Uji dengan spike test: kirim 10× traffic normal selama 5 menit dan amati — sistem yang baik melambat dengan anggun (lag naik lalu turun kembali), sistem yang buruk mati.",
+        "State adalah bagian streaming yang paling mahal dan paling sering diremehkan. Agregasi \"hitung per 10 menit\" butuh menyimpan state antar event — dan state itu harus survive restart. Flink menyimpannya di state backend (umumnya RocksDB di disk lokal) plus checkpoint berkala ke storage tahan lama. Dua implikasinya: pertama, ukuran state menentukan biaya — window 24 jam untuk 10 juta key berarti puluhan GB state yang harus di-checkpoint tiap beberapa menit, membebani network dan storage; kedua, restore dari checkpoint butuh waktu — restart bukan instan, bisa belasan menit untuk state besar, selama itu lag menumpuk. Aturan praktis: kecilkan window sebisa mungkin (apakah benar-benar butuh 24 jam, atau 1 jam cukup?), batasi jumlah key dengan TTL state (state untuk key yang sudah 7 hari tidak aktif boleh dihapus), dan ukur waktu restore sebagai bagian dari SLA — bukan hanya waktu processing normal. Banyak tim kaget pertama kali restart production: \"kok 20 menit belum kembali normal?\"",
+        "Optimasi biaya streaming tanpa mengorbankan kecepatan ada seninya. Tiga tuas utama. Pertama, tiered storage: event lama (lebih dari 7 hari) dipindah otomatis ke object storage murah — tetap bisa di-replay tetapi tidak membebani disk broker yang mahal; menghemat 40–60% biaya storage topic. Kedua, kompresi: batching plus kompresi LZ4/Snappy memangkas network dan storage 3–5× untuk event JSON yang repetitif — hampir gratis karena CPU modern sangat cepat. Ketiga, right-sizing: jangan provision untuk puncak teoritis; gunakan autoscaling consumer dan pisahkan topic kritis (butuh latensi detik) dari topic bulk (cukup menit) ke cluster dengan spesifikasi berbeda — mencampur keduanya di satu cluster berarti membayar harga latensi untuk data yang tidak butuh. Aturan anggarannya: review biaya streaming tiap kuartal seperti review tagihan listrik — 20% pemborosan hampir selalu bisa ditemukan, dan biasanya berasal dari retensi yang kelewat panjang atau partisi yang kelewat banyak.",
+        "Kesalahan organisasi yang berulang adalah membangun tim streaming sebelum membangun disiplin batch. Tim yang belum bisa menjalankan batch dengan idempoten, test, dan monitoring yang baik akan membangun streaming yang kacau — hanya lebih cepat kacau dan lebih mahal. Aturan kematangannya berurutan: batch yang andal dulu (langkah 1–7 lesson ini plus DM5), lalu micro-batch sebagai jembatan, lalu streaming untuk use case yang terbukti butuh. Setiap kenaikan tangga harus didahului satu dokumen: \"keputusan bisnis apa yang tidak bisa dijawab oleh level saat ini, dengan bukti.\" Dokumen ini dibaca ulang tiap enam bulan — banyak tim menemukan bahwa use case yang dulu \"butuh real-time\" ternyata sudah terjawab micro-batch, dan mereka bisa turun tangga menghemat ratusan juta.",
+        "Terakhir, ingat bahwa streaming tidak menghapus kebutuhan akan batch — ia menambahkannya. Arsitektur yang sehat hampir selalu hibrida: streaming untuk deteksi dan aksi cepat, batch harian untuk rekonsiliasi dan kebenaran akhir, batch historis untuk backfill dan training model. Keduanya membaca dari sumber yang sama (idealnya topic yang sama — pola Kappa — atau CDC yang sama), sehingga tidak ada dua versi kebenaran yang divergen. Aturan operasinya: setiap angka yang keluar dari streaming harus bisa diverifikasi oleh batch keesokan harinya; selisih di luar toleransi adalah insiden yang diinvestigasi, bukan \"biasa\". Dengan disiplin ini, kamu mendapat yang terbaik dari dua dunia: kecepatan streaming dan kepercayaan batch. Tanpa disiplin ini, kamu mendapat yang terburuk: dua angka berbeda dan tidak ada yang tahu mana yang benar.",
+      ],
+      tasks: [],
+      reference: "Streaming adalah keputusan bisnis berhitung rupiah, bukan pilihan teknologi.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: ["Enam pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
+      tasks: [],
+      summary: [
+        "Batch: murah, sederhana, telat = interval jadwal. Default untuk 80% kasus.",
+        "Streaming: detik, mahal, kompleks — hanya jika nilai waktu membenarkannya.",
+        "Kafka: distributed event log — topic/partition/consumer group; urutan per partisi.",
+        "CDC: baca WAL → replikasi ringan, real-time, lengkap. Pola standar OLTP → warehouse.",
+        "Semantik: at-least-once + idempoten ≈ exactly-once (murah). Exactly-once sejati = mahal.",
+      ],
+      next: { label: "DM7 — Kualitas Data", href: "/learn/dm7-kualitas-data" },
+      quiz: [
+        {
+          q: "Kapan streaming wajib dipilih dibanding batch?",
+          options: [
+            { text: "Saat datanya besar", why: "Data besar justru cocok untuk batch yang throughput-nya raksasa." },
+            { text: "Saat nilai \"1 jam lebih cepat\" besar — misal fraud: jawaban telat = jawaban salah", why: "Streaming adalah keputusan bisnis (nilai waktu), bukan gengsi.", correct: true },
+            { text: "Saat tim ingin teknologi keren", why: "Teknologi keren tanpa nilai bisnis = kompleksitas gratis." },
+            { text: "Selalu — batch sudah kuno", why: "Batch tetap default yang benar untuk sekitar 80% kasus." },
+          ],
+        },
+        {
+          q: "Di Kafka, jaminan urutan event berlaku…",
+          options: [
+            { text: "Global, semua partisi", why: "Ini miskonsepsi klasik — tidak ada jaminan urutan antar-partisi." },
+            { text: "Hanya dalam satu partisi — antar-partisi bisa tak berurutan", why: "Butuh urutan per entitas? Partition key = ID entitas.", correct: true },
+            { text: "Tidak ada jaminan sama sekali", why: "Ada: dalam satu partisi urutan dijamin." },
+            { text: "Hanya untuk consumer group", why: "Consumer group soal pembagian baca, bukan soal urutan." },
+          ],
+        },
+        {
+          q: "Kenapa CDC (baca WAL) lebih baik dari SELECT * berkala untuk replikasi OLTP → warehouse?",
+          options: [
+            { text: "Karena lebih modern", why: "\"Modern\" bukan alasan arsitektur." },
+            { text: "Ringan (tidak scan tabel raksasa), real-time, dan lengkap (INSERT/UPDATE/DELETE + urutan + before/after)", why: "Tiga keunggulan CDC; ia menumpang WAL yang memang sudah ada.", correct: true },
+            { text: "Karena tidak butuh Kafka", why: "CDC umumnya justru dikirim via Kafka." },
+            { text: "Karena menghapus data lama", why: "CDC tidak menghapus apa pun; ia menangkap perubahan." },
+          ],
+        },
+        {
+          q: "Sistem at-least-once + consumer idempoten menghasilkan…",
+          options: [
+            { text: "Kekacauan duplikat", why: "Duplikat dinetralkan oleh idempotency consumer." },
+            { text: "Efek setara exactly-once dengan biaya jauh lebih murah — pola standar industri", why: "Rumus praktis lesson ini.", correct: true },
+            { text: "Data hilang", why: "At-least-once menjamin tidak hilang (dengan risiko duplikat)." },
+            { text: "Tidak ada bedanya", why: "Bedanya besar: tanpa idempoten, duplikat meracuni data." },
+          ],
+        },
+        {
+          q: "Dashboard butuh data \"segar\" tapi keputusan memakai data 15 menit lalu pun sama. Pilihan paling bijak?",
+          options: [
+            { text: "Streaming Flink full — biar keren", why: "Membayar harga streaming untuk kebutuhan micro-batch." },
+            { text: "Micro-batch 5–15 menit — 90% manfaat dengan 20% kompleksitas", why: "Tanya selalu: keputusan apa yang berubah dengan data per detik?", correct: true },
+            { text: "Batch mingguan", why: "Mingguan terlalu jarang untuk kebutuhan \"segar\". " },
+            { text: "Tidak usah ada dashboard", why: "Kebutuhan bisnisnya nyata; solusinya yang disesuaikan." },
+          ],
+        },
+        {
+          q: "Event dengan event time 2 jam lalu baru tiba sekarang; watermark sistem 30 menit. Apa yang terjadi pada event itu?",
+          options: [
+            { text: "Masuk normal ke window yang sesuai", why: "Window-nya sudah ditutup watermark 90 menit lalu — tidak bisa \"masuk normal\"." },
+            { text: "Dianggap late: tidak masuk agregat utama — ditangani via side output atau dikoreksi batch harian", why: "Inilah trade-off watermark: ketepatan waktu dibayar dengan mengorbankan data yang sangat telat.", correct: true },
+            { text: "Sistem menunggu sampai event-nya datang", why: "Menunggu tanpa batas = window tidak pernah tutup = hasil tidak pernah keluar." },
+            { text: "Event-nya dihapus otomatis", why: "Tidak dihapus — ia dialihkan ke jalur penanganan late data, bukan dibuang diam-diam." },
+          ],
+        },
+      ],
+    },
+  ],
+};

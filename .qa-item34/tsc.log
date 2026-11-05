@@ -1,0 +1,335 @@
+src/app/v2/content/wqb8-neutralization.ts(113,50): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(114,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(114,3): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(114,10): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(114,15): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(114,19): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(115,10): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(115,77): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(116,10): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(116,77): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(118,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(118,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(118,9): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(119,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,6): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,16): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,23): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,27): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,35): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(119,57): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(120,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,6): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,16): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,20): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,34): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,41): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,52): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(120,62): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(121,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(121,3): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(122,9): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(122,18): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(123,17): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(123,51): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(124,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(124,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(124,10): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(124,15): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(125,10): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(125,77): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(126,10): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(126,77): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(128,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(128,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(128,9): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(129,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,6): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,16): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,23): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,27): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,35): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(129,57): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,1): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(130,3): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,6): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,16): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,20): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,34): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,41): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,52): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(130,62): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,10): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,14): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,22): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,30): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,33): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(131,38): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(131,46): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(132,1): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(132,10): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(132,14): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(132,22): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(132,30): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(132,33): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(132,38): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(132,46): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(133,1): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(134,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(135,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(135,31): error TS1005: ')' expected.
+src/app/v2/content/wqb8-neutralization.ts(135,34): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(135,39): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(135,83): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(136,1): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,21): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,34): error TS1005: '{' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,57): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,66): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,71): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(136,76): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(136,88): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(137,1): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,21): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,34): error TS1005: '{' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,57): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,66): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,71): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(137,76): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(137,88): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(138,1): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(138,8): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(138,49): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(139,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(139,8): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(139,48): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(140,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(140,9): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(140,19): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(140,23): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,21): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,25): error TS1005: ':' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,33): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,40): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,54): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(141,64): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(142,37): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(142,38): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(143,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(143,13): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(143,72): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(144,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(144,8): error TS1127: Invalid character.
+src/app/v2/content/wqb8-neutralization.ts(144,72): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb8-neutralization.ts(145,1): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(146,15): error TS1005: ',' expected.
+src/app/v2/content/wqb8-neutralization.ts(151,7): error TS1135: Argument expression expected.
+src/app/v2/content/wqb8-neutralization.ts(153,5): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(153,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(156,14): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(157,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(158,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(162,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(163,11): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(165,13): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(166,7): error TS1109: Expression expected.
+src/app/v2/content/wqb8-neutralization.ts(166,8): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(168,5): error TS1109: Expression expected.
+src/app/v2/content/wqb8-neutralization.ts(168,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(171,14): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(172,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(173,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(177,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(178,11): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(180,13): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(181,13): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(182,7): error TS1109: Expression expected.
+src/app/v2/content/wqb8-neutralization.ts(182,8): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(184,5): error TS1109: Expression expected.
+src/app/v2/content/wqb8-neutralization.ts(184,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(187,14): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(188,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(189,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(192,12): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(193,14): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(200,11): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(242,16): error TS1005: ';' expected.
+src/app/v2/content/wqb8-neutralization.ts(243,5): error TS1109: Expression expected.
+src/app/v2/content/wqb8-neutralization.ts(243,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(244,3): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(244,4): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb8-neutralization.ts(245,1): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(119,71): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(120,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(121,1): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(121,3): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(121,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(121,18): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(122,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(122,9): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(122,77): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(123,10): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(123,78): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(125,1): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(125,3): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(125,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(126,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(126,5): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(126,22): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,5): error TS1135: Argument expression expected.
+src/app/v2/content/wqb9-data-fields.ts(127,13): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(127,15): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,20): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,24): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,31): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,36): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,42): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,48): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,53): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,62): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,68): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(127,70): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(129,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(129,5): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(129,16): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(130,12): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(130,13): error TS1003: Identifier expected.
+src/app/v2/content/wqb9-data-fields.ts(130,43): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(133,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(133,5): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(133,25): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(133,29): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(133,34): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(133,40): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(133,41): error TS1136: Property assignment expected.
+src/app/v2/content/wqb9-data-fields.ts(133,42): error TS1136: Property assignment expected.
+src/app/v2/content/wqb9-data-fields.ts(134,17): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(134,21): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(134,27): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(134,34): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(134,37): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(134,45): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(135,5): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(135,8): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(135,18): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(135,47): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(136,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(137,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(137,8): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(137,25): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(138,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(138,3): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(139,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(139,18): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(140,17): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(140,72): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(141,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(142,1): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(142,3): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(142,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(142,18): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(142,24): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(143,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(143,9): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(143,77): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(144,10): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(144,78): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(146,1): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(146,3): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(146,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(147,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(147,5): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(147,22): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(149,5): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(149,9): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(149,14): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(150,12): error TS1005: '{' expected.
+src/app/v2/content/wqb9-data-fields.ts(150,14): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(150,17): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(151,13): error TS1109: Expression expected.
+src/app/v2/content/wqb9-data-fields.ts(151,17): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(151,58): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(152,20): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(152,28): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(152,31): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(152,35): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(154,21): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(155,5): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(155,12): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(157,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(157,5): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(157,16): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(158,12): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(158,13): error TS1003: Identifier expected.
+src/app/v2/content/wqb9-data-fields.ts(158,43): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(161,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(161,5): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(161,25): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(161,29): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(161,34): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(161,40): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(161,41): error TS1136: Property assignment expected.
+src/app/v2/content/wqb9-data-fields.ts(161,42): error TS1136: Property assignment expected.
+src/app/v2/content/wqb9-data-fields.ts(162,17): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(162,21): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(162,27): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(162,34): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(162,37): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(162,45): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(163,8): error TS1005: ':' expected.
+src/app/v2/content/wqb9-data-fields.ts(163,18): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(163,47): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(164,9): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(165,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(165,8): error TS1127: Invalid character.
+src/app/v2/content/wqb9-data-fields.ts(165,25): error TS1002: Unterminated string literal.
+src/app/v2/content/wqb9-data-fields.ts(166,1): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(167,15): error TS1005: ',' expected.
+src/app/v2/content/wqb9-data-fields.ts(172,7): error TS1135: Argument expression expected.
+src/app/v2/content/wqb9-data-fields.ts(174,5): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(174,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(177,14): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(178,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(179,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(183,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(184,11): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(186,13): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(187,7): error TS1109: Expression expected.
+src/app/v2/content/wqb9-data-fields.ts(187,8): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(189,5): error TS1109: Expression expected.
+src/app/v2/content/wqb9-data-fields.ts(189,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(192,14): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(193,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(194,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(198,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(199,11): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(201,13): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(202,13): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(203,7): error TS1109: Expression expected.
+src/app/v2/content/wqb9-data-fields.ts(203,8): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(205,5): error TS1109: Expression expected.
+src/app/v2/content/wqb9-data-fields.ts(205,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(208,14): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(209,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(210,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(213,12): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(214,14): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(221,11): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(263,16): error TS1005: ';' expected.
+src/app/v2/content/wqb9-data-fields.ts(264,5): error TS1109: Expression expected.
+src/app/v2/content/wqb9-data-fields.ts(264,6): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(265,3): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(265,4): error TS1128: Declaration or statement expected.
+src/app/v2/content/wqb9-data-fields.ts(266,1): error TS1128: Declaration or statement expected.
+EXIT=2

@@ -1,0 +1,37 @@
+import { getChapters } from "@/lib/content";
+import Link from "next/link";
+
+export default async function Home() {
+  const chapters = getChapters();
+  return (
+    <div className="container-read" style={{ paddingTop: "var(--sp-12)" }}>
+      <span className="eyebrow">Learn Platform</span>
+      <h1 className="display-title">Selamat Datang</h1>
+      <p className="lead">
+        Platform belajar interaktif — Statistika, Probabilitas, SQL, Python,
+        hingga Risk Analytics.
+      </p>
+
+      <div className="section" style={{ marginTop: "var(--sp-8)" }}>
+        <h2>Daftar Materi</h2>
+        {chapters.length === 0 && (
+          <div className="callout">
+            <p>Belum ada materi. Segera hadir.</p>
+          </div>
+        )}
+        {chapters.map((c) => (
+          <Link
+            key={c.slug}
+            href={`/learn/${c.slug}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="card card-hover">
+              <h3>{c.title}</h3>
+              <span className="text-small text-muted">Baca →</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}

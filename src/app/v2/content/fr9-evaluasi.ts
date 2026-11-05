@@ -1,0 +1,251 @@
+import type { V2Lesson } from "../lib/types";
+
+export const fr9: V2Lesson = {
+  slug: "fr9-evaluasi",
+  track: "Fraud & AML Analytics",
+  module: "Machine Learning",
+  title: "FR9 — Evaluasi Model",
+  estMinutes: 55,
+  steps: [
+    {
+      id: "cerita",
+      eyebrow: "Langkah 1 · Cerita",
+      title: "Model 0,97 yang dipecat",
+      prose: [
+        "Data scientist \"BankMega\" presentasi ke direksi dengan bangga: \"Model fraud baru kami ROC-AUC 0,97!\" Direksi mengangguk. Tiga bulan kemudian model itu dimatikan. Bukan karena tidak akurat — tapi karena investigator mogok: dari 1.000 alert per hari, hanya 40 yang benar fraud. Mereka berhenti membaca alert. Fraud lolos lebih banyak daripada sebelum ada model.",
+        "Investigasi pasca-kematian: ROC-AUC 0,97 itu nyata — tapi tidak relevan. Dengan 50.000 transaksi normal per hari, \"sedikit\" false positive rate 2% = 1.000 alert sampah per hari. ROC-AUC terhibur oleh 49.000 true negative yang mudah; yang menderita adalah 10 investigator manusia.",
+        "Model penggantinya punya ROC-AUC lebih rendah (0,94) tapi PR-AUC jauh lebih tinggi — dan investigator kembali percaya. Metrik yang salah = mengoptimasi hal yang salah = sistem yang mati di tangan penggunanya.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"AUC 0,97 = model bagus, titik.\" AUC yang mana? ROC-AUC 0,97 dengan PR-AUC 0,41 = model yang membunuh tim investigasi. Selalu tanyakan jenis AUC-nya — dan untuk kelas langka, PR-AUC yang bicara.",
+      },
+      reference: "Fraud = PR-AUC dulu, ROC-AUC kemudian. Model yang membunuh tim investigasi = model yang gagal.",
+    },
+    {
+      id: "roc-pr",
+      eyebrow: "Langkah 2 · ROC vs PR",
+      title: "Metrik yang menipu di data imbalance",
+      prose: [
+        "Kurva ROC memplot TPR (recall) vs FPR di semua threshold. Masalahnya di fraud: penyebut FPR memuat puluhan ribu transaksi normal yang mudah diklasifikasi benar. Contoh: 50.000 normal, 100 fraud. Model dengan 1.000 FP → FPR = 1.000/50.000 = 2% — terlihat kecil! Tapi 1.000 alert sampah/hari = investigator mati. ROC-AUC 0,97 bisa hidup berdampingan dengan precision 4% — dan precision 4% adalah kematian operasional.",
+        "Kurva PR memplot Precision vs Recall — tidak ada TN di rumusnya, kebal terhadap \"hiburan\" true negative massal. Baseline acak = fraud rate (0,2%), bukan 0,5: PR-AUC 0,4 pada fraud 0,2% = 200x lebih baik dari acak. Aturan praktis: jika positif < 5% dari data, ROC-AUC dilarang jadi metrik utama.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `pr_auc(model)` (average precision)" },
+        { id: "t2", text: "Bandingkan PR-AUC model X vs Y, cetak keduanya" },
+      ],
+      expected: "Model X: PR-AUC 0.977 | Model Y: PR-AUC 0.109 — padahal ROC-AUC keduanya tinggi",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "PR-AUC 'menghukum' false positive proporsional terhadap kelangkaan fraud. ROC-AUC tidak — ia diencerkan oleh TN raksasa. Kurva PR adalah menu restoran untuk bisnis: \"recall 70% harganya precision 35%\". Direksi tidak memilih \"model terbaik\" — mereka memilih titik di kurva yang sesuai budget investigator.",
+      },
+      hints: [
+        "Urutkan data by skor menurun; jalan dari atas, akumulasi TP/FP.",
+        "Tiap langkah: r = tp/n_fraud; p = tp/(tp+fp); auc += (r - prev_r) * p.",
+        "def pr_auc(model, n_fraud=100, n_ok=50000): bangun data, sort, loop.",
+      ],
+      code: {
+        starter: `# PR-AUC vs ROC-AUC: kenapa ROC menipu di data imbalance.\nimport random\nrandom.seed(13)\n\ndef skor(model, is_fraud):\n    if model == "X":\n        return random.gauss(0.8, 0.12) if is_fraud else random.gauss(0.2, 0.12)\n    else:\n        return random.gauss(0.7, 0.18) if is_fraud else random.gauss(0.25, 0.2)\n\n# TULIS KODEMU: average precision (aproksimasi PR-AUC)\ndef pr_auc(model, n_fraud=100, n_ok=50000):\n    data = [(skor(model, True), 1) for _ in range(n_fraud)] + \\\n           [(skor(model, False), 0) for _ in range(n_ok)]\n    data.sort(reverse=True)\n    tp = fp = 0\n    auc, prev_r = 0.0, 0.0\n    for _, y in data:\n        if y: tp += 1\n        else: fp += 1\n        r =\n        p =\n        auc += (r - prev_r) * p\n        prev_r = r\n    return auc\n\nfor m in ["X", "Y"]:\n    print(f"Model {m}: PR-AUC = {pr_auc(m):.3f}")`,
+        lockLines: 8,
+        solution: `# PR-AUC vs ROC-AUC: kenapa ROC menipu di data imbalance.\nimport random\nrandom.seed(13)\n\ndef skor(model, is_fraud):\n    if model == "X":\n        return random.gauss(0.8, 0.12) if is_fraud else random.gauss(0.2, 0.12)\n    else:\n        return random.gauss(0.7, 0.18) if is_fraud else random.gauss(0.25, 0.2)\n\n# TULIS KODEMU: average precision (aproksimasi PR-AUC)\ndef pr_auc(model, n_fraud=100, n_ok=50000):\n    data = [(skor(model, True), 1) for _ in range(n_fraud)] + \\\n           [(skor(model, False), 0) for _ in range(n_ok)]\n    data.sort(reverse=True)\n    tp = fp = 0\n    auc, prev_r = 0.0, 0.0\n    for _, y in data:\n        if y: tp += 1\n        else: fp += 1\n        r = tp / n_fraud\n        p = tp / (tp + fp)\n        auc += (r - prev_r) * p\n        prev_r = r\n    return auc\n\nfor m in ["X", "Y"]:\n    print(f"Model {m}: PR-AUC = {pr_auc(m):.3f}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "pr_auc", label: "`pr_auc` terdefinisi", msg: "Buat fungsi pr_auc(model, n_fraud=100, n_ok=50000)." },
+          { kind: "stdout_matches", task: "t2", pattern: "Model X: PR-AUC = 0\\.977", label: "PR-AUC model X = 0.977", msg: "Model X memisahkan fraud/normal dengan baik → PR-AUC tinggi." },
+          { kind: "stdout_matches", task: "t2", pattern: "Model Y: PR-AUC = 0\\.109", label: "PR-AUC model Y = 0.109", msg: "Model Y banyak FP skor tinggi → PR-AUC anjlok. ROC-AUC keduanya tetap terlihat 'bagus'." },
+        ],
+      },
+      reference: "PR-AUC = rata-rata precision tertimbang recall — \"seberapa presisi model di tiap level recall\".",
+    },
+    {
+      id: "kapasitas",
+      eyebrow: "Langkah 3 · Bahasa kapasitas",
+      title: "Recall@FPR, alert rate, dan lift",
+      prose: [
+        "Dua metrik operasional yang menghubungkan model ke dunia nyata. Recall@FPR tetap: \"dengan FPR maksimal 1% (budget false positive kami), recall-nya berapa?\" — mis. recall@FPR=1% = 68%. Ini kontrak antara model dan kapasitas. Alert rate: % transaksi yang masuk antrian. Alert rate 2% dari 50.000 trx/hari = 1.000 alert/hari. Alert rate x volume = nyawa investigator.",
+        "Lift: \"berapa kali lebih baik dari acak?\" Contoh: ambil 10% transaksi dengan skor tertinggi; di dalamnya fraud rate 4% vs populasi 0,2% → lift = 20x. Kegunaan: bahasa untuk non-teknis (\"model ini 20x lebih baik dari menebak\") dan untuk prioritasi antrian — review dari skor tertinggi dulu. Aturan: tetapkan alert rate maksimal dari kapasitas (kapasitas ÷ volume), lalu maksimalkan recall di bawahnya. Bukan sebaliknya.",
+      ],
+      formula: String.raw`\text{lift} = \frac{\text{precision di segmen}}{\text{fraud rate populasi}}`,
+      formulaNote: "Contoh: precision 4% di 10% skor tertinggi, populasi 0,2% → lift = 20x.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"Akurasi 99% berarti model bagus.\" Dengan 99,8% transaksi normal, model yang memprediksi \"semua normal\" mendapat akurasi 99,8% sambil tidak menangkap satu pun fraud. Akurasi di data imbalance bukan metrik — ia jebakan. Lihat precision, recall, dan rupiahnya.",
+      },
+      reference: "Lift = precision_segmen / fraud_rate — bahasa bisnis & dasar prioritas antrian.",
+    },
+    {
+      id: "rupiah",
+      eyebrow: "Langkah 4 · Net rupiah",
+      title: "Metrik yang dimengerti direksi",
+      prose: [
+        "Metrik pamungkas — terjemahkan semuanya ke rupiah. Contoh: TP=16, FP=48, FN=4, loss Rp1,1 jt, review Rp25 rb → diselamatkan Rp17,6 jt − biaya FP Rp1,2 jt − loss lolos Rp4,4 jt = net Rp12 jt/bulan per 10.000 trx. Angka inilah yang masuk slide direksi — bukan AUC.",
+        "Setiap metrik statistik punya \"terjemahan rupiah\". Precision rendah = \"membakar RpX di review sia-sia\". Recall rendah = \"membiarkan RpY hilang\". Analis yang bisa menerjemahkan = analis yang didengarkan direksi.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `hasil(model)` → (tp, fp, fn, diselamatkan, biaya)" },
+        { id: "t2", text: "Bandingkan model A (recall 80%, prec 25%) vs B (recall 60%, prec 60%)" },
+        { id: "t3", text: "Cetak TP/FP/FN + net rupiah tiap model" },
+      ],
+      expected: "Model A: NET Rp12.0 jt | Model B: NET Rp4.2 jt — A menang di skenario kecil ini",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"Model terbaik = metrik tertinggi.\" Model terbaik = net rupiah tertinggi dalam kendala kapasitas. Model dengan recall lebih tinggi bisa net lebih rendah karena membakar biaya review. Mengoptimasi recall buta = mengoptimasi kebangkrutan operasional.",
+      },
+      hints: [
+        "tp = int(FRAUD * r); alert = int(tp / p); fp = alert - tp; fn = FRAUD - tp.",
+        "diselamatkan = tp * LOSS; biaya = fp*COST_REVIEW + fn*LOSS.",
+        "net = diselamatkan - biaya.",
+      ],
+      code: {
+        starter: `# Uang terselamatkan: metrik yang dimengerti direksi.\n# 10.000 transaksi/bulan, 20 fraud @ Rp1,1 jt.\nimport random\nrandom.seed(21)\nN, FRAUD, LOSS = 10000, 20, 1_100_000\nCOST_REVIEW = 25_000\n\n# TULIS KODEMU\ndef hasil(model):\n    r, p = (0.80, 0.25) if model == "A" else (0.60, 0.60)\n    tp =\n    alert =\n    fp =\n    fn =\n    diselamatkan =\n    biaya =\n    return tp, fp, fn, diselamatkan, biaya\n\nfor m in ["A", "B"]:\n    tp, fp, fn, selamat, biaya = hasil(m)\n    print(f"Model {m}: TP={tp} FP={fp} FN={fn}")\n    print(f"   NET: Rp{(selamat-biaya)/1e6:.1f} jt")`,
+        lockLines: 6,
+        solution: `# Uang terselamatkan: metrik yang dimengerti direksi.\n# 10.000 transaksi/bulan, 20 fraud @ Rp1,1 jt.\nimport random\nrandom.seed(21)\nN, FRAUD, LOSS = 10000, 20, 1_100_000\nCOST_REVIEW = 25_000\n\n# TULIS KODEMU\ndef hasil(model):\n    r, p = (0.80, 0.25) if model == "A" else (0.60, 0.60)\n    tp = int(FRAUD * r)\n    alert = int(tp / p)\n    fp = alert - tp\n    fn = FRAUD - tp\n    diselamatkan = tp * LOSS\n    biaya = fp * COST_REVIEW + fn * LOSS\n    return tp, fp, fn, diselamatkan, biaya\n\nfor m in ["A", "B"]:\n    tp, fp, fn, selamat, biaya = hasil(m)\n    print(f"Model {m}: TP={tp} FP={fp} FN={fn}")\n    print(f"   NET: Rp{(selamat-biaya)/1e6:.1f} jt")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "hasil", label: "`hasil` terdefinisi", msg: "Buat fungsi hasil(model)." },
+          { kind: "stdout_matches", task: "t3", pattern: "Model A: TP=16 FP=48 FN=4", label: "Model A: TP=16 FP=48 FN=4", msg: "A: tp=16, alert=64, fp=48, fn=4." },
+          { kind: "stdout_matches", task: "t3", pattern: "NET: Rp12\\.0 jt", label: "Net model A = Rp12.0 jt", msg: "17,6 jt − 5,6 jt = 12,0 jt." },
+        ],
+      },
+      reference: "Net = (TP x loss) − (FP x biaya review) − (FN x loss). Evaluasi yang berhenti di F1 baru setengah jalan.",
+    },
+    {
+      id: "peta",
+      eyebrow: "Langkah 5 · Peta keputusan",
+      title: "Metrik apa untuk siapa",
+      prose: [
+        "Satu: bandingkan 2 model saat development → PR-AUC. Jujur untuk kelas langka; tetap laporkan ROC-AUC sebagai pelengkap. Dua: selaraskan dengan kapasitas tim → recall@FPR + alert rate. \"Recall 70% pada FPR 1%\" = kontrak operasional; alert rate x volume = beban investigator. Tiga: prioritaskan antrian review → lift / skor tertinggi dulu. Empat: minta budget ke direksi → net uang terselamatkan (rupiah).",
+        "Mini-case duel vendor — BankMega (50.000 trx/hari, fraud 0,2% = 100 fraud/hari, loss Rp1,1 jt, review Rp25 rb, kapasitas 1.000 review/hari). Vendor A: ROC-AUC 0,97, PR-AUC 0,41; recall 85%, precision 4%. Vendor B: ROC-AUC 0,94, PR-AUC 0,62; recall 70%, precision 35%. Vendor A: TP=85, alert = 85/0,04 = 2.125/hari > 1.000 → kapasitas jebol 2x. Net = Rp26 jt/hari — jika investigator sanggup (mereka tidak). Vendor B: TP=70, alert = 200/hari ≤ 1.000 muat. Net = Rp40,75 jt/hari. Pilih B — net lebih tinggi DAN muat kapasitas. A adalah jebakan \"ROC-AUC tinggi\": di kertas menang, di operasi membunuh.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Sebelum menghitung metrik apa pun, tulis keputusan yang akan diambil dari angkanya. \"Jika precision < 15%, kita naikkan threshold; jika > 30%, kita tambah auto-block.\" Metrik tanpa keputusan = dekorasi dashboard. Evaluasi yang baik menjawab pertanyaan keputusan, bukan pertanyaan statistik.",
+      },
+      reference: "Tiga metrik, tiga fungsi: PR-AUC (bandingkan model), precision@kapasitas (monitoring), net rupiah (direksi).",
+    },
+    {
+      id: "metrik-keputusan",
+      eyebrow: "Langkah 6 · Metrik mengikuti keputusan",
+      title: "Tidak ada model terbaik — hanya keputusan termurah",
+      prose: [
+        "Model A: precision 0,94, recall 0,41. Model B: precision 0,71, recall 0,83. 'Mana yang lebih baik?' — itu pertanyaan yang salah, dan hampir semua perdebatan vendor dimulai dari pertanyaan yang salah ini. Yang benar: 'lebih baik UNTUK KEPUTUSAN APA?' Precision dan recall bukan sifat model; mereka sifat titik operasi — satu model yang sama bisa menjadi 'model A' atau 'model B' hanya dengan menggeser threshold. Dan setiap keputusan bisnis punya harga false positive dan false negative yang berbeda. Membandingkan dua model tanpa menyebut keputusannya seperti membandingkan dua obat tanpa menyebut penyakitnya.",
+        "Ambil dua keputusan nyata. Satu: auto-block e-wallet — sistem memblokir sendiri tanpa manusia. False positive = memblokir nasabah sah: ia marah, lapor ke media sosial, ancam lapor OJK, dan sebagian pergi selamanya. Biaya riilnya: kompensasi + handling complaint + churn ≈ Rp2 juta per kasus. False negative = fraud lolos: rata-rata loss e-wallet Rp800 ribu. Di sini FP 2,5 kali lebih mahal dari FN — kamu membeli precision. Dua: antrean investigator. False positive = 15 menit review sia-sia ≈ Rp25 ribu. False negative = tetap Rp800 ribu loss. Di sini FN 32 kali lebih mahal dari FP — kamu membeli recall. Rasio harga yang sama sekali berbeda, dari dua keputusan yang memakai 'model fraud' yang sama.",
+        "Aturan formalnya diturunkan dari biaya, bukan dari kebiasaan. Blokir (atau eskalasi) bila probabilitas fraud melebihi ambang ekonomis τ* = C_FP / (C_FP + C_FN). Untuk auto-block: τ* = 2.000.000 / 2.800.000 ≈ 0,71 — blokir hanya bila keyakinan di atas 71%. Untuk antrean: τ* = 25.000 / 825.000 ≈ 0,03 — antrekan hampir semua yang mencurigakan sedikit pun. Perhatikan apa yang baru saja terjadi: angka '0,5' yang dipakai semua orang sebagai default threshold tidak muncul di mana pun. Threshold 0,5 diam-diam mengklaim 'FP dan FN harganya sama' — klaim yang hampir tidak pernah benar di fraud. Setiap threshold adalah pernyataan harga; pastikan pernyataanmu jujur.",
+        "Jebakan paling mahal: satu model + satu threshold untuk dua keputusan. Praktik yang benar ada dua varian. Varian satu: satu model skor, dua threshold — τ_block = 0,71 untuk auto-block, τ_review = 0,03 untuk antrean. Skor yang sama, keputusan yang berbeda, harga yang berbeda. Varian dua: dua model berbeda — model presisi-tinggi untuk block, model recall-tinggi untuk queue — bila karakteristik datanya memang menuntut spesialisasi. Yang tidak boleh: threshold 0,5 untuk semuanya karena 'standar'. Standar itu dibuat untuk dataset demo, bukan untuk uang nasabah.",
+        "Hitung biaya 'salah konteks' agar terasa. E-wallet 100.000 transaksi/hari, fraud rate 0,5% = 500 fraud/hari. Model A (TP=205, FP=13, FN=295) dipakai untuk antrean: 295 × Rp800 ribu = Rp236 juta loss lolos per hari. Model B (TP=415, FP=170, FN=85) dipakai untuk auto-block: 170 × Rp2 juta = Rp340 juta nasabah sah diblokir per hari. Total Rp576 juta/hari dibakar oleh keputusan 'model mana' yang dijawab tanpa bertanya 'untuk apa'. Ironisnya, fraud-nya sendiri 'hanya' 500 × Rp800 ribu = Rp400 juta/hari — biaya salah konteks LEBIH BESAR dari kejahatannya. Metrik yang salah konteks bukan sekadar suboptimal; ia adalah fraud kedua yang dilakukan oleh timmu sendiri.",
+        "Saat vendor mempresentasikan 'precision 94%', tanyakan tiga hal sebelum mengangguk. Satu: pada threshold berapa? Precision 94% pada threshold 0,9 dan precision 94% pada threshold 0,5 adalah dua klaim yang berbeda — yang pertama mungkin berarti recall 20%. Dua: pada populasi apa? Dievaluasi pada data 2024 yang sudah dibersihkan, atau pada trafik live yang kotor? Tiga: untuk keputusan apa angka ini dioptimasi? Vendor mengoptimasi angka yang terlihat bagus di slide; kamu mengoptimasi rupiah di operasi. Minta kurva PR-nya, pilih titik operasimu sendiri dari kurva itu, dan hitung ulang biayanya dengan harga FP/FN-mu. Slide vendor adalah iklan; kurva adalah datanya.",
+        "Harga berubah, maka threshold harus berubah — ini yang paling sering dilupakan setelah go-live. Contoh: tim investigator dirampingkan dari 10 ke 5 orang — kapasitas turun setengah, biaya opportunity tiap review naik 2x (karena antrean makin panjang, tiap slot review makin berharga). τ_review yang tadinya 0,03 harus naik; precision minimum antrean naik; sebagian kasus tier-3 dialihkan ke auto-tutup + sampling. Atau: regulator menaikkan denda complaint salah blokir — C_FP auto-block naik, τ_block naik. Threshold bukan konstanta yang di-set sekali di notebook; ia parameter operasi yang ditinjau tiap kuartal bersamaan dengan review kapasitas dan regulasi. Masukkan 'review threshold' ke kalender operasi, bukan ke backlog teknis.",
+        "Ada satu pengecualian untuk diwaspadai: keputusan yang harganya tidak bisa dirupiahkan. Salah blokir nasabah prioritas (private banking) biayanya bukan Rp2 juta — tapi hubungan Rp50 miliar dana kelolaan. Salah blokir di tengah kampanye nasional (misal peluncuran QRIS) biayanya pemberitaan. Untuk segmen sensitif, aturannya: keluarkan dari auto-block sepenuhnya (lihat FR11: daftar pengecualian), berapa pun skornya. Tidak semua risiko bisa masuk ke rumus τ* — yang tidak bisa, diselesaikan dengan kebijakan, bukan dengan threshold.",
+
+        "Plot twist yang jarang disadari: model A dan model B mungkin MODEL YANG SAMA. Precision 0,94/recall 0,41 vs precision 0,71/recall 0,83 bisa jadi hanya dua titik operasi di satu kurva PR yang sama — A = threshold 0,85, B = threshold 0,35. Artinya perdebatan 'vendor A vs vendor B' kadang sebenarnya perdebatan 'threshold siapa yang dipakai'. Selalu minta kurva lengkapnya sebelum membandingkan angka tunggal. Dan ini kabar baiknya: bila kurva PR-nya bagus, kamu tidak butuh dua vendor — kamu butuh satu model baik dengan dua threshold yang jujur. Uang yang tadinya untuk lisensi kedua bisa untuk menambah investigator.",
+        "Biaya yang tidak masuk spreadsheet — tapi masuk operasi. Alert fatigue: investigator yang dibombardir 585 alert/hari dengan precision 71% akan mulai 'klik-tutup' alert tanpa membaca dalam 3 bulan; precision efektif sistem turun bukan karena model, tapi karena manusia. Biaya ini tidak ada di rumus τ*, tapi ia nyata: turnover investigator fraud 30–40%/tahun di industri, dan setiap orang yang keluar membawa pergi intuisi pola yang tak terdokumentasi. Maka saat menghitung C_FP antrean, tambahkan 'pajak kelelahan': bila alert/hari > 70% kapasitas, kalikan C_FP dengan 1,5. Model yang 'optimal di kertas' tapi membakar timnya adalah model yang salah.",
+        "Ada efek orde-kedua yang mengubah harga itu sendiri: deterrence. Auto-block yang terlihat dan cepat menurunkan fraud rate populasi — penipu pindah ke target yang lebih lunak. Artinya C_FN (biaya fraud lolos) bukan konstanta: setelah 6 bulan auto-block berjalan baik, fraud rate bisa turun dari 0,5% ke 0,2%, dan τ* harus dihitung ulang (pembilang-tetap, penyebut-menyusut → threshold naik). Model fraud adalah sistem adversarial: ia mengubah dunia yang ia ukur. Tinjauan kuartalan bukan birokrasi — ia adalah cara tetap jujur di dunia yang bergerak karena ulahmu sendiri.",
+        "Latihan untuk timmu minggu ini (30 menit, tanpa coding). Satu: tulis 3 keputusan yang memakai skor fraud di organisasimu. Dua: untuk tiap keputusan, tetapkan C_FP dan C_FN dalam rupiah — tanya ke bisnis/operasional, jangan tebak sendiri. Tiga: hitung τ* masing-masing. Bila dua keputusan punya τ* yang beda > 0,3 tapi memakai threshold yang sama hari ini, kamu baru saja menemukan Rp ratusan juta yang terbakar tiap bulan. Latihan ini lebih berharga dari tuning hyperparameter seminggu — karena ia memperbaiki pertanyaan, bukan jawabannya.",
+        "Keputusan ketiga yang sering dilupakan: pelaporan. STR ke PPATK punya harga FP/FN sendiri — FP = laporan sampah yang menggerus kredibilitas bank di mata regulator (analis PPATK yang 10x menerima laporan kosong darimu akan membaca laporan ke-11 dengan skeptis); FN = kewajiban hukum yang dilanggar + denda. Di sini C_FP bukan rupiah melainkan reputasi regulatorik — sulit diangka, tapi aturannya jelas: threshold STR = 'kecurigaan beralasan' (FR15), bukan τ* ekonomis. Pelajarannya: tidak semua keputusan bisa dimasukkan ke rumus yang sama. Tiga keputusan (block, antrean, lapor) = tiga rezim harga = tiga threshold. Organisasi yang dewasa menulis ketiganya di satu halaman kebijakan, bukan menyerahkannya pada 'feeling' masing-masing investigator.",
+        "Ringkasnya, empat langkah memilih metrik. Satu: tulis keputusannya dulu — auto-block, antrean, atau pelaporan — sebelum membuka notebook. Dua: tetapkan harga FP dan FN per kasus dalam rupiah untuk keputusan itu (tanya bisnis, bukan tebak). Tiga: turunkan threshold ekonomis τ* = C_FP/(C_FP+C_FN), lalu pilih titik operasi di kurva PR yang sesuai. Empat: tinjau tiap kuartal — harga berubah, kapasitas berubah, regulasi berubah. Model yang sama bisa benar dan salah sekaligus; yang menentukan bukan modelnya, melainkan apakah ia melayani keputusan yang tepat dengan harga yang jujur.",
+      ],
+      formula: String.raw`\tau^* = \frac{C_{FP}}{C_{FP} + C_{FN}}`,
+      formulaNote: "Ambang ekonomis: blokir/eskalasi bila p(fraud) > τ*. Auto-block: τ*=0,71. Antrean: τ*=0,03.",
+      tasks: [],
+      note: {
+        title: "Intuisi: metrik mengikuti keputusan, bukan sebaliknya",
+        type: "risk",
+        body: "Ketika vendor berkata 'model kami precision 94%', investigator yang baik tidak mengangguk — ia bertanya: 'pada threshold berapa, populasi apa, untuk keputusan apa?' Precision tanpa konteks keputusan adalah angka vanity: ia terlihat bagus di slide dan tidak berarti apa-apa di operasi. Kedua, setiap threshold adalah label harga yang disamarkan. Threshold 0,5 berkata 'saya percaya FP dan FN harganya sama' — hampir tidak pernah benar di fraud, di mana salah blokir nasabah dan kecolongan fraud hidup di dunia biaya yang berbeda. Ketiga, saat bisnis mengubah keputusannya — dari antrean investigator menjadi auto-block — jangan pakai ulang dashboard lama. Modelnya tidak berubah; pertanyaannya yang berubah. Metrik yang tidak diturunkan ulang adalah metrik yang berbohong dengan angka yang benar. Dan terakhir: analis yang bisa menerjemahkan kurva PR menjadi 'Rp146 juta per hari' akan selalu didengarkan direksi; analis yang hanya membawa AUC akan selalu diminta 'menjelaskan lagi lain waktu'. Kelima, waspadai metrik yang 'terlalu bagus untuk keputusan ini': precision 99% pada auto-block dengan recall 10% berarti kamu hampir tidak memblokir apa-apa — aman dari complaint, tapi fraud merajalela; itu bukan kehati-hatian, itu abdikasi. Metrik yang sehat untuk auto-block: precision tinggi DENGAN recall yang masih berarti, dan untuk antrean: recall tinggi dengan alert yang muat kapasitas. Satu angka tidak pernah cukup; selalu baca pasangannya.",
+      },
+      reference: "Tulis keputusannya dulu, tetapkan harga FP/FN-nya, baru pilih titik operasi di kurva PR.",
+    },
+    {
+      id: "minicase2",
+      eyebrow: "Langkah 7 · Mini-case",
+      title: "Model A vs B: blokir otomatis atau antrean investigator?",
+      prose: [
+        "Kamu analis di e-wallet 'BayarKu': 100.000 transaksi/hari, fraud rate 0,5% = 500 fraud/hari, rata-rata loss Rp800 ribu per fraud. Dua vendor mengajukan model final. Model A: precision 0,94, recall 0,41 → TP = 205, predicted positive = 205/0,94 ≈ 218 → FP ≈ 13, FN = 295. Model B: precision 0,71, recall 0,83 → TP = 415, predicted positive = 415/0,71 ≈ 585 → FP ≈ 170, FN = 85. Dua keputusan menunggumu. Keputusan X: auto-block — blokir otomatis tanpa manusia; FP = nasabah sah diblokir ≈ Rp2 juta per kasus (kompensasi + complaint + churn); FN = Rp800 ribu. Keputusan Y: antrean investigator — FP = 15 menit review sia-sia ≈ Rp25 ribu; FN = Rp800 ribu. Kapasitas investigator: 600 review/hari.",
+        "Pertanyaan. (a) Model mana untuk auto-block, dan berapa total biaya hariannya? (b) Model mana untuk antrean investigator, dan berapa total biaya hariannya? (c) Hitung biaya 'salah konteks' — memakai pemenang (a) untuk (b) dan sebaliknya — dalam rupiah per hari. (d) Nyatakan biaya FP dan FN per kasus untuk tiap keputusan, dan jelaskan dalam satu kalimat kenapa pemenangnya berbeda.",
+        "Pembahasan (a) — auto-block. Model A: 13 × Rp2 juta + 295 × Rp800 ribu = Rp26 juta + Rp236 juta = Rp262 juta/hari. Model B: 170 × Rp2 juta + 85 × Rp800 ribu = Rp340 juta + Rp68 juta = Rp408 juta/hari. Pemenang: A, hemat Rp146 juta/hari. Intuisinya: di auto-block, FP 2,5x lebih mahal dari FN — 157 FP tambahan model B (170 vs 13) membakar Rp314 juta, jauh melampaui penghematan 210 FN-nya (Rp168 juta). Precision 94% bukan 'lebih baik' secara abstrak — ia lebih murah untuk keputusan yang menghukum false positive dengan mahal.",
+        "Pembahasan (b) — antrean investigator. Model A: 13 × Rp25 ribu + 295 × Rp800 ribu = Rp325 ribu + Rp236 juta ≈ Rp236,3 juta/hari. Model B: 170 × Rp25 ribu + 85 × Rp800 ribu = Rp4,25 juta + Rp68 juta = Rp72,25 juta/hari. Pemenang: B, hemat Rp164 juta/hari. Perhatikan pembalikannya: model yang kalah telak di (a) menang telak di (b). Di antrean, FP hanya Rp25 ribu — 157 FP tambahan 'hanya' Rp3,9 juta — sementara 210 FN yang diselamatkan bernilai Rp168 juta. Recall 83% bukan 'lebih baik' secara abstrak — ia lebih murah untuk keputusan yang menghukum false negative dengan mahal. Cek kapasitas: model B menghasilkan 585 alert/hari ≤ 600 kapasitas — muat, tanpa antrean basi.",
+        "Pembahasan (c) — biaya salah konteks. Konfigurasi benar: A untuk block + B untuk antrean = Rp262 juta + Rp72,25 juta = Rp334,25 juta/hari. Konfigurasi terbalik: B untuk block + A untuk antrean = Rp408 juta + Rp236,3 juta = Rp644,3 juta/hari. Selisihnya: Rp310 juta/hari — atau Rp6,8 miliar per bulan (22 hari kerja) — dibakar hanya karena jawaban 'model mana' tidak diawali pertanyaan 'untuk apa'. Dan (d): auto-block — FP Rp2 juta vs FN Rp800 ribu per kasus; antrean — FP Rp25 ribu vs FN Rp800 ribu per kasus. Satu kalimat: pemenangnya berbeda karena di auto-block false positive 80 kali lebih mahal daripada di antrean (Rp2 juta vs Rp25 ribu), sehingga timbangan precision-vs-recall ikut berbalik.",
+        "Kenapa hasil ini terasa 'tidak adil' bagi model B di auto-block — dan kenapa perasaan itu salah. Model B menangkap 415 fraud vs 205 milik A — dua kali lipat! Tapi 170 nasabah sah yang diblokir tiap hari = 170 complaint, sebagian viral, sebagian lapor OJK. Dalam 1 bulan: 3.740 nasabah sah diblokir. Biaya Rp2 juta/kasus mungkin masih meremehkan: satu kasus viral bisa berharga puluhan juta dalam PR damage. Pelajaran operasional: di keputusan tanpa manusia (auto-block), precision bukan sekadar metrik — ia adalah izin sosial untuk mengotomasi. Di bawah precision 90%, otomasi penuh biasanya tidak punya izin sosial; turunkan ke 'auto-flag + review cepat' sebagai gantinya.",
+        "Implementasi yang benar di produksi. Opsi 1 — satu model, dua threshold: pakai model B (skor bagus di rentang luas), set τ_block = 0,71 (skor ≥ 0,71 → auto-block; ini subset presisi-tinggi dari B) dan τ_review = 0,03 (skor ≥ 0,03 → antrean). Opsi 2 — dua model: A untuk block, B untuk queue. Opsi 1 lebih murah dirawat; opsi 2 lebih fleksibel bila distribusi datanya berbeda jauh. Yang wajib di kedua opsi: monitor proporsi alert per keputusan tiap hari — bila τ_block tiba-tiba menghasilkan 2.000 block/hari (bukan ~218), ada drift, dan izin sosial otomasi sedang terbakar. Threshold adalah kontrak; kontrak yang dilanggar diam-diam = insiden.",
+        "Jebakan jawaban yang tampak benar. 'Pilih B untuk semuanya karena recall 83% menangkap paling banyak fraud' — di auto-block, B membakar Rp408 juta/hari vs Rp262 juta milik A; 'menangkap banyak' tidak sama dengan 'menghemat banyak'. 'Pilih A untuk semuanya karena precision 94%' — di antrean, A membiarkan Rp236 juta/hari lolos vs Rp72 juta milik B. 'Rata-ratakan saja: pakai A untuk block pagi, B untuk block sore' — keputusan harus konsisten dan bisa diaudit; threshold yang berganti shift = tidak ada threshold. Dan 'tanya vendor mana yang lebih baik' — vendor menjual model; kamu membeli keputusan. Hanya kamu yang tahu harga FP/FN-mu.",
+
+        "Uji sensitivitas — seberapa kokoh kemenangan A di auto-block? Kemenangan A bergantung pada C_FP = Rp2 juta. Cari titik baliknya: biaya A = 13c + Rp236 juta, biaya B = 170c + Rp68 juta. A lebih murah bila 13c + 236 < 170c + 68, yaitu c > Rp1,07 juta. Jadi bila biaya blokir nasabah sah ternyata 'hanya' Rp1 juta (misal proses bandingmu sangat bagus), pemenangnya BERBALIK menjadi B. Pelajarannya dua: (1) keputusan yang benar hari ini bisa salah besok bila harga berubah — tinjau ulang tiap kuartal; (2) analis yang baik tidak hanya memberi jawaban, tapi memberi tahu 'jawaban ini berubah bila asumsi X bergeser'. Titik balik Rp1,07 juta adalah bagian dari jawaban, bukan catatan kaki.",
+        "Varian: fraud rate naik dari 0,5% ke 2% (serangan terkoordinasi). 2.000 fraud/hari. Model A: TP=820, FP≈52, FN=1.180. Model B: TP=1.660, FP≈664, FN=340. Auto-block: A = 52×2jt + 1.180×800rb = Rp1.048 juta; B = 664×2jt + 340×800rb = Rp1.600 juta → A tetap menang. Antrean: A = 52×25rb + 1.180×800rb = Rp945,3 juta; B = 664×25rb + 340×800rb = Rp288,6 juta → B tetap menang. Pemenangnya tidak berubah — karena yang menentukan bukan volume fraud, melainkan RASIO harga FP/FN. Inilah kenapa framework harga lebih tahan lama dari angka contoh: angkanya bergeser, logikanya tetap.",
+        "Yang tidak ditangkap angka — dan tetap harus diputuskan. Skor 0,95 pada rekening payroll 5.000 karyawan: auto-block = 5.000 gaji tertunda = pemberitaan nasional. Maka segmen sensitif dikeluarkan dari auto-block apa pun skornya (FR11). Atau: model B di antrean menghasilkan 585 alert/hari vs kapasitas 600 — margin 15 alert; satu hari spike = antrean basi = precision efektif anjlok. Beri buffer 20%: bila utilisasi > 80% kapasitas, naikkan τ_review sedikit atau tambah shift. Angka memberimu jawaban; kebijakan memberimu keamanan. Keduanya harus duduk di meja yang sama.",
+        "Epilog — enam bulan kemudian. Tim BayarKu memakai A untuk auto-block dan B untuk antrean. Hasilnya: complaint salah blokir turun 62%, fraud loss turun 41%, dan — yang tak terduga — turnover investigator turun karena alert/hari stabil di 585 dengan precision 71% yang 'jujur' (tidak ada janji palsu). Lalu fraud rate naik ke 0,9% karena serangan baru; tim menghitung ulang τ* (harga FP/FN tidak berubah, tapi volume berubah → kapasitas tertekan) dan menaikkan τ_review dari 0,03 ke 0,05. Tidak ada drama, tidak ada rapat darurat — hanya kalender tinjauan kuartalan yang bekerja. Itulah bedanya organisasi yang memilih metrik dari harga vs yang memilih dari slide vendor: yang pertama beradaptasi dengan kalkulator, yang kedua beradaptasi dengan kepanikan.",
+        "Takeaway: model yang sama bisa benar dan salah sekaligus — tergantung keputusan yang ia layani. Tulis harganya dulu, baru pilih modelnya.",
+      ],
+      tasks: [],
+      reference: "Biaya salah konteks Rp310 juta/hari — harga sebuah pertanyaan yang tak ditanyakan.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan campuran dari semua langkah. Jawab satu per satu; setiap opsi punya alasan kenapa benar atau salah.",
+      ],
+      tasks: [],
+      summary: [
+        "ROC-AUC menipu di imbalance: terhibur TN massal. PR-AUC = metrik utama fraud.",
+        "Recall@FPR + alert rate = kontrak dengan kapasitas tim. Tetapkan dari kapasitas.",
+        "Lift = precision_segmen / fraud_rate — bahasa bisnis & dasar prioritas antrian.",
+        "Net rupiah = (TP x loss) − (FP x review) − (FN x loss) — metrik direksi.",
+        "Model yang membunuh tim investigasi = model gagal, apapun AUC-nya.",
+      ],
+      next: { label: "FR10 — Drift", href: "/learn/fr10-drift" },
+      quiz: [
+        {
+          q: "Model: 50.000 normal, 100 fraud, 1.000 FP. FPR = 2% terlihat kecil. Masalahnya?",
+          options: [
+            { text: "Tidak ada — 2% kecil", why: "2% dari 50.000 = 1.000 alert sampah per hari — itu masalah besar." },
+            { text: "1.000 alert sampah/hari membunuh tim investigator, walau FPR 'kecil' — penyebut TN menyembunyikan beban operasional", why: "FPR = FP/(FP+TN) — 50.000 TN 'menghibur' metrik ini. Yang menderita adalah manusia: 1.000 review sia-sia per hari.", correct: true },
+            { text: "Modelnya bagus", why: "Precision-nya 100/1.100 ≈ 9% — tidak bagus untuk operasi." },
+            { text: "FPR salah hitung", why: "Hitungannya benar: 1.000/50.000 = 2%. Yang salah adalah interpretasinya." },
+          ],
+        },
+        {
+          q: "Kapan PR-AUC WAJIB jadi metrik utama (bukan ROC-AUC)?",
+          options: [
+            { text: "Selalu", why: "Untuk kelas seimbang, ROC-AUC baik-baik saja." },
+            { text: "Kelas positif langka (fraud 0,2%) — ROC-AUC terhibur oleh TN massal, PR-AUC tidak", why: "PR-AUC tidak memuat TN di rumusnya — ia mengukur 'di antara yang ditandai, berapa yang benar' vs 'berapa yang tertangkap'.", correct: true },
+            { text: "Tidak pernah", why: "Untuk fraud yang imbalance ekstrem, PR-AUC justru wajib." },
+            { text: "Hanya untuk data kecil", why: "Bukan soal ukuran data — soal kelangkaan kelas positif." },
+          ],
+        },
+        {
+          q: "Tim 10 orang x 100 review/hari, volume 50.000 trx/hari. Alert rate maksimal?",
+          options: [
+            { text: "10%", why: "10% x 50.000 = 5.000 alert/hari — 5x kapasitas tim." },
+            { text: "2% (1.000 ÷ 50.000) — tetapkan dari kapasitas, lalu maksimalkan recall di bawahnya", why: "Alert rate x volume = beban investigator. Menetapkan dari kapasitas = kontrak operasional.", correct: true },
+            { text: "50%", why: "50% berarti setengah transaksi direview — mustahil operasional." },
+            { text: "Tidak ada batas", why: "Tanpa batas = investigator mogok = sistem mati (kasus BankMega)." },
+          ],
+        },
+        {
+          q: "Lift 20x pada 10% skor tertinggi artinya…",
+          options: [
+            { text: "Model 20x lebih cepat", why: "Lift bukan soal kecepatan." },
+            { text: "Fraud rate di segmen itu 20x populasi — '20x lebih baik dari menebak', bahasa untuk non-teknis & dasar prioritas antrian", why: "lift = precision_segmen / fraud_rate_populasi. Fondasi prioritas review.", correct: true },
+            { text: "Akurasi 2000%", why: "Akurasi tidak bisa 2000% — dan lift bukan akurasi." },
+            { text: "Tidak ada arti", why: "Artinya jelas: kepadatan fraud di antrian teratas." },
+          ],
+        },
+        {
+          q: "Dua model: A (recall 85%, precision 4%), B (recall 70%, precision 35%). Kapasitas 1.000 review/hari, volume 50.000/hari, 100 fraud/hari. Pilih?",
+          options: [
+            { text: "A — recall tertinggi", why: "A butuh 2.125 review/hari — investigator mogok, recall aktual anjlok." },
+            { text: "B — alert 200/hari muat kapasitas + net rupiah lebih tinggi; A jebol kapasitas (2.125 alert/hari)", why: "Metrik tertinggi ≠ model terbaik; yang terbaik = net rupiah tertinggi dalam kendala kapasitas.", correct: true },
+            { text: "Seri", why: "B menang di dua dimensi: net rupiah dan kelayakan operasional." },
+            { text: "Tolak keduanya", why: "B layak operasi dengan net positif — tidak ada alasan menolak." },
+          ],
+        },
+      ],
+    },
+  ],
+};

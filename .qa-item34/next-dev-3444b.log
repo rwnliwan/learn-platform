@@ -1,0 +1,95 @@
+   ▲ Next.js 15.5.2
+   - Local:        http://localhost:3444
+   - Network:      http://198.19.0.2:3444
+
+ ✓ Starting...
+ ✓ Ready in 13.2s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 2.8s (114 modules)
+ ○ Compiling /v2/lab-demo ...
+ ✓ Compiled /v2/lab-demo in 12.9s (573 modules)
+ GET /v2/lab-demo 200 in 751ms
+ ○ Compiling /v2/learn/[slug] ...
+ ✓ Compiled /v2/learn/[slug] in 26.3s (1170 modules)
+ GET /v2/learn/a11-tipe-data 200 in 45758ms
+ GET /v2/learn/a11-tipe-data 200 in 3010ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 6.4s (1169 modules)
+ GET /v2/learn/a11-tipe-data 404 in 7695ms
+ ✓ Compiled in 42ms
+ ○ Compiling /v2/lab-demo ...
+ ✓ Compiled /v2/lab-demo in 2.7s (346 modules)
+ GET /v2/lab-demo 200 in 4509ms
+ ✓ Compiled in 1395ms (715 modules)
+ ○ Compiling /v2 ...
+ ✓ Compiled /v2/qa-pyodide-min in 15s (1242 modules)
+ GET /v2 200 in 16645ms
+ GET /v2/lab-demo 200 in 7669ms
+ GET /v2/qa-pyodide-min 200 in 9297ms
+ GET /v2 200 in 203ms
+ ○ Compiling /v2/learn/[slug] ...
+ ✓ Compiled /v2/learn/[slug] in 2.7s (984 modules)
+ GET /v2/learn/rr19-audit-impostor 200 in 5898ms
+ ○ Compiling /api/progress ...
+ ✓ Compiled /api/progress in 10.8s (1578 modules)
+ GET /api/progress 500 in 12142ms
+ GET /v2/qa-pyodide-min 200 in 5186ms
+ GET /v2 200 in 5284ms
+ ○ Compiling /v2/learn ...
+ ✓ Compiled /v2/learn in 1925ms (1265 modules)
+ GET /v2/learn 200 in 10761ms
+ GET /v2 200 in 607ms
+ GET /api/progress 500 in 792ms
+ GET /api/progress 500 in 41ms
+ GET /v2/learn 200 in 3974ms
+ ○ Compiling /v2/review ...
+ ✓ Compiled /v2/review in 2.8s (1254 modules)
+ GET /v2/review 200 in 5480ms
+ ○ Compiling /v2/lab-demo ...
+ ✓ Compiled /v2/lab-demo in 1272ms (984 modules)
+ GET /v2/lab-demo 200 in 2330ms
+ ○ Compiling /v2/karier ...
+ ✓ Compiled /v2/karier in 2.5s (1275 modules)
+ GET /v2/karier 200 in 5389ms
+ GET /api/progress 500 in 720ms
+ ○ Compiling /v2/catatan ...
+ ✓ Compiled /v2/catatan in 2.3s (1283 modules)
+ GET /v2/catatan 200 in 5054ms
+ ○ Compiling /v2/pengaturan ...
+ ✓ Compiled /v2/pengaturan in 2.1s (1276 modules)
+ GET /v2/pengaturan 200 in 2927ms
+ GET /api/progress 500 in 1572ms
+ GET /v2/lab-demo 200 in 359ms
+ ○ Compiling /v2/learn/[slug] ...
+ ✓ Compiled /v2/learn/[slug] in 1324ms (1007 modules)
+ GET /v2/learn/rr19-audit-impostor 200 in 9357ms
+ GET /v2/lab-demo 200 in 2958ms
+ GET /v2/learn/rr15-risk-appetite 200 in 1061ms
+ GET /v2/lab-demo 200 in 754ms
+ GET /v2/learn/rr15-risk-appetite 200 in 596ms
+ GET /api/progress 500 in 877ms
+ GET /v2/lab-demo 200 in 257ms
+ ✓ Compiled in 11.5s (1007 modules)
+ ✓ Compiled in 2.6s (1008 modules)
+ GET /v2/learn/rr15-risk-appetite 200 in 4009ms
+ GET /v2 200 in 921ms
+ GET /api/progress 500 in 592ms
+ GET /api/progress 500 in 46ms
+ GET /v2/learn/rr19-audit-impostor 200 in 288ms
+ ○ Compiling /v2/learn ...
+ ✓ Compiled /v2/lab-demo in 16s (1008 modules)
+ ✓ Compiled (1014 modules)
+ GET /v2/lab-demo 200 in 10576ms
+ GET /v2/learn 200 in 22576ms
+ GET /v2/pengaturan 200 in 332ms
+ GET /api/progress 500 in 477ms
+ GET /v2 200 in 1540ms
+ GET /v2 200 in 597ms
+ GET /v2 200 in 1804ms
+ ⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET /v2 200 in 618ms
+ GET /v2 200 in 805ms
+ GET /v2 200 in 521ms
+ GET /v2/learn 200 in 5419ms
+ GET /v2/learn 200 in 3070ms

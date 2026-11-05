@@ -1,0 +1,260 @@
+import type { V2Lesson } from "../lib/types";
+
+export const fr15: V2Lesson = {
+  slug: "fr15-aml",
+  track: "Fraud & AML Analytics",
+  module: "Anti Money Laundering",
+  title: "FR15 — AML",
+  estMinutes: 55,
+  steps: [
+    {
+      id: "cerita",
+      eyebrow: "Langkah 1 · Cerita",
+      title: "Rp12 miliar, 40 rekening, 8 bulan — tak terlihat",
+      prose: [
+        "Delapan bulan. 40 rekening. Rp12 miliar dana judol mengalir lewat sebuah bank menengah. Tidak satu pun transaksi melewati ambang pelaporan. Tidak satu pun alert fraud berbunyi. Semuanya \"normal\" — sampai PPATK mengetuk pintu dengan analisis graf mereka sendiri.",
+        "Yang terjadi: structuring (28% kasus) — setoran dipecah tepat di bawah ambang; layering (24%) — dana diputar antar rekening berlapis-lapis mengaburkan asal. Dua teknik tertua di buku pencucian uang, masih bekerja di 2026 karena banknya hanya melihat transaksi satu per satu.",
+        "AML (Anti Money Laundering) bukan fraud biasa: di sini \"korban\" tidak melapor (uangnya uang haram), polanya dirancang untuk terlihat normal, dan taruhannya bukan cuma uang — tapi izin usaha bank.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Di fraud, korban melapor dan membantu deteksi. Di money laundering, SEMUA pihak dalam transaksi adalah pelaku — tidak ada yang melapor. Deteksi 100% bergantung pada sistem bank. Tidak ada 'pelapor' yang menyelamatkanmu.",
+      },
+      reference: "AML = melawan musuh yang tidak punya korban yang melapor. Sistem bank satu-satunya garis pertahanan.",
+    },
+    {
+      id: "tiga-tahap",
+      eyebrow: "Langkah 2 · Tiga tahap",
+      title: "Placement, layering, integration",
+      prose: [
+        "Satu: placement — uang haram masuk ke sistem keuangan (setoran tunai, transfer dari luar). Titik paling rentan bagi pelaku, paling terlihat bagi bank. Dua: layering — dana dipecah dan diputar antar rekening/entitas mengaburkan jejak (transfer berantai, bolak-balik). Tiga: integration — dana \"bersih\" keluar sebagai aset sah (properti, investasi, bisnis).",
+        "Fokus deteksi bank: placement dan layering awal — semakin jauh dana bergerak, semakin mahal dan sulit dilacak. Menangkap di placement = menangkap saat jejak masih hangat.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"AML = urusan compliance, bukan analis fraud.\" Pola placement/layering terdeteksi dengan teknik yang sama dengan fraud (anomali, graf, threshold) — hanya lensanya berbeda: bukan 'apakah nasabah ini korban?' tapi 'apakah aliran dana ini dirancang mengaburkan asal?' Analis fraud yang buta AML = buta separuh serangan.",
+      },
+      reference: "Tangkap di placement/layering awal — semakin jauh dana bergerak, semakin mahal dilacak.",
+    },
+    {
+      id: "structuring",
+      eyebrow: "Langkah 3 · Structuring",
+      title: "Tepat di bawah ambang, berulang-ulang",
+      prose: [
+        "Structuring = memecah transaksi agar di bawah ambang pelaporan. Contoh ilustrasi: ambang Rp500 juta. Enam setoran Rp470–495 juta = total Rp2,895 miliar — tanpa satu pun laporan otomatis. Peluang 6 setoran acak semuanya jatuh di 470–495 juta? Jika setoran acak uniform 0–500 juta, P(satu setoran di 470–495) = 0,05; P(enam-enamnya) = 0,05⁶ ≈ 1 : 64 juta. \"Kebetulan\" dengan peluang 1 banding 64 juta bukan kebetulan.",
+        "Sinyal deteksi: clustering tepat di bawah ambang (banyak transaksi di 90–100% ambang), frekuensi anomali, dan pola round-number avoidance (pelaku menghindari angka bulat agar terlihat \"alami\" — yang justru tidak alami).",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `skor_struct(deps)` → (di_bawah, dekat_ambang, total)" },
+        { id: "t2", text: "Bandingkan pola structuring vs normal, cetak" },
+      ],
+      expected: "structuring: 6/6 di bawah & dekat ambang, total Rp2894 jt | normal: 4/6 & 1/6",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"Di bawah ambang = aman, tidak perlu dilihat.\" Justru di situlah structuring tinggal — dirancang untuk lolos dari aturan ambang. Aturan ambang tanpa pemantau 'tepat di bawah ambang' = pintu yang digembok tapi jendelanya terbuka.",
+      },
+      hints: [
+        "below = sum(1 for d in deps if d < AMBANG).",
+        "near = sum(1 for d in deps if AMBANG*0.9 <= d < AMBANG).",
+        "return below, near, sum(deps).",
+      ],
+      code: {
+        starter: `# Structuring: 6 setoran 'kebetulan' semua di bawah ambang?\nimport random\nrandom.seed(70)\nAMBANG = 500  # Rp500 jt (ilustrasi)\ndeposits_struct = [random.uniform(470, 495) for _ in range(6)]\ndeposits_normal = [random.uniform(50, 800) for _ in range(6)]\n\n# TULIS KODEMU\ndef skor_struct(deps):\n    below =\n    near =\n    return below, near, sum(deps)\n\nfor nama, deps in [("structuring", deposits_struct), ("normal", deposits_normal)]:\n    b, n, tot = skor_struct(deps)\n    print(f"{nama}: di bawah ambang={b}/6, dekat ambang={n}/6, total=Rp{tot:.0f} jt")\nprint(f"Peluang 6x 'kebetulan' di 470-495 = 0.05^6 = {0.05**6:.2e} (~1:64 jt)")`,
+        lockLines: 6,
+        solution: `# Structuring: 6 setoran 'kebetulan' semua di bawah ambang?\nimport random\nrandom.seed(70)\nAMBANG = 500  # Rp500 jt (ilustrasi)\ndeposits_struct = [random.uniform(470, 495) for _ in range(6)]\ndeposits_normal = [random.uniform(50, 800) for _ in range(6)]\n\n# TULIS KODEMU\ndef skor_struct(deps):\n    below = sum(1 for d in deps if d < AMBANG)\n    near = sum(1 for d in deps if AMBANG*0.9 <= d < AMBANG)\n    return below, near, sum(deps)\n\nfor nama, deps in [("structuring", deposits_struct), ("normal", deposits_normal)]:\n    b, n, tot = skor_struct(deps)\n    print(f"{nama}: di bawah ambang={b}/6, dekat ambang={n}/6, total=Rp{tot:.0f} jt")\nprint(f"Peluang 6x 'kebetulan' di 470-495 = 0.05^6 = {0.05**6:.2e} (~1:64 jt)")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "skor_struct", label: "`skor_struct` terdefinisi", msg: "Buat fungsi skor_struct(deps)." },
+          { kind: "stdout_matches", task: "t2", pattern: "structuring: di bawah ambang=6/6, dekat ambang=6/6", label: "Pola structuring terdeteksi", msg: "6/6 setoran di bawah dan dekat ambang = sinyal structuring." },
+          { kind: "stdout_matches", task: "t2", pattern: "total=Rp2894 jt", label: "Total Rp2894 jt", msg: "Total ~Rp2,895 miliar tanpa satu pun laporan otomatis." },
+        ],
+      },
+      reference: "\"Kebetulan\" berpeluang 1:64 juta bukan kebetulan. Pantau zona tepat-di-bawah-ambang.",
+    },
+    {
+      id: "layering",
+      eyebrow: "Langkah 4 · Layering",
+      title: "Uang yang berputar-putar",
+      prose: [
+        "Layering = memutar dana antar rekening berlapis-lapis untuk mengaburkan asal. Sinyal graf: rantai transfer panjang (A→B→C→D→E…), fan-out lalu gather (satu sumber menyebar ke banyak, lalu berkumpul lagi), dan pasangan timbal-balik (dari FR12).",
+        "Simulasi: rantai normal terpanjang = 2 (a→b, selesai); rantai layering = 9. Panjang rantai transfer = fitur sederhana yang sangat diskriminatif — transaksi normal jarang berantai panjang, layering hampir selalu.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `hops_chain(transfers)` (rantai terpanjang, DFS)" },
+        { id: "t2", text: "Bandingkan rantai normal vs layering, cetak" },
+      ],
+      expected: "normal: 2 | layering: 9",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Layering yang canggih menyebar antar bank — satu bank hanya melihat potongan rantai. Inilah kenapa PPATK (yang melihat antar-bank) menangkap yang tak terlihat bank tunggal. Bank harus lapor STR tepat waktu: laporanmu mungkin potongan yang melengkapi puzzle nasional.",
+      },
+      hints: [
+        "g = defaultdict(list); bangun adjacency dari transfers.",
+        "DFS rekursif dengan seen-set; best = max depth.",
+        "for n in list(g.keys()): dfs(n, 1, {n}).",
+      ],
+      code: {
+        starter: `# Layering: rantai transfer panjang = mengaburkan asal.\nimport random\nfrom collections import defaultdict\nrandom.seed(71)\n\n# TULIS KODEMU\ndef hops_chain(transfers):\n    g = defaultdict(list)\n    for a, b in transfers:\n        g[a].append(b)\n    best = 0\n    def dfs(n, depth, seen):\n        nonlocal best\n        best = max(best, depth)\n        for m in g[n]:\n            if m not in seen:\n                dfs(m, depth+1, seen | {m})\n    for n in list(g.keys()):\n        dfs(n, 1, {n})\n    return best\n\nnormal_t = [(f"a{i}", f"b{i}") for i in range(20)]\nlayer_t = [(f"n{i}", f"n{i+1}") for i in range(8)]\nprint("rantai normal terpanjang:", hops_chain(normal_t))\nprint("rantai layering terpanjang:", hops_chain(layer_t))`,
+        lockLines: 3,
+        solution: `# Layering: rantai transfer panjang = mengaburkan asal.\nimport random\nfrom collections import defaultdict\nrandom.seed(71)\n\n# TULIS KODEMU\ndef hops_chain(transfers):\n    g = defaultdict(list)\n    for a, b in transfers:\n        g[a].append(b)\n    best = 0\n    def dfs(n, depth, seen):\n        nonlocal best\n        best = max(best, depth)\n        for m in g[n]:\n            if m not in seen:\n                dfs(m, depth+1, seen | {m})\n    for n in list(g.keys()):\n        dfs(n, 1, {n})\n    return best\n\nnormal_t = [(f"a{i}", f"b{i}") for i in range(20)]\nlayer_t = [(f"n{i}", f"n{i+1}") for i in range(8)]\nprint("rantai normal terpanjang:", hops_chain(normal_t))\nprint("rantai layering terpanjang:", hops_chain(layer_t))`,
+        checks: [
+          { kind: "defined", task: "t1", name: "hops_chain", label: "`hops_chain` terdefinisi", msg: "Buat fungsi hops_chain(transfers)." },
+          { kind: "stdout_matches", task: "t2", pattern: "rantai normal terpanjang: 2", label: "Rantai normal = 2", msg: "Transaksi normal jarang berantai panjang." },
+          { kind: "stdout_matches", task: "t2", pattern: "rantai layering terpanjang: 9", label: "Rantai layering = 9", msg: "Layering = rantai panjang untuk mengaburkan asal." },
+        ],
+      },
+      reference: "Panjang rantai = fitur sederhana yang sangat diskriminatif untuk layering.",
+    },
+    {
+      id: "tm-str",
+      eyebrow: "Langkah 5 · TM & STR",
+      title: "Dari monitoring ke laporan",
+      prose: [
+        "Transaction Monitoring (TM): pemantauan berkelanjutan — rule + model menghasilkan alert. Masalah klasik: 95%+ false positive. STR (Suspicious Transaction Report): laporan ke PPATK saat transaksi dinilai mencurigakan — berdasarkan PENILAIAN, bukan ambang otomatis. Beda dengan LTKT/LTKM yang otomatis dari ambang.",
+        "Tipping-off = pidana: dilarang memberi tahu nasabah bahwa ia dilaporkan/diinvestigasi. Skala masalah: PPATK mencatat >Rp300 triliun per tahun aliran mencurigakan. Setiap analis AML adalah bagian dari pertahanan nasional — bukan sekadar compliance.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"STR butuh bukti pasti dulu.\" STR butuh kecurigaan yang beralasan — bukan pembuktian. Menunggu 'bukti pasti' = tidak pernah melapor = melanggar kewajiban. Standarnya: 'apakah analis yang wajar akan curiga?' — bukan 'apakah sudah terbukti di pengadilan?'",
+      },
+      reference: "LTKT/LTKM = otomatis (ambang). STR = penilaian (kecurigaan beralasan). Tipping-off = pidana.",
+    },
+    {
+      id: "peta",
+      eyebrow: "Langkah 6 · Peta keputusan",
+      title: "Kapan curiga, kapan lapor",
+      prose: [
+        "Satu: clustering di bawah ambang + frekuensi anomali → investigasi structuring. Dua: rantai transfer panjang + fan-out/gather → investigasi layering. Tiga: kecurigaan beralasan → STR ke PPATK (jangan tunggu bukti pasti). Empat: jangan tipping-off — investigasi diam-diam. Lima: perkuat KYC di placement (titik paling rentan pelaku).",
+      ],
+      tasks: [],
+      reference: "Curiga → investigasi diam-diam → STR. Jangan tunggu bukti pasti; jangan beri tahu nasabah.",
+    },
+    {
+      id: "freeze-order",
+      eyebrow: "Langkah 7 · Urutan freeze",
+      title: "Bekukan yang mana dulu: Rp4,8 M, 6 rekening, 120 menit",
+      prose: [
+        "Jam 09.40, alert transaction monitoring berbunyi: enam rekening menerima total Rp4,8 miliar dalam 40 menit — laju Rp120 juta per menit. Polanya fan-in dari satu sumber, lalu pecah lagi ke beberapa tujuan: layering sedang berjalan, bukan sudah selesai. Pengalaman investigator: dana layering keluar dari sistem perbankan — ke e-wallet, QRIS merchant fiktif, atau tarik tunai — dalam ±2 jam sejak placement. Artinya deadline-mu jam 11.40. Dan probabilitas recovery meluruh tiap menit: dana yang masih mengendap di rekening bank bisa dibekukan dengan recovery 95%; yang sudah pindah ke e-wallet turun ke 60% karena butuh koordinasi antar-lembaga; yang sudah jadi tarik tunai tinggal 10%. Setiap 10 menit keraguan, ekspektasi dana selamat turun sekitar Rp120 juta dikali selisih recovery — jam yang berdetak adalah biaya yang nyata.",
+        "Sekarang ekonominya. Biaya salah-freeze: Rp1,2 juta per hari per rekening — rinciannya kompensasi nasabah Rp500 ribu, handling complaint dan jam kerja legal Rp400 ribu, risiko eskalasi ke OJK Rp300 ribu. Beku darurat biasanya 3 hari, jadi Rp3,6 juta per rekening bila ternyata salah sasaran. Nilai freeze yang benar: Rp4,8 miliar dibagi 6 = Rp800 juta per rekening. Aturan keputusannya: freeze bila p(mule) × Rp800 juta > (1 − p(mule)) × Rp3,6 juta. Selesaikan pertidaksamaannya: p > 3,6 / 803,6 ≈ 0,45%. Baca lagi angka itu: keyakinan 1% pun sudah cukup untuk membekukan. Asimetri biayanya 220 banding 1 — menunggu kepastian 95% bukan kehati-hatian, melainkan keputusan termahal di ruangan itu. Investigator yang menunggu 'bukti kuat' sedang membeli kepastian seharga ratusan juta per jam.",
+        "Tapi tidak semua rekening setara — urutan menentukan berapa yang selamat. Petakan peran tiap node sebelum menyentuh apa pun. Exit node: rekening dengan pola cash-out — top-up e-wallet berulang, transfer ke QRIS merchant, tarik tunai terjadwal. Bekukan duluan, karena satu exit yang lolos = Rp800 juta hilang permanen dan tak bisa dikejar lagi. Collector: rekening penampung fan-in — bekukan kedua; ia memutus jembatan ke exit lain yang belum terpetakan. Feeder: pengirim awal — dananya sudah berpindah, nilai freezenya forensik (jejak untuk laporan ke PPATK), bukan penyelamatan. Kesalahan klasik investigator pemula: membekukan feeder yang paling 'jelas' lebih dulu. Terlihat produktif di log aktivitas — sambil exit-nya diam-diam menguras lewat mobile banking.",
+        "Jenis freeze juga sebuah keputusan, bukan sekadar eksekusi. Freeze total = rekening mati total = controller tahu operasinya terbakar — ia mempercepat exit di rekening lain. Ini tipping-off versi operasional: bukan membocorkan informasi ke nasabah, melainkan memberi sinyal ke jaringan bahwa mereka terdeteksi. Teknik yang dipakai tim berpengalaman: freeze-out-only — dana boleh masuk, tidak boleh keluar. Dari sisi pelaku, transfer yang 'tiba-tiba gagal' terlihat seperti gangguan teknis bank atau limit harian tercapai, bukan pembekuan. Rekening tetap 'hidup' sebagai umpan: bila controller mencoba reroute ke rekening ketujuh, kamu justru mendapat peta jaringan yang lebih lengkap daripada sebelum freeze. Pembekuan yang baik menangkap uang; pembekuan yang hebat menangkap uang DAN peta.",
+        "Koordinasi harus simultan, tanpa kecuali. Enam freeze order yang dieksekusi satu per satu dengan jeda 20 menit memberi controller 100 menit untuk menguras rekening keempat, kelima, dan keenam — ia hanya butuh satu notifikasi 'transfer gagal' dari kaki tangannya untuk tahu. Prosedur yang benar: siapkan keenam order, eksekusi dalam jendela 5 menit, verifikasi saldo 10 menit kemudian. Di bank besar ini butuh persetujuan dua level — maka pre-otorisasi 'freeze darurat AML' harus sudah ada di SOP sebelum insiden terjadi, lengkap dengan daftar siapa yang berwenang menandatangani jam 10 malam. SOP yang dinegosiasikan saat jam berdetak sama dengan SOP yang tidak ada. Latih prosedurnya saat sepi, bukan saat Rp4,8 miliar sedang bergerak.",
+        "Setelah freeze, pekerjaan belum selesai: pantau 24 jam. Controller yang profesional tidak panik — ia menguji. Satu transfer kecil Rp1–5 juta ke rekening yang belum pernah terlihat adalah caranya bertanya 'apakah jalur ini masih aman?'. Pola uji-coba seperti itu = sinyal reroute; catat, jangan langsung freeze — biarkan ia menunjukkan seluruh infrastrukturnya dulu, lalu bekukan serentak gelombang kedua. Freeze pertama menghentikan pendarahan; pengawasan sesudahnya memetakan penyakitnya. Dan ingat: pembekuan bukan pengganti STR. Laporan ke PPATK tetap berjalan paralel — freeze menyelamatkan uang hari ini, STR menyelamatkan sistem besok.",
+        "Pre-otorisasi adalah pembeda antara tim yang cepat dan tim yang menyesal. Isinya konkret: (1) daftar 3 pejabat yang boleh menandatangani freeze darurat di luar jam kerja, dengan nomor yang benar-benar diangkat; (2) SLA persetujuan 15 menit untuk kasus layering aktif — lewat dari itu, wewenang naik otomatis ke level berikutnya; (3) template order 1 halaman yang tinggal diisi nomor rekening dan nominal; (4) latihan tabletop tiap kuartal: simulasi alert jam 9 malam, ukur waktu dari alert ke eksekusi. Bank yang punya pre-otorisasi mengeksekusi dalam 25 menit; yang tidak, 2,5 jam — dan 2,5 jam adalah seluruh jendela layering. SOP bukan dokumen; SOP adalah waktu yang sudah dibayar di muka.",
+        "Sebagian dana pasti sudah menyeberang ke luar bank — siapkan koordinasi antar-lembaga sebelum dibutuhkan. Dana yang masuk e-wallet butuh surat permintaan pembekuan ke penyelenggara uang elektronik (punya SLA respons sendiri, biasanya jam kerja); dana antar-bank butuh jalur PPATK. Punya format surat standar + daftar kontak + dasar hukumnya di satu folder darurat menghemat 45–60 menit per lembaga. Dan catat asimetrinya: kamu berpacu dengan controller yang hanya butuh 1 aplikasi mobile banking, sementara kamu butuh 3 tanda tangan dan 2 surat antar-lembaga. Satu-satunya cara menang melawan asimetri birokrasi adalah persiapan — semua surat disiapkan saat sepi, bukan saat dana bergerak.",
+        "Setiap freeze harus bisa dipertahankan di depan audit internal, OJK, dan pengadilan. Dokumentasikan saat eksekusi, bukan besok pagi: 5 baris per rekening — (1) pola yang teramati, (2) estimasi probabilitas mule, (3) nominal terekspos, (4) perhitungan ambang ekonomis, (5) siapa yang menyetujui dan jam berapa. Lima baris ini mengubah 'pembekuan sewenang-wenang' menjadi 'keputusan berbasis risiko yang terdokumentasi'. Investigator yang membekukan tanpa catatan sedang mempertaruhkan kariernya; yang mencatat sedang membangun preseden. Dan bila salah satu rekening ternyata sah, catatan inilah yang membuat kompensasi Rp1,2 juta/hari menjadi biaya operasional yang wajar, bukan skandal.",
+        "Ada satu kasus di mana kamu TIDAK membekukan: ketika pola punya cerita sah. Uji dua kalimat: 'bisakah pola ini dijelaskan oleh bisnis legit dalam dua kalimat?' Enam rekening menerima dari satu sumber bisa jadi disbursement koperasi atau payroll proyek — bedanya ada di latar: rekening joki berumur 3 minggu dengan saldo historis Rp2 juta vs rekening payroll 3 tahun dengan mutasi rutin. Bila cerita sahnya masuk akal, jangan freeze — pantau diam-diam 48 jam dan kumpulkan data. Freeze yang salah pada payroll 200 karyawan biayanya bukan Rp1,2 juta, melainkan kepercayaan nasabah korporat. Aturannya: freeze cepat untuk pola tanpa cerita sah; investigasi dulu untuk pola yang ceritanya masih fifty-fifty. Keyakinan 1% cukup untuk freeze HANYA bila penjelasan sahnya sudah gugur.",
+
+        "Biaya tidak bertindak tidak berhenti di Rp4,8 miliar yang hilang. Bank yang berulang kali kecolongan layering masuk radar PPATK — seperti kasus di langkah 1: Rp12 miliar lewat 40 rekening selama 8 bulan tanpa satu pun alert berbunyi, berakhir dengan PPATK mengetuk pintu membawa analisis graf mereka sendiri. Konsekuensinya: audit kepatuhan mendalam, denda administratif, dan yang paling mahal — kewajiban memperbaiki sistem dengan tenggat waktu. Satu freeze yang terlambat bisa berharga satu program remediasi Rp5–15 miliar. Tiba-tiba Rp21,6 juta biaya salah-freeze terlihat seperti uang parkir. Investigator yang takut membekukan karena takut salah sedang mempertaruhkan Rp15 miliar untuk menghemat Rp21,6 juta.",
+        "Siapa yang memegang tombol freeze? Di banyak bank, jawabannya kabur — tim fraud menunggu compliance, compliance menunggu legal, legal menunggu direksi. Matriks eskalasi yang benar: investigator senior boleh memicu freeze darurat hingga Rp1 miliar dengan persetujuan 1 pejabat; di atas itu butuh 2 pejabat; semuanya terdokumentasi dan bisa diaudit. Tanpa matriks ini, setiap insiden dimulai dengan rapat — dan rapat adalah cara paling mahal untuk menghabiskan jendela 2 jam. Tulis namanya, tempel di dinding ruang operasi. Keputusan darurat tidak boleh membutuhkan penemuan kembali wewenang setiap kali.",
+        "Setiap insiden freeze ditutup dengan after-action review 30 menit, tanpa mencari kambing hitam. Tiga metrik: (1) waktu alert→eksekusi — target di bawah 30 menit; (2) % dana terekspos yang selamat — target di atas 80%; (3) false freeze rate — target di bawah 5% dari rekening yang dibekukan. Review yang jujur akan menemukan pola memalukan: 'kita selalu terlambat 20 menit di persetujuan' atau 'kita selalu salah urut exit vs collector'. Tim yang mereview menjadi dua kali lebih cepat dalam tiga insiden — karena kecepatan adalah keterampilan yang dilatih, bukan bakat. Tanpa review, setiap insiden adalah yang pertama.",
+        "Satu peringatan terakhir: jangan jadikan freeze kebiasaan untuk semua alert. Freeze adalah antibiotik — mujarab untuk infeksi yang tepat, berbahaya bila dipakai untuk semua batuk. Bank yang membekukan 50 rekening seminggu akan segera menghadapi 50 complaint, 3 pemberitaan, dan 1 teguran regulator — lalu ketakutan membekukan saat benar-benar dibutuhkan. Disiplinnya: freeze hanya untuk pola layering aktif tanpa cerita sah; untuk sisanya, pantau dan investigasi. Senjata yang dipakai sembarangan akan disita oleh pemiliknya — dan pemiliknya adalah regulator.",
+        "Kenali musuh di balik rekening joki: ekosistem 'sewa rekening' Indonesia. Polanya: perekrut menawarkan Rp200–500 ribu per rekening lewat grup Telegram/WhatsApp, targetnya mahasiswa dan pekerja harian; KTP dan verifikasi biometrik 'dipinjam' 15 menit; rekening diserahkan beserta mobile banking-nya. Implikasinya untuk urutan freeze: R1–R3 bukan penjahatnya — mereka korban ekonomi yang dibayar Rp300 ribu untuk mempertaruhkan namanya. Memburu joki = memotong rumput; memburu perekrut (lewat pola pembukaan rekening massal + nomor HP yang sama) = mencabut akar. Data untuk PPATK harus menandai perekrutnya: 40 rekening joki yang dibuka dengan 3 nomor HP yang sama dalam 1 minggu adalah 1 kasus, bukan 40 kasus.",
+        "Ringkasnya, lima langkah saat alert layering berbunyi. Satu: hitung laju dana (Rp per menit) lalu tentukan deadline keluar sistem — itu jam kerjamu. Dua: petakan peran tiap rekening — exit, collector, feeder — sebelum menyentuh apa pun. Tiga: uji cerita sah; bila gugur, freeze bila keyakinan melewati ambang ekonomis (≈1% sudah cukup; jangan tunggu 95%). Empat: exit dulu, eksekusi simultan dalam 5 menit, freeze-out-only untuk rekening umpan. Lima: pantau reroute 24 jam, siapkan gelombang kedua, dan dokumentasikan semuanya dalam 5 baris per rekening. AML bukan tentang menghukum enam rekening — tentang menyelamatkan Rp4,8 miliar sebelum jam 11.40.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: beku yang murah, ragu yang mahal",
+        type: "risk",
+        body: "Insting investigator pemula: tunggu sampai yakin. Matematikanya berkata sebaliknya — kepastian adalah opsi termahal di meja. Salah freeze biayanya Rp1,2 juta per hari dan bisa dibatalkan (reversible); telat freeze biayanya seluruh dana dan permanen (irreversible). Beban pembuktiannya terbalik dari intuisi awam: kamu tidak butuh bukti untuk membekukan, kamu butuh bukti untuk TIDAK membekukan ketika keyakinan sudah di atas 1%. Kedua, urutan freeze adalah triage, bukan vonis — kamu membekukan untuk menghentikan pendarahan, bukan untuk menghukum; investigasi dan pembuktian berjalan setelah darah berhenti, bukan sebelumnya. Ketiga, setiap freeze adalah sensor: jaringan yang bereaksi terhadap pembekuanmu — reroute ke rekening baru, uji-coba transfer kecil, kaki tangan yang tiba-tiba mengganti pola — sedang menggambar petanya sendiri untukmu. Investigator yang baik tidak hanya membaca alert; ia membaca reaksi musuh terhadap tindakannya, dan merencanakan dua langkah ke depan dari reaksi itu. Keempat, bedakan kecepatan dari ketergesaan: cepat = urutan benar dieksekusi serentak dalam 5 menit; tergesa = freeze acak tanpa peta peran. Yang pertama menyelamatkan Rp1,66 miliar; yang kedua memberi controller peta ketakutanmu. Dan terakhir, ingat asimetri dokumentasi: 5 baris catatan per rekening memakan 10 menit — murah dibanding 6 bulan pembelaan di pengadilan tanpa catatan. Investigator yang mencatat sedang membeli asuransi karier seharga 10 menit.",
+      },
+      reference: "Biaya salah-freeze Rp1,2 juta; biaya telat-freeze = seluruh dana. Bertindaklah pada keyakinan 5%, bukan 95%.",
+    },
+    {
+      id: "minicase2",
+      eyebrow: "Langkah 8 · Mini-case",
+      title: "Rp4,8 M, 6 rekening mule, 40 menit — 2 jam tersisa",
+      prose: [
+        "Kamu investigator shift pagi di sebuah bank menengah. Jam 09.40, alert TM masuk: enam rekening (R1–R6) menerima total Rp4,8 miliar dalam 40 menit. Datanya lengkap: satu sumber S mengirim ke R1 Rp1,1 miliar, R2 Rp900 juta, R3 Rp750 juta — fan-out dalam 22 menit. R1–R3 meneruskan semuanya ke R4 — total masuk R4 Rp2,75 miliar, fan-in dalam 35 menit. R4 memecah ke R5 Rp1,4 miliar dan R6 Rp1,35 miliar. R5 sudah dua kali top-up e-wallet @Rp500 juta pagi ini; R6 punya jadwal tarik tunai Rp1,35 miliar jam 11.30 di sebuah cabang. Latar belakangnya memberatkan: R1–R3 rekening 'joki' — dibuka 3 minggu lalu, saldo historis tak pernah di atas Rp2 juta, diduga disewa Rp300 ribu per rekening lewat grup Telegram. R4 rekening 2 bulan tanpa aktivitas wajar. Saldo saat ini: R1 Rp50 juta, R2 Rp30 juta, R3 Rp20 juta, R4 Rp0 (sudah diteruskan semua), R5 Rp400 juta, R6 Rp1,35 miliar. Biaya salah-freeze Rp1,2 juta per hari per rekening. Sekarang jam 09.50 — dana diperkirakan keluar dari sistem jam 11.40.",
+        "Pertanyaan. Satu: susun urutan freeze keenam rekening beserta jam eksekusinya — dan tulis alasan satu kalimat per rekening. Dua: rekening mana yang di-freeze total, mana yang freeze-out-only, dan kenapa perbedaan itu penting secara operasional? Tiga: hitung expected value rencanamu versus strategi alternatif 'tunggu bukti tambahan 1 jam lagi' — tampilkan perhitungannya dalam rupiah, bukan sekadar 'lebih baik'.",
+        "Pembahasan — urutan dan waktu. R6 pertama: exit tunai terjadwal 11.30 adalah titik hilang permanen terdekat; Rp1,35 miliar yang berubah jadi uang kartal recovery-nya tinggal 10%. R5 kedua: exit e-wallet yang sudah aktif — dua top-up @Rp500 juta menunjukkan pola berlanjut, dan Rp400 juta yang tersisa masih bisa diselamatkan dengan recovery 95%. R4 ketiga: collector — saldonya nol, tapi membekukannya memutus jembatan ke exit lain yang belum terpetakan (mungkin ada R7 yang belum terlihat). R1–R3 terakhir: feeder — dananya sudah berpindah, nilai freezenya forensik untuk laporan ke PPATK, bukan penyelamatan. Eksekusi: siapkan order 09.50–10.05, eksekusi serentak jam 10.05 dalam jendela 5 menit. Kenapa serentak: jeda 20 menit antar-freeze = undangan bagi controller untuk menguras sisanya — ia hanya butuh satu kabar 'transfer gagal' dari kaki tangannya.",
+        "Pembahasan — jenis freeze. R5 dan R6: freeze total. Keduanya exit aktif dan tidak ada nilai umpan — setiap menit terbuka adalah risiko pengurasan langsung. R1–R4: freeze-out-only — dana boleh masuk, tidak boleh keluar; ke controller terlihat seperti gangguan teknis atau limit harian. Kenapa perbedaan ini penting: bila R4 di-freeze total, controller langsung tahu operasinya terbakar dan mempercepat rencana cadangan; dengan freeze-out-only, transfer gagalnya terlihat seperti masalah teknis biasa. Sambil itu pantau 24 jam: transfer uji-coba Rp1–5 juta ke rekening yang belum pernah terlihat = sinyal reroute. Jangan langsung freeze rekening uji-coba itu — biarkan controller menunjukkan seluruh infrastrukturnya, lalu bekukan serentak gelombang kedua.",
+        "Pembahasan — angka. Rencana freeze jam 10.05: ekspektasi dana terselamatkan = R5 Rp400 juta × 95% + R6 Rp1,35 miliar × 95% ≈ Rp1,66 miliar, plus nilai opsi memutus reroute ke exit tak dikenal (tak ternilai harganya, tapi nyata). Biaya salah worst-case: 6 rekening × Rp3,6 juta (beku 3 hari) = Rp21,6 juta — dan ini skenario semua rekening ternyata sah, yang probabilitasnya mendekati nol mengingat pola fan-in/fan-out + rekening joki + jadwal tarik tunai. Strategi 'tunggu bukti 1 jam': R6 terkuras 11.30 → Rp1,35 miliar × (95% − 10%) = Rp1,15 miliar lenyap dari ekspektasi; R5 menyelesaikan top-up ketiganya → Rp400 juta × (95% − 60%) = Rp140 juta lenyap. Total kerugian menunggu ≈ Rp1,29 miliar versus biaya salah Rp21,6 juta — menunggu 60 kali lebih mahal. Keyakinan yang dibutuhkan untuk bertindak tadi pagi: 1%. Keyakinan yang kamu miliki dari datanya: pola ini tidak punya penjelasan sah yang masuk akal.",
+        "Uji sensitivitas: bagaimana bila asumsimu salah? Misal recovery e-wallet ternyata 40% (bukan 60%) dan R5 hanya tersisa Rp200 juta (bukan 400). Ekspektasi terselamatkan turun ke Rp200 juta × 95% + Rp1,35 miliar × 95% ≈ Rp1,47 miliar — masih 68 kali lipat biaya salah Rp21,6 juta. Atau misal satu rekening ternyata sah (payroll yang kebetulan): biaya salah naik Rp3,6 juta, kesimpulan tak berubah. Keputusan ini robust — ia tidak bergantung pada angka yang presisi, melainkan pada asimetri yang ekstrem. Di sinilah bedanya analis dan penghafal rumus: analis tahu kapan angka kasar sudah cukup untuk bertindak.",
+        "Jebakan yang harus dihindari. 'Lapor PPATK dulu, baru freeze' — STR adalah kewajiban pelaporan, bukan alat penyelamatan; prosesnya butuh hari, danamu butuh menit. Keduanya berjalan paralel, bukan berurutan. 'Freeze R1 dulu karena paling jelas' — feeder yang dibekukan duluan memberi sinyal ke controller sementara exit-nya masih terbuka; itu seperti menangkap kaki tangan sambil membiarkan brankas terbuka. 'Tunggu sampai pola 100% pasti' — kepastian 100% datangnya dari pengakuan controller, yang tidak akan pernah kamu dapatkan jam 10 pagi. Keputusan di bawah ketidakpastian adalah pekerjaanmu; rumusnya sudah ada di langkah 7.",
+        "Linimasa ideal menit per menit. 09.40: alert masuk, investigator mengambil alih (bukan antre). 09.40–09.50: petakan peran node + uji cerita sah (10 menit, disiplin). 09.50–10.05: siapkan 6 order + dapatkan persetujuan pre-otorisasi. 10.05: eksekusi serentak 5 menit. 10.15: verifikasi saldo + dokumentasi 5 baris per rekening. 10.15–11.40: pantau — bila controller mencoba tarik tunai R6 yang sudah beku, catat percobaannya sebagai bukti tambahan. 11.40: deadline lewat, dana aman. Paralel sejak 10.00: draf STR 1 halaman (siapa, pola apa, nominal berapa) — kirim hari yang sama. Total waktu aktif: ~35 menit untuk menyelamatkan Rp1,66 miliar. Itu Rp47 juta per menit kerja investigator — bandingkan dengan kasus tier-3 di FR14 yang EV-nya Rp80 ribu.",
+        "Varian sulit untuk menguji pemahamanmu: bagaimana bila 2 dari 6 rekening ternyata rekening payroll sebuah perusahaan katering — R2 dan R3 menerima Rp900 juta dan Rp750 juta sebagai 'dana operasional event'? Uji cerita sah: rekening 3 minggu + saldo historis Rp2 juta + pola fan-in/fan-out + jadwal tarik tunai = cerita payroll gugur di tiga titik. Tapi misalkan R2 memang payroll (dibuktikan mutasi 3 minggu konsisten ke 40 karyawan): maka R2 tidak di-freeze — dipantau diam-diam, dan urutan berubah (R6, R5, R4, R1, R3). Pelajarannya: petakan peran DULU, uji cerita sah DULU, baru freeze. Urutan yang benar lahir dari peta yang benar.",
+
+        "Epilog — 24 jam kemudian. Jam 14.00, R4 yang di-freeze-out-only menerima transfer masuk Rp25 juta dari rekening baru R7 — controller sedang menguji jalur. Tim tidak membekukan R7; mereka memantau. Jam 19.00, R7 menerima Rp180 juta dari dua rekening lain yang belum terlihat sebelumnya. Jam 08.00 besok paginya, gelombang kedua: R7 plus 2 rekening baru dibekukan serentak, total tambahan Rp205 juta diselamatkan. Inilah dividen dari freeze-out-only: pembekuan pertama bukan akhir operasi, melainkan umpan yang bekerja. Investigator yang mem-freeze-total semuanya jam 10.05 tidak akan pernah tahu R7 ada — ia menangkap Rp1,66 miliar tapi kehilangan petanya.",
+        "Draf STR paralel — 1 halaman, dikirim hari yang sama. Isinya: (1) identitas 6 rekening plus S; (2) pola: fan-out 22 menit, fan-in 35 menit, split ke exit; (3) nominal Rp4,8 miliar; (4) indikator: rekening joki 3 minggu, jadwal tarik tunai, top-up e-wallet berulang; (5) tindakan: freeze 10.05 dan saldo terselamatkan. STR bukan esai — analis PPATK membaca ratusan per hari; 1 halaman yang padat lebih berguna dari 10 halaman yang berputar-putar. Freeze menyelamatkan uang bank hari ini; STR yang baik membuat PPATK bisa menghubungkan S dengan jaringan di bank lain besok. Kamu bukan satu-satunya bank yang diserang controller ini.",
+        "Rubrik penilaian jawabanmu — jujur pada diri sendiri. Urutan benar (exit → collector → feeder): 30 poin. Eksekusi serentak dengan persiapan ≤ 15 menit: 20 poin. Pembedaan freeze total vs freeze-out-only beserta alasan operasionalnya: 20 poin. Perhitungan expected value dengan angka rupiah (bukan sekadar 'lebih baik'): 20 poin. Menyebut STR paralel dan pantau 24 jam: 10 poin. Di bawah 60: kamu masih berpikir seperti auditor — benar tapi lambat. 80 ke atas: kamu berpikir seperti investigator — cepat dan berhitung. Di AML, 'benar tapi lambat' sama dengan salah, karena dananya sudah tidak ada.",
+        "Satu varian untuk didiskusikan dengan timmu: bagaimana bila sumber S ternyata rekening korporat legit yang diretas (account takeover), bukan controller? Maka S adalah korban — dan 'sumber' sebenarnya adalah peretas di luar sana. Urutan freeze tidak berubah (uangnya tetap harus dihentikan), tapi investigasinya berubah total: fokus ke vektor peretasan S, dan S harus segera diberi tahu — itu bukan tipping-off, ia korban bukan pelaku. Pelajarannya: peta aliran menjawab 'ke mana uang pergi'; ia tidak menjawab 'siapa penjahatnya'. Jangan menghukum node sebelum tahu perannya — freeze dulu, vonis belakangan.",
+        "Setelah uang selamat, pekerjaanmu belum selesai: dana beku bukan dana kembali. Alurnya: pembekuan darurat → pelaporan ke PPATK → penyidikan (bila pidana) → putusan pengadilan → eksekusi pengembalian. Timeline realistis 6–18 bulan, dan tanpa berkas investigasi yang rapi (5 baris dokumentasi per rekening dari langkah 7!), dana bisa lepas di pengadilan. Investigator yang hebat menyiapkan dua kemenangan: kemenangan jam 10.05 (uang berhenti bergerak) dan kemenangan 12 bulan kemudian (uang kembali ke negara/korban). Yang pertama butuh kecepatan; yang kedua butuh kerapian. Kebanyakan tim hanya melatih yang pertama.",
+        "Takeaway: dalam AML, kecepatan adalah akurasi — freeze yang 80% benar jam 10.05 mengalahkan freeze yang 100% benar jam 11.45, karena jam 11.45 dananya sudah tidak ada.",
+      ],
+      tasks: [],
+      reference: "Freeze = triage + sensor. STR berjalan paralel, bukan berurutan.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan campuran dari semua langkah. Jawab satu per satu; setiap opsi punya alasan kenapa benar atau salah.",
+      ],
+      tasks: [],
+      summary: [
+        "Tiga tahap: placement (paling terlihat) → layering → integration.",
+        "Structuring: clustering tepat di bawah ambang; 'kebetulan' 1:64 juta bukan kebetulan.",
+        "Layering: rantai panjang, fan-out/gather — sinyal graf.",
+        "STR = penilaian (kecurigaan beralasan), bukan ambang otomatis; tipping-off = pidana.",
+        "Di AML tidak ada korban yang melapor — sistem bank satu-satunya pertahanan.",
+      ],
+      next: { label: "FR16 — Anomali Time Series", href: "/learn/fr16-anomali-time-series" },
+      quiz: [
+        {
+          q: "6 setoran Rp470–495 juta (ambang Rp500 juta). Apa kesimpulannya?",
+          options: [
+            { text: "Normal — di bawah ambang", why: "Justru 'di bawah ambang' berulang = sinyal structuring." },
+            { text: "Structuring — peluang 'kebetulan' 1:64 juta; clustering di bawah ambang = sinyal klasik", why: "0,05⁶ ≈ 1:64 juta. Bukan kebetulan.", correct: true },
+            { text: "Pasti bukan pencucian uang", why: "Tidak bisa disimpulkan — butuh investigasi." },
+            { text: "Laporkan sebagai LTKT", why: "LTKT otomatis dari ambang — ini di bawah ambang; jalurnya investigasi → STR." },
+          ],
+        },
+        {
+          q: "Rantai transfer A→B→C→D→E→F→G→H→I (9 hop). Sinyal apa?",
+          options: [
+            { text: "Normal", why: "Transaksi normal jarang berantai 9 hop." },
+            { text: "Layering — rantai panjang mengaburkan asal dana", why: "Panjang rantai = fitur diskriminatif layering.", correct: true },
+            { text: "Structuring", why: "Structuring = pecah di bawah ambang, bukan rantai panjang." },
+            { text: "Integration", why: "Integration = dana keluar sebagai aset sah — ini masih perputaran." },
+          ],
+        },
+        {
+          q: "Kapan STR wajib dibuat?",
+          options: [
+            { text: "Setelah terbukti di pengadilan", why: "Standar STR = kecurigaan beralasan, bukan pembuktian." },
+            { text: "Saat ada kecurigaan beralasan — 'apakah analis wajar akan curiga?'", why: "Menunggu bukti pasti = tidak pernah melapor.", correct: true },
+            { text: "Otomatis saat lewat ambang", why: "Itu LTKT/LTKM — STR berdasarkan penilaian." },
+            { text: "Tidak pernah", why: "Kewajiban melapor itu nyata." },
+          ],
+        },
+        {
+          q: "Nasabah bertanya 'apakah saya sedang dilaporkan ke PPATK?' Jawaban benar?",
+          options: [
+            { text: "Jawab jujur 'ya'", why: "Tipping-off = pidana." },
+            { text: "Tolak menjawab/memberi tahu — tipping-off adalah tindak pidana", why: "Dilarang memberi tahu nasabah tentang laporan/investigasi.", correct: true },
+            { text: "Beri tahu sebagian", why: "Sebagian pun = tipping-off." },
+            { text: "Alihkan ke PPATK", why: "Mengarahkan ke PPATK juga membocorkan." },
+          ],
+        },
+        {
+          q: "Mengapa deteksi AML lebih sulit dari fraud biasa?",
+          options: [
+            { text: "Teknologinya kurang", why: "Tekniknya sama — yang beda situasinya." },
+            { text: "Tidak ada korban yang melapor — semua pihak pelaku; pola dirancang terlihat normal", why: "Di fraud korban membantu deteksi; di AML tidak ada yang melapor.", correct: true },
+            { text: "Regulasinya longgar", why: "Regulasi AML justru ketat." },
+            { text: "Tidak lebih sulit", why: "Lebih sulit — lihat opsi benar." },
+          ],
+        },
+      ],
+    },
+  ],
+};

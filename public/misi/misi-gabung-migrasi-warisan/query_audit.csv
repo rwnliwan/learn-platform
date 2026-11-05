@@ -1,0 +1,31 @@
+query_id,teks,tabel,operasi,baris_dipindai,baris_total,ms,indeks_dipakai
+Q01,cari order by id,orders,Index Scan,1,8012,12,idx_orders_id
+Q02,cari pelanggan by email,pelanggan,Index Scan,2,2000,18,idx_pelanggan_email
+Q03,laporan order status selesai,orders,Seq Scan,8012,8012,2340,-
+Q04,rekap pembayaran harian,pembayaran,Index Scan,96,7500,210,idx_bayar_tanggal
+Q05,cari produk by kategori,produk,Index Scan,74,300,22,idx_produk_kategori
+Q06,join order+pelanggan by id,orders,Index Scan,1,8012,9,idx_orders_pelanggan
+Q07,laporan omzet per kota,orders,Seq Scan,8012,8012,1890,-
+Q08,cek status pembayaran order,pembayaran,Index Scan,1,7500,11,idx_bayar_order
+Q09,daftar pelanggan baru,pelanggan,Index Scan,40,2000,30,idx_pelanggan_tgl
+Q10,produk harga < 100rb,produk,Index Scan,52,300,15,idx_produk_harga
+Q11,arsip pembayaran lama,pembayaran,Seq Scan,7500,7500,1620,-
+Q12,top produk termahal,produk,Index Scan,10,300,14,idx_produk_harga
+Q13,lookup pembayaran 13,pembayaran,Index Scan,15,7500,154,idx_pembayaran_id
+Q14,lookup orders 14,orders,Index Scan,96,8012,207,idx_orders_id
+Q15,laporan ad-hoc 15,orders,Seq Scan,8012,8012,1616,-
+Q16,lookup orders 16,orders,Index Scan,13,8012,164,idx_orders_id
+Q17,lookup produk 17,produk,Index Scan,57,300,33,idx_produk_id
+Q18,laporan ad-hoc 18,orders,Seq Scan,8012,8012,2344,-
+Q19,lookup pembayaran 19,pembayaran,Index Scan,103,7500,214,idx_pembayaran_id
+Q20,lookup pelanggan 20,pelanggan,Index Scan,24,2000,57,idx_pelanggan_id
+Q21,laporan ad-hoc 21,orders,Seq Scan,8012,8012,1616,-
+Q22,laporan ad-hoc 22,orders,Seq Scan,8012,8012,2475,-
+Q23,lookup produk 23,produk,Index Scan,64,300,75,idx_produk_id
+Q24,lookup pembayaran 24,pembayaran,Index Scan,17,7500,26,idx_pembayaran_id
+Q25,laporan ad-hoc 25,orders,Seq Scan,8012,8012,1553,-
+Q26,lookup orders 26,orders,Index Scan,110,8012,51,idx_orders_id
+Q27,lookup orders 27,orders,Index Scan,111,8012,105,idx_orders_id
+Q28,laporan ad-hoc 28,orders,Seq Scan,8012,8012,2409,-
+Q29,lookup orders 29,orders,Index Scan,50,8012,37,idx_orders_id
+Q30,laporan ad-hoc 30,orders,Seq Scan,8012,8012,2139,-

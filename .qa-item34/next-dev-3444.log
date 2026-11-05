@@ -1,0 +1,98 @@
+   ▲ Next.js 15.5.2
+   - Local:        http://localhost:3444
+   - Network:      http://198.19.0.2:3444
+
+ ✓ Starting...
+ ✓ Ready in 7.5s
+ ✓ Compiled /middleware in 1334ms
+ ✓ Compiled (114 modules)
+ ○ Compiling /v2/lab-demo ...
+ ✓ Compiled /v2/lab-demo in 10.6s (573 modules)
+ GET /v2/lab-demo 200 in 346ms
+ GET /v2/lab-demo 200 in 344ms
+ ○ Compiling /v2/learn/[slug] ...
+ ✓ Compiled /v2/learn/[slug] in 17.5s (1144 modules)
+ ⨯ [Error [PageNotFoundError]: Cannot find module for page: /v2/learn/[slug]/page] {
+  type: 'PageNotFoundError',
+  code: 'ENOENT',
+  page: '/v2/learn/a11-tipe-data'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 87.5s (604 modules)
+ GET /v2/learn/a11-tipe-data 500 in 110959ms
+ ○ Compiling /v2/learn/[slug] ...
+ ✓ Compiled /v2/learn/[slug] in 832ms (980 modules)
+ GET /v2/learn/a11-tipe-data 200 in 11045ms
+ ✓ Compiled /v2/lab-demo in 311ms (986 modules)
+ GET /v2/lab-demo 200 in 1078ms
+ GET /v2/learn/a11-tipe-data 200 in 2165ms
+ ○ Compiling /api/progress ...
+ ✓ Compiled /api/progress in 9.4s (728 modules)
+ GET /api/progress 500 in 10362ms
+ ✓ Compiled in 4s (1008 modules)
+ ✓ Compiled in 2.2s (1008 modules)
+ ⨯ SyntaxError: Unexpected token ';'
+    at <unknown> (webpack-internal://nextjs/webpack-runtime.js:1)
+    at <unknown> (.next/server/app/v2/lab-demo/page.js:418:27)
+    at Object.<anonymous> (.next/server/app/v2/lab-demo/page.js:424:3) {
+  page: '/v2/lab-demo'
+}
+ ⨯ SyntaxError: Unexpected token ';'
+    at <unknown> (webpack-internal://nextjs/webpack-runtime.js:1)
+    at <unknown> (.next/server/app/v2/learn/[slug]/page.js:6435:27)
+    at Object.<anonymous> (.next/server/app/v2/learn/[slug]/page.js:6441:3) {
+  page: '/v2/learn/a11-tipe-data'
+}
+ ○ Compiling /v2 ...
+ ✓ Compiled /v2 in 12.3s (1585 modules)
+Could not find files for /_error in .next/build-manifest.json
+Could not find files for /_error in .next/build-manifest.json
+Could not find files for /_error in .next/build-manifest.json
+Could not find files for /_error in .next/build-manifest.json
+ GET /v2/lab-demo 500 in 21556ms
+ GET /v2/learn/a11-tipe-data 500 in 20967ms
+ GET /v2 200 in 17165ms
+ GET /v2/lab-demo 200 in 2116ms
+ GET /v2/learn/a11-tipe-data 200 in 2070ms
+ ✓ Compiled in 3.4s (1163 modules)
+ ✓ Compiled in 5.6s (1164 modules)
+ GET /api/progress 500 in 2271ms
+ ○ Compiling /v2/learn ...
+ GET /v2/lab-demo 200 in 7986ms
+ GET /v2/learn/a11-tipe-data 200 in 8069ms
+ ✓ Compiled /v2/learn in 6s (1594 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ○ Compiling /_not-found ...
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /v2/learn 200 in 29326ms
+ ✓ Compiled /_not-found in 10.4s (1507 modules)
+ GET /api/progress 500 in 2540ms
+ GET /v2/lab-demo 404 in 14127ms
+ GET /v2/learn 200 in 9631ms
+ ⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET /v2/learn 200 in 9979ms
+ GET /v2 404 in 483ms
+ GET /v2/learn 404 in 4778ms
+ ○ Compiling /v2/review ...
+ ✓ Compiled /v2/review in 21.4s (1514 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /v2/review 200 in 29388ms
+ GET /v2/learn/a11-tipe-data 200 in 4081ms
+ ⨯ Failed to generate static paths for /v2/learn/[slug]:
+TypeError: __webpack_modules__[moduleId] is not a function
+    at eval (webpack-internal:///(rsc)/./src/app/v2/learn/[slug]/page.tsx:8:73)
+    at <unknown> (rsc)/./src/app/v2/learn/[slug]/page.tsx (/home/hatch/workspace/learn-platform/.next/server/app/v2/learn/[slug]/page.js:5760:1) {
+  type: 'TypeError'
+}
+ GET /v2/review 200 in 161ms
+ GET /v2/review 200 in 169ms
+ GET /v2/lab-demo 200 in 468ms
+ GET /v2/learn 200 in 18422ms
+ ✓ Compiled in 32.6s (1078 modules)
+ ○ Compiling /v2 ...
+ ✓ Compiled /v2 in 7.3s (1078 modules)
+ ✓ Compiled (1085 modules)
+ GET /v2 200 in 27508ms
+ GET /v2/learn 200 in 44454ms

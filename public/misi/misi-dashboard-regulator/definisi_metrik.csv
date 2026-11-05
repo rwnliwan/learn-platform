@@ -1,0 +1,5 @@
+metric_id,nama_metrik,definisi,versi,berlaku_mulai
+M1,Pengguna aktif,distinct user_id dengan >=1 transaksi berstatus 'valid' dalam satu bulan kalender,v1,2026-01-01
+M2,Transaksi valid,baris dengan status = 'valid',v1,2026-01-01
+M3,Total nominal valid,jumlah kolom nominal untuk baris status = 'valid',v1,2026-01-01
+M4,Tingkat validitas,n_valid / n_total baris (semua status),v1,2026-01-01

@@ -1,0 +1,221 @@
+import type { V2Lesson } from "../lib/types";
+
+export const dm7: V2Lesson = {
+  slug: "dm7-kualitas-data",
+  track: "Data Management",
+  module: "Kualitas & Kontrak",
+  title: "Kualitas Data: Garbage In, Keputusan Ngaco Out",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita-kur",
+      eyebrow: "Langkah 1 · Cerita pembuka",
+      title: "Rp14 miliar melayang karena satu kolom",
+      prose: [
+        "Sebuah bank menyalurkan KUR Rp14 miliar ke 200 debitur — yang ternyata sudah meninggal. Bukan fraud, bukan korupsi. Kolom status_hidup di tabel nasabah tidak pernah di-update dari Dukcapil selama 3 tahun; nilainya basi. Model scoring membaca \"hidup\", analis membaca \"layak\", uang cair ke ahli waris fiktif.",
+        "Tidak ada yang salah hitung. Semua query benar, semua dashboard akurat — akurat menggambarkan data yang salah. Inilah sifat kualitas data yang paling menakutkan: ia tidak membuat sistem error; ia membuat sistem yakin pada kebohongan.",
+      ],
+      tasks: [],
+      reference: "Kualitas data diukur, dites, dan dipantau seperti nyawa perusahaan — karena memang begitu.",
+    },
+    {
+      id: "enam-dimensi",
+      eyebrow: "Langkah 2 · Enam dimensi",
+      title: "Kacamata inspeksi",
+      prose: [
+        "\"Kualitas data\" terlalu kabur tanpa dimensi. Enam lensa standar industri: akurasi (apakah nilainya benar di dunia nyata? umur 250 = tidak akurat — paling mahal diukur karena butuh sumber kebenaran pembanding), kelengkapan (apakah yang seharusnya ada, ada? gaji kosong 12%), konsistensi (apakah tidak saling bertentangan? total tabel A ≠ tabel B; \"Jakarta\" vs \"JKT\").",
+        "Ketepatan waktu (apakah cukup segar untuk keputusan? data kemarin untuk fraud = basi), validitas (apakah formatnya benar? email tanpa \"@\", tanggal 32/13/2026 — dicek dengan rule), keunikan (apakah tidak ganda? nasabah sama 3 baris = risiko hitung ganda).",
+      ],
+      tasks: [],
+      reference: "Ukur per dimensi, perbaiki yang berdampak ke keputusan.",
+    },
+    {
+      id: "profiling-lab",
+      eyebrow: "Langkah 3 · Profiling · lab",
+      title: "CT scan sebelum percaya",
+      prose: [
+        "Profiling = statistik deskriptif otomatis atas dataset: jumlah baris, % null per kolom, min/max/mean, distinct count, pola format, distribusi. Dilakukan sebelum memakai dataset baru (due diligence data) dan berkala untuk dataset kritis. Analis yang langsung query tanpa profiling = dokter yang langsung operasi tanpa CT scan.",
+        "Yang dicari: null abnormal, duplikat key, nilai mustahil (umur 250), distribusi berubah mendadak (kemarin 0% null, hari ini 40% — drift), format tak terduga. Aturan 1-10-100: cegah di sumber (validasi form input) biayanya 1×, perbaiki di pipeline 10×, perbaiki setelah keputusan salah 100×.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `null_hp` = % no_hp yang null (1 desimal)" },
+        { id: "t2", text: "Hitung `umur_invalid` = baris dengan umur < 0 atau > 120" },
+        { id: "t3", text: "Hitung `nik_dup` = jumlah NIK duplikat, lalu cetak ketiganya" },
+      ],
+      expected: "null_hp=25.0  umur_invalid=2  nik_dup=1",
+      hints: [
+        "null_hp = round(df[\"no_hp\"].isna().mean() * 100, 1)",
+        "umur_invalid = ((df[\"umur\"] < 0) | (df[\"umur\"] > 120)).sum()",
+        "nik_dup = df[\"nik\"].duplicated().sum()",
+      ],
+      code: {
+        starter: `import pandas as pd\n\ndf = pd.DataFrame([\n    {"nik": "1001", "umur": 35, "email": "a@mail.com",  "kota": "Jakarta",  "no_hp": "081"},\n    {"nik": "1002", "umur": 250, "email": "b@mail.com", "kota": "JKT",      "no_hp": None},\n    {"nik": "1003", "umur": 28, "email": "cmail.com",  "kota": "Bandung",  "no_hp": "082"},\n    {"nik": "1004", "umur": -5, "email": "d@mail.com",  "kota": "Jakarta",  "no_hp": "083"},\n    {"nik": "1005", "umur": 41, "email": "e@mail.com",  "kota": "Surabaya", "no_hp": None},\n    {"nik": "1002", "umur": 33, "email": "f@mail.com",  "kota": "Jakarta",  "no_hp": "084"},\n    {"nik": "1007", "umur": 55, "email": "g@mail.com",  "kota": "Medan",    "no_hp": "085"},\n    {"nik": "1008", "umur": 29, "email": "h@mail.com",  "kota": "JKT",      "no_hp": None},\n    {"nik": "1009", "umur": 62, "email": "i@mail.com",  "kota": "Jakarta",  "no_hp": "086"},\n    {"nik": "1010", "umur": 47, "email": "j@mail.com",  "kota": "Bandung",  "no_hp": "087"},\n    {"nik": "1011", "umur": 39, "email": "k@mail.com",  "kota": "Jakarta",  "no_hp": "088"},\n    {"nik": "1012", "umur": 52, "email": "l@mail.com",  "kota": "Surabaya", "no_hp": "089"},\n])\n\n# TULIS KODEMU: 3 metrik kualitas\nnull_hp = \numur_invalid = \nnik_dup = \n\nprint(f"null_hp={null_hp}  umur_invalid={umur_invalid}  nik_dup={nik_dup}")`,
+        lockLines: 15,
+        solution: `import pandas as pd\n\ndf = pd.DataFrame([\n    {"nik": "1001", "umur": 35, "email": "a@mail.com",  "kota": "Jakarta",  "no_hp": "081"},\n    {"nik": "1002", "umur": 250, "email": "b@mail.com", "kota": "JKT",      "no_hp": None},\n    {"nik": "1003", "umur": 28, "email": "cmail.com",  "kota": "Bandung",  "no_hp": "082"},\n    {"nik": "1004", "umur": -5, "email": "d@mail.com",  "kota": "Jakarta",  "no_hp": "083"},\n    {"nik": "1005", "umur": 41, "email": "e@mail.com",  "kota": "Surabaya", "no_hp": None},\n    {"nik": "1002", "umur": 33, "email": "f@mail.com",  "kota": "Jakarta",  "no_hp": "084"},\n    {"nik": "1007", "umur": 55, "email": "g@mail.com",  "kota": "Medan",    "no_hp": "085"},\n    {"nik": "1008", "umur": 29, "email": "h@mail.com",  "kota": "JKT",      "no_hp": None},\n    {"nik": "1009", "umur": 62, "email": "i@mail.com",  "kota": "Jakarta",  "no_hp": "086"},\n    {"nik": "1010", "umur": 47, "email": "j@mail.com",  "kota": "Bandung",  "no_hp": "087"},\n    {"nik": "1011", "umur": 39, "email": "k@mail.com",  "kota": "Jakarta",  "no_hp": "088"},\n    {"nik": "1012", "umur": 52, "email": "l@mail.com",  "kota": "Surabaya", "no_hp": "089"},\n])\n\n# TULIS KODEMU: 3 metrik kualitas\nnull_hp = round(df["no_hp"].isna().mean() * 100, 1)\numur_invalid = int(((df["umur"] < 0) | (df["umur"] > 120)).sum())\nnik_dup = int(df["nik"].duplicated().sum())\n\nprint(f"null_hp={null_hp}  umur_invalid={umur_invalid}  nik_dup={nik_dup}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "null_hp", value: 25.0, tol: 0.01, label: "`null_hp` seharusnya 25.0", msg: "3 dari 12 baris no_hp-nya null. Rumus: isna().mean() * 100." },
+          { kind: "equal", task: "t2", name: "umur_invalid", value: 2, tol: 0, label: "`umur_invalid` seharusnya 2", msg: "Umur 250 dan -5 melanggar rentang 0–120." },
+          { kind: "equal", task: "t3", name: "nik_dup", value: 1, tol: 0, label: "`nik_dup` seharusnya 1", msg: "NIK 1002 muncul dua kali — satu baris ganda." },
+          { kind: "stdout_matches", task: "t3", pattern: "null_hp=25\\.0\\s+umur_invalid=2\\s+nik_dup=1", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Dataset 12 baris ini menanam 5 masalah: null, umur mustahil, email invalid, kota inkonsisten, NIK ganda.",
+    },
+    {
+      id: "rule-test",
+      eyebrow: "Langkah 4 · Rule & test",
+      title: "Kontrak yang dieksekusi mesin",
+      prose: [
+        "Rule = ekspektasi tertulis yang dieksekusi otomatis tiap pipeline jalan: unique(id), not_null(email), umur BETWEEN 0 AND 120, kota IN (daftar_valid), total = sum(komponen) untuk rekonsiliasi.",
+        "Anatomi rule yang baik: (1) nama jelas, (2) threshold (gagal jika >5% null — bukan 0% kaku), (3) aksi (warn vs fail — fail = hentikan pipeline, jangan naikkan ke Gold), (4) pemilik (siapa yang di-alert). Test dipasang di pintu medallion (DM4): Bronze→Silver untuk validitas dasar, Silver→Gold untuk kelengkapan, konsistensi, dan rekonsiliasi. Data gagal test tidak naik kelas — dikarantina + alert, bukan diperbaiki diam-diam.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "\"Test kualitas = hapus data kotor otomatis.\" Yang benar: test yang baik menghentikan dan memberi tahu, bukan membereskan diam-diam. Auto-fix menyembunyikan masalah sumber — besok datanya kotor lagi.",
+        type: "pitfall",
+      },
+      reference: "Definisi \"benar\" milik bisnis — engineer mengeksekusi sebagai kode, steward memantau.",
+    },
+    {
+      id: "observability",
+      eyebrow: "Langkah 5 · Observability",
+      title: "CCTV untuk pipeline",
+      prose: [
+        "Bedanya dengan test: test = aturan yang kamu tulis (\"umur harus 0–120\"); observability = mesin yang memperhatikan anomali tanpa kamu tulis aturannya (\"volume tabel ini turun 60% dari biasanya!\").",
+        "Lima pilar observability data: freshness (datanya telat?), volume (jumlah baris aneh?), distribution (distribusi bergeser?), schema (ada kolom baru/hilang?), lineage (kalau tabel ini rusak, apa saja yang kena? — DM10). Contoh nyata: jam 3 pagi volume tabel transaksi turun 70% — bukan karena test gagal (format benar!), tapi karena sumber mati sebagian. Hanya observability volume yang menangkap ini. Test = penjaga gerbang; observability = CCTV.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: CCTV vs penjaga gerbang — alokasi effort yang benar",
+        body: "Test menjawab \"apakah yang saya takutkan terjadi?\"; observability menjawab \"apakah ada yang aneh yang bahkan tidak saya bayangkan?\" Penjaga gerbang memeriksa yang sudah ditulis di daftar; CCTV menangkap yang tidak terduga. Heuristik alokasinya: dataset baru → 80% effort di rule test (musuhnya belum dikenal, daftar dulu yang jelas-jelas salah); dataset yang sudah 6 bulan stabil → 70% effort di observability (musuh yang tersisa adalah yang tak terduga). Aturan praktisnya: 5–7 rule kritis plus monitor lima pilar menangkap sekitar 90% insiden nyata; rule ke-50 memberi nilai marginal mendekati nol tetapi biaya maintenance-nya nyata (setiap rule adalah kode yang bisa false positive jam 3 pagi). Jangan membangun benteng untuk memenangkan perang kemarin — alokasikan sesuai umur dan stabilitas dataset.",
+      },
+      reference: "Urutan membangun: profiling sekali → rule test di pintu → observability berjalan terus.",
+    },
+    {
+      id: "peta-audit",
+      eyebrow: "Langkah 6 · Peta keputusan",
+      title: "Masalah apa, obatnya apa",
+      prose: [
+        "Nilai mustahil/format salah (umur 250, email tanpa @) → rule validitas + tolak di pintu (fail). Akar: perbaiki validasi di sumber. Duplikat key → test keunikan + dedup terdokumentasi; tentukan aturan survivorship (baris mana menang) secara eksplisit.",
+        "Kolom penting banyak kosong (gaji 12% null) → ukur kelengkapan + kejar ke hulu; imputasi hanya obat gejala. Angka antar tabel beda → rekonsiliasi otomatis (total = sum komponen); untuk risiko dan regulasi (DM13), rekonsiliasi bukan opsional. \"Kemarin normal, hari ini aneh\" → observability.",
+        "Contoh audit nyata: tabel nasabah 1 juta baris — no_hp 115.000 null (kampanye SMS Rp150/pesan ke 1 juta orang terbuang sia-sia jika tidak difilter), nik 8.000 null + 3.200 duplikat (total dilaporkan 1.000.000 padahal unik 996.800 — selisih 0,32%, temuan audit untuk rasio yang diawasi regulator).",
+      ],
+      tasks: [],
+      reference: "Perbaiki di hulu (1×), bukan di hilir (100×).",
+    },
+    {
+      id: "minicase-hantu",
+      eyebrow: "Langkah 7 · Mini-case",
+      title: "Skor kredit dari data hantu",
+      prose: [
+        "Fintech memakai model scoring dengan fitur rata_rata_saldo_6bln. Suatu hari akurasi model anjlok. Investigasi: job sumber mengubah NULL (tidak ada data) menjadi 0 (saldo nol) \"agar rapi\". Nasabah tanpa riwayat kini terlihat \"punya saldo nol 6 bulan\" — sinyal yang berbeda total artinya. Model belajar dari kebohongan.",
+        "Dimensi yang rusak: akurasi + validitas makna — nilai berubah arti (tidak-tahu → nol). Formatnya valid, maknanya salah: jenis bug paling licin. Rule rentang tidak menangkap (0 valid!), tapi monitor distribusi menangkap pergeseran \"% nilai tepat 0 melonjak 5% → 40%\".",
+        "Pelajarannya: NULL = \"tidak tahu\", 0 = \"tahu: nol\". Mencampur keduanya merusak semua statistik. Jangan pernah \"merapikan\" NULL jadi 0 tanpa persetujuan tertulis pemilik data.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Model scoring yang belajar dari \"saldo nol\" palsu memberi skor salah ke ribuan nasabah — ada yang ditolak padahal layak, ada yang disetujui padahal berisiko. Bug makna seperti ini tidak tertangkap test format; hanya monitor distribusi dan definisi data yang disiplin yang menangkapnya.",
+      },
+      reference: "NULL ≠ 0. Selalu.",
+    },
+    {
+      id: "ekonomi-kualitas",
+      eyebrow: "Langkah 8 · Ekonomi kualitas",
+      title: "Siapa membayar data kotor",
+      prose: [
+        "Siapa yang membayar data kotor? Jawabannya menentukan segalanya. Ambil e-commerce \"MajuMart\": 115.000 nomor HP null dari peta keputusan langkah 6 berarti kampanye SMS Rp150 per pesan ke satu juta orang membakar Rp150 juta untuk pesan yang tidak terkirim — atau lebih buruk, terkirim ke nomor daur ulang milik orang asing (risiko privasi). Itu biaya langsung. Biaya tidak langsungnya: dua analis menghabiskan tiga hari per minggu \"membersihkan data\" — 60% gaji mereka untuk pekerjaan yang seharusnya dilakukan mesin di hulu. Dan biaya katastrofiknya: cerita KUR Rp14 miliar di langkah 1. Framework-nya tiga lapis: biaya operasional terbuang (SMS, iklan, logistik ke alamat salah), biaya tenaga kerja tersembunyi (analis menjadi tukang bersih-bersih), dan biaya keputusan salah (kredit macet, denda regulator). Perusahaan yang tidak menghitung ketiganya akan selalu menganggap investasi kualitas \"mahal\" — karena pembandingnya nol, bukan biaya sebenarnya.",
+        "Bandingkan dua tim menghadapi % null yang naik. Tim A memilih auto-fix diam-diam: hapus duplikat otomatis, isi null dengan rata-rata, pipeline selalu hijau. Tiga bulan kemudian sumbernya tetap kotor (tidak ada yang komplain karena tidak ada yang tahu), model ML belajar dari data \"dipermak\" (rata-rata yang diisi bukan data nyata — distribusinya terdistorsi), dan ketika akhirnya ketahuan, tidak ada yang tahu sudah berapa lama kebohongan itu berjalan. Tim B memilih quarantine plus alert plus SLA perbaikan hulu lima hari kerja: minggu pertama menyakitkan (alert berbunyi, pemilik sumber dipanggil), tetapi tiga bulan kemudian % null turun dari 25% ke 4% dan tetap di sana — karena sumbernya diperbaiki, bukan gejalanya ditutupi. Pelajarannya: rasa sakit yang terlihat menyembuhkan; rasa sakit yang disembunyikan menjadi kronis. Auto-fix adalah morfin untuk data: menghilangkan gejala, memperparah penyakit. Satu-satunya auto-fix yang bisa diterima adalah yang terdokumentasi, terukur, dan dilaporkan ke pemilik sumber — bukan yang diam-diam.",
+        "Mode kegagalan yang paling licin adalah drift gradual: % null naik 2% → 4% → 7% selama tiga bulan. Tidak ada yang alert karena \"masih di bawah threshold 10%\". Delapan bulan kemudian 23% dan kampanye besar gagal total — padahal trennya sudah berteriak sejak bulan kedua. Threshold absolut buta terhadap tren. Aturan yang benar: alert on trend, bukan hanya threshold. Implementasinya sederhana: simpan metrik kualitas harian sebagai time series; alert jika naik tiga periode berturut-turut (atau slope regresi linear positif signifikan selama 14 hari) walau masih di bawah threshold. Ini seperti memonitor demam: 37,5°C belum demam, tetapi naik dari 36,5 → 37 → 37,5 dalam tiga hari adalah sinyal yang harus diperiksa. Threshold menjawab \"apakah sudah rusak?\"; tren menjawab \"apakah sedang menuju rusak?\" — dan yang kedua jauh lebih murah ditangani.",
+        "Elaborasi mode kegagalan dari mini-case langkah 7: perubahan arti yang diam-diam. Kolom status_pembayaran dengan nilai 0 yang tadinya berarti \"belum mengisi\" diubah tim sumber menjadi \"tidak punya tunggakan\" — tanpa pemberitahuan, tanpa perubahan nama kolom, tanpa perubahan tipe. Semua rule format tetap lolos (0 adalah angka valid), semua test rentang lolos, tetapi maknanya terbalik total: 40.000 debitur yang belum dinilai kini terlihat \"bersih\". Inilah bug makna — jenis yang paling licin karena tidak ada test sintaksis yang bisa menangkap pergeseran semantik. Pertahanannya tiga lapis. Satu: setiap kolom kritis punya \"kontrak makna\" — definisi plus contoh nilai plus pemilik yang wajib mengumumkan perubahan arti (ini jembatan ke data contract). Dua: monitor distribusi — \"% nilai tepat 0 melonjak 5% → 40%\" adalah sirene yang hanya bisa dibunyikan oleh observability distribusi. Tiga: sampling audit manusia berkala untuk kolom kritis — 100 baris acak per bulan dibaca manusia untuk memastikan \"masih berarti yang sama\". Mesin memeriksa format; manusia memeriksa makna.",
+        "Profesionalisasinya adalah Data Quality SLA per dimensi — janji terukur seperti SLO di dunia site reliability. Contoh untuk tabel gold nasabah: kelengkapan kolom kritis (nik, nama) ≥ 99%, validitas format (email, tanggal) ≥ 99,5%, freshness ≤ 2 jam dari sumber, keunikan nik = 100%. Setiap pelanggaran adalah insiden dengan severity: SEV-1 (blokir promosi ke gold — data tidak naik kelas sampai diperbaiki), SEV-2 (alert ke pemilik sumber dengan SLA perbaikan 5 hari kerja), SEV-3 (catat di dashboard tren). Hubungkan dengan error budget: setiap tabel gold punya budget kualitas bulanan (misalnya 1% record boleh bermasalah); budget habis berarti freeze perubahan skema dan fokus perbaikan. SLA mengubah kualitas dari \"harapan\" menjadi \"kontrak yang dimonitor\". Dan yang terpenting: SLA dinegosiasi dengan pemilik bisnis, bukan ditetapkan sepihak oleh tim data — karena merekalah yang menanggung akibat keputusan atas data itu.",
+        "Pertanyaan insentifnya: siapa membayar perbaikan? Aturan yang mengubah perilaku: biaya perbaikan dibebankan ke pemilik sumber yang mengotori, bukan ke tim data yang membersihkan. Contoh mekanismenya: tim sumber yang % null kolom kritisnya di atas 5% selama dua minggu wajib mengalokasikan satu engineer selama dua minggu untuk perbaikan hulu — bukan tim data yang lembur membersihkan. Ini bukan hukuman; ini akuntansi yang benar. Selama tim data yang menanggung biaya pembersihan, tim sumber tidak punya insentif memperbaiki — ekonomi klasik: yang menikmati (sumber yang cepat rilis) bukan yang membayar (tim data yang lembur). Perusahaan yang menerapkan chargeback kualitas melihat perbaikan hulu dalam satu kuartal; perusahaan yang tidak, melihat tim data-nya burnout dalam satu tahun. Kualitas data pada akhirnya adalah masalah insentif yang menyamar sebagai masalah teknis.",
+        "Keputusan cepat untuk operator kualitas — ditempel di dinding. Satu: kolom kritis null di atas threshold dua hari berturut-turut → freeze promosi ke gold + page pemilik sumber (bukan tim data). Dua: distribusi kolom bergeser lebih dari 20% vs baseline 30 hari → anggap insiden sampai terbukti bukan; jangan tunggu threshold absolut jebol. Tiga: ada nilai baru yang tidak dikenal di kolom kategori (status \"X9\" misterius) → karantina + tanya pemilik sumber hari itu juga; nilai tak dikenal adalah perubahan arti yang belum diumumkan sampai terbukti sebaliknya. Empat: duplikat key muncul di tabel yang seharusnya unique → hentikan pipeline; duplikat yang lolos ke gold menjadi ganda hitung di semua laporan. Lima: setiap insiden kualitas ditutup dengan \"perbaikan hulu apa yang mencegah ini terulang?\" — tanpa jawaban itu, insiden hanya ditunda, bukan diselesaikan.",
+        "Pendalaman teknis: deteksi pergeseran distribusi dengan angka, bukan firasat. Simpan baseline distribusi tiap kolom kritis (histogram 30 hari terakhir), lalu bandingkan distribusi hari ini dengan metrik seperti PSI (Population Stability Index): PSI < 0,1 berarti stabil, 0,1–0,25 berarti pergeseran kecil yang perlu diperhatikan, > 0,25 berarti pergeseran besar — investigasi. Contoh nyata: kolom tenor_kredit yang biasanya 60% di 12 bulan tiba-tiba 45% di 12 bulan dan 30% di \"0\" — PSI 0,42, sirene berbunyi. Investigasi menemukan bug di aplikasi mobile: field tenor tidak terkirim untuk versi app terbaru, default 0. Tanpa monitor distribusi, bug ini ketahuan tiga bulan kemudian saat model scoring anjlok. Dengan monitor, ketahuan hari itu juga. PSI bukan sihir — ia hanya memformalkan pertanyaan \"apakah hari ini terlihat seperti kemarin?\" menjadi angka yang bisa di-alert. Implementasinya puluhan baris kode; nilainya bisa miliaran rupiah.",
+        "Kualitas di dunia streaming butuh pola berbeda karena tidak ada \"tahan dulu sebelum naik ke gold\" — data mengalir terus. Arsitekturnya: validasi on-the-fly di consumer (skema, rentang, format) dengan tiga jalur keluar — lolos (lanjut ke downstream), gagal ringan (masuk dead letter queue untuk diperbaiki dan di-replay nanti), gagal berat (alert langsung, misalnya fraud pattern yang aneh bisa jadi serangan). Dead letter queue (DLQ) adalah konsep kuncinya: antrean khusus untuk event yang gagal validasi, lengkap dengan alasan kegagalannya — bukan dibuang, bukan diloloskan, tetapi dikarantina dengan jejak. Aturannya: DLQ dimonitor seperti metrik kesehatan (tumbuh = ada yang rusak di hulu), dan ada SLA pengosongan DLQ (misalnya 24 jam). Tanpa DLQ, pilihanmu hanya dua yang buruk: buang data diam-diam atau biarkan data kotor mengalir — keduanya bom waktu.",
+        "Kualitas data dari vendor pihak ketiga butuh kontrak, bukan kepercayaan. Banyak perusahaan membeli data (daftar alamat, skor kredit eksternal, data cuaca untuk model) dan menerimanya apa adanya. Praktik profesionalnya: Data Quality SLA dengan vendor — kelengkapan, validitas, freshness yang terukur — plus hak penalti atau terminasi jika dilanggar dua kuartal berturut-turut. Contoh: provider data alamat menjanjikan 98% alamat valid; monitor independen menemukan 91% — selisih 7% berarti ribuan paket gagal antar per bulan. Tanpa SLA, komplainmu hanya \"masukan\"; dengan SLA, ia adalah klaim kontraktual. Dan selalu validasi kiriman vendor di pintumu sendiri (jangan percaya, verifikasi): skema berubah tanpa pemberitahuan adalah kejadian rutin di dunia vendor. Satu job validasi di pintu masuk menyelamatkan seluruh downstream dari kejutan vendor.",
+        "Sentuhan manusia tetap diperlukan — tidak semua bisa diotomasi. Aturannya: otomasi untuk yang berulang dan jelas (format, rentang, unique), manusia untuk yang butuh penilaian (apakah arti kolom ini masih sama? apakah anomali ini masalah atau peluang?). Praktiknya adalah sampling audit: 100 baris acak per bulan dari setiap tabel gold kritis dibaca manusia — analis data atau steward — dengan checklist singkat: \"apakah baris ini masuk akal sebagai catatan dunia nyata?\" Sampling 100 baris menemukan masalah sistemik (pola yang salah di ribuan baris) dengan biaya 30 menit per bulan. Ini seperti uji petik di pabrik: tidak memeriksa semua produk, tetapi cukup untuk menangkap cacat proses. Dan rotasi pemeriksanya tiap kuartal — mata yang segar menemukan yang sudah dianggap \"normal\" oleh mata yang lelah.",
+        "Setiap insiden kualitas yang berulang pantas mendapat root cause analysis dengan 5 whys versi data. Contoh: kenapa % null no_hp naik? Karena form registrasi baru tidak mewajibkan no_hp. Kenapa tidak wajib? Karena tim produk tidak tahu no_hp dipakai kampanye SMS. Kenapa tidak tahu? Karena tidak ada kontrak/data contract antara tim produk dan tim data. Kenapa tidak ada? Karena definisi \"kolom kritis\" tidak pernah ditulis. Akar masalahnya bukan di form — melainkan di tidak adanya kontrak. Lima whys untuk data hampir selalu berakhir di tempat yang sama: definisi yang tidak tertulis, pemilik yang tidak ada, atau kontrak yang tidak dibuat. Karena itu penutup setiap insiden bukan \"sudah diperbaiki\" melainkan \"kontrak/definisi/pemilik apa yang ditambahkan agar ini tidak terulang?\" Insiden yang tidak menghasilkan artefak pencegahan adalah biaya yang dibayar tanpa mendapat apa-apa.",
+        "Dokumentasikan pengetahuan kualitasmu dalam data quality runbook per tabel kritis — satu halaman per tabel: definisi kolom kritis dan maknanya, rule yang dipasang dan kenapa threshold-nya segitu, siapa pemilik sumber dan SLA perbaikannya, apa yang dilakukan untuk setiap jenis alert (playbook), dan riwayat insiden tiga bulan terakhir. Runbook ini adalah memori institusional: saat engineer yang membangun pipeline resign, pengetahuannya tidak ikut pergi. Uji runbook dengan \"test orang baru\": bisakah engineer yang baru bergabung dua minggu menangani alert kualitas tabel ini hanya dengan membaca runbook? Kalau tidak, runbook-nya belum cukup. Dan review runbook tiap kuartal — rule yang tidak pernah alert dalam enam bulan mungkin sudah tidak relevan (atau threshold-nya terlalu longgar); alert yang selalu false positive harus diperbaiki atau dimatikan sebelum menyebabkan alert fatigue.",
+        "Tutup dengan kebenaran ekonomi yang merangkum lesson ini: kualitas data bukan biaya — ia adalah asuransi termurah yang bisa dibeli perusahaan. Premi-nya: profiling rutin, rule di pintu, observability, dan disiplin hulu. Klaim yang dihindarinya: Rp14 miliar KUR ke data basi, Rp150 juta SMS ke nomor null, 60% gaji analis untuk bersih-bersih, dan yang tak terhitung — keputusan direksi atas angka yang salah. Aturan 1-10-100 dari langkah 3 adalah versi ringkasnya: cegah di sumber (1×), perbaiki di pipeline (10×), perbaiki setelah keputusan salah (100×). Setiap rupiah yang diinvestasikan di hulu menghemat sepuluh di tengah dan seratus di hilir. Perusahaan yang paham aritmetika ini tidak bertanya \"berapa biaya program kualitas data?\" — mereka bertanya \"berapa lama lagi kita berani tidak punya?\"",
+        "Satu domain yang membuat kualitas menjadi kritis berlipat adalah fitur untuk machine learning. Model scoring tidak membaca dashboard — ia menelan angka mentah ribuan kali per hari tanpa manusia yang memeriksa. Fitur rata_rata_saldo_6bln yang tercemar NULL-menjadi-0 (mini-case langkah 7) tidak \"terlihat aneh\" oleh siapa pun sampai akurasi model anjlok berminggu-minggu kemudian. Karena itu feature store butuh kontrak kualitas yang lebih ketat dari tabel BI biasa: setiap fitur punya ekspektasi distribusi yang dimonitor otomatis (training-serving skew detection — \"apakah data produksi masih mirip data training?\"), dan pipeline training wajib gagal jika fitur di luar ekspektasi, bukan \"jalan saja dengan data seadanya\". Aturan: model yang dilatih dengan fitur berkualitas rendah bukan model yang buruk — ia adalah model yang berbohong dengan percaya diri. Kualitas fitur adalah kualitas keputusan otomatis.",
+        "Terakhir, bangun dashboard kualitas yang dibaca manusia — bukan hanya alert yang dibaca mesin. Satu halaman per domain kritis: tren % null 30 hari, tren PSI distribusi, status rule (berapa pass/fail hari ini), umur DLQ, dan daftar insiden terbuka. Dashboard ini dibuka steward setiap pagi seperti pilot memeriksa instrumen sebelum terbang — lima menit untuk memastikan \"semua hijau atau saya tahu kenapa tidak\". Bedanya dengan alert: alert memberitahu saat sudah rusak; dashboard menunjukkan kesehatan sebelum rusak. Dan pajang metrik kualitas di tempat yang terlihat tim sumber juga, bukan hanya tim data — transparansi adalah insentif yang paling murah. Tim yang melihat % null-nya dipajang di dashboard bersama cenderung memperbaikinya tanpa perlu ditegur. Apa yang diukur dan dipamerkan, diperbaiki.",
+      ],
+      tasks: [],
+      reference: "Kualitas = insentif yang benar + sensor yang tepat + disiplin hulu.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: ["Enam pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
+      tasks: [],
+      summary: [
+        "6 dimensi: akurasi, kelengkapan, konsistensi, ketepatan waktu, validitas, keunikan.",
+        "Profiling: CT scan sebelum percaya dataset baru.",
+        "Rule test: kontrak sebagai kode di pintu medallion; gagal = berhenti + alert.",
+        "Observability: CCTV untuk anomali tak terduga (freshness, volume, distribution, schema, lineage).",
+        "1-10-100: perbaiki di hulu. Jangan auto-fix diam-diam; jangan campur NULL dan 0.",
+      ],
+      next: { label: "DM8 — Data Contract", href: "/learn/dm8-data-contract" },
+      quiz: [
+        {
+          q: "Umur 250 tahun di tabel nasabah melanggar dimensi…",
+          options: [
+            { text: "Kelengkapan", why: "Kelengkapan soal ada/tidaknya nilai, bukan benar/salahnya." },
+            { text: "Validitas (aturan 0–120 dilanggar) — dan akurasi (tidak benar di dunia nyata)", why: "Rule rentang menangkap ini otomatis.", correct: true },
+            { text: "Ketepatan waktu", why: "Ketepatan waktu soal kesegaran data, bukan nilai mustahil." },
+            { text: "Keunikan", why: "Keunikan soal duplikat, bukan nilai di luar rentang." },
+          ],
+        },
+        {
+          q: "Menurut aturan 1-10-100, di mana investasi kualitas paling murah?",
+          options: [
+            { text: "Setelah dashboard jadi", why: "Itu tahap 100× — paling mahal." },
+            { text: "Di sumber/hulu — validasi input, perbaiki proses (1×)", why: "Cegah di hulu = 1×; perbaiki di pipeline = 10×; setelah keputusan salah = 100×.", correct: true },
+            { text: "Di tim audit akhir tahun", why: "Audit menemukan, bukan mencegah; biayanya sudah terlanjur besar." },
+            { text: "Tidak perlu investasi", why: "Cerita Rp14 miliar menunjukkan harganya." },
+          ],
+        },
+        {
+          q: "Bedanya test kualitas vs observability data?",
+          options: [
+            { text: "Sama saja", why: "Keduanya penting tapi perannya berbeda." },
+            { text: "Test = aturan yang kamu tulis dan dieksekusi; observability = mesin mendeteksi anomali tanpa aturan tertulis", why: "Test = penjaga gerbang, observability = CCTV.", correct: true },
+            { text: "Observability lebih murah selalu", why: "Keduanya butuh investasi; bukan soal murah-mahalan." },
+            { text: "Test tidak butuh aksi saat gagal", why: "Test gagal wajib memicu aksi: berhenti/alert sesuai threshold." },
+          ],
+        },
+        {
+          q: "Pipeline menemukan 3% baris gagal validitas. Praktik terbaik?",
+          options: [
+            { text: "Hapus diam-diam agar pipeline hijau", why: "Auto-fix diam-diam menyembunyikan masalah sumber." },
+            { text: "Karantina + hentikan/alert sesuai threshold; perbaiki di sumber", why: "Gagal = berhenti + tahu + perbaiki hulu.", correct: true },
+            { text: "Loloskan saja ke Gold", why: "Data gagal test tidak boleh naik ke Gold." },
+            { text: "Ubah rule agar lolos", why: "Mengubah rule agar lolos = mematikan alarm kebakaran." },
+          ],
+        },
+        {
+          q: "NULL diganti 0 \"agar rapi\" merusak model scoring. Pelajarannya?",
+          options: [
+            { text: "0 lebih bagus dari NULL", why: "Keduanya beda makna; tidak ada yang \"lebih bagus\"." },
+            { text: "NULL (\"tidak tahu\") ≠ 0 (\"tahu: nol\") — mencampurnya mengubah makna dan merusak statistik", why: "Ini bug makna, bukan format; hanya monitor distribusi yang menangkapnya.", correct: true },
+            { text: "Model harus dihapus", why: "Modelnya tidak salah; datanya yang dibohongi." },
+            { text: "Tidak ada masalah", why: "Ada: akurasi model anjlok karena belajar dari kebohongan." },
+          ],
+        },
+        {
+          q: "% null kolom no_hp naik 2% → 4% → 7% selama tiga bulan, masih di bawah threshold 10%. Tindakan yang tepat?",
+          options: [
+            { text: "Tunggu sampai menyentuh 10% baru bertindak", why: "Menunggu threshold = menunggu kerusakan; tren sudah berteriak sejak bulan kedua." },
+            { text: "Investigasi sekarang — alert on trend: tiga periode naik berturut-turut adalah sinyal walau di bawah threshold", why: "Drift gradual hanya tertangkap oleh monitor tren, bukan threshold absolut.", correct: true },
+            { text: "Naikkan threshold jadi 15% agar tidak berisik", why: "Menaikkan ambang agar tenang = mematikan alarm kebakaran." },
+            { text: "Isi null-nya dengan rata-rata agar terlihat rapi", why: "Auto-fix diam-diam menyembunyikan masalah sumber — morfin, bukan obat." },
+          ],
+        },
+      ],
+    },
+  ],
+};

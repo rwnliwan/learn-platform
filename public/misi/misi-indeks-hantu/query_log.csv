@@ -1,0 +1,41 @@
+query_id,teks,tabel,operasi,baris_dipindai,baris_total,ms,indeks_dipakai
+Q01,laporan harian per tanggal,orders,Index Scan,860,2100000,320,idx_orders_tanggal
+Q02,cari email pelanggan,customers,Seq Scan,1000000,1000000,1850,
+Q03,order per kota,orders,Seq Scan,2100000,2100000,7400,
+Q04,pembayaran per order,payments,Index Scan,3,8400000,12,idx_pay_order
+Q05,top spender,customers,Seq Scan,1000000,1000000,2400,
+Q06,order status batal,orders,Seq Scan,2100000,2100000,6900,
+Q07,rekap bulanan,orders,Index Scan,90000,2100000,410,idx_orders_tanggal
+Q08,cek duplikat email,customers,Seq Scan,1000000,1000000,1980,idx_cust_email_lower
+Q09,query operasional 9,customers,Index Scan,3912,8400000,152,idx_umum
+Q10,query operasional 10,payments,Index Scan,545,2100000,296,idx_umum
+Q11,query operasional 11,customers,Seq Scan,1000000,1000000,4916,
+Q12,query operasional 12,payments,Index Scan,2762,1000000,448,idx_umum
+Q13,query operasional 13,customers,Seq Scan,8400000,8400000,2337,
+Q14,query operasional 14,payments,Index Scan,501,2100000,334,idx_umum
+Q15,query operasional 15,customers,Index Scan,825,1000000,95,idx_umum
+Q16,query operasional 16,customers,Index Scan,3185,1000000,224,idx_umum
+Q17,query operasional 17,orders,Seq Scan,8400000,8400000,3555,
+Q18,query operasional 18,customers,Seq Scan,8400000,8400000,547,
+Q19,query operasional 19,customers,Index Scan,3162,2100000,533,idx_umum
+Q20,query operasional 20,orders,Seq Scan,1000000,1000000,3945,
+Q21,query operasional 21,payments,Index Scan,1589,8400000,594,idx_umum
+Q22,query operasional 22,customers,Seq Scan,8400000,8400000,1361,
+Q23,query operasional 23,orders,Index Scan,1186,1000000,316,idx_umum
+Q24,query operasional 24,orders,Index Scan,240,1000000,318,idx_umum
+Q25,query operasional 25,payments,Seq Scan,2100000,2100000,127,
+Q26,query operasional 26,customers,Seq Scan,1000000,1000000,2133,
+Q27,query operasional 27,customers,Index Scan,1443,2100000,356,idx_umum
+Q28,query operasional 28,customers,Index Scan,1341,8400000,319,idx_umum
+Q29,query operasional 29,orders,Index Scan,1968,8400000,409,idx_umum
+Q30,query operasional 30,orders,Index Scan,2813,2100000,440,idx_umum
+Q31,query operasional 31,orders,Index Scan,4387,1000000,471,idx_umum
+Q32,query operasional 32,orders,Index Scan,1171,8400000,7,idx_umum
+Q33,query operasional 33,customers,Index Scan,3415,1000000,439,idx_umum
+Q34,query operasional 34,orders,Index Scan,294,1000000,547,idx_umum
+Q35,query operasional 35,payments,Index Scan,2726,8400000,307,idx_umum
+Q36,query operasional 36,payments,Index Scan,2633,8400000,174,idx_umum
+Q37,query operasional 37,customers,Index Scan,4840,2100000,112,idx_umum
+Q38,query operasional 38,customers,Index Scan,210,2100000,281,idx_umum
+Q39,query operasional 39,customers,Index Scan,343,2100000,49,idx_umum
+Q40,query operasional 40,orders,Seq Scan,8400000,8400000,3963,

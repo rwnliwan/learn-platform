@@ -1,0 +1,43 @@
+{
+  "version": "v2",
+  "fields": [
+    {
+      "name": "order_id",
+      "type": "string",
+      "required": true,
+      "desc": "ID unik order"
+    },
+    {
+      "name": "customer_id",
+      "type": "string",
+      "required": true,
+      "desc": "ID pelanggan"
+    },
+    {
+      "name": "amount",
+      "type": "string",
+      "required": true,
+      "desc": "Nilai order PRE-TAX dalam IDR (format ribuan titik)",
+      "unit": "IDR",
+      "includes_tax": false
+    },
+    {
+      "name": "currency",
+      "type": "string",
+      "required": true,
+      "desc": "Kode mata uang, selalu IDR"
+    },
+    {
+      "name": "created_at",
+      "type": "string",
+      "required": true,
+      "desc": "Waktu order ISO-8601"
+    },
+    {
+      "name": "promo_code",
+      "type": "string",
+      "required": false,
+      "desc": "Kode promo, boleh kosong"
+    }
+  ]
+}

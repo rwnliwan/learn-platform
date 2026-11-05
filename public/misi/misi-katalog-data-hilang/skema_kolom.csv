@@ -1,0 +1,38 @@
+tabel,kolom,tipe_data,deskripsi,pemilik,laporan_kritis,status
+nasabah,id_nasabah,VARCHAR(20),ID unik nasabah,Tim Data,ya,aktif
+nasabah,nik,VARCHAR(16),Nomor Induk Kependudukan,Tim Kepatuhan,ya,aktif
+nasabah,nama_lengkap,VARCHAR(100),Nama lengkap sesuai KTP,Tim Kepatuhan,ya,aktif
+nasabah,tgl_lahir,DATE,Tanggal lahir,Tim Kepatuhan,tidak,aktif
+nasabah,alamat,TEXT,,Tim Operasional,tidak,aktif
+nasabah,no_hp,VARCHAR(15),Nomor HP,,tidak,aktif
+nasabah,kode_cabang,VARCHAR(10),Kode cabang penerbit rekening,Tim Operasional,tidak,aktif
+nasabah,kode_cabang_lama,VARCHAR(10),Kode cabang format lama (diganti 2023),Tim Operasional,ya,deprecated
+nasabah_core,nasabah_id,VARCHAR(20),ID nasabah (salinan id_nasabah),Tim Analitik,tidak,aktif
+nasabah_core,full_name,VARCHAR(100),Nama lengkap + gelar (definisi BEDA dari nama_lengkap),Tim Analitik,tidak,aktif
+nasabah_core,branch_code,VARCHAR(10),Kode cabang,Tim Analitik,tidak,aktif
+nasabah_core,segment,VARCHAR(20),,,tidak,aktif
+nasabah_core,join_date,DATE,Tanggal bergabung,Tim Analitik,tidak,aktif
+rekening,no_rekening,VARCHAR(20),Nomor rekening,Tim Operasional,ya,aktif
+rekening,id_nasabah,VARCHAR(20),ID nasabah pemilik,Tim Operasional,tidak,aktif
+rekening,jenis_rekening,VARCHAR(20),Tabungan/Giro/Deposito,Tim Produk,tidak,aktif
+rekening,saldo,"DECIMAL(18,2)",Saldo dalam IDR,Tim Keuangan,ya,aktif
+rekening,tgl_buka,DATE,Tanggal pembukaan rekening,Tim Operasional,tidak,aktif
+rekening,status,VARCHAR(10),Aktif/Tutup/Blokir,,tidak,aktif
+transaksi,id_transaksi,VARCHAR(30),ID unik transaksi,Tim Data,tidak,aktif
+transaksi,no_rekening,VARCHAR(20),Nomor rekening sumber,Tim Data,tidak,aktif
+transaksi,tgl_transaksi,DATE,Tanggal transaksi,Tim Data,ya,aktif
+transaksi,nominal,"DECIMAL(18,2)",Nominal dalam IDR,Tim Keuangan,ya,aktif
+transaksi,kode_transaksi,VARCHAR(10),Kode jenis transaksi,,tidak,aktif
+transaksi,channel,VARCHAR(20),ATM/Mobile/Teller,Tim Data,tidak,aktif
+transaksi,keterangan,TEXT,,,tidak,aktif
+transaksi_rinci,trx_id,VARCHAR(30),ID transaksi (salinan id_transaksi),Tim Analitik,tidak,aktif
+transaksi_rinci,acct_no,VARCHAR(20),Nomor rekening (salinan no_rekening),Tim Analitik,tidak,aktif
+transaksi_rinci,trx_date,DATE,Tanggal transaksi,Tim Analitik,tidak,aktif
+transaksi_rinci,jumlah,"DECIMAL(18,2)",Nominal dalam MATA UANG ASAL (bukan IDR!),Tim Analitik,tidak,aktif
+transaksi_rinci,currency,VARCHAR(3),Kode mata uang,Tim Analitik,tidak,aktif
+risiko,id_nasabah,VARCHAR(20),ID nasabah,,ya,aktif
+risiko,skor_risiko_internal,"DECIMAL(5,2)",Skor risiko internal 0-100,,ya,aktif
+risiko,pd_model_v3,"DECIMAL(8,6)",Probability of default model v3,Tim Risiko,ya,aktif
+risiko,tgl_skor,DATE,Tanggal perhitungan skor,Tim Risiko,tidak,aktif
+risiko,segmen,VARCHAR(20),Segmen risiko,Tim Risiko,tidak,aktif
+risiko,catatan_analis,TEXT,,,tidak,aktif

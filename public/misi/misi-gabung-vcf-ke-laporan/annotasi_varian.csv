@@ -1,0 +1,9 @@
+varian_id,gen,konsekuensi_draf,dampak_draf,af_kohort_draf,af_referensi_fiktif,prediksi_fiktif,klasifikasi_draf,rekomendasi_draf
+V1,FIC1,missense,MODERATE,0.082,0.08,Kemungkinan jinak,Kemungkinan jinak,Tidak ada tindakan
+V2,FIC1,missense,MODERATE,0.0246,0.001,Tidak pasti,VUS,Konseling bila diminta
+V3,FIC2,synonymous,LOW,0.0164,0.0001,Tidak pasti,VUS,Tidak ada tindakan
+V4,FIC2,synonymous,LOW,0.3934,0.41,Jinak,Jinak,Tidak ada tindakan
+V5,FIC3,missense,MODERATE,0.0574,0.002,Kemungkinan patogenik,Kemungkinan patogenik,Rujuk konseling genetik
+V6,FIC3,synonymous,LOW,0.459,0.45,Jinak,Patogenik,Skrining lanjutan 56 pembawa
+V7,FIC4,missense,MODERATE,0.0082,0.0002,Tidak pasti,VUS,Konseling bila diminta
+V8,FIC4,missense,MODERATE,0.3,0.0005,Tidak pasti,VUS,Skrining lanjutan 12 pembawa

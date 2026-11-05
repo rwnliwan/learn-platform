@@ -1,0 +1,35 @@
+run_id,pipeline,source_table,target_table,started_at,finished_at,rows_in,rows_out,status,owner
+R0001,etl_rekening,core_rekening,stg_rekening,2026-09-15 01:01:00,2026-09-15 01:11:00,91810,91810,SUCCESS,Tim Data Platform
+R0002,etl_rekening,core_rekening,stg_rekening,2026-09-20 01:04:00,2026-09-20 01:25:00,105196,105196,SUCCESS,Tim Data Platform
+R0003,etl_rekening,core_rekening,stg_rekening,2026-09-25 01:02:00,2026-09-25 01:57:00,37256,37256,SUCCESS,Tim Data Platform
+R0004,etl_rekening,core_rekening,stg_rekening,2026-09-30 01:08:00,2026-09-30 01:15:00,21434,21434,SUCCESS,Tim Data Platform
+R0005,etl_rekening,core_rekening,stg_rekening,2026-10-05 01:06:00,2026-10-05 01:12:00,85397,85397,SUCCESS,Tim Data Platform
+R0006,etl_nasabah,core_nasabah,stg_nasabah,2026-09-15 01:01:00,2026-09-15 01:23:00,11905,11905,SUCCESS,Tim Data Platform
+R0007,etl_nasabah,core_nasabah,stg_nasabah,2026-09-20 01:08:00,2026-09-20 01:48:00,38495,38495,SUCCESS,Tim Data Platform
+R0008,etl_nasabah,core_nasabah,stg_nasabah,2026-09-25 01:08:00,2026-09-25 01:22:00,11478,11478,SUCCESS,Tim Data Platform
+R0009,etl_nasabah,core_nasabah,stg_nasabah,2026-09-30 01:08:00,2026-09-30 01:36:00,101850,101850,SUCCESS,Tim Data Platform
+R0010,etl_nasabah,core_nasabah,stg_nasabah,2026-10-05 01:07:00,2026-10-05 01:47:00,36893,36893,SUCCESS,Tim Data Platform
+R0011,etl_risk,risk_score_harian,stg_risk,2026-09-15 01:00:00,2026-09-15 01:58:00,44463,44463,SUCCESS,
+R0012,etl_risk,risk_score_harian,stg_risk,2026-09-20 01:02:00,2026-09-20 01:54:00,113620,113620,SUCCESS,
+R0013,etl_risk,risk_score_harian,stg_risk,2026-09-25 01:05:00,2026-09-25 01:27:00,63392,63392,SUCCESS,
+R0014,etl_risk,risk_score_harian,stg_risk,2026-09-30 01:05:00,2026-09-30 01:16:00,28379,3527,FAILED,
+R0015,etl_risk,risk_score_harian,stg_risk,2026-10-05 01:01:00,2026-10-05 01:32:00,20156,3112,FAILED,
+R0016,mart_kredit,stg_rekening,dm_kredit,2026-09-15 01:05:00,2026-09-15 01:48:00,119082,119082,SUCCESS,Tim Analitik Risiko
+R0017,mart_kredit,stg_rekening,dm_kredit,2026-09-20 01:00:00,2026-09-20 01:56:00,42671,42671,SUCCESS,Tim Analitik Risiko
+R0018,mart_kredit,stg_rekening,dm_kredit,2026-09-25 01:08:00,2026-09-25 01:17:00,68217,68217,SUCCESS,Tim Analitik Risiko
+R0019,mart_kredit,stg_rekening,dm_kredit,2026-09-30 01:01:00,2026-09-30 01:45:00,57615,57615,SUCCESS,Tim Analitik Risiko
+R0020,mart_kredit,stg_rekening,dm_kredit,2026-10-05 01:09:00,2026-10-05 01:33:00,46427,46427,SUCCESS,Tim Analitik Risiko
+R0021,mart_kredit,stg_nasabah,dm_kredit,2026-09-15 01:03:00,2026-09-15 01:55:00,83674,83674,SUCCESS,Tim Analitik Risiko
+R0022,mart_kredit,stg_nasabah,dm_kredit,2026-09-20 01:00:00,2026-09-20 01:52:00,17116,17116,SUCCESS,Tim Analitik Risiko
+R0023,mart_kredit,stg_nasabah,dm_kredit,2026-09-25 01:04:00,2026-09-25 01:15:00,37871,37871,SUCCESS,Tim Analitik Risiko
+R0024,mart_kredit,stg_nasabah,dm_kredit,2026-09-30 01:01:00,2026-09-30 01:34:00,38512,38512,SUCCESS,Tim Analitik Risiko
+R0025,mart_kredit,stg_nasabah,dm_kredit,2026-10-05 01:07:00,2026-10-05 01:50:00,44434,44434,SUCCESS,Tim Analitik Risiko
+R0026,mart_kredit,stg_risk,dm_kredit,2026-09-15 01:05:00,2026-09-15 01:20:00,117328,117328,SUCCESS,Tim Analitik Risiko
+R0027,mart_kredit,stg_risk,dm_kredit,2026-09-20 01:05:00,2026-09-20 01:23:00,56520,56520,SUCCESS,Tim Analitik Risiko
+R0028,mart_kredit,stg_risk,dm_kredit,2026-09-25 01:04:00,2026-09-25 01:54:00,95841,95841,SUCCESS,Tim Analitik Risiko
+R0029,mart_kredit,stg_risk,dm_kredit,2026-09-30 01:01:00,2026-09-30 01:48:00,97593,97593,SUCCESS,Tim Analitik Risiko
+R0030,mart_kredit,stg_risk,dm_kredit,2026-10-05 01:02:00,2026-10-05 01:44:00,91227,91227,SUCCESS,Tim Analitik Risiko
+R0031,rpt_npl,dm_kredit,lap_risiko_bulanan,2026-09-30 01:03:00,2026-09-30 01:20:00,103568,103568,SUCCESS,Tim Analitik Risiko
+R0032,rpt_npl,dm_kredit,lap_risiko_bulanan,2026-10-14 01:06:00,2026-10-14 01:27:00,68589,68589,SUCCESS,Tim Analitik Risiko
+R0033,arsip,lap_risiko_bulanan,arsip_laporan,2026-09-30 01:08:00,2026-09-30 01:24:00,91886,22549,FAILED,
+R0034,arsip,lap_risiko_bulanan,arsip_laporan,2026-10-14 01:00:00,2026-10-14 01:24:00,97733,10626,FAILED,

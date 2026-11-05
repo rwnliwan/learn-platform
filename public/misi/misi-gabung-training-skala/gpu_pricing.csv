@@ -1,0 +1,4 @@
+instance,gpu,on_demand_usd_per_hr,spot_usd_per_hr,notes
+tr-cluster-a100,A100 40GB,3.2,0.96,run TR-8847 memakai spot
+tr-cluster-h100,H100 80GB,8.0,2.4,tidak dipakai run ini
+tr-cluster-v100,V100 16GB,2.5,0.75,tidak dipakai run ini

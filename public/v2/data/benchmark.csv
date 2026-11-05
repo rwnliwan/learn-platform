@@ -1,0 +1,42 @@
+emiten,periode,pos,nilai,satuan,sumber_filing,halaman
+KLBF,FY2024,Penjualan neto,32627776108026,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),4
+KLBF,FY2024,Beban pokok penjualan,19670735916128,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),4
+KLBF,FY2024,Laba bruto,12957040191898,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),4
+KLBF,FY2024,Laba usaha (terhitung),4080720255919,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan) — terhitung builder bukan subtotal LK,4
+KLBF,FY2024,Laba tahun berjalan atribusional,3240636626331,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),5
+KLBF,FY2024,EPS dasar,70.16,Rp/saham,Laporan Tahunan 2024 kalbe.co.id (auditan),5
+KLBF,FY2024,Total aset,29429727898195,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),1
+KLBF,FY2024,Total liabilitas,4839294087709,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),2
+KLBF,FY2024,Total ekuitas,24590433810486,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),3
+KLBF,FY2024,Kas dan setara kas,4723293839405,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),1
+KLBF,FY2024,Kas neto dari operasi,4785179041408,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),7
+KLBF,FY2024,Belanja modal (perolehan aset tetap),907909319042,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),7
+KLBF,FY2024,Dividen kas dibayar (perusahaan),1433930308710,Rp,Laporan Tahunan 2024 kalbe.co.id (auditan),8
+KLBF,FY2024,Gross margin,39.7,persen,Laporan Tahunan 2024 kalbe.co.id (auditan) — terhitung builder,4
+KLBF,FY2024,Net margin atribusional,9.9,persen,Laporan Tahunan 2024 kalbe.co.id (auditan) — terhitung builder,4
+KLBF,FY2024,ROE,14.7,persen,Laporan Tahunan 2024 kalbe.co.id (auditan) — terhitung builder atas rata-rata ekuitas induk,3
+KLBF,FY2024,Current ratio,4.11,x,Laporan Tahunan 2024 kalbe.co.id (auditan) — terhitung builder,1
+BBRI,FY2024,Pendapatan bunga,199266252,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan),13
+BBRI,FY2024,Beban bunga,57209062,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan),13
+BBRI,FY2024,NII (terhitung),142057190,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan) — terhitung builder,13
+BBRI,FY2024,Laba bersih atribusional,60154887,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan),18
+BBRI,FY2024,Pinjaman diberikan gross (terhitung),1298318089,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan) — terhitung builder,6
+BBRI,FY2024,CKPN pinjaman,76902889,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan),6
+BBRI,FY2024,Simpanan nasabah (terhitung),1365450104,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan) — terhitung builder,9
+BBRI,FY2024,Total aset,1992983447,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan),4
+BBRI,FY2024,Total ekuitas,323189047,Rp juta,Filing IDX FinancialStatement-2024-Tahunan-BBRI.pdf (auditan),11
+BBRI,FY2024,NIM,7.74,persen,Press conference kinerja FY2024 BBRI 12 Feb 2025 [DIUNGKAP BANK],-
+BBRI,FY2024,NPL gross,2.78,persen,Press conference kinerja FY2024 BBRI 12 Feb 2025 [DIUNGKAP BANK],-
+BBRI,FY2024,LDR,88.85,persen,Press conference kinerja FY2024 BBRI 12 Feb 2025 [DIUNGKAP BANK],-
+BBRI,FY2024,CAR,26.63,persen,Press conference kinerja FY2024 BBRI 12 Feb 2025 [DIUNGKAP BANK],-
+BBCA,H1 2026,Pendapatan bunga,49858169,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026,3
+BBCA,H1 2026,Beban bunga,7253606,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026,3
+BBCA,H1 2026,NII (terhitung),42604563,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — terhitung builder,3
+BBCA,H1 2026,Laba bersih atribusional,29534446,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026,3
+BBCA,H1 2026,Kredit gross (terhitung),1035623547,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — terhitung builder,1
+BBCA,H1 2026,Total DPK (terhitung),1284052931,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — terhitung builder,1
+BBCA,H1 2026,CASA (terhitung),1082272298,Rp juta,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — terhitung builder,1
+BBCA,H1 2026,NIM,5.32,persen,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — tabel rasio bank,5
+BBCA,H1 2026,NPL gross,1.86,persen,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — tabel rasio bank,5
+BBCA,H1 2026,LDR,78.67,persen,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — tabel rasio bank,5
+BBCA,H1 2026,CAR,26.79,persen,Laporan Keuangan Interim bca.co.id (unaudited) 30 Jun 2026 — tabel rasio bank,5

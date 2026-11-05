@@ -1,0 +1,18 @@
+direct fetch: fetch-status:200
+worker importScripts: importScripts-ok loadPyodide=function
+loadPyodide: loadPyodide-ERR: Failed to fetch
+--- route log ---
+CONSOLE error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED
+SERVED pyodide.js (14761b)
+SERVED pyodide.js (14761b)
+SERVED pyodide.js (14761b)
+SERVED python_stdlib.zip (2341872b)
+SERVED pyodide.asm.wasm (10088051b)
+ABORT https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide-lock.json
+SERVED pyodide.asm.js (1229099b)
+CONSOLE info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+SERVED sql-wasm.js (46535b)
+SERVED echarts.min.js (1121883b)
+SERVED sql-wasm.wasm (658410b)
+PAGEERROR: Failed to fetch
+EXIT=0

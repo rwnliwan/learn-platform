@@ -1,0 +1,7 @@
+tabel,pemilik_bisnis,steward_teknis,status
+pelanggan,Tim CRM,DBA,aktif
+produk,Tim Katalog,DBA,aktif
+orders,Tim Operasional,DBA,aktif
+pembayaran,Tim Keuangan,DBA,aktif
+retur,TIDAK DIKETAHUI,TIDAK DIKETAHUI,warisan-2018
+voucher_lama,TIDAK DIKETAHUI,TIDAK DIKETAHUI,warisan-2019

@@ -1,0 +1,20 @@
+{
+ "defects": 0,
+ "results": {
+  "http://localhost:3444/v2/lab-demo": {
+   "mobile-375": {
+    "loadError": "Page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3444/v2/lab-demo\nCall log:\n  - navigating to \"http://localhost:3444/v2/lab-demo\", waiting until \"networkidle\"\n"
+   },
+   "mobile-390": {
+    "loadError": "Page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3444/v2/lab-demo\nCall log:\n  - navigating to \"http://localhost:3444/v2/lab-demo\", waiting until \"networkidle\"\n"
+   },
+   "tablet-768": {
+    "loadError": "Page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3444/v2/lab-demo\nCall log:\n  - navigating to \"http://localhost:3444/v2/lab-demo\", waiting until \"networkidle\"\n"
+   },
+   "desktop-1280": {
+    "loadError": "Page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3444/v2/lab-demo\nCall log:\n  - navigating to \"http://localhost:3444/v2/lab-demo\", waiting until \"networkidle\"\n"
+   }
+  }
+ }
+}
+EXIT=0

@@ -1,0 +1,511 @@
+import type { V2Mission } from "../lib/types";
+
+// ── Misi Pipeline: Kegagalan yang Diam ───────────────────────────────────
+// M2 DATA-ENGINEERING — track Python, misi B (edge). Dataset 100% SINTETIS
+// (seed 42): transaksi_harian.csv (600 baris) + master_pelanggan.csv +
+// log_pipeline.txt (artefak fiksi: log "OK" yang berbohong).
+// File: public/misi/misi-kegagalan-diam-pipeline/. Metode: METODE.md.
+
+const BASE = "/misi/misi-kegagalan-diam-pipeline";
+
+export const misiKegagalanDiam: V2Mission = {
+  slug: "misi-kegagalan-diam-pipeline",
+  track: "Python",
+  module: "Misi",
+  title: "Misi Pipeline: Kegagalan yang Diam",
+  estMinutes: 150,
+  role: "Data engineer on-call — pemilik pipeline batch harian",
+  client:
+    "Head of Data — pipeline laporan transaksi “sukses” setiap malam, tapi angka laporan tidak cocok dengan mutasi bank",
+  xp: 600,
+  steps: [
+    {
+      id: "briefing",
+      eyebrow: "Langkah 1 · Briefing misi",
+      title: "Pipeline yang sukses, angka yang salah",
+      prose: [],
+      tasks: [],
+      briefing: {
+        role: "Data engineer yang piket on-call untuk pipeline batch harian",
+        client:
+          "Head of Data. Setiap pukul 02:00, pipeline_harian menarik transaksi hari sebelumnya, menggabungkannya dengan master pelanggan, membersihkan duplikat, dan memuatnya ke tabel laporan. Log-nya selalu hijau: RUN OK. Tapi tim finance menemukan selisih dengan mutasi bank — kecil tiap hari, membesar tiap minggu. Kamu diminta mengaudit pipeline yang “tidak pernah gagal” ini, menemukan ke mana perginya baris-baris yang hilang, dan membangun ulang pipeline itu dengan assertion dan monitor. Kalau kamu gagal, laporan keuangan terus dibangun di atas data yang bocor diam-diam.",
+        story: [
+          "Selasa, 23:40. Ponsel on-call-mu bergetar — bukan alert pipeline (pipeline tidak pernah alert; ia selalu OK), melainkan pesan Head of Data: “Laporan transaksi 10 hari terakhir selisih 35 baris per hari dibanding mutasi bank. Pipeline bilang sukses. Cari tahu.”",
+          "Kamu buka log-nya. Tiga malam berturut-turut: `RUN OK — dropped=0`. Tidak ada error, tidak ada warning, tidak ada yang aneh — dan justru itu yang paling aneh. Pipeline yang memproses 600 baris dan mengklaim tidak ada satu pun baris yang hilang, sementara 35 baris per hari tidak sampai ke tabel laporan, adalah pipeline yang berbohong dengan sopan.",
+          "Misi ini tentang kegagalan yang paling berbahaya dalam data engineering: bukan yang meledak dengan error merah, melainkan yang sukses diam-diam sambil membuang data. Kamu akan membedah tiga mekanismenya — join yang salah, dedup yang serakah, dan timezone yang menggeser hari — lalu membangun pipeline yang tidak bisa berbohong lagi.",
+        ],
+        objectives: [
+          "Merekonstruksi tiga kegagalan diam-diam: inner join yang membuang 12 transaksi, dedup key yang menghapus 23 transaksi sah, dan timezone shift yang menggeser 58 baris ke hari yang salah.",
+          "Membuktikan dengan angka bahwa log “RUN OK — dropped=0” adalah kebohongan, baris per baris.",
+          "Merancang pipeline v2 dengan assertion tiap tahap, tabel reject, dan monitor — sebagai deliverable ber-rubrik.",
+        ],
+        prereqSummary:
+          "Kamu butuh Python/pandas dasar (merge, groupby) dan SQL dasar (GROUP BY, HAVING). Tiga konsep kuncinya: (1) INNER JOIN membuang baris yang tidak punya pasangan — diam-diam, tanpa error; (2) deduplikasi hanya aman bila key-nya benar-benar unik (satu pelanggan bisa bertransaksi dua kali sehari dengan nominal sama); (3) timestamp tanpa timezone adalah bom waktu — “tanggal” sebuah transaksi bergantung pada zona waktu siapa yang membaca.",
+        datasetNote:
+          "100% SINTETIS — dibuat khusus untuk misi ini (generator `gen_pipeline.py`, seed 42; bukan data perusahaan nyata).\nFile `transaksi_harian.csv`: 600 transaksi 2026-03-01 s.d. 2026-03-10 (kolom: txn_id, waktu, pelanggan_id, nominal, kanal) — waktu dalam 3 format: naive (WITA), offset +08:00, dan UTC (Z).\nFile `master_pelanggan.csv`: 80 pelanggan (C001–C080).\nFile `log_pipeline.txt`: ARTEFAK FIKSI SKENARIO — log yang mengklaim RUN OK setiap malam (bagian dari jebakan, bukan kebenaran).\nWITA = UTC+8 (Asia/Makassar), dipakai konsisten. Metode: file METODE.md di folder yang sama.",
+      },
+    },
+    {
+      id: "dataroom",
+      eyebrow: "Langkah 2 · Data room",
+      title: "Tiga file, satu kebohongan",
+      prose: [
+        "`transaksi_harian.csv` adalah input mentah: 600 baris transaksi 10 hari. `master_pelanggan.csv` adalah tabel referensi: 80 pelanggan. `log_pipeline.txt` adalah terdakwa: empat malam log, semuanya hijau, semuanya mengklaim `dropped=0`.",
+        "Perhatikan aritmetikanya sebelum menyentuh kode: input 600, output 565. Selisih 35 baris. Log bilang dropped=0. Salah satu dari dua angka itu bohong — dan log tidak punya alasan untuk jujur. Tugas lab-lab berikutnya: menemukan tepat di tikungan mana 35 baris itu hilang.",
+        "Aturan main: (1) setiap tahap pipeline harus bisa menjawab “berapa baris masuk, berapa keluar, ke mana sisanya”; (2) klaim di log diverifikasi terhadap data, bukan sebaliknya; (3) “tidak ada error” bukan bukti “tidak ada yang salah”.",
+      ],
+      tasks: [
+        { id: "t1", text: "Buka `log_pipeline.txt`: catat klaim input/output/dropped tiap malam" },
+        { id: "t2", text: "Hitung sendiri: 600 − 565 = ? Bandingkan dengan klaim dropped" },
+        { id: "t3", text: "Buka `transaksi_harian.csv`: identifikasi 3 format kolom `waktu`" },
+      ],
+      note: {
+        title: "Miskonsepsi #1: log hijau = data benar",
+        type: "pitfall",
+        body: "“Pipeline sukses, jadi datanya benar.” Log hanya mencatat apa yang diprogram untuk dicatat — dan pipeline ini diprogram untuk selalu menulis dropped=0. Monitoring yang membaca status teks (“OK”) buta terhadap kehilangan data. Monitoring yang benar membaca ANGKA: input vs output vs reject, setiap run, dengan ambang alert.",
+      },
+      reference:
+        "transaksi_harian.csv (600 baris, sintetis) + master_pelanggan.csv (80 baris) vs log_pipeline.txt (klaim fiksi). Kebenaran dibangun dari dua file pertama; log diadili.",
+    },
+    {
+      id: "lab-join",
+      eyebrow: "Langkah 3 · Lab 1 — Join yang membuang diam-diam",
+      title: "12 transaksi yang tidak pernah sampai",
+      prose: [
+        "Tikungan pertama: penggabungan dengan master pelanggan. Pipeline memakai INNER JOIN — artinya setiap transaksi yang `pelanggan_id`-nya tidak ada di master langsung dibuang. Tanpa error. Tanpa jejak. Tanpa ada yang tahu.",
+        "Bandingkan sendiri: gabungkan dengan `how=\"inner\"` vs `how=\"left\"`, hitung selisihnya, dan jumlahkan nominal yang hilang. Dua belas transaksi ini nyata (secara fiksi) — uangnya berpindah, tapi laporannya tidak mencatat.",
+      ],
+      tasks: [
+        { id: "t1", text: "Muat kedua CSV; hitung `n_input`" },
+        { id: "t2", text: "Bandingkan inner vs left join → `n_dropped_join`" },
+        { id: "t3", text: "Jumlahkan nominal yang hilang → `nominal_hilang`" },
+      ],
+      expected:
+        "n_input=600, n_dropped_join=12, nominal_hilang=7625000 (12 transaksi pelanggan tak dikenal)",
+      hints: [
+        "Muat sebagai teks: `pd.read_csv(open_url(URL), dtype=str, keep_default_na=False)`.",
+        "Inner: `txn.merge(mst[[\"pelanggan_id\"]], on=\"pelanggan_id\", how=\"inner\")`.",
+        "Baris yang hilang = yang txn_id-nya tidak ada di hasil inner: `~txn[\"txn_id\"].isin(inner[\"txn_id\"])`.",
+        "Nominal: kolomnya string angka polos — `astype(int)` langsung bisa.",
+      ],
+      requires: ["pandas"],
+      code: {
+        starter: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "TXN = \"/misi/misi-kegagalan-diam-pipeline/transaksi_harian.csv\"",
+          "MST = \"/misi/misi-kegagalan-diam-pipeline/master_pelanggan.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "txn = pd.read_csv(open_url(TXN), dtype=str, keep_default_na=False)",
+          "mst = pd.read_csv(open_url(MST), dtype=str, keep_default_na=False)",
+          "",
+          "n_input = ...",
+          "",
+          "inner = ...   # merge how='inner' on pelanggan_id",
+          "left = ...    # merge how='left' on pelanggan_id",
+          "",
+          "hilang = ...  # baris txn yang txn_id-nya TIDAK ada di inner",
+          "n_dropped_join = ...",
+          "nominal_hilang = ...   # int: jumlah kolom nominal baris yang hilang",
+          "",
+          "print(\"input:\", n_input, \"| inner:\", len(inner), \"| left:\", len(left))",
+          "print(\"dibuang join:\", n_dropped_join, \"| nominal hilang:\", nominal_hilang)",
+        ].join("\n"),
+        lockLines: 10,
+        solution: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "TXN = \"/misi/misi-kegagalan-diam-pipeline/transaksi_harian.csv\"",
+          "MST = \"/misi/misi-kegagalan-diam-pipeline/master_pelanggan.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "txn = pd.read_csv(open_url(TXN), dtype=str, keep_default_na=False)",
+          "mst = pd.read_csv(open_url(MST), dtype=str, keep_default_na=False)",
+          "",
+          "n_input = len(txn)",
+          "",
+          "inner = txn.merge(mst[[\"pelanggan_id\"]], on=\"pelanggan_id\", how=\"inner\")",
+          "left = txn.merge(mst[[\"pelanggan_id\"]], on=\"pelanggan_id\", how=\"left\")",
+          "",
+          "hilang = txn[~txn[\"txn_id\"].isin(inner[\"txn_id\"])]",
+          "n_dropped_join = len(hilang)",
+          "nominal_hilang = int(hilang[\"nominal\"].astype(int).sum())",
+          "",
+          "print(\"input:\", n_input, \"| inner:\", len(inner), \"| left:\", len(left))",
+          "print(\"dibuang join:\", n_dropped_join, \"| nominal hilang:\", nominal_hilang)",
+        ].join("\n"),
+        checks: [
+          { kind: "defined", task: "t1", label: "`txn` termuat", name: "txn", msg: "txn harus berisi DataFrame transaksi." },
+          { kind: "equal", task: "t1", label: "`n_input` = 600", name: "n_input", value: 600, msg: "File punya 600 transaksi." },
+          { kind: "equal", task: "t2", label: "`n_dropped_join` = 12", name: "n_dropped_join", value: 12, msg: "12 transaksi ber-pelanggan_id tak dikenal (CX-9xx) dibuang inner join." },
+          { kind: "equal", task: "t3", label: "`nominal_hilang` = 7625000", name: "nominal_hilang", value: 7625000, msg: "Jumlahkan nominal 12 baris yang hilang — uang nyata yang tak tercatat." },
+        ],
+      },
+    },
+    {
+      id: "lab-sql",
+      eyebrow: "Langkah 4 · Lab 2 — Dedup yang serakah",
+      title: "Satu pelanggan, dua transaksi, satu korban",
+      prose: [
+        "Tikungan kedua: deduplikasi. Pipeline membuang “duplikat” dengan key `(pelanggan_id, nominal, tanggal)` — dengan asumsi satu pelanggan hanya bertransaksi satu nominal per hari. Asumsi itu salah: orang berbelanja dua kali sehari dengan nominal sama adalah hal biasa.",
+        "Di tabel kecil ini (18 baris sampel), temukan grup `(pelanggan_id, nominal)` yang punya lebih dari satu `txn_id` — inilah transaksi-transaksi sah yang akan dibunuh oleh dedup naive. Di data penuh, key serakah ini menghapus 23 baris.",
+      ],
+      tasks: [
+        { id: "t1", text: "Tulis query grup (pelanggan_id, nominal) dengan COUNT(*) > 1" },
+      ],
+      expected: "7 grup — tiap grup 2 txn_id berbeda (transaksi sah, bukan duplikat teknis)",
+      sqlLab: {
+        task: "Temukan transaksi sah yang akan dibunuh dedup naive: grup (pelanggan_id, nominal) yang memiliki LEBIH DARI SATU txn_id. Tampilkan pelanggan_id, nominal, dan jumlahnya, urut per pelanggan_id.",
+        schema: "CREATE TABLE dedup_cek (txn_id TEXT, pelanggan_id TEXT, nominal INTEGER, waktu TEXT);",
+        seedData: [
+          "INSERT INTO dedup_cek VALUES",
+          "('TXN-0502','C007',50000,'2026-03-01 00:24:09'),",
+          "('TXN-0552','C007',50000,'2026-03-01 02:52:42'),",
+          "('TXN-0121','C014',500000,'2026-03-01 06:50:15'),",
+          "('TXN-0383','C014',500000,'2026-03-01T06:43:15+08:00'),",
+          "('TXN-0023','C023',75000,'2026-03-08 01:19:42'),",
+          "('TXN-0313','C023',75000,'2026-03-08 01:26:42'),",
+          "('TXN-0129','C024',1500000,'2026-03-06 23:41:31'),",
+          "('TXN-0589','C024',1500000,'2026-03-06 23:34:31'),",
+          "('TXN-0029','C029',750000,'2026-03-06 04:42:33'),",
+          "('TXN-0577','C029',750000,'2026-03-06T14:04:09+08:00'),",
+          "('TXN-0221','C032',500000,'2026-03-09 02:06:49'),",
+          "('TXN-0284','C032',500000,'2026-03-09 11:56:04'),",
+          "('TXN-0293','C033',100000,'2026-03-05T04:08:34+08:00'),",
+          "('TXN-0599','C033',100000,'2026-03-05T05:18:43+08:00'),",
+          "('TXN-0001','C041',250000,'2026-03-02 16:23:25'),",
+          "('TXN-0055','C041',2500000,'2026-03-02 15:33:40'),",
+          "('TXN-0099','C041',750000,'2026-03-01T11:51:43+08:00'),",
+          "('TXN-0119','C041',75000,'2026-03-04T18:05:43Z');",
+        ].join("\n"),
+        starter: "-- Tulis query-mu di sini\nSELECT pelanggan_id, nominal\nFROM dedup_cek\n",
+        solution: [
+          "SELECT pelanggan_id, nominal, COUNT(*) AS jml",
+          "FROM dedup_cek",
+          "GROUP BY pelanggan_id, nominal",
+          "HAVING COUNT(*) > 1",
+          "ORDER BY pelanggan_id;",
+        ].join("\n"),
+        expectedColumns: ["pelanggan_id", "nominal", "jml"],
+        expectedRows: [
+          ["C007", 50000, 2],
+          ["C014", 500000, 2],
+          ["C023", 75000, 2],
+          ["C024", 1500000, 2],
+          ["C029", 750000, 2],
+          ["C032", 500000, 2],
+          ["C033", 100000, 2],
+        ],
+        orderMatters: true,
+      },
+      note: {
+        title: "Miskonsepsi #2: duplikat = baris yang sama persis",
+        type: "pitfall",
+        body: "Dedup yang aman menghapus baris dengan KEY UNIK yang sama (mis. txn_id kembar = duplikat teknis). Dedup yang serakah menghapus baris dengan key yang “kelihatannya” sama (pelanggan + nominal + tanggal) — padahal itu dua transaksi berbeda. Bedakan “duplikat teknis” (sistem mengirim dua kali) dari “transaksi berulang” (pelanggan memang bayar dua kali). Key dedup yang benar di sini hanyalah txn_id.",
+      },
+    },
+    {
+      id: "lab-timezone",
+      eyebrow: "Langkah 5 · Lab 3 — Timezone yang menggeser hari",
+      title: "58 transaksi hidup di hari yang salah",
+      prose: [
+        "Tikungan ketiga: waktu. Kolom `waktu` datang dalam tiga format — naive (WITA), offset `+08:00`, dan UTC (`Z`). Pipeline lama menentukan “tanggal transaksi” dengan mengambil 10 karakter pertama string. Untuk baris UTC `2026-03-04T19:30:00Z` (yang sebenarnya 2026-03-05 03:30 WITA), cara itu menghasilkan tanggal yang salah — transaksi tercatat di hari yang salah, dan agregat harian ikut salah.",
+        "Parse setiap format secara timezone-aware, konversi ke Asia/Makassar, lalu bandingkan dengan cara slice. Hitung berapa baris pindah hari, dan berapa selisih total harian 2026-03-05.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `n_utc` (waktu berakhiran Z)" },
+        { id: "t2", text: "Bandingkan tanggal slice vs tanggal benar → `n_pindah_tanggal`" },
+        { id: "t3", text: "Total nominal 2026-03-05: naive vs benar → `selisih_0503`" },
+      ],
+      expected:
+        "n_utc=58, n_pindah_tanggal=58, total naive 56.200.000 vs benar 48.500.000 (selisih −7.700.000)",
+      hints: [
+        "Fungsi tgl_benar: akhiran 'Z' → strptime + tzinfo=timezone.utc; ada 'T' → fromisoformat; sisanya → strptime naive + tzinfo=ZoneInfo('Asia/Makassar'). Lalu .astimezone(WITA).date().",
+        "Tanggal naive: `df[\"waktu\"].str.slice(0, 10)`.",
+        "WITA = UTC+8 — 19:30 UTC = 03:30 WITA keesokan harinya.",
+      ],
+      requires: ["pandas"],
+      code: {
+        starter: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "from datetime import datetime, timezone",
+          "from zoneinfo import ZoneInfo",
+          "",
+          "TXN = \"/misi/misi-kegagalan-diam-pipeline/transaksi_harian.csv\"",
+          "WITA = ZoneInfo(\"Asia/Makassar\")  # UTC+8",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "txn = pd.read_csv(open_url(TXN), dtype=str, keep_default_na=False)",
+          "",
+          "def tgl_benar(s):",
+          "    s = s.strip()",
+          "    if s.endswith(\"Z\"):",
+          "        dt = datetime.strptime(s, \"%Y-%m-%dT%H:%M:%SZ\").replace(tzinfo=timezone.utc)",
+          "    elif \"T\" in s:",
+          "        dt = ...   # parse ISO dengan offset",
+          "    else:",
+          "        dt = ...   # parse naive, anggap WITA",
+          "    return dt.astimezone(WITA).date()",
+          "",
+          "txn[\"tgl_naive\"] = ...   # 10 karakter pertama",
+          "txn[\"tgl_benar\"] = ...   # map tgl_benar, jadikan string",
+          "",
+          "n_utc = ...",
+          "n_pindah_tanggal = ...   # tgl_naive != tgl_benar",
+          "",
+          "total_0503_naive = ...   # int: jumlah nominal tgl_naive == '2026-03-05'",
+          "total_0503_benar = ...   # int: jumlah nominal tgl_benar == '2026-03-05'",
+          "selisih_0503 = ...       # benar - naive",
+          "",
+          "print(\"UTC:\", n_utc, \"| pindah hari:\", n_pindah_tanggal)",
+          "print(\"total 2026-03-05 naive:\", total_0503_naive)",
+          "print(\"total 2026-03-05 benar:\", total_0503_benar)",
+          "print(\"selisih:\", selisih_0503)",
+        ].join("\n"),
+        lockLines: 9,
+        solution: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "from datetime import datetime, timezone",
+          "from zoneinfo import ZoneInfo",
+          "",
+          "TXN = \"/misi/misi-kegagalan-diam-pipeline/transaksi_harian.csv\"",
+          "WITA = ZoneInfo(\"Asia/Makassar\")  # UTC+8",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "txn = pd.read_csv(open_url(TXN), dtype=str, keep_default_na=False)",
+          "",
+          "def tgl_benar(s):",
+          "    s = s.strip()",
+          "    if s.endswith(\"Z\"):",
+          "        dt = datetime.strptime(s, \"%Y-%m-%dT%H:%M:%SZ\").replace(tzinfo=timezone.utc)",
+          "    elif \"T\" in s:",
+          "        dt = datetime.fromisoformat(s)",
+          "    else:",
+          "        dt = datetime.strptime(s, \"%Y-%m-%d %H:%M:%S\").replace(tzinfo=WITA)",
+          "    return dt.astimezone(WITA).date()",
+          "",
+          "txn[\"tgl_naive\"] = txn[\"waktu\"].str.slice(0, 10)",
+          "txn[\"tgl_benar\"] = txn[\"waktu\"].map(tgl_benar).astype(str)",
+          "",
+          "n_utc = int(txn[\"waktu\"].str.endswith(\"Z\").sum())",
+          "n_pindah_tanggal = int((txn[\"tgl_naive\"] != txn[\"tgl_benar\"]).sum())",
+          "",
+          "total_0503_naive = int(txn.loc[txn[\"tgl_naive\"] == \"2026-03-05\", \"nominal\"].astype(int).sum())",
+          "total_0503_benar = int(txn.loc[txn[\"tgl_benar\"] == \"2026-03-05\", \"nominal\"].astype(int).sum())",
+          "selisih_0503 = total_0503_benar - total_0503_naive",
+          "",
+          "print(\"UTC:\", n_utc, \"| pindah hari:\", n_pindah_tanggal)",
+          "print(\"total 2026-03-05 naive:\", total_0503_naive)",
+          "print(\"total 2026-03-05 benar:\", total_0503_benar)",
+          "print(\"selisih:\", selisih_0503)",
+        ].join("\n"),
+        checks: [
+          { kind: "defined", task: "t1", label: "`txn` termuat", name: "txn", msg: "txn harus berisi DataFrame transaksi." },
+          { kind: "equal", task: "t1", label: "`n_utc` = 58", name: "n_utc", value: 58, msg: "58 baris memakai format UTC (akhiran Z)." },
+          { kind: "equal", task: "t2", label: "`n_pindah_tanggal` = 58", name: "n_pindah_tanggal", value: 58, msg: "Semua 58 baris UTC tercatat di hari yang salah oleh cara slice." },
+          { kind: "equal", task: "t3", label: "`total_0503_naive` = 56200000", name: "total_0503_naive", value: 56200000, msg: "Agregat pipeline lama untuk 2026-03-05." },
+          { kind: "equal", task: "t3", label: "`total_0503_benar` = 48500000", name: "total_0503_benar", value: 48500000, msg: "Agregat dengan tanggal WITA yang benar." },
+          { kind: "equal", task: "t3", label: "`selisih_0503` = −7700000", name: "selisih_0503", value: -7700000, msg: "Satu hari bisa meleset 7,7 juta hanya karena timezone." },
+        ],
+      },
+    },
+  ],
+};
+
+export default misiKegagalanDiam;
+
+// ── lanjutan misiKegagalanDiam: langkah 6–13 ──────────────────────────────
+import type { V2Step } from "../lib/types";
+
+const LANJUTAN_KEGAGALAN_DIAM: V2Step[] = [
+  {
+    id: "keputusan",
+    eyebrow: "Langkah 6 · Checkpoint keputusan",
+    title: "35 baris hilang per malam — apa langkah pertamamu?",
+    prose: [
+      "Buktinya lengkap: 12 transaksi dibuang inner join (Rp 7.625.000 hilang), 23 transaksi sah dibunuh dedup serakah, 58 baris tercatat di hari yang salah — dan log berkata `dropped=0` tiga malam berturut-turut. Pipeline ini tidak rusak; ia bekerja persis seperti yang diprogram. Masalahnya: yang diprogram memang salah.",
+      "Sekarang keputusan rekayasa. Kamu on-call, laporan finance menunggu, dan setiap opsi punya harga. Pilih — seperti keputusan yang sudah di-deploy.",
+    ],
+    tasks: [],
+    decision: {
+      prompt:
+        "Pipeline “sukses” tapi 35 baris hilang diam-diam setiap run. Apa langkah pertamamu sebagai on-call?",
+      options: [
+        {
+          id: "opt-patch",
+          label: "Patch cepat malam ini: inner→left join, dedup dimatikan sementara",
+          rationale:
+            "Kebocoran berhenti malam ini juga. Tidak perlu persetujuan arsitektur — ini perbaikan darurat yang jelas benar.",
+          nextStepId: "temuan-patch",
+          consequenceNote:
+            "Kebocoran join berhenti. Tapi dedup yang dimatikan membuat duplikat teknis menumpuk; timezone tetap menggeser 58 baris per hari; dan karena tidak ada assertion baru, tidak ada yang tahu kapan bug berikutnya datang. Patch darurat tanpa test = menunda insiden, bukan mencegahnya.",
+        },
+        {
+          id: "opt-rebuild",
+          label: "Bekukan rilis 2 minggu, tulis ulang dengan assertion + kontrak data",
+          rationale:
+            "Akar masalahnya struktural: tanpa assertion, bug berikutnya juga akan diam. Dua minggu mahal, tapi ini satu-satunya cara pipeline tidak bisa berbohong lagi.",
+          nextStepId: "temuan-rebuild",
+          consequenceNote:
+            "Manajemen protes soal velocity — dua minggu tanpa rilis laporan baru. Tapi pipeline v2 meluncur dengan 14 assertion, tabel reject, dan monitor partisi. Enam bulan kemudian: nol insiden silent failure. Mahal di depan, murah di belakang.",
+        },
+        {
+          id: "opt-monitor",
+          label: "Tambah alerting saja — logika pipeline jangan disentuh",
+          rationale:
+            "Risiko terkecil: tidak mengubah kode yang “berjalan”. Alert akan menangkap anomali, tim bisa investigasi manual tiap pagi.",
+          nextStepId: "temuan-monitor",
+          consequenceNote:
+            "Alert berbunyi setiap malam (35 baris hilang = anomali harian). Dalam dua minggu tim kelelahan alert dan mulai mengabaikannya — termasuk malam ketika kebocoran melonjak ke 120 baris karena partisi ganda terlewat. Angka tetap salah; sekarang ia salah dengan cara yang termonitor.",
+        },
+      ],
+    },
+  },
+  {
+    id: "temuan-patch",
+    goto: "audit",
+    eyebrow: "Langkah 7 · Konsekuensi",
+    title: "Diputuskan: patch darurat malam ini",
+    prose: [
+      "Pukul 01:47 patch di-deploy: left join, dedup off. Pagi harinya laporan cocok dengan mutasi bank untuk pertama kalinya dalam berminggu-minggu — kemenangan yang terasa manis. Tiga minggu kemudian duplikat teknis (sistem yang mengirim ulang) menumpuk 400 baris ganda di tabel laporan, dan tidak ada yang sadar sampai finance komplain angka “kegedean”.",
+      "Timezone? Masih menggeser 58 baris per hari — tidak ada yang menyentuhnya karena “bukan darurat”. Pelajarannya: patch darurat menghentikan pendarahan, tapi tanpa assertion dan test, kamu hanya menukar satu kegagalan diam dengan yang lain.",
+    ],
+    tasks: [],
+    note: {
+      title: "Darurat boleh, tapi darurat wajib diikuti perbaikan permanen",
+      body: "Patch tengah malam itu benar sebagai respons insiden. Yang salah adalah berhenti di situ. Aturan praktis: setiap hotfix wajib ditemani tiket perbaikan permanen + tanggal jatuh tempo — kalau tidak, “sementara” menjadi “selamanya”.",
+    },
+  },
+  {
+    id: "temuan-rebuild",
+    goto: "audit",
+    eyebrow: "Langkah 7 · Konsekuensi",
+    title: "Diputuskan: tulis ulang dengan assertion",
+    prose: [
+      "Dua minggu yang tidak populer. Manajemen bertanya setiap standup kapan laporan baru rilis; jawabanmu selalu sama: “setelah assertion-nya hijau.” Lalu pipeline v2 meluncur: 14 assertion (input > 0, dropped tercatat = input − output, join left + tabel reject, dedup hanya pada txn_id, tanggal selalu dari timestamp aware), monitor partisi, dan runbook.",
+      "Enam bulan kemudian seseorang mencoba mengubah dedup key “agar lebih cepat” — assertion menolak dalam 40 detik. Itulah gunanya dua minggu itu: pipeline yang tidak bisa berbohong, bahkan kepada programmernya sendiri.",
+    ],
+    tasks: [],
+    note: {
+      title: "Assertion adalah dokumentasi yang bisa marah",
+      body: "Komentar kode bilang “jangan ubah ini”; assertion MEMAKSA “jangan ubah ini”. Setiap asumsi rapuh (key dedup, jenis join, zona waktu) yang kamu temukan di misi ini layak menjadi satu assertion — supaya enam bulan dari sekarang, orang yang tidak membaca misimu tetap tidak bisa mengulang kesalahanmu.",
+    },
+  },
+  {
+    id: "temuan-monitor",
+    goto: "audit",
+    eyebrow: "Langkah 7 · Konsekuensi",
+    title: "Diputuskan: alerting tanpa ubah logika",
+    prose: [
+      "Dashboard monitor-nya indah: grafik input vs output, alert Telegram tiap anomali. Malam pertama alert berbunyi — 35 baris hilang, sesuai dugaan. Malam kedua berbunyi lagi. Malam kesepuluh: tim membuat aturan “alert pipeline di-mute sampai pagi”. Malam kedua puluh tiga: kebocoran melonjak ke 120 baris (dua partisi terlewat), alert berbunyi, tidak ada yang bangun.",
+      "Kelelahan alert adalah kegagalan diam versi manusia: sistemnya berteriak, manusianya berhenti mendengar. Monitor tanpa perbaikan logika hanya mengubah “salah dan tidak tahu” menjadi “salah dan lelah”.",
+    ],
+    tasks: [],
+    note: {
+      title: "Alert yang selalu berbunyi = alert yang mati",
+      body: "Aturan emas monitoring: alert hanya untuk kondisi yang (1) jarang terjadi dan (2) menuntut tindakan segera. Anomali yang terjadi SETIAP malam bukan alert — itu bug yang harus diperbaiki. Kalau pagermu berbunyi tiap hari, masalahnya bukan pagernya.",
+    },
+  },
+  {
+    id: "audit",
+    eyebrow: "Langkah 10 · Misi audit",
+    title: "Dossier 14 baris: laporan run yang “sehat” itu bohong",
+    prose: [
+      "Sebelum merancang pipeline v2, satu misi audit. Di bawah ini 14 baris “Laporan Run Pipeline Harian — 2026-03-08 s.d. 2026-03-11” yang menyatakan pipeline SEHAT dan boleh dilanjutkan. Seseorang menyuntikkan 3 kebohongan ke dalamnya. Senjatamu: 600 − 565 = 35, dan semua yang kamu buktikan di Lab 1–3.",
+      "Temukan ketiganya. Setiap kebohongan yang lolos akan ikut hidup di pipeline v2-mu.",
+    ],
+    tasks: [],
+    auditDossier: {
+      version: "kegagalan-diam-m2b-v1",
+      snapshotDate: "2026-10-15",
+      intro:
+        "Dossier ini diklaim sebagai laporan run pipeline_harian yang menyatakan pipeline SEHAT — siap dilanjutkan tanpa perubahan.",
+      columns: ["#", "Item", "Nilai / klaim"],
+      rows: [
+        { rowId: 1, cells: { "#": "1", "Item": "Run 2026-03-11 — input", "Nilai / klaim": "600" }, claims: [{ label: "Sumber", value: "transaksi_harian.csv" }] },
+        { rowId: 2, cells: { "#": "2", "Item": "Run 2026-03-11 — output", "Nilai / klaim": "565" }, claims: [{ label: "Tujuan", value: "fact_transaksi" }] },
+        { rowId: 3, cells: { "#": "3", "Item": "Run 2026-03-11 — dropped", "Nilai / klaim": "0" }, claims: [{ label: "Status", value: "OK — tidak ada baris hilang" }] },
+        { rowId: 4, cells: { "#": "4", "Item": "Run 2026-03-11 — join", "Nilai / klaim": "inner" }, claims: [{ label: "Klaim", value: "semua pelanggan_id valid" }] },
+        { rowId: 5, cells: { "#": "5", "Item": "Run 2026-03-11 — dedup key", "Nilai / klaim": "(pelanggan_id, nominal, tanggal)" }, claims: [{ label: "Klaim", value: "hanya duplikat teknis yang dibuang" }] },
+        { rowId: 6, cells: { "#": "6", "Item": "Run 2026-03-10 — status", "Nilai / klaim": "OK" }, claims: [{ label: "Dropped", value: "0" }] },
+        { rowId: 7, cells: { "#": "7", "Item": "Run 2026-03-09 — status", "Nilai / klaim": "OK" }, claims: [{ label: "Dropped", value: "0" }] },
+        { rowId: 8, cells: { "#": "8", "Item": "Run 2026-03-08 — partisi 2026-03-07", "Nilai / klaim": "SKIP" }, claims: [{ label: "Alasan", value: "sudah diproses kemarin" }] },
+        { rowId: 9, cells: { "#": "9", "Item": "Partisi 2026-03-07 di fact_transaksi", "Nilai / klaim": "0 baris" }, claims: [{ label: "Status", value: "—" }] },
+        { rowId: 10, cells: { "#": "10", "Item": "staging_transaksi — baris hari ini", "Nilai / klaim": "18.413" }, claims: [{ label: "Dibersihkan tiap run", value: "YA" }] },
+        { rowId: 11, cells: { "#": "11", "Item": "staging_transaksi — 3 run lalu", "Nilai / klaim": "17.802" }, claims: [{ label: "Tren", value: "naik terus" }] },
+        { rowId: 12, cells: { "#": "12", "Item": "Log 2026-03-11 02:00:12", "Nilai / klaim": "RUN OK" }, claims: [{ label: "Isi", value: "input=600, output=565, dropped=0" }] },
+        { rowId: 13, cells: { "#": "13", "Item": "Metode tanggal pipeline", "Nilai / klaim": "10 karakter pertama" }, claims: [{ label: "Klaim", value: "cukup untuk agregat harian" }] },
+        { rowId: 14, cells: { "#": "14", "Item": "Rekomendasi", "Nilai / klaim": "—" }, claims: [{ label: "Keputusan", value: "pipeline sehat — lanjutkan" }] },
+      ],
+      injections: [
+        { key: "staging-kotor", rowIds: [10, 11], title: "Tabel staging tidak pernah dibersihkan", clue: "Staging tumbuh 17.802 → 18.413 dalam 3 run padahal klaimnya “dibersihkan: YA”. Tabel staging yang tidak dikosongkan bisa membocorkan baris basi ke run berikutnya — atau membuat join menghitung ganda.", danger: "Staging kotor adalah bom waktu: hari ini hanya angka yang membengkak, besok bisa jadi duplikat yang meracuni laporan — dan tidak ada yang tahu dari mana asalnya." },
+        { key: "log-ok-palsu", rowIds: [3, 6, 7, 12], title: "Log OK yang berbohong", clue: "600 − 565 = 35 baris hilang, tapi dropped=0 dan status OK tiga malam berturut-turut (baris 3, 6, 7, 12). Log ini tidak mencatat kenyataan — ia mencatat apa yang diprogram untuk ditulis.", danger: "Monitoring yang membaca status teks buta total terhadap kehilangan data. Satu-satunya monitor yang jujur membandingkan angka: input vs output vs reject, setiap run." },
+        { key: "partisi-terlewat", rowIds: [8, 9], title: "Satu partisi terlewat", clue: "2026-03-07 diklaim “SKIP — sudah diproses kemarin”, tapi fact_transaksi berisi 0 baris untuk partisi itu. Satu hari penuh hilang dari laporan — dan tidak ada alert.", danger: "Partisi yang terlewat meracuni semua agregat di atasnya (mingguan, bulanan) secara permanen — kecuali ada cek kelengkapan partisi yang independen dari klaim log." },
+      ],
+    },
+  },
+  {
+    id: "deliverable",
+    eyebrow: "Langkah 11 · Deliverable",
+    title: "Pipeline v2: kode, assertion, dan runbook",
+    prose: [
+      "Semua bukti di tangan. Rancang pipeline_harian v2 — bukan sekadar “kode yang benar”, melainkan sistem yang tidak bisa berbohong: setiap tahap punya kontrak, setiap baris yang gugur tercatat di tabel reject, dan setiap anomali membangunkan manusia yang tepat. Ini artefak portofoliomu sebagai data engineer.",
+    ],
+    tasks: [],
+    deliverable: {
+      template: [
+        "Arsitektur v2: extract → validate (kontrak skema) → transform → load; gambarkan aliran baris termasuk jalur ke tabel reject.",
+        "Assertion tiap tahap: input > 0; dropped_tercatat == input − output; join memakai LEFT + tabel reject (inner dilarang); dedup key = txn_id (unik); tanggal selalu dari timestamp timezone-aware (string-slicing dilarang).",
+        "Penanganan waktu: parse aware → konversi Asia/Makassar → ambil tanggal; daftar format yang didukung dan apa yang terjadi pada format tak dikenal (masuk tabel reject, bukan dibuang diam-diam).",
+        "Monitor: alert bila dropped > 0,5% input; staging harus kosong setelah run (assert jumlah baris); kelengkapan partisi harian dicek independen (tidak percaya klaim SKIP).",
+        "Runbook: langkah saat alert berbunyi (tahan rilis laporan → periksa tabel reject → eskalasi ke on-call) + definisi kapan insiden dinyatakan selesai.",
+      ],
+      rubric: [
+        { criterion: "Assertion menutup 3 mode kegagalan", weight: 30, levels: ["Tidak ada assertion", "Assertion sebagian (satu-dua mode)", "Join, dedup, dan timezone masing-masing punya assertion dengan ambang eksplisit"] },
+        { criterion: "Kontrak join dan tabel reject", weight: 25, levels: ["Masih inner tanpa reject", "Left join tanpa tabel reject", "Left join + tabel reject yang dimonitor tiap run"] },
+        { criterion: "Penanganan timezone", weight: 20, levels: ["Tanggal dari string-slicing", "Parse timezone tapi tanpa konversi", "Parse aware → Asia/Makassar → tanggal; slicing dilarang eksplisit"] },
+        { criterion: "Monitor dan runbook", weight: 25, levels: ["Tanpa monitor", "Monitor tanpa ambang/tindakan", "Alert berambang + cek staging + cek partisi + runbook eskalasi"] },
+      ],
+    },
+  },
+  {
+    id: "debrief",
+    eyebrow: "Langkah 12 · Debrief",
+    title: "Yang sebenarnya terjadi — dan kenapa ini penting",
+    prose: [
+      "Debrief dibuka. Tiga kebohongan di laporan run:",
+      "1) **Staging kotor** (baris 10–11): tumbuh 17.802 → 18.413 dalam 3 run dengan stempel “dibersihkan: YA”. Klaim kebersihan tanpa pengukuran = dusta administratif.",
+      "2) **Log OK palsu** (baris 3, 6, 7, 12): `dropped=0` sementara 35 baris hilang setiap malam. Ini bukan bug pencatatan — ini desain: tidak ada kode yang menghitung baris hilang, jadi angkanya selalu nol.",
+      "3) **Partisi terlewat** (baris 8–9): 2026-03-07 “sudah diproses” dengan 0 baris di tabel fakta. Satu hari hilang total, tanpa alert, tanpa jejak — kecuali kamu yang menghitung.",
+      "Skor deteksimu (x/3) mengukur satu insting: apakah kamu menghitung sendiri (600 − 565 = 35), atau memercayai tulisan “OK”. Dan ingat keputusan bercabangmu: patch, rebuild, dan monitor semuanya “masuk akal” — tapi hanya satu yang membuat pipeline tidak bisa berbohong lagi.",
+      "Bahaya nyata terakhir: kegagalan diam tidak pernah muncul di status page. Ia muncul di laporan keuangan kuartal berikutnya, sebagai selisih yang tidak bisa dijelaskan — dan saat itu, jejaknya sudah dingin berminggu-minggu.",
+    ],
+    tasks: [],
+    note: {
+      title: "Miskonsepsi #3: pipeline yang tidak error = pipeline yang benar",
+      type: "risk",
+      body: "Error adalah kegagalan yang jujur — ia berteriak. Kegagalan diam adalah pipeline yang sukses sambil salah: join membuang, dedup membunuh, timezone menggeser, log tersenyum. Satu-satunya obat adalah rekonsiliasi angka yang independen dari pipeline itu sendiri: sumber vs tujuan, setiap run, otomatis.",
+    },
+  },
+  {
+    id: "rangkuman",
+    eyebrow: "Langkah 13 · Rangkuman",
+    title: "Poin penting misi ini",
+    prose: [],
+    tasks: [],
+    summary: [
+      "Tiga kegagalan diam: inner join membuang 12 transaksi (Rp 7.625.000), dedup key (pelanggan_id, nominal, tanggal) menghapus 23 transaksi sah, 58 baris UTC tercatat di hari yang salah — total 35 baris hilang per run.",
+      "Log “RUN OK — dropped=0” adalah kebohongan struktural: tidak ada kode yang menghitung baris hilang, jadi angkanya selalu nol. Monitor harus membandingkan angka (input vs output vs reject), bukan membaca status teks.",
+      "Tiga jebakan laporan run: staging yang tidak pernah dibersihkan (17.802 → 18.413), log OK tiga malam berturut-turut, satu partisi (2026-03-07) terlewat dengan 0 baris di tabel fakta.",
+      "Obatnya: assertion tiap tahap, left join + tabel reject, dedup hanya pada key unik (txn_id), tanggal dari timestamp timezone-aware (Asia/Makassar = UTC+8) — plus monitor berambang dan runbook.",
+      "Data: 100% sintetis (seed 42) — polanya nyata: kegagalan yang paling mahal bukan yang meledak, melainkan yang sukses diam-diam.",
+    ],
+  },
+];
+
+(misiKegagalanDiam.steps as V2Step[]).push(...LANJUTAN_KEGAGALAN_DIAM);

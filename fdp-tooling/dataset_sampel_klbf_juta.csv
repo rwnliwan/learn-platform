@@ -1,0 +1,15 @@
+emiten,periode,pos,nilai,satuan,sumber
+KLBF,FY2024,penjualan_neto,32627776.108026,Rp-juta,AR KLBF 2024 hal.4
+KLBF,FY2024,beban_pokok_penjualan,19670735.916128,Rp-juta,AR KLBF 2024 hal.4
+KLBF,FY2024,laba_bruto,12957040.191898,Rp-juta,AR KLBF 2024 hal.4
+KLBF,FY2024,laba_usaha,4080720.255919,Rp-juta,AR KLBF 2024 [T]
+KLBF,FY2024,laba_sebelum_pajak,4218874.269523,Rp-juta,AR KLBF 2024 hal.4
+KLBF,FY2024,laba_bersih_atribusional,3240636.626331,Rp-juta,AR KLBF 2024 hal.5
+KLBF,FY2024,total_aset,29429727.898195,Rp-juta,AR KLBF 2024 hal.1
+KLBF,FY2024,total_aset_lancar,17187668.427724,Rp-juta,AR KLBF 2024 hal.1
+KLBF,FY2024,total_aset_tidak_lancar,12242059.470471,Rp-juta,AR KLBF 2024 hal.1
+KLBF,FY2024,kas_dan_setara_kas,4723293.839405,Rp-juta,AR KLBF 2024 hal.1
+KLBF,FY2024,persediaan_neto,6501631.203212,Rp-juta,AR KLBF 2024 hal.1
+KLBF,FY2024,rasio:gross_margin,39.71,persen,terhitung
+KLBF,FY2024,rasio:net_margin,9.93,persen,terhitung
+KLBF,FY2024,rasio:roa,11.01,persen,terhitung

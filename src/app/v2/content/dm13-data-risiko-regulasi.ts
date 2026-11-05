@@ -1,0 +1,222 @@
+import type { V2Lesson } from "../lib/types";
+
+export const dm13: V2Lesson = {
+  slug: "dm13-data-risiko-regulasi",
+  track: "Data Management",
+  module: "Keamanan & Risiko",
+  title: "Data untuk Risiko & Regulasi: Ketika Angka Harus Bisa Dipertahankan",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita-krisis",
+      eyebrow: "Langkah 1 · Cerita pembuka",
+      title: "48 jam yang menjadi 6 minggu",
+      prose: [
+        "Krisis 2008. Regulator bertanya ke bank-bank besar: \"berapa eksposur kalian ke subprime mortgage — sekarang?\" Jawaban tercepat datang 6 minggu kemudian. Sebagian bank tidak pernah bisa menjawab dengan yakin. Bukan karena datanya tidak ada — tapi karena tersebar di 14 sistem, definisi beda, agregasi manual via spreadsheet, dan tidak ada yang berani menandatangani angkanya.",
+        "Krisis itu memperparah dirinya karena tidak ada yang tahu siapa menanggung risiko apa — keputusan diambil buta. Dari trauma inilah lahir BCBS 239 (2013): 14 prinsip agar bank selalu bisa agregasi risiko dengan cepat dan benar — bahkan saat krisis.",
+      ],
+      tasks: [],
+      reference: "Standar tertinggi data management: angka yang harus bisa dipertahankan di depan regulator.",
+    },
+    {
+      id: "bcbs239",
+      eyebrow: "Langkah 2 · BCBS 239",
+      title: "14 prinsip yang lahir dari krisis",
+      prose: [
+        "BCBS 239 = Principles for effective risk data aggregation and risk reporting — standar Basel Committee untuk bank sistemik. Tiga kelompok: I. Tata kelola & infrastruktur (prinsip 1–2): governance agregasi risiko yang kuat; arsitektur data yang mendukung (bukan 14 sistem lepas).",
+        "II. Kapabilitas agregasi (3–6): akurasi & integritas, kelengkapan (semua risiko material tercakup!), ketepatan waktu (krisis = butuh harian/intraday), adaptabilitas (bisa jawab pertanyaan ad-hoc regulator — bukan hanya laporan rutin). III. Praktik pelaporan (7–11): akurat, komprehensif, jelas, frekuensi tepat, didistribusikan ke pengambil keputusan. IV. Pengawasan (12–14): untuk regulator dan dewan.",
+        "Prinsip paling menggigit: adaptabilitas. Laporan rutin bisa dihafal; pertanyaan baru yang belum pernah ditanya menguji arsitektur data sesungguhnya.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: regulator menguji pertanyaan yang belum pernah ditanya",
+        body: "Bank bisa lolos audit laporan rutin sepuluh tahun berturut-turut lalu gagal total saat regulator mengajukan satu pertanyaan baru — karena laporan rutin adalah hafalan, sedangkan adaptabilitas adalah pemahaman. Prinsip 6 BCBS 239 (adaptabilitas) adalah satu-satunya prinsip yang tidak bisa dipalsukan dengan kerja lembur menjelang audit. Heuristik pengujinya: fire drill kuartalan — CRO mengajukan satu pertanyaan ad-hoc yang belum pernah ditanyakan (\"eksposur ke debitur dengan dua restrukturisasi di tiga kota ini, per produk?\"), lalu ukur waktu dari pertanyaan sampai angka yang bisa dipertahankan. Di bawah 48 jam: arsitekturmu sehat. Di atas dua minggu: tiga belas prinsip lain yang lolos hanyalah dekorasi. Analogi pemadam kebakaran: mereka tidak dinilai dari kerapian parade, melainkan dari waktu tiba saat alarm berbunyi.",
+      },
+      reference: "Uji sesungguhnya: bisa jawab pertanyaan ad-hoc regulator dalam 48 jam?",
+    },
+    {
+      id: "agregasi",
+      eyebrow: "Langkah 3 · Agregasi risiko",
+      title: "Dari posisi ke laporan",
+      prose: [
+        "Agregasi = menggabungkan posisi risiko granular (per debitur/transaksi) menjadi tampilan portofolio (per sektor/rating/wilayah) — tanpa kehilangan kemampuan drill-down ke detail. Syaratnya: lengkap (semua eksposur material masuk — satu feed hilang = laporan salah), konsisten (definisi \"eksposur\" sama di semua sumber), drill-down (tiap angka agregat bisa ditelusur ke posisi individual), tepat waktu.",
+        "Jebakan klasik: double-counting (posisi di dua sistem), netting salah (saling hapus yang tidak boleh), FX rate beda antar sumber, dan missing feed diam-diam (tidak ada error — data hanya... tidak ada). Agregasi risiko ≠ sekadar SUM(): yang di-SUM harus benar dulu.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Agregasi via spreadsheet manual. Tidak teraudit, tidak terulang, tidak bisa drill-down — dan regulator tidak menerimanya sebagai proses. Agregasi harus lewat pipeline berversi dengan lineage.",
+        type: "pitfall",
+      },
+      reference: "Lengkap + konsisten + drill-down + tepat waktu — atau jangan laporkan.",
+    },
+    {
+      id: "rekonsiliasi-lab",
+      eyebrow: "Langkah 4 · Rekonsiliasi · lab",
+      title: "Dua sumber, satu kebenaran",
+      prose: [
+        "Rekonsiliasi = membandingkan dua sumber yang seharusnya sama (finance vs risiko, hulu vs hilir pipeline) dan menyelidiki selisihnya. Anatomi rule: pasangan (apa vs apa), toleransi (selisih < 0,1% = lolos; di atasnya = break), aksi break (jangan kirim laporan — investigasi, perbaiki, dokumentasikan; break yang \"dimaafkan\" tanpa jejak = bom waktu audit).",
+        "Kenapa toleransi tidak boleh longgar: toleransi 0,5% pada Rp1,2 triliun = Rp6 miliar \"boleh hilang\" tanpa alarm. Toleransi = keputusan risiko, bukan kemalasan. Dan waspada: break kecil bisa menyembunyikan break besar yang saling meniadakan — +Rp50 M di satu portofolio dan −Rp44 M di lainnya = net Rp6 M terlihat kecil, padahal gross-nya Rp94 M salah.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `selisih` = |finance − risiko| dalam Rp miliar (1 desimal)" },
+        { id: "t2", text: "Hitung `pct` = selisih / finance × 100 (2 desimal)" },
+        { id: "t3", text: "Tentukan `status`: \"BREAK\" jika pct > 0,1, selain itu \"LOLOS\"" },
+      ],
+      expected: "selisih=2.3  pct=0.18  status=BREAK",
+      hints: [
+        "selisih = round(abs(finance - risiko), 1)",
+        "pct = round(selisih / finance * 100, 2)",
+        "status = \"BREAK\" if pct > 0.1 else \"LOLOS\"",
+      ],
+      code: {
+        starter: `# H-1 laporan OJK: total eksposur menurut dua sumber (Rp miliar)\nfinance = 1280.0\nrisiko  = 1277.7\ntoleransi_pct = 0.1\n\n# TULIS KODEMU\nselisih = \npct = \nstatus = \n\nprint(f"selisih={selisih}  pct={pct}  status={status}")`,
+        lockLines: 4,
+        solution: `# H-1 laporan OJK: total eksposur menurut dua sumber (Rp miliar)\nfinance = 1280.0\nrisiko  = 1277.7\ntoleransi_pct = 0.1\n\n# TULIS KODEMU\nselisih = round(abs(finance - risiko), 1)\npct = round(selisih / finance * 100, 2)\nstatus = "BREAK" if pct > toleransi_pct else "LOLOS"\n\nprint(f"selisih={selisih}  pct={pct}  status={status}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "selisih", value: 2.3, tol: 0.01, label: "`selisih` seharusnya 2.3", msg: "|1280,0 − 1277,7| = 2,3 (Rp miliar) = Rp2,3 miliar." },
+          { kind: "equal", task: "t2", name: "pct", value: 0.18, tol: 0.01, label: "`pct` seharusnya 0.18", msg: "2,3 / 1280 × 100 = 0,18%." },
+          { kind: "equal", task: "t3", name: "status", value: "BREAK", label: "`status` seharusnya BREAK", msg: "0,18% > toleransi 0,1% → BREAK. Jangan kirim." },
+          { kind: "stdout_matches", task: "t3", pattern: "selisih=2\\.3\\s+pct=0\\.18\\s+status=BREAK", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Break = berhenti. Tidak ada laporan di atas selisih tak terjawab.",
+    },
+    {
+      id: "reporting",
+      eyebrow: "Langkah 5 · Regulatory reporting",
+      title: "Laporan yang bisa diaudit",
+      prose: [
+        "Syarat laporan regulasi (OJK, BI, Basel): jejak penuh (tiap angka → sumber → transformasi → versi kode), rekonsiliasi lolos (tidak ada break terbuka saat kirim), persetujuan (ditandatangani pemilik data), immutability (snapshot laporan tidak bisa diubah diam-diam — koreksi = versi baru + alasan), ketepatan waktu (telat = denda, bahkan jika angkanya benar).",
+        "Prinsip inti: regulator tidak hanya menilai angkanya — mereka menilai proses yang menghasilkan angka. \"Angka benar tapi tidak bisa dijelaskan caranya\" = tidak patuh. Beda laporan direksi vs regulator: direksi butuh insight; regulator butuh bukti.",
+      ],
+      tasks: [],
+      reference: "Telat + benar > tepat waktu + salah.",
+    },
+    {
+      id: "minicase-break",
+      eyebrow: "Langkah 6 · Mini-case",
+      title: "Break Rp2,3 miliar di H-1 laporan",
+      prose: [
+        "H-1 batas lapor OJK, rekonsiliasi finance vs risiko break Rp2,3 M (0,18% > toleransi 0,1%). Tim finance: \"kecil, loloskan saja biar tidak telat — denda telat Rp500 juta.\" Tim risiko: \"jangan — kalau salah, dendanya lebih besar + reputasi.\"",
+        "Keputusan yang benar: jangan kirim. Prinsip akurasi > ketepatan waktu; break tanpa penjelasan = laporan tak terjawab. Minta perpanjangan dengan penjelasan resmi lebih baik dari laporan salah. Investigasi 4 jam menemukan: kurs USD/IDR beda sumber (finance pakai kurs BI, risiko pakai kurs internal).",
+        "Solusi: standarisasi sumber kurs (reference data tunggal — DM11) + dokumentasikan break dan resolusinya sebagai jejak audit. Pencegahan: golden source kurs di MDM + rule rekonsiliasi otomatis harian (jangan tunggu H-1!) + glossary \"kurs yang dipakai = kurs BI\". Masalah bulanan = masalah sistemik, bukan insiden.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "\"Loloskan saja, kecil\" adalah keputusan risiko yang salah harga: denda telat Rp500 juta terlihat pasti, tapi laporan salah ke regulator berarti denda lebih besar + temuan audit + reputasi. Disiplin \"angka tak terjawab tidak dikirim\" melindungi dari kerugian yang tidak terlihat di spreadsheet.",
+      },
+      reference: "Masalah yang terulang tiap bulan = masalah sistemik. Perbaiki sistemnya.",
+    },
+    {
+      id: "peta-lapor",
+      eyebrow: "Langkah 7 · Peta keputusan",
+      title: "Data layak lapor?",
+      prose: [
+        "Ada break rekonsiliasi terbuka → jangan kirim; investigasi + dokumentasikan. Feed sumber hilang diam-diam → monitor kelengkapan feed (observability DM7): \"kemarin 6 feed, hari ini 5\". Regulator bertanya hal baru (ad-hoc) → uji adaptabilitas: bisa jawab dalam 48 jam?",
+        "Angka agregat dipertanyakan → drill-down ke posisi via lineage: agregat tanpa jejak = tidak bisa dipertahankan. Koreksi laporan yang sudah dikirim → versi baru + alasan tertulis, jangan edit diam-diam. Koreksi transparan = patuh; edit diam-diam = pelanggaran.",
+      ],
+      tasks: [],
+      reference: "Setiap angka bisa di-drill-down — atau jangan laporkan.",
+    },
+    {
+      id: "operasionalisasi",
+      eyebrow: "Langkah 8 · Operasionalisasi",
+      title: "Dari 14 prinsip ke mesin yang jalan tiap hari",
+      prose: [
+        "Lihat operasionalisasinya di bank menengah \"Bank Nusantara\" dengan total aset Rp120 triliun. Arsitekturnya: satu golden source untuk kurs dan suku bunga acuan (tidak ada lagi \"kurs versi finance\" vs \"kurs versi risiko\"), agregasi eksposur berjalan otomatis setiap jam 22.00 dari enam feed sumber, dan setiap pagi jam 06.00 job rekonsiliasi membandingkan total finance vs risiko dengan toleransi 0,05% — hasilnya tampil di dashboard CRO sebelum jam kerja dimulai. Ketika regulator menelepon jam 10 pagi menanyakan eksposur ke sektor properti, CRO membuka dashboard, drill-down tiga level sampai ke debitur individual, dan menjawab jam 11 dengan angka yang bisa dipertahankan. Inilah BCBS 239 yang hidup: bukan dokumen 14 prinsip di lemari, melainkan mesin harian plus manusia yang tahu cara menggunakannya. Biaya membangunnya sekitar satu tim kecil selama satu tahun — jauh lebih murah dari satu denda.",
+        "Harga ketidakpatuhan harus dihitung dengan jujur agar investasi kepatuhan bisa dipertahankan ke direksi. Di Indonesia, OJK mengenakan denda keterlambatan dan ketidakakuratan laporan; BI bisa naik tingkat dari teguran tertulis sampai pembatasan kegiatan usaha — yang biayanya bukan denda melainkan hilangnya pendapatan. Mini-case langkah 6 menyebut denda telat Rp500 juta sebagai angka yang \"kecil\" dibanding risiko laporan salah. Bandingkan dengan biaya operasional manual: satu analis menghabiskan 4 jam per hari selama 20 hari kerja untuk rekonsiliasi manual = 80 jam per bulan, setara Rp40 juta per bulan gaji yang terbuang untuk pekerjaan mesin — Rp480 juta per tahun. Otomatisasi rekonsiliasi yang biayanya Rp150 juta terbayar dalam empat bulan, bahkan sebelum menghitung denda yang dihindari. Argumen ke direksi bukan \"kepatuhan itu penting\" (mereka tahu), melainkan \"otomatisasi ini ROI positif dalam satu kuartal\".",
+        "Mode kegagalan yang paling korosif bernama \"break yang dimaafkan\". Analis melihat selisih rekonsiliasi, merasa \"sudah tahu penyebabnya\" (biasanya tebakan: \"ah, itu timing kurs\"), menandai break sebagai dimaklumi — tanpa tiket, tanpa bukti, tanpa tanda tangan. Enam bulan kemudian auditor bertanya tentang break itu dan tidak ada jejak apa pun kecuali ingatan yang sudah kabur. Aturan yang tidak bisa ditawar: setiap break adalah tiket dengan empat field wajib — penyebab yang terverifikasi (bukan tebakan), resolusi yang dilakukan, nama penandatangan, dan tanggal. \"Dimaafkan tanpa jejak\" dilarang keras dan diperlakukan sebagai pelanggaran prosedur, bukan kelonggaran. Alasannya filosofis sekaligus praktis: regulator tidak menghukum bank yang menemukan masalah dan memperbaikinya dengan terdokumentasi — mereka menghukum bank yang tidak bisa menunjukkan apa yang terjadi. Jejak adalah bukti bahwa pengendalianmu bekerja.",
+        "Elaborasi jebakan dari langkah 3 dengan angka yang lebih menakutkan. Portofolio A selisih +Rp50 miliar, portofolio B selisih −Rp44 miliar. Total net: Rp6 miliar — di bawah toleransi, lampu hijau, semua senang. Padahal gross error-nya Rp94 miliar salah arah di dua tempat. Netting yang saling meniadakan adalah cara paling elegan bagi kesalahan besar untuk menyamar sebagai kesalahan kecil. Aturan desain kontrolnya: monitor gross dan net secara terpisah — toleransi berlaku per portofolio DAN untuk total; break diukur di kedua level. Praktiknya: dashboard rekonsiliasi menampilkan tabel per portofolio dengan selisih absolut (bukan net), diurutkan dari terbesar, plus baris total. Analis dilarang menutup tiket break total sebelum semua break portofolio di atas ambang dijelaskan. Ingat: toleransi 0,1% pada Rp1,2 triliun adalah Rp1,2 miliar \"boleh hilang\" — angka yang terlihat kecil sebagai persen tetapi sangat nyata sebagai rupiah. Selalu konversi toleransimu ke rupiah dan tanyakan: \"apakah saya nyaman angka sebesar ini lewat tanpa penjelasan?\"",
+        "Bandingkan dua tim menghadapi masalah yang sama setiap bulan. Tim \"H-1 heroik\": begadang tiap akhir bulan, investigasi 4 jam menemukan perbedaan sumber kurs (mini-case langkah 6), kirim laporan mepet deadline dengan jantung berdebar. Mereka pahlawan — dan mereka kelelahan, dan bulan depan mengulang lagi. Tim \"rekonsiliasi harian\": job otomatis tiap pagi, break Rp120 juta ketahuan hari itu juga saat masih kecil dan mudah ditelusuri (jejaknya segar, orangnya masih ingat), investigasi 30 menit, selesai sebelum makan siang. Pelajaran yang tidak obvious: frekuensi mengalahkan heroisme. Masalah yang ditemukan dalam 24 jam adalah insiden kecil; masalah yang sama ditemukan dalam 30 hari adalah krisis. Heroisme adalah gejala sistem yang rusak, bukan solusi. Kalau timmu punya \"pahlawan H-1\", jangan beri penghargaan — perbaiki sistemnya sampai pahlawan tidak dibutuhkan lagi.",
+        "Adaptabilitas (prinsip 6) harus dibangun sebagai artefak, bukan harapan. Caranya: mart risiko serbaguna dengan grain debitur harian dan dimensi lengkap — produk, sektor, wilayah, rating, status restrukturisasi. Dengan mart seperti ini, pertanyaan ad-hoc regulator (\"eksposur ke debitur dengan dua kali restrukturisasi di tiga kota ini?\") dijawab dengan satu query dalam hitungan jam, bukan proyek tiga minggu yang melibatkan lima tim dan tiga spreadsheet. Aturan investasinya: \"kalau menjawab pertanyaan baru butuh lebih dari lima hari kerja, investasikan di mart serbaguna.\" Biaya membangun mart serbaguna memang lebih mahal di awal (modeling lebih dalam, storage lebih besar), tetapi ia adalah premi asuransi terhadap pertanyaan yang belum terpikirkan. Bank yang hanya membangun mart untuk laporan rutin yang sudah ada sedang mengasuransikan masa lalu, bukan masa depan.",
+        "Keputusan cepat untuk operator pelaporan — ditempel di dinding ruang risiko. Satu: ada break rekonsiliasi terbuka = jangan kirim, tanpa kecuali; \"kecil\" bukan argumen, toleransi yang menentukan. Dua: break di atas toleransi dua hari berturut-turut = eskalasi ke CRO hari itu juga; pola berulang adalah sinyal sistemik, bukan kebetulan. Tiga: feed sumber hilang diam-diam = jangan kirim laporan parsial tanpa disclosure tertulis; laporan yang diam-diam tidak lengkap lebih berbahaya daripada laporan yang telat dengan penjelasan. Empat: regulator bertanya hal baru = catat waktu mulai jawab, target 48 jam; kalau lewat, laporkan progres — diam adalah sinyal terburuk. Lima: setiap koreksi laporan yang sudah dikirim = versi baru dengan alasan tertulis; tidak ada edit diam-diam, selamanya. Lima aturan ini, ditegakkan konsisten, mencakup 90% disiplin BCBS 239 sehari-hari.",
+        "Lineage adalah senjata pamungkas saat regulator menginterogasi angka. Skenario: regulator menunjuk satu angka di laporan — \"Rp4,2 triliun eksposur properti, dari mana?\" Dengan lineage lengkap, analis mengklik angka itu dan menelusuri: agregat ← mart risiko ← enam feed sumber ← tabel core banking + sistem treasury, lengkap dengan versi kode transformasi dan timestamp setiap tahap — dalam satu jam. Tanpa lineage: analis menelepon lima tim, masing-masing menunjuk tim lain, spreadsheet digali dari email tiga bulan lalu — enam minggu, persis cerita pembuka lesson ini. Investasi lineage terbayar pada interogasi pertama. Aturan praktisnya: setiap angka yang dikirim ke regulator harus bisa di-drill-down minimal tiga level (agregat → segmen → posisi individual) oleh orang yang tidak ikut membangun pipeline-nya. Kalau hanya pembuatnya yang bisa menelusuri, itu bukan lineage — itu ingatan.",
+        "Ketepatan waktu saat krisis adalah prinsip yang paling sulit diuji di masa damai — dan paling mematikan saat gagal di masa krisis. BCBS 239 menuntut bank bisa menaikkan frekuensi agregasi saat krisis (dari bulanan ke harian, bahkan intraday). Banyak bank mendesain pipeline untuk ritme normal lalu kaget saat krisis: job yang biasa jalan 6 jam tidak bisa dipaksa jadi 1 jam. Solusinya adalah fire drill: sekali per kuartal, tim menjalankan \"mode krisis\" — agregasi penuh dalam window 4 jam — dan mengukur apa yang patah. Yang biasanya patah: query yang tidak pernah dioptimasi, dependensi manual (\"tunggu email dari tim X\"), dan dashboard yang tidak bisa refresh parsial. Setiap temuan fire drill adalah backlog perbaikan sebelum krisis sungguhan. Bank yang tidak pernah latihan berharap arsitekturnya bekerja pada hari terburuknya — itu bukan strategi, itu doa.",
+        "Reference data (data acuan seperti kurs, kalender libur, kode sektor) adalah fondasi yang paling sering diremehkan. Mini-case langkah 6 menunjukkan akar masalahnya: finance memakai kurs BI, risiko memakai kurs internal — selisih Rp2,3 miliar dari satu perbedaan sumber. Solusi strukturalnya adalah Master Data Management untuk reference data: satu golden source kurs dengan timestamp dan sumber yang jelas, dikonsumsi semua sistem. Aturannya tiga: satu definisi (\"kurs yang dipakai = kurs tengah BI jam 16.00\"), satu tempat (tabel reference_data yang berversi), satu pemilik (tim yang bertanggung jawab akurasinya). Setiap sistem yang memakai \"kurs sendiri\" adalah utang yang suatu hari menjadi break rekonsiliasi. Audit reference data tahunan: daftar semua tempat di mana kurs/suku bunga/kode dipakai, pastikan semuanya menunjuk ke golden source. Ini pekerjaan membosankan yang mencegah insiden mahal — definisi pekerjaan data yang baik.",
+        "Immutability laporan adalah prinsip yang memisahkan amatir dari profesional. Setelah laporan dikirim ke regulator, snapshot-nya dikunci — secara teknis (write-once storage atau hash kriptografis) maupun prosedur. Koreksi tidak dilakukan dengan mengedit file yang sudah dikirim (itu pemalsuan dokumen dalam bahasa regulator), melainkan dengan menerbitkan versi baru: \"Laporan Oktober v2 — koreksi eksposur properti +Rp120 miliar karena feed D06 yang terlambat masuk — disetujui [nama], [tanggal].\" Koreksi yang transparan justru membangun kepercayaan: ia menunjukkan pengendalian bekerja. Edit diam-diam yang ketahuan — dan selalu ketahuan, karena regulator menyimpan salinan — menghancurkan kepercayaan bertahun-tahun dalam satu temuan. Aturan: setiap laporan punya nomor versi dan hash; tidak ada laporan tanpa keduanya yang boleh keluar dari gedung.",
+        "Workflow persetujuan (sign-off) adalah gerbang terakhir sebelum angka meninggalkan bank. Pola maker-checker: analis (maker) menyusun laporan, reviewer independen (checker, bukan atasan langsung maker agar tidak sekadar stempel) memverifikasi rekonsiliasi dan lineage, lalu data owner menandatangani secara tercatat (digital signature dengan timestamp, bukan \"oke\" di chat). Tiga level ini menangkap tiga kelas kesalahan berbeda: maker menangkap kesalahan hitung, checker menangkap kesalahan metodologi, owner menangkap kesalahan interpretasi bisnis (\"angka ini benar tetapi menyesatkan untuk konteksnya\"). Aturan: \"angka tanpa tanda tangan adalah draft\" — dilarang diteruskan ke pihak mana pun, termasuk direksi. Dan tanda tangan bukan formalitas: penandatangan wajib bisa menjelaskan angka yang ia tandatangani dalam lima menit; kalau tidak bisa, ia tidak boleh tanda tangan. Tanda tangan yang tidak dipahami adalah stempel karet.",
+        "Regulator sendiri sedang bertransformasi teknologi (SupTech): laporan bergerak dari file Excel via email ke API dan format terstruktur seperti XBRL. Implikasinya untuk arsitektur data: format laporan akan berubah lebih sering dari dulu, dan perubahan format tidak boleh menjadi proyek tiga bulan. Desain pipeline pelaporan dengan lapisan pemisah: lapisan agregasi (stabil, berubah jarang) terpisah dari lapisan formatting (berubah mengikuti regulator). Ketika OJK mengubah template, yang berubah hanya lapisan formatting — angka dan lineage-nya tetap. Aturan: tidak ada logika bisnis di kode formatting; tidak ada kode formatting di logika agregasi. Bank yang mencampur keduanya harus menguji ulang seluruh rantai setiap kali template berubah — mahal dan rawan salah. Antisipasi juga: simpan mapping versi template ke versi kode pipeline, sehingga lima tahun kemudian kamu bisa membuktikan \"laporan 2026 memakai template v3 dengan kode commit X\".",
+        "Tutup dengan checklist sepuluh detik sebelum menekan tombol kirim ke regulator — dibaca keras-keras, bukan dibatin. Satu: semua break rekonsiliasi di atas toleransi sudah dijelaskan dan ditandatangani? Dua: semua feed sumber masuk — jumlah feed hari ini sama dengan kemarin? Tiga: angka ini bisa di-drill-down tiga level oleh orang lain? Empat: versi laporan dan hash tercatat? Lima: tiga tanda tangan (maker, checker, owner) lengkap? Enam: tidak ada \"penyesuaian manual\" di luar pipeline yang tidak terdokumentasi? Kalau satu saja jawabannya tidak, tombol kirim belum boleh ditekan. Checklist ini terlihat birokratis sampai kamu membayangkan alternatifnya: menjelaskan ke regulator kenapa angka yang kamu kirim tidak bisa kamu pertanggungjawabkan. Lima menit checklist versus lima minggu krisis kepercayaan — bukan pilihan yang sulit.",
+        "Dan akhirnya, budaya yang melandasi semuanya: \"angka yang tidak bisa dipertahankan tidak dikirim.\" Budaya ini tidak dibangun dengan poster di dinding, melainkan dengan tiga keputusan manajemen yang konsisten. Pertama, tidak ada bonus yang bergantung pada angka laporan yang belum terekonsiliasi — insentif menentukan perilaku. Kedua, analis yang menemukan break dan menghentikan pengiriman dilindungi dan dihargai, bukan dimarahi karena \"membuat telat\" — messenger yang membawa kabar buruk harus aman. Ketiga, setiap insiden pelaporan diakhiri postmortem tanpa menyalahkan yang menghasilkan perbaikan sistemik, bukan kambing hitam. BCBS 239 pada akhirnya bukan tentang 14 prinsip di atas kertas — ia tentang organisasi yang memilih kebenaran yang tidak nyaman (telat, break, koreksi) di atas kenyamanan yang menipu (tepat waktu tetapi salah). Pilihan itu dibuat setiap hari, oleh setiap orang yang menyentuh data risiko.",
+        "Pelajaran dari bank-bank global pasca-2013 melengkapi gambaran: banyak bank sistemik menghabiskan miliaran dolar untuk program BCBS 239 — data lake baru, tool agregasi canggih — tetapi tetap mendapat temuan regulator bertahun-tahun kemudian. Akar kegagalannya jarang teknologi; biasanya model operasi: 14 sistem lama tetap berjalan paralel \"sementara\" (sementara yang menjadi permanen), tidak ada owner tunggal untuk program (setiap divisi merasa ini proyek divisi lain), dan definisi yang tidak pernah disatukan karena \"terlalu politis\". Pelajarannya untuk bank ukuran apa pun: mulai dari operating model (siapa owner, siapa memutuskan definisi, siapa menandatangani) sebelum membeli teknologi. Tool tanpa operating model adalah mobil balap tanpa pengemudi — persis metafora cerita DM9. Bank Nusantara di paragraf pertama berhasil bukan karena tool-nya mahal, melainkan karena satu orang (CRO) bertanggung jawab penuh dan definisinya tunggal sebelum mesin dinyalakan.",
+        "Terakhir, bayangkan kunjungan on-site regulator — skenario yang paling ditakuti dan paling bisa dipersiapkan. Pemeriksa tidak meminta \"sistem yang bagus\"; mereka meminta artefak spesifik: daftar seluruh feed sumber agregasi risiko beserta pemiliknya, contoh tiket break tiga bulan terakhir beserta resolusinya, bukti bahwa definisi \"eksposur\" sama di semua sistem (glossary + tanggal pengesahan council), log akses ke data risiko 90 hari terakhir, dan satu demonstrasi live — \"tunjukkan saya drill-down angka ini sampai ke posisi individual, sekarang.\" Bank yang siap menjawab kelimanya dalam satu hari menunjukkan pengendalian yang hidup; bank yang butuh dua minggu menunjukkan pengendalian di atas kertas. Latihan terbaik: sekali setahun, lakukan mock audit internal dengan daftar artefak yang sama persis. Temuan mock audit adalah hadiah — ia datang tanpa denda dan memberi waktu memperbaiki sebelum yang asli datang.",
+      ],
+      tasks: [],
+      reference: "Prinsip tanpa mesin harian = poster dinding.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: ["Enam pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
+      tasks: [],
+      summary: [
+        "BCBS 239: 14 prinsip — governance, agregasi (akurat/lengkap/tepat waktu/adaptif), pelaporan, pengawasan.",
+        "Agregasi: lengkap + konsisten + drill-down + tepat waktu. Waspadai double-count dan missing feed.",
+        "Rekonsiliasi: break = berhenti; toleransi = keputusan risiko berhitung rupiah.",
+        "Reporting: jejak + versi + persetujuan + immutability. Regulator menilai proses.",
+        "Jangan: kirim angka tak terjawab; toleransi longgar diam-diam; agregasi via spreadsheet manual.",
+      ],
+      next: { label: "DM14 — Arsitektur Modern", href: "/learn/dm14-arsitektur-modern" },
+      quiz: [
+        {
+          q: "Pelajaran utama krisis 2008 yang melahirkan BCBS 239?",
+          options: [
+            { text: "Bank kurang modal", why: "Modal penting, tapi trauma spesifiknya adalah soal data." },
+            { text: "Bank tidak bisa agregasi eksposur risiko dengan cepat dan benar saat dibutuhkan", why: "\"Tidak tahu siapa menanggung risiko apa\" — keputusan diambil buta.", correct: true },
+            { text: "Regulator kurang kerja", why: "Regulator justru bereaksi dengan standar baru." },
+            { text: "Teknologi belum ada", why: "Teknologinya ada; yang tidak ada adalah integrasi dan governance-nya." },
+          ],
+        },
+        {
+          q: "Prinsip BCBS 239 yang paling \"menggigit\" dan kenapa?",
+          options: [
+            { text: "Frekuensi laporan", why: "Frekuensi bisa dijadwalkan; bukan ujian sesungguhnya." },
+            { text: "Adaptabilitas — harus bisa jawab pertanyaan ad-hoc yang belum pernah ditanya", why: "Pertanyaan baru menguji arsitektur data sesungguhnya.", correct: true },
+            { text: "Format PDF", why: "Format bukan isi prinsip." },
+            { text: "Bahasa laporan", why: "Bahasa bukan isi prinsip." },
+          ],
+        },
+        {
+          q: "Rekonsiliasi break Rp2,3 M (0,18%) vs toleransi 0,1%. Tindakan benar?",
+          options: [
+            { text: "Loloskan — kecil", why: "\"Kecil\" bukan argumen; toleransi yang menentukan." },
+            { text: "Jangan kirim laporan; investigasi sampai terjawab + dokumentasikan", why: "Disiplin: angka tak terjawab tidak dikirim.", correct: true },
+            { text: "Naikkan toleransi diam-diam", why: "Toleransi = keputusan risiko tertulis, bukan alat meloloskan." },
+            { text: "Sembunyikan break", why: "Menyembunyikan = pelanggaran yang disengaja." },
+          ],
+        },
+        {
+          q: "Syarat laporan regulasi yang bisa diaudit?",
+          options: [
+            { text: "Angka besar dan rapi", why: "Rapi tidak sama dengan bisa dipertanggungjawabkan." },
+            { text: "Jejak penuh (lineage + versi kode) + rekonsiliasi lolos + persetujuan owner + immutability", why: "Regulator menilai proses, bukan hanya angka.", correct: true },
+            { text: "Dikirim tepat waktu saja", why: "Tepat waktu tapi tak terjawab = tidak patuh." },
+            { text: "Format warna-warni", why: "Presentasi bukan substansi kepatuhan." },
+          ],
+        },
+        {
+          q: "Feed D06 hilang diam-diam (tidak ada error). Kontrol apa yang menangkap ini?",
+          options: [
+            { text: "Rule validitas format", why: "Formatnya tidak rusak — datanya yang tidak datang." },
+            { text: "Observability kelengkapan/volume feed — \"kemarin 6 feed, hari ini 5\"", why: "Missing feed = anomali ketiadaan; hanya CCTV yang menangkapnya.", correct: true },
+            { text: "Tidak bisa ditangkap", why: "Bisa: ekspektasi jumlah sumber + monitor volume." },
+            { text: "Tunggu komplain regulator", why: "Itu strategi paling mahal yang ada." },
+          ],
+        },
+        {
+          q: "Portofolio A selisih +Rp50 M, portofolio B selisih −Rp44 M; total net Rp6 M di bawah toleransi. Tindakan yang benar?",
+          options: [
+            { text: "Loloskan — totalnya di bawah toleransi", why: "Net Rp6 M menyembunyikan gross error Rp94 M yang salah arah di dua tempat." },
+            { text: "Investigasi kedua portofolio — toleransi berlaku per portofolio dan gross/net dipantau terpisah", why: "Netting yang saling meniadakan adalah kamuflase kesalahan besar.", correct: true },
+            { text: "Naikkan toleransi agar tidak break", why: "Mengubah ambang agar lolos = mematikan alarm." },
+            { text: "Rata-ratakan selisihnya", why: "Rata-rata tidak menjelaskan dari mana selisih berasal." },
+          ],
+        },
+      ],
+    },
+  ],
+};

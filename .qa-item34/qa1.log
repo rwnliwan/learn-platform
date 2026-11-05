@@ -1,0 +1,43 @@
+PASS sql.js termuat (2 lab 'SQL siap')
+PASS query benar -> 'Benar' - Benar. Hasil query cocok dengan yang diharapkan (urutan baris tidak dinilai).
+PASS feedback punya class pass
+PASS tabel hasil 4 kolom - count=4
+PASS nama kolom sesuai
+PASS tabel hasil 3 baris (segmen) - count=3
+FAIL baris pertama punya npl_rate desimal - Mikro	8	0	0
+PASS query salah -> 'Belum tepat' - Belum tepat.
+Jumlah kolom: diharapkan 3, dapat 2.
+Baris 1, `nasabah_id`: diharapkan 46, dapat 1.
+Bar
+PASS pesan jelas menyebut kolom/baris - Belum tepat.
+Jumlah kolom: diharapkan 3, dapat 2.
+Baris 1, `nasabah_id`: diharapkan 46, dapat 1.
+Baris 1, `nama`: dihara
+FAIL DROP TABLE ditolak ramah - Hanya query baca yang diizinkan (diawali SELECT / WITH / VALUES).
+PASS tugas 2 (ORDER/LIMIT) -> Benar
+FAIL syntax error tampil - Hanya query baca yang diizinkan (diawali SELECT / WITH / VALUES).
+PASS window.echarts ada
+PASS 3 container EChartFigure - count=3
+FAIL ketiga chart render <canvas> - count=5
+PASS canvas berukuran nyata - [(960, 360), (960, 360), (960, 360)]
+PASS 3 caption tampil
+PASS tidak ada pageerror JS
+Traceback (most recent call last):
+  File "/home/hatch/workspace/learn-platform/.qa-item34/qa_lab_demo.py", line 148, in <module>
+    pg2.wait_for_function(
+  File "/home/hatch/workspace/learn-platform/.venv-qa/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 21235, in wait_for_function
+    self._sync(
+  File "/home/hatch/workspace/learn-platform/.venv-qa/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 111, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/home/hatch/workspace/learn-platform/.venv-qa/lib/python3.12/site-packages/playwright/_impl/_page.py", line 1158, in wait_for_function
+    return await self._main_frame.wait_for_function(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hatch/workspace/learn-platform/.venv-qa/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 945, in wait_for_function
+    await self._channel.send("waitForFunction", self._timeout, params)
+  File "/home/hatch/workspace/learn-platform/.venv-qa/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hatch/workspace/learn-platform/.venv-qa/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Page.wait_for_function: Timeout 240000ms exceeded.

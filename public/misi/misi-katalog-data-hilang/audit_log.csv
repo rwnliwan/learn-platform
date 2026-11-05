@@ -1,0 +1,9 @@
+waktu,aktor,aksi,detail
+2023-01-15 10:00,tim_data,tabel nasabah dibuat,8 kolom awal
+2023-06-02 14:30,tim_analitik,tabel nasabah_core dibuat,salinan untuk analitik - tanpa dokumentasi
+2023-11-20 09:15,tim_operasional,kolom kode_cabang_lama ditandai deprecated,peringatan: masih dibaca ETL malam
+2024-03-11 16:45,etl_bot,kolom skor_risiko_internal dibuat,tanpa pemilik terdaftar
+2024-08-05 11:00,tim_keuangan,laporan_modal memakai skor_risiko_internal,laporan kritis - pemilik kolom: (kosong)
+2025-02-14 13:20,tim_analitik,kolom jumlah ditambah ke transaksi_rinci,satuan: mata uang asal (bukan IDR)
+2026-09-30 10:00,tim_kepatuhan,surat regulator diterima,pertanyaan: siapa pemilik kolom skor_risiko_internal?
+2026-10-15 08:00,data_steward,inventarisasi dimulai,misi katalog dibuka

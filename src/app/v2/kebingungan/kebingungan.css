@@ -1,0 +1,34 @@
+/* /v2/kebingungan — "Peta Kebingungan" (Gelombang G, ide #15). Scope di bawah .v2. */
+.v2 .kb-wrap{max-width:860px;display:flex;flex-direction:column;gap:var(--sp-3)}
+.v2 .kb-intro{font-size:15px;line-height:1.7;color:var(--text)}
+.v2 .kb-mut{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0}
+.v2 .kb-tight{margin-top:calc(var(--sp-2) * -1)}
+.v2 .kb-opt{display:flex;gap:10px;align-items:flex-start;background:var(--bg-sunken);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text-muted);cursor:pointer}
+.v2 .kb-opt input{margin-top:3px}
+.v2 .kb-opt b{color:var(--text)}
+.v2 .kb-h2{font-family:var(--font-display);font-size:20px;margin:var(--sp-5) 0 0}
+.v2 .kb-list{list-style:none;margin:var(--sp-1) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--sp-2)}
+.v2 .kb-item{background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.v2 .kb-itemhead{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-2)}
+.v2 .kb-itemtitle{font-weight:700;font-size:14px}
+.v2 .kb-step{font-weight:400;color:var(--text-muted)}
+.v2 .kb-itemmeta{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+.v2 .kb-kind{flex:none;font-size:12px;font-weight:600;color:var(--accent-text);background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.v2 .kb-kind.kb-good{color:var(--ok-text,#2f7d4f);border-color:var(--ok,#2f7d4f);background:var(--ok-soft,rgba(47,125,79,.12))}
+.v2 .kb-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.v2 .kb-micro{background:var(--bg-sunken);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.v2 .kb-kinds{display:flex;gap:8px;flex-wrap:wrap}
+.v2 .kb-kindbtn{border:1px solid var(--border);background:var(--bg-panel);color:var(--text);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.v2 .kb-kindbtn:hover{border-color:var(--accent)}
+.v2 .kb-dismiss{align-self:flex-start}
+.v2 .kb-done{font-size:13px;color:var(--text-muted)}
+.v2 .kb-method{border-top:1px solid var(--border);margin-top:var(--sp-5);padding-top:var(--sp-2)}
+.v2 .kb-method ul{margin:var(--sp-2) 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--text-muted);line-height:1.65}
+.v2 .kb-method b{color:var(--text)}
+.v2 .kb-empty{background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;padding:var(--sp-6);text-align:center;display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);max-width:560px}
+.v2 .kb-empty h2{margin:0;font-family:var(--font-display);font-size:22px}
+.v2 .kb-empty p{margin:0;color:var(--text-muted);font-size:14px;line-height:1.7}
+.v2 .kb-empty-ic{width:40px;height:40px;color:var(--accent)}
+@media (max-width:640px){
+  .v2 .kb-itemhead{flex-direction:column;align-items:flex-start;gap:8px}
+}

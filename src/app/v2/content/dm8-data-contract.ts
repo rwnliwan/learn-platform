@@ -1,0 +1,222 @@
+import type { V2Lesson } from "../lib/types";
+
+export const dm8: V2Lesson = {
+  slug: "dm8-data-contract",
+  track: "Data Management",
+  module: "Kualitas & Kontrak",
+  title: "Data Contract & SLA: Perjanjian Tertulis Antar Tim Data",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita-gajian",
+      eyebrow: "Langkah 1 · Cerita pembuka",
+      title: "Kolom yang hilang di hari gajian",
+      prose: [
+        "Tim payroll menarik gaji_pokok dari tabel HR setiap tanggal 25. Suatu bulan, tim HR \"merapikan\" tabel: kolom diganti jadi basic_salary — tanpa pemberitahuan, tanpa changelog. Job payroll gagal total. 3.000 karyawan terima gaji telat 4 hari. HR menyalahkan data engineer (\"kok tidak adaptif?\"); engineer menyalahkan HR (\"kok ubah diam-diam?\").",
+        "Keduanya benar dan keduanya salah — karena tidak ada perjanjian tertulis tentang siapa boleh mengubah apa. Di dunia API, ini diselesaikan dengan versioning dan contract. Di dunia data, jawabannya sama: data contract. Lesson ini tentang membuat janji antar tim menjadi eksplisit, terukur, dan ditegakkan mesin — bukan sekadar \"tolong kabari ya\".",
+      ],
+      tasks: [],
+      reference: "Tanpa kontrak, setiap perubahan skema = kejutan; dengan kontrak, perubahan = prosedur.",
+    },
+    {
+      id: "isi-kontrak",
+      eyebrow: "Langkah 2 · Data contract",
+      title: "Akta nikah produsen dan konsumen",
+      prose: [
+        "Data contract = perjanjian eksplisit antara produsen data (tim sumber) dan konsumen (tim downstream) tentang: skema (kolom + tipe, berversi — misal transaksi.v1), semantik (arti tiap kolom — \"aktif\" = login 30 hari?), kualitas (SLO terukur: \"freshness ≤ 2 jam, 95% hari\" — bukan \"secepatnya\"), perubahan (bagaimana versioning dan pemberitahuan), dan pemilik (siapa dihubungi saat rusak).",
+        "Isi minimal kontrak yang berguna: skema berversi, SLO terukur, kebijakan breaking change, dan kontak pemilik yang jelas. Rule test (DM7) adalah penegakan kontrak oleh mesin.",
+      ],
+      tasks: [],
+      reference: "Tulis kontrak sebelum insiden — mulai dari 1 tabel kritis.",
+    },
+    {
+      id: "sli-slo-sla-lab",
+      eyebrow: "Langkah 3 · SLI/SLO/SLA · lab",
+      title: "Janji yang bisa diukur",
+      prose: [
+        "SLI (Indicator): ukuran mentah — \"freshness tadi malam: 47 menit\". Fakta, bukan janji. SLO (Objective): target internal — \"95% hari, freshness ≤ 120 menit\". Janji tim ke tim. SLA (Agreement): janji kontraktual ke pihak luar — biasanya dengan konsekuensi (penalti, kredit). Jangan tulis SLA ke semua orang; SLA = komitmen hukum.",
+        "Contoh hitungan: 28 dari 30 hari freshness ≤ 120 menit → skor 93,3%. Jika SLO = 95% → gagal, walau \"hampir\". SLO data yang umum: freshness (data ≤ X jam), completeness (≥ 99% record), validitas (≥ 99,5% lolos rule), availability (99,9% ≈ 43 menit down/bulan).",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `skor` = % hari dengan freshness ≤ 120 menit (1 desimal)" },
+        { id: "t2", text: "Hitung `gagal` = jumlah hari yang melanggar" },
+        { id: "t3", text: "Tentukan `keputusan`: \"freeze\" jika gagal/30 > 5%, selain itu \"rilis\"" },
+      ],
+      expected: "skor=93.3  gagal=2  keputusan=freeze",
+      hints: [
+        "skor = round(sum(1 for f in freshness if f <= 120) / len(freshness) * 100, 1)",
+        "gagal = sum(1 for f in freshness if f > 120)",
+        "Error budget SLO 95% = 5%. 2/30 = 6,7% > 5% → freeze.",
+      ],
+      code: {
+        starter: `# freshness harian (menit) selama 30 hari; 2 hari di antaranya lewat 120 menit\nfreshness = [47, 55, 62, 40, 71, 58, 150, 66, 52, 48,\n             60, 44, 59, 63, 51, 57, 49, 68, 54, 61,\n             46, 200, 53, 65, 50, 56, 43, 69, 64, 58]\nSLO = 95  # persen\n\n# TULIS KODEMU\nskor = \ngagal = \nkeputusan = \n\nprint(f"skor={skor}  gagal={gagal}  keputusan={keputusan}")`,
+        lockLines: 5,
+        solution: `# freshness harian (menit) selama 30 hari; 2 hari di antaranya lewat 120 menit\nfreshness = [47, 55, 62, 40, 71, 58, 150, 66, 52, 48,\n             60, 44, 59, 63, 51, 57, 49, 68, 54, 61,\n             46, 200, 53, 65, 50, 56, 43, 69, 64, 58]\nSLO = 95  # persen\n\n# TULIS KODEMU\nskor = round(sum(1 for f in freshness if f <= 120) / len(freshness) * 100, 1)\ngagal = sum(1 for f in freshness if f > 120)\nkeputusan = "freeze" if gagal / len(freshness) > (100 - SLO) / 100 else "rilis"\n\nprint(f"skor={skor}  gagal={gagal}  keputusan={keputusan}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "skor", value: 93.3, tol: 0.1, label: "`skor` seharusnya 93.3", msg: "28 dari 30 hari ≤ 120 menit = 93,3%." },
+          { kind: "equal", task: "t2", name: "gagal", value: 2, tol: 0, label: "`gagal` seharusnya 2", msg: "Hari ke-7 (150) dan ke-22 (200) melewati 120 menit." },
+          { kind: "equal", task: "t3", name: "keputusan", value: "freeze", label: "`keputusan` seharusnya freeze", msg: "2/30 = 6,7% > budget 5%. Budget habis = freeze." },
+          { kind: "stdout_matches", task: "t3", pattern: "skor=93\\.3\\s+gagal=2\\s+keputusan=freeze", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "SLO = angka (\"95% ≤ 2 jam\"), bukan kata sifat (\"secepatnya\").",
+    },
+    {
+      id: "error-budget",
+      eyebrow: "Langkah 4 · Error budget",
+      title: "Jatah gagal yang sehat",
+      prose: [
+        "Error budget = 100% − SLO = \"jatah gagal\" yang diizinkan. SLO 95% → budget 5% (1,5 hari/bulan boleh gagal). Cara pakai: budget masih banyak → boleh ambil risiko (rilis fitur, migrasi, eksperimen); gagal sesekali = diharapkan. Budget menipis/habis → freeze: stop perubahan, fokus stabilitas sampai budget pulih.",
+        "Error budget itu seperti uang jajan risiko: anak yang tidak pernah boleh gagal = tidak pernah belajar; yang boros = bangkrut. Budget membuat trade-off inovasi vs stabilitas menjadi angka, bukan debat kusir. Kenapa SLO 100% salah? Biaya mengejar 1% terakhir eksponensial — SLO sehat sedikit di bawah sempurna agar ada jatah gagal yang jujur.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: budget yang sehat berfluktuasi, bukan penuh terus",
+        body: "Error budget bukan toleransi untuk ceroboh — ia adalah harga inovasi yang dibayar di muka. Wawasan yang tidak obvious: budget yang selalu 100% tersisa bukan tanda tim hebat; itu tanda tim tidak mengambil risiko apa pun (atau tidak mengukur dengan jujur). Sebaliknya budget yang selalu habis berarti SLO terlalu ketat atau sistem terlalu rapuh. Heuristiknya: budget yang sehat terpakai 40–70% dalam periode normal — cukup untuk eksperimen dan rilis, cukup sisa untuk darurat. Tiga bulan berturut-turut 0% terpakai? Longgarkan SLO atau tantang tim mengambil risiko lebih besar — kehati-hatian yang berlebihan juga biaya. Tiga bulan berturut-turut selalu habis? Freeze dan perbaiki fondasi, jangan salahkan tim. Budget adalah instrumen tuning, bukan rapor moral.",
+      },
+      reference: "Budget habis = freeze. Bukan debat, fakta.",
+    },
+    {
+      id: "versioning",
+      eyebrow: "Langkah 5 · Versioning",
+      title: "Etika mengubah",
+      prose: [
+        "Klasifikasi perubahan skema. Non-breaking (aman): tambah kolom nullable baru; tambah nilai enum baru — konsumen lama tidak rusak. Breaking (berbahaya): hapus kolom; rename kolom; ubah tipe (int → string); ubah makna (\"aktif\" definisinya diganti).",
+        "Etika mengubah: (1) breaking change → versi baru (transaksi.v2), v1 tetap jalan selama masa transisi (misal 90 hari); (2) umumkan dulu — changelog + notifikasi ke semua konsumen terdaftar (butuh lineage DM10 untuk tahu siapa saja); (3) pintu otomatis menolak batch yang melanggar kontrak versi berjalan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "\"Rename kolom itu perubahan kecil.\" Yang benar: rename = hapus + tambah bagi mesin — semua query SELECT gaji_pokok langsung mati. Tidak ada \"rename kecil\"; kalau ragu, versikan.",
+        type: "pitfall",
+      },
+      reference: "Rename = breaking. Kalau ragu, versikan.",
+    },
+    {
+      id: "minicase-dashboard",
+      eyebrow: "Langkah 6 · Mini-case",
+      title: "\"Cuma nambah kolom\" yang meruntuhkan 4 dashboard",
+      prose: [
+        "Tim sumber menambah kolom diskon ke tabel transaksi — non-breaking, seharusnya aman. Tapi 4 dashboard error. Investigasi: dashboard memakai SELECT *; kolom baru menggeser posisi ordinal yang dipakai kode lama (row[7] kini menunjuk kolom berbeda). Angka diskon masuk ke kolom pajak.",
+        "Siapa yang salah? Keduanya: sumber tidak mengumumkan (langgar etika kontrak); dashboard memakai SELECT * + akses ordinal (praktik rapuh). Pencegahnya: (1) kontrak + changelog — umumkan dulu; (2) larang SELECT * di kode produksi — sebut kolom eksplisit by name.",
+        "Pelajarannya: \"non-breaking\" hanya berlaku untuk konsumen yang sehat (akses by name). Kontrak melindungi yang disiplin; ia tidak menyelamatkan kode rapuh. Standarisasi konsumen sama pentingnya.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Angka diskon yang masuk ke kolom pajak bukan sekadar dashboard error — jika angka itu mengalir ke laporan keuangan atau perhitungan pajak, perusahaan melaporkan angka salah ke publik dan regulator. Larangan SELECT * di produksi adalah kontrol murah untuk risiko mahal.",
+      },
+      reference: "Kontrak + lineage (tahu siapa konsumennya) + pintu otomatis = penegakan yang efektif.",
+    },
+    {
+      id: "peta-keputusan",
+      eyebrow: "Langkah 7 · Peta keputusan",
+      title: "Kontrak seperti apa untuk siapa",
+      prose: [
+        "Tabel dipakai 10+ tim atau laporan direksi → kontrak penuh + SLO + pintu otomatis. Di sinilah \"cuma rename kolom\" menelan korban terbanyak. Eksperimen internal 1 tim → kontrak ringan (skema + kontak saja); kontrak penuh = birokrasi yang tidak sebanding.",
+        "Janji ke pihak eksternal atau regulator → SLA formal dengan konsekuensi. Jangan obral SLA; tiap SLA menaikkan biaya operasionalmu. Error budget habis → freeze perubahan, fokus stabilitas. Breaking change tak terhindarkan → versi baru + masa transisi 90 hari + umumkan via lineage.",
+      ],
+      tasks: [],
+      reference: "Sesuaikan berat kontrak dengan blast radius perubahannya.",
+    },
+    {
+      id: "kontrak-praktik",
+      eyebrow: "Langkah 8 · Praktik",
+      title: "Kontrak yang ditegakkan mesin, bukan diingat manusia",
+      prose: [
+        "Lihat kontrak yang hidup di fintech \"PinjamYuk\". Tabel disbursement dipakai delapan tim: risiko (skor kredit), finance (rekonsiliasi), marketing (kampanye), CS (layanan pelanggan), dan empat lainnya. Kontraknya satu halaman tetapi tajam: skema disbursement.v2 (12 kolom, tipe eksplisit), SLO freshness ≤ 60 menit pada 95% hari, completeness ≥ 99,5%, dan kebijakan breaking change (versi baru + transisi 90 hari + notifikasi via lineage). Konsekuensinya nyata: jika error budget habis, rilis tim sumber di-freeze dan eskalasi ke VP — bukan \"maaf ya\", melainkan rem yang benar-benar mengunci. Delapan tim tidur nyenyak bukan karena percaya pada niat baik, melainkan karena percaya pada mekanisme. Inilah perbedaan kontrak dan harapan: kontrak punya gigi.",
+        "Gigi itu bernama enforcement otomatis — pintu yang menolak batch pelanggar tanpa perlu manusia. Arsitekturnya: setiap batch yang masuk pertama melewati job validasi kontrak — cek skema (kolom dan tipe sesuai versi berjalan?), cek SLO kualitas (null di bawah ambang? duplikat nol?), cek freshness. Batch yang melanggar ditolak di pintu: tidak masuk ke gold, alert terkirim ke pemilik sumber, dan semua konsumen terdaftar diberi tahu via lineage (\"disbursement hari ini tertunda 2 jam karena validasi gagal — pemilik: tim ingestion\"). Schema registry melengkapinya: produsen mendaftarkan skema v1/v2; CI menolak pull request yang me-rename kolom tanpa menaikkan versi. Aturan: \"tidak ada data yang menyentuh gold tanpa lewat pintu.\" Pintu yang kadang dibuka \"kasihan\" bukan pintu — ia dekorasi. Setiap pengecualian harus tercatat sebagai insiden, bukan kebiasaan.",
+        "Mode kegagalan pertama adalah \"kontrak surat cinta\": dokumen kontrak yang bagus, ditandatangani, dipresentasikan ke direksi — dan tidak ada satu pun enforcement yang berjalan. Enam bulan kemudian insiden kolom gaji terulang (cerita langkah 1) karena tidak ada pintu yang menolak batch pelanggar. Cara mendeteksinya brutal dan efektif: \"tunjukkan satu batch yang ditolak pintu otomatis bulan ini.\" Kalau jawabannya tidak ada — entah karena tidak ada pelanggaran (tidak mungkin selama enam bulan) atau karena pintunya tidak ada — kontrakmu surat cinta. Uji yang lebih agresif: chaos test kontrak — kirim batch yang sengaja melanggar (kolom di-rename, freshness dibuat telat) ke environment staging dan pastikan ditolak. Kontrak yang tidak pernah diuji sama dengan kontrak yang tidak ada. Sama seperti test kualitas (DM7, DM19): yang tidak pernah gagal belum terbukti bekerja.",
+        "Mode kegagalan di ujung berlawanan adalah over-contracting: kontrak 40 halaman dengan 25 SLO untuk tabel eksperimen yang dipakai satu tim. Hasilnya bukan kepatuhan — melainkan penghindaran: tim membuat shadow pipeline di luar governance karena \"ribet\". Aturan proporsionalitasnya dari peta keputusan langkah 7: berat kontrak sebanding dengan blast radius. Satu tim internal, eksperimen: kontrak ringan (skema + kontak pemilik, setengah halaman). Tiga-plus tim atau laporan direksi: kontrak penuh plus pintu otomatis. Pihak eksternal atau regulator: SLA formal dengan konsekuensi. Kontrak yang terlalu berat untuk risikonya akan dilanggar secara diam-diam — dan kontrak yang dilanggar diam-diam lebih buruk daripada tidak ada kontrak, karena menciptakan ilusi keamanan. Desain kontrak seperti desain pajak: tarif yang wajar dipatuhi, tarif yang menindas dihindari.",
+        "Bandingkan dua cara mengumumkan perubahan. Tim A mengumumkan via Slack: \"mohon perhatian, besok kolom diskon bertambah.\" Tiga dari delapan tim tidak membaca channel itu; dua dashboard mati keesokan harinya; masing-masing menyalahkan yang lain. Tim B mengumumkan via mekanisme: perubahan didaftarkan di schema registry, notifikasi otomatis terkirim ke semua konsumen terdaftar (diketahui dari lineage — bukan dari ingatan), masa transisi 90 hari berjalan dengan kedua versi tersedia, dan di hari-H hanya tim yang sudah migrasi yang terpengaruh (nol, karena semua sudah migrasi). Pelajarannya: manusia lupa membaca pengumuman; mesin tidak. \"Tolong kabari ya\" bukan strategi komunikasi — ia adalah doa. Setiap kontrak wajib mendefinisikan kanal notifikasi yang otomatis dan terverifikasi, bukan yang berharap dibaca.",
+        "Negosiasi SLO adalah diplomasi dengan angka. Produsen ingin SLO longgar (murah dioperasikan, jarang melanggar); konsumen ingin SLO ketat (aman untuk keputusan mereka). Tanpa data, negosiasi ini menjadi adu opini yang dimenangkan pihak yang suaranya paling keras. Dengan data, ia menjadi aritmetika: hitung biaya satu jam keterlambatan — delapan tim idle, keputusan kredit tertunda (berapa pencairan per jam × margin?), risiko denda SLA ke merchant. Contoh: keterlambatan dua jam berarti 400 pencairan tertunda × Rp8 juta = Rp3,2 miliar dana menganggur plus CS dibanjiri komplain. Tiba-tiba SLO 60 menit terlihat murah dibanding biayanya. Aturan: setiap angka SLO harus punya \"nota perhitungan\" — dari mana angka ini berasal, biaya apa yang ia lindungi. SLO tanpa nota adalah tebakan; tebakan tidak bisa dipertahankan saat budget habis dan seseorang menuntut kelonggaran.",
+        "Keputusan cepat untuk praktisi kontrak — ditempel di dinding. Satu: konsumen tiga tim atau lebih → kontrak penuh plus pintu otomatis, tanpa diskusi. Dua: breaking change tanpa versi baru → ditolak di CI otomatis, tanpa diskusi dan tanpa pengecualian \"kali ini saja\". Tiga: SLO dilanggar dua periode berturut-turut → review ulang dengan pertanyaan tajam: yang salah SLO-nya (terlalu ketat) atau sistemnya (terlalu rapuh)? Jangan biarkan pelanggaran berulang tanpa jawaban. Empat: ada konsumen yang tidak terdaftar di lineage → daftarkan dulu sebelum perubahan apa pun; konsumen gelap adalah korban yang tidak bisa diperingatkan. Lima: kontrak direview tiap enam bulan — SLO yang tidak pernah dilanggar dalam setahun mungkin terlalu longgar; kontrak adalah dokumen hidup, bukan prasasti.",
+        "Pendalaman: consumer-driven contracts, pola yang dipinjam dari dunia API. Alih-alih produsen menulis kontrak sendirian (\"inilah yang saya berikan\"), setiap konsumen menulis ekspektasinya (\"inilah yang saya butuhkan: kolom X dengan freshness Y\"). Produsen menjalankan semua ekspektasi konsumen sebagai test suite sebelum setiap rilis — jika satu ekspektasi gagal, rilis ditahan. Keuntungannya: ekspektasi yang tidak tertulis tidak bisa dilanggar diam-diam; setiap kebutuhan konsumen menjadi test yang dieksekusi mesin. Contoh: tim risiko menulis ekspektasi \"kolom risk_score tidak pernah null dan rentang 300–850\"; suatu hari produsen mengubah pipeline dan risk_score menjadi null untuk 5% baris — test ekspektasi gagal di CI, rilis diblokir, insiden dicegah sebelum mencapai produksi. Ini membalik beban pembuktian: bukan konsumen yang harus waspada, melainkan produsen yang harus membuktikan tidak merusak siapa pun.",
+        "Masa transisi adalah seni yang membedakan profesional dari amatir. Breaking change yang benar: v2 diluncurkan sementara v1 tetap berjalan penuh selama 90 hari (dual-run); setiap minggu, dashboard migrasi menunjukkan \"% konsumen sudah pindah ke v2\"; di hari ke-60, konsumen yang belum pindah mendapat peringatan personal (bukan broadcast); di hari ke-90, v1 dimatikan sesuai jadwal yang sudah diumumkan sejak hari pertama. Sunset checklist-nya eksplisit: semua konsumen terkonfirmasi migrasi (bukti, bukan asumsi), tidak ada query ke v1 dalam 14 hari terakhir (cek log, bukan tanya orang), dan rollback plan jika ternyata ada yang terlewat. Yang tidak boleh terjadi: mematikan v1 karena \"kayaknya sudah semua pindah\" — keyakinan bukan verifikasi. Dan satu aturan kemanusiaan: jangan jadwalkan sunset di akhir kuartal atau musim liburan; beri konsumen waktu yang realistis, bukan yang teoritis.",
+        "Kontrak untuk event streaming (bukan hanya tabel batch) punya nuansa sendiri. Event adalah janji yang lebih rapuh: produsen mengirim ribuan event per detik, dan perubahan skema event merusak consumer secara real-time (pelajaran DM6 tentang schema evolution). Kontrak event mencakup: skema berversi dengan compatibility check di CI (hanya backward-compatible yang lolos — tambah field opsional boleh, hapus field wajib tidak), contoh event valid sebagai dokumentasi hidup, dan SLO kedatangan (event dipublish maksimal X detik setelah kejadian bisnis). Satu tambahan khusus streaming: kontrak harus mendefinisikan perilaku late event dan duplikat — \"consumer harus idempoten; produsen boleh at-least-once\" — sehingga ekspektasi pengiriman eksplisit, bukan asumsi. Event tanpa kontrak adalah surat tanpa alamat: mungkin sampai, mungkin tidak, dan tidak ada yang bertanggung jawab.",
+        "Ukur kepatuhan kontrak seperti mengukur kesehatan — dengan metrik yang dilaporkan rutin. Empat metrik yang bekerja. Satu: % batch yang lolos pintu otomatis di percobaan pertama — tren turun berarti kualitas sumber memburuk atau kontrak terlalu ketat. Dua: MTTR (mean time to resolve) pelanggaran kontrak — dari batch ditolak sampai batch pengganti yang valid masuk; target di bawah 4 jam. Tiga: jumlah breaking change yang lolos tanpa versi baru (harus nol — setiap kejadian adalah insiden). Empat: % konsumen terdaftar di lineage vs estimasi aktual (kesenjangan = konsumen gelap yang berisiko). Laporkan keempatnya tiap bulan dalam satu halaman ke pemilik data dan konsumen utama. Kontrak yang metriksnya tidak pernah dibaca akan layu seperti tanaman yang tidak disiram — enforcement butuh perhatian yang berkelanjutan, bukan sekali pasang.",
+        "Kontrak antar perusahaan (dengan vendor data atau partner) naik satu level: ada uang dan hukum yang terlibat. Strukturnya: SLA terukur (freshness, completeness, akurasi — dengan metodologi pengukuran yang disepakati, bukan \"menurut perasaan\"), kredit finansial otomatis jika SLA dilanggar (misalnya 10% potongan invoice per 1% pelanggaran), hak audit (kamu boleh memverifikasi metodologi pengukuran mereka), dan klausul terminasi jika dilanggar tiga kuartal berturut-turut. Contoh: provider data skor kredit menjanjikan freshness 24 jam; monitor independenmu mencatat rata-rata 36 jam selama dua bulan — tanpa klausul penalti, komplainmu hanya masukan; dengan klausul, ia potongan invoice otomatis plus tekanan perbaikan. Dan selalu validasi kiriman vendor di pintumu sendiri: skema vendor berubah tanpa pemberitahuan adalah kejadian rutin, bukan luar biasa. Kepercayaan itu baik; verifikasi itu kontrak.",
+        "Untuk memulai tanpa birokrasi, pakai template kontrak satu halaman. Isinya tujuh baris: (1) nama dataset dan versi skema; (2) pemilik (nama orang, bukan tim) plus kontak darurat; (3) daftar konsumen terdaftar; (4) SLO terukur (freshness, completeness, validitas — dengan angka); (5) kebijakan breaking change (versi baru + masa transisi berapa hari + kanal notifikasi); (6) apa yang terjadi saat dilanggar (pintu menolak? alert ke siapa? freeze?); (7) tanggal review berikutnya. Satu halaman, ditulis dalam satu jam, ditandatangani pemilik dan perwakilan konsumen. Tujuh baris ini mencegah 80% insiden kontrak — sisanya adalah penyempurnaan. Jangan menunggu template sempurna dari konsultan; kontrak satu halaman yang ditegakkan mengalahkan kontrak 40 halaman yang menjadi surat cinta. Mulai dari tabel yang paling menyakitkan saat rusak — rasa sakit adalah motivator dokumentasi terbaik.",
+        "Tutup dengan pergeseran mindset: perlakukan kontrak data sebagai produk, bukan dokumen. Produk punya pengguna (konsumen), punya pemilik yang bertanggung jawab atas kepuasan pengguna (data owner), punya metrik (kepatuhan, MTTR), punya roadmap (SLO diperketat bertahap seiring kematangan), dan punya changelog. Dokumen ditulis sekali lalu lapuk; produk dirawat terus dan membaik. Ketika tim sumber melihat kontraknya sebagai produk yang dibanggakan — \"kontrak disbursement.v2 kami 99,7% patuh tahun ini\" — kamu telah menang. Dan ingat hierarki kebutuhannya: kontrak yang sederhana dan ditegakkan (level 1) mengalahkan kontrak canggih yang diabaikan (level 0). Mulai dari satu tabel, satu halaman, satu pintu otomatis. Sisanya adalah konsistensi — kata yang membosankan tetapi menentukan apakah datamu bisa dipercaya.",
+        "Kontrak bersinggungan dengan regulasi privasi (UU PDP) di titik yang sering terlupakan: hak hapus. Ketika nasabah meminta datanya dihapus, kontrak harus mendefinisikan propagasi penghapusan — dalam berapa hari permintaan itu mengalir dari tabel sumber ke semua downstream (gold, mart, backup, feature store)? Tanpa klausul ini, tim legal mengira \"sudah dihapus\" sementara salinannya hidup di tujuh tabel turunan — pelanggaran yang nyata saat diaudit. Praktiknya: kontrak mencantumkan retensi maksimum dan mekanisme tombstone (penanda hapus yang dipropagasi seperti data biasa, bukan delete diam-diam yang tidak tereplikasi). Uji kepatuhannya konkret: pilih satu nasabah sampel, ajukan permintaan hapus simulasi, verifikasi tidak ada salinannya tersisa di seluruh lineage dalam SLA yang dijanjikan. Privasi bukan fitur tambahan kontrak — ia adalah klausul wajib untuk data personal.",
+        "Kasus khusus yang layak disebut: kontrak untuk fitur ML. Feature store mengonsumsi tabel kontrak dan menghasilkan fitur yang dipakai model — rantai yang rapuh jika definisi fitur berubah diam-diam. Kontrak fitur mencakup: definisi komputasi fitur (kode atau query yang berversi — bukan \"rata-rata\" yang ambigu, melainkan \"rata-rata 90 hari transaksi berhasil, tidak termasuk refund\"), ekspektasi distribusi (mean dan standar deviasi historis untuk deteksi drift), dan kebijakan perubahan (perubahan definisi fitur = versi fitur baru + retraining model dievaluasi, bukan plug-and-play). Contoh kegagalan nyata: tim mengubah definisi \"transaksi\" menjadi termasuk refund tanpa mengumumkan — distribusi fitur bergeser, akurasi model anjlok 8% dalam sebulan, tidak ada yang menghubungkan keduanya selama berminggu-minggu. Kontrak fitur yang baik membuat hubungan sebab-akibat ini terlihat dalam hitungan jam, bukan minggu.",
+        "Terakhir, waspadai kontrak yang disalahgunakan sebagai senjata politik. Polanya: tim yang tidak ingin diganggu menulis SLO yang mustahil longgar (\"freshness ≤ 72 jam\") agar tidak pernah dilanggar, atau sebaliknya menuntut SLO mustahil ketat dari tim lain sebagai alat tekanan. Keduanya merusak kepercayaan pada sistem kontrak. Pertahanannya adalah transparansi dan simetri: semua kontrak dan metriks kepatuhannya terlihat semua pihak, SLO dinegosiasi dengan nota perhitungan (bukan ditetapkan sepihak), dan council menengahi sengketa dengan data. Kontrak yang sehat melindungi kedua belah pihak; kontrak yang menjadi alat kekuasaan akan ditinggalkan — dan organisasi kembali ke era \"tolong kabari ya\". Jaga integritas sistemnya seperti kamu menjaga integritas datanya.",
+        "Satu metrik pamungkas untuk menilai kedewasaan kontrak organisasimu: time-to-detect pelanggaran. Dari batch melanggar kontrak masuk sampai pemilik sumber mengetahuinya — berapa menit? Organisasi level satu: berhari-hari (ketahuan dari komplain konsumen). Level dua: berjam-jam (alert manual dari tim data). Level tiga: bermenit-menit (pintu otomatis menolak + alert langsung). Targetkan level tiga untuk tabel kritis, dan ukur setiap kuartal. Metrik ini merangkum segalanya: kecepatan pintu, kelengkapan lineage untuk notifikasi, dan kesiapan pemilik merespons. Kontrak yang pelanggarannya terdeteksi dalam lima menit adalah kontrak yang hidup; yang terdeteksi dari komplain adalah kontrak yang mati. Mulai ukur minggu ini — angkanya akan mengejutkanmu, dan keterkejutan adalah awal perbaikan.",
+      ],
+      tasks: [],
+      reference: "Kontrak = produk yang dirawat, bukan dokumen yang ditulis.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: ["Enam pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
+      tasks: [],
+      summary: [
+        "Data contract: skema + semantik + SLO + kebijakan perubahan + pemilik — ditulis sebelum insiden.",
+        "SLI/SLO/SLA: fakta → janji internal → janji hukum. SLO = angka, bukan kata sifat.",
+        "Error budget: 100% − SLO; habis = freeze. Rem objektif, bukan debat.",
+        "Breaking vs non-breaking: hapus/rename/ubah tipe = breaking → versi baru + transisi + umumkan.",
+        "Jangan: ubah skema diam-diam; obral SLA; pakai SELECT * di produksi.",
+      ],
+      next: { label: "DM9 — Data Governance", href: "/learn/dm9-governance" },
+      quiz: [
+        {
+          q: "Bedanya SLI, SLO, dan SLA?",
+          options: [
+            { text: "Sama saja, istilah marketing", why: "Ketiganya punya peran berbeda yang konkret." },
+            { text: "SLI = ukuran mentah (fakta); SLO = target internal (janji tim); SLA = janji kontraktual ke luar", why: "Tiga lapis: fakta, janji internal, janji hukum.", correct: true },
+            { text: "SLA paling ringan", why: "SLA justru paling berat: janji hukum dengan konsekuensi." },
+            { text: "SLO tidak bisa dihitung", why: "SLO dihitung dari SLI — contohnya di lab langkah 3." },
+          ],
+        },
+        {
+          q: "SLO 95% → error budget 5%. Budget habis di minggu ke-3. Keputusan tepat?",
+          options: [
+            { text: "Tetap rilis, kejar target fitur", why: "Menambah fitur di atas fondasi goyang mempercepat keruntuhan." },
+            { text: "Freeze perubahan non-kritis; fokus stabilitas sampai budget pulih", why: "Budget adalah rem objektif — habis = fakta, bukan opini.", correct: true },
+            { text: "Naikkan SLO jadi 99% agar terlihat bagus", why: "Menaikkan target saat gagal = memalsukan laporan." },
+            { text: "Sembunyikan dari manajemen", why: "Menyembunyikan merusak kepercayaan dan menunda perbaikan." },
+          ],
+        },
+        {
+          q: "Tim sumber me-rename kolom gaji_pokok → basic_salary tanpa pemberitahuan. Ini…",
+          options: [
+            { text: "Perubahan kecil yang wajar", why: "Tidak ada rename kecil bagi mesin." },
+            { text: "Breaking change — rename = hapus+tambah bagi mesin; wajib versi baru + pemberitahuan", why: "Cerita pembuka menunjukkan harganya: gaji 3.000 orang telat 4 hari.", correct: true },
+            { text: "Bukan masalah jika datanya sama", why: "Query konsumen mati walau datanya sama — nama kolomnya berubah." },
+            { text: "Tanggung jawab konsumen untuk menebak", why: "Menebak bukan strategi; kontrak yang memberi tahu." },
+          ],
+        },
+        {
+          q: "Menambah kolom nullable baru ke tabel terkontrak termasuk…",
+          options: [
+            { text: "Breaking change", why: "Konsumen lama (akses by name) tidak rusak oleh kolom baru." },
+            { text: "Non-breaking — konsumen lama tidak rusak", why: "Tapi tetap umumkan via changelog.", correct: true },
+            { text: "Dilarang keras", why: "Justru ini cara yang benar menambah informasi." },
+            { text: "Harus ganti versi mayor", why: "Versi baru hanya untuk breaking change." },
+          ],
+        },
+        {
+          q: "Kenapa SLO 100% adalah target yang salah?",
+          options: [
+            { text: "Karena tidak keren", why: "Bukan soal gaya." },
+            { text: "Karena biaya mengejar 1% terakhir eksponensial; SLO sehat sedikit di bawah sempurna agar ada jatah gagal", why: "100% = tidak jujur atau boros.", correct: true },
+            { text: "Karena tidak bisa dihitung", why: "Bisa dihitung; masalahnya biaya dan kejujurannya." },
+            { text: "Karena pelanggan tidak peduli", why: "Pelanggan peduli, tapi mereka juga tidak butuh kesempurnaan mutlak." },
+          ],
+        },
+        {
+          q: "Bagaimana membuktikan pintu kontrak otomatis benar-benar berfungsi?",
+          options: [
+            { text: "Lihat dokumentasinya lengkap", why: "Dokumen lengkap tidak membuktikan enforcement berjalan." },
+            { text: "Chaos test: kirim batch yang sengaja melanggar ke staging dan pastikan ditolak", why: "Sama seperti test kualitas — yang tidak pernah gagal belum terbukti bekerja.", correct: true },
+            { text: "Tanya tim sumber apakah patuh", why: "Self-assessment bukan bukti enforcement." },
+            { text: "Tidak perlu dibuktikan", why: "Kontrak yang tak teruji = surat cinta." },
+          ],
+        },
+      ],
+    },
+  ],
+};

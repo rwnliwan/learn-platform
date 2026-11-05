@@ -1,0 +1,909 @@
+/* ==========================================================================
+ * poles.css — gaya komponen Poles Bedah Buku (Gelombang 1)
+ * Dipakai oleh: rich.tsx, RumusSection.tsx, PetaGraf.tsx,
+ *               VisualBab1.tsx, VisualBab2.tsx, VisualBab3.tsx,
+ *               DeepDiveSection.tsx
+ * Tema: dark refined mengikuti buku.css. Semua kelas berawalan bk-/bkp-
+ * (bkp- = milik poles.css saja, anti tabrakan dengan buku.css).
+ * ========================================================================== */
+
+/* ---------- kartu formula generik (dipakai rich.tsx & section rumus) --- */
+.bk-fcard {
+  background: #141a23;
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  overflow-x: auto;
+}
+.bk-fcard .tex-block {
+  font-size: 1.12em;
+  text-align: center;
+}
+
+.bk-inline-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: #1d2530;
+  border: 1px solid #2a3442;
+  border-radius: 6px;
+  padding: 1px 6px;
+  color: #ffd166;
+  white-space: nowrap;
+}
+
+/* ---------- tombol poles (self-contained, tidak memakai .bk-btn) ------- */
+.bkp-btn {
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #3a4556;
+  border-radius: 8px;
+  background: #1d2530;
+  color: #e8ebef;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.bkp-btn:hover:not(:disabled) {
+  background: #273041;
+  border-color: #4d5b72;
+}
+.bkp-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.bkp-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.bkp-btn-primary {
+  background: #2b4a77;
+  border-color: #3f6aa8;
+  color: #ffffff;
+}
+.bkp-btn-primary:hover:not(:disabled) {
+  background: #35609a;
+  border-color: #4f7cc0;
+}
+
+/* ============================ RumusSection ============================ */
+.bk-rumus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.bk-rumus-judul {
+  font-size: 17px;
+  margin: 0 0 10px;
+  color: #e8ebef;
+}
+.bk-rumus-utama {
+  border-color: #3f6aa8;
+  background: #101722;
+}
+
+/* legenda variabel */
+.bk-varlist {
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bk-varlist-row {
+  display: grid;
+  grid-template-columns: minmax(72px, auto) 1fr;
+  gap: 12px;
+  align-items: baseline;
+  background: #131a24;
+  border: 1px solid #232c3a;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.bk-varlist-simbol {
+  text-align: center;
+  color: #7aa2f7;
+  font-size: 1.05em;
+  margin: 0;
+}
+.bk-varlist-arti {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #c6cfdb;
+}
+
+/* stepper pengerjaan */
+.bk-stepper {
+  margin: 14px 0;
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  background: #10161e;
+  padding: 14px;
+}
+.bk-stepper-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.bk-stepper-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8b98ab;
+}
+.bk-stepper-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffd166;
+  font-variant-numeric: tabular-nums;
+}
+.bk-stepper-body {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #dfe5ee;
+  min-height: 64px;
+  animation: bk-fadein 0.25s ease;
+}
+@keyframes bk-fadein {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.bk-stepper-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin: 12px 0;
+}
+.bk-stepper-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #3a4556;
+  background: #1d2530;
+  padding: 0;
+  cursor: pointer;
+}
+.bk-stepper-dot.is-done {
+  background: #3f6aa8;
+  border-color: #3f6aa8;
+}
+.bk-stepper-dot.is-active {
+  background: #ffd166;
+  border-color: #ffd166;
+  transform: scale(1.25);
+}
+.bk-stepper-nav {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+/* callout hasil & jebakan */
+.bk-hasil {
+  border-color: #2f7d4f;
+  background: #0f1d16;
+}
+.bk-hasil-tag,
+.bk-jebakan-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+.bk-hasil-tag {
+  background: #1d4d2e;
+  color: #7ee2a0;
+}
+.bk-jebakan {
+  border-color: #8a5a1d;
+  background: #1d160c;
+}
+.bk-jebakan-tag {
+  background: #5a3d14;
+  color: #ffd166;
+}
+
+/* ============================== PetaGraf ============================== */
+.bk-petagraf {
+  margin: 12px 0;
+}
+.bk-peta {
+  height: 520px;
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  background: #0e141c;
+  overflow: hidden;
+}
+/* Mobile: kontainer lebih tinggi agar graf tidak terdesak; zoom minimal
+   dijaga komponen (label tetap terbaca, pan/zoom bebas). */
+@media (max-width: 700px) {
+  .bk-peta {
+    height: 460px;
+  }
+}
+.bk-peta-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b98ab;
+  font-size: 14px;
+}
+
+/* node kartu gelap berbingkai */
+.bk-peta .react-flow__node {
+  background: #182130;
+  border: 1px solid #3a4556;
+  border-radius: 10px;
+  color: #e8ebef;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  max-width: 230px;
+  text-align: center;
+}
+.bk-peta .react-flow__node:hover {
+  border-color: #5b7bb0;
+}
+.bk-peta .react-flow__node.selected,
+.bk-peta .react-flow__node:focus {
+  border-color: #ffd166;
+  box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.35);
+  outline: none;
+}
+.bk-peta .react-flow__edge-label {
+  font-size: 13px;
+}
+/* Chip label untuk edge `via` (RoutedEdge, HTML via EdgeLabelRenderer):
+   latar solid + bingkai, sejajar gaya label SVG bawaan. */
+.bk-peta .bk-edge-label {
+  pointer-events: none;
+}
+.bk-peta .bk-edge-label-chip {
+  display: inline-block;
+  background: #0e141c;
+  border: 1px solid #3a4556;
+  border-radius: 8px;
+  color: #c8d2df;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 8px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+.bk-peta .react-flow__controls {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.bk-peta .react-flow__controls-button {
+  background: #182130;
+  border-bottom: 1px solid #2a3442;
+  fill: #aeb9c7;
+}
+.bk-peta .react-flow__controls-button:hover {
+  background: #232e40;
+}
+.bk-peta .react-flow__attribution {
+  background: rgba(14, 20, 28, 0.7);
+  color: #5b6b82;
+  font-size: 10px;
+}
+
+/* panel detail di bawah graf */
+.bk-peta-detail {
+  margin-top: 12px;
+}
+.bk-peta-hint {
+  font-size: 13.5px;
+  color: #8b98ab;
+  text-align: center;
+  margin: 8px 0;
+}
+.bk-peta-card {
+  background: #131a24;
+  border: 1px solid #2a3442;
+  border-left: 3px solid #ffd166;
+  border-radius: 10px;
+  padding: 14px 16px;
+  animation: bk-fadein 0.25s ease;
+}
+.bk-peta-nama {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #ffd166;
+}
+.bk-peta-definisi {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #dfe5ee;
+}
+.bk-peta-kosong {
+  color: #8b98ab;
+  font-style: italic;
+}
+.bk-peta-meta {
+  margin: 6px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #c6cfdb;
+}
+.bk-peta-edges {
+  margin-top: 10px;
+  border-top: 1px dashed #2a3442;
+  padding-top: 10px;
+}
+.bk-peta-edges-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8b98ab;
+}
+.bk-peta-edges ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: #c6cfdb;
+}
+.bk-peta-edges li {
+  margin-bottom: 4px;
+}
+.bk-peta-edge-label {
+  color: #8b98ab;
+}
+
+/* ============================ visual umum ============================= */
+.bk-visual {
+  margin: 16px 0;
+}
+.bk-ilustrasi {
+  font-size: 12px;
+  color: #8b98ab;
+  line-height: 1.6;
+  margin-top: 10px;
+  border-left: 2px solid #2a3442;
+  padding-left: 10px;
+}
+
+/* ---------- VisualBab1: rantai alur ---------- */
+.bk-alur {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+}
+.bk-alur-item {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.bk-alur-box {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: #141b26;
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  padding: 14px 8px;
+  color: #e8ebef;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+.bk-alur-box:hover {
+  border-color: #4d5b72;
+  background: #182130;
+}
+.bk-alur-box.is-active {
+  border-color: #ffd166;
+  background: #1c1a12;
+  box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.25);
+}
+.bk-alur-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2b4a77;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bk-alur-box.is-active .bk-alur-num {
+  background: #8a6a1d;
+}
+.bk-alur-judul {
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+}
+.bk-alur-panah {
+  color: #5b6b82;
+  font-size: 20px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+.bk-alur-ket {
+  margin-top: 12px;
+  min-height: 40px;
+}
+.bk-alur-ket-card p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #dfe5ee;
+}
+.bk-alur-ket-judul {
+  color: #ffd166;
+  font-size: 14px;
+}
+
+/* ---------- VisualBab6: alur vertikal 6 langkah ---------- */
+.bk-alur6 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.bk-alur6-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.bk-alur6 .bk-alur-box {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  padding: 12px 14px;
+  gap: 12px;
+  color: #e8ebef;
+}
+.bk-alur6 .bk-alur-judul {
+  text-align: left;
+  font-size: 13.5px;
+}
+.bk-alur6-panah {
+  align-self: center;
+  color: #5b6b82;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 0;
+}
+
+/* ---------- VisualBab2: chart ---------- */
+.bk-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.bk-chart {
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  background: #0e141c;
+  overflow: hidden;
+}
+.bk-chart-loading {
+  text-align: center;
+  padding: 120px 16px;
+  color: #8b98ab;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ---------- VisualBab3: playground Cantelli ---------- */
+.bk-cantelli-formula .tex-block {
+  font-size: 1.2em;
+}
+.bk-cantelli-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #c6cfdb;
+  margin: 10px 0 0;
+  text-align: center;
+}
+.bk-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 16px 0;
+  background: #10161e;
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  padding: 16px;
+}
+.bk-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bk-slider-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+  color: #dfe5ee;
+}
+.bk-slider-val {
+  margin-left: auto;
+  font-weight: 800;
+  color: #ffd166;
+  font-variant-numeric: tabular-nums;
+  background: #1d2530;
+  border: 1px solid #2a3442;
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 13px;
+}
+.bk-slider-row input[type="range"] {
+  width: 100%;
+  accent-color: #ffd166;
+  height: 28px;
+  cursor: pointer;
+}
+.bk-cantelli-hasil {
+  text-align: center;
+  margin: 18px 0;
+}
+.bk-cantelli-angka {
+  font-size: 52px;
+  font-weight: 800;
+  color: #ffd166;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  text-shadow: 0 2px 18px rgba(255, 209, 102, 0.25);
+}
+.bk-cantelli-sub {
+  font-size: 13px;
+  color: #8b98ab;
+  margin-top: 6px;
+}
+.bk-cantelli-substitusi {
+  border-color: #3a4556;
+}
+
+/* ==================== Deep Dive: kartu akordeon ======================= */
+/* dipakai DeepDiveSection.tsx. Nada warna mengikuti token poles.css:
+   definisi biru, kenapa kuning, contoh hijau, jebakan oranye. */
+.bk-dd-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+.bk-dd {
+  border: 1px solid #2a3442;
+  border-radius: 12px;
+  background: #131a24;
+  overflow: hidden;
+}
+.bk-dd-open {
+  border-color: #3a4556;
+}
+
+/* header: target sentuh >=56px, judul + pengait + chevron */
+.bk-dd-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.bk-dd-head:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+.bk-dd-head:focus-visible {
+  outline: 2px solid #ffd166;
+  outline-offset: -2px;
+}
+.bk-dd-head-teks {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bk-dd-judul {
+  display: block;
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #e8ebef;
+  line-height: 1.4;
+}
+.bk-dd-ringkas {
+  font-size: 13px;
+  color: #8b98ab;
+  line-height: 1.55;
+}
+.bk-dd-chev {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #3a4556;
+  background: #1d2530;
+  color: #aeb9c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.15s ease;
+}
+.bk-dd-open .bk-dd-chev {
+  transform: rotate(180deg);
+  background: #273041;
+}
+
+/* wadah animasi: overflow hidden mengikuti pola .tacc-anim */
+.bk-dd-collapse {
+  overflow: hidden;
+}
+.bk-dd-isi {
+  padding: 2px 16px 16px;
+}
+.bk-dd-pembuka {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #dfe5ee;
+  margin: 0 0 12px;
+}
+
+/* sub-blok berlabel chip + aksen tepi kiri */
+.bk-dd-blok {
+  border: 1px solid #2a3442;
+  border-left: 4px solid #3f6aa8;
+  border-radius: 8px;
+  background: #10161e;
+  padding: 10px 14px;
+  margin: 0 0 10px;
+}
+.bk-dd-kenapa {
+  border-left-color: #ffd166;
+}
+.bk-dd-contoh {
+  border-left-color: #2e9e5b;
+}
+.bk-dd-jebakan {
+  border-left-color: #8a5a1d;
+  background: #1d160c;
+}
+.bk-dd-chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+  background: #2b4a77;
+  color: #bcd2ff;
+}
+.bk-dd-kenapa .bk-dd-chip {
+  background: #5a4d14;
+  color: #ffd166;
+}
+.bk-dd-contoh .bk-dd-chip {
+  background: #1d4d2e;
+  color: #7ee2a0;
+}
+.bk-dd-jebakan .bk-dd-chip {
+  background: #5a3d14;
+  color: #ffb36b;
+}
+.bk-dd-teks .bk-p {
+  margin: 0;
+  color: #dfe5ee;
+}
+
+/* kartu mini poin bernomor (grid 1–2 kolom) */
+.bk-dd-poin-grid {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+@media (min-width: 640px) {
+  .bk-dd-poin-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.bk-dd-poin {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border: 1px solid #2a3442;
+  border-radius: 10px;
+  background: #10161e;
+  padding: 10px 12px;
+}
+.bk-dd-num {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2b4a77;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+/* kartu mini poin dari teks jebakan: aksen peringatan + chip (konsisten dengan
+   blok "Jebakan pemahaman": border #8a5a1d, latar #1d160c, chip #5a3d14/#ffb36b) */
+.bk-dd-poin-jebakan {
+  border-color: #8a5a1d;
+  background: #1d160c;
+}
+.bk-dd-poin-jebakan .bk-dd-num {
+  background: #5a3d14;
+  color: #ffb36b;
+}
+.bk-dd-poin-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+  background: #5a3d14;
+  color: #ffb36b;
+}
+.bk-dd-poin-badan {
+  min-width: 0;
+}
+.bk-dd-poin-judul {
+  margin: 0 0 4px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffd166;
+  line-height: 1.4;
+}
+.bk-dd-poin-isi {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #c6cfdb;
+}
+
+/* ============================ responsif =============================== */
+@media (max-width: 640px) {
+  .bk-peta {
+    height: 340px;
+  }
+  .bk-alur {
+    flex-direction: column;
+  }
+  .bk-alur-item {
+    flex-direction: column;
+  }
+  .bk-alur-box {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 12px 14px;
+  }
+  .bk-alur-judul {
+    text-align: left;
+    font-size: 14px;
+  }
+  .bk-alur-panah {
+    transform: rotate(90deg);
+    margin: 2px 0;
+  }
+  .bk-stepper-nav {
+    flex-direction: column;
+  }
+  .bk-stepper-nav .bkp-btn {
+    width: 100%;
+  }
+  .bk-varlist-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .bk-varlist-simbol {
+    text-align: left;
+  }
+  .bk-cantelli-angka {
+    font-size: 42px;
+  }
+  .bk-chart {
+    /* tinggi inline 340px dipertahankan; pastikan tidak overflow */
+    max-width: 100%;
+  }
+}
+
+/* ============================== cetak ================================= */
+/* Sembunyikan elemen berat (graf interaktif, chart, slider) saat print. */
+@media print {
+  .bk-peta,
+  .bk-chart,
+  .bk-sliders,
+  .bk-toggle,
+  .bk-alur {
+    display: none !important;
+  }
+  /* Deep Dive: semua kartu dibuka paksa via beforeprint; pastikan tidak
+     ada konten terpotong (overflow visible, height auto) dan elemen
+     interaktif disembunyikan. */
+  .bk-dd,
+  .bk-dd-collapse {
+    overflow: visible !important;
+    height: auto !important;
+    opacity: 1 !important;
+  }
+  .bk-dd {
+    break-inside: avoid;
+  }
+  .bk-dd-chev {
+    display: none !important;
+  }
+  .bk-dd-head {
+    cursor: default;
+    min-height: 0;
+  }
+}
+/* Dukungan pola .bk-printing milik buku.css bila dipakai halaman ini. */
+.bk-printing .bk-peta,
+.bk-printing .bk-chart,
+.bk-printing .bk-sliders,
+.bk-printing .bk-toggle,
+.bk-printing .bk-alur {
+  display: none !important;
+}
+
+/* ==================== grup cheatsheet berkotak ======================== */
+/* Tiap bagian ### cheatsheet dibungkus <div class="bk-cheat-grup"> oleh
+   MdLite: kotak + aksen warna kiri yang bergantian per grup. */
+.bk-cheat-grup {
+  border: 1px solid #2a3442;
+  border-left: 4px solid #6aa6ff;
+  border-radius: 10px;
+  background: #131a24;
+  padding: 12px 16px;
+  margin: 0 0 16px;
+}
+.bk-cheat-grup:nth-of-type(3n + 2) {
+  border-left-color: #2e9e5b;
+}
+.bk-cheat-grup:nth-of-type(3n) {
+  border-left-color: #ffd166;
+}
+.bk-cheat-grup .bk-mdh2:first-child,
+.bk-cheat-grup .bk-mdh3:first-child,
+.bk-cheat-grup .bk-mdh4:first-child {
+  margin-top: 0;
+}
+@media print {
+  .bk-cheat-grup {
+    break-inside: avoid;
+    border-color: #999;
+    background: none;
+  }
+}

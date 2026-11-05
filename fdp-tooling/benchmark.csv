@@ -1,0 +1,36 @@
+emiten,periode,pos,nilai,satuan,sumber_filing,halaman
+KLBF,FY2024,penjualan_neto,32627776108026,Rp,AR KLBF 2024 (kalbe.co.id),4
+KLBF,FY2024,beban_pokok_penjualan,19670735916128,Rp,AR KLBF 2024 (kalbe.co.id),4
+KLBF,FY2024,laba_bruto,12957040191898,Rp,AR KLBF 2024 (kalbe.co.id),4
+KLBF,FY2024,laba_usaha,4080720255919,Rp,AR KLBF 2024 (kalbe.co.id),4 [T]
+KLBF,FY2024,laba_sebelum_pajak,4218874269523,Rp,AR KLBF 2024 (kalbe.co.id),4
+KLBF,FY2024,laba_bersih_atribusional,3240636626331,Rp,AR KLBF 2024 (kalbe.co.id),5
+KLBF,FY2024,total_aset,29429727898195,Rp,AR KLBF 2024 (kalbe.co.id),1
+KLBF,FY2024,total_aset_lancar,17187668427724,Rp,AR KLBF 2024 (kalbe.co.id),1
+KLBF,FY2024,total_aset_tidak_lancar,12242059470471,Rp,AR KLBF 2024 (kalbe.co.id),1
+KLBF,FY2024,kas_dan_setara_kas,4723293839405,Rp,AR KLBF 2024 (kalbe.co.id),1
+KLBF,FY2024,persediaan_neto,6501631203212,Rp,AR KLBF 2024 (kalbe.co.id),1
+KLBF,FY2024,rasio:gross_margin,39.71,persen,AR KLBF 2024 (kalbe.co.id),[T]
+KLBF,FY2024,rasio:net_margin,9.93,persen,AR KLBF 2024 (kalbe.co.id),[T]
+KLBF,FY2024,rasio:roa,11.01,persen,AR KLBF 2024 (kalbe.co.id),[T]
+BBRI,FY2024,pendapatan_bunga,199266252,Rp-juta,LK BBRI 2024 (idx.co.id),13
+BBRI,FY2024,beban_bunga,57209062,Rp-juta,LK BBRI 2024 (idx.co.id),13
+BBRI,FY2024,nii,142057190,Rp-juta,LK BBRI 2024 (idx.co.id),13 [T]
+BBRI,FY2024,laba_bersih_atribusional,60154887,Rp-juta,LK BBRI 2024 (idx.co.id),18
+BBRI,FY2024,kredit_gross,1298318089,Rp-juta,LK BBRI 2024 (idx.co.id),6 [T]
+BBRI,FY2024,total_aset,1992983447,Rp-juta,LK BBRI 2024 (idx.co.id),4
+BBRI,FY2024,total_ekuitas,323189047,Rp-juta,LK BBRI 2024 (idx.co.id),11
+BBRI,FY2024,rasio:roe,18.97,persen,LK BBRI 2024 (idx.co.id),[T]
+BBRI,FY2024,rasio:roa,3.02,persen,LK BBRI 2024 (idx.co.id),[T]
+BBRI,FY2024,rasio:loan_to_asset,65.14,persen,LK BBRI 2024 (idx.co.id),[T]
+BBCA,H1-2026,pendapatan_bunga,49858169,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",3
+BBCA,H1-2026,beban_bunga,7253606,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",3
+BBCA,H1-2026,nii,42604563,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",3 [T]
+BBCA,H1-2026,laba_bersih_atribusional,29534446,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",3
+BBCA,H1-2026,kredit_gross,1035623547,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",1 [T]
+BBCA,H1-2026,total_dpk,1284052931,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",1 [T]
+BBCA,H1-2026,casa,1082272298,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",1 [T]
+BBCA,H1-2026,total_aset,1660579336,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",1
+BBCA,H1-2026,total_ekuitas,270437543,Rp-juta,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",2
+BBCA,H1-2026,rasio:casa_ratio,84.29,persen,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",[T]
+BBCA,H1-2026,rasio:ldr_naive,80.65,persen,"LK Interim BBCA H1 2026 (bca.co.id, unaudited)",[T]

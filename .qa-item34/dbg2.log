@@ -1,0 +1,8 @@
+container 0: 1 canvas(es)
+  innerHTML len: 390
+container 1: 3 canvas(es)
+  innerHTML len: 902
+container 2: 1 canvas(es)
+  innerHTML len: 390
+[False, False, False]
+EXIT=0

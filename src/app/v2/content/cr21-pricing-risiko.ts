@@ -1,0 +1,276 @@
+import type { V2Lesson } from "../lib/types";
+
+export const cr21: V2Lesson = {
+  slug: "cr21-pricing-risiko",
+  track: "Credit Risk",
+  module: "Pricing & Collection",
+  title: "CR21 — Pricing Risiko",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita",
+      eyebrow: "Langkah 1 · Cerita",
+      title: "Bunga 'kompetitif' yang membunuh",
+      prose: [
+        "Bank itu tumbuh 40% setahun dengan bunga \"paling kompetitif di pasar\". Direksi merayakan. Dua tahun kemudian: NPL 8%, modal terkikis, bank diambil alih.",
+        "Banyak bank gagal menghitung dua lapisan bunga: EL + biaya modal (UL) — tidak terlihat di laba hari ini, tetapi menentukan apakah bunga menutup risiko. Mereka memberi bunga \"kompetitif\" yang ternyata di bawah harga risiko. Mereka tumbuh cepat... dan bangkrut pelan-pelan.",
+        "Lesson ini memastikan kamu bisa menghitung harga yang benar.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Dua lapisan risiko (EL + modal) adalah yang paling sering diremehkan — karena tidak terlihat di laporan laba hari ini. Cost of fund & opex terlihat; EL baru terlihat saat macet; modal tidak terlihat sama sekali (opportunity cost). Analis pricing yang baik adalah \"pengacara\" dua lapisan tak terlihat ini.",
+      },
+      reference: "Lima lapisan bunga = alat negosiasi: bedah untuk edukasi nasabah.",
+    },
+    {
+      id: "anatomi",
+      eyebrow: "Langkah 2 · Anatomi",
+      title: "Lima lapisan bunga",
+      prose: [
+        "Bunga kredit = tumpukan 5 komponen: cost of fund — harga dana bank (bunga deposito/obligasi), ~6%; biaya operasional — akuisisi, proses, collection, ~2%; expected loss — PD × LGD (CR3), \"biaya\" risiko rata-rata; biaya modal (UL) — modal ekonomis × target ROE, \"sewa\" modal untuk kejutan; target laba — margin pemegang saham.",
+        "Contoh: dari 12,44%, hanya 1,2% yang benar-benar \"laba\" — sisanya biaya! Dan 3,24% (EL + modal) adalah harga risiko. Bank yang memberi bunga 10% \"agar kompetitif\" sebenarnya mensubsidi 2,44% — rugi struktural yang baru ketahuan 2 tahun kemudian.",
+        "Kompetitor KPR 5,5% (di bawah CoF+opex 7%): jangan ikuti membabi buta — rugi pasti; waspadai adverse selection; respons via promo terbatas/value/layanan — atau ikuti selektif segmen prima. Perang harga tanpa RAROC = bunuh diri bersama.",
+      ],
+      formula: String.raw`\text{Bunga} = \text{CoF} + \text{Opex} + \text{EL} + (\text{Modal}_{\text{UL}} \times \text{ROE}) + \text{Margin}`,
+      formulaNote: "EL = PD × LGD. Biaya modal = modal ekonomis × target ROE.",
+      tasks: [],
+      reference: "EL (PD×LGD) dan biaya modal adalah dua lapisan yang paling sering diremehkan.",
+    },
+    {
+      id: "lab-pricing",
+      eyebrow: "Langkah 3 · Lab Pricing",
+      title: "Bangun bunga dari nol",
+      prose: [
+        "Komponen terkunci (%, per tahun): cost of fund 6,0; biaya operasional 2,0; PD 4%, LGD 45%; modal UL 8,0%; target ROE 18,0%; target laba 1,2%. Tugasmu: hitung EL, biaya modal, dan bunga minimum.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `el` (%) dan `biaya_modal` (%)" },
+        { id: "t2", text: "Hitung `bunga` minimum (%)" },
+        { id: "t3", text: "Cetak ketiganya dengan `print`" },
+      ],
+      expected: "EL=1.80 modal=1.44 bunga=12.44",
+      hints: [
+        "el = pd * lgd * 100.",
+        "biaya_modal = modal_ul * target_roe / 100.",
+        "bunga = jumlahkan 5 lapisan.",
+      ],
+      code: {
+        starter: `cost_of_fund, biaya_ops = 6.0, 2.0\npd, lgd = 0.04, 0.45\nmodal_ul, target_roe, target_laba = 8.0, 18.0, 1.2\n\n# TULIS KODEMU\nel = \nbiaya_modal = \nbunga = \n\nprint(f"EL={el:.2f} modal={biaya_modal:.2f} bunga={bunga:.2f}")`,
+        lockLines: 3,
+        solution: `cost_of_fund, biaya_ops = 6.0, 2.0\npd, lgd = 0.04, 0.45\nmodal_ul, target_roe, target_laba = 8.0, 18.0, 1.2\n\n# TULIS KODEMU\nel = pd * lgd * 100\nbiaya_modal = modal_ul * target_roe / 100\nbunga = cost_of_fund + biaya_ops + el + biaya_modal + target_laba\n\nprint(f"EL={el:.2f} modal={biaya_modal:.2f} bunga={bunga:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "el", value: 1.8, tol: 1e-9, label: "`el` seharusnya 1.80", msg: "0.04 × 0.45 × 100 = 1.80." },
+          { kind: "equal", task: "t1", name: "biaya_modal", value: 1.44, tol: 1e-9, label: "`biaya_modal` seharusnya 1.44", msg: "8.0 × 18.0 / 100 = 1.44." },
+          { kind: "equal", task: "t2", name: "bunga", value: 12.44, tol: 0.01, label: "`bunga` seharusnya 12.44", msg: "6 + 2 + 1.8 + 1.44 + 1.2 = 12.44." },
+          { kind: "stdout_matches", task: "t3", pattern: "EL=1\\.80\\s+modal=1\\.44\\s+bunga=12\\.44", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Harga risiko = EL + biaya modal = 3,24 poin dari 12,44.",
+    },
+    {
+      id: "raroc",
+      eyebrow: "Langkah 4 · RAROC",
+      title: "Return per rupiah modal",
+      prose: [
+        "RAROC (Risk-Adjusted Return on Capital) = laba setelah risiko dibagi modal ekonomis (modal untuk UL). Bukan \"berapa laba\", melainkan \"berapa laba per rupiah modal yang dikunci\". Keputusan: RAROC ≥ hurdle rate (target ROE, misal 18%) → TERIMA; di bawah → TOLAK atau naikkan harga.",
+        "RAROC seperti mengukur efisiensi bahan bakar — bukan \"berapa jauh mobil melaju\" (laba absolut), melainkan \"berapa km per liter\" (laba per modal). Mobil (kredit) yang larinya jauh tetapi boros = tidak efisien.",
+        "Contoh: korporasi BB bunga 10,5% \"terlihat\" menguntungkan tetapi RAROC 12% — di bawah hurdle! Modalnya besar (UL tinggi karena konsentrasi) sehingga return per modal kecil. Pelajaran: bunga tinggi ≠ bagus; RAROC yang menentukan.",
+      ],
+      formula: String.raw`\text{RAROC} = \frac{\text{Pendapatan} - \text{Biaya} - \text{EL}}{\text{Modal ekonomis}}`,
+      formulaNote: "≥ hurdle (misal 18%) → terima. Mepet = sensitif: EL naik sedikit langsung gagal.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"Bunga tinggi = kredit menguntungkan.\" Kartu kredit bunga 24% dengan RAROC 25% (lolos hurdle) vs korporasi bunga 10,5% dengan RAROC 12% (gagal). Yang menentukan bukan bunga, melainkan bunga − EL − biaya, dibagi modal. Bunga tinggi dengan EL & modal lebih tinggi = rugi yang mahal.",
+      },
+      reference: "Pemegang saham dibayar dari return per modal, bukan laba absolut.",
+    },
+    {
+      id: "lab-raroc",
+      eyebrow: "Langkah 5 · Lab RAROC",
+      title: "Empat segmen, satu hurdle",
+      prose: [
+        "Fungsi `raroc` dan hurdle 18% terkunci. Empat segmen (pendapatan, biaya, EL, modal): KPR prima (12,5; 2,0; 0,9; 35); KMK UKM (14,0; 3,0; 2,2; 48); kartu kredit (24,0; 5,0; 6,5; 50); korporasi BB (10,5; 1,5; 1,8; 60). Tugasmu: hitung RAROC KMK UKM dan korporasi BB + keputusannya.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `r_kmk` (RAROC KMK UKM)" },
+        { id: "t2", text: "Hitung `r_korp` dan `kep_korp` ('TERIMA'/'TOLAK')" },
+        { id: "t3", text: "Cetak semuanya dengan `print`" },
+      ],
+      expected: "KMK=18.33 TERIMA-mepet korp=12.00 TOLAK",
+      hints: [
+        "raroc(pendapatan, biaya_ops, el, modal_eko) terkunci.",
+        "r_kmk = raroc(14.0, 3.0, 2.2, 48).",
+        "kep = 'TERIMA' jika r >= 18 else 'TOLAK'.",
+      ],
+      code: {
+        starter: `def raroc(pendapatan, biaya_ops, el, modal_eko):\n    return (pendapatan - biaya_ops - el) / modal_eko * 100\n\n# TULIS KODEMU\nr_kmk = \nr_korp = \nkep_korp = \n\nprint(f"KMK={r_kmk:.2f} korp={r_korp:.2f} keputusan={kep_korp}")`,
+        lockLines: 2,
+        solution: `def raroc(pendapatan, biaya_ops, el, modal_eko):\n    return (pendapatan - biaya_ops - el) / modal_eko * 100\n\n# TULIS KODEMU\nr_kmk = raroc(14.0, 3.0, 2.2, 48)\nr_korp = raroc(10.5, 1.5, 1.8, 60)\nkep_korp = "TERIMA" if r_korp >= 18 else "TOLAK"\n\nprint(f"KMK={r_kmk:.2f} korp={r_korp:.2f} keputusan={kep_korp}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "r_kmk", value: 18.33, tol: 0.05, label: "`r_kmk` sekitar 18.33", msg: "(14−3−2,2)/48 = 18,33 — pas di hurdle, mepet!" },
+          { kind: "equal", task: "t2", name: "r_korp", value: 12.0, tol: 0.05, label: "`r_korp` sekitar 12.00", msg: "(10,5−1,5−1,8)/60 = 12,0 — di bawah hurdle." },
+          { kind: "equal", task: "t2", name: "kep_korp", value: "TOLAK", label: "`kep_korp` = TOLAK", msg: "12,0 < 18 → tolak (atau bunga dinaikkan)." },
+          { kind: "stdout_matches", task: "t3", pattern: "KMK=18\\.33\\s+korp=12\\.00\\s+keputusan=TOLAK", label: "`print` menampilkan semuanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "KPR prima 27,4% & kartu kredit 25% lolos; KMK 18,3% mepet; korporasi BB 12% tolak.",
+    },
+    {
+      id: "limit",
+      eyebrow: "Langkah 6 · Limit",
+      title: "Pagar pembatas",
+      prose: [
+        "Limit = batas maksimum eksposur: per debitur, per sektor, per produk, per tenor. Pricing mengatur harga; limit mengatur kuantitas. Keduanya harus jalan beriringan. Jenis limit: debitur — maks % modal (BMPK OJK) atau berbasis rating; sektor — maks % portofolio (misal: properti ≤15%); produk — maks % untuk produk berisiko (kartu kredit ≤10%); tenor — makin berisiko, makin pendek (KK 1 tahun vs KPR 20 tahun).",
+        "Jika pricing adalah harga tiket, limit adalah kapasitas stadion — tiket semahal apapun tidak berguna jika stadionnya roboh karena kelebihan muatan. Limit mencegah konsentrasi yang tidak bisa diatasi pricing (CR15).",
+        "Ada risiko yang tidak bisa di-harga-kan — hanya bisa di-batasi. Contoh: single-name Rp 1 T dengan PD 1% — bunganya \"cukup\" 8%, tetapi jika default, bank goyang. Limit = pengakuan bahwa tidak semua risiko bisa dibeli dengan harga.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Proposal X laba Rp 3,2 M (RAROC 26,7%) vs proposal Y laba Rp 1,6 M (RAROC 38,1%), modal terbatas: pilih Y — return per rupiah modal lebih tinggi; dengan modal yang sama bisa mendanai 3× Y (total laba Rp 4,8 M > Rp 3,2 M). Modal terbatas = alokasikan ke RAROC tertinggi.",
+      },
+      reference: "Bunga SANGAT tinggi bisa kontraproduktif: adverse selection — nasabah bagus kabur, yang tersisa = yang paling berisiko.",
+    },
+    {
+      id: "peta-keputusan",
+      eyebrow: "Langkah 7 · Peta keputusan",
+      title: "Peta keputusan: menetapkan harga yang menutup risiko",
+      prose: [
+        "Skenario 1 — Menetapkan bunga kredit baru. → Tumpuk 5 lapisan: CoF + opex + EL + biaya modal (UL × ROE) + margin. Contoh nyata: dari 12,44%, hanya 1,2% yang benar-benar 'laba' — sisanya biaya. Bunga di bawah minimum = mensubsidi nasabah dengan modal pemegang saham.",
+        "Skenario 2 — Kompetitor meluncurkan KPR 5,5% (pasar 7%, CoF+opex 7%). → Jangan ikuti membabi buta: 5,5% < 7% = rugi pasti sebelum risiko dihitung. Respons cerdas: promo terbatas (1 tahun fixed lalu floating) + unggulkan layanan, atau ikuti selektif di segmen prima. Perang harga tanpa RAROC = bunuh diri bersama.",
+        "Skenario 3 — Bunga terlihat tinggi (korporasi BB 10,5%) tetapi RAROC 12% < hurdle 18%. → TOLAK atau naikkan harga: modalnya besar (UL tinggi karena konsentrasi) sehingga return per rupiah modal kecil. Bunga tinggi ≠ bagus — RAROC yang menentukan.",
+        "Skenario 4 — Menaikkan harga untuk segmen berisiko. → Waspadai adverse selection: 30% debitur terbaik (PD 5%) pindah ke kompetitor 13%; yang tertinggal PD-nya 10,5% — harga 14,24% yang 'menutup risiko' justru menarik risiko yang lebih buruk. Harga adalah mesin seleksi.",
+        "Skenario 5 — Fasilitas committed dengan undrawn besar. → Wajib commitment fee (0,5–1% dari undrawn): undrawn adalah opsi jual gratis — fee adalah preminya. Contoh nyata: KMK Rp 10 M, undrawn Rp 6 M → fee 1% = Rp 60 jt/tahun — debitur yang limitnya kebesaran meminta penurunan sendiri, EAD turun tanpa bank memaksa.",
+        "Aturan praktis 10 detik: harga adalah underwriting yang menyamar — ia memilih nasabahmu; pastikan tiap lapisan (dana, operasional, EL, modal, laba) tertutup sebelum perang harga; dan untuk tenor panjang pakai FTP, bukan CoF blended.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Bank tumbuh 40% setahun dengan bunga 'paling kompetitif di pasar' — direksi merayakan, dua tahun kemudian NPL 8% dan bank diambil alih. Mereka hanya menghitung dua lapisan bunga (CoF + opex) dan melupakan EL + biaya modal yang tak terlihat di laba hari ini. Tumbuh cepat, bangkrut pelan-pelan.",
+      },
+    },
+    {
+      id: "minicase",
+      eyebrow: "Langkah 8 · Mini-case",
+      title: "Perang bunga KPR",
+      prose: [
+        "Kompetitor meluncurkan KPR bunga 5,5% (pasar: 7%). Direksi Bank Nusantara panik: \"Ikuti! Kalau tidak, nasabah kabur!\" Datamu: cost of fund 6% + opex 1% = 7% — bunga 5,5% sudah di bawah biaya dasar!; EL KPR 0,9% + biaya modal 1,1% + margin target 1% → bunga minimum sehat = 10%; kompetitor kemungkinan promo 1 tahun (floating setelahnya) atau mensubsidi untuk akuisisi.",
+        "Jangan ikuti membabi buta. Tiga poin: (1) matematika tidak berbohong: 5,5% < 7% (CoF+opex) = rugi pasti sebelum risiko dihitung. Mengikuti = mensubsidi nasabah dengan modal pemegang saham. (2) Adverse selection: nasabah yang pindah karena bunga termurah = yang paling sensitif harga = cenderung risiko lebih tinggi (yang bagus tidak repot pindah demi 1,5%). (3) Respons cerdas: promo terbatas (1 tahun fixed, lalu floating normal) + unggulkan layanan (proses cepat, fleksibilitas) — bersaing di value, bukan price. Atau: ikuti selektif hanya untuk segmen prima (PD rendah → EL kecil → bunga minimum lebih rendah).",
+        "Pelajaran: perang harga tanpa perhitungan RAROC = bunuh diri bersama — pemenangnya yang paling cepat sadar.",
+      ],
+      tasks: [],
+      reference: "Kompetitor di bawah break-even → bedah lima lapis (edukasi), tawarkan struktur (agunan/tenor/plafon) agar break-even turun.",
+    },
+    {
+      id: "harga-seleksi",
+      eyebrow: "Langkah 9 · Seleksi harga",
+      title: "Harga yang memilih nasabahnya",
+      prose: [
+        "Harga bukan sekadar angka — ia adalah mesin seleksi. Ketika kamu menaikkan bunga untuk segmen berisiko, yang pergi duluan adalah debitur terbaik di segmen itu (mereka punya pilihan: pindah ke kompetitor yang lebih murah). Yang tertinggal adalah yang tidak punya pilihan — justru yang paling berisiko. PD terealisasi kemudian LEBIH TINGGI dari PD yang dipakai untuk menghitung harga. Inilah adverse selection: harga yang dimaksudkan menutup risiko malah memperburuk komposisi risiko.",
+        "Contoh dengan angka: segmen dengan PD rata-rata 8%. EL = 0,08 × 0,45 = 3,6% (vs 1,8% di lab langkah 3) → harga wajar 14,24% (bukan 12,44%). Bank menaikkan harga ke 14,24%. Akibatnya: 30% debitur terbaik segmen itu (PD 5%) pindah ke kompetitor yang menawarkan 13%. PD sisa portofolio naik menjadi 10,5% → EL seharusnya 4,7% → harga yang benar 15,4%, tetapi yang dibebankan tetap 14,24%. Setiap kenaikan harga berikutnya mengulangi siklus ini — spiral kematian: harga naik → yang bagus pergi → PD naik → harga harus naik lagi.",
+        "Cara salah: \"naikkan harga sampai RAROC lolos\" tanpa batas. Cara benar: tetapkan plafon premi risiko per segmen (misalnya maksimum +6 poin di atas base rate). Jika harga yang dibutuhkan menembus plafon, jawabannya bukan harga lebih tinggi — melainkan TOLAK atau turunkan limit. Menolak lebih murah daripada salah harga: penolakan kehilangan potensi laba, salah harga menciptakan kerugian pasti.",
+        "Aturan keputusan. Satu: monitor PD terealisasi PER TIER HARGA, bukan per segmen — jika tier mahal realisasinya lebih buruk dari asumsi harga, seleksi sedang terjadi. Dua: batasi kenaikan harga tahunan per segmen (misalnya 2 poin) agar tidak memicu eksodus. Tiga: untuk segmen yang sensitif harga (KPR prima), bersainglah dengan layanan dan kecepatan, bukan dengan perang harga buta. Empat: ingat — populasi yang penting adalah yang BOOKED (menerima harga), bukan yang ditawari; dua populasi ini berbeda tepat karena seleksi.",
+      ],
+      tasks: [],
+      reference: "Harga memilih nasabah. Awasi siapa yang tertinggal, bukan siapa yang ditawari.",
+    },
+    {
+      id: "ftp-tersembunyi",
+      eyebrow: "Langkah 10 · FTP",
+      title: "Biaya dana yang tidak flat",
+      prose: [
+        "Cost of fund 6% di lab langkah 3 adalah penyederhanaan — biaya dana sebenarnya membentuk kurva mengikuti tenor. Dana 10 tahun lebih mahal dari dana 1 tahun (premi likuiditas + ekspektasi suku bunga). Menetapkan harga KPR 10 tahun dengan CoF blended 6% berarti mensubsidi tenor panjang dengan dana pendek — subsidi yang tidak terlihat sampai kurva menanjak. Inilah gunanya FTP (Funds Transfer Pricing): \"harga\" internal dana per tenor yang ditetapkan treasury.",
+        "Contoh dengan angka: KPR 10 tahun. CoF blended 6% → margin terlihat 1,1% (dari anatomi lima lapisan). Tetapi FTP tenor 10 tahun = 7,2% (dana panjang + buffer likuiditas). Biaya sebenarnya 1,2 poin lebih tinggi → margin SESUNGGUHNYA −0,1%. Kredit yang \"menguntungkan\" di spreadsheet ternyata rugi struktural. Dan ini belum termasuk biaya opsi: KPR dilunasi dipercepat saat suku bunga turun (debitur refinancing) — bank kehilangan aset berbunga tinggi tepat saat dana murahnya... tidak ikut murah. Biaya prepayment ini nyata tetapi hampir tidak pernah dihargakan.",
+        "Cara salah: satu CoF untuk semua tenor dan produk (\"rata-rata 6%\"). Cara benar: harga memakai kurva FTP dari treasury + add-on opsi untuk produk dengan prepayment (KPR) atau penarikan tak pasti (revolving). Treasury bukan \"lawan\" bisnis — ia adalah kasir yang jujur tentang harga dana.",
+        "Aturan keputusan. Satu: minta kurva FTP ke treasury tiap kuartal; harga tanpa FTP = tebakan. Dua: untuk tenor >5 tahun, wajib pakai FTP tenor-padan — tidak boleh blended. Tiga: tambahkan biaya prepayment 0,3–0,5% untuk KPR fixed-rate (dari data perilaku pelunasan). Empat: saat kurva imbal hasil terbalik atau menanjak tajam, review ulang seluruh pricing book — perubahan kurva mengubah ekonomi seluruh portofolio lama sekaligus.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: harga adalah underwriting yang menyamar",
+        body: "Setiap harga adalah keputusan underwriting yang menyamar — karena harga menentukan SIAPA yang datang, bukan hanya BERAPA yang dibayar. Underwriter memilih satu per satu; harga memilih secara massal dan diam-diam. Heuristik yang jarang disadari: kesalahan harga yang paling berbahaya bukan underpricing (terlihat di laba bulan depan), melainkan pergeseran komposisi yang disebabkannya (baru terlihat 12–18 bulan kemudian sebagai vintage yang buruk). Karena itu analis pricing yang baik tidak hanya bertanya \"apakah harga menutup biaya?\" tetapi \"siapa yang akan menerima harga ini?\" — dan menjawabnya dengan data: profil risiko populasi yang booked vs yang ditawari. Jika keduanya mulai berbeda, hargamu sedang melakukan underwriting tanpa sepengetahuanmu. Dan satu kebenaran yang menenangkan: penolakan adalah pricing yang paling jujur. Tidak semua risiko harus dihargai — sebagian memang harus ditolak. Praktiknya: bentuk komite pricing yang berisi risiko DAN bisnis, dengan hak veto di kedua sisi — bisnis memveto harga yang membunuh volume sehat, risiko memveto harga yang mengundang seleksi buruk. Harga yang lahir dari satu sisi saja hampir selalu salah di sisi yang lain.",
+      },
+      reference: "Harga = underwriting massal. Awasi komposisi yang booked.",
+    },
+    {
+      id: "harga-undrawn",
+      eyebrow: "Langkah 11 · Commitment fee",
+      title: "Harga untuk limit yang tidak dipakai",
+      prose: [
+        "Fasilitas revolving punya dua harga, bukan satu: bunga atas yang ditarik, dan commitment fee atas yang belum ditarik (misalnya 0,5–1% per tahun dari undrawn). Logikanya dari langkah 8: undrawn adalah opsi jual gratis — commitment fee adalah preminya. Bank yang tidak memungutnya memberikan asuransi likuiditas cuma-cuma kepada debitur.",
+        "Contoh dengan angka: KMK Rp 10 M, rata-rata terpakai Rp 4 M, undrawn Rp 6 M. Tanpa commitment fee, bank menanggung EAD hantu Rp 6 M × CCF 35% = Rp 2,1 M tanpa kompensasi. Dengan fee 1%: Rp 60 jt per tahun — kecil, tetapi mengubah insentif: debitur yang limitnya kebesaran meminta penurunan sendiri (menghemat fee), sehingga EAD turun tanpa bank harus memaksa. Harga yang benar membuat nasabah mendisiplinkan dirinya sendiri.",
+        "Aturan keputusan. Satu: setiap fasilitas committed wajib punya commitment fee — \"gratis\" bukan strategi. Dua: fee dihitung dari undrawn RATA-RATA (bukan akhir periode) agar tidak bisa di-game dengan penarikan sesaat. Tiga: untuk debitur memburuk, naikkan fee atau konversikan menjadi uncommitted — harga adalah rem pertama sebelum pemutusan.",
+      ],
+      tasks: [],
+      reference: "Undrawn = opsi gratis. Commitment fee = preminya.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+      ],
+      tasks: [],
+      summary: [
+        "Bunga = CoF + opex + EL + biaya modal + margin. EL + modal paling sering diremehkan.",
+        "RAROC = (pendapatan − biaya − EL) / modal ≥ hurdle → terima.",
+        "Bunga tinggi ≠ menguntungkan; bunga sangat tinggi → adverse selection.",
+        "Limit untuk yang tak bisa di-harga-kan: single-name, konsentrasi sektor.",
+        "Modal terbatas = alokasikan ke RAROC tertinggi.",
+      ],
+      next: { label: "CR22 — Collection & Recovery", href: "/learn/cr22-collection-recovery" },
+      quiz: [
+        {
+          q: "Komponen bunga kredit yang PALING sering diremehkan?",
+          options: [
+            { text: "Cost of fund", why: "CoF terlihat jelas." },
+            { text: "EL + biaya modal (UL) — tidak terlihat di laba hari ini, tetapi menentukan apakah bunga menutup risiko", why: "EL baru terlihat saat macet; modal tidak terlihat sama sekali.", correct: true },
+            { text: "Biaya operasional", why: "Opex terlihat." },
+            { text: "Target laba", why: "Margin terlihat." },
+          ],
+        },
+        {
+          q: "Kredit: pendapatan 14%, biaya 3%, EL 2,2%, modal ekonomis 48%. RAROC? (hurdle 18%)",
+          options: [
+            { text: "29% — terima", why: "Jangan lupa dibagi modal." },
+            { text: "8,8/48 = 18,3% — pas di hurdle, terima (mepet!)", why: "(14−3−2,2)/48 = 18,3% — lolos tipis. Mepet = sensitif.", correct: true },
+            { text: "10% — tolak", why: "Hitung lagi." },
+            { text: "18,3% — tolak", why: "18,3 ≥ 18 → terima." },
+          ],
+        },
+        {
+          q: "Mengapa bunga SANGAT tinggi bisa kontraproduktif?",
+          options: [
+            { text: "Tidak pernah — makin tinggi makin untung", why: "Salah." },
+            { text: "Adverse selection: nasabah bagus kabur (dapat bunga murah di tempat lain), yang tersisa = yang paling berisiko — PD naik mengalahkan kenaikan bunga", why: "Harga menyaring kualitas. Kenaikan bunga ≠ kenaikan laba.", correct: true },
+            { text: "Regulasi melarang", why: "Bukan soal regulasi." },
+            { text: "Nasabah suka bunga tinggi", why: "Terbalik." },
+          ],
+        },
+        {
+          q: "Single-name Rp 1 T, PD 1%, bunga 8% (RAROC lolos). Masalahnya?",
+          options: [
+            { text: "Tidak ada — RAROC lolos", why: "RAROC tidak menangkap ekor." },
+            { text: "Konsentrasi: jika default, bank goyang — risiko ini tidak bisa di-harga-kan, hanya bisa di-batasi (limit)", why: "Limit untuk yang tak bisa di-harga-kan. RAROC mengukur rata-rata; konsentrasi = ekor.", correct: true },
+            { text: "Bunga kurang tinggi", why: "Bunga bukan solusinya." },
+            { text: "PD terlalu rendah", why: "Bukan soal PD." },
+          ],
+        },
+        {
+          q: "Proposal X laba Rp 3,2 M (RAROC 26,7%), proposal Y laba Rp 1,6 M (RAROC 38,1%), modal terbatas. Mana dipilih?",
+          options: [
+            { text: "X — labanya 2× lipat", why: "Laba absolut menyesatkan." },
+            { text: "Y — return per rupiah modal lebih tinggi; dengan modal yang sama bisa mendanai 3× Y (total laba Rp 4,8 M > Rp 3,2 M)", why: "Modal terbatas = alokasikan ke RAROC tertinggi.", correct: true },
+            { text: "Keduanya — langgar saja KPMM", why: "Melanggar KPMM = pelanggaran serius." },
+            { text: "Tolak keduanya", why: "Keduanya lolos hurdle." },
+          ],
+        },
+      ],
+    },
+  ],
+};

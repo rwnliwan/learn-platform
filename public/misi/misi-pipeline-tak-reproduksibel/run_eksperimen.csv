@@ -1,0 +1,14 @@
+run_id,seed,paket_sklearn,hash_data,metrik_auc,status
+r01,42,sklearn 1.4.0,a3f9c1,0.8724,OK
+r02,42,sklearn 1.4.0,a3f9c1,0.8724,OK
+r03,42,sklearn 1.4.0,a3f9c1,0.8724,OK
+r04,42,sklearn 1.4.0,a3f9c1,0.8724,OK
+r05,42,sklearn 1.4.0,a3f9c1,0.8701,OK
+r06,42,sklearn 1.4.0,a3f9c1,0.8733,OK
+r07,42,sklearn 1.4.0,a3f9c1,0.8719,OK
+r08,42,sklearn 1.4.0,a3f9c1,0.8698,OK
+r09,42,sklearn 1.4.0,a3f9c1,0.8729,OK
+r10,42,sklearn 1.3.2,a3f9c1,0.8611,OK
+r11,42,sklearn 1.4.0,7b2e44,0.8751,OK
+r12,42,sklearn 1.4.0,a3f9c1,,FAILED
+r13,7,sklearn 1.4.0,a3f9c1,0.8662,OK

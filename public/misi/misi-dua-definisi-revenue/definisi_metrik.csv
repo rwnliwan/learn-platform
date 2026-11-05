@@ -1,0 +1,3 @@
+definisi_id,nama,definisi,dipakai_oleh,versi
+D1,Revenue (Finance),kas masuk: nominal diakui pada bulan tanggal_order (satu order dihitung sekali),Finance,v1
+D2,Revenue (Product),pengakuan: nominal diakui pada bulan_pengakuan sesuai jadwal (langganan dibagi 2 bulan),Product,v1

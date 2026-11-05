@@ -1,0 +1,218 @@
+import type { V2Lesson } from "../lib/types";
+
+export const dm16: V2Lesson = {
+  slug: "dm16-bi-analytics-engineering",
+  track: "Data Management",
+  module: "Analitik",
+  title: "BI & Analytics Engineering: Dari Dashboard Liar ke Angka Resmi",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita-dashboard",
+      eyebrow: "Langkah 1 · Cerita pembuka",
+      title: "47 dashboard, 0 kebenaran",
+      prose: [
+        "Perusahaan punya 47 dashboard penjualan. Rapat direksi: \"penjualan bulan lalu berapa?\" — tiga direktur menunjukkan tiga angka dari tiga dashboard berbeda. Investigasi: dashboard dibuat 6 orang dalam 3 tahun, dari sumber beda (satu dari CSV email!), definisi \"penjualan\" beda-beda, 30 di antaranya tidak pernah dibuka lagi sejak dibuat.",
+        "Masalahnya bukan kurang dashboard — melainkan tidak ada yang bertanggung jawab atas kebenarannya. Setiap dashboard lahir dari \"tolong bikinin cepat\", tidak ada yang pensiun, tidak ada yang disertifikasi. Di sinilah kepercayaan dibangun atau dihancurkan: lapisan BI, ujung tombak data management yang paling terlihat.",
+      ],
+      tasks: [],
+      reference: "Semua kerja keras DM1–DM15 dinilai pengguna di lapisan ini.",
+    },
+    {
+      id: "kpi",
+      eyebrow: "Langkah 2 · KPI",
+      title: "Metrik yang menggerakkan keputusan",
+      prose: [
+        "KPI = metrik yang menggerakkan keputusan — bukan sekadar angka menarik. Lima syarat: akurat (definisi tunggal dan tereksekusi — metrics layer DM14), relevan (berubahnya angka mengubah keputusan — jika tidak, itu vanity metric), tepat waktu (segar sesuai ritme keputusan: harian untuk operasional, bulanan untuk strategi), actionable (jelas aksi apa jika angka bergerak — \"NPL naik → perketat approval\"), ber-owner (ada nama yang bertanggung jawab atas angkanya).",
+        "Vanity metric: terlihat bagus, tidak mengubah keputusan — \"total download kumulatif\" (selalu naik!), \"total user terdaftar\" (termasuk yang mati). Lawannya: actionable metric — \"tingkat aktivasi minggu ini\" (bisa turun → ada aksi). Uji 10 detik: \"jika turun 20%, apa aksinya?\" — tidak ada jawaban = bukan KPI.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: KPI adalah sensor, bukan target tembak",
+        body: "Orang merancang KPI seperti merancang target yang harus dicapai — padahal fungsi utamanya adalah memberi tahu lebih awal bahwa ada yang salah. KPI adalah sensor asap, bukan piala. Konsekuensinya: KPI yang tidak pernah \"merah\" dalam 12 bulan entah luar biasa stabil atau tidak sensitif — dan yang kedua jauh lebih sering (vanity metric yang menyamar). Heuristiknya: setiap KPI wajib punya \"ambang aksi\" — angka berapa yang memicu rapat, menelepon siapa, keputusan apa yang berubah. KPI tanpa ambang aksi adalah pajangan. Dan uji Goodhart-nya: \"kalau tim mengoptimasi angka ini tanpa memperbaiki bisnis yang sebenarnya, apa yang rusak?\" Kalau jawabannya \"tidak ada yang rusak\", itu bukan KPI — itu target yang bisa dimanipulasi. Sensor yang baik sulit ditipu; target yang buruk mengundang penipuan.",
+      },
+      reference: "\"Key\" berarti sedikit dan penting. Gagal 1 syarat = bukan KPI.",
+    },
+    {
+      id: "analytics-engineer",
+      eyebrow: "Langkah 3 · Analytics engineering",
+      title: "Profesi di tengah",
+      prose: [
+        "Analytics engineer = peran di antara data engineer dan analis: ia membangun dataset siap-analisis (dbt models, marts, dokumentasi, test) agar analis percaya diri memakai data tanpa jadi engineer.",
+        "Pembagiannya: data engineer = platform dan pipeline mentah → bersih (Bronze → Silver); analytics engineer = Silver → Gold yang bermakna bisnis (marts, definisi metrik, dokumentasi); analis = Gold → insight dan dashboard.",
+        "Kenapa peran ini lahir: analis menulis SQL berantakan tanpa test; engineer tidak paham bisnis. Analytics engineer = software engineering untuk SQL (git, test, review, dokumentasi — DM5) + pemahaman bisnis. Jembatan karir ideal dari analis menuju engineer.",
+      ],
+      tasks: [],
+      reference: "SQL yang di-test, di-review, dan didokumentasikan — seperti software.",
+    },
+    {
+      id: "gov-dashboard-lab",
+      eyebrow: "Langkah 4 · Governance dashboard · lab",
+      title: "SIM untuk dashboard",
+      prose: [
+        "Solusi untuk 47 dashboard liar: sertifikasi. Dashboard boleh menyandang \"resmi/terpercaya\" hanya jika lolos checklist: sumber = Gold tersertifikasi (bukan CSV email / Bronze), metrik mengikuti metrics layer (DM14), owner tertulis + kontak, refresh terjadwal dan termonitor (bukan manual), akses sesuai klasifikasi data (DM12), tanggal kedaluwarsa review (misal 6 bulan — dashboard basi = sertifikasi dicabut).",
+        "Dua kelas dashboard: tersertifikasi (boleh untuk keputusan resmi) vs eksplorasi (bebas, tapi berlabel jelas \"belum terverifikasi\"). Keduanya boleh ada — yang tidak boleh = eksplorasi menyamar resmi.",
+      ],
+      tasks: [
+        { id: "t1", text: "Lengkapi `nilai(m)`: jumlah syarat KPI yang True" },
+        { id: "t2", text: "Hitung `skor_a` (\"Total download kumulatif\") dan `skor_b` (\"Tingkat aktivasi\")" },
+        { id: "t3", text: "Tentukan `vonis_b`: \"KPI sehat\" jika skor_b == 5, selain itu \"Vanity\"" },
+      ],
+      expected: "skor_a=1  skor_b=5  vonis_b=KPI sehat",
+      hints: [
+        "def nilai(m): return sum(m.values())",
+        "skor_a = nilai(a); skor_b = nilai(b)",
+        "vonis_b = \"KPI sehat\" if skor_b == 5 else \"Vanity\"",
+      ],
+      code: {
+        starter: `# uji 5 syarat KPI untuk dua metrik\na = {"akurat": False, "relevan": False, "tepat_waktu": True, "actionable": False, "ber_owner": False}  # Total download kumulatif\nb = {"akurat": True,  "relevan": True,  "tepat_waktu": True, "actionable": True,  "ber_owner": True}   # Tingkat aktivasi mingguan\n\n# TULIS KODEMU\ndef nilai(m):\n    ...\n\nskor_a = \nskor_b = \nvonis_b = \n\nprint(f"skor_a={skor_a}  skor_b={skor_b}  vonis_b={vonis_b}")`,
+        lockLines: 3,
+        solution: `# uji 5 syarat KPI untuk dua metrik\na = {"akurat": False, "relevan": False, "tepat_waktu": True, "actionable": False, "ber_owner": False}  # Total download kumulatif\nb = {"akurat": True,  "relevan": True,  "tepat_waktu": True, "actionable": True,  "ber_owner": True}   # Tingkat aktivasi mingguan\n\n# TULIS KODEMU\ndef nilai(m):\n    return sum(m.values())\n\nskor_a = nilai(a)\nskor_b = nilai(b)\nvonis_b = "KPI sehat" if skor_b == 5 else "Vanity"\n\nprint(f"skor_a={skor_a}  skor_b={skor_b}  vonis_b={vonis_b}")`,
+        checks: [
+          { kind: "equal", task: "t2", name: "skor_a", value: 1, tol: 0, label: "`skor_a` seharusnya 1", msg: "Total download kumulatif hanya lolos tepat_waktu." },
+          { kind: "equal", task: "t2", name: "skor_b", value: 5, tol: 0, label: "`skor_b` seharusnya 5", msg: "Tingkat aktivasi lolos kelima syarat." },
+          { kind: "equal", task: "t3", name: "vonis_b", value: "KPI sehat", label: "`vonis_b` seharusnya KPI sehat", msg: "Skor 5/5 = KPI sehat." },
+          { kind: "stdout_matches", task: "t3", pattern: "skor_a=1\\s+skor_b=5\\s+vonis_b=KPI sehat", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Dashboard resmi = tersertifikasi. Sisanya berlabel eksplorasi.",
+    },
+    {
+      id: "desain-jujur",
+      eyebrow: "Langkah 5 · Desain",
+      title: "Dashboard yang jujur",
+      prose: [
+        "Empat jebakan visual: sumbu terpotong (bar chart Y mulai dari 80 membuat naik 2% terlihat 2 kali lipat — manipulatif), tanpa konteks (angka \"Rp50 M\" tanpa pembanding target/bulan lalu = tidak informatif; selalu tampilkan aktual vs target vs periode lalu), terlalu banyak (40 KPI + 12 warna = kebisingan; aturan 5–7 KPI, 1 pesan per chart), tanpa timestamp (\"data per kapan?\" — angka basi disangka segar = bom kepercayaan).",
+        "Dashboard yang baik menjawab 3 pertanyaan dalam 10 detik: (1) apa yang terjadi? (2) apakah itu bagus/buruk? (3) apa yang harus saya lakukan? Jika butuh 5 menit menjelaskan dashboardmu — desainnya gagal, bukan audiensnya.",
+      ],
+      tasks: [],
+      reference: "Selalu: timestamp + pembanding + aksi. Sumbu jujur.",
+    },
+    {
+      id: "minicase-hijau",
+      eyebrow: "Langkah 6 · Mini-case",
+      title: "KPI yang \"hijau\" saat kapal tenggelam",
+      prose: [
+        "Dashboard direksi menunjukkan \"Total Nasabah: 2,1 juta\" hijau naik — semua senang. Tiga bulan kemudian audit: 400 ribu di antaranya tidak pernah transaksi (akun mati), 150 ribu duplikat. Nasabah aktif sebenarnya turun 12%. KPI \"hijau\" menyembunyikan kapal yang tenggelam.",
+        "Syarat KPI yang dilanggar: akurat (definisi \"nasabah\" tidak tunggal — termasuk mati dan duplikat) dan relevan/actionable (angka naik tapi tidak memberi sinyal bahaya — vanity metric). KPI pengganti yang sehat: \"nasabah aktif\" (definisi glossary DM10: ≥1 transaksi 30 hari) + \"tingkat aktivasi\" — keduanya bisa turun → memicu aksi.",
+        "Kegagalan governance di baliknya tiga lapis: tanpa glossary tunggal (DM10), tanpa dedup master data (DM11), tanpa sertifikasi dashboard. KPI dibangun di atas fondasi rapuh — inilah kenapa track DM berurutan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "KPI hijau palsu menunda respons terhadap penurunan bisnis riil selama 3 bulan — waktu yang dalam krisis berarti segalanya. Untuk metrik yang menggerakkan keputusan direksi, definisi tunggal + dedup + sertifikasi bukan birokrasi; ia pengaman keputusan.",
+      },
+      reference: "Vanity metric naik sendiri; actionable metric bisa turun dan memicu aksi.",
+    },
+    {
+      id: "peta-bi",
+      eyebrow: "Langkah 7 · Peta keputusan",
+      title: "BI yang sehat",
+      prose: [
+        "Metrik baru diusulkan → uji 5 syarat KPI dulu; tidak lolos = metrik pendukung, bukan KPI. Dashboard liar menjamur → program sertifikasi + rasionalisasi: dua kelas (tersertifikasi vs eksplorasi berlabel), pensiunkan yang tak dibuka.",
+        "Analis dan engineer saling lempar → peran analytics engineer (dbt). Angka beda antar dashboard → metrics layer (DM14): definisi tunggal tereksekusi, bukan dokumen. Dashboard membingungkan → desain ulang: 5–7 KPI, konteks, timestamp.",
+      ],
+      tasks: [],
+      reference: "KPI = 5 syarat. Dashboard resmi = tersertifikasi. 5–7 KPI per dashboard.",
+    },
+    {
+      id: "operasi-bi",
+      eyebrow: "Langkah 8 · Operasi BI",
+      title: "Dari dashboard ke keputusan: operasi yang sehat",
+      prose: [
+        "Operasionalisasinya di bank digital \"MajuBank\": 47 dashboard penjualan (cerita langkah 1) dirasionalisasi menjadi 12 yang tersertifikasi dalam empat bulan. Biayanya sebelum rasionalisasi: satu analis senior menghabiskan tiga hari per minggu — 60% waktunya — hanya untuk menjawab \"kok angka dashboard A beda dengan B?\" dan memperbaiki logika yang ditulis ulang di tiap dashboard. Itu sekitar Rp300 juta per tahun gaji untuk pekerjaan rekonsiliasi manual yang seharusnya tidak ada. Setelah rasionalisasi dengan metrics layer: waktu itu turun menjadi setengah hari per minggu, dan analisnya kembali mengerjakan analisis yang sesungguhnya. Pelajarannya: kekacauan BI bukan masalah estetika dashboard — ia adalah pemborosan tenaga kerja yang terukur. Hitung \"jam rekonsiliasi per minggu\" di timmu; kalau di atas 20% waktu analis, kamu punya kasus bisnis untuk metrics layer.",
+        "Metrics layer konkretnya begini: definisi \"pendapatan\" ditulis sekali sebagai kode — misalnya di dbt semantic layer atau LookML — lengkap dengan logikanya (\"sum transaksi berhasil dikurangi refund dan diskon, tidak termasuk pajak\"), lalu semua dashboard mengonsumsi definisi yang sama via API atau referensi model. Ketika direksi memutuskan definisi berubah (\"mulai kuartal depan, diskon ikut dikurangkan\"), perubahan dilakukan di satu tempat — dan 12 dashboard otomatis konsisten keesokan harinya. Bandingkan dengan dunia tanpa metrics layer: 12 dashboard berarti 12 copy logika SQL yang ditulis 6 orang dalam 3 tahun; mengubah definisi berarti berburu 12 file, dan 2 yang terlupakan akan salah selama berminggu-minggu tanpa ada yang sadar. Metrics layer adalah DRY (don't repeat yourself) yang diterapkan pada definisi bisnis — prinsip software engineering yang sama dari DM5, kini untuk angka direksi.",
+        "Kontras dua analis menghadapi perubahan definisi yang sama. Analis A menulis ulang logika \"pendapatan\" di tiap dashboard yang ia buat — lima versi SQL yang mirip tetapi tidak identik (satu lupa mengecualikan refund, satu memakai tanggal transaksi bukan tanggal settlement). Saat definisi resmi berubah, ia mengubah lima tempat; dua terlupakan. Selama tiga minggu, dua dashboard menampilkan angka lama — salah satunya dipakai manajer regional untuk keputusan bonus. Analis B memakai metrics layer: ia mengubah satu definisi, semua dashboard ikut, nol insiden. Perbedaan keduanya bukan kepintaran — melainkan arsitektur. A bekerja keras; B bekerja cerdas karena fondasinya memungkinkan. Moral untuk karirmu: jadilah Analis B — investasikan waktu membangun definisi bersama sekali, panen konsistensi selamanya. Dan kalau kamu mewarisi dashboard Analis A, refactoring pertamamu adalah memindahkan logikanya ke metrics layer sebelum menambah dashboard baru.",
+        "Mode kegagalan yang mengintai metrics layer sendiri adalah metric drift: definisi berubah diam-diam di satu tempat. Contoh: analis mengubah definisi \"nasabah aktif\" di satu dashboard dari \"transaksi 30 hari\" menjadi \"login 30 hari\" karena \"lebih mudah dihitung\" — tanpa pemberitahuan. Tiga bulan kemudian angka direksi (dari metrics layer) dan angka operasional (dari dashboard itu) berbeda 18%, dan masing-masing pihak yakin angkanya benar. Pertahanannya dipinjam dari dunia data contract: perubahan definisi metrik tersertifikasi adalah change request — diajukan tertulis, direview pemilik metrik, diberi versi baru (\"nasabah aktif v2\"), masa transisi untuk konsumen, dan changelog. Definisi boleh berevolusi — bisnis berubah, metrik harus ikut — tetapi evolusi yang diam-diam adalah korupsi data. Aturan: \"tidak ada perubahan definisi tanpa versi baru dan pemberitahuan.\"",
+        "Self-service BI yang sehat memisahkan dua dunia dengan jelas. Dunia eksplorasi: analis bebas membuat dashboard apa pun dari dataset sandbox — liar, cepat, tanpa birokrasi. Dunia resmi: dashboard yang dipakai untuk keputusan harus tersertifikasi (sumber gold, metrics layer, owner, refresh termonitor). Keduanya boleh ada dan keduanya dibutuhkan — eksplorasi adalah tempat insight lahir; sertifikasi adalah tempat kepercayaan dibangun. Yang tidak boleh: eksplorasi yang menyamar sebagai resmi (dashboard sandbox dipresentasikan ke direksi tanpa label). Mekanismenya: label visual yang jelas (\"EKSPORASI — belum terverifikasi\" vs \"TERSERTIFIKASI\"), dan jalur promosi yang ringan tetapi nyata — analis mengajukan dashboard eksplorasinya untuk sertifikasi, analytics engineer mereview dalam SLA dua hari. Jalur yang terlalu berat membuat orang menghindari sertifikasi; jalur yang tidak ada membuat semua dashboard liar. Keseimbangannya: semudah mungkin, seketat mungkin.",
+        "Dashboard tersertifikasi yang tidak dibuka adalah kegagalan yang mahal. Ukur adopsi seperti mengukur produk: berapa % keputusan direksi yang merujuk dashboard resmi (tanya di rapat: \"angka ini dari mana?\"), berapa dashboard yang dibuka >10 kali per bulan, berapa yang tidak dibuka 90 hari. Yang tidak dibuka 90 hari dipensiunkan — diarsipkan, bukan dihapus (lineage-nya tetap ada untuk audit), tetapi keluar dari daftar resmi. Alasannya ekonomi perhatian: setiap dashboard resmi yang tidak relevan menambah kebisingan dan menggerogoti kepercayaan pada yang relevan (\"dashboard resmi saja tidak ada yang buka, ngapain percaya?\"). Dan cari tahu kenapa tidak dibuka — biasanya karena menjawab pertanyaan yang tidak ditanyakan siapa pun, atau karena datanya tidak dipercaya. Dashboard yang sepi adalah umpan balik, bukan sampah: ia memberitahu apa yang sebenarnya dibutuhkan pengguna.",
+        "Keputusan cepat untuk operator BI — ditempel di dinding. Satu: metrik yang dipakai direksi wajib dari metrics layer dan dashboard tersertifikasi; tidak ada pengecualian \"kali ini saja\" — pengecualian adalah awal kekacauan. Dua: dua dashboard beda angka untuk metrik yang sama → jangan debat angkanya, satukan definisinya dulu; 90% \"perbedaan angka\" adalah perbedaan definisi. Tiga: dashboard lebih dari 7 KPI → pecah menjadi beberapa dashboard atau buang yang tidak actionable; dashboard bukan museum metrik. Empat: setiap angka penting punya timestamp \"diperbarui\" dan pembanding (target + periode lalu); tanpa keduanya, angka tidak informatif. Lima: ada permintaan dashboard baru → tanya dulu \"keputusan apa yang akan berubah dengan dashboard ini?\" Tidak ada jawaban konkret = tidak dibuat. Kelima aturan ini mencegah 80% dashboard liar.",
+        "Pendalaman yang sering dilupakan: data storytelling. Dashboard yang sempurna tetapi tidak pernah dipresentasikan dengan narasi akan kalah dari spreadsheet sederhana yang diceritakan dengan baik. Tiga kalimat eksekutif yang harus menyertai setiap dashboard penting: apa yang terjadi (\"NPL naik 0,8% bulan ini\"), kenapa itu penting (\"didorong segmen UMKM kuliner di dua kota\"), dan apa aksinya (\"usulan: perketat approval segmen ini dua minggu\"). Angka tanpa cerita tidak menggerakkan keputusan; cerita tanpa angka tidak bisa dipertanggungjawabkan. Latih analis menulis tiga kalimat ini — bukan sebagai \"tambahan\", melainkan sebagai definisi selesai: dashboard tanpa narasi eksekutif belum selesai. Dan untuk direksi yang membuka di HP: pastikan tiga kalimat itu terbaca dalam 10 detik pertama, sebelum chart apa pun. Perhatian adalah sumber daya paling langka di ruang direksi.",
+        "Anotasi konteks adalah fitur murah dengan dampak besar. Chart tren NPL yang melonjak tajam di bulan Agustus terlihat mengerikan — sampai ada anotasi \"promo cashback besar-besaran 8.8\" yang menjelaskan bahwa lonjakan berasal dari akuisisi massal (yang memang lebih berisiko di awal). Tanpa anotasi, direksi panik dan memotong limit secara membabi buta; dengan anotasi, diskusinya menjadi \"apakah akuisisi promo ini masih menguntungkan setelah risiko?\" — pertanyaan yang jauh lebih cerdas. Aturan: setiap dashboard tren penting punya lapisan anotasi event bisnis (promo, perubahan kebijakan, libur panjang, insiden) yang bisa di-toggle. Anotasi ditulis oleh pemilik bisnis, bukan tim data — mereka yang tahu apa yang terjadi. Chart tanpa konteks adalah Rorschach test: setiap orang melihat yang ingin ia lihat. Anotasi mengubahnya menjadi dokumen.",
+        "Strategi refresh harus mengikuti ritme keputusan, bukan ego teknologi. Tiga pola: real-time (detik — untuk fraud, monitoring operasional), intraday (jam — untuk operasional harian), harian/mingguan (untuk taktis dan strategis). Kesalahan umum adalah menyamakan \"lebih segar\" dengan \"lebih baik\": dashboard NPL direksi yang di-refresh tiap 5 menit tidak membuat keputusan lebih baik — direksi tidak mengubah strategi tiap 5 menit — tetapi membakar biaya compute dan menciptakan ilusi presisi (angka yang bergerak terus terlihat \"hidup\" padahal noise). Aturan: tanyakan \"keputusan apa yang diambil dari dashboard ini, dan seberapa sering keputusan itu dibuat?\" Refresh = 2× frekuensi keputusan, maksimal. Dan tampilkan jadwal refresh dengan jujur (\"diperbarui tiap jam 06.00\") — dashboard yang diklaim real-time tetapi sebenarnya harian adalah kebohongan yang menghancurkan kepercayaan saat ketahuan.",
+        "Bangun feedback loop dari pengguna ke pembangun — crowdsourced QA untuk BI. Mekanismenya sederhana: tombol \"angka ini terlihat aneh\" di setiap dashboard tersertifikasi yang membuat tiket langsung ke analytics engineer pemiliknya, lengkap dengan konteks (dashboard, filter, timestamp). Pengguna adalah sensor anomali terbaik — mereka tahu bisnisnya dan langsung curiga saat angka \"tidak terasa benar\". Tanpa tombol ini, kecurigaan disampaikan via gosip (\"dashboardnya ngaco tuh\") dan kepercayaan terkikis diam-diam; dengan tombol ini, setiap kecurigaan menjadi tiket yang terlacak dan terjawab. SLA responsnya: diakui dalam 1 hari kerja, dijelaskan dalam 3 hari (\"angka benar, ini penjelasannya\" atau \"kamu benar, ini bug-nya dan perbaikannya\"). Setiap tiket yang dijawab dengan baik menambah satu poin kepercayaan; setiap tiket yang diabaikan mengurangi sepuluh poin.",
+        "Untuk UMKM atau tim kecil, semua prinsip ini tetap berlaku dalam versi minimal. Tidak perlu metrics layer enterprise — cukup satu spreadsheet atau dokumen \"definisi metrik resmi\" yang terkontrol (satu file, satu pemilik, version history): 10 metrik bisnis utama dengan definisi, rumus, dan contoh. Tidak perlu tool sertifikasi mahal — cukup konvensi penamaan (\"[RESMI]\" vs \"[EKSPLORASI]\" di judul dashboard) dan review bulanan 30 menit. Tidak perlu data team besar — cukup satu orang yang ditunjuk sebagai \"pemilik angka\" per domain. Prinsipnya sama pada skala apa pun: definisi tunggal, sumber tepercaya, label jujur. UMKM yang menerapkan versi minimal ini mengalahkan perusahaan besar yang kacau — karena kepercayaan pada angka tidak ditentukan oleh mahalnya tool, melainkan oleh disiplinnya definisi.",
+        "Tutup dengan kebenaran tentang BI sebagai produk. Dashboard punya pengguna (pengambil keputusan), punya pemilik yang bertanggung jawab atas kepuasan pengguna, punya metrik (adopsi, kepercayaan, waktu-ke-insight), dan punya roadmap (metrik apa yang ditambah/dipensiunkan kuartal depan). Produk yang baik dirawat; dokumen yang baik ditulis sekali. Ketika tim BI melihat dashboardnya sebagai produk — \"NPS dashboard direksi kami 8,5\" — mereka berhenti menghitung dashboard yang dibuat dan mulai menghitung keputusan yang terbantu. Dan ingat hierarki nilainya: satu dashboard tersertifikasi yang dipakai direksi setiap pagi mengalahkan 47 dashboard liar yang tidak dipercaya siapa pun. Kualitas kepercayaan, bukan kuantitas dashboard — itulah metrik terakhir dari lesson ini.",
+        "Keamanan di lapisan BI sering menjadi titik bocor yang terlupakan: dashboard yang sama dibuka direktur dan staf cabang — tetapi staf cabang seharusnya hanya melihat datanya sendiri. Solusinya adalah row-level security: filter otomatis berdasarkan identitas pembuka (\"WHERE cabang = cabang_user_ini\") yang diterapkan di lapisan data, bukan di tiap dashboard. Menerapkannya per dashboard adalah bom waktu — satu dashboard lupa filter berarti kebocoran data. Aturan: keamanan didefinisikan sekali di dataset tersertifikasi dan diwariskan ke semua dashboard yang mengonsumsinya; tidak ada dashboard resmi yang mengimplementasikan filternya sendiri. Dan audit aksesnya: log siapa membuka dashboard berisi data sensitif apa, direview kuartalan. Dashboard adalah jendela ke data — pastikan jendelanya punya gorden yang benar untuk setiap orang yang mengintip.",
+        "Performa dashboard adalah bagian dari kepercayaan. Dashboard yang loading 40 detik tidak akan dibuka — pengguna kembali ke spreadsheet. Tiga tuas optimasi: agregat pra-hitung (dashboard tidak query 100 juta baris mentah, melainkan tabel agregat harian yang sudah disiapkan — inilah gunanya mart gold), caching (hasil query disimpan 15–60 menit; untuk data harian, cache 1 jam tidak mengurangi apa pun kecuali biaya), dan desain query (filter dulu di database, bukan tarik semua lalu filter di BI tool). Aturan anggarannya: dashboard operasional kritis harus terbuka di bawah 5 detik; di atas 10 detik adalah insiden performa. Ukur dan pajang waktu loading seperti metrik lainnya — yang tidak diukur tidak diperbaiki. Dan waspadai \"dashboard monster\": satu dashboard dengan 30 chart yang masing-masing query berat — pecah menjadi beberapa halaman fokus; pengguna tidak pernah benar-benar membutuhkan 30 chart sekaligus.",
+        "Alerting dari BI melengkapi dashboard yang pasif: bukan menunggu orang membuka dashboard, melainkan sistem yang mengetuk saat ada yang penting. Contoh: \"alert jika NPL segmen UMKM naik > 0,5% dalam seminggu\" terkirim ke grup risiko via pesan otomatis. Aturannya ketat agar tidak menjadi spam: setiap alert harus punya pemilik yang jelas (siapa yang bertindak saat berbunyi), threshold yang ditinjau kuartalan (threshold yang tidak pernah berbunyi = terlalu longgar; yang berbunyi tiap hari = terlalu ketat atau memang krisis), dan tombol \"akui\" — alert yang tidak diakui dalam 4 jam eskalasi. Tanpa disiplin ini, alerting menjadi alert fatigue versi BI: 50 notifikasi per hari yang semuanya diabaikan, termasuk yang penting. Mulai dari 3–5 alert untuk metrik paling kritis; tambah hanya jika setiap alert yang ada terbukti ditindaklanjuti.",
+        "Tutup loop-nya dengan maturity BI yang bisa dinilai sendiri. Level 1 (liar): dashboard dibuat siapa saja dari sumber apa saja, angka beda-beda, tidak ada pemilik. Level 2 (tertib): ada daftar dashboard resmi, definisi mulai disatukan, tetapi masih manual. Level 3 (terkelola): metrics layer + sertifikasi + adopsi diukur — inilah target realistis kebanyakan organisasi. Level 4 (proaktif): alerting, feedback loop, dan BI sebagai produk dengan roadmap. Nilai organisasimu dengan jujur, lalu rencanakan naik satu level per tahun — bukan lompat tiga level dengan tool mahal. Tool tidak menaikkan maturity; disiplin yang menaikkan. Dan pertanyaan refleksi untuk dibawa pulang: dari semua dashboard di tempatmu sekarang, berapa yang benar-benar mengubah keputusan minggu lalu? Jawaban atas pertanyaan itu adalah pekerjaan rumah BI-mu yang sesungguhnya.",
+        "Satu jebakan terakhir yang mahal: membangun BI sebelum fondasi data siap. Organisasi membeli tool BI termahal, membuat dashboard cantik — di atas data yang tidak punya definisi, tidak punya owner, tidak punya test. Hasilnya dapat diprediksi: dashboard cantik yang tidak dipercaya siapa pun, karena setiap angka bisa dipertanyakan dan tidak bisa dipertahankan. Urutan yang benar adalah urutan track ini: kelola dulu (definisi, kualitas, kontrak, governance), lalu visualisasikan. BI adalah atap rumah data — atap yang dipasang sebelum fondasi hanya menunggu roboh. Kalau organisasimu tergoda \"kita butuh dashboard bagus secepatnya\", jawab dengan pertanyaan: \"dashboard bagus di atas angka yang salah — untuk apa?\" Kepercayaan dibangun dari bawah ke atas: dari definisi yang disepakati, ke data yang teruji, ke dashboard yang tersertifikasi, ke keputusan yang berani diambil.",
+      ],
+      tasks: [],
+      reference: "BI = produk yang dirawat: definisi tunggal, label jujur, adopsi diukur.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: ["Enam pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
+      tasks: [],
+      summary: [
+        "KPI: 5 syarat — akurat, relevan, tepat waktu, actionable, ber-owner. Vanity ≠ KPI.",
+        "Analytics engineer: jembatan engineer–analis; software engineering untuk SQL (dbt).",
+        "Governance dashboard: sertifikasi (SIM) — resmi vs eksplorasi berlabel; pensiunkan yang basi.",
+        "Desain jujur: sumbu tidak terpotong, ada konteks & timestamp, 5–7 KPI.",
+        "Jangan: 47 dashboard liar; CSV email untuk direksi; vanity metric sebagai KPI.",
+      ],
+      next: { label: "DM17 — Strategi Data", href: "/learn/dm17-strategi-data" },
+      quiz: [
+        {
+          q: "\"Total download kumulatif sejak 2019\" sebagai KPI utama. Penilaianmu?",
+          options: [
+            { text: "KPI bagus — angkanya besar", why: "Besar tidak sama dengan berguna." },
+            { text: "Vanity metric — selalu naik, tidak mengubah keputusan, tidak actionable", why: "Uji \"jika turun 20% apa aksinya?\" — tidak ada jawaban = bukan KPI.", correct: true },
+            { text: "Cukup tambah warna", why: "Warna tidak memperbaiki definisi metrik." },
+            { text: "Tidak ada masalah", why: "Ada: ia menyembunyikan sinyal bahaya." },
+          ],
+        },
+        {
+          q: "Peran analytics engineer menjembatani…",
+          options: [
+            { text: "Data engineer (platform/pipeline) dan analis (insight) — membangun Gold bermakna bisnis", why: "Lahir dari celah: SQL analis tak ter-test, engineer tak paham bisnis.", correct: true },
+            { text: "HR dan finance", why: "Bukan peran lintas departemen itu." },
+            { text: "Tidak ada", why: "Ada: celah nyata antara engineer dan analis." },
+            { text: "Vendor dan klien", why: "Bukan soal vendor." },
+          ],
+        },
+        {
+          q: "Dashboard dari CSV email dipakai direksi. Menurut governance dashboard…",
+          options: [
+            { text: "Tidak masalah jika angkanya bagus", why: "\"Bagus\" tidak bisa diverifikasi tanpa sumber tersertifikasi." },
+            { text: "Tidak boleh untuk keputusan resmi — sumber bukan Gold tersertifikasi", why: "Maksimal berlabel eksplorasi.", correct: true },
+            { text: "Boleh jika dibuat cepat", why: "Kecepatan tidak menggantikan sertifikasi." },
+            { text: "Hapus CSV-nya saja", why: "Menghapus file tidak memperbaiki governance-nya." },
+          ],
+        },
+        {
+          q: "Dashboard tanpa timestamp \"diperbarui: ...\" berisiko…",
+          options: [
+            { text: "Tidak ada risiko", why: "Ada: bom kepercayaan." },
+            { text: "Angka basi disangka segar — bom kepercayaan", why: "Kepercayaan = tahu data se-segar apa.", correct: true },
+            { text: "Terlalu jujur", why: "Kejujuran justru yang diminta." },
+            { text: "Loading lambat", why: "Timestamp tidak memengaruhi kecepatan." },
+          ],
+        },
+        {
+          q: "Lima dashboard beda angka \"pendapatan\". Solusi struktural?",
+          options: [
+            { text: "Pilih yang paling bagus", why: "\"Bagus\" subjektif; definisi tetap tersebar." },
+            { text: "Metrics layer: satu definisi tereksekusi dikonsumsi semua", why: "Definisi di kode yang dijalankan tidak bisa lupa diikuti.", correct: true },
+            { text: "Rata-ratakan", why: "Rata-rata definisi salah = salah yang rapi." },
+            { text: "Hapus semua", why: "Menghapus gejala, bukan akar." },
+          ],
+        },
+        {
+          q: "Analis mengubah definisi \"nasabah aktif\" di satu dashboard tanpa pemberitahuan; tiga bulan kemudian angkanya beda 18% dari dashboard direksi. Ini pelanggaran terhadap apa dan obatnya?",
+          options: [
+            { text: "Tidak ada pelanggaran — analis bebas berkreasi", why: "Kebebasan berkreasi berlaku di eksplorasi, bukan di metrik tersertifikasi." },
+            { text: "Prinsip definisi tunggal: perubahan definisi metrik tersertifikasi = change request + versi baru + pemberitahuan", why: "Definisi boleh berevolusi, tetapi evolusi diam-diam adalah korupsi data.", correct: true },
+            { text: "Hapus dashboard analisnya", why: "Menghapus gejala; masalahnya di proses perubahan definisi." },
+            { text: "Samakan dengan rata-rata kedua angka", why: "Rata-rata definisi yang beda = salah yang rapi." },
+          ],
+        },
+      ],
+    },
+  ],
+};

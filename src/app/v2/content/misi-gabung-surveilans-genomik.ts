@@ -1,0 +1,620 @@
+import type { V2Mission } from "../lib/types";
+
+// ── MISI CAPSTONE #7: Surveilans Genomik ─────────────────────────────────
+// Health Data Science × Bioinformatika.
+// Narasi: epidemiolog menerima batch hasil sequencing "patogen X" (fiktif)
+// dari 3 lab daerah + data kasus mingguan; tugasnya menentukan apakah ada
+// cluster transmisi baru yang butuh intervensi kebijakan.
+// DATA 100% SINTETIS ORISINAL (seed 42) — dinyatakan eksplisit di briefing
+// dan METODE.md. BUKAN data pasien nyata, BUKAN GISAID.
+// File: public/misi/misi-gabung-surveilans-genomik/ (3 CSV + METODE.md).
+
+const BASE = "/misi/misi-gabung-surveilans-genomik";
+
+export const misiGabungSurveilansGenomik: V2Mission = {
+  slug: "misi-gabung-surveilans-genomik",
+  track: "Health Data Science",
+  module: "Misi",
+  title: "Misi Surveilans Genomik: Wabah yang Terlihat dari Sekuensnya",
+  estMinutes: 180,
+  role: "Epidemiolog surveilans genomik",
+  client:
+    "Kepala Dinas Kesehatan — batch hasil sequencing patogen X dari 3 lab daerah + data kasus mingguan; tentukan apakah ada cluster transmisi baru yang butuh intervensi kebijakan",
+  xp: 500,
+  steps: [
+    {
+      id: "briefing",
+      eyebrow: "Langkah 1 · Briefing misi",
+      title: "Dua sinyal yang selaras — terlalu selaras?",
+      prose: [],
+      tasks: [
+        { id: "t1", text: "Baca cerita dan catat dua sinyal yang tampak selaras" },
+        { id: "t2", text: "Catat 3 objectives — inilah yang dinilai di akhir misi" },
+      ],
+      briefing: {
+        role: "Epidemiolog surveilans genomik di Dinas Kesehatan — penghubung antara lab sequencing dan pengambil kebijakan",
+        client:
+          "Kepala Dinas Kesehatan. Pagi ini tiga lab daerah mengirim batch hasil sequencing “patogen X” — 24 sampel dari 4 wilayah — beserta data kasus mingguan 8 pekan terakhir. Di atas kertas, dua sinyal tampak selaras: sekelompok sampel yang mirip secara genetik, dan satu wilayah yang kurva kasusnya menanjak. Kepala Dinas butuh jawaban dalam format yang bisa dibawa ke rapat kebijakan: ADA atau TIDAK ADA cluster transmisi baru, di mana, dan apa intervensinya. Keputusanmu akan menentukan apakah ribuan orang di-tracing — atau tidak.",
+        story: [
+          "Senin, 07:40. Kamu baru menyeduh kopi ketika email dari koordinator lab masuk: “Batch sequencing pekan ini sudah lengkap — 24 sampel, 3 lab. Log ringkasannya juga saya lampirkan; sekilas ada satu cluster menarik.” Kamu membuka lampiran itu sambil berpikir: “sekilas menarik” dari koordinator biasanya berarti “tolong verifikasi sebelum saya salah tulis di laporan”.",
+          "Dan memang ada yang menarik. Lima sampel dari Wilayah C jarak genetiknya hanya 0–3 SNP — mirip sekali, seperti satu rantai penularan. Di saat yang sama, kurva kasus Wilayah C menanjak tiga pekan beruntun. Dua sinyal, satu cerita: cluster transmisi baru di Wilayah C. Terlihat jelas. Terlalu jelas, malah.",
+          "Karena ada sinyal ketiga yang tidak ikut-ikutan: empat sampel dari Lab Timur jaraknya 0–1 SNP — LEBIH identik dari cluster C — tapi wilayahnya (Wilayah B) kurva kasusnya datar seperti meja. Kalau kemiripan genetik = transmisi aktif, Wilayah B seharusnya meledak. Ia tidak. Jadi: mana sinyal yang jujur, mana yang artefak? Itulah yang harus kamu buktikan sebelum rapat kebijakan.",
+        ],
+        objectives: [
+          "Menjalankan QC atas 24 hasil sequencing dan menandai setiap sampel yang gagal beserta alasannya (termasuk anomali metadata).",
+          "Membangun cluster genetik (single-linkage, ambang 5 SNP) lalu mengaitkannya dengan kurva kasus mingguan untuk menentukan wilayah prioritas — dengan DUA sinyal, bukan satu.",
+          "Menemukan minimal 3 anomali data di dossier audit dan menulis rekomendasi kebijakan satu halaman yang dipertahankan dengan bukti + ambang tindakan.",
+        ],
+        prereqSummary:
+          "Jarak genetik SNP = hitungan posisi genom yang berbeda antara dua sampel; makin kecil, makin mirip — tapi kemiripan bisa juga berasal dari artefak lab, bukan penularan. Kurva kasus mingguan menunjukkan apakah penularan di suatu wilayah benar-benar naik. Keputusan kebijakan yang sehat menuntut DUA sinyal selaras (genetik + epidemiologi); satu sinyal saja — sekuat apa pun — belum cukup untuk mengunci sebuah wilayah.",
+        datasetNote:
+          "DATA SINTETIS ORISINAL UNTUK MISI INI (100% dibuat-buat, bukan data pasien nyata, bukan GISAID/data ber-registrasi). Patogen disebut “patogen X” — fiktif; jangan ditafsirkan sebagai patogen nyata mana pun.\nGenerator: skrip Python deterministik, seed 42. 24 sampel dari 3 lab daerah (Lab Utara, Lab Selatan, Lab Timur) × 4 wilayah (A–D), Januari–Februari 2026 (kalender fiktif).\nFile: sampel.csv (metadata + metrik QC), matriks_jarak.csv (276 pasangan, jarak SNP sintetis), kasus_mingguan.csv (4 wilayah × 8 minggu).\nKejujuran: anomali di data ini DISENGAJA sebagai bagian desain pedagogis (lihat dossier audit); ambang QC dan ambang cluster disederhanakan untuk misi. Metode: file METODE.md di folder yang sama.",
+      },
+    },
+    {
+      id: "dataroom",
+      eyebrow: "Langkah 2 · Data room",
+      title: "Tiga file, tiga sudut pandang",
+      prose: [
+        "Tiga file menunggumu — masing-masing menjawab pertanyaan berbeda. `sampel.csv` (24 baris): siapa sampelnya, dari lab mana, kapan diambil dan dikirim, plus empat metrik QC — `coverage_x` (kedalaman baca), `pct_genom` (persen genom ter-cover), `n_ambigu` (posisi tak terbaca), `skor_kontaminasi` (fraksi campuran). `matriks_jarak.csv` (276 baris): tiap pasangan sampel + `jarak_snp`-nya — bahan mentah klastering. `kasus_mingguan.csv` (32 baris): kurva epidemiologi, 4 wilayah × 8 minggu.",
+        "Aturan main misi ini: (1) analisis dibangun dari data mentah, BUKAN dari klaim log koordinator lab; (2) sampel yang gagal QC tidak ikut klastering — sampah masuk, cluster palsu keluar; (3) rekomendasi kebijakan butuh DUA sinyal yang selaras (genetik + kurva kasus) — satu sinyal, sekuat apa pun, tidak cukup.",
+        "Cara membaca tabel QC: satu baris = satu sampel. `coverage_x` 93,0 artinya tiap posisi genom dibaca rata-rata 93 kali — makin tinggi makin terpercaya. `skor_kontaminasi` 0,23 artinya ~23% sinyalnya campuran dari sumber lain — sampel seperti itu bicaranya tidak bisa dipercaya.",
+      ],
+      tasks: [
+        { id: "t1", text: "Buka `sampel.csv`: catat jumlah baris dan nama kolomnya" },
+        { id: "t2", text: "Buka `matriks_jarak.csv` dan `kasus_mingguan.csv`: pahami format tiap baris" },
+      ],
+      note: {
+        title: "Miskonsepsi #1: jarak genetik kecil = terbukti saling menulari",
+        type: "pitfall",
+        body: "“S01 dan S02 jaraknya 2 SNP — berarti S01 menulari S02.” SALAH. Jarak kecil hanya bilang kedua sekuens MIRIP; ia tidak tahu siapa menulari siapa, kapan, atau di mana. Arah transmisi butuh data epidemiologi (riwayat kontak, waktu onset). Lebih jauh lagi: kemiripan bisa 100% artefak lab — dan misi ini sengaja menyembunyikan satu artefak seperti itu. Jangan pernah membaca arah dari matriks jarak.",
+      },
+      reference:
+        "sampel.csv (24 baris, metadata + QC) · matriks_jarak.csv (276 pasangan) · kasus_mingguan.csv (4 wilayah × 8 minggu). Analisis dari yang mentah; vonis untuk klaim log.",
+    },
+    {
+      id: "lab-qc",
+      eyebrow: "Langkah 3 · Lab 1 — QC sequencing",
+      title: "Sampel mana yang bicaranya tidak bisa dipercaya?",
+      prose: [
+        "Sebelum satu pun cluster dihitung, bersihkan dulu datanya. Sekuens yang buruk bukan cuma “kurang bagus” — ia AKTIF menyesatkan: kontaminasi menciptakan kemiripan palsu antar sampel, coverage rendah menciptakan perbedaan palsu. Kriteria lolos QC misi ini: `coverage_x` ≥ 30, `pct_genom` ≥ 90%, `n_ambigu` ≤ 500, dan `skor_kontaminasi` < 0,05. Satu kriteria gagal = sampel dieksklusi dari klastering.",
+        "Ada juga pemeriksaan kedua yang sering dilupakan: kewarasan metadata. Tanggal kirim tidak mungkin lebih awal dari tanggal pengambilan sampel — kalau ada, itu salah ketik yang bisa menggeser seluruh analisis mingguan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Muat CSV; hitung `n_total`" },
+        { id: "t2", text: "Terapkan 4 kriteria QC → `n_gagal` dan `gagal_ids` (string ID urut abjad, dipisah koma)" },
+        { id: "t3", text: "Temukan anomali tanggal (`tgl_kirim` < `tgl_koleksi`) → `n_tanggal_aneh`, `tanggal_aneh_ids`" },
+      ],
+      expected:
+        "n_total=24, n_gagal=2 (S09: kontaminasi 0,23; S17: coverage 12,4×), n_tanggal_aneh=1 (S05: tgl_kirim 2026-02-20 lebih awal dari tgl_koleksi 2026-02-26)",
+      hints: [
+        "Muat CSV: `from pyodide.http import open_url` lalu `pd.read_csv(open_url(URL))` — kolom tanggal masih string, ubah dengan `pd.to_datetime` sebelum dibandingkan.",
+        "Kriteria gagal: `(df[\"coverage_x\"] < 30) | (df[\"pct_genom\"] < 90.0) | (df[\"n_ambigu\"] > 500) | (df[\"skor_kontaminasi\"] >= 0.05)` — tiap kondisi dalam kurung.",
+        "Tanggal aneh: baris dengan `tgl_kirim` < `tgl_koleksi` — pengiriman tak mungkin terjadi sebelum sampel diambil.",
+        "`gagal_ids`: `\",\".join(sorted(...))` agar urut abjad dan cocok dengan checker.",
+      ],
+      requires: ["pandas"],
+      code: {
+        starter: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "URL = \"/misi/misi-gabung-surveilans-genomik/sampel.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "df = pd.read_csv(open_url(URL))",
+          "",
+          "n_total = ...",
+          "",
+          "gagal = df[...]   # 4 kriteria QC digabung dengan |",
+          "n_gagal = ...",
+          "gagal_ids = ...   # string ID urut abjad, dipisah koma",
+          "",
+          "df[\"tgl_koleksi\"] = pd.to_datetime(df[\"tgl_koleksi\"])",
+          "df[\"tgl_kirim\"] = pd.to_datetime(df[\"tgl_kirim\"])",
+          "aneh = ...        # tgl_kirim < tgl_koleksi",
+          "n_tanggal_aneh = ...",
+          "tanggal_aneh_ids = ...",
+          "",
+          "print(\"total:\", n_total, \"| gagal QC:\", n_gagal, \"(\", gagal_ids, \")\")",
+          "print(\"tanggal aneh:\", n_tanggal_aneh, \"(\", tanggal_aneh_ids, \")\")",
+        ].join("\n"),
+        lockLines: 8,
+        solution: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "URL = \"/misi/misi-gabung-surveilans-genomik/sampel.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "df = pd.read_csv(open_url(URL))",
+          "",
+          "n_total = len(df)",
+          "",
+          "gagal = df[(df[\"coverage_x\"] < 30) | (df[\"pct_genom\"] < 90.0) | (df[\"n_ambigu\"] > 500) | (df[\"skor_kontaminasi\"] >= 0.05)]",
+          "n_gagal = len(gagal)",
+          "gagal_ids = \",\".join(sorted(gagal[\"sample_id\"].tolist()))",
+          "",
+          "df[\"tgl_koleksi\"] = pd.to_datetime(df[\"tgl_koleksi\"])",
+          "df[\"tgl_kirim\"] = pd.to_datetime(df[\"tgl_kirim\"])",
+          "aneh = df[df[\"tgl_kirim\"] < df[\"tgl_koleksi\"]]",
+          "n_tanggal_aneh = len(aneh)",
+          "tanggal_aneh_ids = \",\".join(sorted(aneh[\"sample_id\"].tolist()))",
+          "",
+          "print(\"total:\", n_total, \"| gagal QC:\", n_gagal, \"(\", gagal_ids, \")\")",
+          "print(\"tanggal aneh:\", n_tanggal_aneh, \"(\", tanggal_aneh_ids, \")\")",
+        ].join("\n"),
+        checks: [
+          { kind: "defined", task: "t1", label: "`df` termuat", name: "df", msg: "df harus berisi DataFrame dari sampel.csv." },
+          { kind: "equal", task: "t1", label: "`n_total` = 24", name: "n_total", value: 24, msg: "File sampel.csv berisi 24 sampel." },
+          { kind: "equal", task: "t2", label: "`n_gagal` = 2", name: "n_gagal", value: 2, msg: "Dua sampel gagal: satu kontaminasi, satu coverage rendah. Cek keempat kriteria." },
+          { kind: "equal", task: "t2", label: "`gagal_ids` = S09,S17", name: "gagal_ids", value: "S09,S17", msg: "S09 (skor_kontaminasi 0,23) dan S17 (coverage 12,4×). Urut abjad, pisahkan koma." },
+          { kind: "equal", task: "t3", label: "`n_tanggal_aneh` = 1", name: "n_tanggal_aneh", value: 1, msg: "Satu baris punya tgl_kirim lebih awal dari tgl_koleksi." },
+          { kind: "equal", task: "t3", label: "`tanggal_aneh_ids` = S05", name: "tanggal_aneh_ids", value: "S05", msg: "S05: dikirim 2026-02-20 padahal diambil 2026-02-26." },
+        ],
+      },
+    },
+    {
+      id: "lab-cluster",
+      eyebrow: "Langkah 4 · Lab 2 — Cluster jarak genetik",
+      title: "Siapa mirip dengan siapa?",
+      prose: [
+        "Data sudah bersih: 22 sampel lolos QC (S09 dan S17 dieksklusi — jangan libatkan mereka). Sekarang bangun cluster dari `matriks_jarak.csv` dengan aturan single-linkage: dua sampel secluster bila terhubung oleh rantai pasangan yang masing-masing berjarak ≤ 5 SNP. Ambang 5 SNP disederhanakan untuk misi ini — di dunia nyata ambang ditentukan pedoman dan konteks patogen.",
+        "Yang kamu cari: grup beranggota lebih dari 1. Sampel yang tidak punya tetangga dalam 5 SNP = singleton, bukan cluster — ia hanya “tidak mirip siapa-siapa”.",
+      ],
+      tasks: [
+        { id: "t1", text: "Muat matriks; buang pasangan yang melibatkan S09/S17" },
+        { id: "t2", text: "Union-find dengan ambang 5 SNP → `n_cluster`" },
+        { id: "t3", text: "Urutkan cluster berdasar ukuran → `ukuran`, `klaster_4`, `klaster_5` (string ID urut abjad)" },
+      ],
+      expected:
+        "n_cluster=2 — cluster 5 anggota (S01,S02,S03,S04,S05; Wilayah C) dan cluster 4 anggota (S13,S14,S15,S16; Wilayah B, semuanya dari Lab Timur)",
+      formula: String.raw`d_{ij} = \text{jumlah posisi SNP yang berbeda antara sampel } i \text{ dan } j`,
+      formulaNote:
+        "d_ij = jarak genetik SNP antara sampel i dan j (bilangan bulat ≥ 0). d = 0 artinya identik pada posisi yang dibandingkan; d = 2 (misalnya S01 vs S02) artinya hanya 2 posisi berbeda — sangat mirip. Aturan cluster misi ini: i dan j secluster bila ada rantai i = v0, v1, …, vk = j dengan tiap d(vt, vt+1) ≤ 5 (ambang τ = 5 SNP).",
+      note: {
+        title: "Miskonsepsi #2: cluster genetik = cluster transmisi",
+        type: "pitfall",
+        body: "“Empat sampel jaraknya 0–1 SNP — pasti satu rantai penularan!” BELUM TENTU. Sekuens yang diproses dalam satu batch lab yang sama bisa membawa artefak yang SAMA — kesalahan sistematis yang membuat mereka terlihat identik. Itu namanya batch effect: kemiripan buatan lab, bukan buatan virus. Cluster genetik adalah KANDIDAT yang wajib dikonfirmasi sinyal epidemiologi — persis yang kamu kerjakan di Lab 3.",
+      },
+      hints: [
+        "Buang dulu pasangan yang melibatkan sampel gagal QC: `df[~df[\"sample_a\"].isin(GAGAL_QC) & ~df[\"sample_b\"].isin(GAGAL_QC)]`.",
+        "Union-find: untuk tiap baris dengan `jarak_snp <= 5`, gabungkan kedua sampel. Grup beranggota > 1 = cluster.",
+        "Urutkan daftar cluster dengan `sorted(..., key=len)` supaya `klaster_4` selalu yang beranggota 4.",
+      ],
+      requires: ["pandas"],
+      code: {
+        starter: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "URL = \"/misi/misi-gabung-surveilans-genomik/matriks_jarak.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "df = pd.read_csv(open_url(URL))",
+          "",
+          "GAGAL_QC = {\"S09\", \"S17\"}   # dari Lab 1 — jangan libatkan",
+          "df = df[...]   # buang pasangan yang melibatkan GAGAL_QC",
+          "",
+          "AMBANG = 5",
+          "parent = {}",
+          "def find(x):",
+          "    while parent[x] != x:",
+          "        parent[x] = parent[parent[x]]",
+          "        x = parent[x]",
+          "    return x",
+          "",
+          "semua = sorted(set(df[\"sample_a\"]) | set(df[\"sample_b\"]))",
+          "for s in semua:",
+          "    parent[s] = s",
+          "for _, r in df[df[\"jarak_snp\"] <= AMBANG].iterrows():",
+          "    a, b = find(r[\"sample_a\"]), find(r[\"sample_b\"])",
+          "    if a != b:",
+          "        parent[a] = b",
+          "",
+          "kel = {}",
+          "for s in semua:",
+          "    kel.setdefault(find(s), []).append(s)",
+          "klaster = ...   # grup beranggota > 1, urut berdasar ukuran",
+          "",
+          "n_cluster = ...",
+          "ukuran = ...       # mis. \"4,5\"",
+          "klaster_4 = ...    # string ID urut abjad, dipisah koma",
+          "klaster_5 = ...",
+          "",
+          "print(\"cluster:\", n_cluster, \"| ukuran:\", ukuran)",
+          "print(\"anggota 4:\", klaster_4)",
+          "print(\"anggota 5:\", klaster_5)",
+        ].join("\n"),
+        lockLines: 8,
+        solution: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "URL = \"/misi/misi-gabung-surveilans-genomik/matriks_jarak.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "df = pd.read_csv(open_url(URL))",
+          "",
+          "GAGAL_QC = {\"S09\", \"S17\"}   # dari Lab 1 — jangan libatkan",
+          "df = df[~df[\"sample_a\"].isin(GAGAL_QC) & ~df[\"sample_b\"].isin(GAGAL_QC)]",
+          "",
+          "AMBANG = 5",
+          "parent = {}",
+          "def find(x):",
+          "    while parent[x] != x:",
+          "        parent[x] = parent[parent[x]]",
+          "        x = parent[x]",
+          "    return x",
+          "",
+          "semua = sorted(set(df[\"sample_a\"]) | set(df[\"sample_b\"]))",
+          "for s in semua:",
+          "    parent[s] = s",
+          "for _, r in df[df[\"jarak_snp\"] <= AMBANG].iterrows():",
+          "    a, b = find(r[\"sample_a\"]), find(r[\"sample_b\"])",
+          "    if a != b:",
+          "        parent[a] = b",
+          "",
+          "kel = {}",
+          "for s in semua:",
+          "    kel.setdefault(find(s), []).append(s)",
+          "klaster = sorted([sorted(v) for v in kel.values() if len(v) > 1], key=len)",
+          "",
+          "n_cluster = len(klaster)",
+          "ukuran = \",\".join(str(len(k)) for k in klaster)",
+          "klaster_4 = \",\".join(klaster[0])",
+          "klaster_5 = \",\".join(klaster[1])",
+          "",
+          "print(\"cluster:\", n_cluster, \"| ukuran:\", ukuran)",
+          "print(\"anggota 4:\", klaster_4)",
+          "print(\"anggota 5:\", klaster_5)",
+        ].join("\n"),
+        checks: [
+          { kind: "defined", task: "t1", label: "`df` termuat & terfilter", name: "df", msg: "df harus berisi pasangan jarak tanpa S09/S17." },
+          { kind: "equal", task: "t2", label: "`n_cluster` = 2", name: "n_cluster", value: 2, msg: "Tepat 2 grup beranggota > 1 pada ambang 5 SNP." },
+          { kind: "equal", task: "t3", label: "`ukuran` = 4,5", name: "ukuran", value: "4,5", msg: "Satu cluster beranggota 4, satu beranggota 5 (urut menaik)." },
+          { kind: "equal", task: "t3", label: "`klaster_4` = S13,S14,S15,S16", name: "klaster_4", value: "S13,S14,S15,S16", msg: "Cluster kecil = 4 sampel Lab Timur." },
+          { kind: "equal", task: "t3", label: "`klaster_5` = S01,S02,S03,S04,S05", name: "klaster_5", value: "S01,S02,S03,S04,S05", msg: "Cluster besar = 5 sampel Wilayah C." },
+        ],
+      },
+    },
+    {
+      id: "lab-kurva",
+      eyebrow: "Langkah 5 · Lab 3 — Kaitkan dengan kurva kasus",
+      title: "Sinyal kedua: siapa yang benar-benar naik?",
+      prose: [
+        "Dua cluster genetik di tangan — tapi baru SATU sinyal. Sekarang sinyal kedua: kurva kasus mingguan. Untuk tiap wilayah, hitung rasio pertumbuhan = kasus (minggu 7+8) dibagi kasus (minggu 5+6). Rasio ≥ 2 berarti kasus berlipat ganda dalam dua pekan — itu sinyal epidemiologi yang serius.",
+        "Cara membaca grafik di bawah: sumbu X = minggu 1–8, sumbu Y = jumlah kasus, tiap garis = satu wilayah. Garis yang menanjak tajam di kanan = wilayah yang kasusnya meledak belakangan.",
+        "Interpretasi: cluster genetik yang wilayahnya kurva kasusnya DATAR adalah kandidat artefak — kemiripan tanpa penularan. Cluster yang wilayahnya NAIK didukung dua sinyal. Hanya wilayah seperti itu yang layak masuk rekomendasi kebijakan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Petakan tiap cluster ke wilayahnya (modus kolom `wilayah` anggota)" },
+        { id: "t2", text: "Hitung rasio pertumbuhan tiap wilayah → `growth_b`, `growth_c`" },
+        { id: "t3", text: "Tentukan `wilayah_target`: wilayah cluster dengan rasio ≥ 2" },
+      ],
+      expected:
+        "Cluster 5 anggota → Wilayah C (growth 3,45); cluster 4 anggota → Wilayah B (growth 1,00). Hanya C yang didukung dua sinyal → wilayah_target=C",
+      echart: {
+        option: {
+          title: { text: "Kurva kasus mingguan per wilayah (data sintetis)" },
+          tooltip: { trigger: "axis" },
+          legend: { data: ["A", "B", "C", "D"] },
+          xAxis: { type: "category", data: ["M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8"] },
+          yAxis: { type: "value", name: "kasus" },
+          series: [
+            { name: "A", type: "line", data: [8, 10, 12, 12, 9, 11, 9, 8] },
+            { name: "B", type: "line", data: [10, 10, 8, 10, 9, 9, 8, 10] },
+            { name: "C", type: "line", data: [12, 11, 12, 9, 9, 24, 43, 71] },
+            { name: "D", type: "line", data: [8, 9, 10, 11, 9, 10, 9, 8] },
+          ],
+        },
+        caption: "Kurva kasus mingguan per wilayah — data sintetis orisinal misi ini.",
+      },
+      hints: [
+        "Wilayah anggota: `sampel.set_index(\"sample_id\")[\"wilayah\"].to_dict()` lalu ambil modus tiap cluster.",
+        "Rasio: `(kasus minggu 7 + minggu 8) / (kasus minggu 5 + minggu 6)` — filter `kasus[kasus[\"wilayah\"] == \"C\"]`.",
+        "`wilayah_target` = wilayah dari cluster yang rasionya ≥ 2 — cuma satu yang lolos.",
+      ],
+      requires: ["pandas"],
+      code: {
+        starter: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "URL_SAMPEL = \"/misi/misi-gabung-surveilans-genomik/sampel.csv\"",
+          "URL_KASUS = \"/misi/misi-gabung-surveilans-genomik/kasus_mingguan.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "sampel = pd.read_csv(open_url(URL_SAMPEL))",
+          "kasus = pd.read_csv(open_url(URL_KASUS))",
+          "",
+          "# anggota cluster dari Lab 2",
+          "KLASTER_KECIL = [\"S13\", \"S14\", \"S15\", \"S16\"]",
+          "KLASTER_BESAR = [\"S01\", \"S02\", \"S03\", \"S04\", \"S05\"]",
+          "",
+          "wilayah = sampel.set_index(\"sample_id\")[\"wilayah\"].to_dict()",
+          "",
+          "def wilayah_klaster(anggota):",
+          "    w = [wilayah[s] for s in anggota]",
+          "    return max(set(w), key=w.count)",
+          "",
+          "def growth(wil):",
+          "    s = kasus[kasus[\"wilayah\"] == wil].set_index(\"minggu\")[\"kasus\"]",
+          "    return float((s.loc[7] + s.loc[8]) / (s.loc[5] + s.loc[6]))",
+          "",
+          "wil_kecil = ...",
+          "wil_besar = ...",
+          "growth_b = ...   # rasio Wilayah B",
+          "growth_c = ...   # rasio Wilayah C",
+          "wilayah_target = ...   # wilayah cluster dengan rasio >= 2",
+          "",
+          "print(\"kecil ->\", wil_kecil, \"| besar ->\", wil_besar)",
+          "print(\"growth B:\", round(growth_b, 4), \"| growth C:\", round(growth_c, 4))",
+          "print(\"target:\", wilayah_target)",
+        ].join("\n"),
+        lockLines: 10,
+        solution: [
+          "import pandas as pd",
+          "from pyodide.http import open_url",
+          "",
+          "URL_SAMPEL = \"/misi/misi-gabung-surveilans-genomik/sampel.csv\"",
+          "URL_KASUS = \"/misi/misi-gabung-surveilans-genomik/kasus_mingguan.csv\"",
+          "",
+          "# TUGASMU: lengkapi baris-baris bertanda ... di bawah",
+          "sampel = pd.read_csv(open_url(URL_SAMPEL))",
+          "kasus = pd.read_csv(open_url(URL_KASUS))",
+          "",
+          "# anggota cluster dari Lab 2",
+          "KLASTER_KECIL = [\"S13\", \"S14\", \"S15\", \"S16\"]",
+          "KLASTER_BESAR = [\"S01\", \"S02\", \"S03\", \"S04\", \"S05\"]",
+          "",
+          "wilayah = sampel.set_index(\"sample_id\")[\"wilayah\"].to_dict()",
+          "",
+          "def wilayah_klaster(anggota):",
+          "    w = [wilayah[s] for s in anggota]",
+          "    return max(set(w), key=w.count)",
+          "",
+          "def growth(wil):",
+          "    s = kasus[kasus[\"wilayah\"] == wil].set_index(\"minggu\")[\"kasus\"]",
+          "    return float((s.loc[7] + s.loc[8]) / (s.loc[5] + s.loc[6]))",
+          "",
+          "wil_kecil = wilayah_klaster(KLASTER_KECIL)",
+          "wil_besar = wilayah_klaster(KLASTER_BESAR)",
+          "growth_b = growth(\"B\")",
+          "growth_c = growth(\"C\")",
+          "wilayah_target = wil_besar if growth(wil_besar) >= 2 else wil_kecil",
+          "",
+          "print(\"kecil ->\", wil_kecil, \"| besar ->\", wil_besar)",
+          "print(\"growth B:\", round(growth_b, 4), \"| growth C:\", round(growth_c, 4))",
+          "print(\"target:\", wilayah_target)",
+        ].join("\n"),
+        checks: [
+          { kind: "equal", task: "t1", label: "cluster kecil → Wilayah B", name: "wil_kecil", value: "B", msg: "S13–S16 semuanya berwilayah B." },
+          { kind: "equal", task: "t1", label: "cluster besar → Wilayah C", name: "wil_besar", value: "C", msg: "S01–S05 semuanya berwilayah C." },
+          { kind: "equal", task: "t2", label: "`growth_b` ≈ 1,00", name: "growth_b", value: 1.0, tol: 0.05, msg: "(8+10)/(9+9) = 1,0 — Wilayah B datar." },
+          { kind: "equal", task: "t2", label: "`growth_c` ≈ 3,45", name: "growth_c", value: 3.4545, tol: 0.01, msg: "(43+71)/(9+24) = 3,4545 — Wilayah C meledak." },
+          { kind: "equal", task: "t3", label: "`wilayah_target` = C", name: "wilayah_target", value: "C", msg: "Hanya cluster Wilayah C yang didukung dua sinyal." },
+        ],
+      },
+    },
+  ],
+};
+
+export default misiGabungSurveilansGenomik;
+
+// ── lanjutan: keputusan → konsekuensi → audit → deliverable → debrief ────
+import type { V2Step } from "../lib/types";
+
+const LANJUTAN_GENOMIK: V2Step[] = [
+  {
+    id: "keputusan",
+    eyebrow: "Langkah 6 · Checkpoint keputusan",
+    title: "Rekomendasi apa yang kamu bawa ke rapat kebijakan?",
+    prose: [
+      "Bukti di tangan: 22 sampel lolos QC, 2 cluster genetik, tapi hanya SATU yang didukung kurva kasus — Wilayah C (growth 3,45; cluster 5 sampel). Cluster Lab Timur (Wilayah B, growth 1,00) secara genetik lebih “sempurna” tapi epidemiologinya diam. Kepala Dinas menunggumu memilih — dan tiap opsi mengubah apa yang terjadi berikutnya. Tidak ada opsi yang gratis.",
+    ],
+    tasks: [
+      { id: "t1", text: "Pilih SATU opsi — anggap keputusanmu langsung diteruskan ke Kepala Dinas Kesehatan" },
+    ],
+    decision: {
+      prompt:
+        "Rekomendasi kebijakan apa yang kamu sampaikan atas temuan surveilans genomik ini?",
+      options: [
+        {
+          id: "opt-intervensi",
+          label: "Intervensi target di Wilayah C — tracing + testing massal terbatas 2 pekan",
+          rationale:
+            "Dua sinyal selaras (cluster 5 sampel + kurva naik 3 pekan, growth 3,45). Menunggu = memberi virus 2 pekan lagi. Cluster B tidak diintervensi karena sinyal epidemiologinya nol.",
+          nextStepId: "temuan-intervensi",
+          consequenceNote:
+            "Intervensi jalan. 6 pekan kemudian kasus Wilayah C turun 62% dan tidak menyebar ke wilayah tetangga. Namun audit lab kemudian membuktikan cluster B memang artefak — keputusanmu TIDAK mengintervensi B menghemat puluhan ribu tes yang akan terbuang. Harga yang dibayar: 2 pekan pembatasan kegiatan di C.",
+        },
+        {
+          id: "opt-surveilans",
+          label: "Surveilans diperketat — gandakan sequencing di semua wilayah, tunda intervensi",
+          rationale:
+            "24 sampel terlalu sedikit untuk mengunci sebuah wilayah. Data lebih banyak = keputusan lebih yakin; intervensi bisa menyusul bila cluster C terkonfirmasi membesar.",
+          nextStepId: "temuan-surveilans",
+          consequenceNote:
+            "Sequencing digandakan. 3 pekan kemudian cluster C terkonfirmasi membesar (9 sampel, merembes ke Wilayah D) — TAPI kasus C sudah 2,4× lipat dari saat kamu memutuskan. “Keputusan lebih yakin” datang dengan harga: 3 pekan penularan yang sebenarnya sudah terlihat di data minggu ke-8.",
+        },
+        {
+          id: "opt-tunggu",
+          label: "Tidak ada aksi — data belum cukup, lanjutkan surveilans rutin",
+          rationale:
+            "Satu cluster 5 sampel dari 24 bukan bukti wabah. Intervensi yang salah sasaran merusak kepercayaan publik — lebih aman menunggu sinyal lebih kuat.",
+          nextStepId: "temuan-tunggu",
+          consequenceNote:
+            "Rutin dilanjutkan. 2 bulan kemudian Wilayah C melaporkan lonjakan ke 3 wilayah tetangga; investigasi retrospektif menyimpulkan sinyalnya SUDAH ADA di data minggu ke-8 — cluster 5 sampel + growth 3,45. “Tidak ada aksi” ternyata juga sebuah keputusan — dan ia punya korban.",
+        },
+      ],
+    },
+  },
+  {
+    id: "temuan-intervensi",
+    goto: "audit",
+    eyebrow: "Langkah 7 · Konsekuensi",
+    title: "Diputuskan: intervensi target di Wilayah C",
+    prose: [
+      "Kepala Dinas menyetujui: tracing diperluas dan testing massal terbatas berjalan 2 pekan di Wilayah C. Enam pekan kemudian, kasus C turun 62% dan — yang lebih penting — tidak merembes ke wilayah tetangga. Rantai yang terlihat di sekuens itu berhasil diputus sebelum menjadi gelombang.",
+      "Keputusan keduamu — TIDAK mengintervensi Wilayah B — terbukti sama pentingnya. Audit lab belakangan memastikan cluster B adalah artefak batch. Kalau kamu mengunci B juga, puluhan ribu tes dan 2 pekan pembatasan akan terbuang untuk “wabah” yang tidak pernah ada. Pelajaran: menahan diri dari intervensi yang tidak didukung dua sinyal BUKAN kelemahan — itu presisi.",
+      "Tapi jangan romantiskan: 2 pekan pembatasan di C punya biaya ekonomi nyata, dan kamu beruntung cluster-nya asli. Keputusan ini benar karena buktinya kuat, bukan karena hasilnya bagus — hasil bagus bisa datang dari keputusan ceroboh juga.",
+    ],
+    tasks: [
+      { id: "t1", text: "Catat: bukti apa yang membuat intervensi C tepat, dan bukti apa yang menyelamatkan B dari intervensi sia-sia" },
+    ],
+    note: {
+      title: "Keputusan baik ≠ hasil baik (dan sebaliknya)",
+      body: "Intervensimu “berhasil” — tapi uji kualitas keputusan bukan hasilnya, melainkan apakah bukti saat itu mendukungnya. Di deliverable-mu, tulis alasan KEBIJAKAN (dua sinyal + ambang), bukan alasan HASIL (“terbukti turun 62%”). Validator kebijakan dinilai dari logikanya, bukan dari keberuntungannya.",
+    },
+  },
+  {
+    id: "temuan-surveilans",
+    goto: "audit",
+    eyebrow: "Langkah 7 · Konsekuensi",
+    title: "Diputuskan: surveilans diperketat, intervensi ditunda",
+    prose: [
+      "Kepala Dinas setuju menambah sequencing 2× lipat di semua wilayah. Tiga pekan kemudian datanya “lebih yakin”: cluster C membesar menjadi 9 sampel dan terdeteksi merembes ke Wilayah D. Keyakinanmu terbayar lunas.",
+      "Tapi lihat harganya: dalam 3 pekan penundaan itu, kasus Wilayah C menjadi 2,4× lipat. Sinyal yang kamu tunggu konfirmasinya — growth 3,45 + cluster 5 sampel — sebenarnya SUDAH cukup menurut pedoman surveilans yang kamu pakai di Lab 3. “Menunggu data lebih banyak” terdengar ilmiah; dalam wabah, ia seringkali hanya nama lain dari penundaan.",
+      "Pelajaran yang mahal: ambang keputusan harus ditetapkan SEBELUM data datang (“bila growth ≥ 2 dan ada cluster, intervensi jalan”). Tanpa ambang yang ditulis di muka, tidak ada jumlah data yang terasa “cukup”.",
+    ],
+    tasks: [
+      { id: "t1", text: "Tulis ambang keputusan yang SEHARUSNYA kamu tetapkan sebelum data datang (kapan intervensi jalan, kapan cukup surveilans)" },
+    ],
+    note: {
+      title: "Surveilans tanpa ambang = penundaan berbaju ilmiah",
+      body: "“Kita kumpulkan data dulu” hanya bermakna bila ada angka yang memicu tindakan. Tanpa ambang pra-registrasi, tiap batch data baru hanya menggeser gawang. Di deliverable-mu, setiap rekomendasi “pantau/surveilans” WAJIB ditemani ambangnya.",
+    },
+  },
+  {
+    id: "temuan-tunggu",
+    goto: "audit",
+    eyebrow: "Langkah 7 · Konsekuensi",
+    title: "Diputuskan: tidak ada aksi",
+    prose: [
+      "Rapat memutuskan menunggu sinyal lebih kuat. Dua bulan kemudian, Wilayah C melaporkan lonjakan yang merembes ke tiga wilayah tetangga. Tim investigasi retrospektif membuka kembali file-mu — dan menemukan semuanya sudah ada di sana sejak minggu ke-8: cluster 5 sampel dengan jarak 0–3 SNP, growth 3,45, tiga pekan kenaikan beruntun.",
+      "Tidak ada yang menyalahkanmu secara pribadi — “data belum cukup” adalah kalimat yang aman diucapkan di rapat. Tapi epidemiologi tidak peduli kalimat aman: virusnya tidak menunggu keyakinanmu. Inilah paradoks keputusan kesehatan masyarakat: intervensi yang salah sasaran merusak kepercayaan, TAPI tidak bertindak saat sinyal sudah memenuhi ambang juga merusak — hanya korbannya tidak tercatat atas namamu.",
+      "Pelajaran: “tunggu” bukan posisi netral. Ia adalah keputusan dengan distribusi risiko sendiri — dan harus dinilai dengan kejujuran yang sama seperti keputusan bertindak.",
+    ],
+    tasks: [
+      { id: "t1", text: "Tulis: pada titik bukti seperti apa “tunggu” berhenti jadi kehati-hatian dan mulai jadi kelalaian?" },
+    ],
+    note: {
+      title: "Omission bias: dosa kelalaian terasa lebih ringan",
+      body: "Otak manusia menghukum kesalahan BERTINDAK lebih keras daripada kesalahan TIDAK BERTINDAK — padahal korbannya bisa sama besar. Kebijakan yang baik menilai kedua sisi dengan timbangan yang sama: biaya intervensi salah sasaran vs biaya wabah yang dibiarkan.",
+    },
+  },
+  {
+    id: "audit",
+    eyebrow: "Langkah 8 · Misi audit",
+    title: "Dossier 16 baris: log lab yang “rapi” itu menyimpan 4 jebakan",
+    prose: [
+      "Sebelum menulis rekomendasi, satu misi audit. Di bawah ini 16 baris “Log Pengiriman & QC Batch Sequencing” — dokumen yang diklaim rapi dan siap arsip. Seseorang menyuntikkan 4 anomali ke dalamnya. Senjatamu: hasil Lab 1 (S09, S17, S05), Lab 2 (2 cluster), dan Lab 3 (growth C 3,45 vs B 1,00).",
+      "Temukan semuanya sebelum menulis rekomendasi — karena rekomendasi yang dibangun di atas data beracun adalah racun yang dilegalkan.",
+    ],
+    tasks: [
+      { id: "t1", text: "Tandai baris-baris yang menurutmu suntikan; catat alasannya SEBELUM membuka debrief" },
+    ],
+    auditDossier: {
+      version: "genomik-cap7-v1",
+      snapshotDate: "2026-10-15",
+      intro:
+        "Dossier ini diklaim sebagai Log Pengiriman & QC Batch Sequencing yang rapi dan siap arsip — dasar klaim “ada cluster transmisi baru” dari koordinator lab.",
+      columns: ["No", "Sampel", "Lab", "Catatan log", "Status"],
+      rows: [
+        { rowId: 1, cells: { "No": "1", "Sampel": "S01", "Lab": "Lab Utara", "Catatan log": "Lolos QC — coverage 93,0×", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 2, cells: { "No": "2", "Sampel": "S02", "Lab": "Lab Utara", "Catatan log": "Lolos QC — coverage 100,2×", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 3, cells: { "No": "3", "Sampel": "S03", "Lab": "Lab Selatan", "Catatan log": "Lolos QC", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 4, cells: { "No": "4", "Sampel": "S04", "Lab": "Lab Selatan", "Catatan log": "Lolos QC", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        // ── suntikan 2: metadata tanggal mustahil ──
+        { rowId: 5, cells: { "No": "5", "Sampel": "S05", "Lab": "Lab Utara", "Catatan log": "tgl_kirim 2026-02-20 LEBIH AWAL dari tgl_koleksi 2026-02-26", "Status": "Anomali tanggal" }, claims: [{ label: "Tercatat", value: "Ya — lolos verifikasi" }] },
+        // ── suntikan 1: sampel terkontaminasi diproses tanpa flag ──
+        { rowId: 6, cells: { "No": "6", "Sampel": "S09", "Lab": "Lab Selatan", "Catatan log": "skor_kontaminasi 0,23 — tetap diproses tanpa flag", "Status": "Lolos (salah)" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        // ── suntikan 3: cluster palsu batch effect ──
+        { rowId: 7, cells: { "No": "7", "Sampel": "S13", "Lab": "Lab Timur", "Catatan log": "Batch T-2207 — jarak 0–1 SNP antar sampel batch ini", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 8, cells: { "No": "8", "Sampel": "S14", "Lab": "Lab Timur", "Catatan log": "Batch T-2207 — jarak 0–1 SNP antar sampel batch ini", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 9, cells: { "No": "9", "Sampel": "S15", "Lab": "Lab Timur", "Catatan log": "Batch T-2207 — jarak 0–1 SNP antar sampel batch ini", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 10, cells: { "No": "10", "Sampel": "S16", "Lab": "Lab Timur", "Catatan log": "Batch T-2207; catatan teknisi: protokol prep berubah 2026-02-10", "Status": "Klaster kandidat" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 11, cells: { "No": "11", "Sampel": "S17", "Lab": "Lab Timur", "Catatan log": "coverage 12,4× — gagal QC, dieksklusi dari klastering", "Status": "Gagal QC" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        // ── suntikan 4: duplikat terselubung ──
+        { rowId: 12, cells: { "No": "12", "Sampel": "S11 / S11B", "Lab": "Lab Selatan", "Catatan log": "Ekstrak SAMA dikirim 2× dengan ID berbeda; jarak SNP = 0", "Status": "Duplikat" }, claims: [{ label: "Tercatat", value: "Ya — dihitung 2 sampel" }] },
+        { rowId: 13, cells: { "No": "13", "Sampel": "—", "Lab": "Semua lab", "Catatan log": "24 sampel diterima; 22 lolos QC", "Status": "Ringkasan" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 14, cells: { "No": "14", "Sampel": "—", "Lab": "Semua lab", "Catatan log": "Klaster genetik (≤ 5 SNP): 2 klaster", "Status": "Ringkasan" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 15, cells: { "No": "15", "Sampel": "—", "Lab": "Semua lab", "Catatan log": "Kurva kasus: Wilayah C naik 3 pekan beruntun; B datar", "Status": "Ringkasan" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+        { rowId: 16, cells: { "No": "16", "Sampel": "—", "Lab": "Koordinator log", "Catatan log": "“Cluster B = transmisi baru, usulkan intervensi”", "Status": "Klaim" }, claims: [{ label: "Tercatat", value: "Ya" }] },
+      ],
+      injections: [
+        { key: "kontaminasi", rowIds: [6], title: "Sampel terkontaminasi diproses tanpa flag", clue: "skor_kontaminasi 0,23 = ~23% sinyal campuran; ambang misi < 0,05. Lab Selatan memprosesnya TANPA flag — sekuens campuran menghasilkan jarak genetik semu ke semua sampel lain.", danger: "Satu sampel kotor yang lolos bisa menciptakan “jembatan” palsu antar cluster — atau mengaburkan cluster asli. Di dunia nyata: kesimpulan transmisi dari sekuens campuran = kebijakan dari data bohong." },
+        { key: "tanggal-salah", rowIds: [5], title: "Metadata tanggal mustahil", clue: "tgl_kirim (2026-02-20) LEBIH AWAL dari tgl_koleksi (2026-02-26) — kronologi yang mustahil, klasik salah ketik. Tanggal yang salah menggeser pemetaan sampel ke minggu epidemiologi.", danger: "Sampel yang “jatuh” di minggu yang salah menggeser kurva cluster vs kurva kasus — dua sinyal yang sebenarnya selaras jadi terlihat tidak selaras, atau sebaliknya." },
+        { key: "batch-effect", rowIds: [7, 8, 9, 10], title: "Cluster palsu dari batch effect", clue: "Empat sampel jarak 0–1 SNP — SEMUANYA dari Lab Timur, SATU batch T-2207, wilayah B yang kurva kasusnya DATAR (growth 1,00). Catatan teknisi: protokol prep berubah 2026-02-10, tepat sebelum batch ini. Kemiripan = artefak lab, bukan transmisi.", danger: "Inilah jebakan paling mahal: cluster yang secara genetik PALING sempurna justru yang palsu. Mengintervensi Wilayah B = mengunci wilayah yang tidak sakit — sumber daya terbuang, kepercayaan publik terkikis." },
+        { key: "duplikat", rowIds: [12], title: "Duplikat terselubung", clue: "S11 dan S11B adalah EKSTRAK YANG SAMA dikirim dua kali dengan ID berbeda (jarak SNP = 0) — tapi dihitung sebagai 2 sampel independen. Satu sampel, dua suara.", danger: "Duplikat menggandakan bobot satu observasi: cluster terlihat “lebih kuat”, prevalensi varian terlihat “lebih tinggi”. Obatnya murah — constraint unik + cek jarak-nol — tapi hanya bila kamu mencarinya." },
+      ],
+    },
+  },
+  {
+    id: "deliverable",
+    eyebrow: "Langkah 9 · Deliverable",
+    title: "Rekomendasi kebijakan satu halaman",
+    prose: [
+      "Semua bukti di tangan: hasil QC, dua cluster, dua sinyal, empat anomali, dan satu keputusan yang sudah kamu ambil. Tulis rekomendasi kebijakan satu halaman untuk Kepala Dinas Kesehatan — artefak portofoliomu. Rekomendasi yang baik tidak hanya bilang “intervensi di C”, tapi menunjukkan ANGKA pendukungnya, apa yang kotor di datanya, dan kapan keputusan ini harus ditinjau ulang.",
+    ],
+    tasks: [
+      { id: "t1", text: "Tulis draf rekomendasi mengikuti template — lalu nilai sendiri dengan rubrik (total 100)" },
+    ],
+    deliverable: {
+      template: [
+        "Ringkasan eksekutif (3 kalimat): wilayah prioritas, bukti dua sinyal, rekomendasi + durasinya.",
+        "Bukti kuantitatif: hasil QC (2 gagal + 1 anomali tanggal), cluster genetik (2 cluster, anggota tiap cluster), kurva kasus (growth C 3,45 vs B 1,00).",
+        "Temuan audit data: anomali apa yang kamu temukan, di baris dossier nomor berapa, dan bagaimana tiap anomali memengaruhi kesimpulan.",
+        "Rekomendasi + ambang tindakan: apa yang dilakukan, kapan dimulai, dan angka apa yang memicu penghentian/pencabutan.",
+        "Batas & risiko sisa: apa yang TIDAK bisa disimpulkan data ini (arah transmisi, sampel hanya 24, ambang sintetis) + risiko bila kamu salah.",
+      ],
+      rubric: [
+        { criterion: "Kebenaran analisis QC & cluster", weight: 25, levels: ["Angka salah/tidak ada", "Sebagian angka benar", "24 sampel, 2 gagal QC (S09, S17), 1 anomali tanggal (S05), 2 cluster (5 + 4 anggota) — semua tepat"] },
+        { criterion: "Deteksi anomali data", weight: 25, levels: ["Tidak menyebut anomali", "Menyebut sebagian tanpa nomor baris", "Keempat anomali disebut dengan nomor baris dossier"] },
+        { criterion: "Kualitas rekomendasi kebijakan", weight: 25, levels: ["Rekomendasi tanpa ambang tindakan", "Ada rekomendasi, ambang kabur", "Rekomendasi + ambang mulai/berhenti eksplisit + alasan dua sinyal"] },
+        { criterion: "Kejujuran batas", weight: 25, levels: ["Mengklaim data membuktikan segalanya", "Menyebut sebagian batas", "Batas (n kecil, arah transmisi tak terbukti, ambang sintetis) dinyatakan eksplisit"] },
+      ],
+    },
+  },
+  {
+    id: "debrief",
+    eyebrow: "Langkah 10 · Debrief",
+    title: "Yang sebenarnya terjadi — dan kenapa ini penting",
+    prose: [
+      "Debrief dibuka. Empat anomali di log lab:",
+      "1) **Sampel terkontaminasi** (baris 6): S09 dengan skor_kontaminasi 0,23 diproses tanpa flag. Lab 1-mu menangkapnya — tapi bayangkan bila tidak: sekuens campuran itu akan menyuntikkan jarak semu ke seluruh matriks dan bisa mengaburkan cluster C yang asli.",
+      "2) **Metadata tanggal mustahil** (baris 5): S05 “dikirim” 6 hari sebelum “diambil”. Salah ketik yang menggeser minggu epidemiologi — dua sinyal yang selaras bisa terlihat tidak selaras hanya karena satu tanggal.",
+      "3) **Cluster palsu batch effect** (baris 7–10): S13–S16, jarak 0–1 SNP, satu batch T-2207 Lab Timur, protokol prep baru. Secara genetik ini cluster TERINDAH di dataset — dan sepenuhnya artefak. Koordinator log (baris 16) bahkan sudah menulis “Cluster B = transmisi baru, usulkan intervensi”. Kalau kamu mengikuti klaim itu tanpa Lab 3, kamu baru saja mengunci wilayah yang tidak sakit.",
+      "4) **Duplikat terselubung** (baris 12): S11/S11B, ekstrak sama dua ID. Tidak masuk matriksmu — tapi dihitung sebagai 2 sampel di log. Satu suara digandakan.",
+      "Skor deteksimu (x/4) mengukur satu hal: apakah kamu memverifikasi klaim terhadap data mentah, atau memercayai stempel “rapi”. Dan ingat keputusan bercabangmu: intervensi C bekerja karena dua sinyal; menahan B bekerja karena kamu menolak satu sinyal. Tidak ada opsi yang gratis — tapi ada opsi yang buktinya paling tidak bisa dibantah.",
+      "Bahaya nyata terakhir: surveilans genomik dipakai untuk keputusan yang menyentuh hidup orang — pembatasan wilayah, alokasi tes, penutupan. Data kotor yang lolos = kebijakan yang salah sasaran = sumber daya kesehatan terbuang DAN kepercayaan publik yang butuh bertahun-tahun dibangun runtuh dalam sepekan. Di dunia nyata tidak ada tombol “debrief” — anomali yang tidak kamu temukan hari ini menjadi kebijakan besok pagi.",
+    ],
+    tasks: [
+      { id: "t1", text: "Hitung skor deteksimu (x/4) dan tulis satu pelajaran untuk pekerjaan nyata" },
+    ],
+    note: {
+      title: "Miskonsepsi #3: data sekuens selalu lebih “objektif” dari data kasus",
+      type: "risk",
+      body: "Sekuens terlihat presisi — angka, huruf, matriks. Tapi ia punya biasnya sendiri: batch effect, kontaminasi, metadata salah ketik, duplikat. “Objektif” bukan sifat data; ia sifat PROSES verifikasimu. Itulah kenapa misi ini memaksamu menjalankan QC sebelum klastering, dan klastering sebelum kebijakan.",
+    },
+  },
+  {
+    id: "rangkuman",
+    eyebrow: "Langkah 11 · Rangkuman",
+    title: "Poin penting misi ini",
+    prose: [],
+    tasks: [
+      { id: "t1", text: "Tulis ulang 3 poin rangkuman dengan kata-katamu sendiri" },
+    ],
+    summary: [
+      "QC dulu, analisis kemudian: 24 sampel → 2 gagal QC (S09 kontaminasi 0,23; S17 coverage 12,4×) + 1 anomali tanggal mustahil (S05) — ketiganya dieksklusi/ditandai sebelum klastering.",
+      "Single-linkage ambang 5 SNP menghasilkan 2 cluster: 5 sampel Wilayah C (jarak 0–3) dan 4 sampel Lab Timur Wilayah B (jarak 0–1).",
+      "Keputusan kebijakan butuh DUA sinyal: hanya cluster C yang didukung kurva kasus (growth 3,45 vs 1,00 di B) → wilayah_target = C. Cluster B = artefak batch effect.",
+      "Empat pola anomali data lab: kontaminasi tanpa flag, metadata tanggal mustahil, cluster palsu batch effect, duplikat terselubung.",
+      "Data: 100% sintetis orisinal misi ini (seed 42), “patogen X” fiktif — bukan data pasien nyata, bukan GISAID; metode di METODE.md.",
+    ],
+  },
+];
+
+(misiGabungSurveilansGenomik.steps as V2Step[]).push(...LANJUTAN_GENOMIK);

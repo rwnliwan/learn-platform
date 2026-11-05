@@ -1,0 +1,56 @@
+/* /v2/peta — "Peta Pengetahuan" (Gelombang J, ide #42). Scope di bawah .v2. */
+.v2 .kg-wrap{max-width:860px;display:flex;flex-direction:column;gap:var(--sp-3)}
+.v2 .kg-intro{font-size:15px;line-height:1.7;color:var(--text)}
+.v2 .kg-mut{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0}
+.v2 .kg-tight{margin-top:calc(var(--sp-2) * -1)}
+.v2 .kg-h2{font-family:var(--font-display);font-size:20px;margin:var(--sp-5) 0 0}
+.v2 .kg-h3{font-size:15px;font-weight:700;margin:0 0 var(--sp-1)}
+.v2 .kg-form{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:var(--sp-2)}
+.v2 .kg-field{display:flex;flex-direction:column;gap:6px;flex:1 1 200px;font-size:13px;font-weight:600;color:var(--text)}
+.v2 .kg-field input{background:var(--bg-sunken);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--text);width:100%}
+.v2 .kg-field input:focus{outline:none;border-color:var(--accent)}
+.v2 .kg-swap{border:1px solid var(--border);background:var(--bg-panel);color:var(--text);border-radius:10px;padding:10px;cursor:pointer;display:flex;align-items:center}
+.v2 .kg-swap:hover{border-color:var(--accent)}
+.v2 .kg-btn{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.v2 .kg-path{list-style:none;margin:var(--sp-3) 0 0;padding:0;display:flex;flex-direction:column}
+.v2 .kg-hop{margin:0}
+.v2 .kg-node{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-decoration:none;color:var(--text)}
+.v2 .kg-node:hover{border-color:var(--accent)}
+.v2 .kg-nodetitle{font-weight:700;font-size:14px}
+.v2 .kg-nodesub{font-size:12px;color:var(--text-muted)}
+.v2 .kg-kind{flex:none;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border:1px solid var(--border);border-radius:999px;padding:3px 9px;color:var(--text-muted)}
+.v2 .kg-k-track{color:var(--accent-text);border-color:var(--accent);background:var(--accent-soft)}
+.v2 .kg-k-proyek{color:var(--ok-text,#2f7d4f);border-color:var(--ok,#2f7d4f);background:var(--ok-soft,rgba(47,125,79,.12))}
+.v2 .kg-k-jalur{color:#8a5a00;border-color:#c99a2e;background:rgba(201,154,46,.12)}
+.v2 .kg-k-akar{color:#6a4fd8;border-color:#6a4fd8;background:rgba(106,79,216,.12)}
+.v2 .kg-reason{margin:0 0 0 22px;padding:2px 0 10px 18px;border-left:2px solid var(--accent);display:flex;flex-direction:column;gap:8px}
+.v2 .kg-reason p{margin:6px 0 0;font-size:13px;line-height:1.65;color:var(--text-muted)}
+.v2 .kg-reasonline{display:none}
+.v2 .kg-flagbtn{align-self:flex-start;border:1px solid var(--border);background:var(--bg-panel);color:var(--text-muted);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.v2 .kg-flagbtn:hover{border-color:var(--accent);color:var(--text)}
+.v2 .kg-flagbtn.kg-flagged{color:var(--warn-text,#8a5a00);border-color:var(--warn,#c99a2e);background:var(--warn-soft,rgba(201,154,46,.12))}
+.v2 .kg-list{list-style:none;margin:var(--sp-2) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--sp-2)}
+.v2 .kg-item{background:var(--bg-panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.v2 .kg-rank{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent-text);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.v2 .kg-itemmain{flex:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.v2 .kg-itemmain .kg-node{background:var(--bg-sunken)}
+.v2 .kg-itemmeta{font-size:12.5px;color:var(--text-muted)}
+.v2 .kg-itemmeta b{color:var(--text)}
+.v2 .kg-empty{background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;padding:var(--sp-4);margin-top:var(--sp-2)}
+.v2 .kg-empty p{margin:0;color:var(--text-muted);font-size:14px;line-height:1.7}
+.v2 .kg-islands{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);margin-top:var(--sp-2)}
+@media (max-width:700px){.v2 .kg-islands{grid-template-columns:1fr}}
+.v2 .kg-island{background:var(--bg-panel);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.v2 .kg-track{border:1px solid var(--border);border-radius:10px;background:var(--bg-sunken)}
+.v2 .kg-track summary{padding:10px 12px;cursor:pointer;font-size:13.5px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.v2 .kg-track summary::-webkit-details-marker{display:none}
+.v2 .kg-track summary:hover{color:var(--accent-text)}
+.v2 .kg-count{font-size:12px;font-weight:400;color:var(--text-muted)}
+.v2 .kg-tracklessons{list-style:none;margin:0;padding:0 12px 12px;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.v2 .kg-tracklessons a{color:var(--text);text-decoration:none}
+.v2 .kg-tracklessons a:hover{color:var(--accent-text);text-decoration:underline}
+.v2 .kg-flagpair{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.v2 .kg-reasontext{font-size:12.5px;color:var(--text-muted);line-height:1.6;margin:0}
+.v2 .kg-method{border-top:1px solid var(--border);margin-top:var(--sp-5);padding-top:var(--sp-2)}
+.v2 .kg-method ul{margin:var(--sp-2) 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--text-muted);line-height:1.65}
+.v2 .kg-method b{color:var(--text)}

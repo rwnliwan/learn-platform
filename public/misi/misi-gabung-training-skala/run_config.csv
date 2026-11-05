@@ -1,0 +1,12 @@
+param,value
+n_workers,8
+batch_per_worker,64
+effective_batch,512
+base_lr_single_gpu,0.0003
+base_batch_single_gpu,64
+dossier_claimed_batch,64
+dossier_claimed_lr,0.0006
+actual_warmup_steps,2000
+actual_cosine_horizon_steps,200000
+planned_total_steps,50000
+diverge_step,40000

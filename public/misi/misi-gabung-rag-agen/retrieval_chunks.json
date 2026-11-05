@@ -1,0 +1,63 @@
+{
+  "index_name": "cs-kb-idx",
+  "last_full_refresh": "2026-10-05T03:00:00+08:00",
+  "refresh_note": "Refresh terakhir 2026-10-05. Kebijakan refund v4 terbit 2026-10-10 — BELUM masuk index saat insiden 2026-10-14.",
+  "chunks": [
+    {
+      "chunk_id": "chunk_003",
+      "doc": "faq_pengiriman",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.55,
+      "text": "Waktu pengiriman reguler 2-4 hari kerja untuk seluruh Indonesia."
+    },
+    {
+      "chunk_id": "chunk_030",
+      "doc": "kebijakan_refund_v3",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.52,
+      "text": "Refund diproses ke rekening asal dalam 3-5 hari kerja."
+    },
+    {
+      "chunk_id": "chunk_027",
+      "doc": "faq_pembayaran",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.38,
+      "text": "Metode pembayaran: transfer bank, kartu kredit, dan e-wallet."
+    },
+    {
+      "chunk_id": "chunk_033",
+      "doc": "kebijakan_refund_v3",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.31,
+      "text": "Pembatalan sebelum barang dikirim: refund 100% tanpa potongan."
+    },
+    {
+      "chunk_id": "chunk_021",
+      "doc": "kebijakan_refund_v3",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.68,
+      "text": "Barang hilang dalam pengiriman: refund 100% dari nilai order, maksimal Rp500.000 per insiden."
+    },
+    {
+      "chunk_id": "chunk_011",
+      "doc": "kebijakan_refund_v3",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.49,
+      "text": "Barang cacat produksi: ganti unit baru atau refund 100% dari nilai order."
+    },
+    {
+      "chunk_id": "chunk_014",
+      "doc": "kebijakan_refund_v3",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.91,
+      "text": "Barang rusak dalam pengiriman: refund 100% dari nilai order, maksimal Rp500.000 per insiden."
+    },
+    {
+      "chunk_id": "chunk_009",
+      "doc": "kebijakan_refund_v3",
+      "indexed_at": "2026-10-05T03:00:00+08:00",
+      "score": 0.77,
+      "text": "Klaim refund diajukan maksimal 14 hari setelah barang diterima."
+    }
+  ]
+}

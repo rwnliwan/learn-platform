@@ -1,0 +1,221 @@
+import type { V2Lesson } from "../lib/types";
+
+export const dm19: V2Lesson = {
+  slug: "dm19-capstone-dwh",
+  track: "Data Management",
+  module: "Capstone",
+  title: "Capstone: Mini Data Warehouse dari Nol sampai Dipercaya",
+  estMinutes: 45,
+  steps: [
+    {
+      id: "cerita-portofolio",
+      eyebrow: "Langkah 1 · Cerita pembuka",
+      title: "Wawancara yang dimenangkan portofolio",
+      prose: [
+        "Dua kandidat melamar Data Engineer. Kandidat A: \"Saya bisa Airflow, dbt, Spark, Kafka\" — daftar tool 20 baris. Kandidat B membuka laptop: \"Ini mini warehouse saya — 3 sumber berantakan, saya bangun staging→mart, ini test yang menangkap duplikat, ini katalognya, ini keputusan desain saya dan kenapa.\" Interviewer bertanya 45 menit — semuanya tentang keputusan, bukan hafalan. Kandidat B diterima.",
+        "Kandidat B tidak lebih pintar — ia hanya punya bukti. Pasar 2026 tidak membayar \"tahu tool\"; ia membayar \"pernah membangun yang jalan\". Capstone ini = bukti pertamamu. Kerjakan serius: inilah yang membedakanmu dari 200 pelamar lain.",
+      ],
+      tasks: [],
+      reference: "Portofolio = bukti, bukan daftar tool.",
+    },
+    {
+      id: "arsitektur",
+      eyebrow: "Langkah 2 · Arsitektur",
+      title: "Bank Maju: misi capstone",
+      prose: [
+        "Misi: bangun mini data warehouse \"Bank Maju\" end-to-end — dari 3 sumber berantakan menjadi 1 mart yang bisa dipertanggungjawabkan. Sumber: core banking (transaksi, format campur), HR/mobile (nasabah, kota tidak standar), + 1 sumber buatanmu. Target: mart gold_penjualan_harian dan gold_risiko_kota yang tersertifikasi (DM16).",
+        "Lima keputusan arsitektur yang harus kamu buat dan dokumentasikan (inilah yang ditanya interview!): grain fakta (\"satu baris = satu transaksi berhasil\" — DM2), idempotency (job bisa di-rerun aman — bagaimana? DM5), SCD (nasabah pindah kota → Type 1 atau 2? kenapa? DM2), aturan survivorship (sumber bertentangan → siapa menang? DM11), toleransi rekonsiliasi (berapa? kenapa angka itu? DM13).",
+        "Anggaran realistis: ±8 jam fokus — Fase 1 staging 96 menit (20%), Fase 2 silver 120 menit (25%), Fase 3 gold 120 menit (25%), Fase 4 test 72 menit (15%), Fase 5 katalog 72 menit (15%). 70% usaha = bangun & bersihkan — realita data engineering.",
+      ],
+      tasks: [],
+      reference: "Keputusan tertulis > kode panjang.",
+    },
+    {
+      id: "fase-lab",
+      eyebrow: "Langkah 3 · Fase 1–3 · lab",
+      title: "Staging → silver → gold",
+      prose: [
+        "Staging (Bronze): terima mentah apa adanya — jangan bersihkan di sini (ELT! DM4). Silver: dedup (T002!), standarisasi format (nominal, tanggal, kota), buang yang tak valid. Gold (mart): star schema — dim_nasabah + fakta_transaksi + agregat harian.",
+        "Perhatikan: transaksi T004 milik nasabah N999 (nasabah hantu — tidak ada di dim) terbuang di JOIN. Catat sebagai temuan untuk di-alert, bukan didiamkan! Silent drop = bom audit.",
+      ],
+      tasks: [
+        { id: "t1", text: "Bangun `silver_transaksi`: deduplikasi staging (DISTINCT)" },
+        { id: "t2", text: "Bangun `gold_transaksi`: JOIN silver ke dim_nasabah" },
+        { id: "t3", text: "Temukan `temuan` = id transaksi yang terbuang JOIN, lalu cetak" },
+      ],
+      expected: "silver=4  gold=3  temuan=['T004']",
+      note: {
+        title: "Sering salah",
+        body: "\"Yang penting kodenya jalan.\" Yang benar: yang penting = keputusan + bukti. Kode jalan tapi tanpa test/katalog/keputusan tertulis = \"script\", bukan \"warehouse\". Setiap fase punya artefak kepercayaan.",
+        type: "pitfall",
+      },
+      hints: [
+        "CREATE TABLE silver_transaksi AS SELECT DISTINCT id, nasabah_id, nominal, tanggal FROM stg_transaksi",
+        "CREATE TABLE gold_transaksi AS SELECT s.id, s.nominal, s.tanggal, n.kota FROM silver_transaksi s JOIN dim_nasabah n ON s.nasabah_id = n.nasabah_id",
+        "temuan = [r[0] for r in cur.execute(\"SELECT s.id FROM silver_transaksi s LEFT JOIN dim_nasabah n ON s.nasabah_id=n.nasabah_id WHERE n.nasabah_id IS NULL\")]",
+      ],
+      code: {
+        starter: `import sqlite3\ncon = sqlite3.connect(":memory:")\ncur = con.cursor()\ncur.execute("CREATE TABLE stg_transaksi (id TEXT, nasabah_id TEXT, nominal INTEGER, tanggal TEXT)")\ncur.executemany("INSERT INTO stg_transaksi VALUES (?,?,?,?)", [\n    ("T001", "N001", 500000, "2026-10-01"),\n    ("T002", "N001", 250000, "2026-10-01"),\n    ("T002", "N001", 250000, "2026-10-01"),  # duplikat!\n    ("T003", "N002", 1000000, "2026-10-02"),\n    ("T004", "N999", 750000, "2026-10-02"),  # nasabah hantu!\n])\ncur.execute("CREATE TABLE dim_nasabah (nasabah_id TEXT PRIMARY KEY, kota TEXT)")\ncur.executemany("INSERT INTO dim_nasabah VALUES (?,?)", [("N001", "Jakarta"), ("N002", "Bandung")])\n\n# TULIS KODEMU: silver (dedup) -> gold (join) -> temuan\n\n\n\nn_silver = cur.execute("SELECT COUNT(*) FROM silver_transaksi").fetchone()[0]\nn_gold = cur.execute("SELECT COUNT(*) FROM gold_transaksi").fetchone()[0]\nprint(f"silver={n_silver}  gold={n_gold}  temuan={temuan}")`,
+        lockLines: 12,
+        solution: `import sqlite3\ncon = sqlite3.connect(":memory:")\ncur = con.cursor()\ncur.execute("CREATE TABLE stg_transaksi (id TEXT, nasabah_id TEXT, nominal INTEGER, tanggal TEXT)")\ncur.executemany("INSERT INTO stg_transaksi VALUES (?,?,?,?)", [\n    ("T001", "N001", 500000, "2026-10-01"),\n    ("T002", "N001", 250000, "2026-10-01"),\n    ("T002", "N001", 250000, "2026-10-01"),  # duplikat!\n    ("T003", "N002", 1000000, "2026-10-02"),\n    ("T004", "N999", 750000, "2026-10-02"),  # nasabah hantu!\n])\ncur.execute("CREATE TABLE dim_nasabah (nasabah_id TEXT PRIMARY KEY, kota TEXT)")\ncur.executemany("INSERT INTO dim_nasabah VALUES (?,?)", [("N001", "Jakarta"), ("N002", "Bandung")])\n\n# TULIS KODEMU: silver (dedup) -> gold (join) -> temuan\ncur.execute("CREATE TABLE silver_transaksi AS SELECT DISTINCT id, nasabah_id, nominal, tanggal FROM stg_transaksi")\ncur.execute("CREATE TABLE gold_transaksi AS SELECT s.id, s.nominal, s.tanggal, n.kota FROM silver_transaksi s JOIN dim_nasabah n ON s.nasabah_id = n.nasabah_id")\ntemuan = [r[0] for r in cur.execute("SELECT s.id FROM silver_transaksi s LEFT JOIN dim_nasabah n ON s.nasabah_id = n.nasabah_id WHERE n.nasabah_id IS NULL")]\n\nn_silver = cur.execute("SELECT COUNT(*) FROM silver_transaksi").fetchone()[0]\nn_gold = cur.execute("SELECT COUNT(*) FROM gold_transaksi").fetchone()[0]\nprint(f"silver={n_silver}  gold={n_gold}  temuan={temuan}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "n_silver", value: 4, tol: 0, label: "`n_silver` seharusnya 4", msg: "5 baris staging − 1 duplikat T002 = 4." },
+          { kind: "equal", task: "t2", name: "n_gold", value: 3, tol: 0, label: "`n_gold` seharusnya 3", msg: "T004 (N999) tidak punya pasangan di dim → terbuang di JOIN." },
+          { kind: "contains", task: "t3", name: "temuan", value: "T004", label: "temuan memuat T004", msg: "LEFT JOIN + filter NULL menemukan baris yang terbuang." },
+          { kind: "stdout_matches", task: "t3", pattern: "silver=4\\s+gold=3\\s+temuan=\\['T004'\\]", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Setiap baris yang dibuang = temuan yang tercatat & ditindaklanjuti di hulu.",
+    },
+    {
+      id: "fase4-test",
+      eyebrow: "Langkah 4 · Fase 4",
+      title: "Test kualitas — buktikan pintumu berfungsi",
+      prose: [
+        "Tulis ≥5 test (unik, not null, rentang, FK valid, rekonsiliasi total). Lalu: sengaja rusak 1 data (nominal negatif / duplikat ID) → pastikan test FAIL dan pipeline berhenti → perbaiki data → test PASS lagi. Dokumentasikan siklus ini.",
+        "Test yang tidak pernah gagal = belum terbukti. Ini mensimulasikan CI/CD data (DM15) dalam miniatur — dan menjadi cerita wawancara terbaikmu: \"test saya pernah menangkap...\".",
+      ],
+      tasks: [],
+      reference: "Siklus FAIL→PASS yang terdokumentasi = bukti + cerita wawancara.",
+    },
+    {
+      id: "fase5-katalog",
+      eyebrow: "Langkah 5 · Fase 5",
+      title: "Katalog & lineage — orang lain paham tanpa bertanya",
+      prose: [
+        "Katalog: tiap tabel punya deskripsi 1 kalimat + owner (namamu!) + label kualitas + definisi grain. Lineage: gambar aliran sumber → staging → silver → gold → (bayangkan) dashboard; tandai di mana test berada.",
+        "Uji \"orang asing\": minta teman atau AI membaca katalogmu — bisakah ia menjawab \"tabel mana untuk laporan direksi?\" tanpa bertanya padamu? Jika tidak, katalogmu belum cukup.",
+      ],
+      tasks: [],
+      reference: "Katalog = orang asing paham tanpa bertanya.",
+    },
+    {
+      id: "rubrik",
+      eyebrow: "Langkah 6 · Rubrik",
+      title: "Nilai diri sebelum dinilai orang",
+      prose: [
+        "Nilai jujur 0–2 per baris (0=belum, 1=sebagian, 2=penuh). Target: ≥10/14. (1) Pipeline 3 fase berjalan end-to-end. (2) Grain & keputusan desain (SCD, survivorship, idempotency) tertulis. (3) ≥5 test kualitas + terbukti menangkap data rusak (FAIL→PASS). (4) Katalog lengkap: deskripsi + owner + label kualitas tiap tabel.",
+        "(5) Lineage tergambar: sumber → ... → gold. (6) Kasus tepi ditangani: duplikat, nasabah hantu, format campur. (7) README 1 halaman: masalah → arsitektur → keputusan → hasil. Di bawah 10 = ulangi fase yang bolong. Portofolio yang jujur > portofolio yang \"selesai\" tapi rapuh.",
+      ],
+      tasks: [],
+      note: {
+        title: "Intuisi: reviewer terbaik adalah dirimu tiga bulan dari sekarang",
+        body: "Rubrik bukan untuk nilai — ia adalah cermin kejujuran. Heuristik \"test orang asing\": berikan repo capstone-mu ke orang yang belum pernah melihatnya; setiap pertanyaan yang ia ajukan (\"tabel ini isinya apa?\", \"kenapa begini?\", \"bagaimana cara menjalankannya?\") sama dengan satu poin yang hilang dari katalog dan README-mu. Targetnya: nol pertanyaan dalam 15 menit baca. Alasannya sederhana: tiga bulan dari sekarang, kamu adalah orang asing itu — kamu sudah lupa separuh keputusan yang kamu buat hari ini. Portofolio yang hanya dipahami pembuatnya saat masih hangat adalah portofolio yang kedaluwarsa dalam 90 hari. Yang abadi: keputusan tertulis beserta alasannya, katalog yang menjawab tanpa bertanya, dan README yang bisa dieksekusi ulang dari nol.",
+      },
+      reference: "README yang menang = masalah → keputusan sulit → hasil terukur.",
+    },
+    {
+      id: "minicase-review",
+      eyebrow: "Langkah 7 · Mini-case",
+      title: "Review produksi — capstone-mu dipertanyakan",
+      prose: [
+        "Capstone \"Bank Maju\"-mu lolos rubrik 12/14. Reviewer menemukan 3 temuan. Temuan 1: tabel silver_transaksi tumbuh 50.000 baris/hari; job Silver me-rebuild full tiap hari (bukan incremental). Hari ke-180: 9 juta baris ≈ 1,8 GB, waktu rebuild ≈ 6× hari pertama. Perbaikan: incremental load + partisi tanggal; buktikan rebuild time tidak meledak.",
+        "Temuan 2: 5 test kualitas hanya jalan saat kamu klik \"run\" manual. Data rusak yang masuk hari Sabtu ketahuan Senin pagi (48 jam buta). Perbaikan: penjadwalan + alert — ingat error budget (DM8): test = SLO yang dimonitor, bukan ritual manual.",
+        "Temuan 3: kolom flag_x di staging tanpa pemilik dan tanpa definisi (DM10). Dua analis menafsirkan beda (\"exclude\" vs \"include\") → selisih Rp120 juta di 2 versi laporan. Perbaikan: owner memutuskan arti flag_x; 2 laporan yang terlanjur beda = direkonsiliasi dan salah satunya dicabut; ke depan kolom tanpa definisi tidak lolos review.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Selisih Rp120 juta antar dua versi laporan karena satu kolom tak terdefinisi menunjukkan kenapa \"capstone selesai\" ≠ \"siap produksi\". Review produksi menguji exactly hal yang diuji track DM: keputusan tertulis, test terjadwal, dan definisi tunggal.",
+      },
+      reference: "Capstone yang lolos review = bukti yang tahan interogasi.",
+    },
+    {
+      id: "jurang-produksi",
+      eyebrow: "Langkah 8 · Produksi",
+      title: "Lima jurang antara capstone dan produksi",
+      prose: [
+        "Jurang pertama antara capstone dan produksi adalah skala dan biaya — dan ia datang lebih cepat dari dugaan. Capstone-mu memproses lima baris di SQLite gratis; produksi \"Bank Maju\" menerima 50.000 baris transaksi per hari. Mini-case langkah 7 sudah menghitungnya: hari ke-180 berarti 9 juta baris, dan job silver yang me-rebuild full setiap hari memakan waktu 6× lipat hari pertama — belum termasuk tagihan compute yang ikut membengkak. Perbaikan strukturalnya dua: incremental load (hanya proses data baru/berubah sejak run terakhir, dengan watermark tanggal) dan partisi tanggal (query hanya menyentuh partisi yang relevan, bukan seluruh tabel). Aturan angkanya: tabel di atas 1 juta baris wajib incremental; di atas 100 juta baris wajib partisi plus strategi arsip. Dan hitung biayanya sebelum deploy: warehouse cloud menagih per TB yang di-scan — satu dashboard boros yang full-scan 9 juta baris setiap dibuka, dibuka 50 kali sehari, adalah tagihan kejutan yang menunggu. Capstone tidak menagih; produksi menagih setiap detik.",
+        "Jurang kedua adalah konkurensi dan keandalan. Di laptopmu, satu orang menjalankan satu query dalam satu waktu. Di produksi, lima analis membuka dashboard bersamaan sambil job ETL berjalan — berebut resource yang sama, query analis melambat, job ETL telat, semua saling menyalahkan. Solusinya adalah isolasi workload: warehouse terpisah (atau antrean prioritas) untuk ETL vs BI vs ad-hoc, sehingga eksperimen analis tidak pernah membunuh job kritis. Lalu keandalan: backup dan disaster recovery. Dua pertanyaan yang harus terjawab sebelum insiden: RPO (data sampai titik mana yang boleh hilang? kalau staging mentah disimpan 30 hari, kamu bisa membangun ulang semuanya dari sana) dan RTO (berapa lama membangun ulang dari nol? uji dengan game day — sekali per kuartal, tim berlatih rebuild di environment kosong dan mengukur waktunya). Tanpa game day, RTO hanyalah angka di dokumen. Capstone yang tidak bisa dibangun ulang dari nol dalam sehari bukan aset — ia adalah liabilitas yang menunggu bencana.",
+        "Jurang ketiga adalah keamanan — dan di Indonesia ia bernama UU PDP. Capstone-mu berisi NIK dummy; produksi berisi NIK, nama, alamat, dan nomor rekening nasabah sungguhan. Tiga lapis pertahanan yang wajib ada. Satu: masking — analis dan dashboard hanya melihat NIK tersamar (16 digit menjadi \"************1234\"), data penuh hanya untuk peran yang berwenang dengan approval tercatat. Dua: enkripsi — data at rest dan in transit; kunci dikelola terpisah dari data. Tiga: audit akses — log siapa mengakses data personal apa dan kapan, direview berkala; akses anomali (analis mengunduh 1 juta baris jam 2 pagi) memicu alert. Aturan yang tidak bisa ditawar: \"data personal tidak pernah mencapai gold tanpa masking dan tanpa persetujuan tertulis pemilik data.\" Pelanggaran UU PDP bukan sekadar denda administratif — ia adalah krisis kepercayaan publik. Keamanan bukan fitur yang ditambahkan nanti; ia adalah syarat tabel gold boleh berisi data personal.",
+        "Jurang keempat adalah perubahan — karena sumber data tidak pernah diam. Suatu hari tim core banking meng-rename kolom (cerita DM8 tentang gaji yang telat empat hari), atau mengubah format tanggal, atau menambah nilai status baru yang tidak dikenal. Capstone-mu yang kaku akan patah; produksi yang dewasa bertahan dengan tiga lapis. Satu: kontrak data dengan tim sumber (skema berversi, pemberitahuan perubahan). Dua: test pintu yang menolak batch melanggar kontrak sebelum meracuni gold. Tiga: alert schema drift — job yang membandingkan skema hari ini vs kemarin dan berteriak saat ada kolom baru/hilang/berubah tipe. Dan untuk perubahan definisi bisnis (bukan skema): versioning mart — gold_penjualan v1 tetap berjalan sementara v2 dibangun, dengan masa transisi dan pemberitahuan ke konsumen. Aturan: \"perubahan sumber adalah kepastian, bukan kemungkinan — desainlah seolah besok pagi skema berubah.\"",
+        "Jurang kelima adalah operasi 24/7: siapa yang di-page jam 3 pagi saat job gagal? Capstone tidak punya on-call; produksi wajib punya. Komponennya empat. Satu: runbook satu halaman per job kritis — gejala umum, perintah diagnosis, langkah recovery, kapan eskalasi. Dua: rotasi on-call yang manusiawi (tidak ada yang on-call dua minggu berturut-turut; setelah insiden malam hari, dapat kompensasi istirahat). Tiga: severity yang jelas — SEV-1 membangunkan orang (laporan regulator terancam), SEV-2 tiket pagi hari, SEV-3 backlog. Empat: postmortem tanpa menyalahkan (blameless) untuk setiap SEV-1 dan SEV-2: lima whys, perbaikan sistemik, pemilik dan deadline — bukan \"siapa yang salah\". Budaya postmortem menentukan apakah insiden yang sama terulang: organisasi yang menghukum pembawa kabar buruk akan berhenti mendengar kabar buruk — sampai kabarnya menjadi bencana. Capstone-mu selesai saat rubrik terpenuhi; sistem produksi selesai saat ia bisa dioperasikan oleh orang yang tidak membangunnya, jam 3 pagi, tanpa panik.",
+        "Bayangkan Kandidat B dari cerita langkah 1, enam bulan kemudian. Capstone \"Bank Maju\"-nya kini menjadi pipeline produksi kecil di startup tempatnya bekerja — dan ia kembali diwawancara, kali ini untuk posisi senior. Pewawancara tidak bertanya \"apa itu Airflow\" — ia bertanya \"ceritakan satu keputusan sulit.\" Kandidat B bercerita: \"Silver saya awalnya full rebuild; di bulan ketiga waktu proses 6× lipat dan tagihan naik 4×. Saya migrasi ke incremental dengan watermark tanggal plus partisi — waktu kembali flat, tagihan turun 70%. Trade-off-nya: late data lebih dari 3 hari butuh penanganan khusus, jadi saya tambah job rekonsiliasi mingguan.\" Itulah jawaban interview senior: masalah nyata, angka nyata, trade-off yang disadari, bukan teori. Pelajarannya: capstone adalah versi 1; karirmu adalah versi 2 sampai N. Setiap jurang di langkah ini yang kamu seberangi menjadi satu cerita wawancara. Kumpulkan lima cerita seperti ini dan kamu tidak lagi \"kandidat dengan portofolio\" — kamu adalah \"engineer yang pernah menyelesaikan masalah produksi\".",
+        "Persiapan interview yang konkret: lima pertanyaan yang hampir pasti ditanyakan tentang capstone-mu, dan cara menjawabnya. Satu: \"Kenapa grain-nya satu baris per transaksi berhasil?\" — jawab dengan alternatif yang kamu tolak (\"saya pertimbangkan per nasabah per hari, tetapi butuh drill-down ke transaksi untuk investigasi fraud, jadi...\"). Dua: \"Bagaimana handle late data?\" — jawab dengan batasanmu (\"watermark 3 hari; selebihnya job rekonsiliasi mingguan\"). Tiga: \"Test apa yang pernah menangkap bug nyata?\" — inilah gunanya siklus FAIL→PASS yang terdokumentasi di fase 4. Empat: \"Berapa biaya menjalankannya per bulan, dan bagaimana menekannya?\" — tunjukkan kamu berpikir ekonomi, bukan hanya teknis. Lima: \"Kalau sumber mengubah skema besok, apa yang patah dan apa yang bertahan?\" — jawab dengan lapisan pertahananmu (kontrak, test pintu, schema drift alert). Pola jawaban yang menang selalu sama: keputusan + alternatif yang ditolak + trade-off + angka. Hafalan definisi tidak pernah memenangkan pertanyaan-pertanyaan ini.",
+        "Keputusan cepat untuk naik dari capstone ke produksi — checklist satu halaman. Satu: tabel di atas 1 juta baris → incremental wajib; jangan tunggu sampai lambat. Dua: ada data personal → masking + audit akses sebelum data nyata masuk; bukan sesudah. Tiga: ada konsumen selain dirimu → kontrak + versioning; capstone pribadi boleh longgar, sistem bersama tidak. Empat: job kritis → runbook + alert + pemilik on-call yang jelas; \"nanti saja\" berarti \"tidak pernah\". Lima: setiap keputusan arsitektur → tulis ADR (Architecture Decision Record) satu paragraf: konteks, keputusan, alternatif yang ditolak, konsekuensi. Enam: sebelum klaim \"production-ready\" → jalankan game day rebuild dan chaos test (matikan satu komponen, pastikan sistem bertahan). Enam kotak ini, semua tercentang, adalah definisi operasional dari \"siap produksi\" — jauh lebih jujur daripada perasaan \"kayaknya sudah bisa\".",
+        "Pendalaman dokumentasi: ADR (Architecture Decision Records) adalah artefak yang membedakan engineer senior. Formatnya sederhana — satu file markdown per keputusan penting: judul dan tanggal, konteks (masalah apa yang dihadapi), keputusan (apa yang dipilih), alternatif yang dipertimbangkan dan kenapa ditolak, konsekuensi (apa yang dikorbankan). Contoh: \"ADR-003: incremental load dengan watermark tanggal — menolak full rebuild (biaya meledak di 9 juta baris) dan menolak CDC real-time (kompleksitas belum sebanding); konsekuensi: late data >3 hari ditangani job mingguan.\" Lima ADR seperti ini di repo capstone-mu bernilai lebih dari 500 baris kode tambahan — karena ia menunjukkan cara berpikir, dan cara berpikirlah yang dinilai di interview senior. Mulai kebiasaan ini sekarang: setiap keputusan \"kenapa begini?\" yang kamu jawab di kepala, tulis sebagai ADR. Dirimu tiga bulan dari sekarang akan berterima kasih.",
+        "Monitoring produksi melengkapi test: test mencegah yang diketahui, monitoring menangkap yang tidak terduga. Empat dashboard yang wajib ada untuk pipeline produksi. Satu: freshness — \"data terakhir masuk jam berapa?\" dengan alert jika telat dari SLA. Dua: volume — jumlah baris per tabel per hari dengan deteksi anomali (tiba-tiba turun 70% = sumber mati sebagian). Tiga: kualitas — % baris lolos/gagal validasi per tabel, tren 30 hari. Empat: biaya dan performa — durasi job per hari (tren naik = peringatan skala) dan estimasi biaya compute. Keempatnya dibuka setiap pagi seperti pilot memeriksa instrumen — lima menit. Aturan: setiap alert monitoring harus punya runbook tertaut; alert tanpa instruksi adalah kecemasan yang diformat. Dan review metrik ini tiap sprint: tren durasi job yang naik 5% per minggu akan menggandakan diri dalam 14 minggu — kamu punya kalender peringatan sebelum ia menjadi insiden.",
+        "Hitung ekonomi cloud sebelum terkejut oleh tagihan — \"tagihan kejutan\" adalah rite of passage yang tidak perlu. Tiga komponen biaya warehouse: storage (murah, ~Rp300 ribu per TB per bulan — jangan hemat di sini), compute (mahal — menagih per detik atau per TB yang di-scan), dan transfer (sering terlupakan — antar region bisa mahal). Tiga pemborosan klasik: dashboard yang full-scan tabel 9 juta baris setiap dibuka (solusi: agregat pra-hitung), job development yang lupa dimatikan (solusi: auto-suspend setelah 5 menit idle), dan retensi data mentah selamanya (solusi: lifecycle policy — mentah 90 hari, agregat 2 tahun, arsip ke storage murah). Aturan anggaran: tetapkan budget bulanan dengan alert di 50%, 80%, 100%; tag setiap resource dengan pemilik dan proyek. Engineer yang tidak tahu biaya sistemnya seperti pengemudi yang tidak tahu harga bensin — bisa jalan, tetapi tidak bisa merencanakan perjalanan jauh.",
+        "Tutup dengan peta jalan yang jujur dari capstone ke karir. Bulan 1–2: capstone ini selesai dengan rubrik ≥10/14 — bukti pertama. Bulan 3–4: seberangi dua jurang (incremental + monitoring) di proyek yang sama — buktikan ia bisa hidup. Bulan 5–6: tambah satu jurang lagi (keamanan atau kontrak) dan tulis lima ADR — buktikan kamu berpikir seperti senior. Setelah itu: cari proyek nyata — freelance, magang, atau inisiatif internal — di mana pipeline-mu dipakai orang lain; tidak ada yang mengajar seperti pengguna sungguhan yang komplain. Dan ingat nasihat dari quiz terakhir lesson ini: perdalam satu cloud plus Airflow plus dbt di proyek nyata sebelum tergoda streaming atau tool eksotis. Fondasi yang dalam mengalahkan atap yang lebar — selalu. Capstone ini bukan garis finis; ia adalah tiket masuk ke permainan yang sesungguhnya. Selamat datang di produksi.",
+        "Tiga kegagalan capstone yang paling umum — dan cara menghindarinya. Satu: \"arsitektur resume-driven\" — memakai tujuh tool canggih (Kafka, Spark, Airflow, dbt, Flink...) untuk dataset 5.000 baris, sehingga 80% waktu habis untuk konfigurasi dan 20% untuk data. Pewawancara senior langsung curiga: ini sinyal engineer yang memilih tool sebelum memahami masalah. Obatnya: mulai dari yang paling sederhana yang bekerja (SQLite + Python + dbt core), tambah kompleksitas hanya saat ada bukti butuh. Dua: \"tidak ada keputusan yang tertulis\" — kode jalan tetapi tidak ada yang tahu kenapa grain-nya begitu; saat ditanya, jawabannya \"lupa\". Obatnya: ADR sejak hari pertama. Tiga: \"selesai tapi tidak bisa dijalankan ulang\" — environment tidak terdokumentasi, dependency tidak di-pin, enam bulan kemudian tidak ada yang bisa menjalankan ulang termasuk pembuatnya. Obatnya: requirements terkunci, README dengan langkah reproduksi yang diuji di mesin bersih, dan data sample yang disertakan. Tiga kegagalan ini membunuh lebih banyak portofolio daripada kurangnya skill teknis.",
+        "Presentasi portofolio adalah keterampilan tersendiri — dan bisa dilatih. Struktur 10 menit yang terbukti: 2 menit masalah (\"bank kecil ini tidak bisa menjawab pertanyaan direksi\"), 3 menit arsitektur (tunjukkan diagram lineage — satu gambar mengalahkan 10 menit penjelasan), 3 menit keputusan tersulit (\"saya memilih incremental karena... trade-off-nya...\"), 2 menit demo live (jalankan pipeline atau tunjukkan dashboard — yang hidup mengalahkan screenshot). Siapkan juga \"tur 2 menit\" untuk pewawancara yang sibuk: masalah → diagram → satu keputusan → hasil. Dan antisipasi pertanyaan jebakan: \"apa yang akan kamu ubah jika mengulang?\" — jawaban jujur (\"saya akan menulis kontrak dengan sumber sejak awal; saya meremehkan perubahan skema\") jauh lebih mengesankan daripada \"sudah sempurna\". Pewawancara tidak mencari kesempurnaan; mereka mencari kesadaran diri dan kemampuan belajar. Capstone yang dipresentasikan dengan baik mengalahkan capstone yang secara teknis lebih canggih tetapi tidak bisa diceritakan.",
+        "Satu nasihat terakhir tentang ekspektasi: capstone pertamamu tidak akan sempurna — dan tidak perlu. Tujuannya bukan membangun sistem produksi kelas bank sentral, melainkan membuktikan tiga hal: kamu bisa membangun end-to-end, kamu bisa menjelaskan keputusanmu, dan kamu tahu apa yang belum kamu tahu. Kejujuran tentang keterbatasan (\"bagian keamanan belum saya implementasikan; ini rencana saya\") justru membangun kepercayaan pewawancara — ia menunjukkan kamu memahami peta wilayahnya, bukan hanya jalan yang sudah kamu lewati. Engineer junior yang tahu batasnya lebih berharga daripada yang mengklaim tahu segalanya. Selesaikan capstone ini dengan jujur, dokumentasikan dengan baik, presentasikan dengan percaya diri — lalu mulai yang berikutnya dengan standar lebih tinggi. Begitulah karir dibangun: satu bukti dalam satu waktu.",
+        "Dan satu metrik pribadi untuk mengukur apakah capstone-mu benar-benar berhasil: \"test enam bulan\". Enam bulan dari sekarang, tanpa melihat catatan, bisakah kamu menjelaskan setiap keputusan arsitektur di repo ini dan menjalankannya ulang dari nol dalam satu hari? Kalau ya — dokumentasimu cukup, keputusanmu dipahami, dan portofolio ini adalah aset yang hidup. Kalau tidak — itulah daftar perbaikanmu, dan tidak ada kata terlambat untuk menuliskannya sekarang selagi ingatan masih segar. Portofolio terbaik bukan yang paling canggih, melainkan yang paling tahan terhadap waktu dan lupa. Bangunlah yang seperti itu — satu ADR, satu test, satu paragraf README dalam satu waktu.",
+      ],
+      tasks: [],
+      reference: "Capstone = versi 1. Produksi = versi 2..N yang bisa dioperasikan orang lain.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji kesiapan capstone",
+      prose: ["Enam pertanyaan penutup track. Setiap opsi punya alasan kenapa benar atau salah."],
+      tasks: [],
+      summary: [
+        "Keputusan tertulis > kode panjang: grain, SCD, survivorship, idempotency, toleransi.",
+        "Test yang tak pernah FAIL = belum terbukti. Siklus FAIL→PASS = bukti.",
+        "Katalog = orang asing paham tanpa bertanya; lineage = aliran tergambar.",
+        "Rubrik ≥10/14; di bawah itu ulangi fase yang bolong.",
+        "Portofolio = bukti berpikir, bukan daftar tool.",
+      ],
+      next: { label: "MK1 — Funnel AARRR", href: "/learn/mk1-funnel-aarrr" },
+      quiz: [
+        {
+          q: "Kenapa staging (Bronze) harus menerima data mentah, bukan langsung dibersihkan?",
+          options: [
+            { text: "Agar hemat kode", why: "Bukan soal hemat kode." },
+            { text: "ELT: mentah tersimpan = bisa re-process & audit; pembersihan terdokumentasi & ter-test di Silver", why: "Keputusan satu arah (DM4): mentah = opsi masa depan + bukti audit.", correct: true },
+            { text: "Agar cepat", why: "Bukan soal kecepatan." },
+            { text: "Tidak ada alasan", why: "Ada: re-processing dan audit." },
+          ],
+        },
+        {
+          q: "Transaksi T004 (nasabah tidak ada di dim) terbuang di JOIN. Praktik benar?",
+          options: [
+            { text: "Diamkan — yang penting mart bersih", why: "Silent drop = bom audit." },
+            { text: "Catat + alert sebagai temuan kualitas (FK test FAIL atau quarantine)", why: "Setiap baris yang dibuang = temuan yang ditindaklanjuti di hulu.", correct: true },
+            { text: "Hapus staging-nya juga", why: "Menghapus bukti mentah merusak audit." },
+            { text: "Ubah jadi N001", why: "Memalsukan data = pelanggaran integritas." },
+          ],
+        },
+        {
+          q: "Bagaimana membuktikan test kualitasmu berfungsi?",
+          options: [
+            { text: "Lihat semua PASS", why: "PASS terus = belum terbukti menangkap apa pun." },
+            { text: "Sengaja rusak 1 data → pastikan FAIL + pipeline berhenti → perbaiki → PASS", why: "Siklus FAIL→PASS yang terdokumentasi = bukti.", correct: true },
+            { text: "Percaya saja", why: "Kepercayaan tanpa bukti = klaim." },
+            { text: "Hapus test yang gagal", why: "Menghapus alarm kebakaran." },
+          ],
+        },
+        {
+          q: "README portofolio yang memenangkan wawancara berisi…",
+          options: [
+            { text: "Daftar 20 tool yang dikuasai", why: "Itu Kandidat A yang tidak diterima." },
+            { text: "Masalah → keputusan sulit (grain, SCD, toleransi) → hasil terukur", why: "Recruiter menilai cara berpikir > hafalan tool.", correct: true },
+            { text: "Foto cluster", why: "Foto bukan bukti berpikir." },
+            { text: "Copy-paste dokumentasi", why: "Bukan karyamu, bukan buktimu." },
+          ],
+        },
+        {
+          q: "Setelah capstone, langkah karir berikutnya menurut riset lowongan 2026?",
+          options: [
+            { text: "Hafal 10 tool lagi", why: "Hafalan bukan bukti." },
+            { text: "Perdalam 1 cloud + Airflow + dbt di proyek nyata; portofolio produksi; baru ke streaming", why: "Urutan pasar: fondasi → inti modern → pembeda.", correct: true },
+            { text: "Langsung melamar arsitek", why: "Lompat level tanpa bukti produksi." },
+            { text: "Berhenti belajar", why: "Capstone = bukti pertama, bukan terakhir." },
+          ],
+        },
+        {
+          q: "Silver 9 juta baris, full rebuild 6× lebih lambat dari hari pertama dan tagihan membengkak. Perbaikan struktural yang tepat?",
+          options: [
+            { text: "Naikkan ukuran server", why: "Scale-up menunda masalah, bukan menyelesaikan — biaya naik permanen." },
+            { text: "Incremental load (hanya proses data baru/berubah) + partisi tanggal", why: "Waktu proses kembali flat terhadap ukuran tabel; biaya turun permanen.", correct: true },
+            { text: "Jalankan lebih jarang", why: "Menunda rebuild = data lebih basi; tidak menyelesaikan akar masalah." },
+            { text: "Hapus data lama", why: "Menghapus histori merusak audit dan kemampuan analisis." },
+          ],
+        },
+      ],
+    },
+  ],
+};

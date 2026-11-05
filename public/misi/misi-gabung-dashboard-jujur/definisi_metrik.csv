@@ -1,0 +1,7 @@
+metrik,tim,definisi,jendela_hari,pembilang,penyebut
+CAC,Tim Growth (marketing),belanja iklan dibagi pelanggan baru,,spend_iklan,pelanggan_baru
+CAC,Tim Finance,total belanja (iklan + fee agensi) dibagi pelanggan baru,,spend_iklan + fee_agensi,pelanggan_baru
+Active user,Tim Growth,minimal 1 event apa pun dalam 30 hari (termasuk bot),30,user unik dengan >=1 event,—
+Active user,Tim Product,minimal 1 login dalam 30 hari,30,user unik dengan >=1 login,—
+Atribusi konversi,Tim Growth,last-touch; konversi dihitung bila <= jendela hari sejak sentuhan terakhir,30,nilai pembelian teratribusi,—
+Atribusi konversi,Tim Brand,last-touch; konversi dihitung bila <= jendela hari sejak sentuhan terakhir,7,nilai pembelian teratribusi,—

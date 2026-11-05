@@ -1,0 +1,10 @@
+edge_id,source_table,source_column,target_table,target_column,claimed_by,claim_date
+K1,core_rekening,limit_kredit,dm_kredit,limit_kredit,Tim Platform,2021-03-02
+K2,core_nasabah,nasabah_id,dm_kredit,nasabah_id,Tim Platform,2021-03-02
+K3,risk_score_harian,skor,dm_kredit,skor_risiko,Tim Risiko,2022-06-11
+K4,dm_kredit,skor_risiko,lap_risiko_bulanan,rasio_npl,Tim Analitik,2022-06-11
+K5,dm_kredit,limit_kredit,lap_risiko_bulanan,total_eksposur,Tim Analitik,2023-01-20
+K6,lap_risiko_bulanan,periode,arsip_laporan,periode,Tim Analitik,2023-01-20
+K7,core_kolektibilitas,status,dm_kredit,status_nasabah,Tim Risiko,2022-06-11
+K8,arsip_laporan,file_path,regulator_server,laporan_final,Tim Analitik,2023-01-20
+K9,risk_score_harian,model_version,dm_kredit,skor_risiko,Tim Risiko,2022-06-11

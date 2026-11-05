@@ -1,0 +1,22 @@
+mobile-375: LOADERROR Page.wait_for_function: Timeout 90000ms exceeded.
+mobile-390: LOADERROR Page.wait_for_function: Timeout 90000ms exceeded.
+tablet-768: LOADERROR Page.wait_for_function: Timeout 90000ms exceeded.
+desktop-1280: LOADERROR Page.wait_for_function: Timeout 90000ms exceeded.
+{
+ "defects": 4,
+ "results": {
+  "mobile-375": {
+   "loadError": "Page.wait_for_function: Timeout 90000ms exceeded."
+  },
+  "mobile-390": {
+   "loadError": "Page.wait_for_function: Timeout 90000ms exceeded."
+  },
+  "tablet-768": {
+   "loadError": "Page.wait_for_function: Timeout 90000ms exceeded."
+  },
+  "desktop-1280": {
+   "loadError": "Page.wait_for_function: Timeout 90000ms exceeded."
+  }
+ }
+}
+EXIT=1
