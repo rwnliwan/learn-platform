@@ -5,11 +5,19 @@ KLBF,FY2024,laba_bruto,12957040191898,Rp,AR KLBF 2024 hal.4
 KLBF,FY2024,laba_usaha,4080720255919,Rp,AR KLBF 2024 [T]
 KLBF,FY2024,laba_sebelum_pajak,4218874269523,Rp,AR KLBF 2024 hal.4
 KLBF,FY2024,laba_bersih_atribusional,3240636626331,Rp,AR KLBF 2024 hal.5
+KLBF,FY2024,eps_dasar,70.16,Rp/saham,AR KLBF 2024 hal.5
 KLBF,FY2024,total_aset,29429727898195,Rp,AR KLBF 2024 hal.1
+KLBF,FY2024,total_liabilitas,4839294087709,Rp,AR KLBF 2024 hal.2
+KLBF,FY2024,total_ekuitas,24590433810486,Rp,AR KLBF 2024 hal.3
 KLBF,FY2024,total_aset_lancar,17187668427724,Rp,AR KLBF 2024 hal.1
 KLBF,FY2024,total_aset_tidak_lancar,12242059470471,Rp,AR KLBF 2024 hal.1
 KLBF,FY2024,kas_dan_setara_kas,4723293839405,Rp,AR KLBF 2024 hal.1
+KLBF,FY2024,kas_neto_dari_operasi,4785179041408,Rp,AR KLBF 2024 hal.7
+KLBF,FY2024,belanja_modal,907909319042,Rp,AR KLBF 2024 hal.7
+KLBF,FY2024,dividen_kas_dibayar,1433930308710,Rp,AR KLBF 2024 hal.8
 KLBF,FY2024,persediaan_neto,6501631203212,Rp,AR KLBF 2024 hal.1
 KLBF,FY2024,rasio:gross_margin,39.71,persen,terhitung
 KLBF,FY2024,rasio:net_margin,9.93,persen,terhitung
+KLBF,FY2024,rasio:roe,14.70,persen,terhitung
+KLBF,FY2024,rasio:current_ratio,4.11,x,terhitung
 KLBF,FY2024,rasio:roa,11.01,persen,terhitung

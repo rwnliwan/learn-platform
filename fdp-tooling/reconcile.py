@@ -30,6 +30,11 @@ UNIT_FACTOR = {
     "Rp-juta": 1_000_000,
     "Rp-miliar": 1_000_000_000,
     "persen": None,  # rasio: tidak dikonversi, dibandingkan langsung (pp)
+    # Tambahan 2026-11-05 (sinkronisasi benchmark 41 angka dengan
+    # public/v2/data/benchmark.csv): satuan per-saham dan kelipatan (x)
+    # tidak dikonversi — dibandingkan eksak (C1) / ±0,5 pp (C2).
+    "Rp/saham": 1,
+    "x": 1,
 }
 
 # Aturan konsistensi internal C3: (nama_cek, target, [(pos, tanda), ...])
