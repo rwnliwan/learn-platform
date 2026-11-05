@@ -3,15 +3,16 @@ import meta from "./lessonMeta.json";
 // Metadata RAMPING untuk komponen client — PENGGANTI impor registry penuh
 // di jalur client (lihat header scripts/gen-lesson-meta.mjs: registry penuh
 // = konten ~26 MB yang dulu ikut ke shared chunk client 22 MB).
-// File ini hanya membaca lessonMeta.json (0,49 MB: judul, track,
-// estMinutes, judul per step). Konten penuh (prosa, quiz, lab) TIDAK ada
-// di sini dan tetap dibaca server-side dari registry.ts.
-// WAJIB regenerasi lessonMeta.json setiap kali konten lesson/misi/proyek
-// berubah, sebelum deploy.
+// File ini hanya membaca lessonMeta.json (~0,09 MB: judul, track,
+// estMinutes). Judul per step TIDAK ada di sini — ia pindah ke
+// lessonMetaSteps.json (~0,42 MB) yang HANYA dipakai /v2/kebingungan via
+// dynamic import (lazy); halaman lain tidak pernah mengunduhnya. Konten
+// penuh (prosa, quiz, lab) tetap dibaca server-side dari registry.ts.
+// WAJIB regenerasi lessonMeta.json + lessonMetaSteps.json setiap kali
+// konten lesson/misi/proyek berubah, sebelum deploy.
 
-type SlimStep = [string, string];
-type SlimLesson = { t: string; tr: string; e: number; s: SlimStep[] };
-type SlimMisi = { t: string; tr: string; e: number; s: SlimStep[] };
+type SlimLesson = { t: string; tr: string; e: number };
+type SlimMisi = { t: string; tr: string; e: number };
 type SlimProyek = { t: string };
 
 const DATA = meta as unknown as {
@@ -25,7 +26,6 @@ export interface LessonMeta {
   title: string;
   track: string;
   estMinutes: number;
-  steps: { id: string; title: string }[];
 }
 
 export interface MisiMeta {
@@ -33,7 +33,6 @@ export interface MisiMeta {
   title: string;
   track: string;
   estMinutes: number;
-  steps: { id: string; title: string }[];
 }
 
 function toLessonMeta(slug: string, s: SlimLesson): LessonMeta {
@@ -42,7 +41,6 @@ function toLessonMeta(slug: string, s: SlimLesson): LessonMeta {
     title: s.t,
     track: s.tr,
     estMinutes: s.e,
-    steps: s.s.map(([id, title]) => ({ id, title })),
   };
 }
 
@@ -52,7 +50,6 @@ function toMisiMeta(slug: string, s: SlimMisi): MisiMeta {
     title: s.t,
     track: s.tr,
     estMinutes: s.e,
-    steps: s.s.map(([id, title]) => ({ id, title })),
   };
 }
 

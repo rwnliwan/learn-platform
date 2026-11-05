@@ -9,9 +9,17 @@
 // estMinutes, dan judul per step saja. Konten penuh tetap dibaca
 // server-side dari registry.ts (generateStaticParams, halaman [slug],
 // daftar lesson, review, karier, proyek, catatan) — tidak berubah.
-// Output: src/app/v2/lib/lessonMeta.json — WAJIB regenerasi setiap kali
-// konten lesson/misi/proyek berubah, sebelum deploy (pola yang sama
-// seperti cardData.json untuk /api/v2/card).
+// Output: src/app/v2/lib/lessonMeta.json (ramping: judul/track/estMinutes
+// SAJA, ~0,09 MB) + src/app/v2/lib/lessonMetaSteps.json (judul per step
+// SAJA, ~0,42 MB). WAJIB regenerasi kedua file setiap kali konten
+// lesson/misi/proyek berubah, sebelum deploy (pola yang sama seperti
+// cardData.json untuk /api/v2/card).
+// Alasan split (2026-11-05 malam): judul step 440 KB (82% file) HANYA
+// dipakai halaman /v2/kebingungan — kalau ikut ke lessonMeta.json, ia
+// masuk chunk client SEMUA halaman v2 (termasuk beranda) dan memblokir
+// load di koneksi lambat. lessonMetaSteps.json di-load LAZY via dynamic
+// import hanya oleh KebingunganClient; halaman lain tidak pernah
+// mengunduhnya.
 // Pakai: ./node_modules/.bin/esbuild scripts/meta-entry.ts --bundle \
 //   --format=esm --outfile=/tmp/metabundle.mjs --log-level=error && \
 //   node scripts/gen-lesson-meta.mjs
@@ -22,6 +30,7 @@ const slimSteps = (steps) =>
   (steps ?? []).map((s) => [s.id, s.title]);
 
 const lessons = {};
+const lessonSteps = {};
 let noEst = 0;
 for (const l of m.getV2Lessons()) {
   if (l.estMinutes === undefined || l.estMinutes === null) noEst++;
@@ -29,18 +38,19 @@ for (const l of m.getV2Lessons()) {
     t: l.title,
     tr: l.track,
     e: l.estMinutes,
-    s: slimSteps(l.steps),
   };
+  lessonSteps[l.slug] = slimSteps(l.steps);
 }
 
 const misi = {};
+const misiSteps = {};
 for (const [slug, mis] of Object.entries(m.REG_MISI)) {
   misi[slug] = {
     t: mis.title,
     tr: mis.track,
     e: mis.estMinutes,
-    s: slimSteps(mis.steps),
   };
+  misiSteps[slug] = slimSteps(mis.steps);
 }
 
 const proyek = {};
@@ -54,6 +64,12 @@ writeFileSync(
   new URL("../src/app/v2/lib/lessonMeta.json", import.meta.url),
   json
 );
+const stepsOut = { lessons: lessonSteps, misi: misiSteps };
+const stepsJson = JSON.stringify(stepsOut);
+writeFileSync(
+  new URL("../src/app/v2/lib/lessonMetaSteps.json", import.meta.url),
+  stepsJson
+);
 console.log(
   "lessonMeta.json:",
   Object.keys(lessons).length,
@@ -65,4 +81,9 @@ console.log(
   (json.length / 1048576).toFixed(2),
   "MB, lesson tanpa estMinutes:",
   noEst
+);
+console.log(
+  "lessonMetaSteps.json:",
+  (stepsJson.length / 1048576).toFixed(2),
+  "MB"
 );

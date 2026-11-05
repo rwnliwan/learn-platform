@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
 import Icon, { trackIconFor } from "./icons";
 // Code splitting 2026-11-05 (temuan N1 Instinct): panel ini HANYA butuh
 // judul/track/estimasi — JANGAN impor registry penuh (konten ~26 MB ikut
@@ -43,19 +42,15 @@ function lessonHref(slug: string) {
 }
 
 /* Bungkus kartu: fade-in halus sekali saat mount (stagger ≤40ms/kartu).
-   prefers-reduced-motion -> div biasa tanpa animasi. */
+   Dulu motion/react (chunk 206 KB ikut ke SEMUA halaman v2 via sidenav);
+   kini animasi CSS murni di v2.css (.fpcard) — visual identik
+   (opacity 0→1, y 6→0, 0,2 dtk ease-out), prefers-reduced-motion
+   ditangani media query CSS. */
 function FpCard({ index, children }: { index: number; children: ReactNode }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className="fpcard">{children}</div>;
   return (
-    <motion.div
-      className="fpcard"
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2, ease: "easeOut", delay: index * 0.04 }}
-    >
+    <div className="fpcard" style={{ animationDelay: `${index * 40}ms` }}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 function misiHref(slug: string) {

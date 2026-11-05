@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Icon from "../lib/icons";
 // Code splitting 2026-11-05 (temuan N1 Instinct): halaman ini HANYA butuh
@@ -24,7 +24,26 @@ import {
   type ResolutionEntry,
 } from "../lib/confusion";
 
-function buildMeta(): {
+/** Judul step (~440 KB) TIDAK ikut bundle awal: di-load lazy via dynamic
+    import hanya saat halaman ini dibuka. lessonMeta.json ramping (judul /
+    track / est saja) tetap dibaca sinkron via lessonMeta.ts. Gagal load ->
+    fallback stepId (perilaku lama untuk judul yang memang tidak ada). */
+type StepsData = {
+  lessons: Record<string, [string, string][]>;
+  misi: Record<string, [string, string][]>;
+};
+const EMPTY_STEPS: StepsData = { lessons: {}, misi: {} };
+let stepsPromise: Promise<StepsData> | null = null;
+function loadStepTitles(): Promise<StepsData> {
+  if (!stepsPromise) {
+    stepsPromise = import("../lib/lessonMetaSteps.json")
+      .then((mod) => ((mod.default ?? mod) as unknown as StepsData) ?? EMPTY_STEPS)
+      .catch(() => EMPTY_STEPS);
+  }
+  return stepsPromise;
+}
+
+function buildMeta(stepTitles: StepsData): {
   lessonOf: Map<string, { title: string; track: string; href: string }>;
   stepTitleOf: Map<string, string>;
 } {
@@ -32,14 +51,15 @@ function buildMeta(): {
   const stepTitleOf = new Map<string, string>();
   for (const l of lessonMetas()) {
     lessonOf.set(l.slug, { title: l.title, track: l.track, href: "/v2/learn/" + l.slug });
-    for (const s of l.steps) stepTitleOf.set(l.slug + "␟" + s.id, s.title);
+    for (const [id, title] of stepTitles.lessons[l.slug] ?? [])
+      stepTitleOf.set(l.slug + "␟" + id, title);
   }
   for (const mis of misiMetas()) {
     const slug = mis.slug;
     if (!lessonOf.has(slug))
       lessonOf.set(slug, { title: mis.title, track: mis.track, href: "/v2/misi/" + slug });
-    for (const s of mis.steps)
-      if (!stepTitleOf.has(slug + "␟" + s.id)) stepTitleOf.set(slug + "␟" + s.id, s.title);
+    for (const [id, title] of stepTitles.misi[slug] ?? [])
+      if (!stepTitleOf.has(slug + "␟" + id)) stepTitleOf.set(slug + "␟" + id, title);
   }
   return { lessonOf, stepTitleOf };
 }
@@ -159,10 +179,11 @@ export default function KebingunganClient() {
   const [nodes, setNodes] = useState<ConfusionNode[]>([]);
   const [history, setHistory] = useState<ResolutionEntry[]>([]);
   const [optOut, setOptOut] = useState(false);
+  const stepTitlesRef = useRef<StepsData>(EMPTY_STEPS);
 
   const reload = () => {
     try {
-      const { lessonOf, stepTitleOf } = buildMeta();
+      const { lessonOf, stepTitleOf } = buildMeta(stepTitlesRef.current);
       const metaOf = (slug: string, stepId: string): NodeMeta => {
         const l = lessonOf.get(slug);
         return {
@@ -180,9 +201,14 @@ export default function KebingunganClient() {
   };
 
   useEffect(() => {
-    reload();
-    setOptOut(signalOptedOut());
-    setReady(true);
+    // Judul step dimuat dulu (lazy chunk); halaman tetap di state
+    // "Menganalisis…" sampai judul tiba, jadi hasil akhir identik.
+    loadStepTitles().then((t) => {
+      stepTitlesRef.current = t;
+      reload();
+      setOptOut(signalOptedOut());
+      setReady(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

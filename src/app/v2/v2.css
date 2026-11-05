@@ -328,7 +328,9 @@ html[data-theme="dark"] .v2{
 .v2 .focuspanel{display:flex;flex-direction:column;gap:var(--sp-2);margin-top:var(--sp-4);padding:var(--sp-4) var(--sp-1) 0;border-top:1px solid var(--border);min-width:0;max-height:56vh;overflow-y:auto}
 .v2 .sidenav[data-collapsed="true"] .focuspanel{display:none}
 .v2 .fphead{font:600 11px/16px var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);padding:0 var(--sp-2)}
-.v2 .fpcard{border:1px solid var(--border);border-radius:var(--r-2);padding:var(--sp-2) var(--sp-3);background:transparent;min-width:0}
+.v2 .fpcard{border:1px solid var(--border);border-radius:var(--r-2);padding:var(--sp-2) var(--sp-3);background:transparent;min-width:0;animation:fpcard-in .2s ease-out both}
+@keyframes fpcard-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.v2 .fpcard{animation:none}}
 .v2 .fptitle{display:flex;align-items:center;gap:var(--sp-1);font:600 12px/18px var(--font-ui);color:var(--text)}
 .v2 .fptitle .i{width:14px;height:14px}
 .v2 .fpitem{font:500 13px/19px var(--font-ui);color:var(--text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
