@@ -47,7 +47,7 @@ Konvensi port (format `reconcile.py` dipertahankan, bukan sebaliknya):
 - Satuan bank: `Rp-juta` (tanda hubung — yang dikenali `UNIT_FACTOR`), bukan `Rp juta`.
 - Periode BBCA: `H1-2026` (tanda hubung), bukan `H1 2026`.
 - Rasio ditulis 2 desimal dari hitungan filing: gross margin 39,71 (bukan 39,7),
-  net margin 9,93, ROE 14,70 — sama dengan ekspektasi lab FDP5. Nilai level-1 tidak
+  net margin 9,93, ROE 14,66 — sama dengan ekspektasi lab FDP5. Nilai level-1 tidak
   dibulatkan.
 - Satuan baru di `reconcile.py`: `Rp/saham` (EPS) dan `x` (current ratio) — keduanya
   tanpa konversi.

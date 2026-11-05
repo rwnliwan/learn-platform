@@ -77,7 +77,7 @@ export const fdp5: V2Lesson = {
       prose: [
         "Enam belas rasio non-bank FSA Lab terbagi dalam empat keluarga — masing-masing menjawab satu pertanyaan. Mesin rasio tidak menghafal 16 rumus acak; ia memahami 4 pertanyaan.",
         "Keluarga Profitabilitas — 'untung?': gross margin (laba bruto ÷ penjualan), operating margin (laba usaha ÷ penjualan), net margin (laba bersih ÷ penjualan), ROE (laba bersih ÷ rata-rata ekuitas), ROA (laba bersih ÷ total aset). Keluarga Likuiditas — 'bisa bayar besok?': current ratio, quick ratio. Keluarga Solvabilitas — 'kuat menahan badai?': D/E, D/A, interest coverage (EBIT ÷ beban bunga). Keluarga Efisiensi — 'cepat?': asset turnover, receivable days, inventory days, payable days, dan CCC (siklus konversi kas).",
-        "💡 Intuisi: rasio adalah kalimat, bukan angka. 'ROE 14,70%' adalah kalimat 'setiap Rp100 ekuitas menghasilkan Rp14,70 laba'. Mesin yang baik tidak mencetak angka — ia mencetak kalimat yang bisa diaudit: angka + rumus + sumber.",
+        "💡 Intuisi: rasio adalah kalimat, bukan angka. 'ROE 14,66%' adalah kalimat 'setiap Rp100 ekuitas menghasilkan Rp14,66 laba'. Mesin yang baik tidak mencetak angka — ia mencetak kalimat yang bisa diaudit: angka + rumus + sumber.",
         "Cara membaca: empat kotak keluarga, masing-masing berisi anggotanya dan pertanyaan yang dijawabnya.",
         "Interpretasi: saat concept hilang, kamu tahu keluarga mana yang lumpuh — dan bisa memutuskan apakah analisis tetap jalan (mis. quick ratio hilang tapi current ratio ada) atau harus berhenti.",
       ],
@@ -123,10 +123,10 @@ export const fdp5: V2Lesson = {
         { id: "t2", text: "Jalankan dan pastikan cocok dengan benchmark (toleransi 0,01)" },
         { id: "t3", text: "Eksplorasi: ubah beban_bunga=0, catat perilaku interest_coverage" },
       ],
-      expected: "gross_margin=39.71 | net_margin=9.93 | roe=14.70 | coverage=58.94 | ccc=139.95",
+      expected: "gross_margin=39.71 | net_margin=9.93 | roe=14.66 | coverage=58.94 | ccc=139.95",
       note: {
         title: "Angka acuan (benchmark terverifikasi)",
-        body: "gross_margin 39,71 · net_margin 9,93 · roe 14,70 · interest_coverage 58,94× · CCC 139,95 hari. Bila angkamu meleset >0,01 — cek rumus, bukan benchmark.",
+        body: "gross_margin 39,71 · net_margin 9,93 · roe 14,66 · interest_coverage 58,94× · CCC 139,95 hari. Bila angkamu meleset >0,01 — cek rumus, bukan benchmark.",
       },
       hints: [
         "gross_margin = laba_bruto / penjualan_neto * 100",
@@ -134,14 +134,14 @@ export const fdp5: V2Lesson = {
         "ccc = receivable_days + inventory_days − payable_days; masing-masing = pos / denominator * 365",
       ],
       code: {
-        starter: `# Angka KLBF FY2024 terverifikasi (Rp penuh, dari filing asli)\nF = {\n    "penjualan_neto": 32627776108026,\n    "laba_bruto": 12957040191898,\n    "laba_usaha": 4080720255919,\n    "laba_bersih": 3240636626331,\n    "ekuitas_awal": 19499860425310,\n    "ekuitas_akhir": 24590433810486,\n    "beban_bunga": 69234366294,\n    "piutang": 4864547027520,\n    "persediaan": 6501631203212,\n    "utang_usaha": 1892169477879,\n    "beban_pokok": 19670735916128,\n}\n\n# TULIS KODEMU: lengkapi 6 rumus (hasil dalam persen, kecuali coverage & ccc)\ndef compute_ratios(f):\n    r = {}\n    r["gross_margin"] = \n    r["net_margin"] = \n    r["roe"] = \n    r["interest_coverage"] = \n    r["ccc"] = \n    return r\n\nR = compute_ratios(F)\nfor k, v in R.items():\n    print(f"{k}={v:.2f}")`,
+        starter: `# Angka KLBF FY2024 terverifikasi (Rp penuh, dari filing asli)\nF = {\n    "penjualan_neto": 32627776108026,\n    "laba_bruto": 12957040191898,\n    "laba_usaha": 4080720255919,\n    "laba_bersih": 3240636626331,\n    "ekuitas_awal": 21418856503057,\n    "ekuitas_akhir": 22788879435410,\n    "beban_bunga": 69234366294,\n    "piutang": 4864547027520,\n    "persediaan": 6501631203212,\n    "utang_usaha": 1892169477879,\n    "beban_pokok": 19670735916128,\n}\n\n# TULIS KODEMU: lengkapi 6 rumus (hasil dalam persen, kecuali coverage & ccc)\ndef compute_ratios(f):\n    r = {}\n    r["gross_margin"] = \n    r["net_margin"] = \n    r["roe"] = \n    r["interest_coverage"] = \n    r["ccc"] = \n    return r\n\nR = compute_ratios(F)\nfor k, v in R.items():\n    print(f"{k}={v:.2f}")`,
         lockLines: 14,
-        solution: `# Angka KLBF FY2024 terverifikasi (Rp penuh, dari filing asli)\nF = {\n    "penjualan_neto": 32627776108026,\n    "laba_bruto": 12957040191898,\n    "laba_usaha": 4080720255919,\n    "laba_bersih": 3240636626331,\n    "ekuitas_awal": 19499860425310,\n    "ekuitas_akhir": 24590433810486,\n    "beban_bunga": 69234366294,\n    "piutang": 4864547027520,\n    "persediaan": 6501631203212,\n    "utang_usaha": 1892169477879,\n    "beban_pokok": 19670735916128,\n}\n\ndef compute_ratios(f):\n    r = {}\n    r["gross_margin"] = f["laba_bruto"] / f["penjualan_neto"] * 100\n    r["net_margin"] = f["laba_bersih"] / f["penjualan_neto"] * 100\n    r["roe"] = f["laba_bersih"] / ((f["ekuitas_awal"] + f["ekuitas_akhir"]) / 2) * 100\n    r["interest_coverage"] = f["laba_usaha"] / f["beban_bunga"]\n    r["ccc"] = (f["piutang"] / f["penjualan_neto"] * 365\n                 + f["persediaan"] / f["beban_pokok"] * 365\n                 - f["utang_usaha"] / f["beban_pokok"] * 365)\n    return r\n\nR = compute_ratios(F)\nfor k, v in R.items():\n    print(f"{k}={v:.2f}")`,
+        solution: `# Angka KLBF FY2024 terverifikasi (Rp penuh, dari filing asli)\nF = {\n    "penjualan_neto": 32627776108026,\n    "laba_bruto": 12957040191898,\n    "laba_usaha": 4080720255919,\n    "laba_bersih": 3240636626331,\n    "ekuitas_awal": 21418856503057,\n    "ekuitas_akhir": 22788879435410,\n    "beban_bunga": 69234366294,\n    "piutang": 4864547027520,\n    "persediaan": 6501631203212,\n    "utang_usaha": 1892169477879,\n    "beban_pokok": 19670735916128,\n}\n\ndef compute_ratios(f):\n    r = {}\n    r["gross_margin"] = f["laba_bruto"] / f["penjualan_neto"] * 100\n    r["net_margin"] = f["laba_bersih"] / f["penjualan_neto"] * 100\n    r["roe"] = f["laba_bersih"] / ((f["ekuitas_awal"] + f["ekuitas_akhir"]) / 2) * 100\n    r["interest_coverage"] = f["laba_usaha"] / f["beban_bunga"]\n    r["ccc"] = (f["piutang"] / f["penjualan_neto"] * 365\n                 + f["persediaan"] / f["beban_pokok"] * 365\n                 - f["utang_usaha"] / f["beban_pokok"] * 365)\n    return r\n\nR = compute_ratios(F)\nfor k, v in R.items():\n    print(f"{k}={v:.2f}")`,
         checks: [
           { kind: "defined", task: "t1", name: "R", label: "`R` terdefinisi", msg: "Fungsi compute_ratios harus mengembalikan dict R." },
           { kind: "stdout_matches", task: "t2", pattern: "gross_margin=39\\.71", label: "gross_margin = 39.71", msg: "laba_bruto / penjualan_neto × 100 = 39,71." },
           { kind: "stdout_matches", task: "t2", pattern: "net_margin=9\\.93", label: "net_margin = 9.93", msg: "laba_bersih / penjualan_neto × 100 = 9,93." },
-          { kind: "stdout_matches", task: "t2", pattern: "roe=14\\.70", label: "roe = 14.70", msg: "laba_bersih / rata-rata ekuitas × 100 = 14,70." },
+          { kind: "stdout_matches", task: "t2", pattern: "roe=14\\.66", label: "roe = 14.66", msg: "laba_bersih / rata-rata ekuitas × 100 = 14,66." },
           { kind: "stdout_matches", task: "t2", pattern: "interest_coverage=58\\.94", label: "coverage = 58.94", msg: "laba_usaha / beban_bunga = 58,94. Ingat: laba USAHA, bukan laba bersih." },
           { kind: "stdout_matches", task: "t2", pattern: "ccc=139\\.95", label: "ccc = 139.95", msg: "receivable_days + inventory_days − payable_days = 139,95 hari." },
         ],
