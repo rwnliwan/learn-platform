@@ -93,7 +93,7 @@ export function ResumeBlock({ index, tracks }: { index: LightLesson[]; tracks: T
             Lanjutkan
             <Icon name="right" />
           </Link>
-          <Link className="btn ghost" href={`/v2/learn?track=track-${slugify(resume.track)}`}>
+          <Link prefetch={false} className="btn ghost" href={`/v2/learn?track=track-${slugify(resume.track)}`}>
             Lihat track ini
           </Link>
         </div>
@@ -121,7 +121,7 @@ export function ResumeBlock({ index, tracks }: { index: LightLesson[]; tracks: T
             <h2>Tidak ada latihan tertunda</h2>
             <p>Semua lab yang kamu coba sudah lolos. Lanjutkan ke materi berikutnya.</p>
             <div className="row" style={{ marginTop: 12 }}>
-              <Link className="btn ghost" href="/v2/learn">
+              <Link prefetch={false} className="btn ghost" href="/v2/learn">
                 Buka kurikulum
               </Link>
             </div>
@@ -173,6 +173,7 @@ export function TrackTable({ tracks, totalLessons, index }: { tracks: TrackCount
               <tr key={t.track}>
                 <td>
                   <Link
+                    prefetch={false}
                     className="name rowlink"
                     href={`/v2/learn?track=track-${slugify(t.track)}`}
                     style={{ color: "var(--accent)" }}

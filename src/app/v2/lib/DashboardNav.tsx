@@ -33,7 +33,8 @@ export default function DashboardNav({ active }: { active: "beranda" | "mulai" |
           <Icon name="play" />
           <span className="nlbl">Mulai</span>
         </Link>
-        <Link href="/v2/learn" aria-current={active === "kurikulum" ? "page" : undefined} title="Kurikulum">
+        {/* prefetch={false} on /v2/learn + /v2/misi below: their RSC payloads are ~20MB / ~3MB (full lesson/misi index) — prefetching them on every dashboard view kills slow networks (2026-11-05). */}
+        <Link prefetch={false} href="/v2/learn" aria-current={active === "kurikulum" ? "page" : undefined} title="Kurikulum">
           <Icon name="layers" />
           <span className="nlbl">Kurikulum</span>
         </Link>
@@ -96,7 +97,7 @@ export default function DashboardNav({ active }: { active: "beranda" | "mulai" |
           <span className="nlbl">Proyek</span>
         </Link>
         {/* Additive 2026-10-15: galeri Misi (pilot 3 misi; rollout bertahap ke 75). */}
-        <Link href="/v2/misi" title="Misi: proyek end-to-end dengan dataset publik asli">
+        <Link prefetch={false} href="/v2/misi" title="Misi: proyek end-to-end dengan dataset publik asli">
           <Icon name="flag" />
           <span className="nlbl">Misi</span>
         </Link>
@@ -106,7 +107,7 @@ export default function DashboardNav({ active }: { active: "beranda" | "mulai" |
         </Link>
         <hr />
         <div className="grp">Track</div>
-        <Link href="/v2/learn" title="Semua track">
+        <Link prefetch={false} href="/v2/learn" title="Semua track">
           <Icon name="chart" />
           <span className="nlbl">Semua track</span>
         </Link>

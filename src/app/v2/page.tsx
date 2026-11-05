@@ -64,7 +64,7 @@ export default function V2Dashboard() {
 
           <div className="sec">
             <span>Track</span>
-            <Link href="/v2/learn">Semua kurikulum</Link>
+            <Link prefetch={false} href="/v2/learn">Semua kurikulum</Link>
           </div>
           <TrackTable tracks={tracks} totalLessons={totalLessons} index={index} />
 
