@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Icon from "../lib/icons";
-import { getV2Lessons } from "../lib/registry";
-import { REG_MISI } from "../lib/reg-misi";
+// Code splitting 2026-11-05 (temuan N1 Instinct): halaman ini HANYA butuh
+// judul/track/judul-step — JANGAN impor registry penuh (konten ~26 MB ikut
+// ke chunk client). Baca lessonMeta.json via lessonMeta.ts.
+import { lessonMetas, misiMetas } from "../lib/lessonMeta";
 import { parseCardId } from "../lib/fsrs";
 import {
   CONFUSION_KINDS,
@@ -28,14 +30,15 @@ function buildMeta(): {
 } {
   const lessonOf = new Map<string, { title: string; track: string; href: string }>();
   const stepTitleOf = new Map<string, string>();
-  for (const l of getV2Lessons()) {
+  for (const l of lessonMetas()) {
     lessonOf.set(l.slug, { title: l.title, track: l.track, href: "/v2/learn/" + l.slug });
     for (const s of l.steps) stepTitleOf.set(l.slug + "␟" + s.id, s.title);
   }
-  for (const [slug, mis] of Object.entries(REG_MISI)) {
+  for (const mis of misiMetas()) {
+    const slug = mis.slug;
     if (!lessonOf.has(slug))
       lessonOf.set(slug, { title: mis.title, track: mis.track, href: "/v2/misi/" + slug });
-    for (const s of (mis as { steps?: { id: string; title: string }[] }).steps ?? [])
+    for (const s of mis.steps)
       if (!stepTitleOf.has(slug + "␟" + s.id)) stepTitleOf.set(slug + "␟" + s.id, s.title);
   }
   return { lessonOf, stepTitleOf };

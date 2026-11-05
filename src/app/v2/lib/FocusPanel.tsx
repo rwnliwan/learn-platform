@@ -3,8 +3,15 @@ import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import Icon, { trackIconFor } from "./icons";
-import { getV2Lessons } from "./registry";
-import { REG_MISI } from "./reg-misi";
+// Code splitting 2026-11-05 (temuan N1 Instinct): panel ini HANYA butuh
+// judul/track/estimasi — JANGAN impor registry penuh (konten ~26 MB ikut
+// ke shared chunk client 22 MB). Baca lessonMeta.json via lessonMeta.ts.
+import {
+  lessonMetas,
+  misiMetas,
+  getMisiMeta,
+  type LessonMeta,
+} from "./lessonMeta";
 import { getStats } from "./fsrs";
 import {
   listProjectableCards,
@@ -13,13 +20,13 @@ import {
 } from "./legacy";
 import { computeNodes, confirmedKind } from "./confusion";
 import { getActivity, getLocalDone } from "./progress";
-import type { V2Lesson } from "./types";
 
 // Panel Fokus sidebar (aditif 2026-10-15): ringkasan 4 kartu di sidebar
 // expanded — SEMBUNYI TOTAL di mode rail (CSS .sidenav[data-collapsed="true"])
 // dan di mobile (Sidenav display:none <=820px).
 // Data hanya dari sumber existing: /api/progress + localStorage (v2:done:*,
-// v2:activity, v2:fsrs:*) + registry. Tanpa endpoint/API baru, tanpa skema DB
+// v2:activity, v2:fsrs:*) + lessonMeta (judul/track saja, bukan registry penuh).
+// Tanpa endpoint/API baru, tanpa skema DB
 // baru. Semua baca async; error -> kartu disembunyikan, bukan ditampilkan.
 
 interface ResumeItem {
@@ -104,8 +111,8 @@ export default function FocusPanel() {
 
       pulls.then(() => {
         try {
-          const lessons = getV2Lessons();
-          const misiList = Object.values(REG_MISI);
+          const lessons = lessonMetas();
+          const misiList = misiMetas();
           const tsOf = (slug: string) =>
             serverTs[slug] ?? localTs[slug] ?? 0;
           // aktivitas terakhir: completed terbaru ATAU kunjungan terakhir
@@ -126,14 +133,14 @@ export default function FocusPanel() {
             }
           }
 
-          const bySlug = new Map<string, V2Lesson>();
+          const bySlug = new Map<string, LessonMeta>();
           for (const l of lessons) bySlug.set(l.slug, l);
-          const isMisi = (slug: string) => REG_MISI[slug] !== undefined;
+          const isMisi = (slug: string) => getMisiMeta(slug) !== null;
           const hrefOf = (slug: string) =>
             isMisi(slug) ? misiHref(slug) : lessonHref(slug);
 
           if (lastSlug) {
-            const anchor = bySlug.get(lastSlug) ?? REG_MISI[lastSlug];
+            const anchor = bySlug.get(lastSlug) ?? getMisiMeta(lastSlug);
             const track = anchor?.track ?? null;
             setResumeTrack(track);
             if (track) {
@@ -148,7 +155,7 @@ export default function FocusPanel() {
               setTrackTotal(total);
               const next = trackItems.find((i) => !done.has(i.slug));
               if (next) {
-                const item = bySlug.get(next.slug) ?? REG_MISI[next.slug];
+                const item = bySlug.get(next.slug) ?? getMisiMeta(next.slug);
                 if (item)
                   setResume({
                     slug: next.slug,
@@ -162,13 +169,13 @@ export default function FocusPanel() {
             }
           } else {
             // belum ada progres: ajakan mulai dari track terbesar
-            const byTrack = new Map<string, V2Lesson[]>();
+            const byTrack = new Map<string, LessonMeta[]>();
             for (const l of lessons) {
               const a = byTrack.get(l.track) ?? [];
               a.push(l);
               byTrack.set(l.track, a);
             }
-            let biggest: V2Lesson[] = [];
+            let biggest: LessonMeta[] = [];
             for (const a of byTrack.values())
               if (a.length > biggest.length) biggest = a;
             const first = biggest[0];
@@ -237,15 +244,15 @@ export default function FocusPanel() {
 
       // --- Confusion Index ringkas (Gelombang G, aditif): 3 titik paling rapuh ---
       try {
-        const bySlug = new Map<string, V2Lesson>();
-        for (const l of getV2Lessons()) bySlug.set(l.slug, l);
+        const bySlug = new Map<string, LessonMeta>();
+        for (const l of lessonMetas()) bySlug.set(l.slug, l);
         const nodes = computeNodes((slug, stepId) => {
-          const l = bySlug.get(slug) ?? REG_MISI[slug];
+          const l = bySlug.get(slug) ?? getMisiMeta(slug);
           return {
             lessonTitle: l?.title ?? slug,
             stepTitle: stepId,
             track: l?.track ?? "Lainnya",
-            href: REG_MISI[slug] ? "/v2/misi/" + slug : "/v2/learn/" + slug,
+            href: getMisiMeta(slug) ? "/v2/misi/" + slug : "/v2/learn/" + slug,
           };
         }).slice(0, 3);
         setConfusionTop(

@@ -2,8 +2,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Icon from "../lib/icons";
-import { getV2Lessons } from "../lib/registry";
-import { REG_MISI } from "../lib/reg-misi";
+// Code splitting 2026-11-05 (temuan N1 Instinct): halaman ini HANYA butuh
+// judul/track — JANGAN impor registry penuh (konten ~26 MB ikut ke chunk
+// client). Baca lessonMeta.json via lessonMeta.ts.
+import { lessonMetas, misiMetas } from "../lib/lessonMeta";
 import {
   parseCardId,
   retrievabilityAt,
@@ -30,19 +32,21 @@ interface CardMeta {
 
 function buildMeta(): Map<string, CardMeta> {
   const m = new Map<string, CardMeta>();
-  for (const l of getV2Lessons())
+  for (const l of lessonMetas())
     m.set(l.slug, {
       title: l.title,
       track: l.track,
       href: "/v2/learn/" + l.slug,
     });
-  for (const [slug, mis] of Object.entries(REG_MISI))
+  for (const mis of misiMetas()) {
+    const slug = mis.slug;
     if (!m.has(slug))
       m.set(slug, {
         title: mis.title,
         track: mis.track,
         href: "/v2/misi/" + slug,
       });
+  }
   return m;
 }
 

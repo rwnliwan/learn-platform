@@ -4,11 +4,17 @@
 // career.ts (numerik-aware: a21 < a210 < a211). rr19 TIDAK dimasukkan ke
 // jalur mana pun (aturan: jangan sentuh rr19 dalam bentuk apa pun).
 
-import type { V2Lesson } from "./types";
-import { getV2Lesson } from "./registry";
+// Code splitting 2026-11-05 (temuan N1 Instinct): file ini dipakai komponen
+// client (MulaiClient, PetaClient, MulaiCard) dan HANYA butuh judul/track /
+// eksistensi slug — JANGAN impor registry penuh (konten ~26 MB ikut ke
+// chunk client). Baca lessonMeta.json via lessonMeta.ts.
+import {
+  getLessonMeta,
+  getMisiMeta,
+  getProyekTitle,
+  hasProyek,
+} from "./lessonMeta";
 import { lessonSortKey } from "./career";
-import { REG_MISI } from "./reg-misi";
-import { PROYEK_REGISTRY } from "./reg-proyek";
 
 export type PathStepKind = "lesson" | "misi" | "proyek";
 
@@ -263,7 +269,7 @@ export function pathSteps(path: LearnPath): PathStep[] {
 /** meta tampilan satu langkah: judul + href (tidak mengembalikan konten lesson) */
 export function stepMeta(step: PathStep): { title: string; track: string; href: string } {
   if (step.kind === "misi") {
-    const m = REG_MISI[step.slug];
+    const m = getMisiMeta(step.slug);
     return {
       title: m?.title ?? step.slug,
       track: m?.track ?? "Misi",
@@ -271,14 +277,14 @@ export function stepMeta(step: PathStep): { title: string; track: string; href: 
     };
   }
   if (step.kind === "proyek") {
-    const p = PROYEK_REGISTRY[step.slug];
+    const t = getProyekTitle(step.slug);
     return {
-      title: p?.title ?? step.slug,
+      title: t ?? step.slug,
       track: "Proyek Terpandu",
       href: `/v2/proyek/${step.slug}`,
     };
   }
-  const l: V2Lesson | null = getV2Lesson(step.slug);
+  const l = getLessonMeta(step.slug);
   return {
     title: l?.title ?? step.slug,
     track: l?.track ?? "",
@@ -321,10 +327,10 @@ export function validatePaths(): string[] {
       seen.add(`${s.kind}:${s.slug}`);
       const ok =
         s.kind === "lesson"
-          ? getV2Lesson(s.slug) !== null
+          ? getLessonMeta(s.slug) !== null
           : s.kind === "misi"
-            ? s.slug in REG_MISI
-            : s.slug in PROYEK_REGISTRY;
+            ? getMisiMeta(s.slug) !== null
+            : hasProyek(s.slug);
       if (!ok) errors.push(`[${p.id}] slug tidak dikenal: ${s.kind}:${s.slug}`);
     }
   }
