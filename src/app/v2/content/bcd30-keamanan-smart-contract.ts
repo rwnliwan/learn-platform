@@ -1,0 +1,263 @@
+import type { V2Lesson } from "../lib/types";
+
+export const bcd30: V2Lesson = {
+  slug: "bcd30-keamanan-smart-contract",
+  track: "Blockchain Data Scientist",
+  module: "Pasar & Mekanisme",
+  title: "BCD30 — Keamanan Smart Contract",
+  estMinutes: 60,
+  steps: [
+    {
+      id: "cerita",
+      eyebrow: "Langkah 1 · Cerita",
+      title: "Kontrak yang 'sudah diaudit' dan tetap dikuras",
+      prose: [
+        "Sebuah protokol lending (fiktif, ilustratif) mengumumkan audit keamanan selesai dengan 'tidak ada temuan kritis'. Tiga minggu kemudian, 12 juta USD (ilustratif) mengalir keluar dalam 14 transaksi — bukan karena auditnya berbohong, melainkan karena audit memeriksa kode pada satu titik waktu, sementara penyerang menemukan kombinasi dua hal yang masing-masing aman: harga oracle yang bisa digeser sesaat (lihat BCD15) dan fungsi pinjam yang tidak memeriksa ulang agunan setelah harga bergeser.",
+        "Twist-nya: keamanan smart contract bukan stempel 'sudah diaudit' — ia adalah disiplin berpikir tentang KOMBINASI. Tiap komponen bisa lolos audit sendiri-sendiri; kerentanan lahir di persimpangan. Lesson ini mengajarkan kelas-kelas exploit, studi kasus, dasar audit, custody, dan manajemen kunci — dari sudut pandang analis data: bagaimana membaca insiden, mengukurnya, dan menilai klaim keamanan sebelum percaya.",
+        "Setelah lesson ini kamu bisa: (1) menyebutkan kelas exploit utama dan pola datanya; (2) membaca studi kasus exploit langkah demi langkah; (3) memakai checklist audit untuk menilai klaim 'sudah diaudit'; (4) menjelaskan custody dan manajemen kunci, termasuk multisig.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Analis yang menulis 'protokol X aman karena sudah diaudit' tanpa membaca cakupan auditnya sedang menyebarkan klaim yang tidak ia periksa. Audit punya cakupan, tanggal, dan temuan yang belum diperbaiki — ketiganya harus dibaca sebelum kata 'aman' ditulis.",
+      },
+      reference: "Audit = foto pada satu tanggal, bukan jaminan abadi. Kerentanan lahir di persimpangan komponen.",
+    },
+    {
+      id: "peta",
+      eyebrow: "Langkah 2 · Peta",
+      title: "Tujuan, rute, dan bekal lesson ini",
+      prose: [
+        "Daftar isi: (1) cerita audit yang tidak cukup; (2) peta ini; (3) kelas exploit — peta serangan; (4) studi kasus: reentrancy langkah demi langkah; (5) dasar audit — membaca laporan audit seperti analis; (6) lab: scorecard audit; (7) custody dan manajemen kunci; (8) multisig — matematika kepercayaan; (9) peta keputusan; (10) mini-case; (11) checkpoint.",
+        "Bekal yang diringkas agar lesson ini mandiri: dari BCD2 kamu bisa membaca transaksi dan event log; dari BCD7 kamu kenal fraud on-chain dan clustering; dari BCD15 kamu kenal risiko oracle. Lesson ini menambahkan lapisan yang belum dibahas: kerentanan di DALAM kode kontrak itu sendiri, dan bagaimana manusia menjaga kunci yang mengendalikannya.",
+        "Semua angka kerugian, ambang skor, dan contoh kunci di lesson ini adalah ilustratif (contoh latihan), bukan ambang resmi lembaga mana pun dan bukan data insiden nyata tertentu. Nama protokol di cerita pembuka fiktif. Yang kanonis adalah pola dan metodenya.",
+      ],
+      tasks: [],
+      reference: "Rute: kelas exploit → studi kasus → audit → lab skor → custody → multisig.",
+    },
+    {
+      id: "kelas-exploit",
+      eyebrow: "Langkah 3 · Konsep",
+      title: "Kelas exploit: peta serangan yang perlu kamu kenali",
+      prose: [
+        "Satu: REENTRANCY — kontrak mengirim dana SEBELUM memperbarui saldo korban, sehingga penerima (kontrak penyerang) bisa memanggil lagi fungsi penarikan berkali-kali dalam satu transaksi dan menguras saldo. Pola datanya: satu transaksi dengan banyak panggilan withdraw berulang ke alamat yang sama dan saldo kontrak yang menyusut drastis. Perbaikannya (secara konsep): perbarui saldo DULU, kirim dana KEMUDIAN — urutan yang dikenal sebagai checks-effects-interactions — atau kunci fungsi selama eksekusi.",
+        "Dua: MANIPULASI ORACLE / HARGA — kontrak memakai harga dari satu sumber yang bisa digeser (misalnya harga dari pool AMM yang dangkal). Penyerang meminjam dana besar sesaat (flash loan — pinjaman yang harus dilunasi dalam transaksi yang sama), menggeser harga, meminjam dengan agunan yang 'terlihat' besar, lalu mengembalikan harga. Pola datanya: transaksi besar yang meminjam, menggeser harga, dan melunasi dalam satu blok. Perbaikannya: oracle agregat dari banyak sumber + jeda waktu (time-weighted average price).",
+        "Tiga: KONTROL AKSES — fungsi sensitif (menarik dana, mengubah pemilik, mencetak token) bisa dipanggil siapa saja karena pemeriksaan 'hanya pemilik' lupa ditulis atau ditulis salah. Pola datanya: panggilan ke fungsi admin dari alamat yang bukan pemilik yang tercatat, diikuti penarikan dana. Ini kelas yang paling memalukan — dan paling sering — karena ia bukan matematika rumit, melainkan satu baris yang hilang.",
+        "Empat: ARITMETIKA & PEMBULATAN — pembagian sebelum perkalian yang membulatkan ke nol, atau perhitungan yang meluap (overflow) pada bilangan bulat. Pola datanya: nilai yang seharusnya jutaan tercatat nol atau melonjak absurd setelah satu transaksi. Lima: UPGRADE & PROXY — kontrak yang bisa ditingkatkan (upgradeable) berarti pemegang kunci upgrade bisa mengganti seluruh logika; bila kunci itu satu alamat tanpa multisig, keamanan seluruh protokol bergantung pada satu kunci. Enam: FLASH LOAN sebagai AMPLIFIER — flash loan sendiri bukan exploit; ia adalah pinjaman tanpa agunan yang dilunasi dalam transaksi yang sama, yang MEMPERBESAR exploit lain karena penyerang tidak butuh modal besar untuk menyerang.",
+        "Untuk analis data, keenam kelas ini adalah KAMUS POLA: tiap kelas punya jejak transaksi yang khas (panggilan berulang, pinjaman-dalam-satu-transaksi, panggilan admin dari alamat asing, nilai absurd). Deteksi dini bukan soal membaca kode — soal mengenali pola di data yang sudah kamu kuasai sejak BCD7.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Flash loan itu sendiri kejahatan.” Bukan — flash loan adalah alat: pinjaman yang dilunasi dalam transaksi yang sama. Ia dipakai arbitrase yang sah setiap hari. Yang jahat adalah exploit yang ia perbesar, bukan pinjamannya.",
+      },
+      reference: "Enam kelas: reentrancy, oracle, kontrol akses, aritmetika, upgrade/proxy, flash loan sebagai amplifier.",
+    },
+    {
+      id: "studi-kasus-reentrancy",
+      eyebrow: "Langkah 4 · Studi kasus",
+      title: "Reentrancy langkah demi langkah: bagaimana satu urutan salah menguras brankas",
+      prose: [
+        "Bayangkan kontrak brankas sederhana (ilustratif): pengguna menitipkan dana, saldonya dicatat, dan kapan pun ia bisa menarik. Fungsi tariknya bekerja dalam urutan ini: (1) cek saldo pengguna lebih dari nol; (2) KIRIM dana ke pengguna; (3) kurangi saldo tercatat menjadi nol. Urutan itu terlihat wajar — sampai pengguna-nya adalah kontrak penyerang.",
+        "Langkah serangan: penyerang menitipkan 10 ETH (ilustratif), lalu memanggil tarik. Kontrak mengirim 10 ETH — dan karena penerima adalah kontrak, pengiriman itu MEMANGGIL kode penerima secara otomatis. Kode penerima itu hanya berisi satu perintah: 'panggil tarik lagi'. Saat panggilan kedua masuk, saldo tercatat penyerang MASIH 10 ETH — karena langkah (3) belum pernah tercapai (langkah (2) selalu memanggil balik sebelum langkah (3) dieksekusi). Kontrak mengirim lagi 10 ETH, memanggil balik lagi, mengirim lagi — sampai brankas kosong atau gas habis.",
+        "Angka ilustratifnya: brankas berisi 1.000 ETH dari banyak pengguna. Penyerang menitipkan 10 ETH dan menariknya 100 kali dalam satu transaksi: 100 × 10 = 1.000 ETH — seluruh isi brankas, dengan modal 10 ETH. Satu urutan yang tertukar (kirim dulu, catat kemudian) mengubah fungsi tarik menjadi mesin fotokopi uang.",
+        "Yang bisa dibaca analis dari data: satu transaksi yang memanggil fungsi tarik puluhan kali, saldo kontrak yang turun dari 1.000 ke 0 dalam satu blok, dan alamat penyerang yang menarik jauh lebih besar dari yang ia titipkan (rasio tarik/titip 100 banding 1). Tiga sinyal itu — pengulangan, pengurasan, rasio absurd — adalah sidik jari reentrancy. Perbaikan konsepnya satu kalimat: catat dulu (saldo menjadi nol), kirim kemudian. Urutan yang benar membuat panggilan kedua menemukan saldo nol dan gagal.",
+        "Pelajaran umumnya: kerentanan paling berbahaya bukan kode yang rumit, melainkan ASUMSI yang salah — 'penerima pasti manusia yang diam saja'. Di blockchain, penerima bisa berupa kode yang bereaksi. Setiap kali kontrak berinteraksi dengan pihak luar, tanyakan: apa yang terjadi bila pihak luar itu memanggil balik SEKARANG, sebelum saya selesai?",
+      ],
+      tasks: [],
+      note: {
+        title: "💡 Intuisi: brankas yang menghitung setelah memberi",
+        body: "Bayangkan kasir yang menyerahkan uang dulu, baru mencatat di buku — dan pembeli yang setiap menerima uang langsung meminta lagi sebelum kasir sempat menulis. Kasir tidak bodoh; ia hanya bekerja dengan urutan yang salah. Reentrancy adalah kesalahan urutan, bukan kesalahan matematika.",
+      },
+      reference: "Reentrancy = kirim dulu, catat kemudian. Sidik jari: panggilan berulang + rasio tarik/titip absurd.",
+    },
+    {
+      id: "dasar-audit",
+      eyebrow: "Langkah 5 · Konsep",
+      title: "Dasar audit: membaca laporan audit seperti analis",
+      prose: [
+        "Audit smart contract adalah pemeriksaan kode oleh pihak ketiga sebelum (dan sesudah) peluncuran. Isi audit yang baik: (1) CAKUPAN — file dan commit persis yang diperiksa (hash commit, bukan 'kode terbaru'); (2) TEMUAN dengan tingkat keparahan (kritis/tinggi/sedang/rendah/informatif) beserta status perbaikan tiap temuan; (3) PENGUJIAN — pengujian manual, analisis statis (alat yang memindai pola kerentanan), dan fuzzing (memberi input acak ribuan kali untuk mencari perilaku aneh).",
+        "Empat pertanyaan analis sebelum menulis 'sudah diaudit'. Satu: APA cakupannya — apakah kontrak yang kamu nilai TERMASUK dalam commit yang diaudit, atau kontrak itu ditambahkan sesudah audit? Dua: APA temuan kritisnya — dan apakah sudah DIPERBAIKI dan diverifikasi ulang, atau hanya 'diakui' (acknowledged = diketahui tetapi dibiarkan)? Tiga: KAPAN auditnya — audit setahun lalu atas kode yang sudah berubah lima kali bukan lagi audit atas kode hari ini. Empat: SIAPA auditornya — dan apakah auditor itu independen dari tim (audit oleh tim sendiri = review, bukan audit).",
+        "Dua batas kejujuran audit. Pertama, audit TIDAK MEMBUKTIKAN tidak ada bug — ia membuktikan bahwa auditor TIDAK MENEMUKAN bug dalam cakupan dan waktu yang diberikan. Kedua, audit tidak menilai EKONOMI protokol (apakah insentifnya sehat, apakah oracle-nya bisa dimanipulasi secara ekonomi) kecuali itu masuk cakupan. Protokol bisa lolos audit kode dan tetap rugi karena desain ekonominya rapuh — itu wilayah analis, bukan auditor.",
+        "Praktik yang jujur di laporanmu: tulis 'Diaudit oleh X pada [tanggal], cakupan [commit], temuan kritis [n], yang belum diperbaiki [n] — [daftar singkat]' — bukan 'sudah diaudit'. Satu baris itu membedakan analis dari pemasar. Dan bila tidak ada laporan audit yang bisa dibaca publik, tulis itu apa adanya: 'tidak ada laporan audit publik yang ditemukan' — ketiadaan bukti adalah data.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Temuan kritis 0 = aman.” Belum tentu — bisa berarti cakupannya sempit, waktunya singkat, atau kodenya sederhana. Tanyakan selalu: berapa lama auditnya, berapa orang, dan apakah temuan 'diakui' (dibiarkan) masih ada. Nol kritis dari audit 3 hari atas 5.000 baris kode bukan vonis yang sama dengan nol kritis dari audit 6 minggu.",
+      },
+      reference: "Audit dibaca lewat cakupan + temuan + status perbaikan + tanggal. 'Sudah diaudit' bukan vonis.",
+    },
+    {
+      id: "lab-skor-audit",
+      eyebrow: "Langkah 6 · Lab",
+      title: "Lab — Scorecard audit: dari klaim ke angka",
+      prose: [
+        "Kamu menilai protokol fiktif 'LendKu' (ilustratif) dengan scorecard enam item berbobot — bobot total 100. Item dan bobotnya: kontrol akses 25, pelindung reentrancy 20, oracle agregat 15, keamanan aritmetika 15, upgrade terkunci multisig 10, tes dan fuzzing 15. Tiap item dinilai 1 (lolos) atau 0 (gagal). Hasil pemeriksaan LendKu: kontrol akses lolos, reentrancy lolos, oracle GAGAL (harga dari satu pool saja), aritmetika lolos, upgrade GAGAL (satu kunci admin), tes dan fuzzing lolos.",
+        "Hitung: 25 + 20 + 0 + 15 + 0 + 15 = 75 dari 100. Ambang lulus CONTOH di scorecard ini adalah 90 (ambang ilustratif, bukan standar resmi) — dan dua item yang gagal adalah yang paling berbahaya: oracle tunggal dan kunci upgrade tunggal. Verdict: BELUM LULUS. Perhatikan: skor 75 yang gagal di DUA item kritis lebih berbahaya daripada skor 75 yang gagal di lima item kecil — scorecard yang jujur selalu menampilkan item gagalnya, bukan hanya totalnya.",
+        "Pelajaran scorecard: angka total adalah ringkasan, bukan vonis. Vonis yang benar selalu menyebut item gagalnya: 'BELUM LULUS — oracle tunggal dan kunci upgrade tunggal'. Analis yang hanya menulis 'skor 75' menyembunyikan informasi yang paling penting.",
+      ],
+      formula: String.raw`\text{Skor} = \sum (\text{bobot}_i \times \text{lolos}_i) \quad ; \quad \text{Lulus bila Skor} \ge 90`,
+      formulaNote: "Bobot ilustratif (total 100): kontrol akses 25, reentrancy 20, oracle 15, aritmetika 15, upgrade 10, tes 15. Lolos: 1,1,0,1,0,1. Contoh: 25+20+0+15+0+15 = 75. Ambang 90 adalah ambang CONTOH scorecard ini, bukan standar resmi. Interpretasi: skor di bawah ambang = BELUM LULUS; sebutkan item gagalnya.",
+      tasks: [
+        { id: "t1", text: "Hitung `skor` dari bobot dan hasil pemeriksaan" },
+        { id: "t2", text: "Tentukan `verdict` (\"LULUS\" bila skor >= 90, selain itu \"BELUM LULUS\") dan cetak keduanya" },
+      ],
+      expected: "Skor audit LendKu: 75/100\nVerdict: BELUM LULUS (gagal: oracle, upgrade)",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Skor 75 cukup bagus.” Skor tanpa daftar item gagal = angka tanpa isi. Dua item yang gagal di sini (oracle tunggal, kunci upgrade tunggal) masing-masing bisa menguras protokol sendirian. Selalu laporkan skor DAN item gagalnya.",
+      },
+      hints: [
+        "skor = jumlah bobot_i * lolos_i untuk tiap item.",
+        "gagal = item dengan nilai 0; verdict memakai ambang 90.",
+      ],
+      code: {
+        starter: `# Scorecard audit LendKu (ilustratif). JANGAN UBAH baris ini.\nbobot = {"kontrol_akses": 25, "reentrancy": 20, "oracle": 15, "aritmetika": 15, "upgrade": 10, "tes": 15}\nlolos = {"kontrol_akses": 1, "reentrancy": 1, "oracle": 0, "aritmetika": 1, "upgrade": 0, "tes": 1}\nAMBANG = 90\n\n# TULIS KODEMU\nskor =\ngagal =\nverdict =\n\nprint(f"Skor audit LendKu: {skor}/100")\nprint(f"Verdict: {verdict} (gagal: {', '.join(gagal)})")`,
+        lockLines: 3,
+        solution: `# Scorecard audit LendKu (ilustratif). JANGAN UBAH baris ini.\nbobot = {"kontrol_akses": 25, "reentrancy": 20, "oracle": 15, "aritmetika": 15, "upgrade": 10, "tes": 15}\nlolos = {"kontrol_akses": 1, "reentrancy": 1, "oracle": 0, "aritmetika": 1, "upgrade": 0, "tes": 1}\nAMBANG = 90\n\n# TULIS KODEMU\nskor = sum(bobot[k] * lolos[k] for k in bobot)\ngagal = [k for k in bobot if lolos[k] == 0]\nverdict = "LULUS" if skor >= AMBANG else "BELUM LULUS"\n\nprint(f"Skor audit LendKu: {skor}/100")\nprint(f"Verdict: {verdict} (gagal: {', '.join(gagal)})")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "skor", value: 75, tol: 1e-9, label: "`skor` = 75", msg: "25 + 20 + 0 + 15 + 0 + 15 = 75." },
+          { kind: "equal", task: "t1", name: "gagal", value: ["oracle", "upgrade"], label: "`gagal` = oracle + upgrade", msg: "Dua item bernilai 0." },
+          { kind: "equal", task: "t2", name: "verdict", value: "BELUM LULUS", label: "`verdict` = BELUM LULUS", msg: "75 < 90 (ambang contoh)." },
+          { kind: "stdout_matches", task: "t2", pattern: "Skor audit LendKu: 75/100", label: "Skor tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+          { kind: "stdout_matches", task: "t2", pattern: "Verdict: BELUM LULUS \\(gagal: oracle, upgrade\\)", label: "Verdict tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Skor = jumlah bobot × lolos. Lulus = skor ≥ 90 (ambang contoh). Laporkan skor DAN item gagal.",
+    },
+    {
+      id: "custody-kunci",
+      eyebrow: "Langkah 7 · Konsep",
+      title: "Custody dan manajemen kunci: siapa memegang kuncinya?",
+      prose: [
+        "Smart contract dieksekusi oleh kode, tetapi kode itu dikendalikan oleh KUNCI — private key yang menandatangani transaksi admin, upgrade, dan penarikan darurat. Custody adalah jawaban atas pertanyaan: siapa memegang kunci itu, dan bagaimana ia dijaga? Dua model besar: SELF-CUSTODY (pemilik sendiri memegang kunci — kendali penuh, tanggung jawab penuh; kunci hilang = aset hilang selamanya) dan THIRD-PARTY CUSTODY (lembaga kustodian profesional memegang kunci — ada prosedur, asuransi, dan pemisahan tugas, tetapi kamu percaya pada lembaga itu).",
+        "Manajemen kunci yang baik punya empat lapis. Satu: GENERASI — kunci dibuat di perangkat offline yang aman (bukan di laptop yang dipakai browsing), dengan entropi yang cukup; seed phrase (rangkaian kata pemulihan) ditulis di media fisik, bukan disimpan di file teks atau foto di ponsel. Dua: PENYIMPANAN — kunci panas (hot wallet, terhubung internet, untuk operasional harian) hanya memegang dana kecil; kunci dingin (cold storage, offline) memegang dana besar; kunci cadangan disimpan di lokasi fisik berbeda. Tiga: PEMAKAIAN — tiap kunci punya SATU fungsi (kunci upgrade berbeda dari kunci operasional); kunci tidak pernah dipakai di dua tempat. Empat: ROTASI & PENCABUTAN — ada prosedur mengganti kunci bila dicurigai bocor, dan ada daftar siapa yang memegang kunci apa (tanpa menuliskan kuncinya sendiri di daftar itu).",
+        "Kesalahan yang paling sering (dan paling mahal): seed phrase disimpan di cloud (email, catatan ponsel yang tersinkronisasi, foto) — satu kebocoran akun cloud = seluruh dompet; satu kunci dipakai untuk semua fungsi — satu kebocoran = kendali penuh atas protokol; dan tidak ada prosedur darurat — saat kunci dicurigai bocor, tim berdebat berjam-jam tentang siapa yang berhak mencabutnya, sementara penyerang tidak berdebat.",
+        "Untuk analis data, custody adalah lensa untuk menilai klaim 'dana aman': tanyakan siapa kustodiannya (self atau pihak ketiga?), apakah kunci admin di-multisig (langkah berikutnya), dan apakah ada bukti prosedurnya (bukan hanya janji di situs). Protokol yang tidak bisa menjawab tiga pertanyaan itu dengan dokumen sedang meminta kepercayaan buta — dan kepercayaan buta adalah risiko, bukan fitur.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Kunci kami aman karena disimpan di brankas.” Brankas menjawab DI MANA, bukan SIAPA dan BAGAIMANA: siapa yang punya akses brankas, berapa orang yang harus hadir bersama, dan apa yang terjadi bila satu pemegang kunci menghilang? Custody yang baik menjawab ketiganya.",
+      },
+      reference: "Custody = siapa pegang kunci + bagaimana dijaga. Hot kecil, cold besar, satu kunci satu fungsi.",
+    },
+    {
+      id: "multisig",
+      eyebrow: "Langkah 8 · Konsep",
+      title: "Multisig: matematika kepercayaan",
+      prose: [
+        "Multisig (multi-signature) adalah dompet atau kontrak yang membutuhkan m dari n kunci untuk menyetujui satu aksi — misalnya 2 dari 3: tiga kunci ada, dua tanda tangan cukup. Tujuannya: tidak ada satu orang pun yang bisa memindahkan dana atau meng-upgrade kontrak sendirian, dan hilangnya satu kunci tidak melumpuhkan operasi.",
+        "Matematika ilustratifnya: misalkan tiap kunci secara independen berpeluang 5 persen dikompromikan (angka CONTOH untuk latihan, bukan tingkat serangan nyata). Peluang penyerang menguasai minimal 2 dari 3 kunci = 3 × 0,05² × 0,95 + 0,05³ = 0,00725 = 0,725 persen. Bandingkan dengan satu kunci tunggal: peluang kompromi 5 persen. Multisig 2-dari-3 menurunkan peluang pengambilalihan dari 5 persen menjadi 0,725 persen — hampir 7 kali lebih kecil — dengan harga: tiap aksi butuh koordinasi dua orang, dan bila dua kunci hilang bersamaan, dana terkunci selamanya.",
+        "Trade-off yang harus dipahami: m yang terlalu RENDAH (1-dari-3) hampir sama dengan satu kunci — multisig hanya pajangan. m yang terlalu TINGGI (3-dari-3) berarti satu kunci hilang = dana terkunci. Praktik umum yang masuk akal: 2-dari-3 untuk operasional kecil, 3-dari-5 atau 4-dari-7 untuk dana besar — dengan kunci disimpan di perangkat dan lokasi yang berbeda, oleh orang yang berbeda. Dan satu aturan yang tidak bisa ditawar: kunci multisig TIDAK BOLEH disimpan di tempat yang sama atau dipegang orang yang sama — tiga kunci di satu laptop adalah satu kunci dengan tiga salinan.",
+        "Untuk analis: saat protokol mengklaim 'admin di-multisig', tanyakan m dan n-nya (2-dari-3? 3-dari-5?), siapa pemegang kuncinya, dan apakah ada bukti on-chain (alamat multisig dan ambangnya bisa dibaca di chain). Klaim multisig tanpa m/n dan alamat adalah klaim yang tidak bisa diverifikasi — dan klaim yang tidak bisa diverifikasi tidak masuk laporan.",
+      ],
+      tasks: [],
+      formula: String.raw`P(\ge 2 \text{ dari } 3) = 3p^2(1-p) + p^3`,
+      formulaNote: "p = peluang satu kunci dikompromikan (CONTOH ilustratif 5% = 0,05; tiap kunci independen). Contoh: 3 x 0,0025 x 0,95 + 0,000125 = 0,00725 = 0,725%. Interpretasi: multisig 2-dari-3 menurunkan peluang pengambilalihan dari 5% menjadi 0,725% — tetapi satu kunci hilang tidak melumpuhkan operasi.",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Sudah multisig, jadi aman.” Multisig menjawab SIAPA yang harus setuju — bukan APA yang disetujui. Tiga penanda tangan yang tidak membaca transaksi yang mereka tanda tangani sama berbahayanya dengan satu kunci. Multisig tanpa review transaksi = tiga stempel karet.",
+      },
+      reference: "Multisig m-dari-n: tak ada satu kunci berkuasa; peluang kompromi turun drastis; kunci di tempat berbeda.",
+    },
+    {
+      id: "peta-keputusan",
+      eyebrow: "Langkah 9 · Peta keputusan",
+      title: "Menilai klaim keamanan dalam 10 menit",
+      prose: [
+        "Satu: cari laporan auditnya — ada atau tidak, tanggal berapa, cakupannya commit apa? Tidak ada laporan publik = tulis apa adanya. Dua: baca temuan kritis dan statusnya — 'diakui' berarti dibiarkan; hanya 'diperbaiki + diverifikasi' yang dihitung. Tiga: hitung scorecard langkah 6 — item apa yang gagal, dan apakah kegagalan itu fatal sendirian (oracle tunggal: ya; dokumentasi kurang: tidak). Empat: periksa kunci admin — multisig m-dari-n berapa, alamatnya bisa dibaca di chain? Lima: periksa oracle-nya — satu sumber atau agregat (lihat BCD15)?",
+        "Aturan praktis: protokol yang lolos lima cek ini belum tentu aman — tetapi protokol yang GAGAL satu cek kritis (oracle tunggal, kunci admin tunggal, audit tidak ada) sudah cukup untuk ditulis 'belum layak dipercaya' di laporanmu. Analis tidak membuktikan keamanan; analis menemukan alasan untuk TIDAK percaya — dan bila tidak menemukannya, barulah kepercayaan diberikan secara bersyarat dan berbatas waktu.",
+      ],
+      tasks: [],
+      reference: "Audit → temuan → scorecard → kunci admin → oracle. Satu gagal kritis = belum layak dipercaya.",
+    },
+    {
+      id: "minicase",
+      eyebrow: "Langkah 10 · Mini-case",
+      title: "Sidang klaim: 'sudah diaudit, multisig, dan aman'",
+      prose: [
+        "Sebuah protokol mengklaim: 'Sudah diaudit, admin multisig, dan aman.' Kamu memeriksa 10 menit: laporan audit ada — 8 bulan lalu, atas commit lama, 2 temuan kritis berstatus 'diakui' (dibiarkan). Alamat admin memang multisig — 2-dari-3 — tetapi dua dari tiga kunci dipegang pendiri yang sama di laptop yang sama. Oracle harga: satu pool AMM. Scorecard-mu: 75, gagal di oracle dan upgrade.",
+        "Jawabanmu di laporan: 'Klaim tidak didukung bukti. Audit kedaluwarsa (8 bulan, commit lama) dengan 2 temuan kritis yang dibiarkan. Multisig 2-dari-3 secara efektif 1 kunci karena dua kunci dipegang orang dan perangkat yang sama. Oracle tunggal. Verdict: BELUM LAYAK DIPERCAYA sampai audit ulang atas kode berjalan, temuan kritis diperbaiki, kunci dipisah, dan oracle diagregat.' Empat kalimat, empat bukti, satu verdict. Itulah analis keamanan — bukan yang paling banyak tahu kode, melainkan yang paling teliti membaca bukti.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Kata 'aman' di laporan analis adalah janji kepada pembaca. Janji itu hanya boleh ditulis bila buktinya sudah diperiksa — auditnya dibaca, multisig-nya diverifikasi di chain, oracle-nya dihitung. Bila buktinya tidak ada, tulis 'belum terbukti', bukan 'aman'.",
+      },
+      reference: "Klaim keamanan dinilai dari bukti: audit + temuan + multisig nyata + oracle. Bukan dari slogan.",
+    },
+    {
+      id: "checkpoint",
+      eyebrow: "Checkpoint",
+      title: "Uji pemahamanmu",
+      prose: [
+        "Lima pertanyaan campuran: kelas exploit, reentrancy, audit, scorecard, dan multisig.",
+      ],
+      tasks: [],
+      summary: [
+        "Enam kelas exploit: reentrancy, oracle, kontrol akses, aritmetika, upgrade/proxy, flash loan sebagai amplifier.",
+        "Reentrancy = kirim dulu, catat kemudian; sidik jari: panggilan berulang + rasio tarik/titip absurd.",
+        "Audit dibaca lewat cakupan + temuan + status perbaikan + tanggal — 'sudah diaudit' bukan vonis.",
+        "Scorecard: laporkan skor DAN item gagalnya; satu gagal kritis bisa membatalkan skor bagus.",
+        "Custody + multisig: tak ada satu kunci berkuasa; kunci di perangkat, lokasi, dan orang yang berbeda.",
+      ],
+      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      quiz: [
+        {
+          q: "Kontrak mengirim dana SEBELUM memperbarui saldo. Penyerang (kontrak) memanggil tarik berulang. Ini kelas exploit apa?",
+          options: [
+            { text: "Manipulasi oracle", why: "Salah: oracle soal harga dari luar, bukan urutan kirim-catat." },
+            { text: "Reentrancy", why: "Benar: kirim dulu, catat kemudian — panggilan balik masuk sebelum saldo diperbarui.", correct: true },
+            { text: "Kontrol akses", why: "Salah: kontrol akses soal siapa boleh memanggil fungsi admin." },
+            { text: "Flash loan", why: "Salah: flash loan adalah pinjaman sesaat — di sini tidak ada pinjaman." },
+          ],
+        },
+        {
+          q: "Penyerang menitipkan 10 ETH lalu menarik 100 kali dalam satu transaksi dari brankas 1.000 ETH. Berapa yang ia bawa pulang (ilustratif)?",
+          options: [
+            { text: "10 ETH — hanya titipannya", why: "Salah: tiap panggilan mengirim 10 ETH karena saldo belum diperbarui." },
+            { text: "1.000 ETH — seluruh isi brankas", why: "Benar: 100 × 10 ETH = 1.000 ETH, seluruh saldo kontrak.", correct: true },
+            { text: "100 ETH — sepuluh kali titipan", why: "Salah: hitung 100 panggilan × 10 ETH." },
+            { text: "0 ETH — transaksi pasti gagal", why: "Salah: justru itulah exploitnya — tiap panggilan lolos karena saldo masih tercatat 10 ETH." },
+          ],
+        },
+        {
+          q: "Laporan audit menulis 2 temuan kritis berstatus 'acknowledged' (diakui). Artinya?",
+          options: [
+            { text: "Temuan sudah diperbaiki dan diverifikasi", why: "Salah: itu status 'fixed'. 'Acknowledged' = diketahui tetapi dibiarkan." },
+            { text: "Temuan diketahui tetapi dibiarkan — tetap menjadi risiko", why: "Benar: diakui bukan diperbaiki; risikonya masih ada.", correct: true },
+            { text: "Temuan tidak penting", why: "Salah: kritis berarti berdampak besar bila dieksploitasi." },
+            { text: "Audit batal dan tidak berlaku", why: "Salah: audit tetap berlaku — temuan yang dibiarkanlah yang harus dilaporkan." },
+          ],
+        },
+        {
+          q: "Scorecard LendKu: bobot kontrol akses 25, reentrancy 20, oracle 15, aritmetika 15, upgrade 10, tes 15. Gagal: oracle dan upgrade. Skor dan verdict (ambang contoh 90)?",
+          options: [
+            { text: "75 — BELUM LULUS", why: "Benar: 25+20+0+15+0+15 = 75, di bawah ambang contoh 90.", correct: true },
+            { text: "85 — BELUM LULUS", why: "Salah: 100 − 15 − 10 = 75, bukan 85." },
+            { text: "75 — LULUS", why: "Salah: 75 di bawah ambang contoh 90." },
+            { text: "90 — LULUS", why: "Salah: itu skor bila hanya satu item kecil yang gagal." },
+          ],
+        },
+        {
+          q: "Tiap kunci berpeluang dikompromikan 5% (contoh ilustratif, independen). Peluang penyerang menguasai minimal 2 dari 3 kunci multisig?",
+          options: [
+            { text: "5% — sama dengan satu kunci", why: "Salah: itu peluang satu kunci; multisig butuh minimal 2 kunci." },
+            { text: "0,725% — jauh lebih kecil dari satu kunci", why: "Benar: 3×0,05²×0,95 + 0,05³ = 0,00725 = 0,725%.", correct: true },
+            { text: "15% — tiga kali 5%", why: "Salah: peluang 'minimal 2 dari 3' bukan penjumlahan sederhana." },
+            { text: "0,0125% — hanya 0,05 pangkat 3", why: "Salah: itu peluang ketiganya sekaligus; 'minimal 2' mencakup tepat 2 juga." },
+          ],
+        },
+      ],
+    },
+  ],
+};

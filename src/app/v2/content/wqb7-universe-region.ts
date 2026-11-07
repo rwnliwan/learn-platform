@@ -219,6 +219,24 @@ export const wqb7: V2Lesson = {
       reference: "Konstruksi point-in-time, laporkan dengan label universe, anggarkan pergantiannya.",
     },
     {
+      id: "konsultan",
+      eyebrow: "Langkah 9 · Konsep",
+      title: "Jalur menjadi Research Consultant: apa yang dinilai",
+      prose: [
+        "Sejauh ini track ini berbicara tentang 'era konsultan' seolah status itu tiba dengan sendirinya. Ia tidak tiba sendiri — ada jalurnya, dan jalur itu layak diajarkan sebelum kamu merancang strategi yang bergantung padanya (seperti menahan 10 alpha di WQB20).",
+        "Cara mengajukan: tidak ada formulir publik dengan angka syarat yang bisa dikutip — dan lesson ini tidak akan mengarangnya. Yang bisa diverifikasi dari materi publik WorldQuant: (1) bangun rekam jejak alpha berkualitas di platform — konsultan yang diceritakan WorldQuant sendiri mencapai level 'Gold' di tangga Brain Genius sebelum di-onboard sebagai konsultan; (2) kompetisi adalah pintu yang terlihat: finalis dan pemenang International Quant Championship (IQC) dan Alphathon dinyatakan dapat dipertimbangkan untuk peran research consulting; (3) nyatakan minatmu — konsultan yang bercerita di situs WorldQuant bergabung setelah menyampaikan ketertarikan menyusul prestasi kompetisi.",
+        "Apa yang dinilai: kualitas dan kuantitas alpha yang disubmit (bukan janji), konsistensi sepanjang waktu (bukan satu alpha beruntung), dan keluasan riset (berbagai dataset dan region setelah akses terbuka). Tangga Brain Genius (WQB25) adalah cermin terdekat dari penilaian ini: level naik bila gabungan performa, jumlah sinyal, dan keragaman portofolio naik — dengan slot terbatas dan tie-breaker antar yang lolos ambang.",
+        "Tiga kejujuran. Pertama, tidak ada angka syarat resmi yang dipublikasikan di materi publik WorldQuant yang bisa diverifikasi saat lesson ini ditulis — siapa pun yang mengutip 'butuh N alpha Excellent' tanpa sumber sedang menebak. Kedua, jalurnya tidak instan: rekam jejak dibangun dalam hitungan bulan, bukan akhir pekan. Ketiga, status konsultan mengubah APA yang bisa kamu kerjakan (region, dataset, tipe submit) — bukan SIAPA kamu sebagai peneliti; skill yang membawamu ke sana adalah skill yang sama yang membuatmu bertahan di sana.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Saya tahan submit sampai status konsultan tiba — lalu submit semuanya sekaligus.” Menahan tanpa tanggal dan tanpa rencana adalah menimbun, bukan strategi. WQB20 mengajarkan syarat menahan: ada tanggal jelas status konsultan. Tanpa tanggal, tahan berarti menunda tanpa alasan.",
+      },
+      reference: "Jalur konsultan: rekam jejak alpha + level Genius + kompetisi + menyatakan minat. Tanpa angka syarat resmi yang dipublikasikan.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -234,6 +252,7 @@ export const wqb7: V2Lesson = {
         "Strategi: 100% USA TOP3000 dulu; region lain = backlog tahap dua.",
         "Universe dikonstruksi ulang berkala (filter ADV & harga); backtest wajib memakai konstituen historis — survivorship bias menggelembungkan 2–4%/tahun.",
         "Alpha tinggal di ekor yang kurang efisien; anggarkan universe turnover ~1 putaran/tahun.",
+        "Jalur konsultan: rekam jejak alpha + level Genius + kompetisi (IQC/Alphathon) + menyatakan minat — tanpa angka syarat resmi yang dipublikasikan.",
       ],
       quiz: [
         {

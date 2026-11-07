@@ -29,7 +29,7 @@ export const bcd12: V2Lesson = {
   track: "Blockchain Data Scientist",
   module: "Investigasi & Risiko",
   title: "BCD12 — Capstone: Investigasi Aliran Dana",
-  estMinutes: 60,
+  estMinutes: 70,
   steps: [
     {
       id: "briefing",
@@ -204,6 +204,47 @@ export const bcd12: V2Lesson = {
       reference: "Laporan 1 halaman untuk kasus Q sebagai latihan. Nilai: bisakah orang lain memutuskan dari laporanmu?",
     },
     {
+      id: "dashboard-lending",
+      eyebrow: "Tambahan · BC-C6",
+      title: "Paruh kedua capstone: dashboard risiko protokol lending DeFi",
+      prose: [
+        "Capstone ini sejauh ini menyelesaikan paruh PERTAMA spec — investigasi aliran dana (dompet S, trace 3 hop ke mixer, skor 36,6 MEDIUM). Paruh KEDUA spec menuntut dashboard risiko protokol lending DeFi — dan inilah langkah yang membangunnya. Dashboard ini menjawab empat pertanyaan dalam satu layar: seberapa penuh pool-nya (utilisasi), seberapa sehat posisi terbesarnya (health factor), posisi mana yang sudah terlikuidasi, dan berapa dana yang berisiko.",
+        "Data ilustratif (ribu USD, protokol 'LendKu' fiktif): pool dititipi 10.000, dipinjam 7.500 → utilisasi 75 persen. Ambang contoh dashboard ini: utilisasi di bawah 70 persen AMAN, 70–80 persen WASPADA, di atas 80 persen KRITIS (ambang ilustratif, bukan ambang resmi protokol mana pun). Utilisasi 75 persen → status WASPADA: penarikan masih bisa dilayani, tetapi ruangnya menipis — dan bunga pinjaman seharusnya sudah naik untuk menarik penitip baru.",
+        "Tiga posisi terbesar (ilustratif): A agunan 150, pinjaman 100, LT 0,80 → HF 1,20. B agunan 120, pinjaman 100, LT 0,75 → HF 0,90 — TERLIKUIDASI. C agunan 200, pinjaman 90, LT 0,80 → HF 1,78. Dana berisiko (at-risk) = pinjaman pada posisi terlikuidasi = 100 (ribu USD). Dashboard yang jujur menampilkan ketiganya berdampingan: utilisasi (risiko pool), HF per posisi (risiko individu), dan at-risk (berapa yang dipertaruhkan) — plus TANGGAL data dan definisi ambang, supaya angka minggu depan bisa dibandingkan dengan angka minggu ini.",
+        "Hubungan dengan paruh investigasi: dashboard ini adalah ALAT MONITORING yang seharusnya sudah ada SEBELUM insiden — bila dashboard WASPADA ini dibaca tiap hari, posisi B yang meluncur ke HF 0,90 akan terlihat saat masih 1,05, bukan setelah terlikuidasi. Investigasi menjawab 'apa yang terjadi'; dashboard menjawab 'apa yang AKAN terjadi bila tidak bertindak'. Capstone yang lengkap punya keduanya — dan sekarang punya.",
+      ],
+      formula: String.raw`\text{Utilisasi} = \frac{\text{Dipinjam}}{\text{Dititipkan}} \quad ; \quad \text{HF} = \frac{\text{Agunan} \times LT}{\text{Pinjaman}}`,
+      formulaNote: "Semua angka ilustratif (ribu USD): utilisasi 7.500/10.000 = 75% (WASPADA pada ambang contoh 70-80%); HF A 1,20; B 0,90 (terlikuidasi); C 1,78. Dana berisiko = pinjaman posisi terlikuidasi = 100. Interpretasi: dashboard = utilisasi + HF + at-risk + tanggal + definisi ambang.",
+      tasks: [
+        { id: "t1", text: "Hitung `utilisasi`, `hf` per posisi, dan `status` utilisasi (AMAN/WASPADA/KRITIS)" },
+        { id: "t2", text: "Hitung `at_risk` (total pinjaman posisi terlikuidasi) dan cetak ringkasan dashboard" },
+      ],
+      expected: "Dashboard LendKu: Utilisasi 75.0% (WASPADA) | HF: A=1.20 B=0.90 C=1.78 | At-risk: 100 ribu USD",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Dashboard tanpa ambang yang tertulis = angka tanpa vonis. Utilisasi 75 persen berarti apa? Tanpa ambang contoh (70–80 = WASPADA), ia hanya angka. Selalu tulis ambang di samping angka — dan labeli ambang itu sebagai contoh bila bukan ambang resmi.",
+      },
+      hints: [
+        "utilisasi = dipinjam / dititipkan * 100.",
+        "status: <70 AMAN, 70–80 WASPADA, >80 KRITIS.",
+        "at_risk = jumlah pinjaman posisi dengan HF < 1.",
+      ],
+      code: {
+        starter: `# Data ilustratif (ribu USD). JANGAN UBAH baris ini.\ndititipkan, dipinjam = 10000, 7500\nposisi = {"A": (150, 100, 0.80), "B": (120, 100, 0.75), "C": (200, 90, 0.80)}  # (agunan, pinjaman, LT)\n\n# TULIS KODEMU: dashboard risiko lending\nutilisasi =\nhf = {}\nfor nama, (agunan, pinjaman, lt) in posisi.items():\n    hf[nama] = \nstatus =  # "AMAN" bila utilisasi < 70, "WASPADA" bila <= 80, selain itu "KRITIS"\nat_risk = \n\nprint(f"Dashboard LendKu: Utilisasi {utilisasi:.1f}% ({status}) | HF: A={hf['A']:.2f} B={hf['B']:.2f} C={hf['C']:.2f} | At-risk: {at_risk:.0f} ribu USD")`,
+        lockLines: 2,
+        solution: `# Data ilustratif (ribu USD). JANGAN UBAH baris ini.\ndititipkan, dipinjam = 10000, 7500\nposisi = {"A": (150, 100, 0.80), "B": (120, 100, 0.75), "C": (200, 90, 0.80)}  # (agunan, pinjaman, LT)\n\n# TULIS KODEMU: dashboard risiko lending\nutilisasi = dipinjam / dititipkan * 100\nhf = {}\nfor nama, (agunan, pinjaman, lt) in posisi.items():\n    hf[nama] = agunan * lt / pinjaman\nstatus = "AMAN" if utilisasi < 70 else ("WASPADA" if utilisasi <= 80 else "KRITIS")\nat_risk = sum(pinjaman for (agunan, pinjaman, lt), v in zip(posisi.values(), hf.values()) if v < 1)\n\nprint(f"Dashboard LendKu: Utilisasi {utilisasi:.1f}% ({status}) | HF: A={hf['A']:.2f} B={hf['B']:.2f} C={hf['C']:.2f} | At-risk: {at_risk:.0f} ribu USD")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "utilisasi", value: 75.0, tol: 1e-9, label: "`utilisasi` = 75.0", msg: "7.500 / 10.000 × 100 = 75%." },
+          { kind: "equal", task: "t1", name: "hf", value: {"A": 1.2, "B": 0.9, "C": 1.7777777777777777}, label: "`hf` per posisi benar", msg: "A 1,20; B 0,90; C 1,78." },
+          { kind: "equal", task: "t1", name: "status", value: "WASPADA", label: "`status` = WASPADA", msg: "75% berada pada rentang contoh 70–80%." },
+          { kind: "equal", task: "t2", name: "at_risk", value: 100, tol: 1e-9, label: "`at_risk` = 100", msg: "Hanya posisi B terlikuidasi, pinjamannya 100 ribu USD." },
+          { kind: "stdout_matches", task: "t2", pattern: "Dashboard LendKu: Utilisasi 75\\.0% \\(WASPADA\\) \\| HF: A=1\\.20 B=0\\.90 C=1\\.78 \\| At-risk: 100 ribu USD", label: "Ringkasan dashboard tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Dashboard lending = utilisasi + HF per posisi + at-risk + tanggal + ambang tertulis.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -212,6 +253,8 @@ export const bcd12: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Catatan jalur: lesson setelah capstone ini (BCD13 dan seterusnya) adalah modul lanjutan opsional — capstone ini sudah menutup rangkaian inti BCD1–BCD12.",
+        "Dashboard risiko lending DeFi: utilisasi 75% (WASPADA), HF A 1,20 / B 0,90 / C 1,78, at-risk 100 ribu USD (ilustratif).",
         "Investigasi = hipotesis-driven: hipotesis → bukti → verifikasi → keputusan.",
         "Metodologi (batas hop) menentukan temuan — mixer di hop 3 tak terlihat di 2 hop.",
         "Skor = alokasi perhatian + kontributor; MEDIUM menuntut penilaian, bukan kemalasan.",

@@ -31,7 +31,7 @@ export const dle3: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Fondasi",
   title: "DLE3 — CNN untuk Citra",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-ktp",
@@ -193,7 +193,70 @@ export const dle3: V2Lesson = {
         ],
       },
       reference: "Conv: (f*f*ch+1) x filter. FC: (masuk+1) x keluar. Bandingkan sebelum memilih.",
+    },    {
+      id: "lab-ukuran-konvolusi",
+      eyebrow: "Langkah 6 · Lab",
+      title: "Lab: ukuran feature map, tahap demi tahap",
+      prose: [
+        "Input citra 32×32. Arsitektur: conv 3×3 stride 1 pad 1 → pool 2×2 → conv 3×3 stride 1 pad 0 → pool 2×2. Tugasmu: implementasikan rumus ukuran output dan hitung tiap tahap. Satu angka yang salah di tahap awal merambat ke semua tahap — persis seperti bug shape di CNN nyata.",
+        "Hasilnya: 32 → 32 → 16 → 14 → 7. Perhatikan tahap ketiga: conv tanpa padding memangkas 2 piksel (16 ke 14) — padding bukan kosmetik, ia menentukan apakah informasi tepi bertahan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `out(ukuran, kernel, stride, pad)` = (ukuran + 2*pad - kernel)//stride + 1" },
+        { id: "t2", text: "Hitung conv1, pool1, conv2, pool2 dan cetak keempatnya" },
+      ],
+      expected: "conv1=32\npool1=16\nconv2=14\npool2=7",
+      note: {
+        title: "💡 Intuisi",
+        body: "Rumus shape adalah kompas CNN: sebelum menulis satu baris PyTorch, hitung dulu di kertas. Engineer yang menghitung shape di kertas tidak pernah menghabiskan sore mengejar error “size mismatch”.",
+      },
+      hints: [
+        "out = (ukuran + 2×pad − kernel) // stride + 1.",
+        "Pool 2×2 stride 2: ukuran dibagi 2 (bila genap).",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+# Input 32x32 -> conv 3x3 s1 p1 -> pool 2x2 -> conv 3x3 s1 p0 -> pool 2x2
+
+# TULIS KODEMU: rumus ukuran output + hitung tiap tahap
+def out(ukuran, kernel, stride=1, pad=0):
+    ...
+
+conv1 = ...
+pool1 = ...
+conv2 = ...
+pool2 = ...
+print(f"conv1={conv1}")
+print(f"pool1={pool1}")
+print(f"conv2={conv2}")
+print(f"pool2={pool2}")`,
+        lockLines: 2,
+        solution: `# DATA — jangan diubah
+# Input 32x32 -> conv 3x3 s1 p1 -> pool 2x2 -> conv 3x3 s1 p0 -> pool 2x2
+
+# TULIS KODEMU: rumus ukuran output + hitung tiap tahap
+def out(ukuran, kernel, stride=1, pad=0):
+    return (ukuran + 2 * pad - kernel) // stride + 1
+
+conv1 = out(32, 3, 1, 1)
+pool1 = out(conv1, 2, 2)
+conv2 = out(pool1, 3, 1, 0)
+pool2 = out(conv2, 2, 2)
+print(f"conv1={conv1}")
+print(f"pool1={pool1}")
+print(f"conv2={conv2}")
+print(f"pool2={pool2}")`,
+        checks: [
+          { kind: "equal", task: "t2", name: "conv1", value: 32, tol: 1e-9, label: "`conv1` = 32", msg: "(32 + 2 − 3)/1 + 1 = 32 — padding 1 mempertahankan ukuran." },
+          { kind: "equal", task: "t2", name: "pool1", value: 16, tol: 1e-9, label: "`pool1` = 16", msg: "32/2 = 16." },
+          { kind: "equal", task: "t2", name: "conv2", value: 14, tol: 1e-9, label: "`conv2` = 14", msg: "(16 + 0 − 3)/1 + 1 = 14 — tanpa padding, tepi terpangkas 2." },
+          { kind: "equal", task: "t2", name: "pool2", value: 7, tol: 1e-9, label: "`pool2` = 7", msg: "14/2 = 7." },
+          { kind: "stdout_matches", task: "t2", pattern: "conv1=32\\npool1=16\\nconv2=14\\npool2=7", label: "output empat baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "out = (w + 2p − k)//s + 1. Padding mempertahankan ukuran; tanpa padding tepi terpangkas.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -258,6 +321,24 @@ export const dle3: V2Lesson = {
             { text: "Segmentasi yang butuh lokasi presisi", why: "Pooling membuang resolusi lokasi; tiap 2×2 pooling = separuh presisi hilang.", correct: true },
             { text: "Tidak pernah merugikan", why: "Selalu ada tradeoff: ringkasan vs detail lokasi." },
             { text: "Saat data sedikit", why: "Data sedikit butuh augmentasi/pretrained; pooling bukan masalah utamanya." },
+          ],
+        },
+        {
+          q: "Input 32×32 → conv 3×3 s1 p1 → pool 2×2 → conv 3×3 s1 p0 → pool 2×2. Ukuran akhirnya?",
+          options: [
+            { text: "7×7", why: "Benar: 32 → 32 → 16 → 14 → 7.", correct: true },
+            { text: "8×8", why: "Salah: conv kedua tanpa padding memangkas 16 ke 14, bukan 16 — 14/2 = 7.", },
+            { text: "16×16", why: "Salah: itu baru setelah pool pertama — masih ada dua tahap lagi.", },
+            { text: "4×4", why: "Salah: pool terakhir membagi 14, bukan 16 — 14/2 = 7.", },
+          ],
+        },
+        {
+          q: "Kenapa conv 3×3 dengan pad 1 mempertahankan ukuran, sedangkan pad 0 memangkas 2 piksel?",
+          options: [
+            { text: "Karena stride-nya berbeda", why: "Stride keduanya 1 — bukan itu pembedanya.", },
+            { text: "Rumus (w + 2p − k)//s + 1: p=1 memberi (w+2−3)+1 = w; p=0 memberi (w−3)+1 = w−2", why: "Benar: padding menambah piksel semu di tepi sehingga kernel tidak kehilangan tepi.", correct: true },
+            { text: "Karena kernelnya berbeda", why: "Kernel keduanya 3×3.", },
+            { text: "Padding tidak berpengaruh pada ukuran", why: "Salah: justru itulah fungsi padding — mempertahankan ukuran.", },
           ],
         },
       ],

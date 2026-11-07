@@ -32,7 +32,7 @@ export const dle1: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Fondasi",
   title: "DLE1 — Peta Medan Deep Learning",
-  estMinutes: 45,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-pinjol",
@@ -177,7 +177,87 @@ export const dle1: V2Lesson = {
         ],
       },
       reference: "n_fraud = total x rate. Baseline = 1 - rate. Akurasi menipu pada data imbalance.",
+    },    {
+      id: "embedding-kategorikal",
+      eyebrow: "Langkah 6 · Embedding kategorikal",
+      title: "Embedding kategorikal: angka untuk yang tak bisa diurutkan",
+      prose: [
+        "MLP tabular di lesson ini memakai fitur numerik — tetapi data kredit penuh dengan kategorikal: sektor usaha, jenis agunan, provinsi, status perkawinan. One-hot mengubah tiap kategori menjadi vektor 0/1 — tetapi one-hot punya dua masalah: dimensinya meledak (40 sektor berarti 40 kolom) dan ia menganggap semua kategori sama jauhnya (retail dan grosir sama jauhnya dengan retail dan tambang).",
+        "Embedding kategorikal menyelesaikan keduanya: tiap nilai kategori dipetakan ke vektor padat berdimensi kecil (misal 4 dimensi untuk 40 sektor) yang DILATIH bersama model. Dua kategori yang berperilaku mirip (retail dan grosir — sama-sama sensitif terhadap daya beli) akan punya vektor yang berdekatan; yang berbeda jauh akan berjauhan. Model belajar KESAMAAN dari data, bukan dari urutan alfabet.",
+        "Aturan praktis dimensinya: min(50, (kardinalitas + 1) // 2) — kategori dengan 40 nilai memakai sekitar 20 dimensi atau kurang; dalam praktik 4–8 dimensi sering cukup untuk puluhan nilai. Dan satu peringatan: embedding butuh data — kategori yang hanya muncul 3 kali dalam 10.000 baris tidak punya cukup contoh untuk mempelajari vektor yang bermakna; gabungkan kategori langka menjadi “lainnya” sebelum di-embed.",
+        "Rangkaian lengkap fondasi — tensor, autodiff, backprop, optimizer, inisialisasi, normalisasi, regularisasi, sampai representation learning — dirangkai dalam satu lesson khusus: DLE27 — Fondasi yang Tersebar. Lesson ini (DLE1) adalah petanya; DLE27 adalah jahitannya.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Memberi kode numerik arbitrer ke kategori (retail=1, grosir=2, tambang=3) lalu memasukkannya sebagai fitur numerik. Model mengira grosir “di antara” retail dan tambang — urutan palsu yang tidak ada di data. Kategorikal harus one-hot atau embedding, tidak pernah bilangan urut.",
+      },
+      reference: "Kategorikal = embedding (atau one-hot), bukan bilangan urut. Dimensi sekitar min(50, (k+1)//2).",
     },
+
+    {
+      id: "lab-embedding-kategorikal",
+      eyebrow: "Langkah 7 · Lab embedding",
+      title: "Lab: one-hot vs embedding — hitung parameternya",
+      prose: [
+        "Tiga kolom kategorikal: sektor (40 nilai), jenis agunan (12 nilai), provinsi (8 nilai); layer hidden pertama 16 unit. Tugasmu: hitung parameter layer pertama untuk (a) one-hot (dimensi input 60) dan (b) embedding (dimensi 4, 3, 2 — total input 9 — plus parameter tabel embedding sendiri). Lalu hitung penghematannya.",
+        "Hasilnya: one-hot 976 parameter, embedding 372 — hemat 604 parameter (sekitar 62 persen) — DAN embedding belajar kesamaan antar kategori, yang one-hot tidak bisa. Penghematan parameter adalah bonus; kemenangan sebenarnya adalah representasi yang bermakna.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `onehot` (input 60 -> 16 unit) dan `embedding` (tabel + input 9 -> 16 unit)" },
+        { id: "t2", text: "Hitung `hemat` = onehot - embedding dan cetak ketiganya" },
+      ],
+      expected: "onehot=976\nembedding=372\nhemat=604",
+      note: {
+        title: "💡 Intuisi",
+        body: "One-hot membayar 60 kolom untuk informasi yang sebenarnya 9 dimensi; embedding membayar 212 parameter tabel untuk representasi yang lebih kaya. Di deep learning, parameter yang dihemat di input bisa dipakai di tempat yang lebih penting — atau tidak dipakai sama sekali.",
+      },
+      hints: [
+        "Parameter layer = input_dim x 16 + 16 (bias).",
+        "Tabel embedding = 40x4 + 12x3 + 8x2.",
+        "Dimensi input embedding = 4 + 3 + 2 = 9.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+# 3 kolom kategorikal: kardinalitas 40, 12, 8; unit hidden 16
+
+# TULIS KODEMU: parameter one-hot vs embedding
+onehot_dim = ...
+onehot = ...
+emb_param = ...
+emb_dim = ...
+embedding = ...
+hemat = ...
+
+print(f"onehot={onehot}")
+print(f"embedding={embedding}")
+print(f"hemat={hemat}")`,
+        lockLines: 2,
+        solution: `# DATA — jangan diubah
+# 3 kolom kategorikal: kardinalitas 40, 12, 8; unit hidden 16
+
+# TULIS KODEMU: parameter one-hot vs embedding
+onehot_dim = 40 + 12 + 8
+onehot = onehot_dim * 16 + 16
+emb_param = 40 * 4 + 12 * 3 + 8 * 2
+emb_dim = 4 + 3 + 2
+embedding = emb_param + emb_dim * 16 + 16
+hemat = onehot - embedding
+
+print(f"onehot={onehot}")
+print(f"embedding={embedding}")
+print(f"hemat={hemat}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "onehot", value: 976, tol: 1e-9, label: "`onehot` = 976", msg: "60 x 16 + 16 = 976." },
+          { kind: "equal", task: "t1", name: "embedding", value: 372, tol: 1e-9, label: "`embedding` = 372", msg: "Tabel 212 + layer 9 x 16 + 16 = 372." },
+          { kind: "equal", task: "t2", name: "hemat", value: 604, tol: 1e-9, label: "`hemat` = 604", msg: "976 − 372 = 604." },
+          { kind: "stdout_matches", task: "t2", pattern: "onehot=976\\nembedding=372\\nhemat=604", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "One-hot 60 -> 16 = 976 param; embedding 212 + 9 -> 16 = 372 param.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -197,7 +277,7 @@ export const dle1: V2Lesson = {
         "DL menang bila: data mentah berlimpah + pola hierarkis + sanggup bayar ongkos komputasi.",
         "Pada data tabel kecil, gradient boosting adalah baseline wajib — klaim DL tanpa baseline klasik tidak jujur.",
       ],
-      next: { label: "DLE2 — Neural Network: Forward & Backprop", href: "/v2/learn/dle2-nn" },
+      next: { label: "DLE18 — PyTorch: Cara Model Ditulis di Dunia Nyata", href: "/v2/learn/dle18-pytorch" },
       quiz: [
         {
           q: "Dataset 4.200 baris, 38 fitur tabel untuk skor kredit. Pilihan pertama yang paling rasional?",
@@ -242,6 +322,24 @@ export const dle1: V2Lesson = {
             { text: "Tebakan struktural yang benar menghilangkan hipotesis-hipotesis salah sejak awal", why: "CNN tak perlu belajar bahwa tepi di kanan bawah sama dengan tepi di kiri atas — sudah bawaan.", correct: true },
             { text: "Parameter berkurang otomatis", why: "Parameter bisa tetap banyak; yang berkurang adalah ruang hipotesis efektif." },
             { text: "Tidak perlu validasi", why: "Validasi tetap wajib; bias hanya mengurangi kebutuhan data, bukan kebutuhan evaluasi." },
+          ],
+        },
+        {
+          q: "Tiga kolom kategorikal (40, 12, 8 nilai) ke layer 16 unit. Parameter one-hot vs embedding (dimensi 4/3/2)?",
+          options: [
+            { text: "One-hot 976, embedding 372 — hemat 604 parameter", why: "Benar: one-hot 60x16+16 = 976; embedding (160+36+16) + 9x16+16 = 372.", correct: true },
+            { text: "One-hot 372, embedding 976", why: "Terbalik: one-hot-lah yang boros karena dimensinya 60.", },
+            { text: "Keduanya 976 — embedding tidak menghemat", why: "Salah: tabel embedding hanya 212 parameter, dan input menyusut dari 60 ke 9.", },
+            { text: "One-hot 60, embedding 9", why: "Itu dimensinya, bukan parameternya — parameter = dimensi x 16 + bias + tabel.", },
+          ],
+        },
+        {
+          q: "Kenapa kode numerik arbitrer (retail=1, grosir=2, tambang=3) SALAH untuk kategori?",
+          options: [
+            { text: "Karena angkanya terlalu kecil", why: "Besar angka bukan masalahnya — urutan palsunya.", },
+            { text: "Karena model mengira grosir “di antara” retail dan tambang — urutan palsu yang tidak ada di data", why: "Benar: bilangan membawa urutan dan jarak; kategori tidak punya keduanya. Pakai one-hot atau embedding.", correct: true },
+            { text: "Karena model tidak bisa membaca bilangan", why: "Model justru hanya membaca bilangan — itulah masalahnya: ia membaca makna urutan yang tidak ada.", },
+            { text: "Tidak salah — itu praktik standar", why: "Salah: itu kesalahan klasik tabular DL — label encoding untuk model linear/neural tanpa urutan.", },
           ],
         },
       ],

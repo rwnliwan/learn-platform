@@ -38,7 +38,7 @@ export const aie16: V2Lesson = {
   track: "AI Engineering",
   module: "Produksi",
   title: "AIE16 — Embedding: Memilih & Fine-Tuning Model",
-  estMinutes: 47,
+  estMinutes: 52,
   steps: [
     {
       id: "cerita-skor-salah",
@@ -249,7 +249,26 @@ print("storage dim=2:", round(storage_mb(1000000, 2), 1), "MB")`,
         "Pembahasan: perhatikan urutannya — seleksi DULU (gratis, 2 jam), potong KEDUA (murah, 1 hari), latih TERAKHIR (mahal, butuh data). Kebanyakan tim membalik urutan: langsung fine-tune model yang salah pilih. Dan angka yang meyakinkan manajemen bukan 'recall naik 20 poin', melainkan 'storage -75%, latensi -67%, akurasi +20 poin' — metrik teknik diterjemahkan ke metrik bisnis.",
       ],
       tasks: [],
+    },    {
+      id: "ann-hnsw-pgvector",
+      eyebrow: "Langkah 7 · ANN & vector DB",
+      title: "ANN, HNSW, pgvector: kapan brute force menyerah",
+      prose: [
+        "Pencarian brute force membandingkan query dengan SEMUA vektor: 1 juta vektor kali 768 dimensi berarti sekitar 768 juta perkalian per query (angka ilustratif). Akurat sempurna, tetapi lambat — dan melambat linear saat korpus tumbuh. ANN (approximate nearest neighbor) menukar sedikit recall dengan kecepatan besar: jawaban yang hampir benar, jauh lebih cepat.",
+        "HNSW (Hierarchical Navigable Small World) adalah algoritma ANN yang paling dipakai: vektor disusun dalam graf berlapis — lapisan atas jarang dan kasar untuk melompat jauh, lapisan bawah padat untuk presisi. Pencarian menavigasi dari atas ke bawah seperti peta: zoom out untuk arah, zoom in untuk alamat. Kompleksitasnya kira-kira logaritmik terhadap ukuran korpus, bukan linear.",
+        "pgvector adalah ekstensi Postgres yang memberi tipe data vector plus index HNSW dan IVFFlat. Pilih pgvector bila datamu sudah di Postgres dan skalanya menengah: satu database untuk data relasional dan vektor, tanpa layanan baru. Pilih vector DB khusus (Qdrant, Weaviate, Pinecone) bila skalanya besar atau butuh filtering metadata yang kaya dan replikasi khusus vektor.",
+        "Angka ilustratif untuk 1 juta vektor 768 dimensi: brute force sekitar 400 ms per query, HNSW sekitar 8 ms di perangkat keras yang sama — sekitar 50 kali lebih cepat dengan recall@10 sekitar 0,99. Angka pastinya tergantung perangkat keras dan parameter — karena itu aturannya: ukur recall@k di datamu sendiri, jangan percaya brosur. Recall 0,99 berarti 1 dari 100 tetangga terbaik terlewat; untuk RAG, itu biasanya jauh lebih murah daripada 400 ms per query.",
+        "Untuk HNSW sampai ke implementasi dan matematikanya — termasuk kapan ANN kalah dari brute force dan cara mengukur recall — lanjut ke MLE21 — ANN & Vector Search di track Machine Learning Engineer (modul bersama lintas track).",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Memilih vector DB khusus untuk 50 ribu vektor yang sudah ada di Postgres. HNSW di pgvector cukup — layanan baru berarti operasi baru, backup baru, dan tagihan baru. Skala dulu, teknologi mengikuti.",
+      },
+      reference: "Brute force linear, HNSW kira-kira logaritmik. pgvector bila data sudah di Postgres; vector DB khusus bila skala besar.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -310,6 +329,15 @@ print("storage dim=2:", round(storage_mb(1000000, 2), 1), "MB")`,
             { text: "Langsung fine-tune model terbesar", why: "Termahal dulu tanpa diagnosis — pola yang gagal di cerita pembuka.", correct: false },
             { text: "Potong dimensi dulu baru pilih model", why: "Pilih yang tepat dulu; memotong model yang salah = menghemat kesalahan.", correct: false },
             { text: "Pakai skor rata-rata leaderboard langsung", why: "Itu jebakan yang dibahas seluruh lesson ini.", correct: false },
+          ],
+        },
+        {
+          q: "Korpus 1 juta dokumen, butuh recall@10 sekitar 0,99 dan latensi di bawah 20 ms per query. Pilihan yang tepat?",
+          options: [
+            { text: "Brute force atas semua vektor", why: "Akurat tetapi sekitar 400 ms per query pada skala ini — melanggar latensi.", },
+            { text: "HNSW — lewat pgvector bila data sudah di Postgres, atau vector DB khusus bila skala/filtering menuntut", why: "Benar: sekitar 8 ms dengan recall 0,99 — menukar 1 persen recall dengan kecepatan 50 kali lipat.", correct: true },
+            { text: "BM25 saja tanpa vektor", why: "BM25 tidak menangkap kesamaan makna — recall semantiknya jatuh.", },
+            { text: "Perkecil embedding ke 8 dimensi agar brute force cepat", why: "Itu menghancurkan kualitas retrieval demi kecepatan — HNSW menyelesaikan keduanya.", },
           ],
         },
       ],

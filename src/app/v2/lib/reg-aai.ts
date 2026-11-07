@@ -1,5 +1,6 @@
 import type { V2Lesson } from "./types";
 import { aai1 } from "../content/aai1-lanskap";
+import { aai18 } from "../content/aai18-fondasi-api-llm";
 import { aai2 } from "../content/aai2-anatomi";
 import { aai3 } from "../content/aai3-tool-use";
 import { aai4 } from "../content/aai4-memory";
@@ -16,13 +17,13 @@ import { aai14 } from "../content/aai14-context-engineering";
 import { aai15 } from "../content/aai15-hardening-deploy";
 import { aai16 } from "../content/aai16-tool-security";
 import { aai17 } from "../content/aai17-a2a-protocol";
-import { aai18 } from "../content/aai18-fondasi-api-llm";
 import { aai19 } from "../content/aai19-cloud-deployment-agen";
 import { aai20 } from "../content/aai20-agen-sebagai-service";
 import { aai21 } from "../content/aai21-automation-platforms";
 
 export const REG_AAI: Record<string, V2Lesson> = {
   "aai1-lanskap": aai1,
+  "aai18-fondasi-api-llm": aai18,
   "aai2-anatomi": aai2,
   "aai3-tool-use": aai3,
   "aai4-memory": aai4,
@@ -39,7 +40,6 @@ export const REG_AAI: Record<string, V2Lesson> = {
   "aai15-hardening-deploy": aai15,
   "aai16-tool-security": aai16,
   "aai17-a2a-protocol": aai17,
-  "aai18-fondasi-api-llm": aai18,
   "aai19-cloud-deployment-agen": aai19,
   "aai20-agen-sebagai-service": aai20,
   "aai21-automation-platforms": aai21,

@@ -29,7 +29,7 @@ export const aai3: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Fondasi Agen",
   title: "AAI3 — Tool Use & Function Calling",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -177,7 +177,75 @@ export const aai3: V2Lesson = {
         type: "risk",
         body: "Rumus E = c/(1−p) adalah deret geometri — sama dengan yang dipakai untuk expected loss retry pada sistem pembayaran. Bedanya: di agentic AI, \u201Cp\u201D bisa berubah tiba-tiba saat provider tool gangguan. Stress-test dengan p = 0,9 sebelum deploy, bukan setelah tagihan datang.",
       },
+    },    {
+      id: "lab-idempotency",
+      eyebrow: "Langkah 6 · Lab idempotency",
+      title: "Lab: idempotency key mencegah double-charge",
+      prose: [
+        "Agen memanggil tool bayar tiga kali: INV-1 sebesar Rp4.750.000 (dua kali — retry setelah timeout, dengan kunci yang SAMA), dan INV-2 sebesar Rp250.000 (sekali). Tool yang idempotent mengenali kunci yang sudah dipakai dan mengembalikan hasil lama tanpa menagih ulang. Tugasmu: implementasikan `bayar` dengan dict kunci yang sudah diproses, lalu hitung berapa tagihan yang benar-benar terjadi.",
+        "Tanpa idempotency key, retry yang tidak berbahaya berubah menjadi double-charge Rp4.750.000 — persis kasus di Langkah 2 lesson ini. Dengan kunci, tiga panggilan hanya menghasilkan dua tagihan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `bayar(inv, jumlah, key)` — kunci yang sudah ada dikembalikan tanpa menagih ulang" },
+        { id: "t2", text: "Jalankan 3 panggilan (INV-1 dua kali dengan kunci sama, INV-2 sekali) dan cetak rekap" },
+      ],
+      expected: "panggilan=3\ntagihan=2\ntotal=5000000",
+      note: {
+        title: "💡 Intuisi",
+        body: "Idempotency key adalah janji tool kepada agen: “panggil aku dua kali dengan kunci yang sama, efeknya tetap sekali.” Tanpa janji itu, setiap retry adalah perjudian — dan agen yang me-retry adalah agen yang berjudi dengan uang nasabah.",
+      },
+      hints: [
+        "Simpan kunci yang sudah diproses dalam set/dict; cek sebelum menagih.",
+        "Kembalikan hasil lama bila kunci sudah ada.",
+      ],
+      code: {
+        starter: `# MOCK — jangan diubah
+TERPROSES = {}
+TAGIHAN = []
+
+# TULIS KODEMU
+def bayar(inv, jumlah, key):
+    ...
+
+panggilan = 0
+for inv, jumlah, key in [("INV-1", 4750000, "k1"), ("INV-1", 4750000, "k1"), ("INV-2", 250000, "k2")]:
+    bayar(inv, jumlah, key)
+    panggilan += 1
+
+print(f"panggilan={panggilan}")
+print(f"tagihan={len(TAGIHAN)}")
+print(f"total={sum(TAGIHAN)}")`,
+        lockLines: 5,
+        solution: `# MOCK — jangan diubah
+TERPROSES = {}
+TAGIHAN = []
+
+# TULIS KODEMU
+def bayar(inv, jumlah, key):
+    if key in TERPROSES:
+        return TERPROSES[key]
+    TERPROSES[key] = f"tertangih:{inv}"
+    TAGIHAN.append(jumlah)
+    return TERPROSES[key]
+
+panggilan = 0
+for inv, jumlah, key in [("INV-1", 4750000, "k1"), ("INV-1", 4750000, "k1"), ("INV-2", 250000, "k2")]:
+    bayar(inv, jumlah, key)
+    panggilan += 1
+
+print(f"panggilan={panggilan}")
+print(f"tagihan={len(TAGIHAN)}")
+print(f"total={sum(TAGIHAN)}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "bayar", label: "`bayar` terdefinisi", msg: "Definisikan bayar(inv, jumlah, key) dengan dedup kunci." },
+          { kind: "equal", task: "t2", name: "panggilan", value: 3, tol: 1e-9, label: "`panggilan` = 3", msg: "Tiga pemanggilan terjadi (termasuk retry)." },
+          { kind: "equal", task: "t2", name: "TAGIHAN", value: [4750000, 250000], label: "`TAGIHAN` = [4750000, 250000]", msg: "INV-1 hanya tertagih sekali berkat kunci k1." },
+          { kind: "stdout_matches", task: "t2", pattern: "panggilan=3\\ntagihan=2\\ntotal=5000000", label: "output tiga baris sesuai format", msg: "4.750.000 + 250.000 = 5.000.000." },
+        ],
+      },
+      reference: "Idempotency key: kunci sama = efek sekali. Retry tanpa kunci = double-charge.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -238,6 +306,24 @@ export const aai3: V2Lesson = {
             { text: "Agen sukses di percobaan ketiga dan melanjutkan", why: "Tepat. Inilah skenario yang dirancang untuk ditangani retry terbatas.", correct: true },
             { text: "Agen retry selamanya", why: "Batas 3× mencegah loop abadi.", },
             { text: "Agen mengarang jawaban", why: "Fallback jujur (\u201Cdata tidak ditemukan\u201D) — bukan karangan — hanya jika retry habis.", },
+          ],
+        },
+        {
+          q: "Tool bayar dipanggil 3 kali (INV-1 dua kali dengan kunci sama, INV-2 sekali). Berapa tagihan yang terjadi bila tool idempotent?",
+          options: [
+            { text: "3 tagihan — setiap panggilan menagih", why: "Itulah yang terjadi TANPA idempotency — dan itulah double-charge.", },
+            { text: "2 tagihan, total Rp5.000.000", why: "Benar: kunci k1 yang sama membuat retry INV-1 tidak menagih ulang; 4.750.000 + 250.000 = 5.000.000.", correct: true },
+            { text: "1 tagihan — semua panggilan dianggap sama", why: "Salah: INV-2 punya kunci berbeda (k2) — ia tagihan yang sah.", },
+            { text: "0 tagihan — retry membatalkan semuanya", why: "Salah: retry bukan pembatalan — tagihan sah tetap terjadi.", },
+          ],
+        },
+        {
+          q: "Kapan idempotency key WAJIB ada pada sebuah tool?",
+          options: [
+            { text: "Hanya pada tool baca (read-only)", why: "Tool baca tidak mengubah apa pun — retry-nya aman tanpa kunci.", },
+            { text: "Pada setiap tool tulis yang bisa di-retry — agar retry tidak menggandakan efek", why: "Benar: tool tulis + retry tanpa kunci = efek ganda (double-charge, duplikat kirim).", correct: true },
+            { text: "Tidak pernah — retry seharusnya dilarang", why: "Retry adalah kebutuhan (timeout, jaringan) — yang dilarang adalah efek gandanya.", },
+            { text: "Hanya bila tool-nya mahal", why: "Harga bukan penentunya — efek samping yang tidak bisa dibatalkan yang menentukannya.", },
           ],
         },
       ],

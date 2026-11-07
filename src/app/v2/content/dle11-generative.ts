@@ -239,7 +239,7 @@ export const dle11: V2Lesson = {
         "Pilih: GAN = cepat-tajam, difusi = kualitas, VAE = representasi.",
         "Data sintetis valid di dalam distribusi; validasi pada data asli yang steril.",
       ],
-      next: { label: "DLE12 — Capstone: Proyek DL End-to-End", href: "/v2/learn/dle12-capstone" },
+      next: { label: "DLE12 — Capstone: Fine-Tune Klasifier Teks & Pipeline OCR", href: "/v2/learn/dle12-capstone" },
       quiz: [
         {
           q: "Fungsi reparameterization trick z = μ + σ·ε?",

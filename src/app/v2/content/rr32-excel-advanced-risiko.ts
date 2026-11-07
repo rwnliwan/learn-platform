@@ -245,7 +245,7 @@ export const rr32: V2Lesson = {
         "Ingat angka lab: hanya KREDIT berselisih 25 → breaks = ['Aset'].",
       ],
       reference: "Excel disiplin > Python berantakan.",
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "RR33 — SQL untuk Risk Reporting", href: "/learn/rr33-sql-risk-reporting" },
     },
   ],
 };

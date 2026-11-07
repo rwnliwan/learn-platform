@@ -46,7 +46,7 @@ export const aie17: V2Lesson = {
   track: "AI Engineering",
   module: "Produksi",
   title: "AIE17 — Visual Retrieval: ColPali & Dokumen Multimodal",
-  estMinutes: 65,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita-scan-gagal",
@@ -427,7 +427,107 @@ for nama, w in [("kasus-1", w1), ("kasus-2", w2), ("kasus-3", w3)]:
         ],
       },
       reference: "Suara = STT → LLM → TTS; WER mengukur kata bukan makna — field kritis tetap divalidasi.",
+    },    {
+      id: "document-ai",
+      eyebrow: "Langkah 10 · Document AI",
+      title: "Document AI: dari PDF berantakan ke chunk yang bisa dikutip",
+      prose: [
+        "Parsing PDF, OCR, tabel, dan layout adalah SATU pipeline, bukan empat pekerjaan lepas — dan inilah yang disebut Document AI. Urutannya: (1) deteksi layout — mana judul, paragraf, tabel, gambar; (2) OCR per blok dengan skor confidence; (3) rekonstruksi tabel — sel, baris, dan kolom dipertahankan, tabel tidak boleh dipotong di tengah chunk; (4) validasi angka kunci — total tabel harus sama dengan jumlah barisnya; (5) simpan provenance — tiap chunk tertaut ke halaman sumbernya.",
+        "Audio punya metrik baku — STT diukur dengan WER, dan lesson ini sudah mengajarkan diarization di langkah audio. Document AI punya metrik sepadan: CER (character error rate) untuk teks hasil OCR, dan akurasi sel untuk tabel. Aturannya sama: tanpa metrik, kamu tidak tahu apakah parsingmu membaik atau memburuk saat ganti tool.",
+        "Kapan OCR klasik cukup, kapan butuh model Document AI? OCR klasik cukup bila dokumenmu seragam — satu template, font jelas, scan lurus. Model Document AI (layout-aware) dibutuhkan bila tata letak berubah-ubah, scan miring, ada stempel dan tanda tangan, atau tabel bersarang. Harganya: model lebih berat dan butuh validasi lebih banyak — tetapi untuk dokumen keuangan, salah baca satu angka bisa lebih mahal dari seluruh biaya model.",
+        "Tiga kegagalan klasik yang wajib diantisipasi. Pertama, angka tertukar: “5,75 persen” terbaca “6,75 persen” — validasi silang dengan total atau sumber kedua. Kedua, tabel terpotong: chunk memotong baris di tengah sehingga angka kehilangan konteks — simpan tabel utuh dalam satu chunk. Ketiga, halaman ber-confidence rendah lolos diam-diam — tolak dan kembalikan ke scan ulang manusia, jangan ditebak model.",
+        "Kaitannya dengan RAG: chunk yang masuk index harus bisa dilacak ke halaman sumber — tanpa itu sitasi hanyalah dekorasi. Varian capstone AIE12 (asisten kebijakan kredit) memakai pola yang sama: OCR tervalidasi, tabel utuh, sitasi yang diaudit.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Mengirim hasil OCR langsung ke chunking tanpa validasi. Satu angka salah di tabel yang ter-chunk rapi tetap jawaban salah — dan karena dikutip dengan sitasi, ia lolos review manusia. Validasi SEBELUM chunking, bukan sesudah jawaban.",
+      },
+      reference: "Document AI = layout + OCR + rekonstruksi tabel + validasi + provenance. Metrik: CER dan akurasi sel tabel.",
     },
+
+    {
+      id: "lab-document-ai-cer",
+      eyebrow: "Langkah 11 · Lab Document AI",
+      title: "Lab: mengukur kualitas OCR dengan CER",
+      prose: [
+        "Tiga field hasil OCR dokumen nasabah dibandingkan dengan teks referensi. Tugasmu: implementasikan jarak Levenshtein (jumlah edit minimum: substitusi, sisipan, hapusan), hitung CER tiap field (edit dibagi panjang referensi), lalu putuskan: field dengan CER di bawah atau sama dengan 0,05 lolos, sisanya wajib review manual.",
+        "Perhatikan field pertama: “Sari Wijaya” terbaca “Sari Wijoyo” — dua substitusi pada 11 karakter. Field ketiga: “Jakarta” terbaca “Jakaria” — satu substitusi pada 7 karakter. Field kedua sempurna. Rata-rata ketiganya menentukan apakah batch ini bisa lanjut ke chunking atau harus dikembalikan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `levenshtein(a, b)` (dynamic programming) dan hitung CER tiap field" },
+        { id: "t2", text: "Hitung `cer_rata`, jumlah field `lolos` (CER <= 0.05), dan `keputusan` (review manual bila ada yang tidak lolos)" },
+      ],
+      expected: "cer_rata=0.108\nlolos=1/3\nkeputusan=review manual",
+      note: {
+        title: "💡 Intuisi",
+        body: "CER 0,108 berarti sekitar 1 dari 9 karakter salah — untuk nama dan kota, itu sudah cukup untuk salah orang dan salah alamat. Ambang 0,05 bukan perfeksionisme: di dokumen identitas, satu karakter bisa berarti nasabah yang berbeda.",
+      },
+      hints: [
+        "Levenshtein: tabel (m+1)x(n+1); d[i][j] = min(hapus, sisip, ganti).",
+        "CER = edit / len(referensi); bulatkan 3 desimal.",
+        "keputusan = 'lolos' bila semua field lolos, selain itu 'review manual'.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+REFS = ["Sari Wijaya", "1985-03-14", "Jakarta"]
+OCRS = ["Sari Wijoyo", "1985-03-14", "Jakaria"]
+
+# TULIS KODEMU: jarak Levenshtein + CER per field
+def levenshtein(a, b):
+    ...
+
+cers = []
+for r, o in zip(REFS, OCRS):
+    ...
+
+cer_rata = ...
+lolos = ...
+keputusan = ...
+
+print(f"cer_rata={cer_rata:.3f}")
+print(f"lolos={lolos}/3")
+print(f"keputusan={keputusan}")`,
+        lockLines: 5,
+        solution: `# DATA — jangan diubah
+REFS = ["Sari Wijaya", "1985-03-14", "Jakarta"]
+OCRS = ["Sari Wijoyo", "1985-03-14", "Jakaria"]
+
+# TULIS KODEMU: jarak Levenshtein + CER per field
+def levenshtein(a, b):
+    m, n = len(a), len(b)
+    d = list(range(n + 1))
+    for i in range(1, m + 1):
+        prev = d[0]
+        d[0] = i
+        for j in range(1, n + 1):
+            cur = d[j]
+            d[j] = min(d[j] + 1, d[j - 1] + 1, prev + (a[i - 1] != b[j - 1]))
+            prev = cur
+    return d[n]
+
+cers = []
+for r, o in zip(REFS, OCRS):
+    cers.append(levenshtein(r, o) / len(r))
+
+cer_rata = round(sum(cers) / len(cers), 3)
+lolos = sum(1 for c in cers if c <= 0.05)
+keputusan = "lolos" if lolos == 3 else "review manual"
+
+print(f"cer_rata={cer_rata:.3f}")
+print(f"lolos={lolos}/3")
+print(f"keputusan={keputusan}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "levenshtein", label: "`levenshtein` terdefinisi", msg: "Definisikan levenshtein(a, b) dengan dynamic programming." },
+          { kind: "equal", task: "t2", name: "cer_rata", value: 0.108, tol: 0.001, label: "`cer_rata` sekitar 0.108", msg: "(2/11 + 0 + 1/7) / 3 = 0,108. Cek Levenshtein tiap field." },
+          { kind: "equal", task: "t2", name: "lolos", value: 1, tol: 1e-9, label: "`lolos` = 1 dari 3 field", msg: "Hanya field tanggal yang CER-nya 0 — di bawah ambang 0,05." },
+          { kind: "stdout_matches", task: "t2", pattern: "cer_rata=0\\.108\\nlolos=1/3\\nkeputusan=review manual", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "CER = edit Levenshtein / panjang referensi. Ambang 0,05: di bawah itu lolos, di atas itu review manual.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -498,6 +598,15 @@ for nama, w in [("kasus-1", w1), ("kasus-2", w2), ("kasus-3", w3)]:
             { text: "ColPali saja — ia sudah 'membaca' angkanya", why: "Salah: ColPali menyimpan geometri makna, bukan string. Tidak bisa sitasi verbatim.", correct: false },
             { text: "OCR saja — ColPali tidak berguna di sini", why: "OCR saja = kembali ke recall 58%. ColPali tetap berguna untuk menemukan halaman.", correct: false },
             { text: "LLM menebak angka dari deskripsi halaman", why: "Menebak angka compliance = malpraktik. Angka harus dikutip dari sumber.", correct: false },
+          ],
+        },
+        {
+          q: "Tabel 12 sel hasil OCR: 10 sel benar, 2 sel salah angka. Keputusan yang tepat sebelum indexing?",
+          options: [
+            { text: "Masukkan saja — 10 dari 12 sudah bagus", why: "Angka salah di tabel menjadi jawaban salah yang dikutip dengan sitasi — lolos review manusia.", },
+            { text: "Tolak chunk tabel itu untuk index dan kembalikan ke validasi manusia", why: "Benar: angka tabel adalah fakta yang dikutip; 2 sel salah berarti chunk tidak bisa dipercaya.", correct: true },
+            { text: "Hapus tabelnya dari dokumen", why: "Menghapus data menghilangkan informasi — yang dibutuhkan validasi, bukan penghapusan.", },
+            { text: "Turunkan ambang chunk agar tabel terpotong lebih kecil", why: "Memotong tabel justru menghilangkan konteks baris — kebalikan dari yang dibutuhkan.", },
           ],
         },
       ],

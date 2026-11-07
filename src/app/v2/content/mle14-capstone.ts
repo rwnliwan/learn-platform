@@ -5,7 +5,7 @@ export const mle14: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Skala & Tanggung Jawab",
   title: "MLE14 — Capstone: Sistem ML End-to-End",
-  estMinutes: 60,
+  estMinutes: 70,
   steps: [
     {
       id: "mulai",
@@ -17,6 +17,7 @@ export const mle14: V2Lesson = {
         "• Menjalankan pipeline mini end-to-end: data → training → evaluasi → gate → monitoring.",
         "• Menghubungkan setiap tahap dengan lesson yang membahasnya.",
         "• Merancang proyek capstone mandiri dengan checklist deliverables.",
+        "• Menyajikan model lewat API FastAPI dan melacak setiap eksperimen (MLflow) sampai ke registry.",
         "• Menyusun roadmap 90 hari menjadi MLE yang siap produksi.",
         "Isi lesson: cerita 'toko' mini-MLOps → lab pipeline end-to-end → brief proyek capstone → peta keputusan karir → mini-case insiden → checkpoint.",
         "Cara memakai capstone ini — tiga jalur. JALUR A (mahasiswa/fresh): ikuti roadmap 90 hari berurutan, bangun SATU sistem penuh. JALUR B (profesional sibuk): pilih SATU komponen yang paling relevan dengan pekerjaanmu (lihat diagram kritikalitas di roadmap), dalami 2 pekan, implementasikan di tempat kerja. JALUR C (tim): bagi komponen per orang, integrasikan di akhir bulan. Tidak ada jalur yang “benar” — ada yang SELESAI. Capstone yang selesai 80% > capstone sempurna yang tidak dimulai.",
@@ -226,13 +227,136 @@ print(f"psi_usia={psi:.3f}")`,
       reference: "End-to-end = data → train → eval → gate → monitor. Satu putaran hidup sistem.",
     },
     {
+      id: "fastapi-tracking",
+      eyebrow: "Langkah 4 · Serving & tracking",
+      title: "FastAPI + experiment tracking: model yang bisa dipanggil dan dibuktikan",
+      prose: [
+        "Lab Langkah 3 membuktikan pipeline-mu jalan. Tetapi pipeline yang hanya jalan di laptop bukan sistem: orang lain harus bisa MEMANGGIL modelmu lewat jaringan, dan kamu harus bisa MEMBUKTIKAN run mana yang menghasilkan model yang sedang live. Dua komponen ini — serving API dan experiment tracking — yang membedakan 'notebook yang dirapikan' dari 'sistem ML'. Keduanya adalah deliverable wajib capstone (lihat Langkah 5).",
+        "FastAPI sebagai pintu masuk (MLE5). Endpoint-nya satu: POST /predict, menerima JSON berisi fitur (usia, gaji), mengembalikan skor + versi model + request id. Validasi memakai Pydantic: usia harus int 17 sampai 70, gaji harus angka di atas 0 — request yang melanggar ditolak dengan 422 dan pesan yang jelas, BUKAN diproses diam-diam menjadi skor sampah. Tiga aturan: (1) response SELALU memuat model_version — tanpa itu, tidak ada yang tahu model mana yang menjawab saat insiden; (2) jangan pernah unpickle file model dari sumber luar (MLE5: ONNX atau format aman); (3) log tiap request (versi, latensi, skor) — log inilah bahan monitoring MLE6. FastAPI dipilih karena validasi otomatis + dokumentasi OpenAPI gratis + async — tetapi prinsipnya berlaku untuk framework apa pun: validasi dulu, model belakangan.",
+        "Experiment tracking sebagai memori sistem (MLE17). Setiap run training dicatat di MLflow (atau W&B): parameter (learning rate, seed), metrik (akurasi, precision, recall), hash dataset, versi kode, dan artefak model. Registry menambahkan stage: staging vs production — model hanya naik ke production lewat promosi eksplisit, bukan karena 'file terbaru'. Lab berikut mensimulasikan keduanya dalam Python murni: empat run tercatat, run terbaik dipilih dari log (bukan dari ingatan), dan validasi request meniru perilaku FastAPI/Pydantic — 200 untuk request valid, 422 untuk yang melanggar kontrak.",
+        "Hasil lab (ilustratif): dari empat run, yang terbaik adalah r4 (lr 0,05, seed 42) dengan akurasi 0,791 — BUKAN r2 yang learning rate-nya sama tetapi seed-nya berbeda (0,783). Tanpa tracking, perbedaan 0,008 ini tidak akan pernah bisa dijelaskan — 'kok model minggu lalu lebih bagus?' menjadi misteri. Dengan tracking, jawabannya satu baris: run r4, seed 42, dataset hash tercatat. Dan validasi: usia 15 ditolak 422 (di bawah 17), gaji negatif ditolak 422 — pagar yang sama yang dipasang FastAPI di produksi.",
+        "Aturan capstone: (1) tidak ada model yang di-deploy tanpa run id di MLflow; (2) tidak ada endpoint tanpa validasi input dan tanpa model_version di response; (3) promosi staging ke production dicatat (siapa, kapan, atas dasar metrik apa). Tiga aturan ini murah di capstone — dan mustahil dipasang belakangan di produksi yang sudah berjalan tanpa keduanya.",
+      ],
+      tasks: [
+        { id: "t1", text: "Dari log `runs`, tentukan `best_run` dan `best_acc` (akurasi tertinggi)" },
+        { id: "t2", text: "Implementasikan `validate_request(usia, gaji)`: kembalikan 200 bila valid, 422 bila usia di luar 17–70 atau gaji tidak di atas 0" },
+        { id: "t3", text: "Cetak run terbaik dan tiga kode status validasi" },
+      ],
+      expected: "best_run=r4  best_acc=0.791  valid_req=200  bad_age=422  bad_salary=422",
+      note: {
+        title: "🚨 Mitos: 'tracking = dokumentasi, nanti saja'",
+        type: "pitfall",
+        body: "Yang benar: tracking adalah SATU-SATUNYA cara membuktikan model yang live berasal dari run yang mana, dengan data apa. Tanpa itu, audit, rollback, dan debat 'model siapa yang lebih bagus' semuanya berbasis ingatan — dan ingatan adalah sumber kebenaran yang paling buruk.",
+      },
+      hints: [
+        "best = max(runs, key=lambda r: r['acc']).",
+        "Valid: 17 <= usia <= 70 dan gaji > 0; selain itu 422.",
+        "Uji tiga kasus: (25, 8) valid; (15, 8) usia melanggar; (30, -1) gaji melanggar.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+runs = [
+    {"run": "r1", "lr": 0.01, "seed": 7, "acc": 0.781},
+    {"run": "r2", "lr": 0.05, "seed": 7, "acc": 0.783},
+    {"run": "r3", "lr": 0.10, "seed": 7, "acc": 0.772},
+    {"run": "r4", "lr": 0.05, "seed": 42, "acc": 0.791},
+]
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: run terbaik dari log tracking
+best_run = 
+best_acc = 
+
+# TULIS KODEMU: validasi request gaya FastAPI/Pydantic (200 valid, 422 melanggar)
+def validate_request(usia, gaji):
+    return 
+
+valid_req = validate_request(25, 8)
+bad_age = validate_request(15, 8)
+bad_salary = validate_request(30, -1)
+
+print(f"best_run={best_run}  best_acc={best_acc:.3f}  valid_req={valid_req}  bad_age={bad_age}  bad_salary={bad_salary}")`,
+        lockLines: 7,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+runs = [
+    {"run": "r1", "lr": 0.01, "seed": 7, "acc": 0.781},
+    {"run": "r2", "lr": 0.05, "seed": 7, "acc": 0.783},
+    {"run": "r3", "lr": 0.10, "seed": 7, "acc": 0.772},
+    {"run": "r4", "lr": 0.05, "seed": 42, "acc": 0.791},
+]
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: run terbaik dari log tracking
+best = max(runs, key=lambda r: r["acc"])
+best_run = best["run"]
+best_acc = best["acc"]
+
+# TULIS KODEMU: validasi request gaya FastAPI/Pydantic (200 valid, 422 melanggar)
+def validate_request(usia, gaji):
+    return 200 if (17 <= usia <= 70 and gaji > 0) else 422
+
+valid_req = validate_request(25, 8)
+bad_age = validate_request(15, 8)
+bad_salary = validate_request(30, -1)
+
+print(f"best_run={best_run}  best_acc={best_acc:.3f}  valid_req={valid_req}  bad_age={bad_age}  bad_salary={bad_salary}")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`best_run` = r4",
+            "name": "best_run",
+            "value": "r4",
+            "tol": 1e-09,
+            "msg": "Akurasi tertinggi 0,791 adalah r4 (lr 0,05, seed 42).",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`best_acc` = 0.791",
+            "name": "best_acc",
+            "value": 0.791,
+            "tol": 1e-09,
+            "msg": "Dipilih dari log, bukan dari ingatan.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`bad_age` = 422",
+            "name": "bad_age",
+            "value": 422,
+            "tol": 1e-09,
+            "msg": "Usia 15 di bawah batas 17 → ditolak.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`bad_salary` = 422",
+            "name": "bad_salary",
+            "value": 422,
+            "tol": 1e-09,
+            "msg": "Gaji negatif → ditolak.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` menampilkan run terbaik + status",
+            "pattern": "best_run=r4\\s+best_acc=0\\.791\\s+valid_req=200",
+            "msg": "Format: best_run=...  best_acc=...  valid_req=...  bad_age=...  bad_salary=....",
+          },
+        ],
+      },
+      reference: "FastAPI (MLE5): validasi dulu, model belakangan; response selalu bawa model_version. Tracking (MLE17): tiap run tercatat, promosi lewat registry.",
+    },
+    {
       id: "brief",
-      eyebrow: "Langkah 4 · Brief proyek capstone",
+      eyebrow: "Langkah 5 · Brief proyek capstone",
       title: "Proyek mandiri: sistem ML produksi mini",
       prose: [
         "Tugas capstone (kerjakan 2–4 minggu): bangun SATU sistem ML end-to-end untuk kasus pilihanmu (skor kredit mikro, prediksi churn, atau screening CV). Deliverables wajib:",
         "1. Pipeline data reproducible: script + seed + validasi data (MLE2, MLE7). 2. Training reproducible: config file + experiment log + dataset berversion (MLE3, MLE8). 3. Evaluasi jujur: bukan cuma akurasi — precision/recall, kalibrasi, slice (MLE4).",
         "4. Serving: pilih pola (batch/online) dengan justifikasi biaya-latency (MLE5, MLE11). 5. Monitoring: dashboard PSI + alarm anti-noise + runbook (MLE6). 6. CI/CD: training pipeline + quality gate + canary plan (MLE9). 7. Fairness check: metrik per grup + mitigasi jika perlu (MLE12).",
+        "8. Serving API FastAPI: endpoint POST /predict dengan validasi Pydantic (tolak 422 bila melanggar kontrak) dan model_version di setiap response (MLE5, Langkah 4). 9. Experiment tracking: setiap run tercatat di MLflow — params, metrik, hash dataset, versi kode — dan model yang live bisa dilacak ke run id-nya lewat registry (MLE17, Langkah 4).",
         "Kriteria kelulusan: orang lain bisa menjalankan ulang pipeline-mu dari nol dan mendapat hasil sama (reproducibility); setiap keputusan desain ada justifikasi angka (bukan opini); ada runbook untuk 3 skenario kegagalan.",
         "Ini adalah portofolio yang membedakanmu: 90% kandidat menunjukkan notebook; kamu menunjukkan SISTEM.",
         "Memilih kasus — matriks 3×3. Baris: skor kredit mikro / churn / screening CV. Kolom: data tersedia? / risiko? / relevansi karier? Skor kredit: data (sulit, privacy!) / risiko TINGGI / relevansi TINGGI (fintech). Churn: data (sedang, sintetis OK) / risiko RENDAH / relevansi SEDANG. Screening CV: data (mudah) / risiko TINGGI (fairness!) / relevansi SEDANG. Rekomendasi: CHURN untuk pertama kali (risiko rendah, selesai), KREDIT untuk portofolio karier (risiko tinggi = pembelajaran tinggi). Pilih sesuai TUJUANMU — bukan yang “keren”.",
@@ -250,7 +374,7 @@ print(f"psi_usia={psi:.3f}")`,
     },
     {
       id: "roadmap",
-      eyebrow: "Langkah 5 · Roadmap 90 hari",
+      eyebrow: "Langkah 6 · Roadmap 90 hari",
       title: "Dari sini ke MLE yang siap produksi",
       prose: [
         "Hari 1–30 — Fondasi: kuasai Python packaging, Docker, git advanced, SQL. Bangun 1 pipeline batch end-to-end (data → model → API sederhana). Target: deploy 1 model ke server/VPS.",
@@ -301,13 +425,13 @@ print(f"psi_usia={psi:.3f}")`,
     },
     {
       id: "peta-keputusan",
-      eyebrow: "Langkah 6 · Peta keputusan",
+      eyebrow: "Langkah 7 · Peta keputusan",
       title: "Membawa pulang: kapan memakai apa",
       prose: [
         "Skenario 1 — 'Modelku bagus di notebook, mau produksi minggu depan' → mulai dari MLE1+MLe5: definisikan kontrak serving + latency budget DULU, baru training ulang yang reproducible.",
         "Skenario 2 — 'Model produksiku performanya turun' → MLE6: cek drift input dulu (PSI), bukan langsung retrain. 70% kasus = masalah data, bukan model.",
         "Skenario 3 — 'Timku 1 orang, 3 model' → MLE2+MLE9: pipeline sederhana yang terjadwal + quality gate. Otomatisasi menggantikan tim yang tidak ada.",
-        "Skenario 4 — 'Mau pindah karir ke MLE' → ikuti roadmap 90 hari di Langkah 5 + capstone. Satu sistem rapi > 10 sertifikat.",
+        "Skenario 4 — 'Mau pindah karir ke MLE' → ikuti roadmap 90 hari di Langkah 6 + capstone. Satu sistem rapi > 10 sertifikat.",
         "Aturan praktis 10 detik untuk SEMUA lesson: (1) Apa buktinya (angka)? (2) Apa yang bisa gagal diam-diam? (3) Bagaimana cara kembali (rollback/reproduce)? Tiga pertanyaan ini adalah inti berpikir MLE.",
         "Skenario 2 — “tim 1 orang, mau bangun semua 13 komponen” → JANGAN. Prioritas: testing (10) + monitoring (9) + pipeline (9) = 3 komponen, 6 pekan. Sisanya: versi MINIMAL (serving = script cron, versioning = folder + README, CI/CD = cron + notifikasi). “Semua komponen” untuk tim 1 orang = tidak ada yang selesai. Sempurna = musuh selesai. Minimal yang BERFUNGSI > maksimal yang mangkrak.",
         "Skenario 3 — “perusahaan mau hire MLE pertama” → cari yang bisa OPERASI, bukan yang bisa MODELING. Interview: “ceritakan insiden terburukmu dan bagaimana kamu mencegahnya terulang” > “jelaskan transformer”. MLE pertama = membangun fondasi (pipeline + testing + monitoring), bukan SOTA model. Salah hire (ilmuwan murni) = 6 bulan model bagus yang tidak bisa deploy. Hire untuk KEBUTUHAN (keandalan), bukan untuk PRESTISE (paper).",
@@ -323,7 +447,7 @@ print(f"psi_usia={psi:.3f}")`,
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 7 · Mini-case",
+      eyebrow: "Langkah 8 · Mini-case",
       title: "Insiden 02.14: semua lesson dalam satu malam",
       prose: [
         "Sebuah e-commerce mengalami insiden: rekomendasi voucher kacau jam 02.14. Investigasi menemukan RANTAI kegagalan: (1) ETL partner mengubah format diam-diam → (2) validasi data tidak ada → (3) fitur korup masuk training otomatis → (4) quality gate hanya cek AUC (naik palsu) → (5) auto-deploy 100% langsung → (6) monitoring PSI ada tetapi alarm di-mute (alert fatigue).",
@@ -344,6 +468,7 @@ print(f"psi_usia={psi:.3f}")`,
       title: "Uji pemahamanmu — ujian akhir track",
       prose: [
         "Enam pertanyaan dari seluruh track. Kelulusan: ≥ 5 benar.",
+        "Catatan posisi capstone: lesson ini menutup inti track (MLE1–MLE14). Lesson MLE15–MLE28 sesudahnya adalah modul lanjutan opsional — ML klasik, tuning, tracking, systems design, matematika, recommender, vector search, dan LLM — yang memperdalam, bukan syarat kelulusan capstone ini.",
         "Kelulusan sejati — bukan ≥5/6 quiz. (1) Sistem jalan end-to-end. (2) 1 insiden disimulasikan + ditangani. (3) Rollback diuji. (4) Postmortem ditulis. (5) Bisa menjelaskan SETIAP keputusan (“kenapa batch? kenapa threshold ini?”). Lima ini = MLE junior yang siap kerja. Quiz = pengetahuan; lima ini = KOMPETENSI. Kejar kompetensinya.",
       ],
       tasks: [
@@ -481,12 +606,35 @@ print(f"psi_usia={psi:.3f}")`,
             },
           ],
         },
+        {
+          q: "Model live memberi skor aneh untuk usia 15 tahun, dan tidak ada yang tahu run mana yang menghasilkan model itu. Dua pelanggaran capstone apa?",
+          options: [
+            {
+              text: "Endpoint tanpa validasi Pydantic (usia 15 harus ditolak 422) + model tanpa run id di MLflow/registry",
+              why: "Tepat: validasi input dan tracking adalah deliverable wajib — tanpanya, insiden tidak bisa dicegah dan tidak bisa dilacak.",
+              correct: true,
+            },
+            {
+              text: "Model kurang akurat + dashboard kurang cantik",
+              why: "Akurasi bukan penyebab skor aneh untuk input yang seharusnya ditolak; dashboard bukan alat pelacak run.",
+            },
+            {
+              text: "Training terlalu singkat + tidak ada canary",
+              why: "Canary penting, tetapi tidak menjawab 'run mana' dan tidak menolak input invalid.",
+            },
+            {
+              text: "Response tidak memuat latensi",
+              why: "Latensi berguna, tetapi yang hilang di sini adalah validasi dan ketertelusuran run.",
+            },
+          ],
+        },
       ],
       summary: [
         "Sistem ML = model + pipeline + serving + monitoring + testing + versioning + CI/CD.",
         "Kegagalan termahal selalu silent — pertahanan berlapis adalah jawabannya.",
         "Setiap keputusan butuh angka: cost matrix, latency budget, PSI, gate.",
         "Reproducibility, versioning, dan lineage = kemampuan kembali ke masa lalu.",
+        "FastAPI: validasi dulu, model belakangan; response selalu bawa model_version. Tracking: tiap run tercatat, model live bisa dilacak ke run id-nya.",
         "Fairness dan cost bukan tambahan — mereka bagian dari definisi 'sistem yang baik'.",
         "Mulai dari yang termurah: validasi data, seed, config — baru yang mahal.",
       ],

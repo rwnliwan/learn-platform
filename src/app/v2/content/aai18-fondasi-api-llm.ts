@@ -278,7 +278,7 @@ print(f"ok={len(hasil['ok'])} parse_gagal={len(hasil['parse_gagal'])} skema_gaga
         "Biaya = token in × tarif + token out × tarif; konteks yang membengkak = tagihan yang membengkak — audit berkala.",
         "Aturan 10 detik: dibaca mesin? harus bertindak? berbiaya? konteks minimal?",
       ],
-      next: { label: "AAI19 — Cloud Deployment Agen: Dari Laptop ke Produksi", href: "/learn/aai19-cloud-deployment-agen" },
+      next: { label: "AAI2 — Anatomi Agen", href: "/learn/aai2-anatomi" },
       quiz: [
         {
           q: "Agen TokoNusa kehilangan 40% pesanan. Akar masalahnya?",

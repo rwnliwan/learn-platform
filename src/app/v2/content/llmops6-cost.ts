@@ -21,7 +21,7 @@ export const llmops6: V2Lesson = {
   track: "LLMOps",
   module: "Operasi Harian",
   title: "LLMOps6 — Operasi Biaya",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -31,7 +31,7 @@ export const llmops6: V2Lesson = {
         "Awal Desember 2026, finance KopiChain memanggil tim AI: tagihan API LLM bulan November Rp48 juta — tiga kali lipat budget. Audit cepat menemukan pola yang menyakitkan: 70% query adalah pertanyaan sepele (`jam buka cabang?`, `cek saldo`) yang dijawab model besar seharga Rp96 per request, padahal model kecil Rp6 per request menjawabnya sama baiknya. Tidak ada yang salah dengan modelnya; yang salah adalah tidak ada yang mengatur kapan memakai yang mana.",
         "Twist-nya: tim mengira `model besar = kualitas lebih baik untuk semua query`. Pengujian buta menunjukkan untuk 80% query rutin, penilai manusia tidak bisa membedakan jawaban model besar dan kecil. Mereka membayar 16x lipat untuk perbedaan yang tidak bisa dirasakan user.",
         "Lesson ini tentang operasi biaya LLM: matematika token, routing model besar/kecil, caching, dan budget guardrail — empat tuas yang memangkas tagihan tanpa menyentuh kualitas.",
-        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menghitung biaya LLM per request, per user, dan per bulan dari komponen token; (2) menghitung unit economics (biaya per user aktif) dan menilainya terhadap ARPU; (3) merancang strategi caching berlapis dengan hitungannya; (4) memutuskan kapan pindah ke model lebih murah vs optimasi arsitektur.",
+        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menghitung biaya LLM per request, per user, dan per bulan dari komponen token; (2) menghitung unit economics (biaya per user aktif) dan menilainya terhadap ARPU; (3) merancang strategi caching berlapis dengan hitungannya; (4) memutuskan kapan pindah ke model lebih murah vs optimasi arsitektur; (5) memakai Batch API untuk beban non-interaktif dan distilasi untuk menurunkan biaya model secara permanen.",
       ],
       tasks: [],
       note: {
@@ -195,6 +195,110 @@ export const llmops6: V2Lesson = {
       reference: "Circuit breaker biaya: alert 150% harian + hard limit per API key.",
     },
     {
+      id: "batch-api-distilasi",
+      eyebrow: "Langkah 9 · Batch API & distilasi",
+      title: "Batch API dan distilasi: dua tuas yang belum dipakai",
+      prose: [
+        "Routing dan caching (Langkah 3) memangkas biaya request INTERAKTIF — yang harus dijawab sekarang. Tetapi sebagian besar beban LLM di operasi sebenarnya TIDAK interaktif: evaluasi golden set tiap rilis (LLMOps3), backfill klasifikasi 2 juta dokumen lama, scoring batch untuk laporan, dan QA index RAG. Untuk beban seperti ini ada tuas yang lebih murah lagi: Batch API. Dan untuk beban yang berulang selamanya, ada tuas permanen: distilasi.",
+        "Batch API: kirim ribuan request sekaligus, terima hasilnya dalam 24 jam, bayar sekitar 50 persen dari harga sinkron (angka ilustratif mengikuti pola diskon batch yang umum di vendor besar — cek price list vendormu, jangan hafalkan angkanya). Syaratnya: tidak butuh jawaban sekarang. Evaluasi 500.000 request golden set yang di lab ini berharga Rp48 juta secara sinkron, lewat Batch API menjadi Rp24 juta — tanpa mengubah satu pun jawaban, karena modelnya sama, hanya penjadwalannya yang menunda. Aturan pemakaian: batch untuk evaluasi, backfill, dan scoring terjadwal; JANGAN batch untuk chatbot interaktif (user tidak menunggu 24 jam) atau untuk beban yang hasilnya memengaruhi keputusan jam ini. Kesalahan klasik: mem-batch-kan beban yang ternyata butuh latensi — hemat 50 persen, kehilangan pengguna 100 persen.",
+        "Distilasi: guru ke murid, untuk LLM. Model besar (guru, Rp96 per request) menjawab 500.000 request dari golden set + trace produksi — lalu model kecil (murid, Rp6 per request) DILATIH meniru jawaban guru (soft labels: bukan hanya jawaban akhir, melainkan distribusi keyakinan guru). Hasil tipikal (ilustratif, mengikuti pola MLE11 tentang kompresi model): murid melayani 80 persen trafik rutin dengan kualitas yang tak terbedakan penilai manusia, 20 persen sisanya yang kompleks tetap ke guru. Biaya rata-rata per request: 0,8 kali 6 ditambah 0,2 kali 96 sama dengan Rp24 — dari Rp48 juta per bulan menjadi Rp12 juta. Detail teknik distilasi (kuantisasi, pruning, urutan coba) diajarkan di MLE11; yang diajarkan di sini adalah keputusan OPERASIONAL-nya: kapan distilasi sepadan (trafik rutin besar + pola stabil + guru sudah ada) dan apa gerbangnya.",
+        "Gerbang distilasi yang tidak boleh dilewati: parity gate pada golden set (LLMOps3). Murid HARUS lolos evaluasi yang sama dengan guru — selisih skor judge di bawah 2 poin pada golden set yang sama — sebelum satu persen trafik pun dialihkan. Tanpa parity gate, 'murid 16x lebih murah' bisa berarti 'murid 16x lebih murah DAN 10 poin lebih buruk pada kasus yang penting'. Dan satu peringatan data: trace produksi yang dipakai melatih murid HARUS disanitasi dari PII dan secret (LLMOps5) — melatih murid di atas trace mentah berarti mengabadikan data nasabah ke dalam bobot model yang tidak bisa dihapus. Terakhir, gabungkan keduanya untuk beban offline: evaluasi golden set dengan model HASIL DISTILASI lewat Batch API — 500.000 request kali Rp24 kali 50 persen sama dengan Rp6 juta, hemat 87,5 persen dari Rp48 juta. Lab berikut menghitung keempat angka ini.",
+      ],
+      formula: String.raw`C_{batch} = 0{,}5 \times C_{sync} \qquad C_{distil} = N \times (0{,}8\,c_{kecil} + 0{,}2\,c_{besar})`,
+      formulaNote: "C_batch = biaya lewat Batch API (diskon sekitar 50 persen, ilustratif — cek price list vendor); C_distil = biaya setelah distilasi dengan routing 80 persen ke model kecil; c_kecil/c_besar = biaya per request model kecil/besar (mock lesson ini: Rp6/Rp96); N = jumlah request. Contoh lab: base Rp48jt → batch Rp24jt → distilasi Rp12jt → gabungan Rp6jt (hemat 87,5%).",
+      tasks: [
+        { id: "t1", text: "Hitung `batch_jt` = biaya 500.000 request evaluasi lewat Batch API (diskon 50%)" },
+        { id: "t2", text: "Hitung `distill_jt` = biaya setelah distilasi (routing 80% model kecil Rp6, 20% model besar Rp96)" },
+        { id: "t3", text: "Hitung `gabung_jt` (distilasi + Batch API) dan `hemat_pct` vs baseline, cetak semuanya" },
+      ],
+      expected: "base=48.0jt  batch=24.0jt  distill=12.0jt  gabung=6.0jt  hemat=87.50%",
+      note: {
+        title: "🚨 Mitos: 'distilasi = ganti model besar dengan yang kecil, selesai'",
+        type: "pitfall",
+        body: "Yang benar: distilasi tanpa parity gate pada golden set adalah penurunan kualitas yang tidak terukur. Murid hanya boleh melayani trafik setelah membuktikan selisih skor di bawah 2 poin pada golden set yang SAMA — dan trace latihnya harus bersih dari PII/secret. Murah tanpa gerbang = murah yang berbahaya.",
+      },
+      hints: [
+        "Biaya per request: besar Rp96, kecil Rp6 (dari Langkah 2). Baseline 500.000 request = Rp48jt.",
+        "Batch = 50% dari baseline. Distilasi = 500.000 x (0,8x6 + 0,2x96) / 1e6.",
+        "Gabung = distilasi x 50%; hemat_pct = (48 - gabung) / 48 x 100.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+req = 500_000
+c_besar, c_kecil = 96, 6     # Rp per request (mock, dari Langkah 2)
+base_jt = req * c_besar / 1e6   # Rp48 jt
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: Batch API, distilasi, gabungan
+batch_jt = 
+distill_jt = 
+gabung_jt = 
+hemat_pct = 
+
+print(f"base={base_jt:.1f}jt  batch={batch_jt:.1f}jt  distill={distill_jt:.1f}jt  gabung={gabung_jt:.1f}jt  hemat={hemat_pct:.2f}%")`,
+        lockLines: 4,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+req = 500_000
+c_besar, c_kecil = 96, 6     # Rp per request (mock, dari Langkah 2)
+base_jt = req * c_besar / 1e6   # Rp48 jt
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: Batch API, distilasi, gabungan
+batch_jt = base_jt * 0.5
+distill_jt = req * (0.8 * c_kecil + 0.2 * c_besar) / 1e6
+gabung_jt = distill_jt * 0.5
+hemat_pct = (base_jt - gabung_jt) / base_jt * 100
+
+print(f"base={base_jt:.1f}jt  batch={batch_jt:.1f}jt  distill={distill_jt:.1f}jt  gabung={gabung_jt:.1f}jt  hemat={hemat_pct:.2f}%")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "name": "batch_jt",
+            "value": 24.0,
+            "tol": 1e-9,
+            "label": "`batch_jt` seharusnya 24.0",
+            "msg": "50% dari Rp48jt = Rp24jt — model sama, hanya penjadwalan menunda.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "name": "distill_jt",
+            "value": 12.0,
+            "tol": 1e-9,
+            "label": "`distill_jt` seharusnya 12.0",
+            "msg": "500.000 x Rp24 = Rp12jt (routing 80/20 kecil/besar).",
+          },
+          {
+            "kind": "equal",
+            "task": "t3",
+            "name": "gabung_jt",
+            "value": 6.0,
+            "tol": 1e-9,
+            "label": "`gabung_jt` seharusnya 6.0",
+            "msg": "Distilasi + Batch API: Rp12jt x 50% = Rp6jt.",
+          },
+          {
+            "kind": "equal",
+            "task": "t3",
+            "name": "hemat_pct",
+            "value": 87.5,
+            "tol": 0.01,
+            "label": "`hemat_pct` seharusnya 87.50",
+            "msg": "(48 - 6)/48 x 100 = 87,50%.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "pattern": "base=48\\.0jt\\s+batch=24\\.0jt\\s+distill=12\\.0jt\\s+gabung=6\\.0jt\\s+hemat=87\\.50%",
+            "label": "`print` menampilkan keempat angka",
+            "msg": "Samakan formatnya dengan Hasil yang diharapkan.",
+          },
+        ],
+      },
+      reference: "Batch API untuk beban non-interaktif (diskon ~50%); distilasi + parity gate < 2 poin di golden set; gabungan keduanya untuk evaluasi offline. Teknik distilasi: MLE11.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -208,6 +312,7 @@ export const llmops6: V2Lesson = {
         "Ukur biaya per request per fitur — bukan tagihan total — agar keputusan bisnis konkret.",
         "Optimasi selektif (query sepele, cache) tidak menurunkan kualitas query kompleks.",
         "Budget guardrail: alert 80%, throttle 100%, per fitur sesuai prioritas bisnis.",
+        "Batch API (~50% lebih murah, ilustratif) untuk beban non-interaktif; distilasi + parity gate di bawah 2 poin untuk trafik rutin — gabungan keduanya hemat 87,5% pada evaluasi offline.",
       ],
       next: { label: "LLMOps7 — Observability", href: "/learn/llmops7-observability" },
       quiz: [
@@ -263,6 +368,15 @@ export const llmops6: V2Lesson = {
             { text: "Naikkan harga ke user 30% juga agar margin kembali", why: "Menaikkan harga 30% tanpa perbaikan nilai = churn massal. ARPU naik di spreadsheet, turun di dunia nyata." },
             { text: "Pindah ke model termurah yang ada, kualitas nomor dua", why: "Model termurah tanpa breakdown = memotong 10% sambil mengabaikan 39% yang bocor di output. Ukur dulu, potong yang terbesar dulu." },
             { text: "Tidak apa-apa — margin masih positif Rp16 juta", why: "Margin 6,4% dengan satu vendor sebagai single point of failure = hidup di tepi jurang. Satu insiden + satu kenaikan harga = rugi." },
+          ],
+        },
+        {
+          q: "Evaluasi golden set 500.000 request (ilustratif): sinkron Rp48 juta. Mana strategi TEPAT dan berapa biayanya?",
+          options: [
+            { text: "Batch API + model hasil distilasi: Rp6 juta (hemat 87,5%) — evaluasi tidak butuh jawaban sekarang dan murid lolos parity gate", why: "Tepat: distilasi Rp12jt, batch 50% lagi = Rp6jt. Dua syarat terpenuhi: beban non-interaktif + parity gate di bawah 2 poin.", correct: true },
+            { text: "Batch API untuk chatbot interaktif: Rp24 juta", why: "Salah beban: chatbot interaktif tidak bisa menunggu 24 jam. Batch hanya untuk evaluasi/backfill/scoring terjadwal." },
+            { text: "Distilasi tanpa parity gate: Rp12 juta", why: "Tanpa parity gate, hemat Rp36jt bisa berarti kualitas turun tanpa terukur — gerbang tidak boleh dilewati." },
+            { text: "Tetap sinkron model besar: Rp48 juta — paling aman", why: "Aman tetapi boros: Rp42jt lebih mahal untuk jawaban yang sama dari beban yang tidak butuh latensi." },
           ],
         },
       ],

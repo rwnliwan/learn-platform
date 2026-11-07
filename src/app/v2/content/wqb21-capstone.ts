@@ -23,7 +23,7 @@ export const wqb21: V2Lesson = {
   slug: "wqb21-capstone",
   track: "WorldQuant Brain",
   module: "Strategi Riset Alpha",
-  title: "WQB21 — Capstone: Membaca Satu Paket Wave & Memutuskan",
+  title: "WQB21 — Capstone Tengah (Review Wave): Membaca Satu Paket Wave & Memutuskan",
   estMinutes: 60,
   steps: [
     {
@@ -35,6 +35,7 @@ export const wqb21: V2Lesson = {
         "Analis termuda mengangkat tangan: 'Kita tidak memutuskan 100 hal. Kita menjalankan 4 saringan.' Triage: buang yang gagal gerbang. Penalti: tandai yang turnover-nya boros. Klaster: kelompokkan yang sekeluarga. Ekonomi: tanyakan untuk tiap yang lolos — submit sekarang untuk apa? Pukul 23.00 daftarnya selesai: 9 submit, 21 tahan, 70 buang — tiap baris satu kalimat.",
         "Twist-nya: keputusan tersulit malam itu BUKAN yang dibuang — melainkan satu kandidat Sharpe 2,6 yang 'ditahan'. Semua orang ingin mensubmitnya. Saringannya berkata: turnover 58%, klaster-nya sudah punya 2 anggota disubmit. Menahannya terasa seperti membuang uang. Tiga minggu kemudian klaster itu gagal self-corr — dan 'uang yang dibuang' itu ternyata biaya yang tidak jadi dikeluarkan.",
         "Capstone ini = malam itu, versi latihan. Kamu mendapat paket 12 kandidat. Terapkan 4 saringan. Hasilkan daftar submit/tahan/buang. Setelah lesson ini kamu bisa: (1) menjalankan triage berlapis pada paket hasil; (2) menerapkan penalti turnover & logika klaster; (3) menyusun rencana '2 Excellent per hari'; (4) menulis satu kalimat alasan per keputusan; (5) menjelaskan kapan menahan yang bagus adalah keputusan benar.",
+        "Penanda jujur: ini CAPSTONE TENGAH (review wave) — bukan penutup track. Ia hanya memakai materi WQB11–19; materi submit dan produksi (margin, OS/decay, tipe submit ATOM/pyramid/power pool, portofolio, SuperAlpha) baru datang di WQB22–29 dan diuji di capstone akhir WQB30. Menyelesaikan lesson ini berarti menyelesaikan separuh jalan, bukan garis finis.",
       ],
       tasks: [],
       note: {

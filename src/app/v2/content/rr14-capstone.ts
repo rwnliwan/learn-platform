@@ -40,7 +40,7 @@ export const rr14: V2Lesson = {
   track: "Risk Reporting",
   module: "Operasi & Regulasi",
   title: "RR14 — Capstone: Paket Laporan Bulanan CRO",
-  estMinutes: 60,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita",
@@ -236,11 +236,79 @@ export const rr14: V2Lesson = {
       reference: "Setiap angka: jawaban 1 menit. Dokumentasi + tren/posisi + lineage.",
     },
     {
+      id: "dashboard-portofolio",
+      eyebrow: "Tambahan · RP-C5",
+      title: "Dashboard portofolio kredit: satu layar, seluruh portofolio",
+      prose: [
+        "Paket CRO di lesson ini sejauh ini merujuk dashboard dari RR7 — tetapi capstone yang lengkap harus MEMBANGUN dashboardnya sendiri. Dashboard portofolio kredit adalah satu layar yang menjawab empat pertanyaan dalam 10 detik: berapa besar tiap segmen, berapa NPL-nya, berapa coverage-nya, dan segmen mana yang paling bermasalah. Empat angka, tanpa scroll.",
+        "Data ilustratif (Rp miliar): Korporasi total 4.000 dengan bermasalah 96 → NPL 2,40 persen. UKM total 3.500 dengan bermasalah 140 → NPL 4,00 persen. Konsumer total 2.500 dengan bermasalah 50 → NPL 2,00 persen. Total portofolio 10.000 dengan bermasalah 286 → NPL 2,86 persen. CKPN 240 → coverage 240 dibagi 286 = 83,9 persen. Segmen terburuk: UKM (4,00 persen) — dan itu yang pertama dibahas di komite, bukan yang terbesar.",
+        "Aturan desain dashboard (dari RR7): satu headline (NPL total + status vs batas), tiga driver (NPL per segmen), satu aksi (tindak lanjut untuk segmen terburuk). Yang TIDAK boleh ada: 12 chart sekaligus, angka tanpa batas pembanding, dan warna merah yang dipakai untuk hal yang biasa. Dashboard yang baik membuat CRO bertanya satu pertanyaan yang tepat — bukan sepuluh pertanyaan yang bingung.",
+      ],
+      formula: String.raw`\text{NPL}_{\text{segmen}} = \frac{\text{Bermasalah}_{\text{segmen}}}{\text{Total}_{\text{segmen}}} \times 100\% \quad ; \quad \text{Coverage} = \frac{\text{CKPN}}{\text{Bermasalah}_{\text{total}}} \times 100\%`,
+      formulaNote: "Semua angka ilustratif (Rp miliar): Korporasi 96/4.000 = 2,40%; UKM 140/3.500 = 4,00%; Konsumer 50/2.500 = 2,00%; total 286/10.000 = 2,86%; coverage 240/286 = 83,9%. Interpretasi: UKM segmen terburuk; coverage di bawah 100% berarti tidak semua kredit bermasalah tertutup cadangan.",
+      tasks: [
+        { id: "t1", text: "Hitung `npl` per segmen, `npl_total`, `coverage`, dan `terburuk`" },
+        { id: "t2", text: "Cetak ringkasan dashboard satu baris" },
+      ],
+      expected: "Dashboard: NPL total 2.86% | Coverage 83.9% | Terburuk: UKM 4.00%",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Segmen terbesar = segmen yang paling diperhatikan.” Bukan — yang diperhatikan adalah segmen TERBURUK (UKM 4,00 persen), bukan yang terbesar (Korporasi 4.000). Dashboard mengurutkan berdasarkan risiko, bukan berdasarkan ukuran.",
+      },
+      hints: [
+        "npl segmen = bermasalah / total * 100 untuk tiap segmen.",
+        "npl_total = jumlah bermasalah / jumlah total * 100; coverage = 240 / 286 * 100.",
+        "terburuk = segmen dengan NPL tertinggi.",
+      ],
+      code: {
+        starter: `# Data ilustratif (Rp miliar). JANGAN UBAH baris ini.\nsegmen = {"Korporasi": (4000, 96), "UKM": (3500, 140), "Konsumer": (2500, 50)}\nckpn = 240\n\n# TULIS KODEMU: dashboard portofolio\nnpl = {}\nfor nama, (total, bermasalah) in segmen.items():\n    npl[nama] = \nnpl_total = \ncoverage = \nterburuk = \n\nprint(f"Dashboard: NPL total {npl_total:.2f}% | Coverage {coverage:.1f}% | Terburuk: {terburuk} {npl[terburuk]:.2f}%")`,
+        lockLines: 2,
+        solution: `# Data ilustratif (Rp miliar). JANGAN UBAH baris ini.\nsegmen = {"Korporasi": (4000, 96), "UKM": (3500, 140), "Konsumer": (2500, 50)}\nckpn = 240\n\n# TULIS KODEMU: dashboard portofolio\nnpl = {}\nfor nama, (total, bermasalah) in segmen.items():\n    npl[nama] = bermasalah / total * 100\nnpl_total = sum(v[1] for v in segmen.values()) / sum(v[0] for v in segmen.values()) * 100\ncoverage = ckpn / sum(v[1] for v in segmen.values()) * 100\nterburuk = max(npl, key=npl.get)\n\nprint(f"Dashboard: NPL total {npl_total:.2f}% | Coverage {coverage:.1f}% | Terburuk: {terburuk} {npl[terburuk]:.2f}%")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "npl", value: {"Korporasi": 2.4, "UKM": 4.0, "Konsumer": 2.0}, label: "`npl` per segmen benar", msg: "Korporasi 2,40%; UKM 4,00%; Konsumer 2,00%." },
+          { kind: "equal", task: "t1", name: "npl_total", value: 2.86, tol: 0.01, label: "`npl_total` = 2.86", msg: "286 / 10.000 × 100 = 2,86%." },
+          { kind: "equal", task: "t1", name: "coverage", value: 83.91608391608392, tol: 0.05, label: "`coverage` sekitar 83.9", msg: "240 / 286 × 100 = 83,9%." },
+          { kind: "equal", task: "t1", name: "terburuk", value: "UKM", label: "`terburuk` = UKM", msg: "UKM 4,00% adalah NPL segmen tertinggi." },
+          { kind: "stdout_matches", task: "t2", pattern: "Dashboard: NPL total 2\\.86% \\| Coverage 83\\.9% \\| Terburuk: UKM 4\\.00%", label: "Ringkasan dashboard tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Dashboard = headline + driver per segmen + aksi untuk segmen terburuk.",
+    },
+    {
+      id: "pipeline-terjadwal",
+      eyebrow: "Tambahan · RP-C5",
+      title: "Pipeline terjadwal: paket yang terbit sendiri (dengan gerbang)",
+      prose: [
+        "Paket CRO yang baik tidak bergantung pada satu analis yang ingat mengirimnya — ia berjalan sebagai PIPELINE TERJADWAL: pekerjaan yang dieksekusi sistem pada jam yang sama setiap periode, dengan gerbang QA otomatis di tengahnya. Jadwal contoh (ilustratif, untuk paket bulanan): 06:00 extract — tarik data dari core banking dan warehouse dengan as-of akhir bulan; 06:30 transform + rekonsiliasi — hitung metrik dan jalankan query rekonsiliasi (lihat RR33); 07:00 gerbang QA — lima gerbang capstone (rekonsiliasi, angka yatim, kamus, tanggal, positivitas) berjalan sebagai kode; 07:30 terbit — paket terkirim ke CRO bila SEMUA gerbang lolos.",
+        "Yang membuat pipeline ini aman bukan jadwalnya, melainkan gerbangnya: bila satu gerbang gagal jam 07:00, pipeline BERHENTI dan mengirim alert ke analis — bukan menerbitkan paket yang meragukan tepat waktu. 'Terbit tepat waktu' tidak pernah mengalahkan 'terbit dengan benar'. Inilah bedanya dengan otomasi di RR8: RR8 mengotomasi LANGKAH, pipeline terjadwal mengotomasi KESELURUHAN dengan akuntabilitas — tiap run tercatat (jam mulai, jam selesai, gerbang yang lolos/gagal) sebagai audit trail.",
+        "Tiga keputusan desain yang harus tertulis di dokumentasi pipeline: (1) JAM CUT-OFF — data setelah jam berapa tidak ikut paket bulan ini (menghindari as-of yang bergeser); (2) PEMILIK ON-CALL — siapa yang menerima alert gerbang gagal (nama + nomor, bukan 'tim'); (3) RENCANA B — bila pipeline gagal total (misalnya ETL tidak jalan), siapa yang menghitung manual dan berapa lama tenggatnya. Pipeline tanpa ketiganya adalah otomasi yang rapuh: cepat saat berhasil, lumpuh saat gagal.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Pipeline terjadwal tanpa gerbang = pabrik yang memproduksi laporan salah dengan kecepatan tinggi. Gerbang QA adalah remnya — dan rem yang bisa dilepas dari jarak jauh bukan rem.",
+      },
+      quiz: [
+        {
+          q: "Gerbang QA gagal jam 07:00 pada pipeline terjadwal paket CRO. Tindakan yang benar?",
+          options: [
+            { text: "Terbitkan saja — CRO menunggu jam 07:30", why: "Salah: terbit tepat waktu tidak mengalahkan terbit dengan benar." },
+            { text: "Pipeline berhenti, alert ke analis on-call, paket ditahan sampai gerbang diperbaiki", why: "Benar: gerbang yang gagal = TAHAN; audit trail mencatat run yang gagal.", correct: true },
+            { text: "Lewati gerbang yang gagal dan terbitkan tanpa catatan", why: "Salah: gerbang yang dilewati diam-diam = gerbang yang tidak ada." },
+            { text: "Ulangi pipeline dari awal tanpa memeriksa penyebab gagal", why: "Salah: mengulang tanpa diagnosis hanya mengulang kegagalan — dan menyembunyikan penyebabnya." },
+          ],
+        },
+      ],
+      reference: "Jadwal: 06:00 extract → 06:30 transform+rekonsiliasi → 07:00 gerbang QA → 07:30 terbit bila lolos.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu — dan selamat!",
       prose: [
-        "Lima pertanyaan terakhir track ini. Setelah ini: kembali ke kurikulum, dan bangun satu paket nyata di kantormu.",
+        "Lima pertanyaan penutup capstone ini. Setelah ini: kembali ke kurikulum, dan bangun satu paket nyata di kantormu.",
       ],
       tasks: [],      note: {
         title: "Intuisi",
@@ -248,6 +316,9 @@ export const rr14: V2Lesson = {
       },
 
       summary: [
+        "Catatan jalur: lesson setelah capstone ini (RR15 dan seterusnya) adalah modul lanjutan opsional — capstone ini sudah menutup rangkaian inti RR1–RR14.",
+        "Pipeline terjadwal: 06:00 extract → 06:30 transform → 07:00 gerbang QA → 07:30 terbit bila lolos.",
+        "Dashboard portofolio kredit: NPL total 2,86%, coverage 83,9%, segmen terburuk UKM 4,00% (ilustratif).",
         "Capstone = 13 lesson dalam 1 paket: bersih → hitung → nilai → gambar → cerita → paket.",
         "70% waktu di bersih + hitung; dokumentasikan setiap pembersihan.",
         "Tren ≠ posisi: laporkan keduanya (MoM −0,1pp tetapi WASPADA).",

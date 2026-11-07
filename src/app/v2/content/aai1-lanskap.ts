@@ -24,7 +24,7 @@ export const aai1: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Fondasi Agen",
   title: "AAI1 — Dari Chatbot ke Agen",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -172,7 +172,63 @@ export const aai1: V2Lesson = {
         type: "risk",
         body: "Dalam risk reporting, biaya kesalahan bukan linear. Satu angka salah di laporan risiko bisa memicu keputusan limit yang salah — expected loss-nya = P(lolos) × dampak. Agen menurunkan P(lolos) lewat verifikasi tool, bukan lewat \u201Clebih pintar\u201D.",
       },
+    },    {
+      id: "lab-rantai-dua-desain",
+      eyebrow: "Langkah 6 · Lab rantai peluang",
+      title: "Lab: dua desain, satu rantai — berapa selisihnya?",
+      prose: [
+        "Desain D (agen Dina hari ini): P(rencana)=0,8, P(tool)=0,9, P(verifikasi)=0,95. Desain E (tambah sumber ketiga untuk verifikasi): P(verifikasi) naik ke 0,99, sisanya sama. Tugasmu: hitung P(berhasil) keduanya dan selisihnya — lalu jawab: apakah kenaikan 3 poin itu sepadan dengan biaya sumber ketiga?",
+        "Ingat pelajaran Langkah 2: perkalian membuat perbaikan di mata terlemah paling berharga — tetapi di sini mata terlemahnya bukan verifikasi (0,95 sudah tinggi), melainkan rencana (0,8). Hitung dulu, baru berdebat.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `p_d` dan `p_e` (P berhasil tiap desain, 3 desimal)" },
+        { id: "t2", text: "Hitung `selisih` = p_e - p_d dan cetak ketiganya" },
+      ],
+      expected: "p_d=0.684\np_e=0.713\nselisih=0.029",
+      note: {
+        title: "💡 Intuisi",
+        body: "Selisihnya hanya 0,029 — karena rantai dikali, menaikkan mata yang sudah 0,95 ke 0,99 hanya menambah sedikit. Bila sumber ketiga berharga Rp12.756/bulan (AAI1), keputusan membelinya harus membandingkan 0,029 dengan harga itu — bukan dengan perasaan.",
+      },
+      hints: [
+        "p = p_rencana * p_tool * p_verifikasi.",
+        "Bulatkan 3 desimal: round(x, 3).",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+P_RENCANA, P_TOOL = 0.8, 0.9
+P_VER_D, P_VER_E = 0.95, 0.99
+
+# TULIS KODEMU
+p_d = ...
+p_e = ...
+selisih = ...
+
+print(f"p_d={p_d:.3f}")
+print(f"p_e={p_e:.3f}")
+print(f"selisih={selisih:.3f}")`,
+        lockLines: 5,
+        solution: `# DATA — jangan diubah
+P_RENCANA, P_TOOL = 0.8, 0.9
+P_VER_D, P_VER_E = 0.95, 0.99
+
+# TULIS KODEMU
+p_d = round(P_RENCANA * P_TOOL * P_VER_D, 3)
+p_e = round(P_RENCANA * P_TOOL * P_VER_E, 3)
+selisih = round(p_e - p_d, 3)
+
+print(f"p_d={p_d:.3f}")
+print(f"p_e={p_e:.3f}")
+print(f"selisih={selisih:.3f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "p_d", value: 0.684, tol: 0.001, label: "`p_d` = 0.684", msg: "0,8 x 0,9 x 0,95 = 0,684." },
+          { kind: "equal", task: "t1", name: "p_e", value: 0.713, tol: 0.001, label: "`p_e` = 0.713", msg: "0,8 x 0,9 x 0,99 = 0,7128 -> 0,713." },
+          { kind: "equal", task: "t2", name: "selisih", value: 0.029, tol: 0.001, label: "`selisih` = 0.029", msg: "0,713 - 0,684 = 0,029." },
+          { kind: "stdout_matches", task: "t2", pattern: "p_d=0\\.684\\np_e=0\\.713\\nselisih=0\\.029", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Rantai dikali: perbaikan di mata yang sudah kuat menambah sedikit.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -188,7 +244,7 @@ export const aai1: V2Lesson = {
         "Tidak semua tugas butuh agen: 1 langkah → chatbot; deterministik → skrip; tak pasti + verifikasi → agen.",
         "Kecepatan tanpa verifikasi memindahkan biaya ke klarifikasi — hitung total cost, bukan waktu mentah.",
       ],
-      next: { label: "AAI2 — Anatomi Agen", href: "/learn/aai2-anatomi" },
+      next: { label: "AAI18 — Fondasi API LLM untuk Agen", href: "/learn/aai18-fondasi-api-llm" },
       quiz: [
         {
           q: "Apa pembeda UTAMA agen dari chatbot?",
@@ -233,6 +289,24 @@ export const aai1: V2Lesson = {
             { text: "Ia mengoptimalkan kalimat yang meyakinkan, bukan tugas yang benar", why: "Tepat. Tanpa tujuan, tools, dan verifikasi, ia \u201Cberhasil\u201D pada metrik yang salah.", correct: true },
             { text: "Ia terlalu lambat menjawab", why: "Ia justru terlalu cepat — 30 detik tanpa verifikasi.", },
             { text: "Ia menolak menjawab pertanyaan", why: "Sebaliknya: ia menjawab dengan percaya diri meski datanya basi.", },
+          ],
+        },
+        {
+          q: "Desain D: 0,8 x 0,9 x 0,95 = 0,684. Desain E menaikkan verifikasi ke 0,99. P(berhasil) E dan selisihnya?",
+          options: [
+            { text: "0,713 — selisih 0,029", why: "Benar: 0,8 x 0,9 x 0,99 = 0,7128. Perbaikan kecil karena verifikasi sudah kuat — mata terlemahnya rencana (0,8).", correct: true },
+            { text: "0,99 — mengikuti mata terkuat", why: "Rantai dikali, bukan mengikuti yang tertinggi.", },
+            { text: "0,684 — tidak berubah", why: "Berubah: verifikasi naik 0,04 poin, hasilnya naik 0,029.", },
+            { text: "1,00 — verifikasi sempurna berarti sistem sempurna", why: "Verifikasi 0,99 bukan 1,00 — dan dua mata lain tetap di bawah 1.", },
+          ],
+        },
+        {
+          q: "Mata rantai mana yang paling berharga diperbaiki bila P(rencana)=0,8, P(tool)=0,9, P(verifikasi)=0,95?",
+          options: [
+            { text: "Verifikasi — naikkan ke 0,99", why: "Itu hanya menambah 0,029 — mata yang sudah kuat.", },
+            { text: "Rencana — mata terlemah (0,8); tiap poin di sana mengalikan seluruh rantai", why: "Benar: perkalian membuat perbaikan di mata terlemah paling berharga.", correct: true },
+            { text: "Tool — karena di tengah", why: "Posisi di rantai tidak menentukan — nilainya yang menentukan.", },
+            { text: "Ketiganya sama berharganya", why: "Tidak: turunan P(berhasil) terhadap tiap faktor berbeda — terhadap rencana 0,855, terhadap verifikasi 0,72.", },
           ],
         },
       ],

@@ -7,7 +7,7 @@ export const bcd16: V2Lesson = {
   track: "Blockchain Data Scientist",
   module: "Analisis Lanjutan",
   title: "BCD16 — Stablecoin Analytics: Mengukur Kapan 'Stabil' Goyah",
-  estMinutes: 64,
+  estMinutes: 74,
   steps: [
     {
       id: "cerita",
@@ -235,6 +235,62 @@ export const bcd16: V2Lesson = {
       reference: "Kenali relnya dulu: siapa penerbit, siapa melihat datanya — baru baca angkanya.",
     },
     {
+      id: "rwa-cbdc-pendalaman",
+      eyebrow: "Tambahan · BC15",
+      title: "RWA & CBDC, diperdalam: tiga pertanyaan yang belum terjawab",
+      prose: [
+        "Langkah RWA (langkah 8) memberi lima pertanyaan analis; pendalaman ini menambah tiga yang paling sering dilupakan. Enam: HAK SAAT GAGAL BAYAR — bila penerbit bangkrut, apakah pemegang token berdiri sejajar kreditor lain, atau di belakang mereka? Jawabannya ada di dokumen hukum, bukan di whitepaper. Tujuh: GERBANG PENEBUSAN (redemption gate) — bisakah token ditukar kembali ke aset dasar kapan pun, atau hanya pada jendela tertentu, dengan biaya berapa? Token yang tidak bisa ditebus adalah klaim yang tidak bisa diuji. Delapan: KEDALAMAN PASAR SEKUNDER — berapa pembeli yang benar-benar ada bila kamu menjual besok? Token RWA dengan 3 pemegang dan 0 transaksi sebulan tidak likuid, betapa pun rapi dasbornya.",
+        "CBDC (langkah 9) juga layak diperdalam lewat dua sumbu. Sumbu pertama: RITEL vs WHOLESALE. CBDC ritel dipakai publik sehari-hari (pengganti uang tunai digital — dompet di ponsel); CBDC wholesale hanya dipakai bank dan lembaga keuangan untuk penyelesaian antar bank (pengganti rekening cadangan). Keduanya bernama sama, fungsinya berbeda — analis yang mencampuradukkan sedang membandingkan dompet dengan kliring. Sumbu kedua: DISTRIBUSI DUA LAPIS (two-tier) — bank sentral menerbitkan ke bank komersial, bank komersial mendistribusikan ke publik; bank sentral tidak berhadapan langsung dengan jutaan pengguna. Model ini menjaga peran bank komersial — dan menjaga bank sentral dari keharusan menjadi bank ritel untuk seluruh negeri.",
+        "Satu ketegangan yang harus ditulis apa adanya: CBDC ritel memberi bank sentral VISIBILITAS transaksi yang belum pernah ada (setiap pembayaran tercatat di sistemnya) — di situlah nilai risetnya (data pembayaran real-time yang lengkap) dan di situlah kekhawatiran privasinya. Analis tidak menyelesaikan ketegangan itu; analis MENDOKUMENTASIKANNYA: siapa bisa melihat apa, data disimpan berapa lama, dan apa batas penggunaannya. Bila dokumen desain CBDC tidak menjawab ketiganya, itu temuan — bukan detail teknis.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "“RWA ini aman karena aset dasarnya properti.” Properti tidak menjawab tiga pertanyaan pendalaman: hak saat gagal bayar, gerbang penebusan, dan kedalaman pasar sekunder. Aset dasar yang bagus dengan struktur klaim yang buruk tetap klaim yang buruk.",
+      },
+      quiz: [
+        {
+          q: "Tiga pertanyaan pendalaman RWA yang ditambahkan langkah ini?",
+          options: [
+            { text: "Harga token, jumlah pemegang, dan volume harian", why: "Salah: itu metrik pasar — bukan pertanyaan struktur klaim." },
+            { text: "Hak saat gagal bayar, gerbang penebusan, dan kedalaman pasar sekunder", why: "Benar: ketiganya menentukan apakah klaim token bisa ditegakkan dan dijual.", correct: true },
+            { text: "Nama penerbit, nama kustodian, dan nama auditor", why: "Salah: itu lima pertanyaan langkah 8 — pendalaman ini menambah tiga yang berbeda." },
+            { text: "Blockchain yang dipakai, bahasa kontrak, dan biaya gas", why: "Salah: itu teknis rantai — bukan struktur klaim atas aset dasar." },
+          ],
+        },
+      ],
+      reference: "RWA: + hak gagal bayar, gerbang penebusan, pasar sekunder. CBDC: ritel vs wholesale, distribusi dua lapis.",
+    },
+    {
+      id: "stablecoin-payment",
+      eyebrow: "Tambahan · BC15",
+      title: "Stablecoin sebagai alat bayar: remittance, merchant, dan risikonya",
+      prose: [
+        "Lesson ini sejauh ini membahas stablecoin sebagai ASET yang dianalisis (depeg, mint/redeem) — tetapi stablecoin juga dipakai sebagai ALAT BAYAR, dan itu use case yang layak dipahami analis. Tiga pola pembayaran. Satu: REMITTANCE — pekerja migran mengirim uang ke keluarga lintas negara: stablecoin berpindah dompet-ke-dompet dalam hitungan menit, tanpa perantara koresponden berantai. Dua: MERCHANT SETTLEMENT — pedagang menerima pembayaran dalam stablecoin dan mengonversinya ke mata uang lokal; penyelesaian yang tadinya T+2 menjadi hampir seketika. Tiga: PEMBAYARAN B2B & PAYROLL — perusahaan membayar vendor atau karyawan lintas negara tanpa menunggu kliring bank.",
+        "Contoh ilustratif (BUKAN tarif resmi — angka contoh untuk latihan banding): mengirim 1.000 USD lintas negara — jalur stablecoin contoh: biaya 1 USD dan tiba dalam hitungan menit; jalur koresponden tradisional contoh: biaya 25 USD dan tiba dalam 1–3 hari. Selisihnya nyata TETAPI bukan keseluruhan cerita: biaya konversi ke mata uang lokal di ujung penerima, spread saat membeli stablecoin, dan risiko depeg selama pengiriman (lihat langkah depeg lesson ini) harus masuk hitungan. Analis yang hanya membandingkan '1 vs 25' sedang membandingkan harga brosur, bukan biaya total.",
+        "Tiga risiko pembayaran yang harus dicatat di laporanmu. Satu: DEPEG SAAT TRANSIT — stablecoin yang melemah 2 persen selama pengiriman memakan seluruh penghematan biaya. Dua: KUSTODI & KUNCI — penerima yang kehilangan kunci kehilangan dananya; tidak ada 'lupa password, reset' (lihat BCD30 soal manajemen kunci). Tiga: REGULASI & JEJAK — pembayaran stablecoin meninggalkan jejak on-chain yang permanen dan bisa dilacak (lihat BCD25 soal kerangka Indonesia + Travel Rule): kemudahan pembayaran dan kemudahan pelacakan adalah dua sisi koin yang sama. Data yang bisa dihitung analis: volume transfer on-chain yang diklasifikasi sebagai pembayaran (bukan trading) — dibedakan dari pola alamat dan nilainya, bukan dari klaim penerbit.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Biaya kirim stablecoin 1 USD vs bank 25 USD — jelas lebih murah.” Belum tentu: tambah biaya konversi di kedua ujung + spread + risiko depeg selama transit. Biaya total, bukan biaya satu kaki, yang dibandingkan.",
+      },
+      quiz: [
+        {
+          q: "Mengapa perbandingan 'biaya kirim 1 USD vs 25 USD' belum cukup untuk menilai stablecoin payment?",
+          options: [
+            { text: "Karena 1 USD terlalu murah untuk dipercaya", why: "Salah: murahnya bukan masalah — biaya yang BELUM dihitunglah masalahnya." },
+            { text: "Karena biaya konversi, spread, dan risiko depeg selama transit belum masuk hitungan", why: "Benar: biaya total = kirim + konversi + spread + risiko depeg; satu kaki bukan total.", correct: true },
+            { text: "Karena stablecoin tidak bisa dipakai lintas negara", why: "Salah: justru lintas negara adalah use case utamanya (remittance)." },
+            { text: "Karena bank tidak pernah membebankan biaya", why: "Salah: bank koresponden memang membebankan biaya dan waktu T+1–T+3." },
+          ],
+        },
+      ],
+      reference: "Stablecoin payment: remittance, merchant, B2B — nilai dari biaya TOTAL + kecepatan + risiko depeg/kustodi.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -300,6 +356,8 @@ export const bcd16: V2Lesson = {
         },
       ],
       summary: [
+        "Stablecoin payment: remittance, merchant, B2B — nilai dari biaya total, bukan satu kaki.",
+        "RWA diperdalam: hak gagal bayar, gerbang penebusan, pasar sekunder. CBDC: ritel vs wholesale, distribusi dua lapis.",
         "Peg = keyakinan + mekanisme redeem, bukan properti token; goyahnya diukur, bukan ditebak.",
         "Triplet depeg: deviasi (D=(P−1)×100%), durasi (periode berurutan > ambang θ), kedalaman + bentuk; θ selalu eksplisit.",
         "Benchmark S&P (2021–2023): USDC < $0,90 selama 23 mnt, DAI 20 mnt; USDT < $0,95 hanya 1 mnt; BUSD tak pernah < $0,975.",

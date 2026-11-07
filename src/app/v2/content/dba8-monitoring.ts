@@ -19,7 +19,7 @@ export const dba8: V2Lesson = {
   track: "Database Administrator",
   module: "Keandalan & Performa",
   title: "DBA8 — Monitoring & Alerting",
-  estMinutes: 50,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita-alert-fatigue",
@@ -197,6 +197,35 @@ export const dba8: V2Lesson = {
       tasks: [],
     },
     {
+      id: "tooling-monitoring",
+      eyebrow: "Tambahan · DB9",
+      title: "Tooling bernama: Prometheus, Grafana, dan pg_stat_statements",
+      prose: [
+        "Lesson ini sejauh ini mengajarkan DESAIN monitoring (metrik apa, ambang berapa) tanpa menyebut alatnya — sekarang alatnya. PROMETHEUS adalah pengumpul metrik: ia mengambil (scrape) metrik dari database secara berkala — misalnya lewat postgres_exporter — dan menyimpannya sebagai deret waktu. Kamu bertanya padanya dengan PromQL ('berapa persen koneksi terpakai dalam 5 menit terakhir?') dan ia menjawab dari data yang ia kumpulkan sendiri. Tanpa Prometheus (atau sejenisnya), metrikmu hanya ada saat kamu melihatnya — tidak ada sejarah, tidak ada tren.",
+        "GRAFANA adalah wajahnya: dashboard yang membaca deret waktu Prometheus dan menggambarnya — enam metrik dari langkah 3 lesson ini menjadi enam panel, lengkap dengan ambang (garis merah di 85 persen koneksi) dan alert (bila melewati ambang 5 menit, kirim ke on-call). Grafana juga yang menampilkan ANOMALI: grafik yang naik perlahan selama dua minggu (bloat yang tumbuh, disk yang menipis) jauh lebih mudah dilihat sebagai garis daripada sebagai angka di log.",
+        "PG_STAT_STATEMENTS adalah mata di dalam database: ekstensi Postgres yang mencatat statistik tiap query — berapa kali dipanggil, total waktu eksekusi, rata-rata waktu, dan berapa baris dikembalikan. Contoh ilustratif: satu query dengan rata-rata 850 ms dipanggil 12.000 kali → total 10.200 detik = 2,83 jam waktu eksekusi. Query itu — bukan query yang paling lambat sekali jalan — yang pertama diselidiki: ia memakan jam CPU setiap hari. Urutan kerjanya: pg_stat_statements menemukan query-nya, EXPLAIN ANALYZE (DBA6) menjelaskan mengapa ia lambat, dan indeks atau penulisan ulang memperbaikinya.",
+        "Ketiganya membentuk rantai: pg_stat_statements menemukan APA yang lambat, Prometheus mencatat KAPAN dan SEBERAPA PARAH, Grafana menampilkan dan MEMPERINGATKAN. Tanpa rantai ini, monitoring adalah enam metrik di atas kertas; dengan rantai ini, monitoring adalah sistem yang bekerja saat kamu tidur.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Query paling lambat = query yang paling bermasalah.” Belum tentu — query 10 detik yang jalan sekali seminggu kalah penting dari query 850 ms yang jalan 12.000 kali (total 2,83 jam). Urutkan berdasarkan TOTAL waktu (mean × calls), bukan berdasarkan satu eksekusi terlama.",
+      },
+      quiz: [
+        {
+          q: "Query A: rata-rata 850 ms × 12.000 panggilan. Query B: 10 detik × 3 panggilan. Mana yang diselidiki dulu, dan mengapa?",
+          options: [
+            { text: "Query B — 10 detik jauh lebih lambat", why: "Salah: total B hanya 30 detik; total A 10.200 detik (2,83 jam)." },
+            { text: "Query A — total waktunya 10.200 detik (2,83 jam), jauh lebih besar dari B", why: "Benar: pg_stat_statements mengurutkan berdasarkan total waktu, bukan eksekusi terlama.", correct: true },
+            { text: "Keduanya sama penting", why: "Salah: total waktu A 340 kali lipat B — prioritasnya jelas." },
+            { text: "Tidak ada — keduanya di bawah 1 menit rata-rata", why: "Salah: rata-rata menyembunyikan frekuensi; total waktu yang menentukan beban." },
+          ],
+        },
+      ],
+      reference: "Prometheus kumpulkan (scrape) → Grafana tampilkan + alert → pg_stat_statements temukan query boros.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -205,6 +234,7 @@ export const dba8: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Tooling bernama: Prometheus (scrape metrik) + Grafana (dashboard + alert) + pg_stat_statements (total waktu per query).",
         "Alert harus: masalah nyata + butuh tindakan sekarang + punya runbook; sisanya = dashboard.",
         "Enam metrik kunci: koneksi, disk, lag, bloat, lock/blocking, hit ratio & slow queries.",
         "Ambang di atas noise floor + syarat durasi + rate-of-change = anti alert fatigue.",

@@ -31,7 +31,7 @@ export const wqb26: V2Lesson = {
   track: "WorldQuant Brain",
   module: "Riset Kuantitatif",
   title: "WQB26 — Python untuk Riset Quant: Prototyping Sebelum FastExpression",
-  estMinutes: 65,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",

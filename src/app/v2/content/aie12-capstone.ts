@@ -23,7 +23,7 @@ export const aie12: V2Lesson = {
   track: "AI Engineering",
   module: "Produksi",
   title: "AIE12 — Capstone: Aplikasi RAG Mini Produksi",
-  estMinutes: 70,
+  estMinutes: 90,
   steps: [
     {
       id: "cerita-tanyadok",
@@ -33,7 +33,7 @@ export const aie12: V2Lesson = {
         "Akhir kuartal, direksi NusaBank meminta demo: 'TanyaDok' — aplikasi tanya-jawab di atas SOP bank, siap produksi. Tim merangkai semuanya: chunking dari AIE3, eval dari AIE4, schema dari AIE6, cache dari AIE7, logging dari AIE8, filter safety dari AIE9, retry dari AIE10, sitasi dari AIE11. Tiap komponen lolos uji sendiri. Lalu uji end-to-end: 6 dari 7.",
         "Twist-nya: yang gagal bukan komponen mana pun — melainkan INTEGRASINYA. Pertanyaan 'siapa direktur utama?' (tidak ada di dokumen) dijawab ngawur '3 bulan' dengan skor retrieval 0,00. Retrieval benar (tidak ada yang mirip), generator salah (tidak tahu cara diam). Tidak ada komponen yang mengajarkan 'kapan tidak menjawab' — itu keputusan arsitektur end-to-end: abstention threshold.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merangkai pipeline RAG end-to-end; (2) membangun eval harness dengan golden set; (3) mendiagnosis failure mode integrasi; (4) menghitung biaya, latensi, dan kelayakan SLA; (5) memutuskan go/no-go dengan launch checklist.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita TanyaDok — Langkah 2 · Arsitektur end-to-end — Langkah 3 · Lab: pipeline + eval — Langkah 4 · Biaya, latensi, SLA — Langkah 5 · Lab: kelayakan produksi — Langkah 6 · Peta keputusan go/no-go — Langkah 7 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita TanyaDok — Langkah 2 · Arsitektur end-to-end — Langkah 3 · Lab: pipeline + eval — Langkah 4 · Biaya, latensi, SLA — Langkah 5 · Lab: kelayakan produksi — Langkah 6 · Peta keputusan go/no-go — Langkah 7 · Mini-case — Langkah 8 · Varian domain — Langkah 9 · Tiga proyek domain yang hilang — Langkah 10 · Lab: text-to-SQL — Langkah 11 · Dashboard biaya — Langkah 12 · Tracing — Langkah 13 · Design review — Checkpoint.",
       ],
       tasks: [],
       reference: "Capstone = 11 lesson dalam satu aplikasi. Komponen bagus tidak menjamin sistem bagus.",
@@ -106,7 +106,7 @@ export const aie12: V2Lesson = {
         "Sebelum launch, tiga angka harus di atas meja. Biaya: 5.000 request/hari × (1.200 token input × $0,5 + 300 token output × $1,5)/1juta = $5,25/hari ≈ Rp2,5 juta/bulan — masuk budget Rp10 juta. Latensi: 120ms retrieval + 1.800ms generate = 1.920ms, di bawah SLA 3 detik. Kualitas: 86 persen end-to-end, di atas ambang 85 persen.",
         "Keempat syarat launch TanyaDok: eval ≥85 persen, red team ASR di bawah ambang, biaya dalam budget, SLA latensi terpenuhi. Gagal satu = no-go atau go bertahap. Launch bukan peristiwa, melainkan keputusan berlapis: internal → beta terbatas → umum, dengan metrik dipantau di tiap lapis.",
         "Kepribadian launch checklist: ia seperti daftar periksa pilot — membosankan, tidak heroik, dan menyelamatkan nyawa. Kecelakaan produksi hampir selalu bermula dari 'ah, yang ini pasti beres'.",
-        "Tiga angka sebelum launch — TanyaDok. (1) Biaya: 5.000 request/hari × Rp200 = Rp1 juta/hari = Rp30 juta/bulan < budget Rp50 juta ✓. (2) Latensi p95: 4,2 detik < SLA 5 detik ✓ (tetapi p99 8 detik — perlu fallback!). (3) Kualitas: 91 persen di golden set > target 90 persen ✓ (tetapi margin of error ±2,6 persen — 91 bisa = 88!). Tiga ✓ dengan catatan = GO BERSYARAT: launch + perbaiki p99 + tambah sampel. Launch bukan vonis mati — ia awal pengukuran.",
+        "Tiga angka sebelum launch — TanyaDok. (1) Biaya: $5,25/hari ≈ Rp2,5 juta/bulan < budget Rp10 juta ✓. (2) Latensi: 1.920ms < SLA 3 detik ✓. (3) Kualitas: 86 persen di golden set > target 85 persen ✓ — tapi margin hanya 1 poin, jadi tambah sampel sebelum klaim kualitas stabil. Tiga ✓ dengan catatan = GO BERSYARAT: launch + tambah sampel golden set. Launch bukan vonis mati — ia awal pengukuran.",
         "Rollback plan — 5 menit atau tidak launch. (1) Feature flag: matikan TanyaDok, kembali ke CS manual (30 detik). (2) Model version pin: kembali ke v1.2 yang stabil (2 menit). (3) Data snapshot: jika index korup, restore kemarin (5 menit). Uji rollback SEBELUM launch (fire drill!). Tanpa drill: rollback 5 menit menjadi 2 jam panik. Launch = berani karena bisa mundur, bukan karena yakin tidak akan gagal.",
       ],
       tasks: [],
@@ -211,13 +211,186 @@ export const aie12: V2Lesson = {
         body: "'Sitasi ada = jawaban aman.' Salah di domain finance. Sitasi bisa menunjuk dokumen yang sudah kedaluwarsa, versi yang berkonflik dengan versi terbaru, atau angka hasil OCR yang korup. Sitasi adalah klaim yang harus diaudit: apakah dokumennya masih berlaku? Versinya benar? Angkanya cocok dengan sumber? Audit sitasi adalah separuh pekerjaan eval di domain ini — sitasi yang tidak diaudit hanyalah jawaban ngawur yang berdasi.",
       },
       reference: "Varian domain = capstone dasar + risiko domain. Ubah arsitektur tepat di titik yang domain menuntut: OCR tervalidasi, sitasi ketat, PII termask, eval dari pertanyaan sungguhan.",
+    },    {
+      id: "proyek-domain-hilang",
+      eyebrow: "Langkah 9 · Proyek domain",
+      title: "Tiga proyek domain yang hilang: regulasi, fraud, text-to-SQL",
+      prose: [
+        "Spec AE19 meminta empat proyek domain; capstone dasar baru mengantar satu (asisten kebijakan kredit, Langkah 8). Tiga sisanya ada di sini — masing-masing memakai pipeline yang sama, tetapi menuntut satu hal berbeda yang tidak dimiliki TanyaDok.",
+        "Pertama, tanya-jawab regulasi. Bedanya dengan SOP internal: regulasi punya VERSI dan tanggal berlaku. Jawaban harus menyebut versi yang dipakai (“berdasarkan POJK 12/2024”) dan menolak menjawab dari versi kedaluwarsa. Eval-nya memakai pertanyaan analis sungguhan plus kasus tepi: dua versi yang konflik, dokumen kedaluwarsa, angka hasil OCR yang meragukan. Perilaku yang diharapkan ditulis eksplisit per kasus — untuk versi konflik, jawab dengan sitasi versi terbaru DAN tandai adanya konflik.",
+        "Kedua, ringkasan kasus fraud. Inputnya bukan dokumen statis melainkan berkas perkara: alert, mutasi, riwayat nasabah, dan catatan analis sebelumnya. Outputnya ringkasan berkas plus skor prioritas — URUTAN antrean analis, bukan vonis. Garisnya sama seperti KYC/AML di AAI12: agen menyiapkan berkas, manusia memutuskan eskalasi. Metriknya: waktu susun berkas dan tingkat draf diterima tanpa ubahan besar — bukan “jumlah fraud tertangkap”, karena itu keputusan manusia.",
+        "Ketiga, text-to-SQL analyst — ada lab-nya di langkah berikut. Analis bertanya dalam bahasa sehari-hari, agen menerjemahkan ke SQL, menjalankan atas data, lalu menjawab dengan angka DAN menunjukkan query-nya. Bahayanya spesifik: SQL yang salah menghasilkan angka yang salah tetapi terlihat resmi — lengkap dengan tabel. Mitigasinya: user database read-only, LIMIT wajib, validasi skema sebelum eksekusi, dan query selalu ditampilkan bersama jawaban agar analis bisa memeriksa.",
+        "Pola bersama ketiganya: pipeline RAG yang sama, risiko domain yang berbeda. Tanya-jawab regulasi menuntut ketepatan versi; ringkasan fraud menuntut akuntabilitas keputusan; text-to-SQL menuntut angka yang bisa diperiksa ulang. Arsitektur yang tidak menyebut risiko domainnya bukan arsitektur — ia demo.",
+      ],
+      tasks: [],
+      note: {
+        title: "💡 Intuisi",
+        body: "Empat proyek domain AE19 bukan empat aplikasi — melainkan satu pipeline dengan empat risiko berbeda. Insinyur yang paham risikonya bisa membangun keempatnya; yang hanya hafal pipelinenya akan membangun empat demo yang sama.",
+      },
+      reference: "Regulasi = ketepatan versi; fraud = berkas, bukan vonis; text-to-SQL = angka yang bisa diperiksa ulang.",
     },
+
+    {
+      id: "lab-text-to-sql",
+      eyebrow: "Langkah 10 · Lab text-to-SQL",
+      title: "Lab: text-to-SQL analyst atas tabel transaksi (mock)",
+      prose: [
+        "Analis bertanya: “berapa total reimbursement bulan ini?” Tugasmu: (1) implementasikan `nl_ke_sql` — terjemahkan pertanyaan ke SQL dengan pemetaan kata kunci ke kategori dan kolom; (2) implementasikan `jalankan` — eksekutor SQL mini yang memahami SELECT SUM(kolom) FROM transaksi WHERE kategori = 'X'; (3) jalankan dan cetak query beserta totalnya.",
+        "Aturan keamanan yang sudah tertanam di mock: hanya SELECT yang diizinkan (bukan INSERT/UPDATE/DELETE), hanya kolom `jumlah` yang boleh diagregasi, dan kategori harus ada di daftar yang dikenal. Di produksi, tambahkan user database read-only dan LIMIT — di sini, tiga aturan mock sudah cukup untuk menunjukkan pola: terjemahkan, validasi, baru eksekusi.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `nl_ke_sql` (kata kunci -> kategori) dan `jalankan` (parse SUM + WHERE kategori)" },
+        { id: "t2", text: "Jalankan pertanyaan contoh dan cetak query + total" },
+      ],
+      expected: "sql=SELECT SUM(jumlah) FROM transaksi WHERE kategori = 'reimbursement'\ntotal=1500000",
+      note: {
+        title: "🚨 Miskonsepsi",
+        type: "pitfall",
+        body: "“SQL-nya jalan berarti angkanya benar.” Salah: query yang jalan tetapi kategorinya salah (misal “lembur” terbaca “reimbursement”) menghasilkan angka yang rapi dan salah total. Karena itu jawaban text-to-SQL WAJIB menampilkan query-nya — analis memeriksanya, bukan mempercayainya.",
+      },
+      hints: [
+        "Pemetaan: 'reimbursement' -> kategori 'reimbursement'; 'lembur' -> 'lembur'; selain itu -> 'tidak ada data'.",
+        "Parse dengan regex: SELECT SUM\\((\\w+)\\) FROM transaksi WHERE kategori = '(\\w+)'",
+        "Tolak query yang tidak diawali SELECT, atau kolom bukan 'jumlah'.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+import re
+
+TRANSAKSI = [
+    {"id": "T1", "kategori": "reimbursement", "jumlah": 500000},
+    {"id": "T2", "kategori": "reimbursement", "jumlah": 250000},
+    {"id": "T3", "kategori": "lembur", "jumlah": 900000},
+    {"id": "T4", "kategori": "reimbursement", "jumlah": 750000},
+    {"id": "T5", "kategori": "transport", "jumlah": 300000},
+    {"id": "T6", "kategori": "lembur", "jumlah": 400000},
+]
+
+# TULIS KODEMU: terjemahan NL -> SQL + eksekutor mini
+def nl_ke_sql(pertanyaan):
+    ...
+
+def jalankan(sql):
+    ...
+
+pertanyaan = "berapa total reimbursement bulan ini?"
+sql = nl_ke_sql(pertanyaan)
+total = jalankan(sql)
+print(f"sql={sql}")
+print(f"total={total}")`,
+        lockLines: 13,
+        solution: `# DATA — jangan diubah
+import re
+
+TRANSAKSI = [
+    {"id": "T1", "kategori": "reimbursement", "jumlah": 500000},
+    {"id": "T2", "kategori": "reimbursement", "jumlah": 250000},
+    {"id": "T3", "kategori": "lembur", "jumlah": 900000},
+    {"id": "T4", "kategori": "reimbursement", "jumlah": 750000},
+    {"id": "T5", "kategori": "transport", "jumlah": 300000},
+    {"id": "T6", "kategori": "lembur", "jumlah": 400000},
+]
+
+# TULIS KODEMU: terjemahan NL -> SQL + eksekutor mini
+def nl_ke_sql(pertanyaan):
+    q = pertanyaan.lower()
+    if "reimbursement" in q:
+        kat = "reimbursement"
+    elif "lembur" in q:
+        kat = "lembur"
+    elif "transport" in q:
+        kat = "transport"
+    else:
+        return "tidak ada data"
+    return f"SELECT SUM(jumlah) FROM transaksi WHERE kategori = '{kat}'"
+
+def jalankan(sql):
+    if not sql.startswith("SELECT"):
+        return "ditolak: bukan SELECT"
+    m = re.match(r"SELECT SUM\((\w+)\) FROM transaksi WHERE kategori = '(\w+)'$", sql)
+    if not m or m.group(1) != "jumlah":
+        return "ditolak: query tidak valid"
+    kat = m.group(2)
+    return sum(r["jumlah"] for r in TRANSAKSI if r["kategori"] == kat)
+
+pertanyaan = "berapa total reimbursement bulan ini?"
+sql = nl_ke_sql(pertanyaan)
+total = jalankan(sql)
+print(f"sql={sql}")
+print(f"total={total}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "nl_ke_sql", label: "`nl_ke_sql` terdefinisi", msg: "Definisikan nl_ke_sql(pertanyaan) dengan pemetaan kata kunci." },
+          { kind: "defined", task: "t1", name: "jalankan", label: "`jalankan` terdefinisi", msg: "Definisikan jalankan(sql) sebagai eksekutor SELECT SUM mini." },
+          { kind: "equal", task: "t2", name: "total", value: 1500000, tol: 1e-9, label: "`total` = 1500000", msg: "500.000 + 250.000 + 750.000 = 1.500.000. Cek filter kategorinya." },
+          { kind: "stdout_matches", task: "t2", pattern: "sql=SELECT SUM\\(jumlah\\) FROM transaksi WHERE kategori = 'reimbursement'\\ntotal=1500000", label: "query + total sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Text-to-SQL = terjemahkan, validasi, baru eksekusi — dan selalu tampilkan query-nya.",
+    },
+
+    {
+      id: "dashboard-biaya",
+      eyebrow: "Langkah 11 · Dashboard biaya",
+      title: "Dashboard biaya: satu layar untuk direksi",
+      prose: [
+        "Spec capstone meminta dashboard biaya — dan sampai langkah ini biaya TanyaDok hanya aritmetika di Langkah 4 dan 5. Dashboard mengubah aritmetika itu menjadi SATU LAYAR yang dibaca direksi tiap pagi: biaya per hari, biaya per request, biaya per tahap, tren 7 hari, dan alert saat mendekati budget.",
+        "Angkanya dihitung ulang dari lab Langkah 5 (bukan angka baru): biaya harian $5,25 untuk 5.000 request; biaya per request $5,25 dibagi 5.000 = $0,00105; biaya per bulan (30 hari) $5,25 kali 30 = $157,50. Per tahap: retrieval hampir gratis (pencarian lokal), generate mendominasi — input 1.200 token kali $0,5 per 1 juta token = $0,0006, output 300 token kali $1,5 per 1 juta token = $0,00045; jumlahnya $0,00105 — cocok dengan biaya per request.",
+        "Tiga panel yang wajib ada. Panel tren: biaya 7 hari terakhir — naik tiba-tiba berarti ada yang berubah (prompt membengkak, cache mati, atau serangan). Panel per tahap: bila generate 95 persen biaya, optimasi retrieval tidak ada gunanya — hemat di tempat yang besar. Panel alert: kuning di 80 persen budget, merah di 100 persen — dengan aksi yang tertulis (turunkan model, nyalakan cache, batasi request).",
+        "Dashboard yang baik menjawab tiga pertanyaan dalam 10 detik: berapa biayanya sekarang, ke mana larinya, dan apa yang berubah sejak kemarin. Dashboard yang hanya menampilkan total bulanan adalah laporan keuangan, bukan alat operasi — ia memberi tahu kamu bangkrut setelah uangnya habis.",
+      ],
+      tasks: [],
+      note: {
+        title: "💡 Intuisi",
+        body: "Biaya per request $0,00105 terdengar kecil sampai dikali 5.000 request per hari selama 30 hari: $157,50 per bulan. Dashboard ada agar perkalian itu terlihat SEBELUM tagihan datang, bukan sesudahnya.",
+      },
+      reference: "Dashboard biaya = per hari + per request + per tahap + tren + alert. Angka dari lab Langkah 5.",
+    },
+
+    {
+      id: "tracing-langkah",
+      eyebrow: "Langkah 12 · Tracing",
+      title: "Tracing sebagai langkah sendiri: satu request, satu jejak",
+      prose: [
+        "Sampai langkah ini tracing hanya disebut sekali — di opsi kuis Langkah 7 (“Lihat trace dan atribusi”). Padahal spec capstone memintanya sebagai bagian sistem. Tracing bukan logging yang lebih rapi: logging mencatat peristiwa, tracing mencatat HUBUNGAN — satu request = satu trace id, tiap tahap = satu span dengan nama, durasi, token, dan status.",
+        "Enam span TanyaDok: input-guard, router, retrieve, generate, verifier, logger. Tiap span mencatat durasi dan tokennya sendiri. Contoh nyata: request lambat 8 detik — tanpa trace, kamu menebak-nebak; dengan trace, kamu melihat span generate 7,6 detik dan retrieve 0,1 detik — penyebabnya model, bukan retrieval. Tanpa atribusi, 60 persen tim mengganti model saat yang rusak adalah retrieval — dan sebaliknya.",
+        "Sampling yang sehat: 100 persen request error di-trace, 10 persen request sukses di-trace — cukup untuk pola, murah untuk disimpan. Logger 5 field dari Langkah 2 ditambah trace id menjadi 6 field: tanpa trace id, log dari enam span tidak bisa dirangkai menjadi satu cerita.",
+        "Aturan praktis: bila jawaban buruk di produksi, langkah pertama BUKAN ganti model — melainkan buka trace dan tanya tahap mana yang menyimpang. Itulah jawaban kuis Langkah 7, dan inilah langkah yang membuatnya bisa dilakukan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Trace adalah jejak audit teknis: saat regulator atau direksi bertanya “kenapa jawaban ini keluar”, trace-lah yang menjawab — span mana, model versi berapa, dokumen apa yang di-retrieve. Tanpa trace, jawabannya adalah “tidak tahu”.",
+      },
+      reference: "Satu request = satu trace id; enam span; 100 persen error + 10 persen sukses di-trace.",
+    },
+
+    {
+      id: "design-review",
+      eyebrow: "Langkah 13 · Design review",
+      title: "Design review: arsitektur TanyaDok di hadapan reviewer",
+      prose: [
+        "Design review adalah langkah eksplisit di track ini: kamu mengkritik sebuah RANCANGAN sebelum ia dibangun. Rancangan TanyaDok di atas meja: enam kotak, abstention threshold 0,05, eval 6/7, biaya $5,25 per hari, dan keputusan go bertahap. Tiga pertanyaan reviewer yang wajib dijawab tertulis.",
+        "Pertanyaan pertama: apa yang terjadi bila dokumen kedaluwarsa? Index tidak tahu versi — jawaban mengutip SOP lama dengan percaya diri. Perbaikan: versioning dokumen + tanggal berlaku di tiap chunk + eval kasus tepi dokumen kedaluwarsa (seperti Langkah 9). Pertanyaan kedua: abstention rate di atas 15 persen berarti apa? Bukan model yang rusak — dokumen yang kurang lengkap. Perbaiki korpus, bukan modelnya.",
+        "Pertanyaan ketiga: biaya naik 10 kali lipat bila request naik 10 kali lipat — apa rencana sebelum minta budget tambahan? Cache (AIE7), routing ke model kecil (AIE7), dan dashboard biaya (Langkah 11) sebagai bukti. Rancangan yang tidak punya jawaban atas ketiganya belum siap di-review — ia baru siap di-demo.",
+      ],
+      tasks: [
+        { id: "t1", text: "Tulis 1 kelemahan tambahan rancangan TanyaDok di luar ketiga pertanyaan di atas, beserta perbaikan konkretnya" },
+        { id: "t2", text: "Tulis kriteria naik tiap lapis launch bertahap (internal -> beta -> umum) dalam 1 kalimat per lapis" },
+      ],
+      note: {
+        title: "💡 Intuisi: design review mencari asumsi, bukan kesalahan ketik",
+        body: "Kode yang salah ketik ketahuan di test. Asumsi yang salah (“dokumen tidak pernah kedaluwarsa”, “biaya akan selalu segini”) ketahuan di insiden. Design review adalah satu-satunya momen murah untuk menangkap asumsi.",
+      },
+      reference: "Design review = kritik rancangan sebelum dibangun: versi dokumen, abstention rate, rencana biaya.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan refleksi capstone dari seluruh track. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Lima pertanyaan refleksi capstone dari inti track. Setiap opsi punya alasan kenapa benar atau salah. Catatan penutup: lesson setelah capstone (AIE13–AIE23) adalah modul lanjutan opsional — capstone menutup inti track; lanjutkan bila butuh pendalaman (hybrid search, GraphRAG, self-hosting).",
       ],
       tasks: [],
       summary: [
@@ -226,7 +399,7 @@ export const aie12: V2Lesson = {
         "Abstention threshold pada skor retrieval menutup lubang 'menjawab yang tidak ada di dokumen'.",
         "Empat syarat launch: eval ≥ ambang, red team lolos, biaya dalam budget, SLA terpenuhi.",
         "Launch bertahap (internal → beta → umum) membeli informasi murah; keputusan ditulis dengan syarat.",
-        "Selamat — kamu menyelesaikan track AI Engineering. Kembali ke kurikulum untuk track berikutnya.",
+        "Selamat — kamu menyelesaikan inti track AI Engineering. Lesson AIE13–AIE23 adalah modul lanjutan opsional.",
       ],
       next: { label: "AIE13 — Hybrid Search + Reranking", href: "/v2/learn/aie13-hybrid-search-reranking" },
       quiz: [
@@ -273,6 +446,24 @@ export const aie12: V2Lesson = {
             { text: "Langsung ganti ke model yang lebih besar", why: "Tanpa atribusi, ini mahal dan sering salah sasaran.", correct: false },
             { text: "Tambah dokumen ke index", why: "Mungkin, tetapi buta tanpa tahu tahap yang gagal.", correct: false },
             { text: "Naikkan temperature", why: "Temperature tidak memperbaiki retrieval kosong.", correct: false },
+          ],
+        },
+        {
+          q: "Dashboard biaya TanyaDok: biaya harian $5,25 untuk 5.000 request. Biaya per request dan per bulan (30 hari)?",
+          options: [
+            { text: "$0,00105 per request; $157,50 per bulan", why: "Benar: 5,25 dibagi 5.000 = 0,00105; 5,25 kali 30 = 157,50. Input 0,0006 + output 0,00045 = 0,00105 — cocok.", correct: true },
+            { text: "$0,0105 per request; $1.575 per bulan", why: "Salah: koma bergeser satu digit — 5,25 dibagi 5.000 = 0,00105, bukan 0,0105.", },
+            { text: "$0,000105 per request; $15,75 per bulan", why: "Salah: koma bergeser ke arah lain — hitung ulang 5,25 dibagi 5.000.", },
+            { text: "$1,05 per request; $157.500 per bulan", why: "Salah: itu 5,25 dibagi 5 — bukan dibagi 5.000.", },
+          ],
+        },
+        {
+          q: "Jawaban TanyaDok lambat (8 detik) di produksi. Langkah pertama yang benar menurut tracing?",
+          options: [
+            { text: "Ganti ke model yang lebih besar", why: "Tanpa atribusi itu judi mahal — belum tentu model yang lambat.", },
+            { text: "Buka trace: span mana yang menyimpang (generate 7,6 detik vs retrieve 0,1 detik)", why: "Benar: trace menunjukkan penyebabnya model, bukan retrieval — perbaikan jadi terarah.", correct: true },
+            { text: "Tambah dokumen ke index", why: "Tidak ada hubungannya dengan latensi — itu perbaikan recall.", },
+            { text: "Matikan logging agar lebih cepat", why: "Logging bukan penyebab 8 detik — dan mematikannya menghilangkan jejak audit.", },
           ],
         },
       ],

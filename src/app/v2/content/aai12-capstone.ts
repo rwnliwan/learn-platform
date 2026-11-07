@@ -32,19 +32,19 @@ export const aai12: V2Lesson = {
   slug: "aai12-capstone",
   track: "Agentic AI Engineer",
   module: "Operasi & Evaluasi",
-  title: "AAI12 — Capstone: Agen Analisis End-to-End",
-  estMinutes: 75,
+  title: "AAI12 — Capstone: SQL Analyst Agent + Server MCP",
+  estMinutes: 90,
   steps: [
     {
       id: "brief",
       eyebrow: "Langkah 1 · Brief",
-      title: "Brief dari CTO: \u201Cbuatkan agennya\u201D",
+      title: "Brief dari CTO: “Buatkan SQL analyst agent-nya”",
       prose: [
-        "Jumat sore. CTO memanggil Dina: \u201CTim butuh agen analisis. Tiap Jumat ia meneliti topik risiko, memakai tools yang ada, dan menghasilkan laporan satu halaman. Buatkan.\u201D Dina mengangguk — lalu bertanya: \u201CTopik risikonya ditentukan siapa? Laporannya dikirim ke mana? Kalau datanya tidak ada, agen boleh mengarang?\u201D CTO terdiam. Brief satu kalimat itu menyimpan 10 keputusan desain.",
-        "Twist-nya — dan ini pelajaran capstone terpenting: agen yang baik TAHU KAPAN BERTANYA BALIK. Sebelum satu baris kode ditulis, Dina memaksa klarifikasi: (1) topik dipilih analis manusia tiap Kamis; (2) laporan = draf di folder, BUKAN terkirim otomatis (tier-1, bukan tier-2); (3) data kosong → tulis \u201Ctidak ada data\u201D, jangan karang; (4) sukses = skor rubrik ≥ 0,8.",
-        "Brief yang diklarifikasi menjadi SPESIFIKASI: input (topik + daftar tools), proses (loop ReAct maks 6 langkah, memory ringkas, guardrail tier), output (laporan terstruktur + sitasi), evaluasi (rubrik skor). Semua yang kamu pelajari di AAI1–AAI11 bertemu di sini.",
-        "Tujuan pembelajaran — setelah capstone ini kamu bisa: (1) menerjemahkan brief ambigu menjadi spesifikasi agen; (2) membangun agen end-to-end dengan mock tools; (3) menilai laporan dengan rubrik; (4) memutuskan kesiapan deploy ke produksi.",
-        "Daftar isi: 1) Brief & klarifikasi · 2) Arsitektur gabungan · 3) Lab 1: agen end-to-end · 4) Lab 2: evaluasi trajectory · 5) Peta keputusan deploy · 6) Mini-case: nilai vs biaya · 7) Checkpoint.",
+        "Jumat sore. CTO memanggil Dina: “Tim kredit butuh SQL analyst agent. Tiap Jumat ia menjawab pertanyaan analis atas DATASET KREDIT — berapa NPL-nya, segmen mana yang memburuk, debitur mana yang harus di-review — memakai SQL langsung ke data, bukan karangan dari ingatan model. Buatkan.” Dina mengangguk — lalu bertanya: “Dataset kreditnya yang mana? Agen boleh menulis ke database atau hanya baca? Kalau angkanya di atas ambang, siapa yang menyetujui pengiriman laporannya?” CTO terdiam. Brief satu kalimat itu menyimpan 10 keputusan desain.",
+        "Twist-nya — dan ini pelajaran capstone terpenting: agen yang baik TAHU KAPAN BERTANYA BALIK. Sebelum satu baris kode ditulis, Dina memaksa klarifikasi: (1) dataset = tabel kredit 8 debitur (miniatur dari portofolio) dengan kolom plafon, tunggakan, dan status; (2) agen hanya boleh SELECT (read-only) — tidak ada INSERT/UPDATE/DELETE; (3) laporan = draf di folder, BUKAN terkirim otomatis — pengiriman butuh persetujuan manusia (tier-2); (4) sukses = skor rubrik ≥ 0,8 DAN tidak boros.",
+        "Brief yang diklarifikasi menjadi SPESIFIKASI: input (pertanyaan analis + dataset kredit + daftar tools), proses (loop ReAct maks 6 langkah, tool sql_query + hitung + tulis, memory ringkas, guardrail tier, tracing tiap span), output (laporan kredit terstruktur + query SQL yang ditampilkan + sitasi baris data), evaluasi (rubrik skor + eval suite 3 trajectory). Semua yang kamu pelajari di AAI1–AAI11 bertemu di sini — plus satu server MCP di Langkah 9.",
+        "Tujuan pembelajaran — setelah capstone ini kamu bisa: (1) menerjemahkan brief ambigu menjadi spesifikasi agen; (2) membangun SQL analyst agent dengan mock dataset kredit; (3) menilai laporan dengan rubrik dan eval suite; (4) merancang alur persetujuan untuk aksi tier-2; (5) mengekspos tools agen lewat satu server MCP; (6) memutuskan kesiapan deploy ke produksi.",
+        "Daftar isi: 1) Brief & klarifikasi · 2) Arsitektur gabungan · 3) Lab 1: SQL analyst agent · 4) Lab 2: evaluasi trajectory · 5) Peta keputusan deploy · 6) Mini-case: nilai vs biaya · 7) KYC & AML · 8) Kredit & rekonsiliasi · 9) Lab 3: server MCP · 10) Design review · Checkpoint.",
         "Checklist klarifikasi Dina — 5 pertanyaan yang ia ajukan SEBELUM coding (dan yang harus kamu ajukan untuk setiap brief ambigu). (1) Siapa yang MEMILIH topik? (2) Apa DEFINISI “selesai”? (3) Apa yang TIDAK BOLEH dilakukan agen? (4) Siapa yang MENILAI hasilnya? (5) Berapa ANGGARAN (langkah, rupiah)? Lima pertanyaan, 15 menit — menghemat 2 pekan membangun yang salah. Brief yang tidak bisa menjawab kelimanya = brief yang belum siap dikerjakan. Berani bertanya balik = skill capstone yang paling berharga.",
       ],
       tasks: [],
@@ -54,9 +54,10 @@ export const aai12: V2Lesson = {
       eyebrow: "Langkah 2 · Arsitektur",
       title: "Menyatukan 11 lesson menjadi satu sistem",
       prose: [
-        "Petakan tiap lesson ke komponen. AAI1–AAI2: loop sense–plan–act–observe + tujuan eksplisit. AAI3: tools sebagai kontrak (search, hitung, tulis) dengan validasi + retry. AAI4: memory beranggaran — bukti penting disimpan, riwayat basi diringkas. AAI5: search_kb sebagai tool opsional dengan gerbang confidence. AAI6: satu agen dulu — multi-agent hanya jika spesialisasi menuntut. AAI7: prompt = spesifikasi; output laporan mengikuti skema. AAI8: rubrik skor untuk tiap laporan. AAI9: tulis = tier-1 (draf + audit), kirim = tier-2 (butuh manusia). AAI10: state eksplisit + checkpoint. AAI11: tiap span tercatat untuk debugging.",
+        "Petakan tiap lesson ke komponen. AAI1–AAI2: loop sense–plan–act–observe + tujuan eksplisit. AAI3: tools sebagai kontrak (sql_query, hitung, tulis) dengan validasi + retry + idempotency. AAI4: memory beranggaran — bukti penting disimpan, riwayat basi diringkas. AAI5: search_kb sebagai tool opsional dengan gerbang confidence. AAI6: satu agen dulu — multi-agent hanya jika spesialisasi menuntut. AAI7: prompt = spesifikasi; output laporan mengikuti skema. AAI8: rubrik skor untuk tiap laporan. AAI9: tulis = tier-1 (draf + audit), kirim = tier-2 (butuh manusia). AAI10: state eksplisit + checkpoint. AAI11: tiap span tercatat untuk debugging.",
+        "Komponen baru capstone ini: TOOL SQL. `sql_query` menerima string SELECT dan mengembalikannya sebagai angka — bukan teks bebas. Agen tidak pernah menebak angka: setiap angka di laporan berasal dari baris dataset kredit yang bisa ditunjuk. Dan di Langkah 9, ketiga tool ini diekspos lewat SATU SERVER MCP — sehingga agen lain (atau manusia) bisa memakai tool yang sama lewat protokol standar, bukan integrasi custom.",
         "Rubrik penilaian laporan (skor 0–1): KELENGKAPAN (apakah semua fakta yang diminta terkumpul?), AKURASI (apakah fakta terverifikasi tool, bukan karangan?), SITASI (apakah tiap klaim tertelusur ke sumber?). Bobot: 40/40/20 — karena laporan lengkap tetapi salah lebih berbahaya daripada laporan pendek tetapi jujur.",
-        "Keputusan desain yang diambil Dina dari klarifikasi: (1) topik dari manusia — agen tidak memilih topik sendiri (di luar mandat); (2) maks 6 langkah — laporan mingguan tidak butuh eksplorasi dalam; (3) tidak ada tool kirim — agen hanya menulis draf (tier-1), manusia yang mengirim.",
+        "Keputusan desain yang diambil Dina dari klarifikasi: (1) topik dari manusia — agen tidak memilih topik sendiri (di luar mandat); (2) maks 6 langkah — laporan mingguan tidak butuh eksplorasi dalam; (3) tidak ada tool kirim otomatis — agen hanya menulis draf (tier-1), manusia yang mengirim setelah menyetujui (tier-2); (4) SQL read-only — query selain SELECT ditolak sebelum dieksekusi.",
         "Rubrik 40/40/20 dalam praktik — contoh penilaian. Laporan X: kelengkapan 0,9 (semua fakta ada), akurasi 0,7 (2 angka salah), sitasi 0,5 (separuh klaim tanpa sumber). Skor = 0,4×0,9 + 0,4×0,7 + 0,2×0,5 = 0,36 + 0,28 + 0,10 = 0,74 < 0,8 → TIDAK LULUS. Perhatikan: bobot adalah KEBIJAKAN — 40% akurasi berarti “kami memaafkan sitasi buruk tetapi tidak memaafkan angka salah”. Tim lain bisa memilih 30/30/40 (sitasi = kepatuhan). Tidak ada bobot “benar” — ada bobot yang SESUAI RISIKO domainmu. Tulis alasan bobotmu; ia akan ditanya saat audit.",
         "Keputusan “tidak lulus” bukan akhir — ia adalah INPUT. Laporan X (0,74): kirim kembali ke agen dengan feedback terstruktur (“2 angka salah: …; lengkapi sitasi untuk …”) → iterasi 2. Pola ini = SELF-REFINE dengan rubrik sebagai juri (AAI8). Batasi 2 iterasi: yang tidak lulus setelah 2× = eskalasi manusia (bukan iterasi ke-5 yang mahal dan putus asa). Capstone yang baik = sistem yang tahu kapan MENYERAH dengan elegan — bukan yang mencoba selamanya.",
       ],
@@ -64,58 +65,236 @@ export const aai12: V2Lesson = {
       formulaNote: "skor = 0,4×kelengkapan + 0,4×akurasi + 0,2×sitasi (0–1). Kelengkapan = proporsi fakta yang diminta dan terkumpul; akurasi = proporsi fakta yang terverifikasi benar; sitasi = proporsi klaim yang tertelusur ke sumber. Bobot 40/40/20 = kebijakan: akurasi dan kelengkapan masing-masing 2× lebih penting dari sitasi. Lulus jika skor ≥ 0,8 DAN tidak boros (dua gerbang).",
       tasks: [],
       note: {
-        title: "Miskonsepsi: \u201Ccapstone = gabungkan semua fitur\u201D",
+        title: "Miskonsepsi: “capstone = gabungkan semua fitur”",
         type: "pitfall",
-        body: "Yang benar: capstone = gabungkan semua KEPUTUSAN. Dina justru MEMBUANG fitur: tanpa multi-agent, tanpa tool kirim, tanpa RAG otomatis. Setiap komponen yang tidak dipakai adalah risiko yang tidak diambil. Desain terbaik sering terlihat \u201Clebih kecil\u201D dari yang dibayangkan.",
+        body: "Yang benar: capstone = gabungkan semua KEPUTUSAN. Dina justru MEMBUANG fitur: tanpa multi-agent, tanpa tool kirim, tanpa RAG otomatis. Setiap komponen yang tidak dipakai adalah risiko yang tidak diambil. Desain terbaik sering terlihat “lebih kecil” dari yang dibayangkan.",
       },
       hints: [
-        "Intuisi: spesifikasi yang bagus menjawab \u201Capa yang TIDAK boleh dilakukan agen\u201D sama tegasnya dengan \u201Capa yang harus dilakukan\u201D.",
-        "Intuisi: bobot rubrik adalah kebijakan: 40% akurasi berkata \u201Clebih baik jujur-tak-lengkap daripada lengkap-tapi-salah\u201D. Sesuaikan bobot dengan risikomu.",
+        "Intuisi: spesifikasi yang bagus menjawab “Apa yang TIDAK boleh dilakukan agen” sama tegasnya dengan “Apa yang harus dilakukan”.",
+        "Intuisi: bobot rubrik adalah kebijakan: 40% akurasi berkata “lebih baik jujur-tak-lengkap daripada lengkap-tapi-salah”. Sesuaikan bobot dengan risikomu.",
       ],
     },
     {
       id: "lab1",
       eyebrow: "Langkah 3 · Lab 1",
-      title: "Lab 1: agen analisis end-to-end (mock)",
+      title: "Lab 1: SQL analyst agent atas dataset kredit (mock)",
       prose: [
-        "Waktunya membangun. Mock menyediakan: `KB` (knowledge base), `tool_search`, `tool_hitung`, `tool_tulis` (mencatat ke AUDIT — tier-1), dan `mock_rencana` yang mengembalikan 4 langkah untuk topik apa pun.",
-        "Tugasmu: (1) implementasikan `agen_capstone(topik, max_steps=6)` — eksekusi rencana langkah per langkah: `search` → simpan ke bukti, `hitung` → simpan sebagai `perubahan_ihsg`, `tulis` → rangkai laporan dan panggil tool_tulis; hormati max_steps; (2) implementasikan `nilai_laporan(hasil)` — kelengkapan = len(bukti)/3, akurasi = 1 jika fakta terverifikasi (bukan \u201Ctidak ada data\u201D), sitasi = 1 jika langkah ≥ 3; kembalikan skor bulat 2 desimal.",
-        "Coba eksplorasi: ubah mock_rencana agar satu search mengembalikan \u201Ctidak ada data\u201D. Berapa skornya? Agen tetap \u201Cselesai\u201D tetapi akurasinya jatuh — itulah kenapa rubrik lebih jujur dari sekadar \u201Cberhasil/tidak\u201D.",
+        "Waktunya membangun. Mock menyediakan dataset KREDIT (8 debitur: plafon, tunggakan, status), tool `sql_query` (parser SELECT mini: COUNT, SUM, AVG + WHERE), `tool_tulis` (mencatat draf ke AUDIT — tier-1), `tool_kirim` (tier-2: butuh approval=True, tanpa itu ditolak), dan `mock_rencana` yang mengembalikan 5 langkah untuk topik apa pun. Setiap pemanggilan tool dicatat ke TRACE sebagai satu span.",
+        "Tugasmu: (1) implementasikan `agen_capstone(topik, max_steps=6)` — eksekusi rencana langkah per langkah: `sql` → simpan ke bukti dengan kunci yang diberikan rencana, `hitung` → NPL = plafon macet dibagi total plafon kali 100, `tulis` → rangkai laporan dan panggil tool_tulis; hormati max_steps; (2) implementasikan `nilai_laporan(hasil)` — kelengkapan = len(bukti)/4, akurasi = 1 jika tidak ada “tidak ada data”, sitasi = 1 jika langkah ≥ 3; kembalikan skor bulat 2 desimal; (3) uji alur persetujuan: kirim tanpa approval harus ditolak, dengan approval harus terkirim.",
+        "Angka yang harus keluar: total plafon Rp6.000 juta, plafon macet Rp1.200 juta (3 debitur), NPL 20,0 persen. Coba eksplorasi: ubah satu baris status menjadi “macet” dan lihat NPL bergerak — lalu tanyakan: apakah laporan yang NPL-nya berubah masih lolos rubrik? Agen tetap “selesai” tetapi akurasinya diuji — itulah kenapa rubrik lebih jujur dari sekadar “Berhasil/tidak”.",
       ],
       tasks: [
-        { id: "t1", text: "Implementasikan `agen_capstone` dengan loop max_steps dan tiga jenis aksi" },
-        { id: "t2", text: "Implementasikan `nilai_laporan` sesuai rubrik dan cetak hasilnya" },
+        { id: "t1", text: "Implementasikan `agen_capstone` dengan loop max_steps dan tiga jenis aksi (sql/hitung/tulis)" },
+        { id: "t2", text: "Implementasikan `nilai_laporan` sesuai rubrik, uji alur persetujuan, dan cetak hasilnya" },
       ],
-      expected: "langkah=4\nperubahan_ihsg=0.84\nskor=1.0",
+      expected: "langkah=5\nmacet=3\nnpl=20.0\nskor=1.0\ntrace=4\nkirim_tanpa_izin=ditolak\nkirim_dengan_izin=terkirim",
       note: {
-        title: "Miskonsepsi: \u201Cskor 1,0 berarti agen sempurna\u201D",
+        title: "Miskonsepsi: “skor 1,0 berarti agen sempurna”",
         type: "pitfall",
-        body: "Yang benar: skor 1,0 pada mock dengan 3 fakta bukan bukti kesiapan produksi — ia bukti ARSlTEKTUR berjalan. Produksi butuh golden tasks nyata (AAI8), guardrail (AAI9), dan observability (AAI11). Jangan tertukar antara \u201Ckode berjalan\u201D dan \u201Csistem siap\u201D.",
+        body: "Yang benar: skor 1,0 pada mock dengan 4 fakta bukan bukti kesiapan produksi — ia bukti ARSlTEKTUR berjalan. Produksi butuh golden tasks nyata (AAI8), guardrail (AAI9), dan observability (AAI11). Jangan tertukar antara “kode berjalan” dan “sistem siap”.",
       },
       hints: [
-        "Loop: for aksi, arg in mock_rencana(topik): jika langkah >= max_steps: break; langkah += 1; ...",
-        "Untuk tulis: isi = f\"Topik: {topik}\" + bukti yang dirangkai; panggil tool_tulis.",
-        "nilai: kelengkapan = min(1.0, len(bukti)/3); akurasi dari \"tidak ada data\"; sitasi dari langkah.",
+        "Loop: for aksi, arg, kunci in mock_rencana(topik): jika langkah >= max_steps: break; langkah += 1; ...",
+        "Untuk sql: bukti[kunci] = sql_query(arg). Untuk hitung: bukti['npl'] = round(bukti['macet_jt']/bukti['total_jt']*100, 1).",
+        "Untuk tulis: isi = f\"Topik: {topik}\" + bukti yang dirangkai + f\"NPL: {bukti['npl']}%\"; panggil tool_tulis.",
+        "nilai: kelengkapan = min(1.0, len(bukti)/4); akurasi dari \"tidak ada data\"; sitasi dari langkah.",
       ],
       code: {
-        starter: `# ===== MOCK — jangan diubah =====\nKB = {"suku bunga": "BI 6,25% (Mar 2026)", "ihsg": "IHSG 7412 (+0,8%)"}\nAUDIT = []\n\ndef tool_search(q):\n    return KB.get(q, "tidak ada data")\n\ndef tool_hitung(expr):\n    return round(eval(expr, {"__builtins__": {}}, {}), 2)\n\ndef tool_tulis(nama, isi):\n    AUDIT.append(nama)\n    return f"tersimpan:{nama}"\n\ndef mock_rencana(topik):\n    return [("search", "suku bunga"), ("search", "ihsg"),\n            ("hitung", "(7412-7350)/7350*100"), ("tulis", "laporan")]\n\n# ===== TULIS KODEMU =====\ndef agen_capstone(topik, max_steps=6):\n    ...\n\ndef nilai_laporan(hasil):\n    ...\n\nhasil = agen_capstone("risiko pasar pekan ini")\nskor = nilai_laporan(hasil)\nprint(f"langkah={hasil['langkah']}")\nprint(f"perubahan_ihsg={hasil['bukti']['perubahan_ihsg']}")\nprint(f"skor={skor}")`,
-        lockLines: 15,
-        solution: `# ===== MOCK — jangan diubah =====\nKB = {"suku bunga": "BI 6,25% (Mar 2026)", "ihsg": "IHSG 7412 (+0,8%)"}\nAUDIT = []\n\ndef tool_search(q):\n    return KB.get(q, "tidak ada data")\n\ndef tool_hitung(expr):\n    return round(eval(expr, {"__builtins__": {}}, {}), 2)\n\ndef tool_tulis(nama, isi):\n    AUDIT.append(nama)\n    return f"tersimpan:{nama}"\n\ndef mock_rencana(topik):\n    return [("search", "suku bunga"), ("search", "ihsg"),\n            ("hitung", "(7412-7350)/7350*100"), ("tulis", "laporan")]\n\n# ===== TULIS KODEMU =====\ndef agen_capstone(topik, max_steps=6):\n    bukti = {}\n    langkah = 0\n    for aksi, arg in mock_rencana(topik):\n        if langkah >= max_steps:\n            break\n        langkah += 1\n        if aksi == "search":\n            bukti[arg] = tool_search(arg)\n        elif aksi == "hitung":\n            bukti["perubahan_ihsg"] = tool_hitung(arg)\n        elif aksi == "tulis":\n            isi = f"Topik: {topik}\\n" + "\\n".join(f"- {k}: {v}" for k, v in bukti.items())\n            tool_tulis("laporan-jumat.txt", isi)\n    return {"langkah": langkah, "bukti": bukti}\n\ndef nilai_laporan(hasil):\n    bukti = hasil["bukti"]\n    kelengkapan = min(1.0, len(bukti) / 3)\n    akurasi = 0.0 if "tidak ada data" in bukti.values() else 1.0\n    sitasi = 1.0 if hasil["langkah"] >= 3 else 0.0\n    return round(0.4 * kelengkapan + 0.4 * akurasi + 0.2 * sitasi, 2)\n\nhasil = agen_capstone("risiko pasar pekan ini")\nskor = nilai_laporan(hasil)\nprint(f"langkah={hasil['langkah']}")\nprint(f"perubahan_ihsg={hasil['bukti']['perubahan_ihsg']}")\nprint(f"skor={skor}")`,
+        starter: `# ===== MOCK — jangan diubah =====
+import re
+
+KREDIT = [
+    {"id": "K1", "debitur": "PT Maju", "sektor": "retail", "plafon_jt": 500, "tunggakan_hari": 0, "status": "lancar"},
+    {"id": "K2", "debitur": "PT Baja", "sektor": "manufaktur", "plafon_jt": 600, "tunggakan_hari": 45, "status": "macet"},
+    {"id": "K3", "debitur": "PT Segar", "sektor": "retail", "plafon_jt": 400, "tunggakan_hari": 10, "status": "lancar"},
+    {"id": "K4", "debitur": "PT Lintas", "sektor": "jasa", "plafon_jt": 400, "tunggakan_hari": 90, "status": "macet"},
+    {"id": "K5", "debitur": "PT Kilat", "sektor": "manufaktur", "plafon_jt": 1000, "tunggakan_hari": 0, "status": "lancar"},
+    {"id": "K6", "debitur": "PT Rapi", "sektor": "jasa", "plafon_jt": 200, "tunggakan_hari": 60, "status": "macet"},
+    {"id": "K7", "debitur": "PT Tani", "sektor": "retail", "plafon_jt": 900, "tunggakan_hari": 5, "status": "lancar"},
+    {"id": "K8", "debitur": "PT Dana", "sektor": "manufaktur", "plafon_jt": 2000, "tunggakan_hari": 0, "status": "lancar"},
+]
+AUDIT = []
+TRACE = []
+
+def sql_query(sql):
+    TRACE.append({"span": "sql_query", "sql": sql})
+    m = re.match(r"SELECT (COUNT\\(\\*\\)|SUM\\((\\w+)\\)|AVG\\((\\w+)\\)) FROM kredit( WHERE (.+))?$", sql.strip())
+    if not m:
+        return "tidak ada data"
+    agg, col_sum, col_avg, where = m.group(1), m.group(2), m.group(3), m.group(5)
+    rows = KREDIT
+    if where:
+        wm = re.match(r"(\\w+) (=|>|<) ('([^']+)'|(\\d+))$", where.strip())
+        if not wm:
+            return "tidak ada data"
+        kolom, op, sval, nval = wm.group(1), wm.group(2), wm.group(4), wm.group(5)
+        nilai = sval if sval is not None else int(nval)
+        if op == "=":
+            rows = [r for r in rows if r[kolom] == nilai]
+        elif op == ">":
+            rows = [r for r in rows if r[kolom] > nilai]
+        else:
+            rows = [r for r in rows if r[kolom] < nilai]
+    if agg == "COUNT(*)":
+        return len(rows)
+    col = col_sum or col_avg
+    if not rows:
+        return 0
+    if col_sum:
+        return sum(r[col] for r in rows)
+    return round(sum(r[col] for r in rows) / len(rows), 2)
+
+def tool_tulis(nama, isi):
+    TRACE.append({"span": "tool_tulis", "nama": nama})
+    AUDIT.append(nama)
+    return f"tersimpan:{nama}"
+
+def tool_kirim(nama, isi, approval=False):
+    if not approval:
+        return "ditolak: butuh persetujuan manusia"
+    AUDIT.append(f"kirim:{nama}")
+    return f"terkirim:{nama}"
+
+def mock_rencana(topik):
+    return [("sql", "SELECT COUNT(*) FROM kredit WHERE status = 'macet'", "macet"),
+            ("sql", "SELECT SUM(plafon_jt) FROM kredit WHERE status = 'macet'", "macet_jt"),
+            ("sql", "SELECT SUM(plafon_jt) FROM kredit", "total_jt"),
+            ("hitung", "npl", "npl"),
+            ("tulis", "laporan", None)]
+
+# ===== TULIS KODEMU =====
+def agen_capstone(topik, max_steps=6):
+    ...
+
+def nilai_laporan(hasil):
+    ...
+
+hasil = agen_capstone("risiko kredit UMKM pekan ini")
+skor = nilai_laporan(hasil)
+macet = hasil['bukti']['macet']
+npl = hasil['bukti']['npl']
+print(f"langkah={hasil['langkah']}")
+print(f"macet={macet}")
+print(f"npl={npl}")
+print(f"skor={skor}")
+print(f"trace={len(TRACE)}")
+print("kirim_tanpa_izin=" + ("ditolak" if tool_kirim("laporan-kredit.txt", "x").startswith("ditolak") else "terkirim"))
+print("kirim_dengan_izin=" + ("terkirim" if tool_kirim("laporan-kredit.txt", "x", approval=True).startswith("terkirim") else "ditolak"))`,
+        lockLines: 63,
+        solution: `# ===== MOCK — jangan diubah =====
+import re
+
+KREDIT = [
+    {"id": "K1", "debitur": "PT Maju", "sektor": "retail", "plafon_jt": 500, "tunggakan_hari": 0, "status": "lancar"},
+    {"id": "K2", "debitur": "PT Baja", "sektor": "manufaktur", "plafon_jt": 600, "tunggakan_hari": 45, "status": "macet"},
+    {"id": "K3", "debitur": "PT Segar", "sektor": "retail", "plafon_jt": 400, "tunggakan_hari": 10, "status": "lancar"},
+    {"id": "K4", "debitur": "PT Lintas", "sektor": "jasa", "plafon_jt": 400, "tunggakan_hari": 90, "status": "macet"},
+    {"id": "K5", "debitur": "PT Kilat", "sektor": "manufaktur", "plafon_jt": 1000, "tunggakan_hari": 0, "status": "lancar"},
+    {"id": "K6", "debitur": "PT Rapi", "sektor": "jasa", "plafon_jt": 200, "tunggakan_hari": 60, "status": "macet"},
+    {"id": "K7", "debitur": "PT Tani", "sektor": "retail", "plafon_jt": 900, "tunggakan_hari": 5, "status": "lancar"},
+    {"id": "K8", "debitur": "PT Dana", "sektor": "manufaktur", "plafon_jt": 2000, "tunggakan_hari": 0, "status": "lancar"},
+]
+AUDIT = []
+TRACE = []
+
+def sql_query(sql):
+    TRACE.append({"span": "sql_query", "sql": sql})
+    m = re.match(r"SELECT (COUNT\\(\\*\\)|SUM\\((\\w+)\\)|AVG\\((\\w+)\\)) FROM kredit( WHERE (.+))?$", sql.strip())
+    if not m:
+        return "tidak ada data"
+    agg, col_sum, col_avg, where = m.group(1), m.group(2), m.group(3), m.group(5)
+    rows = KREDIT
+    if where:
+        wm = re.match(r"(\\w+) (=|>|<) ('([^']+)'|(\\d+))$", where.strip())
+        if not wm:
+            return "tidak ada data"
+        kolom, op, sval, nval = wm.group(1), wm.group(2), wm.group(4), wm.group(5)
+        nilai = sval if sval is not None else int(nval)
+        if op == "=":
+            rows = [r for r in rows if r[kolom] == nilai]
+        elif op == ">":
+            rows = [r for r in rows if r[kolom] > nilai]
+        else:
+            rows = [r for r in rows if r[kolom] < nilai]
+    if agg == "COUNT(*)":
+        return len(rows)
+    col = col_sum or col_avg
+    if not rows:
+        return 0
+    if col_sum:
+        return sum(r[col] for r in rows)
+    return round(sum(r[col] for r in rows) / len(rows), 2)
+
+def tool_tulis(nama, isi):
+    TRACE.append({"span": "tool_tulis", "nama": nama})
+    AUDIT.append(nama)
+    return f"tersimpan:{nama}"
+
+def tool_kirim(nama, isi, approval=False):
+    if not approval:
+        return "ditolak: butuh persetujuan manusia"
+    AUDIT.append(f"kirim:{nama}")
+    return f"terkirim:{nama}"
+
+def mock_rencana(topik):
+    return [("sql", "SELECT COUNT(*) FROM kredit WHERE status = 'macet'", "macet"),
+            ("sql", "SELECT SUM(plafon_jt) FROM kredit WHERE status = 'macet'", "macet_jt"),
+            ("sql", "SELECT SUM(plafon_jt) FROM kredit", "total_jt"),
+            ("hitung", "npl", "npl"),
+            ("tulis", "laporan", None)]
+
+# ===== TULIS KODEMU =====
+def agen_capstone(topik, max_steps=6):
+    bukti = {}
+    langkah = 0
+    for aksi, arg, kunci in mock_rencana(topik):
+        if langkah >= max_steps:
+            break
+        langkah += 1
+        if aksi == "sql":
+            bukti[kunci] = sql_query(arg)
+        elif aksi == "hitung":
+            bukti["npl"] = round(bukti["macet_jt"] / bukti["total_jt"] * 100, 1)
+        elif aksi == "tulis":
+            isi = f"Topik: {topik}\\n" + "\\n".join(f"- {k}: {v}" for k, v in bukti.items())
+            tool_tulis("laporan-kredit.txt", isi)
+    return {"langkah": langkah, "bukti": bukti}
+
+def nilai_laporan(hasil):
+    bukti = hasil["bukti"]
+    kelengkapan = min(1.0, len(bukti) / 4)
+    akurasi = 0.0 if "tidak ada data" in bukti.values() else 1.0
+    sitasi = 1.0 if hasil["langkah"] >= 3 else 0.0
+    return round(0.4 * kelengkapan + 0.4 * akurasi + 0.2 * sitasi, 2)
+
+hasil = agen_capstone("risiko kredit UMKM pekan ini")
+skor = nilai_laporan(hasil)
+macet = hasil['bukti']['macet']
+npl = hasil['bukti']['npl']
+print(f"langkah={hasil['langkah']}")
+print(f"macet={macet}")
+print(f"npl={npl}")
+print(f"skor={skor}")
+print(f"trace={len(TRACE)}")
+print("kirim_tanpa_izin=" + ("ditolak" if tool_kirim("laporan-kredit.txt", "x").startswith("ditolak") else "terkirim"))
+print("kirim_dengan_izin=" + ("terkirim" if tool_kirim("laporan-kredit.txt", "x", approval=True).startswith("terkirim") else "ditolak"))`,
         checks: [
           { kind: "defined", task: "t1", name: "agen_capstone", label: "`agen_capstone` terdefinisi", msg: "Definisikan fungsi agen_capstone(topik, max_steps=6)." },
           { kind: "defined", task: "t2", name: "nilai_laporan", label: "`nilai_laporan` terdefinisi", msg: "Definisikan fungsi nilai_laporan(hasil) sesuai rubrik." },
-          { kind: "equal", task: "t2", name: "skor", value: 1.0, tol: 1e-9, label: "`skor` = 1.0", msg: "0,4×1 + 0,4×1 + 0,2×1. Cek tiap komponen rubrik." },
-          { kind: "stdout_matches", task: "t2", pattern: "langkah=4\\nperubahan_ihsg=0\\.84\\nskor=1\\.0", label: "output tiga baris sesuai format", msg: "(7412−7350)/7350×100 = 0,84. Samakan format print." },
+          { kind: "equal", task: "t2", name: "macet", value: 3, tol: 1e-9, label: "`macet` = 3 debitur", msg: "K2, K4, K6 berstatus macet — hitung via SELECT COUNT(*) WHERE status = 'macet'." },
+          { kind: "equal", task: "t2", name: "npl", value: 20.0, tol: 1e-9, label: "`npl` = 20.0", msg: "1.200 / 6.000 x 100 = 20,0. Cek SUM macet dan SUM total." },
+          { kind: "equal", task: "t2", name: "skor", value: 1.0, tol: 1e-9, label: "`skor` = 1.0", msg: "0,4x1 + 0,4x1 + 0,2x1. Cek tiap komponen rubrik." },
+          { kind: "stdout_matches", task: "t2", pattern: "langkah=5\\nmacet=3\\nnpl=20\\.0\\nskor=1\\.0\\ntrace=4\\nkirim_tanpa_izin=ditolak\\nkirim_dengan_izin=terkirim", label: "output tujuh baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "eval terbatas, dict bukti, rubrik 0,4/0,4/0,2.",
+      reference: "SQL read-only + rubrik 0,4/0,4/0,2 + tier-2 butuh approval + trace tiap span.",
     },
     {
       id: "lab2",
       eyebrow: "Langkah 4 · Lab 2",
       title: "Lab 2: evaluasi 3 trajectory capstone",
       prose: [
-        "Tiga analis menguji agenmu dengan topik berbeda. Trajectory-nya (skor, langkah, loop): A = (0,95; 4; tidak), B = (0,55; 6; tidak — satu fakta \u201Ctidak ada data\u201D), C = (0,90; 14; YA — loop search berulang).",
+        "Tiga analis menguji agen SQL-mu dengan pertanyaan kredit berbeda. Trajectory-nya (skor, langkah, loop): A = (0,95; 4; tidak), B = (0,55; 6; tidak — satu fakta \u201Ctidak ada data\u201D), C = (0,90; 14; YA — loop query berulang).",
         "Tugasmu: implementasikan `rekap(trajs)` — hitung `rata_skor`, `lulus` (skor ≥ 0,8), dan `boros` (id dengan langkah > 10 ATAU loop). Cetak sesuai format. Pertanyaan kunci: trajectory C skor 0,90 tetapi boros — lulus atau tidak?",
         "Pembahasan: C adalah \u201Ct3 dari AAI8\u201D — keberhasilan yang rapuh. Keputusan Dina: C TIDAK lulus tanpa perbaikan; skor tanpa efisiensi = bom biaya di produksi. Inilah kenapa evaluasi capstone memakai DUA gerbang: skor ≥ 0,8 DAN tidak boros.",
       ],
@@ -349,13 +528,121 @@ print(f"USULAN: {len(hasil['usulan'])}")`,
         ],
       },
       reference: "Aturan emas: selisih yang tak bisa dijelaskan = pekerjaan manusia. Jangan pernah memaksa cocok.",
+    },    {
+      id: "lab-mcp-server",
+      eyebrow: "Langkah 9 · Lab 3: server MCP",
+      title: "Lab 3: satu server MCP untuk tools agen",
+      prose: [
+        "Spec capstone meminta SATU SERVER MCP — dan sampai langkah ini tools agen hanya hidup di dalam kode capstone. Server MCP (Model Context Protocol, AAI13) mengekspos tools yang sama lewat protokol standar: klien mana pun bisa menemukan daftar tools (`list_tools`), memanggilnya (`call_tool`), dan mendapat error yang terstruktur bila nama tool tidak dikenal.",
+        "Mock di lab ini adalah server MCP mini: `TOOLS` mendaftarkan dua tool (sql_query read-only dan tulis_laporan tier-1) beserta deskripsinya; `mcp_list_tools` mengembalikan nama-namanya; `mcp_call` menjalankan tool yang dikenal dan menolak yang tidak dikenal. Tugasmu: implementasikan `agen_via_mcp` — daftar tools dulu, panggil sql_query untuk menghitung debitur macet, tulis draf laporan lewat tool, dan tangani pemanggilan tool yang tidak dikenal dengan elegan.",
+        "Perhatikan: agen via MCP TIDAK PERNAH memanggil fungsi Python langsung — semua lewat `mcp_call`. Itulah gunanya protokol: agen dan tools bisa hidup di proses, mesin, bahkan vendor yang berbeda, selama keduanya bicara MCP. Satu server, banyak klien — tanpa integrasi custom per klien.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `agen_via_mcp(pertanyaan)` — list tools, panggil sql_query, tulis laporan" },
+        { id: "t2", text: "Uji pemanggilan tool yang tidak dikenal dan cetak rekap" },
+      ],
+      expected: "tools=2\nmacet_mcp=3\nunknown=ditolak",
+      note: {
+        title: "💡 Intuisi",
+        body: "MCP adalah jawaban atas masalah N×M di AAI17: tanpa protokol, tiap agen butuh integrasi custom ke tiap tool. Dengan satu server MCP, tool ditulis sekali dan dipakai semua agen — termasuk agen yang dibangun vendor lain.",
+      },
+      hints: [
+        "tools = mcp_list_tools(); hasil = mcp_call('sql_query', {'sql': ...}).",
+        "Tool tak dikenal mengembalikan {'error': 'tool tidak dikenal'} — cek kunci 'error'.",
+        "Tulis laporan lewat mcp_call('tulis_laporan', {'nama': ..., 'isi': ...}).",
+      ],
+      code: {
+        starter: `# ===== MOCK MCP SERVER — jangan diubah =====
+TOOLS = {
+    "sql_query": {"deskripsi": "Jalankan SELECT read-only atas dataset kredit", "input": ["sql"]},
+    "tulis_laporan": {"deskripsi": "Simpan draf laporan (tier-1)", "input": ["nama", "isi"]},
+}
+
+def mcp_list_tools():
+    return sorted(TOOLS)
+
+def mcp_call(nama, argumen):
+    if nama not in TOOLS:
+        return {"error": "tool tidak dikenal"}
+    if nama == "sql_query":
+        return {"hasil": 3}  # COUNT(*) debitur macet
+    return {"hasil": "tersimpan:" + argumen["nama"]}
+
+# ===== TULIS KODEMU =====
+def agen_via_mcp(pertanyaan):
+    ...
+
+hasil = agen_via_mcp("berapa debitur macet?")
+tes_unknown = mcp_call("hapus_database", {})
+print(f"tools={len(mcp_list_tools())}")
+print(f"macet_mcp={hasil['macet']}")
+print("unknown=" + ("ditolak" if "error" in tes_unknown else "lolos"))`,
+        lockLines: 17,
+        solution: `# ===== MOCK MCP SERVER — jangan diubah =====
+TOOLS = {
+    "sql_query": {"deskripsi": "Jalankan SELECT read-only atas dataset kredit", "input": ["sql"]},
+    "tulis_laporan": {"deskripsi": "Simpan draf laporan (tier-1)", "input": ["nama", "isi"]},
+}
+
+def mcp_list_tools():
+    return sorted(TOOLS)
+
+def mcp_call(nama, argumen):
+    if nama not in TOOLS:
+        return {"error": "tool tidak dikenal"}
+    if nama == "sql_query":
+        return {"hasil": 3}  # COUNT(*) debitur macet
+    return {"hasil": "tersimpan:" + argumen["nama"]}
+
+# ===== TULIS KODEMU =====
+def agen_via_mcp(pertanyaan):
+    tools = mcp_list_tools()
+    assert "sql_query" in tools and "tulis_laporan" in tools
+    r = mcp_call("sql_query", {"sql": "SELECT COUNT(*) FROM kredit WHERE status = 'macet'"})
+    macet = r["hasil"]
+    mcp_call("tulis_laporan", {"nama": "laporan-kredit.txt", "isi": f"Debitur macet: {macet}"})
+    return {"macet": macet, "tools": len(tools)}
+
+hasil = agen_via_mcp("berapa debitur macet?")
+tes_unknown = mcp_call("hapus_database", {})
+print(f"tools={len(mcp_list_tools())}")
+print(f"macet_mcp={hasil['macet']}")
+print("unknown=" + ("ditolak" if "error" in tes_unknown else "lolos"))`,
+        checks: [
+          { kind: "defined", task: "t1", name: "agen_via_mcp", label: "`agen_via_mcp` terdefinisi", msg: "Definisikan agen_via_mcp(pertanyaan) yang memakai mcp_list_tools + mcp_call." },
+          { kind: "equal", task: "t1", name: "hasil", value: {"macet": 3, "tools": 2}, label: "`hasil` = macet 3 via 2 tools", msg: "COUNT(*) debitur macet = 3; server mendaftarkan 2 tools." },
+          { kind: "stdout_matches", task: "t2", pattern: "tools=2\\nmacet_mcp=3\\nunknown=ditolak", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "MCP = list_tools + call_tool + error terstruktur. Satu server, banyak klien.",
     },
+
+    {
+      id: "design-review",
+      eyebrow: "Langkah 10 · Design review",
+      title: "Design review: arsitektur SQL analyst agent",
+      prose: [
+        "Design review adalah langkah eksplisit di track ini: kamu mengkritik sebuah RANCANGAN sebelum ia dibangun. Rancangan Dina di atas meja: SQL analyst agent atas dataset kredit, tool sql_query read-only, laporan draf tier-1, kirim tier-2 butuh approval, satu server MCP, eval suite 3 trajectory. Tiga pertanyaan reviewer yang wajib dijawab tertulis.",
+        "Pertanyaan pertama: apa yang terjadi bila analis bertanya di luar skema — “berapa NPL segmen yang tidak ada di tabel?” Agen yang menjawab dari ingatan model (bukan dari SQL) menghasilkan angka karangan dengan format laporan resmi. Perbaikan: agen WAJIB menjawab “tidak ada data” bila query mengembalikan kosong — dan rubrik menghukum karangan lebih berat dari ketidaklengkapan.",
+        "Pertanyaan kedua: siapa yang menanggung kesalahan bila laporan yang sudah di-ACC ternyata salah angka? Approval manusia bukan stempel karet — penandatangan harus bisa memeriksa query SQL yang ditampilkan di laporan. Bila query tidak ditampilkan, approval tidak bermakna. Pertanyaan ketiga: server MCP mengekspos sql_query ke klien lain — bagaimana mencegah klien lain memakai tool itu untuk membaca data yang bukan haknya? Jawabannya: autentikasi per klien + scope per tool (AAI16), bukan kepercayaan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Tulis 1 kelemahan tambahan rancangan di atas (di luar ketiga pertanyaan) beserta perbaikan konkretnya" },
+        { id: "t2", text: "Tulis kriteria “laporan boleh dikirim”: skor rubrik + kondisi trace + kondisi approval — dalam 3 baris" },
+      ],
+      note: {
+        title: "💡 Intuisi: design review mencari asumsi, bukan kesalahan ketik",
+        body: "Kode yang salah ketik ketahuan di test. Asumsi yang salah (“analis selalu bertanya dalam skema”, “approval selalu dibaca”) ketahuan di insiden. Design review adalah satu-satunya momen murah untuk menangkap asumsi.",
+      },
+      reference: "Design review = kritik rancangan sebelum dibangun: luar skema, makna approval, scope server MCP.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu — dan penutup track",
       prose: [
-        "Lima pertanyaan terakhir track ini. Lalu rangkuman perjalananmu dari AAI1.",
+        "Lima pertanyaan terakhir inti track ini. Lalu rangkuman perjalananmu dari AAI1. Catatan penutup: lesson setelah capstone (AAI13–AAI21) adalah modul lanjutan opsional — capstone menutup inti track; lanjutkan bila butuh pendalaman (MCP, context engineering, hardening, keamanan tool).",
       ],
       tasks: [],
       summary: [
@@ -364,7 +651,7 @@ print(f"USULAN: {len(hasil['usulan'])}")`,
         "Rubrik 0,4/0,4/0,2: kelengkapan, akurasi, sitasi — jujur-tak-lengkap > lengkap-tapi-salah.",
         "Dua gerbang kelulusan: skor ≥ 0,8 DAN tidak boros (efisiensi adalah keandalan).",
         "Lima gerbang deploy: evaluasi, guardrail, observability, rollback, manusia.",
-        "Seluruh track: dari chatbot ke agen (AAI1), anatomi (AAI2), tools (AAI3), memory (AAI4), RAG (AAI5), multi-agent (AAI6), prompt (AAI7), evaluasi (AAI8), guardrail (AAI9), framework (AAI10), debugging (AAI11) — kini jadi satu sistem.",
+        "Seluruh inti track: dari chatbot ke agen (AAI1), anatomi (AAI2), tools (AAI3), memory (AAI4), RAG (AAI5), multi-agent (AAI6), prompt (AAI7), evaluasi (AAI8), guardrail (AAI9), framework (AAI10), debugging (AAI11) — kini jadi satu sistem SQL analyst agent dengan server MCP.",
       ],
       next: { label: "AAI13 — MCP: Satu Protokol untuk Semua Tool", href: "/v2/learn/aai13-mcp" },
       quiz: [
@@ -411,6 +698,24 @@ print(f"USULAN: {len(hasil['usulan'])}")`,
             { text: "Planner menilai dirinya sendiri", why: "Itu konflik kepentingan: agen yang menilai dirinya sendiri akan selalu “lulus”. Di capstone Dina, penilai = rubrik independen (+ manusia untuk sampel) — bukan agen itu sendiri. Prinsip “yang menilai tidak boleh yang menjalankan” = fondasi kepercayaan seluruh sistem.", },
             { text: "Menghapus evaluator agar cepat", why: "Menghapus rem agar cepat = insiden.", },
             { text: "Skor dari perasaan", why: "\u201CVibes\u201D bukan metrik (AAI8).", },
+          ],
+        },
+        {
+          q: "SQL analyst agent: analis bertanya soal segmen yang TIDAK ada di tabel kredit. Respons yang benar?",
+          options: [
+            { text: "Jawab dengan perkiraan dari ingatan model agar laporan tetap lengkap", why: "Itu karangan berformat resmi — pelanggaran akurasi yang dihukum rubrik.", },
+            { text: "Jawab “tidak ada data” dan catat di laporan — kelengkapan boleh kurang, akurasi tidak boleh bohong", why: "Benar: rubrik 40/40/20 memaafkan tak-lengkap tetapi tidak memaafkan angka salah.", correct: true },
+            { text: "Buat tabel segmen itu sendiri agar query jalan", why: "Itu fabrikasi data — pelanggaran integritas.", },
+            { text: "Abaikan pertanyaan itu diam-diam", why: "Diam-diam menghilangkan jejak — laporan harus mencatat apa yang tidak terjawab.", },
+          ],
+        },
+        {
+          q: "Kenapa tools capstone diekspos lewat SATU server MCP, bukan integrasi custom per klien?",
+          options: [
+            { text: "Agar lebih cepat", why: "Kecepatan bukan alasan utamanya — interoperabilitas yang dicari.", },
+            { text: "Satu server, banyak klien: tool ditulis sekali, dipakai semua agen tanpa integrasi custom (masalah N×M)", why: "Benar: MCP = list_tools + call_tool + error terstruktur — protokol bersama, bukan kabel custom.", correct: true },
+            { text: "Agar tidak perlu approval manusia", why: "Salah: MCP tidak menggantikan tier dan approval — tool tulis tetap tier-1/2.", },
+            { text: "Agar SQL bisa menulis ke database", why: "Salah: sql_query capstone read-only — MCP tidak mengubah izin tool.", },
           ],
         },
       ],

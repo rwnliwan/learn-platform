@@ -44,7 +44,7 @@ export const wqb29: V2Lesson = {
   track: "WorldQuant Brain",
   module: "Riset Kuantitatif",
   title: "WQB29 — SuperAlpha: Blending Banyak Alpha Menjadi Satu Sinyal",
-  estMinutes: 62,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -200,6 +200,7 @@ export const wqb29: V2Lesson = {
         "Bobot dari performa in-sample adalah selection overfitting; equal weight adalah baseline yang sulit dikalahkan di luar sampel.",
         "Komponen yang gugur dari blend tidak mati — ia tetap alpha mandiri; yang dibuang hanya redundansinya.",
       ],
+      next: { label: "WQB30 — Capstone Akhir: Dari Submit ke Portofolio Produksi", href: "/learn/wqb30-capstone-akhir" },
       quiz: [
         {
           q: "SuperAlpha pertama Raka berada di bawah komponen terbaiknya. Dua penyebab yang ditemukan adalah...",

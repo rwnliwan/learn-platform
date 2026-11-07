@@ -30,7 +30,7 @@ export const biz22: V2Lesson = {
   track: "Business Intelligence",
   module: "Insight & Komunikasi",
   title: "BI22 — Teori Visualisasi: Kenapa Bagan Bekerja (atau Menipu)",
-  estMinutes: 65,
+  estMinutes: 70,
   steps: [
     {
       id: "peta",
@@ -223,6 +223,35 @@ for b in basis_uji:
       tasks: [],
     },
     {
+      id: "small-multiples",
+      eyebrow: "Tambahan · BZ5",
+      title: "Small multiples: dua belas chart kecil mengalahkan satu chart besar",
+      prose: [
+        "Small multiples (juga disebut facet atau trellis) adalah satu chart yang dipecah menjadi banyak chart KECIL dengan format yang sama — satu per kategori — disusun dalam grid. Contoh: penjualan 12 gerai selama 12 bulan. Satu chart garis dengan 12 garis berwarna = spageti yang tidak bisa dibaca. Dua belas chart kecil (satu per gerai, masing-masing satu garis) = mata langsung melihat gerai mana yang naik, mana yang datar, mana yang jatuh — tanpa legenda, tanpa warna yang berebut perhatian.",
+        "Tiga aturan yang membuatnya bekerja. Satu: SKALA SAMA — semua panel memakai sumbu Y yang sama; panel dengan skala berbeda menipu perbandingan (gerai kecil yang naik 10 persen terlihat sama dramatisnya dengan gerai besar yang naik 10 persen — padahal nilai absolutnya berbeda jauh; bila skala harus berbeda, tulis dengan huruf besar di tiap panel). Dua: FORMAT SAMA — judul, sumbu, dan anotasi yang identik; otak membandingkan BENTUK, bukan membaca ulang tiap panel. Tiga: URUTKAN DENGAN MAKNA — susun panel berdasarkan ukuran atau tren (terbesar dulu, atau yang paling memburuk dulu), bukan abjad; urutan adalah argumen.",
+        "Kapan MEMAKAI: membandingkan tren antar kategori (gerai, produk, wilayah, segmen) yang jumlahnya 4–20. Kapan TIDAK memakai: kategori lebih dari 20 (grid menjadi perangko yang tidak terbaca — kelompokkan dulu), atau bila yang dibutuhkan justru perbandingan nilai eksak antar kategori pada satu titik waktu (pakai bar chart terurut). Small multiples menjawab 'bagaimana BENTUKNYA berubah', bukan 'berapa tepatnya'.",
+        "Hubungan dengan hierarki saluran visual (langkah 3 lesson ini): small multiples memanfaatkan saluran terkuat — POSISI — secara berulang. Tiap panel adalah satu garis posisi terhadap waktu; otak manusia sangat cepat membandingkan bentuk garis. Inilah alasan ia terasa 'mudah dibaca': ia tidak meminta otak bekerja lebih keras, ia meminta otak melakukan hal yang sudah ia kuasai — mengenali pola.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Satu chart 12 garis lebih hemat tempat.” Hemat tempat, boros pemahaman. Dua belas garis dalam satu chart memaksa pembaca menghafal legenda warna; dua belas panel kecil membiarkan pembaca MEMBANDINGKAN bentuk secara langsung. Hematlah tempat di tempat lain — bukan di pemahaman.",
+      },
+      quiz: [
+        {
+          q: "Dua belas gerai, tren penjualan 12 bulan tiap gerai. Visualisasi yang paling mudah dibaca?",
+          options: [
+            { text: "Satu chart garis dengan 12 garis berwarna berbeda", why: "Salah: 12 garis = spageti; pembaca menghafal legenda, bukan membaca tren." },
+            { text: "Small multiples: 12 panel kecil, satu per gerai, skala Y sama, diurutkan berdasarkan tren", why: "Benar: format sama + skala sama = otak membandingkan bentuk secara langsung.", correct: true },
+            { text: "Satu pie chart dengan 12 irisan", why: "Salah: pie membandingkan porsi satu titik waktu, bukan tren 12 bulan." },
+            { text: "Dua belas chart besar di dua belas halaman", why: "Salah: perbandingan antar halaman mustahil — panel harus berdampingan dalam satu layar." },
+          ],
+        },
+      ],
+      reference: "Small multiples = satu format, banyak panel, skala sama. Bandingkan bentuk, bukan legenda.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -231,6 +260,7 @@ for b in basis_uji:
       ],
       tasks: [],
       summary: [
+        "Small multiples: satu format, banyak panel kecil, skala sama — otak membandingkan bentuk, bukan legenda.",
         "Saluran visual terakurat: posisi > panjang > sudut > luas > warna — data terpenting pakai saluran terakurat.",
         "Faktor kebohongan L = kesan_visual / perubahan_data_nyata; L \u2248 1 berarti jujur.",
         "Pilih bagan dari pertanyaan: perbandingan \u2192 batang, tren \u2192 garis, komposisi \u2192 stacked, distribusi \u2192 histogram, hubungan \u2192 scatter.",

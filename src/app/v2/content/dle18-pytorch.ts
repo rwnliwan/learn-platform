@@ -276,7 +276,7 @@ print(f"loss_akhir={loss_akhir:.4f}")`,
         "Semua tensor dalam satu operasi harus di device yang sama; mixed precision butuh GradScaler agar gradien tidak underflow di FP16.",
         "Pilih framework dari kebutuhan: sklearn untuk tabel & audit, PyTorch untuk custom, JAX untuk skala, Keras untuk prototyping cepat.",
       ],
-      next: { label: "DLE3 — CNN untuk Citra", href: "/v2/learn/dle3-cnn" },
+      next: { label: "DLE2 — Neural Network: Forward & Backprop", href: "/v2/learn/dle2-nn" },
       quiz: [
         {
           q: "Apa fungsi optimizer.zero_grad() dalam training loop?",

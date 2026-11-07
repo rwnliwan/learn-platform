@@ -21,7 +21,7 @@ export const aai7: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Arsitektur",
   title: "AAI7 — Prompt Engineering untuk Agen",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -171,7 +171,65 @@ export const aai7: V2Lesson = {
         type: "risk",
         body: "Field `skor` yang hilang diam-diam di laporan risiko = dasbor menampilkan default 0 = \u201Ctidak ada risiko\u201D. Validasi skema di pipeline laporan adalah kontrol risiko, bukan sekadar kerapian data.",
       },
+    },    {
+      id: "lab-anggaran-konteks",
+      eyebrow: "Langkah 6 · Lab anggaran konteks",
+      title: "Lab: anggaran konteks — muat atau ringkas?",
+      prose: [
+        "Prompt agen tersusun dari empat bagian (token, ilustratif): sistem 180, riwayat 950, tugas 120, definisi tools 250. Budget konteks model 2.000 token. Tugasmu: hitung total dan sisa — lalu uji: bila riwayat bertambah 600 token, apakah prompt masih muat?",
+        "Ini adalah prompt engineering yang paling praktis: bukan memilih kata yang indah, melainkan mengelola ANGGARAN. Prompt yang melebihi budget dipotong diam-diam dari tengah — biasanya bagian riwayat yang justru berisi konteks penting.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `total` dan `sisa` dari keempat bagian terhadap budget 2000" },
+        { id: "t2", text: "Uji apakah `total + 600` masih muat (`muat_tambah`) dan cetak ketiganya" },
+      ],
+      expected: "total=1500\nsisa=500\ntambah_600_muat=False",
+      note: {
+        title: "💡 Intuisi",
+        body: "Sisa 500 token terdengar lega — sampai riwayat tumbuh 600 token dan prompt melebihi budget. Anggaran konteks bukan angka statis: ia tumbuh tiap putaran loop. Agen yang tidak menganggarkan konteks akan terpotong di tengah tugas terpanjangnya.",
+      },
+      hints: [
+        "total = sistem + riwayat + tugas + tools.",
+        "sisa = budget - total; muat = total + tambahan <= budget.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+SISTEM, RIWAYAT, TUGAS, TOOLS = 180, 950, 120, 250
+BUDGET = 2000
+TAMBAHAN = 600
+
+# TULIS KODEMU
+total = ...
+sisa = ...
+muat_tambah = ...
+
+print(f"total={total}")
+print(f"sisa={sisa}")
+print(f"tambah_600_muat={muat_tambah}")`,
+        lockLines: 6,
+        solution: `# DATA — jangan diubah
+SISTEM, RIWAYAT, TUGAS, TOOLS = 180, 950, 120, 250
+BUDGET = 2000
+TAMBAHAN = 600
+
+# TULIS KODEMU
+total = SISTEM + RIWAYAT + TUGAS + TOOLS
+sisa = BUDGET - total
+muat_tambah = (total + TAMBAHAN) <= BUDGET
+
+print(f"total={total}")
+print(f"sisa={sisa}")
+print(f"tambah_600_muat={muat_tambah}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "total", value: 1500, tol: 1e-9, label: "`total` = 1500", msg: "180 + 950 + 120 + 250 = 1.500." },
+          { kind: "equal", task: "t1", name: "sisa", value: 500, tol: 1e-9, label: "`sisa` = 500", msg: "2.000 − 1.500 = 500." },
+          { kind: "equal", task: "t2", name: "muat_tambah", value: false, label: "`muat_tambah` = False", msg: "1.500 + 600 = 2.100 > 2.000 — tidak muat, harus diringkas." },
+          { kind: "stdout_matches", task: "t2", pattern: "total=1500\\nsisa=500\\ntambah_600_muat=False", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Anggaran konteks = jumlah bagian vs budget. Prompt yang meluber dipotong diam-diam.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -233,6 +291,24 @@ export const aai7: V2Lesson = {
             { text: "Skema JSON ketat + validasi kode + retry maks 2×", why: "Tepat. Tiga lapis: spesifikasikan, verifikasi, beri kesempatan kedua.", correct: true },
             { text: "Percayakan pada model besar", why: "Model besar pun gagal format tanpa skema — IFR tidak pernah 100%.", },
             { text: "Tulis ulang manual tiap pagi", why: "Maka agennya tidak berguna.", },
+          ],
+        },
+        {
+          q: "Prompt agen: sistem 180 + riwayat 950 + tugas 120 + tools 250 = 1.500 token; budget 2.000. Riwayat tumbuh 600 token. Apa yang terjadi?",
+          options: [
+            { text: "Masih muat — sisa 500 cukup", why: "Salah: 1.500 + 600 = 2.100 > 2.000 — tidak muat.", },
+            { text: "Tidak muat (2.100 > 2.000) — riwayat harus diringkas sebelum prompt dikirim", why: "Benar: prompt yang meluber dipotong diam-diam dari tengah — ringkas dulu, jangan biarkan model memotong.", correct: true },
+            { text: "Model menolak seluruh prompt", why: "Model tidak menolak — ia memotong diam-diam, dan itulah bahayanya.", },
+            { text: "Tidak ada yang terjadi — budget hanya saran", why: "Salah: budget konteks adalah batas keras model.", },
+          ],
+        },
+        {
+          q: "Apa prompt engineering yang paling praktis untuk agen multi-langkah?",
+          options: [
+            { text: "Memilih kata yang paling indah", why: "Keindahan tidak menentukan keberhasilan loop.", },
+            { text: "Mengelola anggaran konteks: jumlah bagian, sisa, dan kapan merangkum riwayat", why: "Benar: prompt tumbuh tiap putaran — tanpa anggaran, ia terpotong di tengah tugas terpanjang.", correct: true },
+            { text: "Menulis prompt sepanjang mungkin", why: "Kebalikannya: prompt yang meluber dipotong diam-diam.", },
+            { text: "Menghapus bagian sistem agar hemat", why: "Bagian sistem berisi aturan main — menghapusnya mengorbankan perilaku demi token.", },
           ],
         },
       ],

@@ -34,7 +34,7 @@ export const mlops12: V2Lesson = {
   track: "MLOps",
   module: "Governance & Skala",
   title: "MLOps12 — Capstone: Pipeline MLOps End-to-End",
-  estMinutes: 75,
+  estMinutes: 85,
   steps: [
     {
       id: "brief",
@@ -44,7 +44,7 @@ export const mlops12: V2Lesson = {
         "E-wallet DompetKu: 5 juta transaksi/hari, fraud rate 0,08%, rata-rata kerugian Rp1,2 juta per kasus fraud. Direksi meminta sistem fraud scoring real-time: keputusan dalam < 300ms (p99), target menangkap ≥ 60% fraud dengan false positive < 0,5%. Budget infra Rp400 jt/bulan. Kamu ditunjuk sebagai MLOps lead.",
         "Tantangannya bukan akurasi — tim data sudah punya model precision 78%, recall 65%. Tantanganmu: merancang OPERASI-nya. Bagaimana data mengalir? Di mana gerbang kualitasnya? Apa yang dipantau? Kapan retrain? Bagaimana rollback? Siapa yang bertanggung jawab saat OJK bertanya?",
         "Di capstone ini kamu merakit seluruh track (MLOps1–11) menjadi satu rancangan, lalu menguji intinya lewat lab integrasi. Tidak ada jawaban tunggal yang benar — tapi ada rancangan yang bisa dipertahankan dengan angka, dan ada yang runtuh saat ditanya.",
-        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang arsitektur MLOps end-to-end untuk fraud scoring real-time dari nol; (2) menghitung ekonomi keputusan rancangan (biaya vs risiko) seperti di mini-case DompetKu; (3) menetapkan error budget dan menggunakannya untuk memutuskan kapan boleh deploy; (4) menginterogasi rancangan sendiri dengan 5 pertanyaan tersulit sebelum presentasi ke direksi.",
+        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang arsitektur MLOps end-to-end untuk fraud scoring real-time dari nol; (2) menghitung ekonomi keputusan rancangan (biaya vs risiko) seperti di mini-case DompetKu; (3) menetapkan error budget dan menggunakannya untuk memutuskan kapan boleh deploy; (4) menginterogasi rancangan sendiri dengan 5 pertanyaan tersulit sebelum presentasi ke direksi; (5) men-deploy model ke Kubernetes lokal (kind/minikube) dan memverifikasi kesiapannya sebelum naik ke managed prod.",
       ],
       tasks: [],
       note: {
@@ -59,7 +59,7 @@ export const mlops12: V2Lesson = {
       eyebrow: "Langkah 2 · Arsitektur",
       title: "Rancangan referensi DompetKu",
       prose: [
-        "Aliran rancangan: (1) Stream transaksi → validasi skema/rentang per batch mikro (MLOps9) → feature store: online (Redis, fitur 1 jam terakhir) + offline (warehouse, point-in-time benar — MLOps3). (2) Pipeline training terjadwal + berpemicu (MLOps2, MLOps8): validate → train → evaluate → registry (MLOps4) → gerbang kualitas (MLOps5). (3) Deploy via shadow 2 minggu → canary 5% → penuh; rollback 1-klik. (4) Serving: API online + autoscaling proaktif + buffer 30% (MLOps6). (5) Monitoring 4 lapis + alert berjenjang (MLOps7). (6) Governance: lineage hash-chain + model card + maker-checker + retensi 5 tahun (MLOps10). Training di spot K8s ber-checkpoint (MLOps11).",
+        "Aliran rancangan: (1) Stream transaksi → validasi skema/rentang per batch mikro (MLOps9) → feature store: online (Redis, fitur 1 jam terakhir) + offline (warehouse, point-in-time benar — MLOps3). (2) Pipeline training terjadwal + berpemicu (MLOps2, MLOps8): validate → train → evaluate → registry (MLOps4) → gerbang kualitas (MLOps5). (3) Deploy via shadow 2 minggu → canary 5% → penuh; rollback 1-klik. (4) Serving: API online + autoscaling proaktif + buffer 30% (MLOps6). (5) Monitoring 4 lapis + alert berjenjang (MLOps7). (6) Governance: lineage hash-chain + model card + maker-checker + retensi 5 tahun (MLOps10). Training di spot K8s ber-checkpoint (MLOps11). Sebelum semua itu, deploy PERTAMA dilakukan di Kubernetes lokal (kind) — tempat rancangan diuji tanpa tagihan cloud (Langkah 4).",
         "Keputusan kunci rancangan: pola serving ONLINE (SLA 300ms menuntutnya — MLOps6), retrain TRIGGER-BASED (risiko tinggi + label 30 hari — MLOps8), promote SEMI-OTOMATIS (otomatis ke staging, manual ke production untuk versi minor; manual penuh untuk mayor — MLOps4/5).",
         "💡 Intuisi: rancangan yang baik seperti denah rumah yang bisa dijelaskan ke tukang: tiap ruangan (komponen) punya fungsi, aliran (data) jelas, dan ada pintu darurat (rollback) di setiap lantai. Jika denahmu butuh 30 menit menjelaskan, ia terlalu rumit.",
       ],
@@ -114,8 +114,123 @@ export const mlops12: V2Lesson = {
       reference: "Rantai terlemah menentukan. GAGAL di satu tahap = berhenti + alert.",
     },
     {
+      id: "k8s-lokal",
+      eyebrow: "Langkah 4 · Deploy lokal",
+      title: "Deploy ke Kubernetes lokal (kind): latihan tanpa tagihan cloud",
+      prose: [
+        "Rancangan di Langkah 2 menyebut 'deploy via shadow → canary → penuh' — tetapi di mana deploy PERTAMA itu diuji? Jawabannya: di Kubernetes lokal di laptopmu, dengan kind (Kubernetes in Docker) atau minikube. Klaster lokal adalah tempat rancangan DompetKu dibuktikan sebelum satu rupiah cloud dibelanjakan: manifest ditulis, di-apply, diuji, di-rollback — semuanya gratis dan bisa diulang 20 kali sehari. Konsep K8s-nya (pod, Deployment, Service, HPA, readiness probe) diajarkan di MLOps11; langkah ini adalah latihan tangannya untuk capstone.",
+        "Alur hands-on (jalankan di laptopmu): (1) kind create cluster --name dompetku — satu klaster satu node di dalam Docker. (2) Bangun image model: docker build -t fraud-scorer:v1.4.2 . — tag versi eksplisit, JANGAN :latest (yang tidak bisa di-rollback dengan pasti). (3) kind load docker-image fraud-scorer:v1.4.2 --name dompetku — image masuk ke klaster lokal. (4) kubectl apply -f k8s/ — Deployment (2 replika) + Service + HPA (min 2, max 6, target CPU 70 persen). (5) kubectl get pods -w — tunggu status Running DAN ready 2/2 (readiness probe yang menentukan, bukan sekadar 'jalan'). (6) kubectl port-forward svc/fraud-scorer 8080:80 — lalu curl POST ke localhost:8080/predict dan pastikan response memuat model_version. (7) Uji rollback: kubectl rollout undo deployment/fraud-scorer — lalu verifikasi versi kembali. (8) Uji HPA: beri beban sintetis, amati replika naik dari 2 ke arah 6.",
+        "Empat syarat kesiapan sebelum manifest boleh naik ke managed prod — lab berikut memeriksanya dari manifest yang sama: (a) image ter-pin ke tag versi (bukan :latest); (b) readiness probe ada (pod 'jalan' belum tentu 'siap melayani'); (c) resource limits dipasang dan tidak di bawah requests (tanpa limit, satu pod rakus bisa mematikan tetangganya — noisy neighbor); (d) replika minimal 2 (satu replika = satu titik kegagalan; update tanpa downtime butuh minimal 2). Manifest lab: image fraud-scorer:v1.4.2, 2 replika, CPU request 500m limit 1000m, memori request 512Mi limit 1024Mi, readiness probe ada, HPA 2 sampai 6. Total request: 1.000m CPU (1 CPU) dan 1.024Mi memori — angka ini yang dibandingkan dengan kapasitas node kind-mu (default 2 CPU: cukup, dengan headroom 1 CPU).",
+        "Batas yang harus dinyatakan eksplisit: kind/minikube adalah lingkungan LATIHAN dan CI lokal — BUKAN pengganti managed prod. Keputusan 4 di Langkah 5 (managed endpoint, K8s self-managed ditolak karena tidak ada operator) TETAP berlaku untuk produksi DompetKu. Yang dipindahkan ke lokal hanyalah tempat BELAJAR dan MENGUJI: manifest yang lolos 4 syarat di kind adalah manifest yang sama yang di-apply ke managed prod — hanya target klasternya yang berbeda. Inilah gunanya latihan lokal: kesalahan manifest ditemukan di laptop (gratis, 5 menit) bukan di prod (Rp57,6 juta, 2 bulan — lihat mini-case).",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `cpu_req_m` dan `mem_req_mi` total (replika × request per pod)" },
+        { id: "t2", text: "Periksa 4 syarat kesiapan dan hitung `siap_n` (jumlah syarat lolos)" },
+        { id: "t3", text: "Tentukan `verdict` ('SIAP_DEPLOY' bila 4/4) dan cetak semuanya" },
+      ],
+      expected: "cpu_req=1000m  mem_req=1024Mi  siap=4/4  verdict=SIAP_DEPLOY",
+      note: {
+        title: "🚨 Mitos: 'deploy lokal = deploy beneran, tinggal pindah klaster'",
+        type: "pitfall",
+        body: "Yang benar: kind membuktikan MANIFEST-mu benar (image, probe, limit, replika). Ia tidak membuktikan kapasitas prod, keamanan jaringan, atau ketahanan terhadap trafik nyata. Lolos kind = 'boleh lanjut ke staging managed', bukan 'boleh langsung ke prod'. Tangga deploy tetap berlaku.",
+      },
+      hints: [
+        "Total request = replicas × request per pod.",
+        "Image ter-pin: ':latest' tidak ada di nama image. Limit: limit >= request untuk CPU dan memori.",
+        "verdict = 'SIAP_DEPLOY' jika siap_n == 4, else 'BELUM_SIAP'.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+manifest = {
+    "image": "registry.internal/fraud-scorer:v1.4.2",
+    "replicas": 2,
+    "cpu_request_m": 500, "cpu_limit_m": 1000,
+    "mem_request_mi": 512, "mem_limit_mi": 1024,
+    "readiness_probe": True,
+    "hpa": {"min": 2, "max": 6, "target_cpu_pct": 70},
+}
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: total request + 4 syarat kesiapan
+cpu_req_m = 
+mem_req_mi = 
+cek = {
+    "image_terpin": ,
+    "probe_ada": ,
+    "limit_ok": ,
+    "replika_ok": ,
+}
+siap_n = 
+verdict = 
+
+print(f"cpu_req={cpu_req_m}m  mem_req={mem_req_mi}Mi  siap={siap_n}/4  verdict={verdict}")`,
+        lockLines: 10,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+manifest = {
+    "image": "registry.internal/fraud-scorer:v1.4.2",
+    "replicas": 2,
+    "cpu_request_m": 500, "cpu_limit_m": 1000,
+    "mem_request_mi": 512, "mem_limit_mi": 1024,
+    "readiness_probe": True,
+    "hpa": {"min": 2, "max": 6, "target_cpu_pct": 70},
+}
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: total request + 4 syarat kesiapan
+cpu_req_m = manifest["replicas"] * manifest["cpu_request_m"]
+mem_req_mi = manifest["replicas"] * manifest["mem_request_mi"]
+cek = {
+    "image_terpin": ":latest" not in manifest["image"],
+    "probe_ada": manifest["readiness_probe"],
+    "limit_ok": manifest["cpu_limit_m"] >= manifest["cpu_request_m"] and manifest["mem_limit_mi"] >= manifest["mem_request_mi"],
+    "replika_ok": manifest["replicas"] >= 2,
+}
+siap_n = sum(1 for ok in cek.values() if ok)
+verdict = "SIAP_DEPLOY" if siap_n == 4 else "BELUM_SIAP"
+
+print(f"cpu_req={cpu_req_m}m  mem_req={mem_req_mi}Mi  siap={siap_n}/4  verdict={verdict}")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`cpu_req_m` = 1000",
+            "name": "cpu_req_m",
+            "value": 1000,
+            "tol": 1e-09,
+            "msg": "2 replika x 500m = 1000m = 1 CPU.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`mem_req_mi` = 1024",
+            "name": "mem_req_mi",
+            "value": 1024,
+            "tol": 1e-09,
+            "msg": "2 replika x 512Mi = 1024Mi.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`siap_n` = 4",
+            "name": "siap_n",
+            "value": 4,
+            "tol": 1e-09,
+            "msg": "Keempat syarat lolos: image ter-pin, probe ada, limit OK, replika 2.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` memvonis SIAP_DEPLOY",
+            "pattern": "verdict=SIAP_DEPLOY",
+            "msg": "4/4 syarat → boleh lanjut ke staging managed.",
+          },
+        ],
+      },
+      reference: "kind/minikube = latihan + CI lokal (MLOps11). 4 syarat: image ter-pin, readiness probe, limit >= request, replika >= 2. Prod tetap managed.",
+    },
+    {
       id: "peta",
-      eyebrow: "Langkah 4 · Peta keputusan",
+      eyebrow: "Langkah 5 · Peta keputusan",
       title: "Lima keputusan rancangan tersulit",
       prose: [
         "**Keputusan 1 — Batch vs online.** SLA 300ms p99 → ONLINE, tanpa debat. Tapi: fallback saat API down? Rancangan: antre + skor batch 15-menit sebagai degradasi anggun (graceful degradation), bukan menolak transaksi.",
@@ -134,7 +249,7 @@ export const mlops12: V2Lesson = {
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 5 · Mini-case",
+      eyebrow: "Langkah 6 · Mini-case",
       title: "Matematika bisnis DompetKu",
       prose: [
         "Angka dasar: 5.000.000 transaksi/hari × 0,08% fraud = 4.000 kasus fraud/hari × Rp1,2 jt = Rp4,8 M potensi rugi/hari. Model (recall 65%): menangkap 2.600 kasus → menyelamatkan Rp3,12 M/hari. False positive 0,5% × 5 jt = 25.000 review/hari × Rp25.000 biaya review = Rp625 jt/hari. Net: Rp3,12 M − Rp625 jt = Rp2,5 M/hari ≈ Rp75 M/bulan.",
@@ -152,7 +267,7 @@ export const mlops12: V2Lesson = {
     },
     {
       id: "review",
-      eyebrow: "Langkah 6 · Review rancangan",
+      eyebrow: "Langkah 7 · Review rancangan",
       title: "Interogasi rancanganmu",
       prose: [
         "Sebelum rancangan dinyatakan selesai, ia harus lolos interogasi — pertanyaan yang akan ditanyakan insiden, auditor, atau direksi:",
@@ -173,7 +288,7 @@ export const mlops12: V2Lesson = {
     },
     {
       id: "pendalaman",
-      eyebrow: "Langkah 7 · Pendalaman",
+      eyebrow: "Langkah 8 · Pendalaman",
       title: "Error budget: kapan boleh ngebut, kapan harus ngerem",
       prose: [
         "DompetKu menetapkan SLO: fraud scoring tersedia 99,9% per bulan. Error budget = 1 − 0,999 = 0,1% × 30 hari × 24 jam = 43,2 menit downtime yang `diizinkan` per bulan. Budget ini adalah MATA UANG keputusan: setiap deploy canary yang gagal membakar ~5 menit; setiap insiden kecil membakar 10–15 menit. Selama budget tersisa > 50%, tim boleh deploy agresif (2x seminggu). Saat tersisa < 20%, deploy non-kritis DIBEKUKAN sampai budget pulih bulan depan.",
@@ -200,7 +315,7 @@ export const mlops12: V2Lesson = {
     },
     {
       id: "runbook-rollback",
-      eyebrow: "Langkah 8 · Operasi pasca-rilis",
+      eyebrow: "Langkah 9 · Operasi pasca-rilis",
       title: "Runbook & rollback: bersiap sebelum insiden",
       prose: [
         "Pukul 02:17, ponsel Rudi bergetar: latensi p99 fraud scoring menembus 900ms — tiga kali lipat ambang. Rudi baru tiga bulan di tim, dan ini on-call pertamanya. Ia membuka runbook berjudul 'latensi tinggi': 27 halaman. Halaman 4 masih membahas sejarah arsitektur. Sementara ia scroll, tiap menit 3.472 transaksi lewat tanpa skor, dan fraud berjalan tanpa penilaian. Runbook itu tidak menyelamatkannya — bukan karena Rudi bodoh, melainkan karena runbook yang tidak bisa dibaca saat panik sama dengan tidak ada runbook.",
@@ -224,12 +339,12 @@ export const mlops12: V2Lesson = {
     },
     {
       id: "postmortem-slo",
-      eyebrow: "Langkah 9 · Operasi pasca-rilis",
+      eyebrow: "Langkah 10 · Operasi pasca-rilis",
       title: "Postmortem & SLO untuk model",
       prose: [
         "Insiden autoscaler kemarin membakar 12 menit error budget. Di rapat minggu ini seseorang bertanya: 'Siapa yang salah konfigurasi?' — dan rapat berjalan 40 menit membahas orangnya. Dua bulan lalu, orang yang sama membuat kesalahan serupa. Bulan depan ia akan mengulanginya lagi — bukan karena ia ceroboh, melainkan karena tidak ada yang berubah di SISTEM. Postmortem yang mencari kambing hitam menghasilkan tepat satu hal: tim yang takut melaporkan kesalahan berikutnya.",
         "Postmortem blameless punya anatomi tetap: garis waktu faktual (kapan terdeteksi, apa yang dilakukan, kapan pulih), 'lima mengapa' yang ditujukan ke SISTEM — kenapa config salah bisa lolos? Karena tidak ada validasi pra-deploy. Kenapa tidak ada validasi? Karena action item postmortem lalu belum dikerjakan. Kenapa belum dikerjakan? ... — dan action item yang berpemilik, bertenggat, dan terverifikasi ('tambah validasi config di CI, pemilik: Dina, tenggat: 2 minggu, verifikasi: drill deploy config salah'). Yang dilarang keras: nama orang sebagai 'akar penyebab'. Postmortem dipublikasikan ke seluruh tim dan dibaca ulang tiap kuartal.",
-        "SLO untuk layanan model punya tiga lapis — dan dua di antaranya belum dibahas di Langkah 7. Lapis 1, availability: endpoint menjawab (inilah yang dihitung error budget 43,2 menit di sana). Lapis 2, latency: p99 < 300ms — insiden 'latensi p99 > 500ms' selama 18 menit di lab ini membakar budget walau endpoint 'up'. Lapis 3, kualitas: metrik model di atas ambang — mis. PSI fitur < 0,25, selisih prediksi online vs offline < 1%, akurasi label matang ≥ 70%. Tiap lapis adalah SLI terukur dengan ambang; burn dihitung dari ketiganya. Model yang 'up' tapi memprediksi ngawur adalah downtime yang tidak tercatat — kecuali kamu mengukurnya.",
+        "SLO untuk layanan model punya tiga lapis — dan dua di antaranya belum dibahas di Langkah 8. Lapis 1, availability: endpoint menjawab (inilah yang dihitung error budget 43,2 menit di sana). Lapis 2, latency: p99 < 300ms — insiden 'latensi p99 > 500ms' selama 18 menit di lab ini membakar budget walau endpoint 'up'. Lapis 3, kualitas: metrik model di atas ambang — mis. PSI fitur < 0,25, selisih prediksi online vs offline < 1%, akurasi label matang ≥ 70%. Tiap lapis adalah SLI terukur dengan ambang; burn dihitung dari ketiganya. Model yang 'up' tapi memprediksi ngawur adalah downtime yang tidak tercatat — kecuali kamu mengukurnya.",
         "💡 Intuisi: error budget itu seperti uang saku tim — boleh dihabiskan untuk hal berani seperti deploy dua kali seminggu, tapi kalau habis, bulan ini hidup hemat: rilis non-kritis dibekukan. Postmortem adalah struk belanjanya: tanpa struk, kamu tidak tahu uangmu habis untuk apa. Tim yang membakar budget tanpa postmortem = menghabiskan uang tanpa pernah membuka dompet.",
         "Kedalaman postmortem harus sebanding dengan burn-nya — ini aturan yang membuat postmortem tidak menjadi birokrasi. Burn < 5 menit: catatan insiden 5 baris. Burn 5–20 menit: postmortem tertulis 1 halaman. Burn > 20 menit: postmortem penuh + presentasi + action item diaudit. Terapkan ke data lab: 'model salah serving' membakar 35 menit → postmortem penuh. 'Canary gagal' 5 menit → cukup catatan. Aturan proporsional ini menjaga postmortem tetap tajam: yang besar dibedah habis, yang kecil tidak tenggelam dalam rapat.",
         "Dengan runbook, rollback terlatih, postmortem blameless, dan SLO tiga lapis, capstone DompetKu selesai: sistem yang tidak hanya berjalan, tapi belajar dari setiap kegagalannya. Uji pemahamanmu di checkpoint — lalu bawa rancangan ini ke ruang direksi dengan angka, bukan harapan.",
@@ -239,7 +354,7 @@ export const mlops12: V2Lesson = {
       tasks: [
         { id: "t1", text: "Implementasikan perhitungan budget_total, total_burn, sisa, persen_sisa, dan status" },
         { id: "t2", text: "Jalankan lab; tentukan status budget dan kedalaman postmortem untuk insiden terbesar" },
-        { id: "t3", text: "Dengan sisa 67,6%, bolehkah deploy fitur nice-to-have Jumat sore? Jawab dengan aturan Langkah 7" },
+        { id: "t3", text: "Dengan sisa 67,6%, bolehkah deploy fitur nice-to-have Jumat sore? Jawab dengan aturan Langkah 8" },
       ],
       expected: "budget_total=216 menit · total_burn=70 menit · sisa=146 menit (67,6%) → aman · pembakar terbesar: model (35 menit) → postmortem penuh",
       note: {
@@ -321,6 +436,7 @@ print(f"pembakar_terbesar={terbesar} ({per_kat[terbesar]} menit)")`,
       title: "Uji pemahamanmu — kelulusan track",
       prose: [
         "Lima pertanyaan pamungkas lintas seluruh track. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Catatan posisi capstone: lesson ini menutup inti track (MLOps1–MLOps12). Lesson MLOps13–MLOps22 sesudahnya adalah modul lanjutan opsional — experiment tracking, Terraform, FinOps, Triton, keamanan, platform engineering, LLMOps end-to-end, cloud ML, KServe, dan distributed training — yang memperdalam, bukan syarat kelulusan capstone ini.",
       ],
       tasks: [],
       summary: [
@@ -329,6 +445,7 @@ print(f"pembakar_terbesar={terbesar} ({per_kat[terbesar]} menit)")`,
         "Serving mengikuti SLA angka; kapasitas = Little's law + buffer; monitor 4 lapis berjenjang.",
         "Retrain berpemicu + embargo label; testing fail-fast; governance berjenjang mengikuti risiko.",
         "K8s butuh operator; rancangan dinilai dari jawaban operasional, bukan ketebalan dokumen.",
+        "Deploy pertama di kind/minikube: 4 syarat (image ter-pin, readiness probe, limit, replika minimal 2) — latihan lokal, prod tetap managed.",
       ],
       next: { label: "MLOps13 — Experiment Tracking & DVC", href: "/learn/mlops13-experiment-tracking" },
       quiz: [
@@ -384,6 +501,15 @@ print(f"pembakar_terbesar={terbesar} ({per_kat[terbesar]} menit)")`,
             { text: "Tunda ke bulan depan; hanya hotfix kritis yang boleh jalan", why: "Tepat. Inilah gunanya budget: keputusan yang tidak populer tapi benar, diambil oleh ANGKA bukan oleh siapa yang paling vokal di rapat.", correct: true },
             { text: "Naikkan SLO menjadi 99,99% agar terlihat lebih baik", why: "Menaikkan SLO MEMPERKECIL budget (43,2 → 4,32 menit) — memperparah keadaan. SLO bukan target kecantikan; ia kontrak dengan bisnis." },
             { text: "Reset budget ke 100% karena `bulan lalu kan sudah lewat`", why: "Budget dihitung per periode TETAP (bulanan). Me-reset seenaknya = tidak punya budget sama sekali. Disiplinnya justru di sini." },
+          ],
+        },
+        {
+          q: "Manifest kind: image fraud-scorer:latest, 1 replika, tanpa readiness probe, tanpa limit. Vonis kesiapan?",
+          options: [
+            { text: "BELUM_SIAP 0/4 — keempat syarat gagal; perbaiki manifest sebelum lanjut ke staging managed", why: "Tepat: :latest tidak bisa di-rollback pasti, 1 replika = satu titik kegagalan, tanpa probe pod 'jalan' belum tentu 'siap', tanpa limit satu pod bisa mematikan tetangganya.", correct: true },
+            { text: "SIAP_DEPLOY — kind hanya latihan, syarat tidak berlaku", why: "Justru karena latihan, syarat dilatih di sini: manifest yang lolos kind adalah manifest yang sama ke prod." },
+            { text: "SIAP_DEPLOY — 1 replika cukup untuk capstone", why: "Update tanpa downtime butuh minimal 2 replika; 1 replika berarti tiap deploy = downtime." },
+            { text: "Langsung ke managed prod saja — kind membuang waktu", why: "Kesalahan manifest di prod harganya insiden; di kind harganya 5 menit. Tangga deploy ada untuk dipakai." },
           ],
         },
       ],

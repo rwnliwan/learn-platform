@@ -23,7 +23,7 @@ export const dle7: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Arsitektur Modern",
   title: "DLE7 — Transfer Learning & Pretraining",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita-batik",
@@ -168,7 +168,67 @@ export const dle7: V2Lesson = {
         ],
       },
       reference: "per_kelas = n/kelas. baseline = 1/kelas. Bandingkan model dengan baseline, bukan dengan nol.",
+    },    {
+      id: "lab-freeze-vs-finetune",
+      eyebrow: "Langkah 6 · Lab",
+      title: "Lab: freeze vs fine-tune — hitung parameter yang dilatih",
+      prose: [
+        "Backbone 25 juta parameter (angka ilustratif, sekelas ResNet), head klasifikasi 10 kelas di atas fitur 2.048 dimensi. Tugasmu: hitung parameter yang dilatih untuk (a) freeze total — hanya head; (b) fine-tune blok akhir 5 juta parameter + head. Lalu hitung berapa persen backbone yang dilatih pada skema freeze.",
+        "Hasilnya: freeze melatih 20.490 parameter (0,08 persen backbone) — murah dan stabil, tetapi tidak bisa menyesuaikan fitur. Fine-tune parsial melatih 5.020.490 — 245 kali lebih banyak, dengan risiko overfitting yang jauh lebih besar pada data kecil. Inilah trade-off transfer learning dalam satu angka.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `beku` (head saja) dan `parsial` (blok akhir + head)" },
+        { id: "t2", text: "Hitung `persen_beku` = beku/backbone*100 dan cetak ketiganya" },
+      ],
+      expected: "beku=20490\nparsial=5020490\npersen_beku=0.08",
+      note: {
+        title: "💡 Intuisi",
+        body: "0,08 persen bukan angka kecil — ia adalah alasan transfer learning bekerja pada data kecil: kamu hanya melatih “penerjemah” (head) di atas fitur yang sudah pintar. Fine-tune blok akhir adalah taruhan: lebih banyak kapasitas, lebih banyak risiko.",
+      },
+      hints: [
+        "Head = fitur x kelas + bias kelas.",
+        "Persen = parameter latih / total backbone x 100.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+BACKBONE = 25_000_000
+BLOK_AKHIR = 5_000_000
+FITUR, KELAS = 2048, 10
+
+# TULIS KODEMU: parameter latih freeze vs fine-tune parsial
+head = ...
+beku = ...
+parsial = ...
+persen_beku = ...
+
+print(f"beku={beku}")
+print(f"parsial={parsial}")
+print(f"persen_beku={persen_beku}")`,
+        lockLines: 4,
+        solution: `# DATA — jangan diubah
+BACKBONE = 25_000_000
+BLOK_AKHIR = 5_000_000
+FITUR, KELAS = 2048, 10
+
+# TULIS KODEMU: parameter latih freeze vs fine-tune parsial
+head = FITUR * KELAS + KELAS
+beku = head
+parsial = BLOK_AKHIR + head
+persen_beku = round(beku / BACKBONE * 100, 2)
+
+print(f"beku={beku}")
+print(f"parsial={parsial}")
+print(f"persen_beku={persen_beku}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "beku", value: 20490, tol: 1e-9, label: "`beku` = 20490", msg: "2.048 x 10 + 10 = 20.490." },
+          { kind: "equal", task: "t1", name: "parsial", value: 5020490, tol: 1e-9, label: "`parsial` = 5020490", msg: "5.000.000 + 20.490 = 5.020.490." },
+          { kind: "equal", task: "t2", name: "persen_beku", value: 0.08, tol: 0.01, label: "`persen_beku` sekitar 0.08", msg: "20.490 / 25.000.000 x 100 = 0,08 persen." },
+          { kind: "stdout_matches", task: "t2", pattern: "beku=20490\\nparsial=5020490\\npersen_beku=0\\.08", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Freeze = head saja (0,08%); fine-tune parsial = blok akhir + head.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -229,6 +289,24 @@ export const dle7: V2Lesson = {
             { text: "500/650 ≈ 0,77 tetapi sehat karena backbone beku memberi fitur matang", why: "Head hanya memetakan fitur jadi ke 5 kelas — tugas ringan yang 500 sampel cukup.", correct: true },
             { text: "Tidak bisa dihitung", why: "Bisa dihitung langsung: 500 foto / 650 parameter head = 0,77 foto per parameter — SANGAT KECIL (ideal >10). Artinya head pun rawan overfit jika dilatih penuh! Solusi: regularisasi kuat (dropout, weight decay), augmentasi agresif, atau head lebih kecil. Angka kecil = waspada besar." },
             { text: "Harus > 100", why: "Aturan praktis itu untuk training dari nol, bukan untuk head di atas fitur pretrained." },
+          ],
+        },
+        {
+          q: "Backbone 25 juta parameter, head 10 kelas atas fitur 2.048. Freeze total melatih berapa parameter?",
+          options: [
+            { text: "20.490 (0,08 persen backbone)", why: "Benar: 2.048x10+10 = 20.490; 20.490/25.000.000 = 0,08 persen.", correct: true },
+            { text: "25 juta — semua dilatih", why: "Salah: itu full fine-tune, bukan freeze.", },
+            { text: "10 — hanya bias kelas", why: "Salah: bobot head (2.048x10) ikut dilatih.", },
+            { text: "5.020.490", why: "Salah: itu fine-tune parsial (blok akhir 5 juta + head).", },
+          ],
+        },
+        {
+          q: "Kapan freeze total LEBIH BAIK daripada fine-tune blok akhir?",
+          options: [
+            { text: "Data latih kecil — fine-tune 5 juta parameter akan overfitting", why: "Benar: kapasitas besar + data kecil = hafalan. Freeze melatih 20 ribu parameter saja.", correct: true },
+            { text: "Selalu — fine-tune tidak pernah berguna", why: "Salah: bila data cukup dan domain berbeda jauh, fine-tune menang.", },
+            { text: "Bila GPU-nya besar", why: "GPU besar justru memungkinkan fine-tune — bukan alasan freeze.", },
+            { text: "Bila backbone-nya kecil", why: "Salah: backbone kecil justru murah di-fine-tune.", },
           ],
         },
       ],

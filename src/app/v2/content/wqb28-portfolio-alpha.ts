@@ -35,7 +35,7 @@ export const wqb28: V2Lesson = {
   track: "WorldQuant Brain",
   module: "Riset Kuantitatif",
   title: "WQB28 — Portfolio Construction: Ketika Alpha Bertemu Alpha",
-  estMinutes: 65,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -54,7 +54,7 @@ export const wqb28: V2Lesson = {
       title: "Korelasi: pajak tersembunyi atas setiap alpha tambahan",
       prose: [
         "Dua alpha yang masing-masing bagus bisa menjadi portofolio yang biasa-biasa saja bila mereka bergerak bersama. Rumus varians portofolio dua aset menjelaskannya: suku terakhir — 2·w1·w2·ρ·σ1·σ2 — adalah “pajak korelasi”. Saat ρ mendekati 1, diversifikasi menguap; saat ρ mendekati 0 (atau negatif), portofolio mendapatkan pengurangan risiko gratis.",
-        "Self-correlation di Brain mengukur seberapa mirip alpha-mu dengan alpha yang sudah ada (milikmu maupun pool). Aturan mainnya: self-correlation di atas 0,7 = tidak lolos — dan itu bukan sekadar aturan administratif. Itu pernyataan bahwa alpha yang terlalu mirip tidak menambah diversifikasi, hanya menambah beban risiko yang sama.",
+        "Self-correlation di Brain mengukur seberapa mirip alpha-mu dengan alpha yang sudah ada di kumpulan alpha milikmu sendiri (pool = kumpulan alpha milikmu sendiri yang sudah disubmit, bukan milik orang lain). Aturan mainnya: self-correlation di atas 0,7 = tidak lolos — dan itu bukan sekadar aturan administratif. Itu pernyataan bahwa alpha yang terlalu mirip tidak menambah diversifikasi, hanya menambah beban risiko yang sama.",
         "Bobot sederhana yang masuk akal: equal weight (semua sama — baseline yang sulit dikalahkan) dan inverse-volatility (bobot ∝ 1/volatilitas — alpha yang lebih tenang dapat porsi lebih besar). Keduanya tidak butuh optimasi; optimasi bobot atas data historis adalah overfitting dengan jas rapi.",
         "Netralisasi keluarga sinyal: sebelum menggabungkan, pastikan alpha-alpha itu datang dari keluarga sinyal yang berbeda (price-volume vs fundamental vs analis, misalnya). Dua alpha “berbeda” dari keluarga yang sama sering berkorelasi tinggi — seperti kasus Bagas.",
       ],

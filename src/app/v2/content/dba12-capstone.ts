@@ -19,7 +19,7 @@ export const dba12: V2Lesson = {
   track: "Database Administrator",
   module: "Skala & Cloud",
   title: "DBA12 — Capstone: Operasional Database Produksi",
-  estMinutes: 60,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita-insiden",
@@ -192,6 +192,89 @@ export const dba12: V2Lesson = {
       tasks: [],
     },
     {
+      id: "klaster-ha",
+      eyebrow: "Tambahan · DB-C1",
+      title: "Membangun klaster Postgres HA: tiga node, satu kebenaran",
+      prose: [
+        "Capstone ini sejauh ini melatihmu MERESPONS insiden — tetapi spec capstone menuntut satu hal lagi: MEMBANGUN sistem yang tidak mudah tumbang. Klaster Postgres HA (high availability) terdiri dari tiga node: satu primary yang melayani tulis, dua standby yang mereplikasi via streaming replication (lihat DBA5). Bila primary mati, satu standby dipromosikan menjadi primary baru — tanpa manusia mengetik 14 langkah runbook di jam 3 pagi.",
+        "Otak klasternya adalah Patroni + etcd (lihat DBA5): agen Patroni berjalan di tiap node, dan etcd sebagai distributed consensus store menyimpan satu kebenaran — 'primary saat ini = node 2' — plus lease tiap node. Dengan 3 node etcd, kuorum adalah 2: klaster tetap bisa memutuskan selama 2 dari 3 node hidup. Primary memegang leader lock dan memperbaruinya tiap detik; bila heartbeat berhenti, lease kedaluwarsa dan kandidat berebut kunci — pemenang dipromosikan otomatis. Aplikasi bicara ke satu alamat (HAProxy atau endpoint terkelola), bukan ke IP node yang bisa berganti peran.",
+        "Tiga keputusan desain yang harus tertulis SEBELUM membangun. Satu: SYNCHRONOUS vs ASYNC — standby sinkron (transaksi diakui setelah standby mengonfirmasi) berarti RPO nol tetapi tulis lebih lambat; async lebih cepat tetapi bisa kehilangan detik-detik terakhir saat failover. Pilih berdasarkan RPO yang dijanjikan SLA, bukan berdasarkan kecepatan. Dua: KEBIJAKAN LAG MAKSIMUM — 'jangan promosikan replika dengan lag lebih dari 30 detik' (angka contoh): kadang sistem harus memilih MENUNGGU daripada mempromosikan replika yang tertinggal. Tiga: FENCING — pastikan primary lama benar-benar mati (atau diisolasi dari jaringan) sebelum standby dipromosikan; dua primary yang sama-sama menulis = split-brain, bencana yang lebih buruk dari downtime.",
+        "Contoh target ilustratif untuk klaster latihan ini: RPO 0 (standby sinkron) atau maksimal 30 detik (async dengan lag cap), RTO 60 detik (failover otomatis Patroni — contoh ilustratif, bukan jaminan vendor), dan drill failover tiap kuartal (matikan primary di staging, ukur RTO/RPO nyata). Klaster yang belum pernah di-drill sama dengan klaster yang belum terbukti HA — hanya berlabel HA.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Sudah 3 node = sudah HA.” Tiga node tanpa fencing, tanpa kebijakan lag, dan tanpa drill adalah tiga node yang akan gagal secara kreatif saat insiden. HA adalah KEBIJAKAN + DRILL, bukan jumlah node.",
+      },
+      reference: "3 node + Patroni + etcd (kuorum 2 dari 3) + fencing + kebijakan lag + drill kuartalan = HA.",
+    },
+    {
+      id: "lab-pitr",
+      eyebrow: "Tambahan · DB-C1",
+      title: "Lab — Latihan PITR: kembali ke 14:30 tanpa kehilangan hari",
+      prose: [
+        "PITR (point-in-time recovery) adalah kemampuan mengembalikan database ke TITIK WAKTU tertentu — bukan hanya ke backup terakhir. Skenarionya: backup penuh Minggu 02:00, lalu WAL (write-ahead log) diarsipkan terus-menerus. Selasa 14:37, seorang operator salah menjalankan DELETE tanpa WHERE. Target restore: Selasa 14:30 — tujuh menit sebelum bencana, saat WAL terakhir yang terarsip.",
+        "Hitung kerugiannya: data yang hilang = transaksi antara WAL terakhir (14:30) dan crash (14:37) = 7 menit. Waktu pemulihan (RTO) = restore backup dasar 25 menit + replay WAL sampai 14:30 selama 12 menit = 37 menit. Target contoh: RPO maksimal 15 menit dan RTO maksimal 60 menit — keduanya LOLOS (7 ≤ 15, 37 ≤ 60). Perhatikan: PITR menyelamatkanmu dari kesalahan MANUSIA (DELETE yang salah), bukan hanya dari kerusakan hardware — dan itulah alasan PITR ada di spec capstone.",
+        "Dua prasyarat PITR yang sering dilupakan: (1) WAL HARUS DIARSIPKAN — tanpa archive (archive_mode + archive_command yang sehat), tidak ada WAL untuk di-replay dan PITR mustahil; (2) backup dasar HARUS DIUJI restore-nya — backup yang belum pernah di-restore adalah harapan, bukan rencana (lihat DBA4 dan drill DBA16). Latihan ini memakai angka contoh; di produksi, ukur RTO/RPO NYATA dari drill, bukan dari brosur.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `loss_mnt` (crash − WAL terakhir) dan `rto_mnt` (restore + replay)" },
+        { id: "t2", text: "Tentukan `lolos_rpo` dan `lolos_rto`, lalu cetak verdict" },
+      ],
+      expected: "PITR: loss 7 mnt (RPO<=15: LOLOS) | RTO 37 mnt (RTO<=60: LOLOS)",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Ada backup Minggu, jadi aman.” Backup Minggu saja hanya mengembalikanmu ke Minggu — dua hari data hilang. PITR butuh backup dasar + WAL yang diarsipkan TANPA PUTUS. Satu celah arsip WAL = PITR berhenti di celah itu.",
+      },
+      hints: [
+        "Ubah jam ke menit: crash = 14*60+37, wal_terakhir = 14*60+30.",
+        "loss_mnt = crash − wal_terakhir; rto_mnt = restore + replay.",
+      ],
+      code: {
+        starter: `# Latihan PITR (ilustratif, menit). JANGAN UBAH baris ini.\ncrash = 14*60 + 37      # Selasa 14:37, DELETE salah\nwal_terakhir = 14*60 + 30  # WAL terakhir terarsip 14:30\nrestore, replay = 25, 12   # menit: restore backup + replay WAL\nRPO_MAX, RTO_MAX = 15, 60  # target contoh (menit)\n\n# TULIS KODEMU\nloss_mnt =\nrto_mnt =\nlolos_rpo =\nlolos_rto =\n\nprint(f"PITR: loss {loss_mnt} mnt (RPO<={RPO_MAX}: {'LOLOS' if lolos_rpo else 'GAGAL'}) | RTO {rto_mnt} mnt (RTO<={RTO_MAX}: {'LOLOS' if lolos_rto else 'GAGAL'})")`,
+        lockLines: 5,
+        solution: `# Latihan PITR (ilustratif, menit). JANGAN UBAH baris ini.\ncrash = 14*60 + 37      # Selasa 14:37, DELETE salah\nwal_terakhir = 14*60 + 30  # WAL terakhir terarsip 14:30\nrestore, replay = 25, 12   # menit: restore backup + replay WAL\nRPO_MAX, RTO_MAX = 15, 60  # target contoh (menit)\n\n# TULIS KODEMU\nloss_mnt = crash - wal_terakhir\nrto_mnt = restore + replay\nlolos_rpo = loss_mnt <= RPO_MAX\nlolos_rto = rto_mnt <= RTO_MAX\n\nprint(f"PITR: loss {loss_mnt} mnt (RPO<={RPO_MAX}: {'LOLOS' if lolos_rpo else 'GAGAL'}) | RTO {rto_mnt} mnt (RTO<={RTO_MAX}: {'LOLOS' if lolos_rto else 'GAGAL'})")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "loss_mnt", value: 7, tol: 1e-9, label: "`loss_mnt` = 7", msg: "14:37 − 14:30 = 7 menit data hilang." },
+          { kind: "equal", task: "t1", name: "rto_mnt", value: 37, tol: 1e-9, label: "`rto_mnt` = 37", msg: "25 + 12 = 37 menit pemulihan." },
+          { kind: "equal", task: "t2", name: "lolos_rpo", value: true, label: "`lolos_rpo` = True", msg: "7 ≤ 15." },
+          { kind: "equal", task: "t2", name: "lolos_rto", value: true, label: "`lolos_rto` = True", msg: "37 ≤ 60." },
+          { kind: "stdout_matches", task: "t2", pattern: "PITR: loss 7 mnt \\(RPO<=15: LOLOS\\) \\| RTO 37 mnt \\(RTO<=60: LOLOS\\)", label: "Verdict PITR tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "PITR = backup dasar + WAL terarsip tanpa putus. Loss = crash − WAL terakhir; RTO = restore + replay.",
+    },
+    {
+      id: "load-test",
+      eyebrow: "Tambahan · DB-C1",
+      title: "Load test: buktikan klastermu kuat sebelum pengguna membuktikannya",
+      prose: [
+        "Klaster HA yang belum pernah di-load-test adalah klaster yang performanya masih hipotesis. Load test menanyakan: pada beban berapa klaster ini mulai melambat, dan apa yang pecah pertama? Desainnya: tentukan beban TARGET dari pola produksi (misalnya puncak 1.200 transaksi per detik — angka contoh), naikkan beban bertahap dari baseline, dan catat tiga metrik: throughput (tps tercapai), latensi p99, dan error rate.",
+        "Hasil contoh (ilustratif): baseline 500 tps → p99 120 ms, error 0 persen. Pada 1.200 tps → p99 410 ms, error 0,8 persen. SLO contoh: p99 maksimal 300 ms dan error maksimal 0,1 persen. Verdict: GAGAL — p99 410 ms melewati 300 ms, error 0,8 persen melewati 0,1 persen. Tindak lanjutnya bukan 'tambah node dulu' — pertama cari penyebabnya: apakah koneksi jenuh (lihat DBA18 soal pooling), indeks hilang (lihat DBA6), atau satu query lambat mendominasi (lihat DBA8 + pg_stat_statements)? Load test yang hanya berkata 'gagal' tanpa menunjuk penyebab adalah separuh pekerjaan.",
+        "Tiga aturan load test yang jujur. Satu: uji di lingkungan yang MIRIP produksi (data seukuran produksi, bukan 100 baris contoh) — load test di data kecil menguji apa pun kecuali produksi. Dua: naikkan beban sampai GAGAL — load test yang berhenti tepat di target tidak pernah menemukan batasnya; batas itulah yang kamu butuhkan saat traffic naik 2 kali lipat mendadak. Tiga: catat HASILNYA sebagai angka resmi kapasitas ('klaster ini lolos 900 tps pada p99 280 ms') — bukan sebagai 'kayaknya kuat'. Angka itu yang dipakai saat capacity planning (DBA9) menanyakan kapan harus scale.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Load test lolos di staging, jadi produksi aman.” Staging dengan data 1 persen ukuran produksi dan tanpa traffic lain bukan produksi. Load test hanya sejujur kemiripan lingkungannya — tulis kemiripan itu di laporan hasil, bersama hasilnya.",
+      },
+      quiz: [
+        {
+          q: "Load test (ilustratif): 1.200 tps → p99 410 ms, error 0,8%. SLO: p99 ≤ 300 ms, error ≤ 0,1%. Verdict dan langkah pertama?",
+          options: [
+            { text: "LOLOS — 1.200 tps tercapai", why: "Salah: throughput tercapai tetapi p99 dan error melewati SLO." },
+            { text: "GAGAL — p99 dan error melewati SLO; cari penyebab (pooling/indeks/query lambat) sebelum tambah node", why: "Benar: dua SLO jebol; tambah node tanpa diagnosis hanya memindahkan kemacetan.", correct: true },
+            { text: "GAGAL — langsung tambah 3 node", why: "Salah: scale tanpa diagnosis = membayar lebih untuk masalah yang sama." },
+            { text: "LOLOS — error 0,8% masih kecil", why: "Salah: 0,8% adalah 8 kali SLO 0,1% — pada 1.200 tps itu ~10 transaksi gagal per detik." },
+          ],
+        },
+      ],
+      reference: "Load test = naikkan beban sampai gagal, catat p99 + error, bandingkan dengan SLO, diagnosis dulu.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu — dan kelulusan track",
@@ -200,6 +283,10 @@ export const dba12: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Catatan jalur: lesson setelah capstone ini (DBA13 dan seterusnya) adalah modul lanjutan opsional — capstone ini sudah menutup rangkaian inti DBA1–DBA12.",
+        "Load test: naikkan beban sampai gagal; verdict memakai SLO p99 + error, diagnosis sebelum scale.",
+        "PITR: backup dasar + WAL terarsip tanpa putus; latihan ini loss 7 mnt, RTO 37 mnt — keduanya lolos target contoh.",
+        "Klaster HA: 3 node + Patroni + etcd (kuorum 2 dari 3) + fencing + kebijakan lag + drill kuartalan.",
         "Insiden = interaksi hal-hal yang \u201Cbenar\u201D sendiri-sendiri; diagnosis = mempersempit dengan urutan tepat.",
         "MTTD = kualitas deteksi (monitoring); MTTR = kualitas respons (runbook). Ukur keduanya.",
         "Mitigasi dulu, diagnosis indah kemudian; catat timeline sejak menit pertama.",

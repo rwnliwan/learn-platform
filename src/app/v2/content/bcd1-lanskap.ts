@@ -21,7 +21,7 @@ export const bcd1: V2Lesson = {
   track: "Blockchain Data Scientist",
   module: "Fondasi On-Chain",
   title: "BCD1 — Apa yang Bisa Dianalisis On-Chain",
-  estMinutes: 65,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita",
@@ -275,6 +275,35 @@ risiko_q03_z1 = tabel[0.3][0]`,
       reference: "Finality = titik di mana pembatalan praktis mustahil. Probabilistik: risiko turun eksponensial per konfirmasi. Kebijakan: makin besar nilai, makin banyak konfirmasi.",
     },
     {
+      id: "akun-vs-utxo",
+      eyebrow: "Tambahan · BC1",
+      title: "Account vs UTXO: dua cara mencatat 'siapa punya apa'",
+      prose: [
+        "Blockchain harus menjawab satu pertanyaan mendasar: bagaimana mencatat siapa memiliki apa? Dua jawaban besar ada di lapangan. MODEL UTXO (dipakai Bitcoin): tidak ada 'saldo' yang tersimpan — yang ada adalah OUTPUT TRANSAKSI YANG BELUM DIBELANJAKAN (UTXO). Dompetmu berisi sekumpulan 'uang kembalian' dari transaksi masa lalu: misalnya UTXO 0,6 BTC dan UTXO 0,4 BTC — totalmu 1,0 BTC, tetapi tidak ada satu baris pun yang menulis 'saldo: 1,0'. Untuk mengirim 0,7 BTC, dompet memakai kedua UTXO (0,6 + 0,4 = 1,0), mengirim 0,7 ke penerima, dan mengembalikan 0,3 ke dirimu sendiri sebagai UTXO baru (kembalian). Setiap transaksi MENGHABISKAN UTXO lama dan MENCIPTAKAN UTXO baru — seperti membayar dengan pecahan uang tunai.",
+        "MODEL ACCOUNT (dipakai Ethereum): tiap alamat punya SATU saldo yang tersimpan dan diperbarui — seperti rekening bank. Dompetmu menulis 'saldo: 1,0 ETH'. Untuk mengirim 0,7 ETH, saldo berkurang menjadi 0,3 — tidak ada pecahan, tidak ada kembalian. Urutan transaksi dijaga oleh nonce (nomor urut per alamat): transaksi dengan nonce 5 tidak bisa dieksekusi sebelum nonce 4 — inilah yang mencegah transaksi yang sama diputar dua kali (replay).",
+        "Tiga perbedaan yang penting untuk analis data. Satu: CARA MEMBACA SALDO — di UTXO, saldo = jumlah semua UTXO milik alamat itu (harus diagregasi; alamat yang sama bisa punya puluhan UTXO); di account, saldo = satu angka yang dibaca langsung. Dua: PRIVASI — di UTXO, praktik yang baik adalah memakai alamat baru untuk kembalian tiap transaksi (jejaknya tersebar); di account, satu alamat dipakai berulang (jejaknya terkumpul di satu tempat — itulah yang membuat clustering alamat di BCD3 bekerja dengan baik). Tiga: PARALELISASI — transaksi UTXO yang memakai UTXO berbeda bisa diproses independen; transaksi account dari alamat yang sama harus berurutan karena nonce.",
+        "Mana yang 'lebih baik'? Bukan pertanyaan analis — keduanya adalah pilihan desain dengan trade-off. UTXO: verifikasi paralel dan privasi alamat yang lebih natural, tetapi saldo harus dihitung dari banyak potongan. Account: sederhana dibaca dan diprogram (smart contract butuh 'saldo' sebagai satu angka — itulah alasan Ethereum memilihnya), tetapi semua riwayat menumpuk di satu alamat. Yang harus kamu kuasai: saat membaca data chain, tanyakan dulu MODELNYA — karena 'saldo' di Bitcoin dan 'saldo' di Ethereum dihitung dengan cara yang berbeda.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Saldo dompet Bitcoin saya 1,0 BTC — pasti ada satu baris yang menulis itu.” Tidak ada: 1,0 BTC itu jumlah dari UTXO 0,6 + 0,4. Analis yang mencari 'kolom saldo' di data Bitcoin sedang mencari sesuatu yang tidak pernah disimpan.",
+      },
+      quiz: [
+        {
+          q: "Dompet Bitcoin berisi UTXO 0,6 dan 0,4 BTC. Pemilik mengirim 0,7 BTC. Apa yang terjadi?",
+          options: [
+            { text: "Saldo berkurang dari 1,0 menjadi 0,3 — satu angka diperbarui", why: "Salah: itu model account (Ethereum). UTXO tidak menyimpan saldo sebagai satu angka." },
+            { text: "Kedua UTXO dihabiskan (0,6 + 0,4); 0,7 ke penerima, 0,3 kembali sebagai UTXO kembalian baru", why: "Benar: UTXO dihabiskan dan diciptakan kembali — seperti membayar dengan pecahan tunai.", correct: true },
+            { text: "UTXO 0,6 dipakai, sisanya 0,1 diambil dari UTXO 0,4 yang tetap utuh", why: "Salah: UTXO tidak bisa dipakai sebagian — ia dihabiskan seluruhnya atau tidak sama sekali." },
+            { text: "Transaksi gagal karena tidak ada UTXO tepat 0,7", why: "Salah: dompet menggabungkan UTXO dan memberi kembalian — tidak butuh pecahan yang pas." },
+          ],
+        },
+      ],
+      reference: "UTXO = saldo dari jumlah output belum dibelanjakan (Bitcoin). Account = satu saldo per alamat + nonce (Ethereum).",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -283,6 +312,7 @@ risiko_q03_z1 = tabel[0.3][0]`,
       ],
       tasks: [],
       summary: [
+        "Account vs UTXO: UTXO = saldo dari jumlah output belum dibelanjakan; account = satu saldo per alamat + nonce.",
         "Blockchain = dataset publik pseudonim: semua transaksi terlihat, identitas tidak.",
         "Lima lensa analisis: aliran dana, konsentrasi, kesehatan protokol, anomali, tokenomics.",
         "CR-k mengukur pangsa k terbesar; HHI menghukum dominasi ekstrem — laporkan keduanya.",

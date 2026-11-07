@@ -22,7 +22,7 @@ export const aai8: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Operasi & Evaluasi",
   title: "AAI8 — Evaluasi Agen",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -172,7 +172,72 @@ export const aai8: V2Lesson = {
         type: "risk",
         body: "Model risk yang \u201Clebih baik 5%\u201D dari 20 observasi = noise. Aturan yang sama berlaku untuk backtest strategi: bedakan sinyal dari noise dengan n yang cukup SEBELUM mengubah limit atau modal.",
       },
+    },    {
+      id: "lab-interval-kepercayaan",
+      eyebrow: "Langkah 6 · Lab interval kepercayaan",
+      title: "Lab: interval kepercayaan success rate",
+      prose: [
+        "Golden set 50 tugas: agen sukses 42 kali. Success rate 0,84 terdengar meyakinkan — tetapi dengan 50 sampel, berapa lebar ketidakpastiannya? Tugasmu: hitung standard error dan interval kepercayaan 95 persen (p ± 1,96 × SE), lalu putuskan: apakah batas bawah CI memenuhi ambang 0,70?",
+        "Pelajaran AAI8 yang paling sering dilupakan: success rate tanpa interval adalah klaim, bukan bukti. Agen dengan 42/50 (CI 0,738–0,942) dan agen dengan 840/1000 (CI 0,818–0,862) punya angka yang sama tetapi kepastian yang berbeda — yang pertama bisa jadi 0,74, yang kedua hampir pasti di atas 0,81.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `p`, `se` = sqrt(p(1-p)/n), dan batas CI 95%" },
+        { id: "t2", text: "Putuskan `lulus` (batas bawah CI >= 0.70) dan cetak semuanya" },
+      ],
+      expected: "p=0.84\nci_bawah=0.738\nci_atas=0.942\nlulus=True",
+      note: {
+        title: "💡 Intuisi",
+        body: "CI yang lebar (0,738–0,942) berarti keputusan “lulus” bergantung pada ambang: ambang 0,70 lulus, ambang 0,80 tidak. Bila ambangmu 0,80, jangan berdebat — tambah sampel sampai CI menyempit.",
+      },
+      hints: [
+        "p = sukses / n; se = (p*(1-p)/n) ** 0.5.",
+        "ci_bawah = p - 1.96*se; ci_atas = p + 1.96*se; bulatkan 3 desimal.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+N, SUKSES = 50, 42
+AMBANG = 0.70
+
+# TULIS KODEMU
+import math
+p = ...
+se = ...
+ci_bawah = ...
+ci_atas = ...
+lulus = ...
+
+print(f"p={p:.2f}")
+print(f"ci_bawah={ci_bawah:.3f}")
+print(f"ci_atas={ci_atas:.3f}")
+print(f"lulus={lulus}")`,
+        lockLines: 5,
+        solution: `# DATA — jangan diubah
+N, SUKSES = 50, 42
+AMBANG = 0.70
+
+# TULIS KODEMU
+import math
+p = SUKSES / N
+se = (p * (1 - p) / N) ** 0.5
+ci_bawah = round(p - 1.96 * se, 3)
+ci_atas = round(p + 1.96 * se, 3)
+lulus = ci_bawah >= AMBANG
+
+print(f"p={p:.2f}")
+print(f"ci_bawah={ci_bawah:.3f}")
+print(f"ci_atas={ci_atas:.3f}")
+print(f"lulus={lulus}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "p", value: 0.84, tol: 1e-9, label: "`p` = 0.84", msg: "42/50 = 0,84." },
+          { kind: "equal", task: "t1", name: "se", value: 0.05185, tol: 0.0001, label: "`se` sekitar 0.0519", msg: "Akar(0,84 x 0,16 / 50) = 0,05185." },
+          { kind: "equal", task: "t2", name: "ci_bawah", value: 0.738, tol: 0.001, label: "`ci_bawah` = 0.738", msg: "0,84 − 1,96 x 0,05185 = 0,738." },
+          { kind: "equal", task: "t2", name: "ci_atas", value: 0.942, tol: 0.001, label: "`ci_atas` = 0.942", msg: "0,84 + 1,96 x 0,05185 = 0,942." },
+          { kind: "stdout_matches", task: "t2", pattern: "p=0\\.84\\nci_bawah=0\\.738\\nci_atas=0\\.942\\nlulus=True", label: "output empat baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Success rate tanpa interval = klaim. CI 95% = p ± 1,96 x SE.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -234,6 +299,24 @@ export const aai8: V2Lesson = {
             { text: "Agar perbandingan antar versi agen valid (apel vs apel)", why: "Tepat. Tugas yang berubah = benchmark yang bergeser = klaim perbaikan yang tak terbukti.", correct: true },
             { text: "Agar agen bisa menghafalnya", why: "Menghafal golden set = overfitting evaluasi, justru harus dihindari.", },
             { text: "Agar tidak perlu CI", why: "CI tetap dibutuhkan.", },
+          ],
+        },
+        {
+          q: "Agen sukses 42 dari 50 tugas (p=0,84). Interval kepercayaan 95 persennya dan artinya?",
+          options: [
+            { text: "0,738–0,942: nilai sebenarnya kemungkinan besar di rentang itu — bukan tepat 0,84", why: "Benar: SE = 0,0519; 1,96 x SE = 0,102; 0,84 ± 0,102. Ambang 0,70 lulus, ambang 0,80 tidak.", correct: true },
+            { text: "0,84–0,84: 50 sampel sudah cukup untuk angka pasti", why: "Salah: 50 sampel memberi SE 0,052 — ketidakpastian ±0,10.", },
+            { text: "0,70–0,98: asal tebak saja", why: "Salah: rentangnya dihitung dari SE, bukan ditebak.", },
+            { text: "Tidak bisa dihitung tanpa 1.000 sampel", why: "Salah: CI bisa dihitung untuk n berapa pun — hanya lebarnya yang berubah.", },
+          ],
+        },
+        {
+          q: "Dua agen sama-sama success rate 0,84: A diuji 50 tugas, B diuji 1.000 tugas. Mana yang lebih bisa dipercaya?",
+          options: [
+            { text: "Sama — angkanya sama", why: "Salah: angka sama, kepastian berbeda — CI A lebar (0,738–0,942), CI B sempit (0,818–0,862).", },
+            { text: "B — interval kepercayaannya jauh lebih sempit sehingga nilainya lebih pasti", why: "Benar: n besar menyempitkan SE. Evaluasi yang baik melaporkan n dan CI, bukan hanya persentase.", correct: true },
+            { text: "A — sampel kecil lebih jujur", why: "Salah: sampel kecil justru memberi ketidakpastian besar.", },
+            { text: "Tidak bisa dibandingkan", why: "Salah: justru CI-lah alat pembandingnya.", },
           ],
         },
       ],

@@ -39,7 +39,7 @@ export const biz14: V2Lesson = {
   track: "Business Intelligence",
   module: "Operasi & Governance",
   title: "BI14 — Capstone: BI Suite Satu Perusahaan",
-  estMinutes: 75,
+  estMinutes: 85,
   steps: [
     {
       id: "cerita",
@@ -294,6 +294,42 @@ export const biz14: V2Lesson = {
       reference: "Paket = produk hidup: inventaris → definisi disepakati → rilis bertahap → catatan rilis → ukur adopsi → pensiunkan yang yatim.",
     },
     {
+      id: "model-dbt-bertes",
+      eyebrow: "Tambahan · BZ-C1",
+      title: "Model dbt bertes: mart KPI gerai yang tidak bisa berbohong",
+      prose: [
+        "Capstone ini sejauh ini membangun dashboard eksekutif dan metric tree — tetapi dari mana angka dashboard itu datang? Dari model dbt (lihat BI21): stg_penjualan → int_penjualan → mart_kpi_gerai → dashboard_eksekutif. Lesson ini merangkaikan BI21 ke capstone: mart KPI gerai diuji dengan empat tes skema dbt — unique, not_null, accepted_values, relationships — SEBELUM dashboard membacanya. Dashboard yang membaca mart tanpa tes sedang membaca janji yang belum diuji.",
+        "Data lab (ilustratif, sengaja kotor): mart_kpi_gerai berisi 5 baris dengan id G1, G2, G3, G2 (duplikat!), G4; satu baris tanpa tanggal (G3); satu status 'pending' (bukan 'aktif'/'tutup'); satu gerai_id G9 yang tidak ada di dim_gerai. Empat tes BI21 menangkap keempatnya: unik gagal pada G2, tidak_null gagal pada G3, nilai_diterima gagal pada 'pending', relasi gagal pada G9. Hasil: 4 dari 4 tes GAGAL — dan dashboard_eksekutif sebagai hilirnya dinyatakan TERDAMPAK: tidak boleh terbit sampai mart diperbaiki.",
+        "Pelajaran capstone-nya: tes dbt bukan 'tambahan BI21' — ia adalah GERBANG antara model dan dashboard. Dalam arsitektur capstone, urutannya: model dbt dibangun → tes dijalankan (dbt build) → bila lolos, dashboard membaca mart; bila gagal, pipeline berhenti dengan nama tes yang gagal dan nilai bermasalahnya. Analis yang melewati gerbang ini sedang membangun dashboard di atas data yang ia sendiri tidak berani jamin.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan 4 tes dan isi `hasil` dengan nilai bermasalah tiap tes" },
+        { id: "t2", text: "Isi `daftar_gagal` (nama tes yang gagal) dan `jumlah_gagal`" },
+        { id: "t3", text: "Isi `dampak` — model/dasbor hilir yang terdampak" },
+        { id: "t4", text: "Cetak ringkasan: jumlah tes gagal dan yang terdampak" },
+      ],
+      expected: "TES GAGAL: 4 dari 4 / TERDAMPAK: dashboard_eksekutif",
+      hints: [
+        "unik: kumpulkan id, cari yang muncul lebih dari sekali.",
+        "relasi: gerai_id harus ada di {g['id'] for g in dim_gerai}.",
+        "dampak: ikuti panah DAG — dashboard_eksekutif membaca mart_kpi_gerai.",
+      ],
+      code: {
+        starter: `# Data tertanam (sengaja kotor) — JANGAN ubah blok ini\nmart_kpi_gerai = [\n    {"id": "G1", "tanggal": "2026-09-01", "gerai_id": "G1", "status": "aktif", "nilai": 1200000},\n    {"id": "G2", "tanggal": "2026-09-02", "gerai_id": "G9", "status": "aktif", "nilai": 900000},\n    {"id": "G3", "tanggal": None,         "gerai_id": "G1", "status": "aktif", "nilai": 1500000},\n    {"id": "G2", "tanggal": "2026-09-04", "gerai_id": "G2", "status": "aktif", "nilai": 800000},\n    {"id": "G4", "tanggal": "2026-09-05", "gerai_id": "G2", "status": "pending", "nilai": 600000},\n]\ndim_gerai = [\n    {"id": "G1", "nama": "Gerai Pusat"},\n    {"id": "G2", "nama": "Gerai Timur"},\n    {"id": "G3", "nama": "Gerai Barat"},\n    {"id": "G4", "nama": "Gerai Utara"},\n    {"id": "G5", "nama": "Gerai Selatan"},\n]\n# DAG: stg_penjualan -> int_penjualan -> mart_kpi_gerai -> dashboard_eksekutif\n# TULIS KODEMU DI BAWAH INI\n\nhasil = {}\ndaftar_gagal = []\njumlah_gagal = 0\ndampak = []\n\nprint(f"TES GAGAL: {jumlah_gagal} dari 4")\nprint(f"TERDAMPAK: {', '.join(dampak)}")`,
+        lockLines: 17,
+        solution: `# Data tertanam (sengaja kotor) — JANGAN ubah blok ini\nmart_kpi_gerai = [\n    {"id": "G1", "tanggal": "2026-09-01", "gerai_id": "G1", "status": "aktif", "nilai": 1200000},\n    {"id": "G2", "tanggal": "2026-09-02", "gerai_id": "G9", "status": "aktif", "nilai": 900000},\n    {"id": "G3", "tanggal": None,         "gerai_id": "G1", "status": "aktif", "nilai": 1500000},\n    {"id": "G2", "tanggal": "2026-09-04", "gerai_id": "G2", "status": "aktif", "nilai": 800000},\n    {"id": "G4", "tanggal": "2026-09-05", "gerai_id": "G2", "status": "pending", "nilai": 600000},\n]\ndim_gerai = [\n    {"id": "G1", "nama": "Gerai Pusat"},\n    {"id": "G2", "nama": "Gerai Timur"},\n    {"id": "G3", "nama": "Gerai Barat"},\n    {"id": "G4", "nama": "Gerai Utara"},\n    {"id": "G5", "nama": "Gerai Selatan"},\n]\n# DAG: stg_penjualan -> int_penjualan -> mart_kpi_gerai -> dashboard_eksekutif\n# TULIS KODEMU DI BAWAH INI\n\nids = [r["id"] for r in mart_kpi_gerai]\nhasil = {\n    "unik": sorted({i for i in ids if ids.count(i) > 1}),\n    "tidak_null": [r["id"] for r in mart_kpi_gerai if r["tanggal"] is None],\n    "nilai_diterima": sorted({r["status"] for r in mart_kpi_gerai} - {"aktif", "tutup"}),\n    "relasi": sorted({r["gerai_id"] for r in mart_kpi_gerai} - {g["id"] for g in dim_gerai}),\n}\ndaftar_gagal = [nama for nama, bermasalah in hasil.items() if bermasalah]\njumlah_gagal = len(daftar_gagal)\ndampak = ["dashboard_eksekutif"] if daftar_gagal else []\n\nprint(f"TES GAGAL: {jumlah_gagal} dari 4")\nprint(f"TERDAMPAK: {', '.join(dampak)}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "hasil", label: "`hasil` terdefinisi", msg: "Isi dict hasil dengan 4 tes." },
+          { kind: "equal", task: "t2", name: "daftar_gagal", value: ["unik", "tidak_null", "nilai_diterima", "relasi"], label: "`daftar_gagal` berisi 4 tes", msg: "Keempat tes gagal pada data ini — urutan: unik, tidak_null, nilai_diterima, relasi." },
+          { kind: "equal", task: "t2", name: "jumlah_gagal", value: 4, label: "`jumlah_gagal` = 4", msg: "Hitung dari panjang daftar_gagal." },
+          { kind: "equal", task: "t1", name: "hasil", value: {"unik": ["G2"], "tidak_null": ["G3"], "nilai_diterima": ["pending"], "relasi": ["G9"]}, label: "`hasil` berisi nilai bermasalah yang tepat", msg: "unik: G2 ganda; tidak_null: G3 tanpa tanggal; nilai_diterima: pending; relasi: G9 tak terdaftar." },
+          { kind: "stdout_matches", task: "t4", pattern: "TES GAGAL: 4 dari 4", label: "Output menampilkan jumlah tes gagal", msg: "Samakan format print dengan contoh." },
+          { kind: "stdout_matches", task: "t4", pattern: "TERDAMPAK: dashboard_eksekutif", label: "Output menampilkan dampak", msg: "Ikuti panah DAG dari mart_kpi_gerai." },
+        ],
+      },
+      reference: "dbt = kontrak sebelum dashboard: 4 tes (unique, not_null, accepted_values, relationships) sebagai gerbang.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu — dan kelulusan track",
@@ -302,12 +338,14 @@ export const biz14: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Catatan jalur: lesson setelah capstone ini (BI15 dan seterusnya) adalah modul lanjutan opsional — capstone ini sudah menutup rangkaian inti BI1–BI14.",
+        "Model dbt bertes: mart_kpi_gerai lolos 4 tes (unique, not_null, accepted_values, relationships) sebelum dibaca dashboard.",
         "Suite = rantai keputusan utuh: sumber → model → metrik → sajian → keputusan.",
         "Mulai dari keputusan termahal, bangun mundur ke data.",
         "Tiap KPI: kartu definisi + counter-metric + versi.",
         "Dashboard: 1 headline + 3 driver + aksi; narasi 3 menit.",
         "Audit 90-harian: zombie, gaming, definisi usang — suite membusuk tanpa perawatan.",
-        "Selamat! Kamu menyelesaikan track Business Intelligence (17 lesson).",
+        "Selamat! Kamu menyelesaikan track Business Intelligence (26 lesson).",
       ],
       next: { label: "BI15 — DAX: Measures & Time Intelligence", href: "/v2/learn/biz15-dax" },
       quiz: [

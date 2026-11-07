@@ -23,7 +23,7 @@ export const mlops7: V2Lesson = {
   track: "MLOps",
   module: "Pipeline & Deploy",
   title: "MLOps7 — Monitoring & Alerting",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -33,7 +33,7 @@ export const mlops7: V2Lesson = {
         "Model fraud PayLancar dipantau dengan dashboard yang indah: API uptime 99,98%, latensi p99 180ms, error rate 0,01%. Semua hijau selama 3 bulan. Tim infra bangga.",
         "Lalu audit triwulanan: kerugian fraud naik 34%. Investigasi menunjukkan pola serangan berubah total 3 bulan lalu — fitur 'trx_per_hari' bergeser drastis — tapi tidak ada SATU PUN metrik di dashboard yang mengukur hal itu. Yang dipantau adalah kesehatan SERVER, bukan kesehatan MODEL.",
         "Twist-nya: dashboard tidak berbohong — ia hanya menjawab pertanyaan yang salah. 'Apakah API hidup?' YA. 'Apakah model masih benar?' TIDAK DITANYA. Monitoring ML harus menjawab pertanyaan kedua, dan itu butuh metrik yang sama sekali berbeda.",
-        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan mengapa dashboard hijau bisa menutupi bisnis yang berdarah; (2) menghitung PSI untuk mengukur pergeseran distribusi; (3) menghitung presisi alert dan mengenali kelelahan alert; (4) memutuskan: page, tiket, atau sekadar log untuk tiap jenis sinyal.",
+        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan mengapa dashboard hijau bisa menutupi bisnis yang berdarah; (2) menghitung PSI untuk mengukur pergeseran distribusi; (3) menghitung presisi alert dan mengenali kelelahan alert; (4) memutuskan: page, tiket, atau sekadar log untuk tiap jenis sinyal; (5) menghitung burn rate error budget dan memutuskan page/tiket dari angka; (6) merancang monitoring per versi model, validasi data di serving, dan sampling untuk trafik tinggi. Lesson ini adalah kelanjutan dari MLE6 (ME14, monitoring dasar) — di sana kamu belajar MENDETEKSI drift; di sini kamu belajar MENGOPERASIKAN monitoring 24/7.",
       ],
       tasks: [],
       note: {
@@ -186,6 +186,106 @@ export const mlops7: V2Lesson = {
       reference: "Ukur presisi tiap kuartal. Pisahkan channel mesin vs manusia. Alert baru wajib probation 2 minggu.",
     },
     {
+      id: "ops-lanjutan",
+      eyebrow: "Langkah 8 · Pendalaman lanjutan",
+      title: "Burn rate, monitoring per versi, dan sampling",
+      prose: [
+        "Empat lapis (Langkah 2) dan presisi alert (Langkah 7) menjawab 'apa yang dipantau' dan 'apakah alarm dipercaya'. Langkah ini — pendalaman yang membedakan MO11 dari MLE6 — menjawab tiga pertanyaan operasional: seberapa CEPAT kita kehabisan budget, SIAPA yang sebenarnya bermasalah (versi model yang mana), dan bagaimana memantau saat trafik terlalu besar untuk mencatat semuanya.",
+        "Burn rate: kecepatan menghabiskan error budget. SLO 99,9 persen berarti laju error yang diizinkan 0,1 persen — budget 43,2 menit per bulan. Burn rate sama dengan laju error teramati dibagi laju budget. Burn 1x berarti budget habis tepat di akhir bulan (sesuai rencana). Burn 4,5x berarti budget habis dalam 30 dibagi 4,5 sama dengan 6,7 hari — dan itu alasan untuk PAGE, bukan tiket. Aturan operasional: burn di atas 2x selama 1 jam → page; burn 1 sampai 2x → tiket; burn di bawah 1x → log + review mingguan. Keunggulan burn rate dibanding ambang absolut: ia berbicara dalam bahasa budget ('kita kehabisan uang dalam 6,7 hari'), bukan dalam bahasa angka mentah ('error 45 per jam') yang tidak berarti apa-apa tanpa konteks. Lab berikut menghitungnya: jam pertama 45 error dari 10.000 request (burn 4,5x → PAGE), jam kedua 12 error (burn 1,2x → TIKET).",
+        "Monitoring PER VERSI model — bukan agregat. Saat champion (v6) dan challenger (v7) berjalan berdampingan, dashboard agregat bisa menunjukkan akurasi 84 persen yang menenangkan — padahal champion 86 persen dan challenger 79 persen. Challenger yang buruk tersembunyi di dalam rata-rata, dan keputusan promosi diambil dari angka yang salah. Aturan: tiap versi model punya deret metriknya sendiri (PSI, error rate, latensi, distribusi skor) + label versi di setiap baris log dan trace. Tanpa label versi, investigasi insiden menjadi tebak-tebakan ('model yang mana yang menjawab jam 02.14?'). Ini juga prasyarat canary yang jujur (MLOps5): canary 5 persen yang tidak diukur terpisah bukan canary, melainkan undian.",
+        "Validasi data DI TITIK SERVING — bukan hanya di training. Kasus DanaKilat dari MLE6 (field jumlah_pengajuan_7hari sama dengan 0 untuk 40 persen request karena bug API partner) tertangkap oleh PSI — tetapi lebih cepat lagi bila ada schema + range check pada request masuk: tolak request yang melanggar kontrak, atau beri default yang benar + alarm missing rate. Contract test dengan upstream (partner API) berjalan di CI dan di serving: bila format berubah, alert berbunyi SEBELUM data rusak masuk ke model. Monitoring input (lapis 1) tanpa validasi di titik masuk = radar yang melihat tetapi tidak bisa menghentikan.",
+        "Sampling untuk trafik tinggi. DompetKu memproses 5 juta transaksi per hari — mencatat 100 persen request dengan payload lengkap berarti tagihan storage yang lebih besar dari tagihan serving. Polanya: log 100 persen untuk error dan untuk request yang di-block guardrail, 1 persen acak untuk sukses — lalu estimasi metrik dari sampel beserta interval kepercayaannya (MLE4: lebar interval menyusut dengan akar n). Pengecualian: segmen langka dan bernilai tinggi (transaksi di atas Rp10 juta, nasabah VIP) dicatat 100 persen — sampling buta menghapus justru baris yang paling penting. Dan tutup loop-nya: PSI + burn rate + performa per versi adalah INPUT trigger retraining (MLOps8) — bukan kalender. Monitoring yang tidak pernah memicu aksi adalah dashboard; monitoring yang memicu aksi tercatat adalah sistem.",
+      ],
+      formula: String.raw`\text{burn} = \frac{\text{laju error teramati}}{\text{laju budget}} \qquad T_{habis} = \frac{30 \text{ hari}}{\text{burn}}`,
+      formulaNote: "burn = burn rate error budget; laju budget = 1 − SLO (0,1% untuk SLO 99,9%); T_habis = sisa umur budget bila burn bertahan. Contoh lab: 45 error/10.000 request = 0,45% → burn 4,5x → PAGE, budget habis dalam 6,7 hari; 12 error → burn 1,2x → TIKET.",
+      tasks: [
+        { id: "t1", text: "Hitung `burn1` dan `burn2` (laju error dibagi laju budget 0,001)" },
+        { id: "t2", text: "Tentukan `aksi1` dan `aksi2` ('PAGE' bila burn >= 2, 'TIKET' bila >= 1, else 'LOG')" },
+        { id: "t3", text: "Hitung `habis_hari` = umur budget bila burn1 bertahan, cetak semuanya" },
+      ],
+      expected: "burn_jam1=4.5x -> PAGE  burn_jam2=1.2x -> TIKET  budget_habis_dalam=6.7 hari",
+      note: {
+        title: "💡 Intuisi: burn rate = speedometer budget",
+        type: "pitfall",
+        body: "Ambang absolut ('error lebih dari 40 per jam') tidak tahu apakah 40 itu banyak atau sedikit — tergantung SLO dan volume. Burn rate selalu tahu: 4,5x berarti 'dengan kecepatan ini, budget habis minggu depan'. Alert yang berbicara dalam bahasa budget didengar direksi; alert yang berbicara dalam bahasa angka mentah diabaikan.",
+      },
+      hints: [
+        "laju error = errors / reqs; burn = laju error / 0.001.",
+        "PAGE bila burn >= 2; TIKET bila burn >= 1; else LOG.",
+        "habis_hari = 30 / burn1.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+SLO = 0.999            # laju budget = 1 - SLO = 0,1%
+reqs = 10_000          # request per jam
+err_jam1, err_jam2 = 45, 12
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: burn rate + aksi + umur budget
+laju_budget = 
+burn1 = 
+burn2 = 
+aksi1 = 
+aksi2 = 
+habis_hari = 
+
+print(f"burn_jam1={burn1:.1f}x -> {aksi1}  burn_jam2={burn2:.1f}x -> {aksi2}  budget_habis_dalam={habis_hari:.1f} hari")`,
+        lockLines: 4,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+SLO = 0.999            # laju budget = 1 - SLO = 0,1%
+reqs = 10_000          # request per jam
+err_jam1, err_jam2 = 45, 12
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: burn rate + aksi + umur budget
+laju_budget = 1 - SLO
+burn1 = (err_jam1 / reqs) / laju_budget
+burn2 = (err_jam2 / reqs) / laju_budget
+aksi1 = "PAGE" if burn1 >= 2 else ("TIKET" if burn1 >= 1 else "LOG")
+aksi2 = "PAGE" if burn2 >= 2 else ("TIKET" if burn2 >= 1 else "LOG")
+habis_hari = 30 / burn1
+
+print(f"burn_jam1={burn1:.1f}x -> {aksi1}  burn_jam2={burn2:.1f}x -> {aksi2}  budget_habis_dalam={habis_hari:.1f} hari")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`burn1` = 4.5",
+            "name": "burn1",
+            "value": 4.5,
+            "tol": 1e-09,
+            "msg": "0,45% / 0,1% = 4,5x — budget habis jauh sebelum akhir bulan.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`burn2` = 1.2",
+            "name": "burn2",
+            "value": 1.2,
+            "tol": 1e-09,
+            "msg": "0,12% / 0,1% = 1,2x — di atas budget, belum darurat.",
+          },
+          {
+            "kind": "equal",
+            "task": "t3",
+            "label": "`habis_hari` ≈ 6.7",
+            "name": "habis_hari",
+            "value": 6.666666666666667,
+            "tol": 0.05,
+            "msg": "30 / 4,5 = 6,7 hari bila burn bertahan.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` memvonis PAGE lalu TIKET",
+            "pattern": "burn_jam1=4\\.5x -> PAGE\\s+burn_jam2=1\\.2x -> TIKET",
+            "msg": "Burn di atas 2x = page; 1–2x = tiket.",
+          },
+        ],
+      },
+      reference: "Burn >= 2x = page, 1–2x = tiket, < 1x = log. Metrik per versi model, validasi di serving, sampling 100% error + 1% sukses.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -199,6 +299,7 @@ export const mlops7: V2Lesson = {
         "PSI > 0,25 = pergeseran signifikan; bin histogram harus sama untuk keduanya.",
         "Klasifikasi alert: page / tiket / log; tanpa aksi = tanpa alert.",
         "Drift = sinyal investigasi, bukan perintah retrain otomatis.",
+        "Burn rate: burn di atas 2x = page, 1–2x = tiket; metrik per versi model, validasi di serving, sampling 100% error + 1% sukses. Kelanjutan dari MLE6 (ME14, monitoring dasar).",
       ],
       next: { label: "MLOps8 — Strategi Retraining", href: "/learn/mlops8-retraining" },
       quiz: [
@@ -254,6 +355,15 @@ export const mlops7: V2Lesson = {
             { text: "Naikkan ambang + tambah konfirmasi multi-hari untuk menaikkan presisi page ≥50%", why: "Tepat. Akar masalahnya presisi 12% yang melatih tim mengabaikan. Naikkan ambang berdasarkan data historis + syarat bertahan 3 hari; pisahkan page (pelit) dari tiket/log (longgar).", correct: true },
             { text: "Matikan semua alert selama sebulan agar tim `istirahat`", why: "Mematikan semua = kembali buta total. Yang dimatikan seharusnya false alarm-nya (via ambang), bukan seluruh sistem." },
             { text: "Ganti tool monitoring dengan yang lebih mahal", why: "Tool tidak memperbaiki ambang yang salah. Presisi 12% akan tetap 12% di tool semahal apa pun — ini masalah kalibrasi, bukan lisensi." },
+          ],
+        },
+        {
+          q: "SLO 99,9%. Jam pertama: 45 error dari 10.000 request. Jam kedua: 12 error. Tindakan?",
+          options: [
+            { text: "Jam 1 PAGE (burn 4,5x — budget habis dalam 6,7 hari), jam 2 TIKET (burn 1,2x)", why: "Tepat: burn = laju error / 0,1%. Di atas 2x = page; 1–2x = tiket. Burn rate berbicara dalam bahasa budget.", correct: true },
+            { text: "Keduanya PAGE — error apa pun harus membangunkan tim", why: "Jam 2 hanya 1,2x — membangunkan tim untuk itu = alert fatigue yang dibahas Langkah 7." },
+            { text: "Keduanya LOG — tunggu sampai akhir bulan", why: "Menunggu = budget habis dalam 6,7 hari tanpa ada yang bertindak. Burn 4,5x adalah darurat." },
+            { text: "Naikkan SLO menjadi 99,99% agar burn turun", why: "Menaikkan SLO MEMPERKECIL laju budget (0,1% → 0,01%) sehingga burn NAIK 10x — memperparah keadaan." },
           ],
         },
       ],

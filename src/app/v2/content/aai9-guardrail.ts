@@ -23,7 +23,7 @@ export const aai9: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Operasi & Evaluasi",
   title: "AAI9 — Guardrail & Human-in-the-Loop",
-  estMinutes: 70,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita",
@@ -232,7 +232,43 @@ export const aai9: V2Lesson = {
         ],
       },
       reference: "Setiap agen: pemilik bernama + register + batas angka + review ≤ 90 hari + tombol mati.",
+    },    {
+      id: "interupsi-streaming-ux",
+      eyebrow: "Langkah 8 · Interupsi & streaming",
+      title: "Interupsi dan streaming-UX: pengguna harus bisa menyela",
+      prose: [
+        "Agen long-running tanpa tombol batal adalah proses yang tidak bisa dihentikan — dan proses yang tidak bisa dihentikan adalah insiden yang menunggu waktu. Interupsi berarti: pengguna bisa menghentikan agen di tengah jalan, agen berhenti di titik yang aman (bukan di tengah menulis file), dan state-nya tersimpan sehingga pekerjaan bisa dilanjutkan atau dibatalkan dengan sadar.",
+        "Streaming-UX adalah sisi lain dari kendali yang sama: pengguna melihat hasil SEBAGAI IA DIHASILKAN, bukan setelah 10 detik hening. Angka ilustratif: respons 400 token pada 40 token per detik tampil penuh dalam 10 detik; dengan streaming, kata pertama muncul dalam 0,8 detik (TTFT) — pengguna tahu agen bekerja dan bisa menyela di detik kedua, bukan menunggu 10 detik untuk tahu jawabannya salah arah.",
+        "Keduanya butuh hal yang sama di bawahnya: state yang bisa dilanjutkan (checkpoint, AAI10) dan pembatalan yang kooperatif — agen memeriksa sinyal batal antar langkah, bukan dipaksa mati di tengah tool call. Pola yang benar: streaming untuk keterbacaan, interupsi untuk kendali, checkpoint untuk kelanjutan. Agen yang tidak bisa disela tidak boleh diberi tugas yang lama.",
+        "Aturan praktis: setiap agen yang berjalan lebih dari 30 detik wajib punya tiga hal: indikator progres yang jujur (langkah ke berapa, bukan spinner abadi), tombol batal yang benar-benar bekerja, dan pesan yang jelas tentang apa yang sudah terjadi saat dibatalkan. Tanpa ketiganya, pengguna tidak memakai agenmu — mereka takut padanya.",
+      ],
+      tasks: [],
+      note: {
+        title: "💡 Intuisi",
+        body: "Interupsi bukan fitur UX — ia adalah guardrail. Satu-satunya hal yang menghentikan agen yang salah arah sebelum ia mengirim sesuatu adalah manusia yang bisa menyela di detik kedua, bukan audit trail yang dibaca minggu depan.",
+      },
+      reference: "Streaming = kata pertama dalam 0,8 detik; interupsi = berhenti aman + state tersimpan; keduanya butuh checkpoint.",
     },
+
+    {
+      id: "privasi-dokumentasi-agen",
+      eyebrow: "Langkah 9 · Privasi & dokumentasi",
+      title: "Privasi dan dokumentasi agen: yang tidak tertulis tidak ada",
+      prose: [
+        "Privasi agen dimulai dari akses minimum: agen hanya boleh membaca kolom yang ia butuhkan untuk tugasnya — bukan seluruh tabel nasabah “untuk jaga-jaga”. Log agen wajib diredaksi sebelum disimpan (nama, NIK, dan nomor rekening disamarkan), dan data nasabah tidak boleh dibawa ke tool atau prompt pihak ketiga yang tidak terikat perjanjian. Satu kebocoran adalah insiden privasi plus denda regulasi plus kepercayaan yang hilang.",
+        "Retensi adalah separuh privasi yang sering lupa: log dan trace dihapus sesuai jadwal (contoh kebijakan: 90 hari untuk log operasional, lebih lama hanya untuk jejak audit yang diwajibkan regulasi), dan setiap penghapusan dicatat. Data yang tidak ada tidak bisa bocor — retensi yang pendek adalah pertahanan, bukan kecerobohan.",
+        "Dokumentasi agen adalah tiga dokumen yang wajib ada sebelum deploy. Pertama, runbook agen: tujuan, daftar tools beserta tier-nya, batas (max langkah, max rupiah), dan cara membatalkan. Kedua, model card agen: model apa, versi berapa, eval terakhir berapa, dan kapan kedaluwarsa. Ketiga, decision log: kenapa tier-2 butuh approval, kenapa ambang ini dipilih — alasan yang akan ditanya saat audit.",
+        "Audit trail append-only (Langkah 2) mencatat APA yang terjadi; dokumentasi menjelaskan MENGAPA ia dirancang begitu. Tanpa keduanya, agen yang insiden tidak bisa dijelaskan — dan agen yang tidak bisa dijelaskan tidak boleh menyentuh data nasabah.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Regulator suatu hari akan bertanya “siapa yang memutuskan ini” — jawabannya harus nama orang yang menandatangani, bukan versi model. Dokumentasi adalah tempat nama itu ditulis sebelum insiden, bukan dicari sesudahnya.",
+      },
+      reference: "Privasi = akses minimum + redaksi log + retensi. Dokumentasi = runbook + model card + decision log.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -295,6 +331,24 @@ export const aai9: V2Lesson = {
             { text: "Investigasi insiden & replay jejak aksi", why: "Tepat. Tanpa log, insiden Dina tidak akan pernah terjelaskan.", correct: true },
             { text: "Menggantikan approval", why: "Log mencatat; approval mencegah. Komplemen, bukan pengganti.", },
             { text: "Menambah kecepatan agen", why: "Benar — dan overhead itu kecil: ~1KB per aksi. Tetapi manfaatnya besar: forensik 10 menit vs 3 hari, pola kegagalan yang bisa dianalisis, dan akuntabilitas. “Overhead kecil” bukan alasan untuk melewatkan; ia adalah alasan untuk TIDAK melewatkan — murah kok.", },
+          ],
+        },
+        {
+          q: "Agen long-running (10 detik) tanpa tombol batal dan tanpa streaming. Masalah terbesarnya?",
+          options: [
+            { text: "Terlalu lambat", why: "10 detik bukan masalahnya — tidak adanya kendali yang masalah.", },
+            { text: "Pengguna tidak bisa menyela saat agen salah arah, dan tidak tahu ia bekerja sampai selesai", why: "Benar: tanpa interupsi dan streaming, kesalahan baru ketahuan setelah pekerjaan selesai — saat biaya sudah terjadi.", correct: true },
+            { text: "Token terlalu mahal", why: "Biaya bukan inti soal ini — kendali dan keterbacaan yang hilang.", },
+            { text: "Tidak ada guardrail", why: "Guardrail ada untuk aksi; interupsi adalah kendali manusianya — keduanya dibutuhkan.", },
+          ],
+        },
+        {
+          q: "Manakah praktik privasi yang BENAR untuk agen yang membaca data nasabah?",
+          options: [
+            { text: "Beri akses baca seluruh tabel agar agen tidak kekurangan data", why: "Itu melanggar akses minimum — agen membaca lebih dari yang ia butuhkan.", },
+            { text: "Akses minimum + redaksi log + retensi terjadwal + jangan bawa data ke tool pihak ketiga tanpa perjanjian", why: "Benar: keempatnya bersama-sama — satu saja hilang, privasi bocor.", correct: true },
+            { text: "Simpan log selamanya agar audit lengkap", why: "Retensi tanpa batas justru memperbesar permukaan bocor — data yang tidak ada tidak bisa bocor.", },
+            { text: "Privasi cukup dijaga oleh guardrail output", why: "Guardrail menjaga output; privasi juga soal input, log, dan retensi.", },
           ],
         },
       ],

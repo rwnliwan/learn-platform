@@ -1,5 +1,6 @@
 import type { V2Lesson } from "./types";
 import { dle1 } from "../content/dle1-lanskap";
+import { dle18 } from "../content/dle18-pytorch";
 import { dle2 } from "../content/dle2-nn";
 import { dle3 } from "../content/dle3-cnn";
 import { dle4 } from "../content/dle4-seq";
@@ -16,7 +17,6 @@ import { dle14 } from "../content/dle14-segmentasi-unet";
 import { dle15 } from "../content/dle15-distributed-training";
 import { dle16 } from "../content/dle16-multimodal-clip";
 import { dle17 } from "../content/dle17-gradcam";
-import { dle18 } from "../content/dle18-pytorch";
 import { dle19 } from "../content/dle19-nlp";
 import { dle20 } from "../content/dle20-finetuning-llm";
 import { dle21 } from "../content/dle21-rl-dasar";
@@ -25,9 +25,11 @@ import { dle23 } from "../content/dle23-membaca-paper";
 import { dle24 } from "../content/dle24-rag-implementasi";
 import { dle25 } from "../content/dle25-tensorflow-keras";
 import { dle26 } from "../content/dle26-video-tracking";
+import { dle27 } from "../content/dle27-fondasi-representasi";
 
 export const REG_DLE: Record<string, V2Lesson> = {
   "dle1-lanskap": dle1,
+  "dle18-pytorch": dle18,
   "dle2-nn": dle2,
   "dle3-cnn": dle3,
   "dle4-seq": dle4,
@@ -44,7 +46,6 @@ export const REG_DLE: Record<string, V2Lesson> = {
   "dle15-distributed-training": dle15,
   "dle16-multimodal-clip": dle16,
   "dle17-gradcam": dle17,
-  "dle18-pytorch": dle18,
   "dle19-nlp": dle19,
   "dle20-finetuning-llm": dle20,
   "dle21-rl-dasar": dle21,
@@ -53,4 +54,5 @@ export const REG_DLE: Record<string, V2Lesson> = {
   "dle24-rag-implementasi": dle24,
   "dle25-tensorflow-keras": dle25,
   "dle26-video-tracking": dle26,
+  "dle27-fondasi-representasi": dle27,
 };

@@ -26,7 +26,7 @@ export const dba25: V2Lesson = {
   track: "Database Administrator",
   module: "Keandalan & Performa",
   title: "DBA25 — Jalur Sertifikasi DBA: Oracle & Azure",
-  estMinutes: 60,
+  estMinutes: 65,
   steps: [
     {
       id: "peta",
@@ -245,6 +245,35 @@ print("Total: %d jam" % sum(h for _, h in fase))`,
       },
     },
     {
+      id: "jalur-dbre",
+      eyebrow: "Tambahan · DB16",
+      title: "Jalur DBRE: saat DBA bertemu SRE",
+      prose: [
+        "Lesson ini sejauh ini membahas jalur SERTIFIKASI (Oracle, Azure) — tetapi spec DB16 meminta satu jalur lagi: DBRE, Database Reliability Engineer (juga disebut platform engineer untuk data). DBRE adalah DBA yang bekerja dengan cara SRE (site reliability engineering): bukan hanya mengoperasikan database, melainkan membangun PLATFORM agar tim lain bisa memakai database dengan aman tanpa mengetuk pintu DBA tiap kali.",
+        "Empat pembeda DBRE dari DBA tradisional. Satu: SLO & ERROR BUDGET — layanan database punya target terukur (misalnya ketersediaan 99,9 persen per bulan — angka contoh) dan 'anggaran kesalahan' yang bila habis, perubahan fitur ditahan demi stabilitas. Dua: OTOMASI SEBAGAI PEKERJAAN UTAMA — provisioning, backup, failover, dan scaling ditulis sebagai kode (lihat DBA13/DBA23), bukan dijalankan manual; pekerjaan manual yang berulang disebut 'toil' dan targetnya ditekan di bawah separuh waktu kerja. Tiga: SELF-SERVICE — tim produk bisa membuat database, menaikkan ukuran, dan melihat metriknya sendiri lewat platform — dengan guardrail (batas ukuran, backup otomatis aktif) sehingga kebebasan tidak menjadi kekacauan. Empat: BLAMELESS POSTMORTEM & DRILL — insiden dipelajari tanpa menyalahkan orang (lihat DBA12/DBA16), dan failover dilatih seperti latihan kebakaran.",
+        "Jalur kariernya: DBA yang kuat di otomasi (scripting, IaC, CI/CD — DBA13/DBA23) + paham SRE (SLO, monitoring, incident response — DBA8/DBA12) adalah kandidat DBRE. Sertifikasi di lesson ini tetap berguna sebagai bukti penguasaan produk (Oracle/Azure), tetapi DBRE dinilai dari PORTOFOLIO OTOMASI: pipeline provisioning yang kamu bangun, runbook yang kamu kodifikasi, dan insiden yang tidak terulang karena guardrail yang kamu pasang. Bila sertifikasi adalah ijazah, portofolio otomasi adalah transkrip nilai DBRE.",
+        "Catatan jujur: tidak semua organisasi butuh DBRE — tim kecil dengan satu database mungkin lebih butuh DBA generalis yang andal. DBRE bersinar di organisasi dengan BANYAK database, BANYAK tim, dan perubahan yang cepat — di sanalah platform dan guardrail menghemat ratusan jam toil. Pilih jalur ini bila kamu suka membangun sistem yang membuat orang lain mandiri — bukan bila kamu suka menjadi satu-satunya orang yang bisa memperbaiki database.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke karier",
+        type: "risk",
+        body: "“DBRE = DBA dengan gaji lebih besar.” Bukan — DBRE = DBA dengan PEKERJAAN berbeda: membangun platform, bukan hanya mengoperasikan. Bila kamu tidak suka menulis kode dan membangun guardrail, jalur sertifikasi DBA senior (lesson ini) adalah jalur yang lebih jujur untukmu.",
+      },
+      quiz: [
+        {
+          q: "Pembeda utama DBRE dari DBA tradisional?",
+          options: [
+            { text: "DBRE tidak perlu memahami database", why: "Salah: DBRE tetap DBA — penguasaan database adalah fondasinya." },
+            { text: "DBRE membangun platform + otomasi + SLO/error budget agar tim lain mandiri dengan guardrail", why: "Benar: DBRE = DBA dengan cara kerja SRE — platform, bukan hanya operasi manual.", correct: true },
+            { text: "DBRE hanya bekerja di cloud dan tidak menyentuh on-premise", why: "Salah: DBRE soal cara kerja (platform + otomasi), bukan soal lokasi server." },
+            { text: "DBRE tidak perlu sertifikasi apa pun", why: "Salah: sertifikasi tetap bukti penguasaan produk — hanya bukan satu-satunya bukti; portofolio otomasi yang dinilai." },
+          ],
+        },
+      ],
+      reference: "DBRE = DBA + SRE: SLO, otomasi, self-service ber-guardrail, postmortem blameless.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -253,6 +282,7 @@ print("Total: %d jam" % sum(h for _, h in fase))`,
       ],
       tasks: [],
       summary: [
+        "Jalur DBRE: DBA dengan cara kerja SRE — platform, otomasi, SLO/error budget, self-service ber-guardrail.",
         "Jalur aktif per Okt 2026: Oracle 19c OCP (1Z0-082+083), Oracle AI 23ai Pro (1Z0-182+183), Azure DP-300 (satu ujian).",
         "AWS Database Specialty (DBS-C01) pensiun April 2024 — jangan masuk rencana.",
         "Pilih dengan matriks berbobot S = Σ w_i × s_i; filter syarat keras DULU, bandingkan skor kemudian.",

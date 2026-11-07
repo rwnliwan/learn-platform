@@ -35,7 +35,7 @@ export const dle8: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Arsitektur Modern",
   title: "DLE8 — GPU & Mixed Precision",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita-72jam",
@@ -198,7 +198,71 @@ export const dle8: V2Lesson = {
         ],
       },
       reference: "Bandingkan total biaya (waktu x tarif), bukan tarif per jam.",
+    },    {
+      id: "lab-roofline",
+      eyebrow: "Langkah 6 · Lab",
+      title: "Lab: roofline — memory-bound atau compute-bound?",
+      prose: [
+        "GPU ilustratif: 300 TFLOPS, bandwidth memori 2 TB/detik. Dua operasi, masing-masing 1e12 FLOP. Op A memindahkan 1e12 byte (aritmetika intensitas 1 FLOP/byte); Op B memindahkan 1e9 byte (intensitas 1.000 FLOP/byte). Tugasmu: hitung waktu komputasi dan waktu memori tiap op, lalu tentukan bottleneck-nya (yang lebih lama).",
+        "Hasilnya: Op A butuh 0,5 detik — memory-bound (waktu memori 0,5 detik vs komputasi 0,0033 detik). Op B butuh 0,0033 detik — compute-bound (komputasi 0,0033 vs memori 0,0005). Pelajarannya: FLOPS besar tidak membantu Op A sama sekali — yang ia butuhkan adalah bandwidth atau lebih sedikit byte.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `waktu(flop, byte)` = max(flop/TFLOPS, byte/BANDWIDTH)" },
+        { id: "t2", text: "Hitung op_a, op_b, dan bottleneck tiap op, lalu cetak" },
+      ],
+      expected: "op_a=0.5000\nop_b=0.0033\nbottleneck_a=memory\nbottleneck_b=compute",
+      note: {
+        title: "💡 Intuisi",
+        body: "Kebanyakan op deep learning di batch kecil adalah memory-bound — GPU menunggu data, bukan menghitung. Itulah kenapa batching dan mixed precision (DLE8) mempercepat training: bukan karena FLOPS naik, melainkan karena byte per FLOP turun.",
+      },
+      hints: [
+        "waktu_komputasi = FLOP / TFLOPS; waktu_memori = byte / bandwidth.",
+        "Bottleneck = yang lebih lama; intensitas = FLOP / byte.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah (angka ilustratif)
+TFLOPS, BANDWIDTH = 300e12, 2e12  # 300 TFLOPS, 2 TB/detik
+# Op A: 1e12 FLOP, 1e12 byte; Op B: 1e12 FLOP, 1e9 byte
+
+# TULIS KODEMU: roofline
+def waktu(flop, byte):
+    ...
+
+op_a = ...
+op_b = ...
+bot_a = ...
+bot_b = ...
+print(f"op_a={op_a:.4f}")
+print(f"op_b={op_b:.4f}")
+print(f"bottleneck_a={bot_a}")
+print(f"bottleneck_b={bot_b}")`,
+        lockLines: 3,
+        solution: `# DATA — jangan diubah (angka ilustratif)
+TFLOPS, BANDWIDTH = 300e12, 2e12  # 300 TFLOPS, 2 TB/detik
+# Op A: 1e12 FLOP, 1e12 byte; Op B: 1e12 FLOP, 1e9 byte
+
+# TULIS KODEMU: roofline
+def waktu(flop, byte):
+    return max(flop / TFLOPS, byte / BANDWIDTH)
+
+op_a = waktu(1e12, 1e12)
+op_b = waktu(1e12, 1e9)
+bot_a = "memory" if 1e12 / BANDWIDTH > 1e12 / TFLOPS else "compute"
+bot_b = "memory" if 1e9 / BANDWIDTH > 1e12 / TFLOPS else "compute"
+print(f"op_a={op_a:.4f}")
+print(f"op_b={op_b:.4f}")
+print(f"bottleneck_a={bot_a}")
+print(f"bottleneck_b={bot_b}")`,
+        checks: [
+          { kind: "equal", task: "t2", name: "op_a", value: 0.5, tol: 0.0001, label: "`op_a` = 0.5 detik", msg: "max(0,0033; 0,5) = 0,5 — memory-bound." },
+          { kind: "equal", task: "t2", name: "op_b", value: 0.0033, tol: 0.0001, label: "`op_b` sekitar 0.0033 detik", msg: "max(0,0033; 0,0005) = 0,0033 — compute-bound." },
+          { kind: "equal", task: "t2", name: "bot_a", value: "memory", label: "`bot_a` = memory", msg: "Waktu memori 0,5 jauh di atas komputasi 0,0033." },
+          { kind: "stdout_matches", task: "t2", pattern: "op_a=0\\.5000\\nop_b=0\\.0033\\nbottleneck_a=memory\\nbottleneck_b=compute", label: "output empat baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Roofline: waktu = max(FLOP/TFLOPS, byte/bandwidth). Intensitas rendah = memory-bound.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -263,6 +327,24 @@ export const dle8: V2Lesson = {
             { text: "Prototyping 5 menit dengan data kecil", why: "Overhead sewa+transfer GPU mengalahkan manfaatnya untuk eksperimen kilat.", correct: true },
             { text: "Training 3 hari", why: "Itu justru kasus terbaik GPU." },
             { text: "Model 10 miliar parameter", why: "Itu wajib GPU cluster." },
+          ],
+        },
+        {
+          q: "GPU 300 TFLOPS, bandwidth 2 TB/detik. Op 1e12 FLOP + 1e12 byte. Waktu dan bottleneck-nya?",
+          options: [
+            { text: "0,5 detik, memory-bound", why: "Benar: komputasi 0,0033 detik, memori 0,5 detik — yang lebih lama menang.", correct: true },
+            { text: "0,0033 detik, compute-bound", why: "Salah: itu waktu komputasinya saja — memori 150 kali lebih lambat.", },
+            { text: "0,5033 detik — keduanya dijumlah", why: "Salah: komputasi dan transfer tumpang tindih — yang menentukan adalah max, bukan jumlah.", },
+            { text: "0,0005 detik", why: "Salah: itu waktu memori Op B, bukan Op A.", },
+          ],
+        },
+        {
+          q: "Op memory-bound (intensitas 1 FLOP/byte). Cara mempercepatnya yang BENAR?",
+          options: [
+            { text: "Beli GPU dengan FLOPS lebih besar", why: "Salah: bottleneck-nya memori — FLOPS tidak dipakai.", },
+            { text: "Kurangi byte yang dipindah (batching, mixed precision, cache) atau naikkan bandwidth", why: "Benar: bottleneck adalah memori — perbaiki memori, bukan komputasi.", correct: true },
+            { text: "Perkecil batch agar GPU tidak kepanasan", why: "Salah: batch kecil justru memperburuk intensitas — lebih sedikit FLOP per byte.", },
+            { text: "Naikkan learning rate", why: "Tidak ada hubungannya dengan waktu eksekusi op.", },
           ],
         },
       ],

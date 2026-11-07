@@ -21,7 +21,7 @@ export const bcd6: V2Lesson = {
   track: "Blockchain Data Scientist",
   module: "Analisis Lanjutan",
   title: "BCD6 — Data NFT: Wash Trading & Valuasi",
-  estMinutes: 50,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -176,6 +176,35 @@ export const bcd6: V2Lesson = {
       reference: "Hitung rasio wash MINGGUAN (bukan bulanan). Floor dari transaksi, bukan listing.",
     },
     {
+      id: "standar-token-nft",
+      eyebrow: "Tambahan · BC2",
+      title: "ERC-721 vs ERC-1155: standar di balik NFT",
+      prose: [
+        "NFT di lesson ini sejauh ini dibahas dari sisi pasar (wash trading, valuasi) — tetapi NFT adalah TOKEN dengan standar teknis, dan standar itu menentukan apa yang bisa dihitung analis. Tiga standar token Ethereum yang perlu dibedakan. ERC-20 (lihat BCD2): FUNGIBLE — tiap unit sama (1 USDC = 1 USDC), saldo dicatat per alamat, transfer via event Transfer. ERC-721: NON-FUNGIBLE — tiap token UNIK dengan tokenId sendiri (avatar nomor 1 berbeda dari avatar nomor 2, walau dari koleksi yang sama); kepemilikan dicatat per tokenId; transfer via event Transfer yang sama namanya tetapi dengan tokenId, bukan jumlah.",
+        "ERC-1155: MULTI-TOKEN — satu kontrak bisa menampung BANYAK jenis token sekaligus, fungible maupun non-fungible: 100 pedang identik (fungible, jumlah 100) DAN 1 pedang legendaris unik (non-fungible) hidup di kontrak yang sama, dibedakan oleh id. Transfernya memakai event TransferSingle (satu jenis) atau TransferBatch (banyak jenis sekaligus — satu transaksi memindahkan 5 jenis item game sekaligus, hemat gas dibanding 5 transaksi ERC-721 terpisah).",
+        "Kapan memakai yang mana — dan apa artinya bagi analis: koleksi 10.000 avatar unik (tiap avatar berbeda) → ERC-721; tiap tokenId adalah satu baris data. Item game dengan stok (100 pedang identik, 50 perisai identik) → ERC-1155; jumlah per id adalah saldonya, seperti ERC-20 per jenis. Kesalahan analisis klasik: menghitung 'jumlah NFT' di kontrak ERC-1155 dengan menghitung transfer — transfer batch memindahkan banyak jenis sekaligus, dan saldo per id (bukan jumlah transfer) yang menentukan berapa item yang benar-benar ada.",
+        "Untuk membaca data: ERC-721 — lacak ownerOf(tokenId) dan event Transfer(from, to, tokenId). ERC-1155 — lacak balanceOf(alamat, id) dan event TransferSingle/TransferBatch. Keduanya bisa dibaca dengan bekal BCD2 (event log) — hanya nama event dan artinya yang berbeda. Dan satu catatan kejujuran: standar tidak menjamin NILAI — NFT ERC-721 dari koleksi tanpa pembeli tetap tidak likuid (lihat langkah valuasi lesson ini); standar menjelaskan STRUKTUR, bukan harga.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Semua NFT itu ERC-721.” Bukan — item game bervolume besar dan tiket event umumnya ERC-1155 (batch + multi-jenis dalam satu kontrak). Menyebut standar yang salah berarti membaca event yang salah — dan menghitung jumlah yang salah.",
+      },
+      quiz: [
+        {
+          q: "Koleksi 10.000 avatar unik vs 100 pedang identik di satu game. Standar yang tepat?",
+          options: [
+            { text: "Keduanya ERC-20", why: "Salah: ERC-20 fungible murni — tidak bisa membedakan avatar nomor 1 dari nomor 2." },
+            { text: "Avatar ERC-721 (unik per tokenId); pedang ERC-1155 (100 identik dalam satu id, batch-able)", why: "Benar: keunikan → 721; stok identik multi-jenis → 1155.", correct: true },
+            { text: "Keduanya ERC-721", why: "Salah: 100 pedang identik tidak butuh 100 token unik — ERC-1155 jauh lebih hemat." },
+            { text: "Avatar ERC-1155; pedang ERC-721", why: "Salah: terbalik — avatar unik butuh 721, pedang identik butuh 1155." },
+          ],
+        },
+      ],
+      reference: "ERC-20 fungible; ERC-721 unik per tokenId; ERC-1155 multi-jenis + batch dalam satu kontrak.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -184,6 +213,7 @@ export const bcd6: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Standar token NFT: ERC-721 unik per tokenId; ERC-1155 multi-jenis + batch; ERC-20 fungible (BCD2).",
         "Wash = arus balik (resiprokal/lingkaran) dalam jendela sempit — bukan rantai distribusi.",
         "Unit analisis = tokenId; hitung tangan berbeda, bukan jumlah penjualan.",
         "Volume NFT termudah dimanipulasi — selalu hitung versi bersihnya.",

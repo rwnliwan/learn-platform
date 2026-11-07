@@ -38,7 +38,7 @@ export const dba16: V2Lesson = {
   track: "Database Administrator",
   module: "Keandalan & Performa",
   title: "DR Drill & Runbook: Latihan Bencana Sebelum Bencana",
-  estMinutes: 55,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -270,6 +270,34 @@ print(f"bom terbuka: {bom}")`,
       reference: "Tangga restore: verifikasi → sandbox → PITR → failover. RPO = pertidaksamaan terukur. Failback direncanakan. Drill = mesin anggaran.",
     },
     {
+      id: "index-korup",
+      eyebrow: "Tambahan · DB14",
+      title: "Index korup: saat peta jalannya rusak, bukan datanya",
+      prose: [
+        "Index adalah peta jalan ke data: bila index korup, query bisa mengembalikan hasil yang SALAH (baris hilang) atau gagal total — sementara data di tabelnya sendiri baik-baik saja. Gejalanya khas: error 'index contains unexpected zero page' atau 'failed to re-find parent key', query yang kemarin cepat tiba-tiba error, atau hasil query yang berbeda antara index scan dan sequential scan atas data yang sama. Penyebabnya: crash saat tulis, storage yang bermasalah, atau bug — bukan query-mu.",
+        "Runbook 5 langkah (tulis ini di runbook DR-mu, di samping drill di lesson ini). Satu: DETEKSI & KONFIRMASI — jalankan pemeriksaan integritas (di Postgres: ekstensi amcheck, fungsi pg_amcheck) pada index yang dicurigai; jangan menebak, buktikan index mana yang korup. Dua: ISOLASI — alihkan beban baca ke standby/replika bila ada, dan tandai index yang korup supaya planner tidak memakainya (atau biarkan query memakai sequential scan sementara). Tiga: PERBAIKI — REINDEX CONCURRENTLY (bukan REINDEX biasa: REINDEX biasa mengunci tulis pada tabel — di produksi itu downtime; CONCURRENTLY membangun index baru di samping yang lama tanpa memblokir tulis). Empat: VERIFIKASI — jalankan pg_amcheck lagi pada index baru + bandingkan hasil query index scan vs sequential scan atas sampel data. Lima: POSTMORTEM — catat penyebab (storage? crash?) dan tindak lanjut (monitoring kesehatan storage, jadwal amcheck berkala).",
+        "Yang TIDAK boleh dilakukan: mengabaikan karena 'query masih jalan' — index korup yang dibiarkan menghasilkan jawaban SALAH secara diam-diam, dan jawaban salah yang tidak ketahuan lebih berbahaya daripada error yang berteriak. Materi terkait yang sudah tersebar di track ini: deadlock (DBA2/DBA15/DBA18), replication lag (DBA5/DBA8), disk penuh (DBA8/DBA9), dan postmortem (DBA12/DBA18) — index korup adalah anggota keluarga insiden yang selama ini belum punya runbook sendiri. Sekarang sudah.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“REINDEX biasa saja, lebih cepat.” Di produksi, REINDEX biasa mengunci tulis — perbaikan 10 menit menjadi downtime 10 menit. REINDEX CONCURRENTLY lebih lambat tetapi tanpa blokir tulis. Kecepatan perbaikan tidak boleh dibayar dengan downtime.",
+      },
+      quiz: [
+        {
+          q: "Index dicurigai korup di produksi. Langkah pertama yang benar menurut runbook ini?",
+          options: [
+            { text: "Langsung REINDEX biasa — paling cepat", why: "Salah: REINDEX biasa mengunci tulis = downtime; dan belum tentu index itu yang korup." },
+            { text: "Buktikan dulu dengan pg_amcheck index mana yang korup, lalu isolasi beban baca", why: "Benar: diagnosis dulu (amcheck), isolasi, baru perbaiki dengan REINDEX CONCURRENTLY.", correct: true },
+            { text: "Abaikan — data di tabel masih benar", why: "Salah: index korup bisa menghasilkan hasil query yang SALAH secara diam-diam." },
+            { text: "Restart database dan berharap sembuh", why: "Salah: restart tidak memperbaiki index korup — dan membuang waktu diagnosis." },
+          ],
+        },
+      ],
+      reference: "Index korup: amcheck → isolasi → REINDEX CONCURRENTLY → verifikasi → postmortem.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -278,6 +306,7 @@ print(f"bom terbuka: {bom}")`,
       ],
       tasks: [],
       summary: [
+        "Index korup: deteksi dengan amcheck, isolasi, REINDEX CONCURRENTLY, verifikasi, postmortem.",
         "DR drill bertingkat: tabletop (kuartalan) → failover test (semesteran) → chaos (bila observability matang) → full DR (tahunan).",
         "Backup tanpa drill = harapan; satu-satunya bukti kesiapan adalah pernah pulih saat latihan.",
         "Runbook hidup: perintah salin-tempel + ekspektasi output + eskalasi + tanggal uji; lolos uji “tanpa telepon penulis” ≥ 90%.",

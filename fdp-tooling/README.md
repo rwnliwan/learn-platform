@@ -12,6 +12,8 @@ Dibuat 4 Nov 2026.
 | `dataset_sampel_klbf.csv` | Output pipeline CONTOH yang benar (KLBF, Rp penuh) → LULUS. |
 | `dataset_sampel_klbf_juta.csv` | Sama, dalam Rp-juta presisi penuh → LULUS (uji normalisasi satuan). |
 | `dataset_jebakan_satuan.csv` | JEBAKAN: angka Rp-juta dideklarasikan "Rp" → GAGAL + pesan KETIDAKCOCOKAN SATUAN. |
+| `notebooks/fdp2-edgar-fetch.ipynb` | Notebook siap-pakai FDP2: fetch EDGAR + parsing deret 5 tahun (lihat "Jalur Colab" di bawah). |
+| `notebooks/fdp6-capstone.ipynb` | Notebook siap-pakai FDP6: pipeline end-to-end + gerbang `reconcile.py`. |
 
 ## Cara pakai
 
@@ -21,6 +23,22 @@ python3 reconcile.py --benchmark benchmark.csv --input <output-pipeline-kamu.csv
 
 Format input pipeline: `emiten,periode,pos,nilai,satuan,sumber`
 Satuan yang dikenal: `Rp`, `Rp-ribu`, `Rp-juta`, `Rp-miliar`, `persen`.
+
+## Jalur Colab — notebook siap-pakai
+
+Lesson memakai dua notebook yang sudah disiapkan di `notebooks/` — jangan salin-tempel
+skrip ke notebook kosong:
+
+| Notebook | Dipakai di | Isi |
+|---|---|---|
+| `fdp2-edgar-fetch.ipynb` | FDP2 (EDGAR API) | Fetch companyfacts EDGAR + parsing deret 5 tahun (rute real yang diajarkan FDP2 langkah 8). |
+| `fdp6-capstone.ipynb` | FDP6 (capstone) | Pipeline end-to-end + gerbang `reconcile.py` atas `benchmark.csv`. |
+
+Cara pakai di Colab: unggah notebook + `benchmark.csv` + `reconcile.py` ke satu folder
+Colab (atau mount Google Drive), lalu jalankan sel demi sel. Ingat aturan fair access
+EDGAR (FDP2): header User-Agent berisi nama + email, maksimal 10 request per detik.
+Browser tidak bisa fetch ke `data.sec.gov` (tidak ada header CORS) — itulah kenapa
+rute real-nya Colab/laptop, sementara lab di lesson memakai data sampel.
 
 ## 5 cek
 

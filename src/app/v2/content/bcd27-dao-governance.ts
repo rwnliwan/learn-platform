@@ -271,7 +271,7 @@ export const bcd27: V2Lesson = {
         "Uji cepat: dari daftar saldo mentah, bisakah kamu menghasilkan total, share top-3, Gini, dan Nakamoto tanpa melihat solution?",
         "Ingat pasangan vonisnya: quorum + mayoritas untuk hasil; Nakamoto + turnout untuk kesehatan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "BCD28 — ERC-4337: Account Abstraction & Analitik UserOperation", href: "/learn/bcd28-erc4337" },
       reference: "Hitung kekuasaannya sebelum percaya desentralisasinya.",
     },
   ],

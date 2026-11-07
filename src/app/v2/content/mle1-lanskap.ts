@@ -5,7 +5,7 @@ export const mle1: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Fondasi Produksi",
   title: "MLE1 — Dari Notebook ke Produksi",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "mulai",
@@ -19,7 +19,8 @@ export const mle1: V2Lesson = {
         "• Memetakan peran Machine Learning Engineer terhadap Data Scientist, Data Engineer, dan MLOps.",
         "• Menghitung funnel eksperimen→produksi dan latency budget dari angka nyata.",
         "• Memutuskan kapan memakai ML, kapan cukup rule-based, dan kapan tidak pakai ML sama sekali.",
-        "Isi lesson: cerita pembuka (model 99,2% yang tidak pernah dipakai) → 5 perbedaan notebook vs produksi → peta peran → 2 lab (funnel + latency budget) → peta keputusan → mini-case bank → checkpoint.",
+        "• Merumuskan problem framing: masalah bisnis → tugas ML, biaya kesalahan, dan uji kelayakan.",
+        "Isi lesson: cerita pembuka (model 99,2% yang tidak pernah dipakai) → 5 perbedaan notebook vs produksi → peta peran → 2 lab (funnel + latency budget) → peta keputusan → problem framing + lab biaya kesalahan → mini-case bank → checkpoint.",
       ],
       tasks: [
       ],
@@ -266,8 +267,119 @@ print(f"total={total}ms  sisa={sisa}ms  headroom={headroom:.1f}%")`,
       ],
     },
     {
+      id: "problem-framing",
+      eyebrow: "Langkah 7 · Problem framing",
+      title: "Problem framing: dari masalah bisnis ke tugas ML",
+      prose: [
+        "Langkah 6 menjawab 'pakai ML atau tidak' secara kualitatif. Langkah ini membuatnya kuantitatif. Problem framing adalah pekerjaan menerjemahkan masalah bisnis menjadi tugas ML yang bisa diukur — dan memutuskan apakah tugas itu layak dikerjakan sama sekali. Framing yang salah adalah akar dari sebagian besar proyek ML yang 'berhasil secara teknis, gagal secara bisnis': modelnya akurat, tetapi ia menjawab pertanyaan yang tidak ditanyakan siapa pun.",
+        "Empat langkah framing. Satu: nyatakan masalah bisnis dalam satu kalimat yang menyebut uang atau risiko ('menurunkan kerugian gagal bayar Rp1,6 miliar per bulan'). Dua: terjemahkan ke tugas ML ('klasifikasi biner: aplikasi akan gagal bayar atau tidak, diputuskan sebelum pencairan'). Tiga: tentukan metrik sukses DALAM BAHASA BISNIS dulu, baru padanannya di ML (sukses bisnis = 'kerugian bulanan turun Rp400 juta'; padanan ML = 'recall 70 persen dengan false positive di bawah 2 persen'). Empat: tulis biaya kesalahan — berapa rupiah satu false negative, berapa rupiah satu false positive — karena tanpa itu threshold dan metrik tidak punya jangkar.",
+        "Kelayakan diuji dengan tiga gerbang, semuanya harus lolos. Gerbang data: apakah ada cukup contoh berlabel yang mewakili produksi (bukan data demo), dan apakah fitur yang dibutuhkan tersedia SAAT keputusan dibuat, bukan seminggu kemudian? Gerbang biaya kesalahan: apakah biaya kedua jenis kesalahan bisa diukur — kalau tidak bisa, kamu tidak bisa memilih threshold, dan modelmu menebak dalam gelap. Gerbang nilai: apakah penghematan dari model menutup biaya membangun + menjalankan + memantaunya? Model yang menghemat Rp10 juta per bulan tetapi menelan biaya operasi Rp40 juta per bulan adalah proyek yang merugi dengan akurasi tinggi.",
+        "Lab berikut menghitung gerbang nilai untuk kasus pinjaman mikro (ilustratif): 10.000 aplikasi per bulan, 8 persen gagal bayar. Tiga kandidat: tanpa model (terima semua), rule-based, dan model ML. Biaya kesalahan ilustratif: satu gagal bayar yang lolos (false negative) Rp2.000.000; satu nasabah baik yang ditolak (false positive) Rp150.000. Rule-based: recall 40 persen, false positive 5 persen dari nasabah baik, biaya operasi Rp5 juta per bulan. Model ML: recall 70 persen, false positive 2 persen, biaya operasi Rp40 juta per bulan. Hitung total biaya tiap kandidat — dan lihat apakah ML layak, serta melawan SIAPA ia harus dibandingkan.",
+        "Hasilnya (ilustratif): tanpa model Rp1.600 juta per bulan; rule-based Rp1.034 juta; model ML Rp547,6 juta. ML menghemat Rp486,4 juta per bulan dibanding rule-based — dan Rp1.052,4 juta dibanding tanpa model. Framing yang benar membandingkan ML dengan ALTERNATIF TERBAIK yang ada (rule-based), bukan dengan 'tanpa apa-apa': hemat Rp486,4 juta adalah angka yang jujur untuk dibawa ke direksi, bukan Rp1.052,4 juta. Dan perhatikan: recall naik dari 40 ke 70 persen hanya berarti bila biaya false negative memang jauh lebih besar dari false positive — di sinilah biaya kesalahan menentukan segalanya.",
+        "Dua jebakan framing yang paling sering. Pertama, tugas ML yang salah: 'prediksi siapa yang akan gagal bayar' vs 'prediksi siapa yang AKAN MEMBAYAR TEPAT WAKTU bila diberi tenor lebih panjang' — tugas kedua membuka aksi bisnis (restrukturisasi) yang pertama tidak punya. Tanyakan selalu: 'keputusan APA yang berubah karena prediksi ini?' Bila tidak ada keputusan yang berubah, tidak ada tugas ML. Kedua, kelayakan yang dihitung dari akurasi: akurasi 95 persen terdengar layak, tetapi bila 92 persen datanya kelas mayoritas, model 'selalu tebak mayoritas' sudah 92 persen tanpa belajar apa-apa. Kelayakan dihitung dari RUPIAH, bukan dari akurasi.",
+      ],
+      formula: String.raw`\text{biaya total} = FN \times c_{FN} + FP \times c_{FP} + \text{biaya operasi}`,
+      formulaNote: "biaya total = kerugian bulanan satu kandidat solusi; FN/FP = jumlah false negative/positive per bulan; c_FN/c_FP = biaya per kesalahan (rupiah, ilustratif di lab); biaya operasi = biaya menjalankan solusi itu. Kandidat layak bila biaya totalnya PALING RENDAH di antara semua alternatif — termasuk rule-based dan 'tanpa model'.",
+      tasks: [
+        { id: "t1", text: "Hitung `rule_cost`, `ml_cost`, dan `none_cost` (tanpa model) dalam rupiah per bulan" },
+        { id: "t2", text: "Hitung `hemat` = penghematan ML dibanding rule-based, dan `layak` (True bila hemat lebih dari 0)" },
+        { id: "t3", text: "Cetak keempat angka dan vonis kelayakan" },
+      ],
+      expected: "rule=Rp1.034.000.000  ml=Rp547.600.000  tanpa_model=Rp1.600.000.000  hemat_vs_rule=Rp486.400.000  layak=True",
+      note: {
+        title: "💡 Intuisi: framing dulu, modeling kemudian",
+        body: "Satu jam framing yang jujur menghemat tiga bulan modeling yang salah arah. Tuliskan masalah bisnis, tugas ML, metrik sukses bisnis, dan biaya kesalahan DI ATAS KERTAS sebelum membuka notebook — dan minta pemilik bisnis menandatanganinya. Bila mereka tidak mau, framing-mu belum benar.",
+      },
+      hints: [
+        "FN rule = 800 - TP rule; TP rule = 40% dari 800 kasus gagal bayar.",
+        "FP rule = 5% dari 9.200 nasabah baik; FP ML = 2% dari 9.200.",
+        "Tanpa model: semua 800 gagal bayar lolos (FN = 800), FP = 0, biaya operasi = 0.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+n, default = 10_000, 800
+baik = n - default
+C_FN, C_FP = 2_000_000, 150_000
+# rule-based: recall 40%, FP 5% dari nasabah baik, operasi Rp5 jt/bln
+# model ML: recall 70%, FP 2% dari nasabah baik, operasi Rp40 jt/bln
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: biaya total tiap kandidat (rupiah/bulan)
+rule_cost = 
+ml_cost = 
+none_cost = 
+hemat = 
+layak = 
+
+print(f"rule=Rp{rule_cost:,}  ml=Rp{ml_cost:,}  tanpa_model=Rp{none_cost:,}  hemat_vs_rule=Rp{hemat:,}  layak={layak}".replace(",", "."))`,
+        lockLines: 6,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+n, default = 10_000, 800
+baik = n - default
+C_FN, C_FP = 2_000_000, 150_000
+# rule-based: recall 40%, FP 5% dari nasabah baik, operasi Rp5 jt/bln
+# model ML: recall 70%, FP 2% dari nasabah baik, operasi Rp40 jt/bln
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: biaya total tiap kandidat (rupiah/bulan)
+rule_cost = (default - int(0.40 * default)) * C_FN + int(0.05 * baik) * C_FP + 5_000_000
+ml_cost = (default - int(0.70 * default)) * C_FN + int(0.02 * baik) * C_FP + 40_000_000
+none_cost = default * C_FN
+hemat = rule_cost - ml_cost
+layak = hemat > 0
+
+print(f"rule=Rp{rule_cost:,}  ml=Rp{ml_cost:,}  tanpa_model=Rp{none_cost:,}  hemat_vs_rule=Rp{hemat:,}  layak={layak}".replace(",", "."))`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`rule_cost` = Rp1.034.000.000",
+            "name": "rule_cost",
+            "value": 1034000000,
+            "tol": 1,
+            "msg": "FN 480 x Rp2jt + FP 460 x Rp150rb + Rp5jt = Rp1.034jt.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`ml_cost` = Rp547.600.000",
+            "name": "ml_cost",
+            "value": 547600000,
+            "tol": 1,
+            "msg": "FN 240 x Rp2jt + FP 184 x Rp150rb + Rp40jt = Rp547,6jt.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`none_cost` = Rp1.600.000.000",
+            "name": "none_cost",
+            "value": 1600000000,
+            "tol": 1,
+            "msg": "Tanpa model: 800 gagal bayar lolos x Rp2jt.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`hemat` = Rp486.400.000",
+            "name": "hemat",
+            "value": 486400000,
+            "tol": 1,
+            "msg": "Bandingkan ML dengan alternatif terbaik (rule-based), bukan dengan tanpa model.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` menampilkan vonis layak",
+            "pattern": "layak=True",
+            "msg": "Format: rule=Rp...  ml=Rp...  tanpa_model=Rp...  hemat_vs_rule=Rp...  layak=....",
+          },
+        ],
+      },
+      reference: "Framing = masalah bisnis → tugas ML → metrik bisnis → biaya kesalahan → uji kelayakan (data, biaya, nilai).",
+    },
+    {
       id: "minicase",
-      eyebrow: "Langkah 7 · Mini-case",
+      eyebrow: "Langkah 8 · Mini-case",
       title: "Bank Arus: model 94% yang mengantre 3 minggu",
       prose: [
         "Bank Arus punya model credit scoring dengan akurasi 94% — terbaik yang pernah mereka buat. Masalah: setiap retraining butuh 3 minggu kerja manual (tarik data, bersihkan, training, validasi, deploy). Akibatnya model hanya di-retrain 2x setahun.",
@@ -403,8 +515,32 @@ print(f"total={total}ms  sisa={sisa}ms  headroom={headroom:.1f}%")`,
             },
           ],
         },
+        {
+          q: "Kasus pinjaman mikro (ilustratif): tanpa model Rp1.600 juta/bulan, rule-based Rp1.034 juta, model ML Rp547,6 juta. Vonis framing yang benar?",
+          options: [
+            {
+              text: "ML layak — hemat Rp486,4 juta/bulan dibanding alternatif terbaik (rule-based)",
+              why: "Tepat: bandingkan dengan alternatif terbaik yang ada, bukan dengan tanpa model; hematnya Rp1.034jt dikurangi Rp547,6jt.",
+              correct: true,
+            },
+            {
+              text: "ML layak karena akurasinya pasti paling tinggi",
+              why: "Akurasi tidak pernah dihitung di framing ini — kelayakan dihitung dari rupiah, bukan dari akurasi.",
+            },
+            {
+              text: "ML tidak layak — biaya operasinya Rp40 juta, paling mahal",
+              why: "Biaya operasi saja bukan vonis: total biaya ML tetap paling rendah karena ia memangkas kerugian gagal bayar.",
+            },
+            {
+              text: "Pilih tanpa model — paling sederhana",
+              why: "Paling sederhana tetapi paling mahal: Rp1.600 juta per bulan kerugian yang tidak dicegah.",
+            },
+          ],
+        },
       ],
       summary: [
+        "Problem framing: masalah bisnis → tugas ML → metrik sukses bisnis → biaya kesalahan → uji kelayakan (data, biaya, nilai).",
+        "Kelayakan dihitung dari rupiah per bulan, bukan dari akurasi; bandingkan ML dengan alternatif terbaik yang ada.",
         "87% model tidak pernah produksi — penyebab utamanya infrastruktur dan proses, bukan matematika.",
         "Notebook vs produksi berbeda dalam 5 dimensi: data, eksekusi, dependensi, skala, akuntabilitas.",
         "MLE = memastikan model berjalan andal di produksi; DS = mencari model terbaik; DE = aliran data.",

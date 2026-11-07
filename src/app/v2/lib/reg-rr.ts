@@ -31,6 +31,7 @@ import { rr29 } from "../content/rr29-uat-system-change";
 import { rr30 } from "../content/rr30-ppatk-goaml";
 import { rr31 } from "../content/rr31-python-risk-reporting";
 import { rr32 } from "../content/rr32-excel-advanced-risiko";
+import { rr33 } from "../content/rr33-sql-risk-reporting";
 
 export const REG_RR: Record<string, V2Lesson> = {
   "rr1-lanskap": rr1,
@@ -65,4 +66,5 @@ export const REG_RR: Record<string, V2Lesson> = {
   "rr30-ppatk-goaml": rr30,
   "rr31-python-risk-reporting": rr31,
   "rr32-excel-advanced-risiko": rr32,
+  "rr33-sql-risk-reporting": rr33,
 };

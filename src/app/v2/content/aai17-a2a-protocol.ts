@@ -49,7 +49,7 @@ export const aai17: V2Lesson = {
       prose: [
         "Mei 2026. Traveloka-mirip 'NusaTrip' punya tiga agen AI: concierge LangGraph (internal), pricing engine CrewAI (vendor), dan payment agent AutoGen (bank partner). Mimpi besarnya: satu chat — 'rencanakan liburan 3 hari ke Labuan Bajo' — didelegasikan otomatis antar agen. Kenyataannya: tiga integrasi REST custom, tiga format auth, tiga cara melaporkan 'task selesai'. Menambah satu vendor baru = 6 minggu integrasi. Vendor mengganti field JSON = semua rusak diam-diam. CTO-nya menyimpulkan pahit: 'Kita membangun kembali internet tahun 1990 — setiap dua komputer butuh kabel custom.'",
         "Masalahnya bukan agen-nya — ketiganya bagus. Masalahnya adalah TIDAK ADA BAHASA BERSAMA untuk agen bicara dengan agen. Setiap framework punya dialek sendiri untuk 'ini kemampuanku', 'kerjakan ini', 'ini progresnya', 'aku butuh info tambahan'. Hasilnya masalah N×M klasik: N framework × M vendor = N×M integrasi custom yang rapuh.",
-        "Twist-nya: Google mengumumkan A2A (Agent2Agent Protocol) pada April 2025 — protokol TERBUKA untuk interop antar-agen, didukung 50+ partner industri, lalu didonasikan ke Linux Foundation (2026) agar tidak dikuasai satu vendor. Idenya: seperti HTTP untuk web — agen mana pun, framework apa pun, bisa menemukan agen lain (Agent Card), mendelegasikan task, memantau lifecycle-nya, dan menerima hasilnya (artifact) — tanpa tahu isi perut lawan bicaranya. SDK tersedia untuk Python, Go, JavaScript, Java, .NET, dan Rust.",
+        "Twist-nya: Google mengumumkan A2A (Agent2Agent Protocol) pada April 2025 — protokol TERBUKA untuk interop antar-agen, didukung 50+ partner industri, lalu didonasikan ke Linux Foundation pada 23 Juni 2025 agar tidak dikuasai satu vendor. Idenya: seperti HTTP untuk web — agen mana pun, framework apa pun, bisa menemukan agen lain (Agent Card), mendelegasikan task, memantau lifecycle-nya, dan menerima hasilnya (artifact) — tanpa tahu isi perut lawan bicaranya. SDK tersedia untuk Python, Go, JavaScript, Java, .NET, dan Rust.",
         "📝 Poin inti lesson ini (panel 'Poin penting' merangkum seluruhnya di akhir): (1) A2A = bahasa bersama agen↔agen: discovery via Agent Card, delegasi via task, hasil via artifact; (2) task punya lifecycle (submitted → working → input-required → completed/failed) — agen boleh jeda dan bertanya di tengah jalan; (3) transport = JSON-RPC 2.0 over HTTPS + SSE streaming + webhook push; (4) A2A komplemen MCP (agen↔tool), bukan penggantinya; (5) protokol tidak otomatis aman — card harus diverifikasi, auth per skill.",
         "Bekal kilat (agar lesson ini mandiri, 3 kalimat): agen AI modern bekerja dalam loop tool-calling — model memutuskan memanggil FUNGSI (tool), membaca hasilnya, lalu melanjutkan; pola ini disebut ReAct dan dibahas di aai3. MCP (Model Context Protocol, aai13) adalah standar agar SATU agen bisa memakai tool dari banyak server — tetapi MCP hanya mengatur relasi agen↔tool, bukan agen↔agen. Lesson ini = lapisan di ATASNYA: bagaimana agen yang satu mendelegasikan pekerjaan ke agen lain yang dibangun pihak berbeda.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan 4 konsep inti A2A (Agent Card, task, message/part, artifact); (2) memetakan task lifecycle dan kapan input-required dipakai; (3) membedakan peran A2A vs MCP vs AG-UI; (4) merancang discovery + delegasi antar-agen; (5) menilai risiko keamanan interop (card spoofing, auth) dengan benar.",
@@ -283,14 +283,14 @@ print("discover_antar:", discover("antar"))`,
       ],
       tasks: [],
       summary: [
-        "A2A = protokol terbuka (Google 04/2025 → Linux Foundation 2026) untuk interop agen↔agen lintas framework/vendor; SDK Python/Go/JS/Java/.NET/Rust.",
+        "A2A = protokol terbuka (Google 04/2025 → Linux Foundation 23 Jun 2025; v1.0 Maret 2026) untuk interop agen↔agen lintas framework/vendor; SDK Python/Go/JS/Java/.NET/Rust.",
         "Agent Card (/.well-known/agent.json): kartu nama mesin-terbaca — identitas, skill (menu publik), endpoint, syarat auth. Discovery dulu, delegasi kemudian.",
         "Task lifecycle: submitted → working → input-required → completed/failed/canceled; input-required = jeda kolaboratif; hasil = artifact (bisa bertahap).",
         "Transport: JSON-RPC 2.0 over HTTPS + SSE streaming + webhook push; tiga pola: sinkron, streaming, async.",
         "A2A komplemen MCP (agen↔tool) dan AG-UI (agen↔user) — tiga relasi, tiga protokol; satu agen A2A di dalamnya bisa memakai MCP.",
         "Keamanan tidak otomatis: verifikasi card (anti-spoofing), auth per skill + least privilege, artifact luar = input tak terpercaya.",
       ],
-      next: { label: "AAI18 — Fondasi API LLM untuk Agen", href: "/v2/learn/aai18-fondasi-api-llm" },
+      next: { label: "AAI19 — Cloud Deployment Agen: Dari Laptop ke Produksi", href: "/v2/learn/aai19-cloud-deployment-agen" },
       quiz: [
         {
           q: "Apa perbedaan fundamental skill (A2A) vs tool (MCP)?",

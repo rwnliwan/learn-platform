@@ -30,7 +30,7 @@ export const biz4: V2Lesson = {
   track: "Business Intelligence",
   module: "Fondasi BI",
   title: "BI4 — Dashboard yang Dipakai",
-  estMinutes: 50,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -213,6 +213,35 @@ export const biz4: V2Lesson = {
       tasks: [],
     },
     {
+      id: "desain-mobile",
+      eyebrow: "Tambahan · BZ8",
+      title: "Desain dashboard mobile: satu kolom, tiga detik, satu jempol",
+      prose: [
+        "Dashboard desktop yang diperkecil begitu saja ke layar ponsel bukan dashboard mobile — ia adalah dashboard desktop yang tidak terbaca. Layar ponsel (lebar sekitar 390 piksel) memaksa tiga keputusan desain yang berbeda. Satu: SATU KOLOM — susunan vertikal, bukan grid 3 kolom; pembaca menggulir ke bawah, bukan menyapu ke samping. Dua: HIERARKI YANG KEJAM — 3 KPI teratas dulu, lalu 2 chart terpenting; 12 chart desktop menjadi 3 KPI + 2 chart di mobile, sisanya pindah ke 'lihat detail' (drill-through). Tiga: SENTUHAN, BUKAN HOVER — tidak ada tooltip saat hover di ponsel; tiap angka penting harus TERLIHAT tanpa interaksi, dan target sentuh minimal selebar jempol.",
+        "Aturan praktisnya: uji 3 detik — buka dashboard di ponsel, dan dalam 3 detik pembaca harus bisa menjawab 'apa headline-nya dan apakah ada yang butuh tindakan?' Bila ia harus men-zoom, menggeser horizontal, atau mengetuk untuk melihat angka utama, desainnya gagal. Scroll vertikal boleh panjang; scroll horizontal TIDAK BOLEH ada — satu geseran horizontal yang tidak disengaja dan pembaca kehilangan tempatnya.",
+        "Yang berubah dari sisi data: mobile memaksa PEMILIHAN. Dashboard eksekutif desktop dengan 12 chart harus memilih 2 chart yang ikut ke mobile — dan pilihan itu adalah keputusan editorial (lihat BI7 soal storytelling): chart mana yang mengubah keputusan bila dibaca di perjalanan? Itulah yang naik ke mobile. Sisanya tetap ada di desktop — mobile bukan versi kecil desktop, melainkan versi PRIORITAS dari dashboard yang sama, dari sumber data dan definisi yang sama (lihat BI20 soal semantic layer).",
+        "Catatan jujur: satu-satunya penyebutan mobile di track ini sebelumnya adalah studi kasus funnel per device di BI8 — itu soal PERILAKU pengguna mobile, bukan DESAIN dashboard mobile. Lesson ini menutup celah itu: desain mobile adalah disiplin tersendiri, bukan efek samping desain desktop.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Dashboard kami responsif — tampilannya menyesuaikan sendiri.” Responsif yang hanya memperkecil grid desktop menghasilkan teks 8 piksel yang harus di-zoom. Responsif sejati = hierarki yang dirancang ulang untuk satu kolom: KPI dulu, chart terpenting, tanpa scroll horizontal.",
+      },
+      quiz: [
+        {
+          q: "Dashboard eksekutif desktop (12 chart) dibawa ke ponsel. Pendekatan yang benar?",
+          options: [
+            { text: "Perkecil semua 12 chart agar muat dalam satu layar", why: "Salah: teks menjadi tidak terbaca dan pembaca harus men-zoom." },
+            { text: "Satu kolom vertikal: 3 KPI + 2 chart terpenting, tanpa scroll horizontal, angka utama terlihat tanpa tap", why: "Benar: mobile = versi prioritas, bukan versi kecil — hierarki dulu, detail menyusul.", correct: true },
+            { text: "Sembunyikan semua angka, tampilkan hanya judul chart", why: "Salah: dashboard tanpa angka = dekorasi." },
+            { text: "Minta pengguna memutar ponsel ke landscape", why: "Salah: memaksa perilaku pengguna bukan desain — dan landscape ponsel tetap sempit." },
+          ],
+        },
+      ],
+      reference: "Mobile = satu kolom + hierarki kejam + tanpa hover + tanpa scroll horizontal.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -221,6 +250,7 @@ export const biz4: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Desain mobile: satu kolom vertikal, 3 KPI + 2 chart terpenting, tanpa scroll horizontal dan tanpa hover.",
         "Hierarki: 1 headline → 2-4 driver → detail untuk pengeboran.",
         "Satu layar satu keputusan — tulis keputusannya sebelum menambah chart.",
         "Headline = perubahan terbesar yang penting secara bisnis, bukan sekadar terbesar.",

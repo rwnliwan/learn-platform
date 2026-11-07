@@ -26,7 +26,7 @@ export const dle2: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Fondasi",
   title: "DLE2 — Neural Network: Forward & Backprop",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-whiteboard",
@@ -193,7 +193,78 @@ export const dle2: V2Lesson = {
         ],
       },
       reference: "z = jumlah berbobot + bias; peluang = sigmoid(z); ambang 0.5.",
+    },    {
+      id: "lab-backprop-satu-langkah",
+      eyebrow: "Langkah 6 · Lab",
+      title: "Lab: backprop satu langkah, tangan vs kode",
+      prose: [
+        "Satu neuron, satu langkah gradient descent — tanpa framework, tanpa vektor. Data: x = 2,0, label y = 1. Bobot awal w = 0,5, bias 0, learning rate 0,5. Tugasmu: hitung peluang awal, loss (binary cross-entropy), gradien, bobot baru, lalu loss setelah update.",
+        "Yang harus terlihat: loss TURUN dari 0,3133 ke 0,1946 dalam satu langkah — dan bobot naik dari 0,5 ke 0,7689 karena gradiennya negatif (prediksi terlalu rendah, bobot harus naik). Bila loss-mu naik, tanda gradienmu terbalik — kesalahan paling umum di backprop tulisan tangan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `p_awal`, `loss_awal`, dan `w_baru` (satu langkah GD)" },
+        { id: "t2", text: "Hitung `loss_akhir` dengan bobot baru dan cetak ketiganya" },
+      ],
+      expected: "w_baru=0.7689\nloss_awal=0.3133\nloss_akhir=0.1946",
+      note: {
+        title: "💡 Intuisi",
+        body: "Backprop bukan sihir: dz = p − y adalah “seberapa salah dan ke arah mana”; dw = dz × x adalah “seberapa besar x ikut menyebabkan kesalahan itu”. Satu neuron ini adalah seluruh DLE2 dalam 5 baris.",
+      },
+      hints: [
+        "Sigmoid: p = 1 / (1 + exp(−z)).",
+        "Gradien BCE + sigmoid menyederhanakan diri menjadi dz = p − y.",
+        "Update: w_baru = w − lr × dz × x.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+import math
+
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+
+X, Y, W, B, LR = 2.0, 1, 0.5, 0.0, 0.5
+
+# TULIS KODEMU: satu langkah GD
+p_awal = ...
+loss_awal = ...
+dz = ...
+w_baru = ...
+p_akhir = ...
+loss_akhir = ...
+
+print(f"w_baru={w_baru:.4f}")
+print(f"loss_awal={loss_awal:.4f}")
+print(f"loss_akhir={loss_akhir:.4f}")`,
+        lockLines: 6,
+        solution: `# DATA — jangan diubah
+import math
+
+def sigmoid(z):
+    return 1 / (1 + math.exp(-z))
+
+X, Y, W, B, LR = 2.0, 1, 0.5, 0.0, 0.5
+
+# TULIS KODEMU: satu langkah GD
+p_awal = sigmoid(W * X + B)
+loss_awal = -(Y * math.log(p_awal) + (1 - Y) * math.log(1 - p_awal))
+dz = p_awal - Y
+w_baru = W - LR * dz * X
+p_akhir = sigmoid(w_baru * X + B)
+loss_akhir = -(Y * math.log(p_akhir) + (1 - Y) * math.log(1 - p_akhir))
+
+print(f"w_baru={w_baru:.4f}")
+print(f"loss_awal={loss_awal:.4f}")
+print(f"loss_akhir={loss_akhir:.4f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "w_baru", value: 0.7689, tol: 0.0001, label: "`w_baru` sekitar 0.7689", msg: "dz = 0,7311 − 1 = −0,2689; w = 0,5 − 0,5 x (−0,2689) x 2 = 0,7689." },
+          { kind: "equal", task: "t1", name: "loss_awal", value: 0.3133, tol: 0.0001, label: "`loss_awal` sekitar 0.3133", msg: "−log(0,7311) = 0,3133." },
+          { kind: "equal", task: "t2", name: "loss_akhir", value: 0.1946, tol: 0.0001, label: "`loss_akhir` sekitar 0.1946", msg: "−log(0,8232) = 0,1946 — loss turun dalam satu langkah." },
+          { kind: "stdout_matches", task: "t2", pattern: "w_baru=0\\.7689\\nloss_awal=0\\.3133\\nloss_akhir=0\\.1946", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "dz = p − y; w_baru = w − lr × dz × x. Loss harus turun.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -258,6 +329,24 @@ export const dle2: V2Lesson = {
             { text: "Turunan fungsi aktivasi yang salah", why: "Mis. sigmoid ditulis σ(z) bukan σ(z)(1−σ(z)) — seluruh gradien salah arah secara halus.", correct: true },
             { text: "Lupa mengacak data", why: "Itu masalah training, bukan kesalahan turunan." },
             { text: "Batch terlalu kecil", why: "Itu pilihan hiperparameter, bukan bug implementasi." },
+          ],
+        },
+        {
+          q: "Satu neuron: x=2, y=1, w=0,5, lr=0,5. Setelah satu langkah GD, w dan loss-nya?",
+          options: [
+            { text: "w=0,7689; loss turun 0,3133 ke 0,1946", why: "Benar: p awal 0,7311, dz = −0,2689, w naik 0,2689; peluang baru 0,8232, loss −log(0,8232) = 0,1946.", correct: true },
+            { text: "w=0,2311; loss naik ke 0,5", why: "Salah tanda: dz negatif berarti bobot harus NAIK, bukan turun.", },
+            { text: "w=0,5; loss tetap — satu langkah tidak mengubah apa pun", why: "Salah: satu langkah GD mengubah bobot sebesar lr x |dz| x |x| = 0,2689.", },
+            { text: "w=1,0; loss 0", why: "Salah: satu langkah tidak mencapai loss 0 — itu butuh banyak iterasi.", },
+          ],
+        },
+        {
+          q: "Kenapa gradien BCE + sigmoid menyederhanakan diri menjadi dz = p − y?",
+          options: [
+            { text: "Karena kebetulan numerik pada contoh ini", why: "Bukan kebetulan — turunan keduanya saling menghilangkan secara aljabar untuk semua nilai.", },
+            { text: "Karena turunan sigmoid dan turunan log saling menghilangkan — gradiennya tinggal “seberapa salah prediksi”", why: "Benar: inilah alasan pasangan BCE+sigmoid begitu praktis — gradiennya intuitif dan stabil.", correct: true },
+            { text: "Karena bias di-nol-kan", why: "Tidak ada hubungannya dengan bias.", },
+            { text: "Karena learning rate 0,5", why: "Learning rate tidak memengaruhi bentuk gradien.", },
           ],
         },
       ],

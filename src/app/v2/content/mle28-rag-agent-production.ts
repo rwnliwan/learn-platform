@@ -42,6 +42,7 @@ export const mle28: V2Lesson = {
       title: "Tiga komponen yang bisa basi sendiri-sendiri",
       prose: [
         "Pipeline RAG punya tiga komponen yang masing-masing bisa kedaluwarsa: (1) CHUNKING — cara dokumen dipotong (ukuran, overlap). Mengubahnya mengubah SEMUA downstream; (2) EMBEDDING — model yang mengubah teks jadi vektor. Vektor dari model A tidak comparable dengan model B — ganti model = re-embed seluruh korpus; (3) INDEX — struktur ANN + versinya. Ketiganya harus berversi BERSAMA: index-v3 = chunking-v2 + embed-model-v1.",
+        "Dasar chunking dan retrieval diajarkan sebagai modul bersama di AIE3 — RAG (track AI Engineering); lesson ini membangun di atasnya dengan produksi dan evaluasi agen RAG.",
         "Aturan versioning: setiap perubahan salah satu komponen → versi pipeline baru → evaluasi ulang recall@k sebelum promosi → rollback bila turun. Tanpa ini, “memperbaiki chunking” bisa diam-diam merusak retrieval dan tidak ada yang tahu sampai user komplain — persis cerita pembuka.",
         "Refresh policy: dokumen berubah → tandai dirty → re-chunk + re-embed inkremental (hanya yang berubah, bukan seluruh korpus) → rebuild index → evaluasi smoke (10 query golden) → promosi. Untuk 1,2 juta halaman, full re-embed tiap malam = mahal; inkremental + evaluasi adalah jawabannya.",
       ],

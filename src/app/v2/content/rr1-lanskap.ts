@@ -22,7 +22,7 @@ export const rr1: V2Lesson = {
   track: "Risk Reporting",
   module: "Fondasi Pelaporan",
   title: "RR1 — Lanskap Risk Reporting",
-  estMinutes: 50,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -201,6 +201,35 @@ export const rr1: V2Lesson = {
       reference: "Satu metrik tidak pernah cukup. Pasangan wajib: NPL + coverage, tren + konsentrasi.",
     },
     {
+      id: "tiga-lini",
+      eyebrow: "Tambahan · RP1",
+      title: "Three lines of defence: siapa menjaga apa",
+      prose: [
+        "Satu bank, tiga lapis penjaga — inilah three lines of defence, kerangka tata kelola (governance) yang menempatkan setiap orang pada peran yang jelas. LINI PERTAMA: unit bisnis — mereka yang mengambil risiko (kredit, treasury, operasional) dan karena itu PEMILIK risiko: mereka yang pertama mengenali, mengukur, dan mengendalikannya dalam pekerjaan sehari-hari. Lini pertama yang tidak merasa memiliki risikonya akan melempar semua masalah ke 'bagian risk'.",
+        "LINI KEDUA: fungsi manajemen risiko dan kepatuhan (compliance) — mereka yang menetapkan kebijakan, appetite, metodologi, dan memantau apakah lini pertama patuh. Lini kedua TIDAK mengambil risiko bisnis dan TIDAK mengeksekusi transaksi; tugasnya menantang dan mengawasi. LINI KETIGA: audit internal — penjamin independen yang memeriksa apakah lini pertama dan kedua benar-benar bekerja sebagaimana diklaim, dan melapor langsung ke dewan komisaris (bukan ke manajemen yang diauditnya).",
+        "Governance di atas ketiganya: direksi menetapkan risk appetite (berapa risiko yang berani diambil — lihat RR15), komite risiko mengawasi pelaksanaannya, dan CRO memimpin lini kedua. Tanpa governance ini, tiga lini hanya menjadi tiga kotak di bagan organisasi. Dengan governance yang hidup, tiap keputusan besar bisa ditelusur: siapa pemilik risikonya (lini 1), siapa yang menantangnya (lini 2), siapa yang memverifikasinya (lini 3).",
+        "Kegagalan klasik: lini kedua yang berubah menjadi lini pertama (tim risk yang malah menyetujui kredit satu per satu — lalu siapa yang mengawasi tim risk?), dan lini ketiga yang melapor ke direksi yang sama yang ia audit (independensi hilang). Materi ini didalami di RR23 (ERM terintegrasi) — di sini kamu cukup menghafal urutannya dan satu kalimat per lini: bisnis MEMILIKI, risk MENGAWASI, audit MEMASTIKAN.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Risk itu urusan tim risk.” Bukan — tim risk adalah lini KEDUA. Pemilik risiko adalah lini pertama: unit bisnis yang mengambil keputusan. Laporan risiko yang baik selalu menyebut pemiliknya (lini 1), bukan hanya pengawasnya.",
+      },
+      quiz: [
+        {
+          q: "Urutan three lines of defence yang benar?",
+          options: [
+            { text: "Audit internal → tim risk → unit bisnis", why: "Salah: itu urutan terbalik — audit adalah lini ketiga, penjamin terakhir." },
+            { text: "Unit bisnis (pemilik) → risk/compliance (pengawas) → audit internal (penjamin)", why: "Benar: lini 1 memiliki, lini 2 mengawasi, lini 3 memastikan.", correct: true },
+            { text: "Tim risk → audit internal → unit bisnis", why: "Salah: tim risk bukan pemilik risiko bisnis." },
+            { text: "Direksi → komite risiko → CRO", why: "Salah: itu struktur governance di atas tiga lini, bukan tiga lini itu sendiri." },
+          ],
+        },
+      ],
+      reference: "Lini 1 bisnis MEMILIKI risiko; lini 2 risk MENGAWASI; lini 3 audit MEMASTIKAN.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -213,6 +242,7 @@ export const rr1: V2Lesson = {
       },
 
       summary: [
+        "Three lines of defence: lini 1 bisnis memiliki, lini 2 risk mengawasi, lini 3 audit memastikan.",
         "Laporan rapi ≠ laporan jujur; hal penting harus di halaman 1, bukan lampiran.",
         "Empat pembaca: direksi (1 halaman), komite (temuan), CRO (detail), regulator (konsistensi).",
         "Halaman 1 = posisi terakhir + arah dalam pp + konteks ekstrem.",

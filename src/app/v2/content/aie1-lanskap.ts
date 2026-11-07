@@ -15,7 +15,7 @@ export const aie1: V2Lesson = {
   track: "AI Engineering",
   module: "Fondasi",
   title: "AIE1 — AI Engineering sebagai Disiplin",
-  estMinutes: 65,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita-dua-tim",
@@ -278,7 +278,47 @@ print(f"biaya=\${biaya:.6f}")`,
         ],
       },
       reference: "Request = messages + model + parameter; respons membawa usage; API stateless sehingga riwayat dikirim ulang dan biaya tumbuh dengan panjang percakapan; 429/konteks/timeout ditangani dengan backoff.",
+    },    {
+      id: "lisensi-model",
+      eyebrow: "Langkah 9 · Lisensi model",
+      title: "Open vs closed: yang kamu sewa vs yang kamu miliki",
+      prose: [
+        "Model terbuka vs tertutup bukan soal harga — soal HAK. Tiga pertanyaan yang menentukan pilihanmu: bolehkah model diunduh dan dijalankan di server sendiri, bolehkah diubah dan disebar ulang, dan siapa yang menanggung risiko bila model salah menjawab.",
+        "Lisensi bobot terbuka yang paling umum: Apache-2.0 dan MIT — permisif: boleh dipakai, diubah, dan dijual, dengan syarat atribusi. Lisensi komunitas seperti Llama Community License mengizinkan banyak pemakaian tetapi punya batas: layanan dengan pengguna sangat besar wajib meminta izin, dan ada larangan memakai output model untuk melatih model pesaing. Jangan hafal slogan — baca klausulnya sebelum produkmu bergantung padanya.",
+        "API tertutup tidak memberi lisensi model sama sekali. Yang ada adalah syarat layanan dan SLA: kamu menyewa jawaban, bukan memiliki model. Vendor boleh mengganti versi model di bawahmu, mengubah perilaku jawaban, dan menaikkan harga tanpa pemberitahuan. Keuntungannya kualitas tertinggi tanpa operasi; harganya adalah kontrol yang hilang.",
+        "Aturan pilih empat sel. Data sensitif dan butuh kontrol penuh — self-host bobot terbuka. Butuh kualitas tertinggi dan data boleh keluar — API tertutup. Butuh audit dan reproduksibilitas — bobot terbuka berlisensi permisif dengan versi yang dipin. Produk yang dilatih ulang dari output model lain — cek dulu larangan lisensi, karena beberapa lisensi melarangnya secara eksplisit.",
+        "Dan satu hal yang sering tertukar: open weights bukan open source. Bobot yang bisa diunduh belum tentu disertai kode latih dan data latih yang terbuka. Sebelum mengklaim sesuatu open source, periksa ketiganya: bobot, kode, data. Bila hanya bobot yang terbuka, sebut saja begitu — bobot terbuka.",
+      ],
+      tasks: [],
+      note: {
+        title: "Miskonsepsi: “gratis diunduh berarti bebas dipakai apa saja”",
+        type: "pitfall",
+        body: "Yang benar: unduhan gratis bukan lisensi bebas. Llama Community License, misalnya, membatasi pemakaian komersial skala sangat besar dan melarang pemakaian output untuk melatih pesaing. Pelanggaran lisensi adalah risiko hukum, bukan sekadar etiket — baca klausulnya sebelum launch.",
+      },
+      reference: "Tiga pertanyaan: boleh diunduh, boleh diubah, siapa menanggung risiko. Open weights belum tentu open source.",
     },
+
+    {
+      id: "design-review",
+      eyebrow: "Langkah 10 · Design review",
+      title: "Design review: arsitektur asisten untuk tim risiko",
+      prose: [
+        "Design review adalah langkah eksplisit di track ini: kamu mengkritik sebuah RANCANGAN sebelum ia dibangun, bukan mengulas kode yang sudah jadi. Skenarionya: direksi meminta asisten tanya-jawab atas SOP bank plus ringkasan risiko mingguan, memakai API tertutup, data nasabah mentah, tanpa eval, tanpa abstention — dan diminta live dalam 2 minggu.",
+        "Kritik pertama: data nasabah mentah ke API tertutup melanggar prinsip akses minimum — siapa yang melihat datanya, berapa lama disimpan, dan apa kata syarat layanan vendor soal pemakaian data untuk training? Kritik kedua: tanpa eval suite, tidak ada yang tahu kapan asisten memburuk — dua minggu setelah live, jawabannya bisa bergeser diam-diam mengikuti pergantian versi model.",
+        "Kritik ketiga: tanpa abstention, pertanyaan di luar dokumen dijawab dengan percaya diri — di domain risiko, satu jawaban karangan yang lolos ke komite lebih mahal dari seribu jawaban tidak tahu. Perbaikannya: masking sebelum kirim, pin versi model, golden set + red team sebelum launch, dan ambang abstention yang tertulis.",
+        "Yang dinilai di design review bukan benar atau salah mutlak — melainkan apakah asumsimu tertulis dan bisa diuji. Rancangan yang baik menyebutkan risikonya sendiri: “kami memakai API tertutup, risikonya pergantian versi — mitigasinya pin versi + eval tiap rilis.” Rancangan yang buruk tidak menyebut risiko sama sekali.",
+      ],
+      tasks: [
+        { id: "t1", text: "Tulis 3 kelemahan rancangan di atas (satu soal data/privasi, satu soal evaluasi, satu soal keandalan jawaban) beserta perbaikan konkret tiap kelemahan" },
+        { id: "t2", text: "Tulis 1 risiko yang TIDAK bisa dimitigasi sepenuhnya dan keputusanmu: terima, tunda, atau tolak rancangan itu" },
+      ],
+      note: {
+        title: "💡 Intuisi: design review mencari asumsi, bukan kesalahan ketik",
+        body: "Kode yang salah ketik ketahuan di test. Asumsi yang salah (“vendor tidak akan mengganti model”, “data nasabah aman di API”) ketahuan di insiden — berbulan-bulan kemudian, dengan biaya. Design review adalah satu-satunya momen murah untuk menangkap asumsi.",
+      },
+      reference: "Design review = kritik rancangan sebelum dibangun: data, eval, abstention, risiko yang tertulis.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -339,6 +379,24 @@ print(f"biaya=\${biaya:.6f}")`,
             { text: "Hitung total cost termasuk biaya penanganan setiap error, baru putuskan", why: "Tepat: seperti mini-case bank, error yang mahal bisa membalikkan seluruh perhitungan.", correct: true },
             { text: "Tetap di yang mahal — yang murah pasti berkualitas rendah", why: "Belum tentu; kadang model murah + prompt bagus menang di dua sisi. Ukur, jangan berprasangka.", correct: false },
             { text: "Naikkan threshold agar error tidak terlihat di dashboard", why: "Menyembunyikan error adalah manipulasi metrik, bukan engineering.", correct: false },
+          ],
+        },
+        {
+          q: "Startup kesehatan memakai API tertutup untuk data rekam medis pasien. Risiko kontrak/lisensi TERBESAR?",
+          options: [
+            { text: "Harga API naik", why: "Itu risiko nyata tetapi bukan yang terbesar — harga bisa dinegosiasi atau dipindah.", },
+            { text: "Data pasien keluar ke vendor dan model bisa berganti versi tanpa pemberitahuan", why: "Benar: data sensitif keluar dari kendali dan perilaku model bisa berubah diam-diam — dua risiko yang tidak bisa diuji dari dalam.", correct: true },
+            { text: "Model tertutup lebih lambat", why: "Kecepatan bukan soal lisensi; model tertutup justru sering paling cepat.", },
+            { text: "Tidak bisa memakai Bahasa Indonesia", why: "Model tertutup besar justru kuat berbahasa Indonesia.", },
+          ],
+        },
+        {
+          q: "Apa beda “open weights” dan “open source” untuk sebuah model?",
+          options: [
+            { text: "Tidak ada bedanya", why: "Ada: bobot terbuka belum tentu kode latih dan data latih terbuka.", },
+            { text: "Open weights = bobot bisa diunduh; open source = bobot + kode + data terbuka dan bisa diaudit", why: "Benar: klaim open source menuntut ketiganya. Bila hanya bobot yang terbuka, sebut saja bobot terbuka.", correct: true },
+            { text: "Open source berarti gratis, open weights berarti berbayar", why: "Harga bukan pembedanya — lisensi dan keterbukaan artefaknya.", },
+            { text: "Open weights hanya untuk riset, open source untuk komersial", why: "Batas riset vs komersial diatur klausul lisensi, bukan labelnya.", },
           ],
         },
       ],

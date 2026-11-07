@@ -19,7 +19,7 @@ export const bcd4: V2Lesson = {
   track: "Blockchain Data Scientist",
   module: "Fondasi On-Chain",
   title: "BCD4 — Analisis DeFi",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -184,6 +184,47 @@ export const bcd4: V2Lesson = {
       reference: "APR pakai rata-rata 30 hari. 3 kondisi LP untung: stabil, fee tinggi, butuh rebalancing.",
     },
     {
+      id: "lending-utilisasi",
+      eyebrow: "Tambahan · BC6",
+      title: "Sisi lending DeFi: utilisasi, collateral ratio, dan ambang likuidasi",
+      prose: [
+        "Lesson ini sejauh ini bercerita tentang AMM dan LP — tetapi separuh risiko DeFi adalah risiko LENDING: protokol pinjam-meminjam tempat pengguna menitipkan agunan (collateral) dan meminjam aset lain. Tiga angka menguasai dunia ini. Satu: UTILISASI = total yang dipinjam dibagi total yang dititipkan. Contoh ilustratif: pool dititipi 10.000 (ribu USD) dan dipinjam 7.500 → utilisasi 75 persen. Utilisasi tinggi berarti bunga pinjaman tinggi (pemberi pinjaman dibayar mahal) TETAPI likuiditas penarikan menipis — bila semua orang menarik bersamaan, tidak ada yang tersisa untuk ditarik.",
+        "Dua: COLLATERAL RATIO = nilai agunan dibagi nilai pinjaman. Posisi A (ilustratif): agunan 150, pinjaman 100 → rasio 150 persen. Posisi B: 120/100 = 120 persen. Posisi C: 200/90 = 222,2 persen. Tiga: HEALTH FACTOR = (agunan × liquidation threshold) dibagi pinjaman. Dengan ambang likuidasi (liquidation threshold) 80 persen untuk A dan C, 75 persen untuk B: HF A = 150 × 0,80 / 100 = 1,20; HF B = 120 × 0,75 / 100 = 0,90; HF C = 200 × 0,80 / 90 = 1,78. Aturannya: HF di atas 1 = aman; HF di bawah 1 = TERLIKUIDASI (agunan dilelang untuk menutup pinjaman). Posisi B (0,90) sudah lewat ambang — likuidator boleh mengeksekusinya.",
+        "Harga likuidasi adalah harga agunan saat HF tepat 1. Contoh ilustratif: agunan 1 ETH seharga 3.000 USD, pinjaman 2.000 USD, ambang likuidasi 80 persen → harga likuidasi = 2.000 dibagi (1 × 0,80) = 2.500 USD. Bila harga ETH turun dari 3.000 ke 2.500, posisi terlikuidasi — padahal harga 'baru' turun 16,7 persen. Inilah yang membuat lending DeFi rapuh saat pasar jatuh: penurunan harga memicu likuidasi, likuidasi menjual agunan, penjualan menekan harga, harga yang turun memicu likuidasi berikutnya — spiral yang sama yang dijelaskan oracle di BCD15, tetapi dari sisi peminjam.",
+        "Untuk analis: dashboard risiko lending (lihat BCD12, paruh dashboard) selalu menampilkan keempat angka ini — utilisasi pool, collateral ratio, health factor per posisi besar, dan jarak ke harga likuidasi. APY yang dibahas di BCD18 dan likuidasi di BCD15 kini punya rumahnya di sini: APY tinggi di pool dengan utilisasi 95 persen bukan 'peluang', melainkan kompensasi atas risiko penarikan yang macet.",
+      ],
+      formula: String.raw`\text{Utilisasi} = \frac{\text{Dipinjam}}{\text{Dititipkan}} \quad ; \quad \text{HF} = \frac{\text{Agunan} \times LT}{\text{Pinjaman}} \quad ; \quad P_{\text{lik}} = \frac{\text{Pinjaman}}{\text{Jumlah agunan} \times LT}`,
+      formulaNote: "Semua angka ilustratif (ribu USD kecuali disebutkan): utilisasi 7.500/10.000 = 75%; HF A 150x0,80/100 = 1,20; HF B 120x0,75/100 = 0,90; HF C 200x0,80/90 = 1,78. Harga likuidasi contoh: 2.000/(1x0,80) = 2.500 USD. Interpretasi: HF < 1 = terlikuidasi; LT = liquidation threshold.",
+      tasks: [
+        { id: "t1", text: "Hitung `utilisasi`, `hf` per posisi, dan `flag` posisi yang terlikuidasi (HF < 1)" },
+        { id: "t2", text: "Hitung `harga_likuidasi` contoh (1 ETH, pinjaman 2.000, LT 0,80) dan cetak ringkasan" },
+      ],
+      expected: "Utilisasi 75.0% | HF: A=1.20 B=0.90 C=1.78 | Terlikuidasi: B | Harga likuidasi: 2500 USD",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Collateral ratio 120 persen berarti aman.” Belum tentu — yang menentukan likuidasi adalah HEALTH FACTOR (agunan × ambang dibagi pinjaman), bukan rasio mentahnya. Posisi B berasio 120 persen tetapi HF-nya 0,90: sudah terlikuidasi.",
+      },
+      hints: [
+        "utilisasi = dipinjam / dititipkan * 100.",
+        "hf = agunan * lt / pinjaman untuk tiap posisi.",
+        "harga_likuidasi = pinjaman / (jumlah_agunan * lt).",
+      ],
+      code: {
+        starter: `# Data ilustratif (ribu USD). JANGAN UBAH baris ini.\ndititipkan, dipinjam = 10000, 7500\nposisi = {"A": (150, 100, 0.80), "B": (120, 100, 0.75), "C": (200, 90, 0.80)}  # (agunan, pinjaman, LT)\ncontoh = {"agunan_eth": 1, "pinjaman_usd": 2000, "lt": 0.80}\n\n# TULIS KODEMU\nutilisasi =\nhf = {}\nfor nama, (agunan, pinjaman, lt) in posisi.items():\n    hf[nama] = \nflag = \nharga_likuidasi = \n\nprint(f"Utilisasi {utilisasi:.1f}% | HF: A={hf['A']:.2f} B={hf['B']:.2f} C={hf['C']:.2f} | Terlikuidasi: {', '.join(flag) if flag else 'tidak ada'} | Harga likuidasi: {harga_likuidasi:.0f} USD")`,
+        lockLines: 3,
+        solution: `# Data ilustratif (ribu USD). JANGAN UBAH baris ini.\ndititipkan, dipinjam = 10000, 7500\nposisi = {"A": (150, 100, 0.80), "B": (120, 100, 0.75), "C": (200, 90, 0.80)}  # (agunan, pinjaman, LT)\ncontoh = {"agunan_eth": 1, "pinjaman_usd": 2000, "lt": 0.80}\n\n# TULIS KODEMU\nutilisasi = dipinjam / dititipkan * 100\nhf = {}\nfor nama, (agunan, pinjaman, lt) in posisi.items():\n    hf[nama] = agunan * lt / pinjaman\nflag = [nama for nama, v in hf.items() if v < 1]\nharga_likuidasi = contoh["pinjaman_usd"] / (contoh["agunan_eth"] * contoh["lt"])\n\nprint(f"Utilisasi {utilisasi:.1f}% | HF: A={hf['A']:.2f} B={hf['B']:.2f} C={hf['C']:.2f} | Terlikuidasi: {', '.join(flag) if flag else 'tidak ada'} | Harga likuidasi: {harga_likuidasi:.0f} USD")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "utilisasi", value: 75.0, tol: 1e-9, label: "`utilisasi` = 75.0", msg: "7.500 / 10.000 × 100 = 75%." },
+          { kind: "equal", task: "t1", name: "hf", value: {"A": 1.2, "B": 0.9, "C": 1.7777777777777777}, label: "`hf` per posisi benar", msg: "A 1,20; B 0,90; C 1,78." },
+          { kind: "equal", task: "t1", name: "flag", value: ["B"], label: "`flag` = [B]", msg: "Hanya B yang HF-nya di bawah 1." },
+          { kind: "equal", task: "t2", name: "harga_likuidasi", value: 2500.0, tol: 1e-9, label: "`harga_likuidasi` = 2500", msg: "2.000 / (1 × 0,80) = 2.500 USD." },
+          { kind: "stdout_matches", task: "t2", pattern: "Utilisasi 75\\.0% \\| HF: A=1\\.20 B=0\\.90 C=1\\.78 \\| Terlikuidasi: B \\| Harga likuidasi: 2500 USD", label: "Ringkasan tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Utilisasi = dipinjam/dititipkan. HF = agunan×LT/pinjaman; HF < 1 = terlikuidasi.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -192,6 +233,7 @@ export const bcd4: V2Lesson = {
       ],
       tasks: [],
       summary: [
+        "Lending DeFi: utilisasi 75%, health factor A 1,20 / B 0,90 (terlikuidasi) / C 1,78; harga likuidasi contoh 2.500 USD.",
         "Benchmark LP = hold; IL = selisih vs hold, bukan 'saldo berkurang'.",
         "IL(r) = 2√r/(1+r) − 1: pajak volatilitas, simetris naik-turun.",
         "TVL jujur = underlying saja, tanpa double counting, pisahkan lock vs parkir.",

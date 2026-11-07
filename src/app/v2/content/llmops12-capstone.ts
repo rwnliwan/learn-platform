@@ -29,7 +29,7 @@ export const llmops12: V2Lesson = {
   track: "LLMOps",
   module: "Safety & Skala",
   title: "LLMOps12 — Capstone: LLMOps Asisten Produksi",
-  estMinutes: 60,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita",
@@ -39,7 +39,7 @@ export const llmops12: V2Lesson = {
         "Januari 2027. Kamu direkrut NusaBank sebagai LLMOps lead pertama. Chatbot CS sudah live 6 bulan — dibangun cepat oleh tim AI yang brilian, tanpa satu pun praktik dari 11 lesson sebelumnya. Tidak ada prompt registry (edit langsung di dashboard), tidak ada golden set, index RAG 8 bulan tidak disentuh, guardrail = system prompt `tolong jangan bocorkan data`, tagihan Rp48 juta/bulan, dan tidak ada yang tahu model apa yang sedang jalan.",
         "Twist-nya: tidak ada yang `rusak` — chatbot bekerja dan user cukup puas. Tugasmu bukan memperbaiki kebakaran, melainkan membangun sistem operasi SEBELUM kebakaran. Inilah pekerjaan LLMOps yang sebenarnya: 90% pencegahan yang tidak terlihat, 10% respons yang terlihat heroik.",
         "Capstone ini merangkum 11 lesson menjadi satu rancangan operasi: arsitektur end-to-end, runbook 30 hari, dan anggaran tahun pertama — semuanya dengan angka yang bisa dipertahankan di depan direksi.",
-        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang arsitektur LLMOps end-to-end untuk asisten produksi (NusaBank) dari nol; (2) menghitung SLO komposit dari rantai komponen; (3) menyusun error budget dan runbook insiden; (4) mempresentasikan trade-off biaya vs kualitas vs risiko ke manajemen.",
+        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang arsitektur LLMOps end-to-end untuk asisten produksi (NusaBank) dari nol; (2) menghitung SLO komposit dari rantai komponen; (3) menyusun error budget dan runbook insiden; (4) mempresentasikan trade-off biaya vs kualitas vs risiko ke manajemen; (5) menempatkan gateway sebagai satu-satunya pintu masuk dan evaluasi sebagai gerbang CI yang menahan rilis.",
       ],
       tasks: [],
       note: {
@@ -129,8 +129,96 @@ export const llmops12: V2Lesson = {
       reference: "Visibilitas → kendali → efisiensi → ketahanan. Satu halaman per prosedur.",
     },
     {
+      id: "gateway-ci",
+      eyebrow: "Langkah 5 · Gateway & CI",
+      title: "Gateway sebagai pintu masuk, evaluasi sebagai gerbang CI",
+      prose: [
+        "Delapan komponen di Langkah 2 mengelilingi aplikasi — tetapi satu pertanyaan belum dijawab: lewat MANA semua request masuk, dan APA yang menahan rilis yang buruk? Jawabannya dua komponen yang melengkapi arsitektur capstone: gateway (pintu masuk) dan evaluasi sebagai gerbang CI (penjaga rilis). Tanpa keduanya, delapan komponen itu adalah delapan alat yang tidak terhubung ke pintu dan tidak terikat ke rilis.",
+        "Gateway — satu pintu masuk (LLMOps21, LiteLLM/Portkey). Semua trafik ke provider LLM lewat gateway, tanpa kecuali: tidak ada panggilan langsung dari aplikasi ke provider. Yang dikerjakan gateway: routing multi-model (query sepele ke model kecil, kompleks ke besar — LLMOps6), fallback dan retry otomatis bila satu provider down, manajemen key per tim (key tim A tidak bisa dipakai tim B), rate limit dan kuota per tim, logging terpusat (sumber kebenaran untuk biaya dan observability), dan semantic cache. Tiga aturan: (1) key provider HANYA ada di gateway — aplikasi memegang key gateway saja (bocornya key aplikasi tidak membuka provider langsung); (2) fallback HARUS diuji (fallback yang tidak pernah diuji = fallback yang tidak ada); (3) gateway adalah tempat budget guardrail ditegakkan — throttle di gateway, bukan di tiap aplikasi yang bisa lupa.",
+        "Evaluasi sebagai gerbang CI — rilis yang buruk tidak boleh sampai ke canary. Pipeline CI capstone (menjalankan regression test Minggu 3 dari runbook sebagai gerbang, bukan sekadar baseline): tahap 1, lint prompt + diff registry (apa yang berubah, siapa yang mengubah); tahap 2, golden set eval — faithfulness minimal 0,85 dan answer relevancy minimal 0,80 (LLMOps3/LLMOps20, golden set DIKUNCI: tidak boleh ditambah kasus yang 'kebetulan gagal kemarin' tanpa review); tahap 3, red-team suite otomatis — 100 persen serangan yang dikenal harus diblokir (LLMOps9); tahap 4, cost check — biaya per request maksimal Rp15 (LLMOps6); tahap 5, canary dengan gerbang yang sama (LLMOps10). SATU tahap gagal = merge DITAHAN, bukan 'catatan untuk nanti'. Lab berikut mensimulasikan gerbang ini: faithfulness 0,87 (lolos, margin 0,02), relevancy 0,81 (lolos), block rate 100 persen (lolos), biaya Rp14 (lolos) — 4/4, verdict LULUS.",
+        "Kenapa gerbang ini penting: tanpa eval di CI, regresi perilaku ditemukan oleh USER — seperti insiden di LLMOps20, di mana skor judge naik tetapi faithfulness turun 6 poin dan baru ketahuan setelah rilis. Dengan gerbang, rilis itu TERTAHAN di CI dan postmortem membuktikan gerbang itu benar. Aturan capstone: (1) tidak ada perubahan prompt, model, atau index RAG yang merge tanpa melewati gerbang; (2) ambang gerbang diubah hanya lewat PR terpisah dengan alasan tertulis — menurunkan ambang diam-diam agar 'lolos' adalah menipu diri sendiri; (3) hasil eval tiap rilis disimpan sebagai artefak (versi prompt + versi model + skor) — inilah yang membuat rollback berbasis bukti, bukan firasat.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `lolos` = jumlah metrik eval yang memenuhi ambang, dan `margin_faith` = selisih faithfulness terhadap ambang" },
+        { id: "t2", text: "Tentukan `gate` ('LULUS' bila semua lolos, else 'DITAHAN')" },
+        { id: "t3", text: "Cetak hasil gerbang CI" },
+      ],
+      expected: "ci_gate=4/4 lolos  verdict=LULUS  margin_faithfulness=0.02",
+      note: {
+        title: "🚨 Mitos: 'eval di CI memperlambat rilis'",
+        type: "pitfall",
+        body: "Yang benar: eval di CI memperlambat rilis yang BURUK — dan itulah gunanya. Rilis baik lolos dalam hitungan menit (golden set 100–200 kasus). Yang diperlambat adalah rilis yang akan menimbulkan insiden Rp72 juta. 'Cepat' yang melewati gerbang = cepat menuju insiden.",
+      },
+      hints: [
+        "Bandingkan tiap metrik dengan ambangnya: faithfulness >= 0,85; relevancy >= 0,80; block == 1,00; cost <= 15.",
+        "margin_faith = faithfulness - 0,85.",
+        "gate = 'LULUS' jika lolos == 4, else 'DITAHAN'.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+# Hasil evaluasi rilis kandidat (LLMOps3/LLMOps20) + biaya (LLMOps6)
+hasil = {"faithfulness": 0.87, "answer_relevancy": 0.81, "guardrail_block": 1.00, "cost_per_req": 14}
+ambang = {"faithfulness": 0.85, "answer_relevancy": 0.80, "guardrail_block": 1.00, "cost_per_req": 15}
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: gerbang CI evaluasi
+lolos = 
+margin_faith = 
+gate = 
+
+print(f"ci_gate={lolos}/4 lolos  verdict={gate}  margin_faithfulness={margin_faith:.2f}")`,
+        lockLines: 4,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+# Hasil evaluasi rilis kandidat (LLMOps3/LLMOps20) + biaya (LLMOps6)
+hasil = {"faithfulness": 0.87, "answer_relevancy": 0.81, "guardrail_block": 1.00, "cost_per_req": 14}
+ambang = {"faithfulness": 0.85, "answer_relevancy": 0.80, "guardrail_block": 1.00, "cost_per_req": 15}
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: gerbang CI evaluasi
+cek = [
+    hasil["faithfulness"] >= ambang["faithfulness"],
+    hasil["answer_relevancy"] >= ambang["answer_relevancy"],
+    hasil["guardrail_block"] >= ambang["guardrail_block"],
+    hasil["cost_per_req"] <= ambang["cost_per_req"],
+]
+lolos = sum(1 for ok in cek if ok)
+margin_faith = hasil["faithfulness"] - ambang["faithfulness"]
+gate = "LULUS" if lolos == 4 else "DITAHAN"
+
+print(f"ci_gate={lolos}/4 lolos  verdict={gate}  margin_faithfulness={margin_faith:.2f}")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`lolos` = 4 dari 4",
+            "name": "lolos",
+            "value": 4,
+            "tol": 1e-09,
+            "msg": "Keempat gerbang lolos: faithfulness, relevancy, block, biaya.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`margin_faith` = 0.02",
+            "name": "margin_faith",
+            "value": 0.02,
+            "tol": 0.001,
+            "msg": "0,87 - 0,85 = 0,02 — lolos tipis; pantau trennya, bukan hanya vonisnya.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` memvonis LULUS",
+            "pattern": "verdict=LULUS",
+            "msg": "4/4 lolos → rilis boleh lanjut ke canary.",
+          },
+        ],
+      },
+      reference: "Gateway (LLMOps21): satu pintu masuk, key hanya di gateway, fallback teruji. Eval di CI: golden set terkunci + red-team + cost; satu gagal = DITAHAN.",
+    },
+    {
       id: "peta",
-      eyebrow: "Langkah 5 · Peta keputusan",
+      eyebrow: "Langkah 6 · Peta keputusan",
       title: "Keputusan lead: build, tunda, atau sewa",
       prose: [
         "Lima skenario keputusan lead. Satu: tim kecil (2 orang), traffic 10rb/hari → sewa dulu (managed eval, guardrail vendor), build hanya registry + trace sendiri. Dua: data sangat sensitif (bank, kesehatan) → build guardrail + trace sendiri; jangan kirim PII ke evaluator pihak ketiga. Tiga: budget ketat → prioritaskan yang mencegah kerugian terbesar: guardrail + golden set + canary; tunda red team manusia (pakai suite otomatis).",
@@ -147,7 +235,7 @@ export const llmops12: V2Lesson = {
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 6 · Mini-case",
+      eyebrow: "Langkah 7 · Mini-case",
       title: "Anggaran operasi tahun pertama: Rp408 juta",
       prose: [
         "Susun anggaran LLMOps NusaBank tahun pertama (pasca-optimasi). API LLM: Rp7,8 juta/bulan × 12 = Rp93,6 juta. Infra eval/guardrail/trace: Rp2 juta/bulan × 12 = Rp24 juta. Red team eksternal tahunan: Rp50 juta. Satu engineer LLMOps: Rp20 juta/bulan × 12 = Rp240 juta. Total: Rp407,6 juta ≈ Rp408 juta/tahun.",
@@ -165,7 +253,7 @@ export const llmops12: V2Lesson = {
     },
     {
       id: "pendalaman",
-      eyebrow: "Langkah 7 · Pendalaman",
+      eyebrow: "Langkah 8 · Pendalaman",
       title: "SLO komposit: rantai sekuat mata terlemah — dikali",
       prose: [
         "Asisten NusaBank = rantai 5 komponen: guardrail input (99,9%) → retrieval RAG (99,5%) → LLM (99,9%) → guardrail output (99,9%) → cache/format (99,95%). SLO komposit = HASIL KALI: 0,999×0,995×0,999×0,999×0,9995 ≈ 0,9915 = 99,15%. Setiap komponen `hampir sempurna`, tapi rantai hanya 99,15% — dan mata terlemah (RAG 99,5%) mendominasi. Inilah matematika yang mengejutkan stakeholder: `kok cuma 99,15%? kan semua 99,9%?` — karena perkalian, bukan rata-rata.",
@@ -184,7 +272,7 @@ export const llmops12: V2Lesson = {
     },
     {
       id: "pendalaman-angka",
-      eyebrow: "Langkah 8 · Membaca Angka",
+      eyebrow: "Langkah 9 · Membaca Angka",
       title: "Dashboard SLO: satu layar untuk direksi",
       prose: [
         "Dashboard capstone satu layar: 5 bar SLO per komponen (aktual vs target, 30 hari) + 1 bar komposit + burn rate budget. Contoh angka bulan berjalan: guardrail-in 99,95% ✓, RAG 99,2% ✗ (target 99,5%), LLM 99,92% ✓, guardrail-out 99,9% ✓, cache 99,97% ✓ → komposit 98,9% ✗. Satu layar ini menjawab `sistem kita sehat?` (tidak — RAG), `di mana?` (RAG, 99,2%), `berapa budget tersisa?` (RAG: 40 dari 200 menit). Direksi tidak perlu 50 grafik — mereka perlu 7 bar dan 1 keputusan.",
@@ -209,6 +297,7 @@ export const llmops12: V2Lesson = {
       title: "Uji pemahamanmu — komprehensif",
       prose: [
         "Lima pertanyaan yang menghubungkan seluruh track. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Catatan posisi capstone: lesson ini menutup inti track (LLMOps1–LLMOps12). Lesson LLMOps13–LLMOps21 sesudahnya adalah modul lanjutan opsional — inference self-hosted, smart routing, latency SLO, speculative decoding, governance, agent ops, MCP, evaluasi RAG, dan gateway — yang memperdalam, bukan syarat kelulusan capstone ini.",
       ],
       tasks: [],
       summary: [
@@ -217,6 +306,7 @@ export const llmops12: V2Lesson = {
         "Urutan membangun: visibilitas → kendali → efisiensi → ketahanan.",
         "Setiap komponen terintegrasi (golden→canary, trace→feedback, redteam→guardrail) atau ia hiasan.",
         "Anggaran operasi = risk appetite terkuantifikasi; buktikan dengan MTTD/MTTR, block rate, biaya/request.",
+        "Gateway (LLMOps21) satu-satunya pintu masuk; evaluasi golden set + red-team + biaya adalah gerbang CI — satu gagal = rilis DITAHAN.",
       ],
       next: { label: "LLMOps13 — Inference Self-Hosted (vLLM/TGI)", href: "/learn/llmops13-inference-selfhosted" },
       quiz: [
@@ -272,6 +362,15 @@ export const llmops12: V2Lesson = {
             { text: "Perbaiki RAG — 40x lebih efektif per rupiah (mata terlemah dulu)", why: "Tepat. SLO komposit = perkalian; mata terlemah mendominasi. Rp100jt di RAG menaikkan komposit 0,40pp vs 0,01pp di model. Tabel ini yang dipresentasikan ke direksi.", correct: true },
             { text: "Bagi rata Rp20jt per komponen agar adil", why: "`Adil` = Rp20jt terbuang di 4 komponen yang sudah sehat + Rp20jt kurang untuk RAG. Efektivitas, bukan keadilan, yang menaikkan SLO." },
             { text: "Naikkan semua target menjadi 99,99% agar terlihat ambisius", why: "Target tanpa rencana = hiasan. 99,99% per komponen butuh investasi 10x untuk +0,5pp komposit — dan tetap tidak tercapai tanpa memperbaiki RAG." },
+          ],
+        },
+        {
+          q: "Rilis kandidat: faithfulness 0,87 (ambang 0,85), relevancy 0,81 (0,80), red-team block 100%, biaya Rp14 (maks Rp15) — tetapi satu aplikasi memanggil provider LANGSUNG, bypass gateway. Vonis CI?",
+          options: [
+            { text: "DITAHAN — bypass gateway melanggar aturan 'semua trafik lewat gateway'; eval lolos tidak menutupi pelanggaran arsitektur", why: "Tepat: gerbang CI memeriksa perilaku DAN arsitektur. Key provider di luar gateway = key yang tidak terlindungi guardrail biaya dan logging.", correct: true },
+            { text: "LULUS — 4/4 metrik eval lolos, itu yang dihitung gerbang", why: "Gerbang juga menegakkan aturan pintu masuk: bypass gateway berarti request itu tidak tercatat, tidak di-rate-limit, dan tidak di-cache." },
+            { text: "LULUS dengan catatan — perbaiki gateway bulan depan", why: "'Catatan untuk nanti' = rilis buruk yang lolos. Gerbang menahan SEKARANG, bukan mencatat." },
+            { text: "DITAHAN — karena faithfulness hanya margin 0,02", why: "Margin 0,02 tetap lolos; yang menahan adalah bypass gateway, bukan margin tipis (margin tipis = pantau tren, bukan tahan rilis)." },
           ],
         },
       ],

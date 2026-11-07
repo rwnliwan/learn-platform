@@ -5,7 +5,7 @@ export const mle4: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Fondasi Produksi",
   title: "MLE4 — Evaluasi di Luar Akurasi",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "mulai",
@@ -19,7 +19,8 @@ export const mle4: V2Lesson = {
         "• Memilih threshold berdasarkan cost, bukan default 0,5.",
         "• Mengukur kalibrasi model dengan Expected Calibration Error (ECE).",
         "• Melakukan slice evaluation: metrik per segmen, bukan cuma global.",
-        "Isi lesson: cerita model fraud '99% akurat' yang buta → precision/recall + lab → kalibrasi + lab → slice evaluation → peta keputusan metrik → mini-case cost threshold → checkpoint.",
+        "• Mengukur ketidakpastian metrik dengan interval kepercayaan (Wilson) dan membandingkan dua model secara berpasangan (McNemar).",
+        "Isi lesson: cerita model fraud '99% akurat' yang buta → precision/recall + lab → kalibrasi + lab → interval kepercayaan + uji perbandingan model + lab → slice evaluation → peta keputusan metrik → mini-case cost threshold → checkpoint.",
       ],
       tasks: [
       ],
@@ -272,8 +273,133 @@ print(f"ece={ece:.3f}  verdict={verdict}")`,
       reference: "enumerate() memberi (indeks, nilai). Bin terakhir harus inklusif p==1.0.",
     },
     {
+      id: "interval-perbandingan",
+      eyebrow: "Langkah 5 · Interval kepercayaan & uji perbandingan",
+      title: "Skor 0,86 vs 0,81: benarkah B lebih baik, atau cuma beruntung?",
+      prose: [
+        "Dua model diuji pada 200 transaksi yang SAMA: model A benar 161 kali (akurasi 0,805), model B benar 172 kali (0,860). Selisih 5,5 poin terlihat jelas — tetapi dengan hanya 200 sampel, selisih itu bisa jadi noise. Tanpa ukuran ketidakpastian, 'B lebih baik' adalah klaim, bukan kesimpulan. Langkah ini memberi dua alat: interval kepercayaan untuk satu metrik, dan uji berpasangan untuk membandingkan dua model.",
+        "Interval kepercayaan Wilson 95 persen untuk akurasi B: (0,805; 0,901). Artinya: prosedur ini, bila diulang berkali-kali, mencakup akurasi sebenarnya dalam 95 persen pengulangan — BUKAN 'ada 95 persen peluang nilai benar di dalam interval ini'. Wilson dipakai sebagai default karena rumus Wald (p ditambah-minus 1,96 kali standard error) retak di tepi-tepi: untuk akurasi mendekati 0 atau 1, atau n kecil, Wald bisa memberi batas di luar 0 sampai 1. Foundation A23 membahas interval kepercayaan secara umum; di sini rumusnya diterapkan ke metrik model. Lebar interval menyusut dengan akar n: menaikkan n dari 200 ke 800 (4 kali lipat) mempersempit interval B dari lebar 0,096 menjadi 0,048 — separuhnya. Data 4 kali lipat membeli presisi 2 kali lipat; tidak ada jalan pintas.",
+        "Membandingkan DUA model butuh uji BERPASANGAN, bukan dua interval yang dibandingkan matanya. Interval A adalah (0,745; 0,854) dan interval B (0,805; 0,901) — keduanya tumpang tindih lebar. Membaca tumpang tindih sebagai 'tidak ada beda' adalah kesalahan klasik: kedua model diuji pada SAMPEL YANG SAMA, sehingga kesalahan mereka berkorelasi, dan uji yang benar memakai informasi pasangan itu. Uji McNemar hanya melihat pasangan DISCORDANT: 7 kasus di mana A benar dan B salah, versus 18 kasus di mana A salah dan B benar. Statistiknya chi-kuadrat sama dengan (18 dikurangi 7) kuadrat dibagi 25, sama dengan 4,84, dengan p sekitar 0,028 — di bawah 0,05. Vonis: B signifikan lebih baik, meski intervalnya tumpang tindih.",
+        "Syarat McNemar yang tidak boleh dilanggar: kedua model HARUS diuji pada test set yang sama persis, dan pasangan discordant harus cukup banyak (b ditambah c sebaiknya di atas 25; di sini tepat 25). Membandingkan akurasi A dari test set Januari dengan akurasi B dari test set Februari dengan uji ini = vonis palsu — beda distribusi, bukan beda model. Dan ingat: signifikan secara statistik bukan signifikan secara bisnis — selisih 5,5 poin yang signifikan dengan biaya retrain Rp200 juta per bulan bisa tetap menjadi keputusan buruk. Uji menjawab 'apakah bedanya nyata', bukan 'apakah bedanya sepadan'.",
+        "Catatan cakupan: validasi silang (cross-validation) dan nested CV TIDAK diulang di sini — keduanya sudah diajarkan di MLE15 (stratified CV, nested CV) dan MLE16. Yang ditambahkan lesson ini adalah lapisan di atasnya: begitu kamu punya satu angka dari CV atau holdout, seberapa besar ketidakpastiannya, dan bagaimana membuktikan satu model benar-benar mengalahkan yang lain pada data yang sama.",
+      ],
+      formula: String.raw`\text{Wilson: } \frac{\hat{p} + \frac{z^2}{2n} \pm z\sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{z^2}{4n^2}}}{1 + \frac{z^2}{n}} \qquad \chi^2_{McNemar} = \frac{(b-c)^2}{b+c}`,
+      formulaNote: "Wilson: p̂ = metrik teramati (mis. akurasi 0,86); n = ukuran test set; z = 1,96 untuk 95 persen. McNemar: b = kasus A benar dan B salah (7); c = kasus A salah dan B benar (18); chi-kuadrat dibanding ambang 3,84 untuk p 0,05 (derajat bebas 1). Contoh lab: B Wilson (0,805; 0,901); McNemar chi-kuadrat 4,84, p 0,028 — signifikan.",
+      tasks: [
+        { id: "t1", text: "Hitung `wilson_lo` dan `wilson_hi` (interval Wilson 95%) untuk akurasi model B (172 benar dari 200)" },
+        { id: "t2", text: "Hitung `chi2` dan `p` uji McNemar (b=7, c=18) serta `signifikan` (p < 0,05)" },
+        { id: "t3", text: "Cetak interval, chi2, p, dan vonis" },
+      ],
+      expected: "wilson_B=(0.805, 0.901)  mcnemar_chi2=4.84  p=0.0278  signifikan=True",
+      note: {
+        title: "🚨 Mitos: 'interval tumpang tindih = tidak ada beda'",
+        type: "pitfall",
+        body: "Yang benar: interval yang tumpang tindih hanya berkata tiap estimasi sendiri-sendiri tidak pasti. Uji berpasangan (McNemar) memakai korelasi antar model pada test set yang sama — dan bisa signifikan meski intervalnya tumpang tindih lebar. Jangan memvonis dari gambar dua interval.",
+      },
+      hints: [
+        "Wilson: den = 1 + z*z/n; tengah = (p + z*z/(2*n))/den; setengah = z*sqrt(p*(1-p)/n + z*z/(4*n*n))/den.",
+        "McNemar: chi2 = (c-b)**2/(b+c); p dari chi-kuadrat df=1: p = 2*(1-Phi(sqrt(chi2))), Phi via math.erf.",
+        "signifikan = p < 0,05.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+import math
+n = 200
+benar_b = 172          # model B benar 172 dari 200 (akurasi 0,86)
+benar_a = 161          # model A benar 161 dari 200 (akurasi 0,805)
+b, c = 7, 18           # discordant: A benar B salah = 7; A salah B benar = 18
+z = 1.96               # 95%
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: interval Wilson 95% untuk akurasi B
+p_hat = 
+den = 
+tengah = 
+setengah = 
+wilson_lo = 
+wilson_hi = 
+
+# TULIS KODEMU: uji McNemar
+chi2 = 
+p_value = 
+signifikan = 
+
+print(f"wilson_B=({wilson_lo:.3f}, {wilson_hi:.3f})  mcnemar_chi2={chi2:.2f}  p={p_value:.4f}  signifikan={signifikan}")`,
+        lockLines: 7,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+import math
+n = 200
+benar_b = 172          # model B benar 172 dari 200 (akurasi 0,86)
+benar_a = 161          # model A benar 161 dari 200 (akurasi 0,805)
+b, c = 7, 18           # discordant: A benar B salah = 7; A salah B benar = 18
+z = 1.96               # 95%
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: interval Wilson 95% untuk akurasi B
+p_hat = benar_b / n
+den = 1 + z * z / n
+tengah = (p_hat + z * z / (2 * n)) / den
+setengah = z * math.sqrt(p_hat * (1 - p_hat) / n + z * z / (4 * n * n)) / den
+wilson_lo = tengah - setengah
+wilson_hi = tengah + setengah
+
+# TULIS KODEMU: uji McNemar
+chi2 = (c - b) ** 2 / (b + c)
+p_value = 2 * (1 - 0.5 * (1 + math.erf(math.sqrt(chi2) / math.sqrt(2))))
+signifikan = p_value < 0.05
+
+print(f"wilson_B=({wilson_lo:.3f}, {wilson_hi:.3f})  mcnemar_chi2={chi2:.2f}  p={p_value:.4f}  signifikan={signifikan}")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`wilson_lo` ≈ 0.805",
+            "name": "wilson_lo",
+            "value": 0.8051,
+            "tol": 0.002,
+            "msg": "Batas bawah Wilson 95% untuk 172/200.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`wilson_hi` ≈ 0.901",
+            "name": "wilson_hi",
+            "value": 0.9013,
+            "tol": 0.002,
+            "msg": "Batas atas Wilson 95% untuk 172/200.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`chi2` = 4.84",
+            "name": "chi2",
+            "value": 4.84,
+            "tol": 0.01,
+            "msg": "(18-7)^2/25 = 121/25 = 4,84.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`p_value` ≈ 0.0278",
+            "name": "p_value",
+            "value": 0.0278,
+            "tol": 0.002,
+            "msg": "Chi-kuadrat 4,84 df=1 memberi p sekitar 0,028 — di bawah 0,05.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` memvonis signifikan",
+            "pattern": "signifikan=True",
+            "msg": "p < 0,05 → B signifikan lebih baik.",
+          },
+        ],
+      },
+      reference: "Wilson untuk satu metrik; McNemar (pasangan discordant) untuk membandingkan dua model pada test set yang sama.",
+    },
+    {
       id: "slice",
-      eyebrow: "Langkah 5 · Slice evaluation",
+      eyebrow: "Langkah 6 · Slice evaluation",
       title: "Metrik global 90%, metrik segmen 40%",
       prose: [
         "Metrik global adalah rata-rata — dan rata-rata menyembunyikan segmen yang menderita. Model dengan akurasi global 90% bisa memiliki akurasi 40% pada segmen 'pengguna baru dari luar Jawa' yang justru paling penting bagi bisnis.",
@@ -291,7 +417,7 @@ print(f"ece={ece:.3f}  verdict={verdict}")`,
     },
     {
       id: "peta-keputusan",
-      eyebrow: "Langkah 6 · Peta keputusan",
+      eyebrow: "Langkah 7 · Peta keputusan",
       title: "Metrik apa untuk masalah apa",
       prose: [
         "Skenario 1 — Deteksi fraud (FN mahal: Rp500rb; FP murah: Rp20rb investigasi) → optimasi recall, threshold rendah. Alasan: satu fraud lolos = 25x biaya satu salah tuduh.",
@@ -306,7 +432,7 @@ print(f"ece={ece:.3f}  verdict={verdict}")`,
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 7 · Mini-case",
+      eyebrow: "Langkah 8 · Mini-case",
       title: "Threshold 0,5 vs 0,3: Rp16 juta vs Rp11 juta",
       prose: [
         "Payment gateway memproses 10.000 transaksi/minggu dengan 100 fraud aktual. Dua kandidat threshold:",
@@ -445,8 +571,32 @@ print(f"ece={ece:.3f}  verdict={verdict}")`,
             },
           ],
         },
+        {
+          q: "Model A 161/200 benar, model B 172/200 benar, pasangan discordant b=7, c=18. Interval Wilson B (0,805; 0,901) dan A (0,745; 0,854) tumpang tindih. Kesimpulan?",
+          options: [
+            {
+              text: "B signifikan lebih baik (McNemar chi2 4,84, p 0,028) — tumpang tindih interval bukan vonis",
+              why: "Tepat: uji berpasangan memakai korelasi pada test set yang sama; interval yang tumpang tindih tidak membatalkan McNemar.",
+              correct: true,
+            },
+            {
+              text: "Tidak ada beda — intervalnya tumpang tindih",
+              why: "Salah: itu kesalahan klasik. Interval per model tidak menguji beda berpasangan.",
+            },
+            {
+              text: "B lebih baik karena 0,86 lebih dari 0,805 — tanpa uji pun cukup",
+              why: "Selisih titik tanpa ukuran ketidakpastian adalah klaim, bukan kesimpulan; dengan n=200, selisih 5,5 poin bisa jadi noise.",
+            },
+            {
+              text: "Pakai uji-t dua sampel independen",
+              why: "Salah: kedua model diuji pada sampel yang sama — uji independen membuang informasi pasangan dan bisa memberi vonis berbeda.",
+            },
+          ],
+        },
       ],
       summary: [
+        "Interval Wilson 95% mengukur ketidakpastian satu metrik; lebarnya menyusut dengan akar n.",
+        "Bandingkan dua model dengan uji berpasangan (McNemar, pasangan discordant) pada test set yang sama — bukan dari tumpang tindih interval.",
         "Accuracy paradox: pada imbalance, akurasi didominasi kelas mayoritas.",
         "Precision = ketepatan tuduhan; recall = kelengkapan tangkapan; F1 = harmonik keduanya.",
         "Threshold adalah keputusan bisnis berbasis cost, bukan default 0,5.",

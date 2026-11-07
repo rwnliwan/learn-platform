@@ -31,7 +31,7 @@ export const de14: V2Lesson = {
   track: "Data Engineer",
   module: "Operasi & Kualitas",
   title: "DE14 — Capstone: Platform Data Mini",
-  estMinutes: 75,
+  estMinutes: 85,
   steps: [
     {
       id: "brief",
@@ -59,6 +59,7 @@ export const de14: V2Lesson = {
         "(2) Menghitung budget (Rp9,75 juta/bulan) dan menerjemahkannya ke unit economics;",
         "(3) Menerapkan quality gate (Q-score) yang membedakan gagal baris vs gagal batch;",
         "(4) Memutuskan build vs buy per komponen dan mempertahankannya dengan angka.",
+        "(5) Menerapkan transformasi dbt (staging → mart, ref(), tests) dan IaC Terraform sebagai deliverable yang bisa di-apply ulang dari repo.",
       ],
       tasks: [],
     },
@@ -195,8 +196,117 @@ export const de14: V2Lesson = {
       reference: "Rencana = arsitektur + biaya + SLA. Tanpa angka = sketsa.",
     },
     {
+      id: "dbt-iac",
+      eyebrow: "Langkah 8 · Transformasi & IaC",
+      title: "dbt untuk transformasi, Terraform untuk infrastruktur",
+      prose: [
+        "Lab Langkah 4 membangun silver dan gold dengan Python ad-hoc. Di produksi, transformasi tidak boleh tinggal di skrip sekali pakai: ia butuh rumah — dan rumah itu dbt (DE16). Di saat yang sama, infrastruktur yang dibangun dengan klik manual di console tidak bisa diulang, diaudit, atau di-review — dan rumah untuk infrastruktur adalah Terraform sebagai IaC (DE18). Langkah ini menjadikan keduanya deliverable wajib capstone.",
+        "dbt: transformasi sebagai kode. Model ditulis sebagai SELECT berlapis: staging (stg_orders — rename kolom, cast tipe, tanpa logika bisnis), intermediate (int_orders_validated — dedup + aturan bisnis), mart (mart_revenue_harian — agregat per kategori, siap dibaca direksi). Dependensi eksplisit lewat ref(): mart_revenue_harian memanggil ref('int_orders_validated'), bukan nama tabel mentah — sehingga dbt membangun DAG, menjalankan dalam urutan benar, dan menggambar lineage otomatis. Setiap model membawa tests: unique untuk id, not_null untuk nominal, accepted_values untuk kategori, relationships untuk foreign key. Test yang gagal = model tidak dipromosikan. Dokumentasi (docs + deskripsi kolom) dihasilkan dari repo yang sama — dokumentasi yang tidak bisa basi karena ia ditulis di samping kode.",
+        "Terraform: infrastruktur sebagai kode. Satu repo terraform/ berisi main.tf yang mendeklarasikan SEMUA yang dipakai platform mini: bucket bronze, warehouse, jadwal orchestrator, topik alert fraud. Aturan: (1) state remote + lock — dua orang apply bersamaan tidak boleh saling menimpa; (2) tidak ada perubahan manual di console — semua lewat terraform plan lalu apply, dan plan di-review seperti code review; (3) destroy harus 0 pada plan rutin — bila plan mengusulkan destroy, itu alarm: ada resource yang akan hilang. Lab berikut mensimulasikan keduanya: runner test dbt (6 test, 1 gagal — not_null_nominal, konsisten dengan gate TAHAN di lab Langkah 4) dan ringkasan terraform plan (4 resource ditambah, 0 diubah, 0 dihancurkan).",
+        "Deliverable capstone yang diperbarui: repo harus memuat folder models/ (dbt: staging, intermediate, mart + tests + docs) dan folder terraform/ (main.tf + variables + state remote). Reviewer capstone menjalankan dua perintah: dbt test (harus hijau kecuali test yang memang mendokumentasikan data kotor yang dikarantina) dan terraform plan (harus menunjukkan add/change yang diharapkan dan destroy 0). Platform yang hanya bisa dibangun oleh satu orang dari laptopnya — tanpa dbt dan tanpa Terraform — adalah demo, bukan platform: ia tidak bisa di-review, tidak bisa diulang, dan tidak bisa diwariskan ke tim 3 orang MajuJaya.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `lolos` dan `total` test dbt, lalu tentukan `gate` ('LANJUT' bila semua lolos, else 'TAHAN')" },
+        { id: "t2", text: "Baca ringkasan `plan` Terraform dan tentukan `plan_aman` (True bila destroy == 0)" },
+        { id: "t3", text: "Cetak hasil test dbt dan ringkasan plan" },
+      ],
+      expected: "dbt_tests=5/6 lolos  gate=TAHAN  terraform_plan=add:4 change:0 destroy:0  plan_aman=True",
+      note: {
+        title: "🚨 Mitos: 'dbt dan Terraform itu urusan nanti, setelah pipeline jalan'",
+        type: "pitfall",
+        body: "Yang benar: 'nanti' berarti transformasi tersebar di 7 skrip tanpa lineage dan infra hanya ada di kepala satu orang. dbt + Terraform dipasang DI AWAL justru agar pipeline yang jalan tetap bisa dijelaskan, diuji, dan dibangun ulang — bukan ditempel sesudahnya.",
+      },
+      hints: [
+        "lolos = jumlah test dengan passed True; total = len(tests).",
+        "gate = 'LANJUT' jika lolos == total, else 'TAHAN'.",
+        "plan_aman = plan['destroy'] == 0.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+# Hasil 'dbt test' capstone MajuJaya (nama test, lolos?)
+tests = [
+    ("stg_orders_unique_id", True),
+    ("stg_orders_not_null_id", True),
+    ("silver_orders_not_null_nominal", False),   # 1 baris null (lihat lab Langkah 4)
+    ("silver_orders_unique_id", True),
+    ("mart_revenue_accepted_kategori", True),
+    ("mart_revenue_nominal_positif", True),
+]
+# Ringkasan 'terraform plan' (resource yang akan dibuat/diubah/dihancurkan)
+plan = {"add": 4, "change": 0, "destroy": 0}
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: rekap test dbt + vonis plan Terraform
+lolos = 
+total = 
+gate = 
+plan_aman = 
+
+print(f"dbt_tests={lolos}/{total} lolos  gate={gate}  terraform_plan=add:{plan['add']} change:{plan['change']} destroy:{plan['destroy']}  plan_aman={plan_aman}")`,
+        lockLines: 11,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+# Hasil 'dbt test' capstone MajuJaya (nama test, lolos?)
+tests = [
+    ("stg_orders_unique_id", True),
+    ("stg_orders_not_null_id", True),
+    ("silver_orders_not_null_nominal", False),   # 1 baris null (lihat lab Langkah 4)
+    ("silver_orders_unique_id", True),
+    ("mart_revenue_accepted_kategori", True),
+    ("mart_revenue_nominal_positif", True),
+]
+# Ringkasan 'terraform plan' (resource yang akan dibuat/diubah/dihancurkan)
+plan = {"add": 4, "change": 0, "destroy": 0}
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: rekap test dbt + vonis plan Terraform
+lolos = sum(1 for _, ok in tests if ok)
+total = len(tests)
+gate = "LANJUT" if lolos == total else "TAHAN"
+plan_aman = plan["destroy"] == 0
+
+print(f"dbt_tests={lolos}/{total} lolos  gate={gate}  terraform_plan=add:{plan['add']} change:{plan['change']} destroy:{plan['destroy']}  plan_aman={plan_aman}")`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`lolos` = 5 dari 6 test",
+            "name": "lolos",
+            "value": 5,
+            "tol": 1e-09,
+            "msg": "Satu test gagal: not_null_nominal — baris null dari lab Langkah 4.",
+          },
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`gate` = TAHAN",
+            "name": "gate",
+            "value": "TAHAN",
+            "tol": 1e-09,
+            "msg": "Test gagal = model tidak dipromosikan; konsisten dengan gate TAHAN (Q=0,50).",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`plan_aman` = True",
+            "name": "plan_aman",
+            "value": true,
+            "tol": 1e-09,
+            "msg": "destroy 0 → tidak ada resource yang akan hilang.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` menampilkan rekap dbt + plan",
+            "pattern": "dbt_tests=5/6 lolos\\s+gate=TAHAN",
+            "msg": "Format: dbt_tests=...  gate=...  terraform_plan=...  plan_aman=....",
+          },
+        ],
+      },
+      reference: "dbt: staging → intermediate → mart via ref(), tests di tiap model, docs dari repo. Terraform: plan di-review, state remote + lock, destroy 0 pada plan rutin.",
+    },
+    {
       id: "design-review-fraud",
-      eyebrow: "Langkah 8 · Design review",
+      eyebrow: "Langkah 9 · Design review",
       title: "Design review 1: pipeline fraud real-time",
       prose: [
         "Brief baru, bukan dari MajuJaya. BankMini: 2 juta transaksi kartu per hari (~23 per detik rata-rata, puncak 120/detik saat flash sale). Aturannya: setiap transaksi mendapat skor risiko dalam ≤300 ms (p99), dan transaksi mencurigakan harus memicu alert ke tim CS dalam 1 menit. False positive = nasabah sah diblokir (marah, churn). False negative = fraud lolos (rugi uang).",
@@ -223,7 +333,7 @@ export const de14: V2Lesson = {
     },
     {
       id: "design-review-regulatory",
-      eyebrow: "Langkah 9 · Design review",
+      eyebrow: "Langkah 10 · Design review",
       title: "Design review 2: regulatory data mart",
       prose: [
         "Brief kedua. Regulator meminta laporan bulanan eksposur portofolio per segmen debitur, dengan 5 tahun histori. Syarat kerasnya: angka laporan HARUS cocok rupiah-per-rupiah dengan sumber (core banking) — selisih Rp1 pun harus bisa dijelaskan; setiap angka harus bisa dilacak: dihitung oleh kode versi apa, dari snapshot data tanggal berapa, oleh siapa, kapan.",
@@ -253,6 +363,7 @@ export const de14: V2Lesson = {
       title: "Uji pemahamanmu — dan selamat!",
       prose: [
         "Enam pertanyaan terakhir track ini. Setelah ini, kamu punya peta lengkap fondasi data engineering.",
+        "Catatan posisi capstone: lesson ini menutup inti track (DE1–DE14). Lesson DE15–DE30 sesudahnya adalah modul lanjutan opsional — CI/CD, dbt, backfill, Terraform, CDC, RBAC, format tabel terbuka, cloud, data untuk AI, streaming lanjut, dan observability — yang memperdalam, bukan syarat kelulusan capstone ini.",
       ],
       tasks: [],
       summary: [
@@ -262,6 +373,7 @@ export const de14: V2Lesson = {
         "Warehouse/lake/lakehouse dipilih dari pola baca; Parquet untuk analitik.",
         "Model: grain kontrak, star untuk serving, vault untuk labil; DAG untuk dependensi; quality gate + kontrak untuk kebenaran; Kafka untuk cepat/replay/decouple; Spark untuk yang tak muat memori; tuning = kecilkan B_scan; governance = kode; real-time melayani keputusan.",
         "Capstone: medallion + pola ganda + build-vs-buy + biaya & SLA berangka.",
+        "Transformasi hidup di dbt (staging → mart via ref() + tests); infrastruktur hidup di Terraform (plan di-review, destroy 0).",
       ],
       next: { label: "DE15 — CI/CD untuk Data Pipeline", href: "/v2/learn/de15-cicd" },
       quiz: [
@@ -335,6 +447,15 @@ export const de14: V2Lesson = {
             { text: "Perbaiki gate: quarantine baris gagal, tahan hanya jika gagal batch (>ambang)", why: "Tepat: bedakan gagal baris vs gagal batch. Gate yang bijak (quarantine + ambang) dipertahankan; gate yang kaku (all-or-nothing) DITINGGALKAN — dan memang seharusnya, karena ia memaksa bypass.", correct: true },
             { text: "Hapus gate-nya", why: "Menghapus = kembali ke 'data kotor mengalir diam-diam'. Yang dihapus = kekakuannya, bukan gerbangnya." },
             { text: "Kunci bypass secara teknis", why: "Mengunci bypass pada gate yang salah = memaksa data telat total karena 1 baris. Itu bukan keamanan, itu sabotase." },
+          ],
+        },
+        {
+          q: "Reviewer capstone menjalankan `dbt test` (5/6 lolos, not_null_nominal gagal) dan `terraform plan` (add 4, change 0, destroy 0). Vonis?",
+          options: [
+            { text: "Gate TAHAN — mart tidak dipromosikan sampai baris null ditangani; plan aman karena destroy 0", why: "Tepat: test gagal = gerbang menahan; destroy 0 = tidak ada resource hilang. Dua vonis independen, keduanya benar.", correct: true },
+            { text: "Lanjutkan saja — 5/6 sudah cukup bagus", why: "Test yang gagal adalah test atas data yang sama dengan gate TAHAN di lab Langkah 4 — mengabaikannya = mengabaikan gate." },
+            { text: "Tolak plan Terraform — add 4 berarti 4 resource baru yang mahal", why: "Add 4 adalah resource yang memang dirancang (bucket, warehouse, orchestrator, topik alert) — yang diawasi adalah destroy, bukan add." },
+            { text: "Hapus test not_null_nominal agar gate hijau", why: "Menghapus test agar hijau = menipu diri sendiri; yang diperbaiki adalah datanya (karantina baris null), bukan test-nya." },
           ],
         },
       ],

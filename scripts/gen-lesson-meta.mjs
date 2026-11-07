@@ -46,6 +46,13 @@ const SHARED_SLUGS = new Set([
   "dm12-keamanan-privasi", // dipakai Fraud, Health, Marketing, Data Mgmt
   "c15-data-quality", // dipakai Credit Risk, Fraud, Health, Data Mgmt
   "dm7-kualitas-data", // dipakai Credit Risk, Fraud, Health, Data Mgmt
+  "aie3-rag", // dipakai AE, AG, DL, ME (RAG dasar; ditaut dari dle24, mle28)
+  "aie5-finetuning", // dipakai AE, AG, DL, ME (keputusan kapan fine-tune; ditaut dari dle20, mle26)
+  "aie20-langchain-langgraph", // dipakai AE, AG (framework agen; ditaut dari aai10)
+  "aie19-self-hosting-llm", // dipakai AE, ME, LO (ekonomi GPU/self-hosting; ditaut dari mle27, llmops13)
+  "biz21-analytics-engineering", // dipakai BI, DE (dbt; ditaut dari biz14)
+  "dba5-replikasi", // dipakai DBA (Patroni/HA; ditaut dari dba12)
+  "c19-views", // dipakai SQL, Risk Reporting (view; ditaut dari rr33)
 ]);
 
 const lessons = {};

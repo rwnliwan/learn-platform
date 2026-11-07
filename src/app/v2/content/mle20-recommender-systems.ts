@@ -32,7 +32,7 @@ export const mle20: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Skala & Tanggung Jawab",
   title: "MLE20 — Recommender Systems: Two-Tower Retrieval dan Ranking",
-  estMinutes: 52,
+  estMinutes: 62,
   steps: [
     {
       id: "cerita-clickbait",
@@ -43,7 +43,7 @@ export const mle20: V2Lesson = {
         "Perbaikannya bukan model yang lebih besar, melainkan objective yang jujur: ganti target dari 'klik' menjadi 'durasi tonton berbobot' (watch time). Rekomendasi berubah total — clickbait lenyap dari feed, video yang benar-benar ditonton sampai habis naik. Pelajaran pahit ini didokumentasikan di paper YouTube 'Deep Neural Networks for YouTube Recommendations': fitur yang dioptimasi menentukan perilaku yang dipelajari, bukan arsitekturnya.",
         "Twist-nya: di recommender systems, pertanyaan tersulit bukan 'model apa?' melainkan 'apa yang kita sebut SUKSES?'. Matriks interaksi, embedding, dan ANN index hanyalah mesin — objective adalah kemudinya. Lesson ini membangun mesinnya dari nol: matrix factorization sebagai fondasi, lalu two-tower retrieval plus ranking seperti yang dipakai Google untuk korpus ratusan juta item.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan matrix factorization sebagai kompresi matriks interaksi; (2) membangun simulator two-tower dan mengukur precision@k; (3) menjelaskan mengapa item embedding bisa di-precompute (decoupled inference); (4) menghitung trade-off ANN: recall yang dikorbankan vs latensi yang dihemat; (5) memetakan kapan MF cukup dan kapan butuh two-tower plus ranking.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Matrix factorization — Langkah 3 · Lab two-tower — Langkah 4 · Two-tower dan ANN — Langkah 5 · Lab ANN — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Matrix factorization — Langkah 3 · Lab two-tower — Langkah 4 · Two-tower dan ANN — Langkah 5 · Lab ANN — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Langkah 8 · Imbalanced dan cost-sensitive — Checkpoint.",
       ],
       tasks: [],
       reference: "Objective menentukan perilaku model. CTR naik belum tentu produk membaik.",
@@ -300,6 +300,106 @@ print("memori fp32 =", round(mem_fp32, 2), "KB -> int8 =", round(mem_int8, 2), "
       tasks: [],
     },
     {
+      id: "imbalanced-cost",
+      eyebrow: "Langkah 8 · Kasus khusus",
+      title: "Imbalanced dan cost-sensitive: ketika kelas langka adalah kelas yang penting",
+      prose: [
+        "Di recommender systems, imbalance bukan kasus khusus — ia kondisi default. Dari 10.000 impresi, yang diklik mungkin hanya 150 (1,5 persen). Di fraud, 0,7 persen. Di churn korporat, segelintir akun. Model yang memprediksi 'tidak ada yang klik' untuk semua impresi mendapat akurasi 98,5 persen — dan nilai bisnis nol. Inilah accuracy paradox dari MLE4, dalam wujud ranking: metrik global memuji model yang buta terhadap kelas yang justru dicari.",
+        "Tiga keluarga solusi, dari yang paling murah ke yang paling dalam. Pertama, ubah DATA: undersampling kelas mayoritas (buang sebagian 'tidak klik' — murah, tetapi membuang informasi), oversampling kelas minoritas (gandakan contoh klik — hati-hati: oversampling SEBELUM split train/test = leakage, contoh yang sama muncul di kedua sisi), atau data sintetis (SMOTE: interpolasi antar tetangga minoritas — hanya untuk fitur tabular, bukan teks atau gambar mentah). Kedua, ubah LOSS: class_weight — bobot kelas positif sama dengan jumlah negatif dibagi jumlah positif (di lab: 9.850 dibagi 150 sama dengan 65,67 — satu klik yang terlewat 'dihitung' 65,67 kali lebih berat saat training); atau focal loss, yang menurunkan bobot contoh mudah agar model fokus pada contoh sulit. Ketiga, ubah KEPUTUSAN: geser threshold berdasarkan biaya kesalahan (MLE4) — bukan 0,5 default.",
+        "Cost-sensitive learning adalah generalisasi yang lebih jujur dari 'tangani imbalance'. Pertanyaannya bukan 'bagaimana menyeimbangkan kelas', melainkan 'berapa biaya tiap jenis kesalahan'. Bila satu klik yang hilang (false negative) bernilai Rp5.000 dan satu impresi tidak relevan (false positive) bernilai Rp200, maka threshold RENDAH yang menangkap lebih banyak klik adalah benar — meski precision-nya jatuh. Lab berikut membuktikannya dengan angka: threshold 0,5 memberi biaya Rp380.000 per 10.000 impresi; threshold 0,3 memberi Rp330.000 — lebih murah Rp50.000 meski precision turun dari 0,184 ke 0,118. Precision yang lebih rendah tetapi total biaya lebih kecil: inilah kenapa cost mengalahkan estetika metrik, seperti di mini-case MLE4.",
+        "Dua peringatan produksi. Pertama, evaluasi: di imbalance ekstrem, ROC-AUC menipu (didominasi true negative yang melimpah) — pakai PR-AUC, dan untuk ranking pakai precision@k / recall@k seperti di lab two-tower lesson ini. Laporkan metrik PER KELAS, bukan satu angka global. Kedua, kalibrasi: resampling mengubah distribusi kelas yang dilihat model, sehingga skornya bergeser — bila skor dipakai untuk keputusan bernilai uang (pricing, threshold biaya), kalibrasi ulang (MLE4: Platt/isotonic) setelah resampling. Model yang di-resample tanpa kalibrasi ulang = ranking benar, harga salah.",
+        "Penempatan materi: dasar-dasar imbalance (sampling, metrik) juga dibahas di Foundation A37 di luar track ini; yang diajarkan di sini adalah versi ME-nya — imbalance di dalam pipeline produksi ranking dan rekomendasi, dengan biaya kesalahan sebagai penentunya, dan kaitannya ke kalibrasi serta threshold dari MLE4. Konteks kredit dan fraud yang memakai cost-sensitive (skor kredit, deteksi fraud) dibahas di track kredit dan fraud; polanya sama, angkanya berbeda.",
+      ],
+      formula: String.raw`w_{pos} = \frac{N_{neg}}{N_{pos}} \qquad \text{biaya} = FN \times c_{FN} + FP \times c_{FP}`,
+      formulaNote: "w_pos = bobot kelas positif saat training (jumlah negatif dibagi jumlah positif); biaya = total biaya kesalahan per batch impresi; FN/FP = jumlah false negative/positive; c_FN/c_FP = biaya per kesalahan (ilustratif di lab: Rp5.000 per klik hilang, Rp200 per impresi tidak relevan). Contoh lab: w_pos = 9.850/150 = 65,67; biaya threshold 0,5 = Rp380.000; threshold 0,3 = Rp330.000.",
+      tasks: [
+        { id: "t1", text: "Hitung `w_pos` = bobot kelas positif (n_neg / n_pos)" },
+        { id: "t2", text: "Hitung `cost_a` (threshold 0,5) dan `cost_b` (threshold 0,3) dalam rupiah" },
+        { id: "t3", text: "Tentukan `pilihan` ('A' atau 'B') yang biayanya paling rendah, cetak semuanya" },
+      ],
+      expected: "w_pos=65.67  cost_a=Rp380.000  cost_b=Rp330.000  pilihan=B",
+      note: {
+        title: "🚨 Mitos: 'imbalanced = oversampling sampai 50:50'",
+        type: "pitfall",
+        body: "Yang benar: 50:50 adalah titik awal, bukan jawaban. Oversampling buta merusak kalibrasi dan bisa bocor ke test set bila dilakukan sebelum split. Jawaban yang benar dihitung dari biaya kesalahan: threshold dan bobot mengikuti rupiah, bukan rasio yang terlihat rapi.",
+      },
+      hints: [
+        "w_pos = n_neg / n_pos = 9850 / 150.",
+        "cost = FN * 5000 + FP * 200. Threshold A: FN 60, FP 400. Threshold B: FN 30, FP 900.",
+        "pilihan = 'A' jika cost_a lebih kecil, else 'B'.",
+      ],
+      code: {
+        starter: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+n, klik = 10_000, 150
+n_neg = n - klik
+C_FN, C_FP = 5_000, 200   # Rp per kesalahan (ilustratif)
+# Threshold A (0,5): TP 90, FP 400, FN 60
+# Threshold B (0,3): TP 120, FP 900, FN 30
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: bobot kelas + biaya tiap threshold
+w_pos = 
+cost_a = 
+cost_b = 
+pilihan = 
+
+print(f"w_pos={w_pos:.2f}  cost_a=Rp{cost_a:,}  cost_b=Rp{cost_b:,}  pilihan={pilihan}".replace(",", "."))`,
+        lockLines: 6,
+        solution: `# === SEED TERKUNCI: jangan ubah blok berikut ===
+n, klik = 10_000, 150
+n_neg = n - klik
+C_FN, C_FP = 5_000, 200   # Rp per kesalahan (ilustratif)
+# Threshold A (0,5): TP 90, FP 400, FN 60
+# Threshold B (0,3): TP 120, FP 900, FN 30
+# === AKHIR BLOK TERKUNCI ===
+
+# TULIS KODEMU: bobot kelas + biaya tiap threshold
+w_pos = n_neg / klik
+cost_a = 60 * C_FN + 400 * C_FP
+cost_b = 30 * C_FN + 900 * C_FP
+pilihan = "A" if cost_a < cost_b else "B"
+
+print(f"w_pos={w_pos:.2f}  cost_a=Rp{cost_a:,}  cost_b=Rp{cost_b:,}  pilihan={pilihan}".replace(",", "."))`,
+        checks: [
+          {
+            "kind": "equal",
+            "task": "t1",
+            "label": "`w_pos` ≈ 65.67",
+            "name": "w_pos",
+            "value": 65.66666666666667,
+            "tol": 0.01,
+            "msg": "9850/150 = 65,67 — satu klik 'dihitung' 65,67 kali lebih berat.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`cost_a` = Rp380.000",
+            "name": "cost_a",
+            "value": 380000,
+            "tol": 1,
+            "msg": "60 x Rp5.000 + 400 x Rp200 = Rp380.000.",
+          },
+          {
+            "kind": "equal",
+            "task": "t2",
+            "label": "`cost_b` = Rp330.000",
+            "name": "cost_b",
+            "value": 330000,
+            "tol": 1,
+            "msg": "30 x Rp5.000 + 900 x Rp200 = Rp330.000.",
+          },
+          {
+            "kind": "stdout_matches",
+            "task": "t3",
+            "label": "`print` memilih B",
+            "pattern": "pilihan=B",
+            "msg": "Threshold rendah lebih murah Rp50.000 meski precision lebih rendah.",
+          },
+        ],
+      },
+      reference: "Imbalance = kondisi default ranking. Obatnya: ubah data, ubah loss (class_weight), atau ubah threshold dari biaya. Evaluasi dengan PR-AUC / precision@k, kalibrasi ulang setelah resampling.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -314,6 +414,8 @@ print("memori fp32 =", round(mem_fp32, 2), "KB -> int8 =", round(mem_int8, 2), "
         "ANN menukar sedikit recall (terukur) dengan latensi dan memori jauh lebih kecil.",
         "Produksi = retrieval (cepat, ratusan kandidat) + ranking (presisi, puluhan final).",
         "Objective dulu, model kemudian: CTR naik bisa berarti produk rusak.",
+        "Imbalanced adalah kondisi default ranking: kelas langka (klik, fraud) adalah kelas yang penting.",
+        "Cost-sensitive: threshold dan bobot mengikuti biaya kesalahan (w_pos = N_neg / N_pos), bukan rasio 50:50.",
       ],
       next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
       quiz: [
@@ -360,6 +462,15 @@ print("memori fp32 =", round(mem_fp32, 2), "KB -> int8 =", round(mem_int8, 2), "
             { text: "Karena ranking tidak butuh cepat", why: "Tetap butuh cepat — hanya skalanya 1.000x lebih kecil.", correct: false },
             { text: "Karena retrieval tidak pakai ML", why: "Retrieval juga ML (two-tower) — beda budget komputasi, bukan beda teknologi.", correct: false },
             { text: "Fitur mahal hanya untuk laporan", why: "Fitur mahal justru paling berpengaruh di tahap akhir penyusunan.", correct: false },
+          ],
+        },
+        {
+          q: "10.000 impresi, 150 klik (ilustratif). Threshold A: FN 60, FP 400. Threshold B: FN 30, FP 900. Biaya FN Rp5.000, FP Rp200. Mana yang dipilih dan kenapa?",
+          options: [
+            { text: "B — biaya Rp330.000 vs Rp380.000, meski precision lebih rendah", why: "Tepat: 30×5.000+900×200=330.000, lebih kecil dari 60×5.000+400×200=380.000. Cost mengalahkan estetika precision.", correct: true },
+            { text: "A — precision 0,184 lebih tinggi dari B 0,118", why: "Precision lebih tinggi tetapi total biaya lebih besar Rp50.000 — metrik yang salah jadi kompas." },
+            { text: "A — karena threshold 0,5 adalah default yang benar", why: "0,5 bukan default yang benar; threshold adalah fungsi biaya, bukan angka cantik." },
+            { text: "Tidak ada — akurasi keduanya di atas 90 persen, jadi sama saja", why: "Akurasi di atas 90 persen di sini menipu: model 'tidak ada yang klik' pun 98,5 persen. Akurasi buta terhadap kelas langka." },
           ],
         },
       ],

@@ -29,7 +29,7 @@ export const aai11: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Operasi & Evaluasi",
   title: "AAI11 — Debugging Agen: Tracing & Observability",
-  estMinutes: 70,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita",
@@ -294,7 +294,25 @@ print(f"hemat={hemat_persen:.2f}%")`,
         ],
       },
       reference: "Biaya = Σ token_tier × harga_tier. Ukur eskalasi & gagal per tingkat; tinjau tiap kuartal.",
+    },    {
+      id: "batching",
+      eyebrow: "Langkah 8 · Batching",
+      title: "Batching: delapan panggilan sekaligus, bukan delapan antrean",
+      prose: [
+        "Batching berarti mengumpulkan beberapa request lalu memprosesnya sekali jalan — dan ia bekerja di dua tempat. Di sisi serving, dynamic batching menggabungkan request LLM yang datang bersamaan (diajarkan mendalam di MLE27 dan LLMOps13). Di sisi agen, batching berarti menggabungkan beberapa panggilan tool yang independen menjadi satu batch, alih-alih menunggu satu demi satu.",
+        "Angka ilustratif: 8 panggilan tool read-only yang independen, masing-masing 200 ms. Serial: 8 kali 200 ms = 1.600 ms. Satu batch: 260 ms — sekitar 6,15 kali lebih cepat. Penghematannya bukan sulap: latensi jaringan dan antrean yang tadinya dibayar 8 kali kini dibayar sekali.",
+        "Dua syarat yang tidak boleh dilanggar. Pertama, independen: tidak ada panggilan yang bergantung pada hasil panggilan lain di batch yang sama — bila bergantung, itu bukan batch melainkan rantai, dan harus serial. Kedua, read-only: jangan batch tool tulis — urutan dan idempotency tool tulis (AAI3) rusak bila dieksekusi bersamaan.",
+        "Dan satu batas yang sering dilupakan: timeout batch. Jangan menunggu selamanya demi batch yang penuh — tetapkan batas tunggu (contoh: 50 ms) dan kirim apa pun yang terkumpul. Batch yang menunggu 5 detik demi menghemat 200 ms adalah optimasi yang merugikan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Membatch tool tulis yang tidak idempotent. Dua panggilan “tambah 100” yang dieksekusi bersamaan bisa menambah 200 — atau 100 dua kali dengan hasil yang sama tetapi efek yang berbeda. Batch hanya untuk yang independen dan read-only.",
+      },
+      reference: "Batching = independen + read-only + timeout. 8 x 200 ms serial = 1.600 ms; satu batch 260 ms.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -312,7 +330,7 @@ print(f"hemat={hemat_persen:.2f}%")`,
         "Debug divergensi PERTAMA, bukan ledakan terakhir.",
         "max_steps = perban; deteksi pola = obat. Replay trace untuk verifikasi perbaikan.",
       ],
-      next: { label: "AAI12 — Capstone: Agen Analisis End-to-End", href: "/learn/aai12-capstone" },
+      next: { label: "AAI12 — Capstone: SQL Analyst Agent + Server MCP", href: "/learn/aai12-capstone" },
       quiz: [
         {
           q: "State (search, \u201Claporan Q3 final\u201D) muncul di langkah 4, 5, 7, 10 dari 12 langkah. R dan keputusan?",
@@ -357,6 +375,15 @@ print(f"hemat={hemat_persen:.2f}%")`,
             { text: "Menjalankan ulang skenario dengan perbaikan tanpa membayar 47 langkah lagi", why: "Tepat. Debug iteratif murah = trace bisa di-replay.", correct: true },
             { text: "Menggantikan evaluasi", why: "Komplemen, bukan pengganti: keduanya dibutuhkan dan tidak saling menggantikan. Satu melihat pola (agregat), satu melihat sebab (forensik). Tim yang hanya punya satu = dokter dengan setengah peralatan. Pasang keduanya — biayanya kecil, lubangnya besar jika hilang.", },
             { text: "Mempercepat agen", why: "Replay untuk debug, bukan untuk produksi.", },
+          ],
+        },
+        {
+          q: "8 panggilan tool independen masing-masing 200 ms. Dijadikan satu batch 260 ms. Kesimpulan dan syaratnya?",
+          options: [
+            { text: "6,15 kali lebih cepat; syaratnya panggilan independen dan read-only", why: "Benar: 1.600 dibagi 260 = 6,15. Bila bergantung atau menulis, batching merusak kebenaran.", correct: true },
+            { text: "8 kali lebih cepat; boleh untuk tool tulis juga", why: "Salah hitung (1.600/260 = 6,15, bukan 8) dan salah syarat — tool tulis tidak boleh di-batch.", },
+            { text: "Tidak ada penghematan — batching hanya untuk LLM serving", why: "Salah: penghematan 1.340 ms itu nyata, dan batching berlaku juga di sisi agen.", },
+            { text: "Lebih lambat karena harus menunggu batch penuh", why: "Timeout batch membatasi tunggu — batch dikirim apa pun yang terkumpul saat batas tercapai.", },
           ],
         },
       ],

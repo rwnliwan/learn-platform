@@ -25,7 +25,7 @@ export const wqb27: V2Lesson = {
   track: "WorldQuant Brain",
   module: "Riset Kuantitatif",
   title: "WQB27 — Machine Learning untuk Alpha: Validasi yang Jujur",
-  estMinutes: 65,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",

@@ -28,7 +28,7 @@ export const aai4: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Arsitektur",
   title: "AAI4 — Memory: Ingatan Jangka Pendek & Panjang",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -175,7 +175,85 @@ export const aai4: V2Lesson = {
         type: "risk",
         body: "Di fraud monitoring, \u201Cprioritas Rina\u201D versi risk-nya adalah daftar watchlist. Jika ringkasan menghilangkan nama dari watchlist, transaksi mencurigakan lolos. Fakta kritis kepatuhan = slot memory permanen, bukan kandidat ringkasan.",
       },
+    },    {
+      id: "lab-recall-vektor",
+      eyebrow: "Langkah 6 · Lab recall vektor",
+      title: "Lab: recall top-2 dari memori vektor (Jaccard)",
+      prose: [
+        "Memori jangka panjang agen menyimpan 5 cuplikan. Pengguna bertanya: “berapa suku bunga BI sekarang”. Tugasmu: hitung skor Jaccard (irisan dibagi gabungan kata) tiap cuplikan terhadap query, lalu tentukan top-2 yang akan dimuat ke konteks.",
+        "Perhatikan: cuplikan s1 berbagi 3 kata dengan query (“suku”, “bunga”, “BI”) dari gabungan 7 kata — skor 0,429. Cuplikan s5 berbagi 2 kata dari gabungan 8 — skor 0,25. Tiga cuplikan lain berbagi 0 kata — recall yang buruk bukan karena memorinya kosong, melainkan karena query dan cuplikan tidak berbagi kosakata.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `jaccard(a, b)` dan hitung skor tiap cuplikan" },
+        { id: "t2", text: "Tentukan `top1` dan `top2` beserta skornya, lalu cetak" },
+      ],
+      expected: "top1=s1 skor=0.429\ntop2=s5 skor=0.250",
+      note: {
+        title: "💡 Intuisi",
+        body: "Recall memori vektor bukan soal “apakah jawabannya tersimpan”, melainkan “apakah query dan simpanan berbagi kosakata”. Agen yang bertanya dengan kata yang berbeda dari kata saat menyimpan tidak akan menemukan apa pun — itulah kenapa ringkasan (AAI4) ditulis dengan kata-kata yang akan dipakai saat recall.",
+      },
+      hints: [
+        "Jaccard = len(irisan) / len(gabungan).",
+        "Normalisasi: lowercase + split spasi.",
+        "Urutkan menurun berdasarkan skor; seri dipecah oleh urutan cuplikan.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+CUPLIKAN = {
+    "s1": "suku bunga BI 6,25 persen",
+    "s2": "IHSG 7412 naik 0,8 persen",
+    "s3": "cadangan devisa turun 2 miliar dolar",
+    "s4": "kurs USD IDR 16050",
+    "s5": "suku bunga acuan bank sentral",
+}
+QUERY = "berapa suku bunga BI sekarang"
+
+# TULIS KODEMU
+def jaccard(a, b):
+    ...
+
+skor = {}
+for cid, teks in CUPLIKAN.items():
+    ...
+
+peringkat = sorted(skor, key=skor.get, reverse=True)
+top1, top2 = peringkat[0], peringkat[1]
+print(f"top1={top1} skor={skor[top1]:.3f}")
+print(f"top2={top2} skor={skor[top2]:.3f}")`,
+        lockLines: 11,
+        solution: `# DATA — jangan diubah
+CUPLIKAN = {
+    "s1": "suku bunga BI 6,25 persen",
+    "s2": "IHSG 7412 naik 0,8 persen",
+    "s3": "cadangan devisa turun 2 miliar dolar",
+    "s4": "kurs USD IDR 16050",
+    "s5": "suku bunga acuan bank sentral",
+}
+QUERY = "berapa suku bunga BI sekarang"
+
+# TULIS KODEMU
+def jaccard(a, b):
+    sa, sb = set(a.lower().split()), set(b.lower().split())
+    return len(sa & sb) / len(sa | sb)
+
+skor = {}
+for cid, teks in CUPLIKAN.items():
+    skor[cid] = jaccard(QUERY, teks)
+
+peringkat = sorted(skor, key=skor.get, reverse=True)
+top1, top2 = peringkat[0], peringkat[1]
+print(f"top1={top1} skor={skor[top1]:.3f}")
+print(f"top2={top2} skor={skor[top2]:.3f}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "jaccard", label: "`jaccard` terdefinisi", msg: "Definisikan jaccard(a, b) = irisan / gabungan." },
+          { kind: "equal", task: "t1", name: "skor", value: {"s1": 0.429, "s2": 0.0, "s3": 0.0, "s4": 0.0, "s5": 0.25}, label: "skor tiap cuplikan benar", msg: "s1: 3/7 = 0,429; s5: 2/8 = 0,25; sisanya 0." },
+          { kind: "equal", task: "t2", name: "top1", value: "s1", label: "`top1` = s1", msg: "Skor tertinggi 0,375." },
+          { kind: "stdout_matches", task: "t2", pattern: "top1=s1 skor=0\\.429\\ntop2=s5 skor=0\\.250", label: "output dua baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Jaccard = irisan / gabungan kata. Recall gagal bila query dan simpanan tak berbagi kosakata.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -237,6 +315,24 @@ export const aai4: V2Lesson = {
             { text: "Harga pasar / kurs / status terkini", why: "Tepat. Fakta cepat basi: yang kemarin lebih benar daripada yang mirip tetapi sebulan lalu.", correct: true },
             { text: "Aturan kepatuhan perusahaan", why: "Aturan stabil — kemiripan lebih penting dari kebaruan.", },
             { text: "Definisi istilah teknis", why: "Definisi tidak basi — α tinggi.", },
+          ],
+        },
+        {
+          q: "Query “berapa suku bunga BI sekarang” vs cuplikan “suku bunga BI 6,25 persen”. Skor Jaccard-nya?",
+          options: [
+            { text: "0,429 — irisan 3 kata dibagi gabungan 7 kata", why: "Benar: irisan {suku, bunga, BI} = 3; gabungan 5 + 5 − 3 = 7; 3/7 = 0,429.", correct: true },
+            { text: "0,6 — 3 dari 5 kata query", why: "Itu recall sepihak, bukan Jaccard — penyebutnya gabungan, bukan query saja.", },
+            { text: "0,5 — 3 dari 6 kata cuplikan", why: "Itu juga sepihak — Jaccard memakai gabungan kedua himpunan.", },
+            { text: "1,0 — semua kata query ada di cuplikan", why: "Salah: “berapa” dan “sekarang” tidak ada di cuplikan.", },
+          ],
+        },
+        {
+          q: "Kenapa ringkasan memori harus ditulis dengan kata-kata yang akan dipakai saat recall?",
+          options: [
+            { text: "Agar ringkasannya pendek", why: "Panjang bukan intinya — kecocokan kosakata yang menentukan recall.", },
+            { text: "Karena recall berbasis kesamaan kata: ringkasan dengan kosakata berbeda tidak akan ditemukan query", why: "Benar: recall gagal bukan karena memorinya kosong, melainkan karena query dan simpanan tidak berbagi kosakata.", correct: true },
+            { text: "Agar model lebih cepat membaca", why: "Kecepatan bukan soal ini — keteremuan yang dipertaruhkan.", },
+            { text: "Tidak perlu — embedding memahami semua sinonim", why: "Embedding membantu, tetapi tidak sempurna — kosakata yang sama tetap jauh lebih mudah ditemukan.", },
           ],
         },
       ],

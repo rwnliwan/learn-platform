@@ -63,7 +63,7 @@ export const biz20: V2Lesson = {
   track: "Business Intelligence",
   module: "Operasi & Governance",
   title: "Semantic Layer: Satu Definisi Metrik untuk Semua Tool",
-  estMinutes: 50,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -281,6 +281,35 @@ print("API NPL rate:", npl_api)`,
       reference: "Urutkan standardisasi: jumlah versi × dampak keputusan. Adopsi dipaksa elegan via dashboard direksi.",
     },
     {
+      id: "time-intelligence",
+      eyebrow: "Tambahan · BZ7",
+      title: "Time intelligence: YTD, MTD, dan 'dibanding kapan?'",
+      prose: [
+        "Time intelligence adalah keluarga perhitungan yang menjawab pertanyaan waktu: berapa penjualan TAHUN INI SAMPAI HARI INI (YTD — year-to-date), berapa bulan ini saja (MTD — month-to-date), dan bagaimana dibanding periode yang sama tahun lalu? Tanpa time intelligence, dashboard hanya bisa berkata 'penjualan Juni 145' — dengan time intelligence, ia bisa berkata 'penjualan Juni 145; YTD 810; naik 6,6 persen dari YTD Juni tahun lalu'. Kalimat kedua adalah kalimat keputusan; kalimat pertama hanya angka.",
+        "Contoh ilustratif (Rp miliar, pendapatan bulanan Jan–Jun): 120, 130, 125, 140, 150, 145. MTD Juni = 145 (bulan berjalan saja). YTD Juni = 120 + 130 + 125 + 140 + 150 + 145 = 810 (akumulasi sejak Januari). YTD Juni tahun lalu = 760. Pertumbuhan YTD = (810 − 760) dibagi 760 = 6,6 persen. Perhatikan: YTD Juni (810) TIDAK BOLEH dibandingkan dengan total tahun lalu (misalnya 1.500) — itu membandingkan 6 bulan dengan 12 bulan. Bandingkan YTD dengan YTD: periode yang sama, panjang yang sama.",
+        "Di semantic layer (lesson ini), time intelligence DIDEFINISIKAN SEKALI sebagai metrik — bukan dihitung ulang tiap dashboard. Di DAX (lihat BI15), fungsinya bernama TOTALYTD, TOTALMTD, dan SAMEPERIODLASTYEAR; di dbt Semantic Layer dan LookML, konsepnya sama dengan nama berbeda: metrik 'pendapatan_ytd' dengan dimensi waktu. Intinya satu: definisi 'tahun berjalan' hidup di SATU tempat, sehingga dashboard penjualan dan dashboard keuangan tidak pernah berbeda soal berapa YTD Juni.",
+        "Tiga jebakan. Satu: tahun fiskal vs tahun kalender — bila tahun fiskal dimulai April, YTD April bukan YTD Januari; definisikan di layer, bukan di kepala tiap analis. Dua: periode tidak lengkap — YTD bulan berjalan memakai data sampai tanggal terakhir yang ADA, dan itu harus ditulis di dashboard ('data s.d. 28 Juni'). Tiga: membandingkan YTD dengan total tahun penuh — kesalahan paling umum, dan paling memalukan karena angkanya selalu terlihat 'turun'.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“YTD Juni 810, tahun lalu total 1.500 — kita turun hampir separuh!” Salah: YTD 6 bulan tidak boleh dibandingkan dengan total 12 bulan. Bandingkan YTD dengan YTD (760) — hasilnya NAIK 6,6 persen. Kesalahan ini membalik vonis dari naik menjadi turun.",
+      },
+      quiz: [
+        {
+          q: "Pendapatan Jan–Jun (ilustratif, Rp miliar): 120, 130, 125, 140, 150, 145. YTD Juni dan pertumbuhan vs YTD tahun lalu 760?",
+          options: [
+            { text: "YTD 145; naik 6,6%", why: "Salah: 145 adalah MTD Juni, bukan YTD." },
+            { text: "YTD 810; naik 6,6% dari 760", why: "Benar: 120+130+125+140+150+145 = 810; (810−760)/760 = 6,6%.", correct: true },
+            { text: "YTD 810; turun dari total tahun lalu 1.500", why: "Salah: YTD 6 bulan tidak boleh dibandingkan dengan total 12 bulan." },
+            { text: "YTD 955; naik 25,7%", why: "Salah: hitung ulang penjumlahannya — 120+130+125+140+150+145 = 810." },
+          ],
+        },
+      ],
+      reference: "YTD = akumulasi sejak awal tahun; MTD = bulan berjalan; bandingkan YTD dengan YTD.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -289,6 +318,7 @@ print("API NPL rate:", npl_api)`,
       ],
       tasks: [],
       summary: [
+        "Time intelligence: YTD = akumulasi sejak awal tahun; bandingkan YTD dengan YTD, bukan dengan total tahun penuh.",
         "Semantic layer = lapisan definisi metrik tunggal (nama, rumus, filter) di antara data dan semua tool/AI — ditulis sekali, dibaca semua, berversion seperti kode.",
         "Tiga implementasi: dbt Semantic Layer (termurah bila sudah dbt), LookML (paling matang, terikat Looker/Google), Cube (open-source netral vendor + pre-aggregasi) — pilih mengikuti ekosistem yang ada.",
         "Metrik sebagai kode: versioned di Git, di-review via pull request, di-test otomatis (konsistensi, kewajaran, regresi definisi) — dokumen menjelaskan kenapa, kode menegakkan apa.",

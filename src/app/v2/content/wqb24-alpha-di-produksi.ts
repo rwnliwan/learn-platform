@@ -238,6 +238,25 @@ export const wqb24: V2Lesson = {
       reference: "Penjaga OS: ukur tiap bulan, vonis tanpa drama.",
     },
     {
+      id: "rekonsiliasi",
+      eyebrow: "Langkah 9 · Konsep",
+      title: "Rekonsiliasi: 7 IS checks vs 5 tes submit",
+      prose: [
+        "Track ini memberimu dua daftar gerbang: 7 IS checks di WQB11 dan 5 tes submit di langkah 3 lesson ini. Keduanya benar — tetapi keduanya bukan daftar yang sama, dan tidak pernah dijelaskan hubungannya sampai sekarang. Ini rekonsiliasinya.",
+        "Yang tumpang tindih (satu syarat, dua nama). Fitness: IS check nomor 2 (fitness 1,0 atau lebih) adalah tes submit nomor 3 — angka yang sama, diperiksa dua kali di dua momen (saat membaca hasil, dan saat menekan submit). Korelasi: IS check nomor 7 (self-correlation di bawah 0,7) adalah inti tes submit nomor 2 — tetapi tes submit lebih luas: ia juga memeriksa korelasi terhadap alpha produksi WorldQuant, bukan hanya terhadap milikmu sendiri. Sub-universe: IS check nomor 6 (Sharpe minimum segmen 1,0 atau lebih) adalah tes submit nomor 5 — syarat yang sama, ditegakkan di pintu terakhir.",
+        "Yang hanya ada di IS checks (WQB11): Sharpe 1,25 atau lebih, turnover 0,7 atau kurang, drawdown 15 persen atau kurang, dan long 40–60 persen. Keempatnya adalah penilaian kualitas HASIL simulasi — platform tidak mengulanginya sebagai tes bernama saat submit, tetapi tiga di antaranya hidup di dalam tes lain: turnover dijaga lewat rumus fitness (turnover tinggi menekan fitness), Sharpe dijaga lewat fitness dan lewat delay-1-check, drawdown dan long-short tetap menjadi bagian dari pemeriksaan hasil sebelum tombol submit ditekan.",
+        "Yang hanya ada di tes submit (lesson ini): weight test — bobot maksimum satu saham di atas 10 persen — dan delay-1-check — alpha Delay-0 yang Sharpe-nya di bawah 2,0 disarankan pindah ke Delay-1. Weight test tidak muncul di IS checks karena ia bukan soal kualitas sinyal, melainkan soal konstruksi portofolio: satu saham tidak boleh mendominasi buku. Delay-1-check tidak muncul di IS checks karena ia soal pilihan setting, bukan soal hasil.",
+        "Catatan kejujuran tentang ambang Delay-0 (W1): angka ambang Delay-0 di lesson ini (Sharpe di atas 2, fitness di atas 1,3) adalah versi yang diajarkan track ini — angka ambang di WQB3, WQB4, dan WQB11 TIDAK diubah, dan angka di sini juga TIDAK diubah. Alasannya: dokumentasi resmi WorldQuant Brain tidak mempublikasikan angka ambang Delay-0 secara terbuka — tinjauan independen (Quantt, 2026) menyatakan dokumentasi resmi hanya menyebut kriteria 'bervariasi sedikit tergantung region dan Delay', tanpa angka Delay-0. Yang terverifikasi dari banyak sumber komunitas hanyalah ambang Delay-1 (Sharpe 1,25, fitness 1,0). Ketegangan dengan WQB6 ('platform memaksakan delay 1') dijelaskan begini: default kerja track ini adalah Delay-1; Delay-0 ada sebagai setting simulasi dengan gerbang yang lebih ketat versi track — sebelum mensubmit alpha Delay-0, verifikasi gerbang yang berlaku di platform saat itu, jangan jadikan angka track ini sebagai kutipan resmi platform.",
+      ],
+      tasks: [],
+      note: {
+        title: "Cara memakai dua daftar",
+        type: "risk",
+        body: "IS checks = daftar periksa saat MEMBACA hasil (apakah kandidat ini bagus?). Tes submit = gerbang saat MENEKAN tombol (apakah kandidat ini boleh masuk?). Kandidat bisa lolos 7/7 IS checks tetapi gagal weight test — dan itu bukan kontradiksi: ia bagus sebagai sinyal, tetapi dibangun dengan konstruksi yang terlalu terkonsentrasi. Perbaiki konstruksinya (truncate/rank sizing), bukan sinyalnya.",
+      },
+      reference: "Tumpang tindih: fitness, korelasi, sub-universe. Hanya IS: Sharpe, turnover, drawdown, long. Hanya submit: weight, delay-1-check.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Refleksi masa produksi",
@@ -252,6 +271,7 @@ export const wqb24: V2Lesson = {
         "Rasio OS/IS: ≥0,7 tahan; 0,4–0,7 diagnosis; <0,4 pensiunkan — jangan kloning yang sekarat.",
         "Nasihat resmi: sempurnakan sebelum submit, tetapi ide baru berkorelasi rendah > polesan alpha sekarat.",
         "Bila semua alpha satu dataset melemah bersamaan: selidiki dataset dulu, bukan sinyalnya.",
+        "Rekonsiliasi: fitness, korelasi, sub-universe ada di kedua daftar; Sharpe/turnover/drawdown/long hanya di IS checks; weight + delay-1-check hanya di tes submit. Ambang Delay-0 (Sharpe > 2, fitness > 1,3) adalah versi track — tidak terverifikasi dari dokumen resmi; verifikasi di platform sebelum submit D0.",
       ],
       quiz: [
         {

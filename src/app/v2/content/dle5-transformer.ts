@@ -27,7 +27,7 @@ export const dle5: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Arsitektur Modern",
   title: "DLE5 — Transformer Mendalam",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita-chatbot",
@@ -180,7 +180,73 @@ export const dle5: V2Lesson = {
         ],
       },
       reference: "Memori skor = n^2 x 4 byte x head. Kuadratik = mahal.",
+    },    {
+      id: "lab-self-attention",
+      eyebrow: "Langkah 6 · Lab",
+      requires: ["numpy"],
+      title: "Lab: self-attention 3 token, tangan vs kode",
+      prose: [
+        "Tiga token, dimensi kunci 4. Q = K = matriks identitas 3×4 (tiap token unik di satu dimensi), V = [[10, 0], [0, 20], [30, 40]]. Tugasmu: hitung skor QK^T dibagi akar(d_k)=2, softmax per baris, lalu kalikan dengan V. Token pertama harus “memperhatikan” dirinya sendiri paling kuat — tetapi tidak mutlak.",
+        "Hasilnya: bobot diagonal 0,452, bobot ke token lain masing-masing 0,274. Output token pertama = [12,74, 16,44] — campuran dari ketiga nilai V, dengan bobot terbesar pada nilainya sendiri. Inilah attention: rata-rata tertimbang di mana bobotnya dipelajari dari kesamaan.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `S` = QK^T/sqrt(d_k), softmax per baris menjadi `A`" },
+        { id: "t2", text: "Hitung `O` = A@V dan cetak bobot diagonal + baris output pertama" },
+      ],
+      expected: "bobot_diag=0.452\nout_0_0=12.74\nout_0_1=16.44",
+      note: {
+        title: "💡 Intuisi",
+        body: "Softmax tidak pernah memberi bobot 0 — token selalu “sedikit memperhatikan” semua token lain. Itulah kenapa attention tidak pernah sepenuhnya fokus — dan kenapa ia tahan terhadap noise: satu token yang salah tidak bisa mendominasi sendirian.",
+      },
+      hints: [
+        "Skor = Q @ K.T / akar(d_k); softmax per baris: exp(x) / jumlah exp baris.",
+        "Output = A @ V — tiap baris adalah rata-rata tertimbang baris V.",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+import numpy as np
+
+Q = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]], float)
+K = Q.copy()
+V = np.array([[10, 0], [0, 20], [30, 40]], float)
+d_k = 4
+
+# TULIS KODEMU: skor, softmax, output
+S = ...
+E = ...
+A = ...
+O = ...
+print(f"bobot_diag={A[0, 0]:.3f}")
+print(f"out_0_0={O[0, 0]:.2f}")
+print(f"out_0_1={O[0, 1]:.2f}")`,
+        lockLines: 7,
+        solution: `# DATA — jangan diubah
+import numpy as np
+
+Q = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]], float)
+K = Q.copy()
+V = np.array([[10, 0], [0, 20], [30, 40]], float)
+d_k = 4
+
+# TULIS KODEMU: skor, softmax, output
+S = Q @ K.T / (d_k ** 0.5)
+E = np.exp(S)
+A = E / E.sum(axis=1, keepdims=True)
+O = A @ V
+A_r = [[round(float(x), 3) for x in row] for row in A]
+O_r = [[round(float(x), 2) for x in row] for row in O]
+print(f"bobot_diag={A[0, 0]:.3f}")
+print(f"out_0_0={O[0, 0]:.2f}")
+print(f"out_0_1={O[0, 1]:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "A_r", value: [[0.452, 0.274, 0.274], [0.274, 0.452, 0.274], [0.274, 0.274, 0.452]], label: "matriks bobot A benar", msg: "Diagonal exp(0,5)/jumlah = 0,452; lainnya 1/jumlah = 0,274." },
+          { kind: "equal", task: "t2", name: "O_r", value: [[12.74, 16.44], [10.96, 20.0], [16.3, 23.56]], label: "matriks output O benar", msg: "Baris pertama: 0,452x[10,0] + 0,274x[0,20] + 0,274x[30,40]." },
+          { kind: "stdout_matches", task: "t2", pattern: "bobot_diag=0\\.452\\nout_0_0=12\\.74\\nout_0_1=16\\.44", label: "output tiga baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Attention = softmax(QK^T/akar(d)) @ V. Bobot tidak pernah 0 — selalu ada sedikit perhatian ke semua token.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -245,6 +311,24 @@ export const dle5: V2Lesson = {
             { text: "≈ 805 MB", why: "67,11 × 12 = 805,32 MB — satu lapisan, satu sampel.", correct: true },
             { text: "≈ 16 MB", why: "Terlalu kecil; 4.096² skor × 4 byte saja sudah 67 MB per head." },
             { text: "Tidak bisa dihitung", why: "Justru wajib dihitung: n² × 4 byte × head." },
+          ],
+        },
+        {
+          q: "Q=K=identitas 3×4, d_k=4. Bobot attention token pertama ke dirinya sendiri?",
+          options: [
+            { text: "0,452 — exp(0,5) dibagi (exp(0,5)+1+1)", why: "Benar: skor diagonal 0,5, lainnya 0; softmax = 1,649/3,649 = 0,452.", correct: true },
+            { text: "1,0 — token hanya memperhatikan dirinya", why: "Salah: softmax tidak pernah memberi 0 ke token lain — bobotnya 0,274 masing-masing.", },
+            { text: "0,333 — rata-rata sama ke semua token", why: "Salah: skor diagonal lebih tinggi (0,5 vs 0) sehingga bobotnya lebih besar.", },
+            { text: "0,5 — setengah", why: "Salah: hitung softmax-nya — 1,649/3,649 = 0,452, bukan 0,5.", },
+          ],
+        },
+        {
+          q: "Output attention token pertama [12,74, 16,44] berasal dari mana?",
+          options: [
+            { text: "Dari V baris pertama saja", why: "Salah: itu baru terjadi bila bobot diagonal 1,0 — nyatanya 0,452.", },
+            { text: "Rata-rata tertimbang ketiga baris V dengan bobot [0,452, 0,274, 0,274]", why: "Benar: 0,452x[10,0] + 0,274x[0,20] + 0,274x[30,40] = [12,74, 16,44].", correct: true },
+            { text: "Dari Q dikali K", why: "QK^T memberi skor, bukan output — output adalah A@V.", },
+            { text: "Dari softmax saja tanpa V", why: "Salah: softmax memberi bobot; V memberi isi yang dirata-rata.", },
           ],
         },
       ],

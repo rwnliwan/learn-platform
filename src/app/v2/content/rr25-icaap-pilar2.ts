@@ -28,7 +28,7 @@ export const rr25: V2Lesson = {
   track: "Risk Reporting",
   module: "Pilar 2 & ICAAP",
   title: "RR25 — ICAAP: Bank Menilai Sendiri Kecukupan Modalnya (Pilar 2)",
-  estMinutes: 53,
+  estMinutes: 58,
   steps: [
     {
       id: "cerita",
@@ -234,6 +234,35 @@ export const rr25: V2Lesson = {
       reference: "Bingkai ICAAP mengubah 'aman' menjadi 'defisit 2,2 poin' \u2014 keputusan berubah.",
     },
     {
+      id: "ilaap",
+      eyebrow: "Tambahan · RP4",
+      title: "ILAAP: saudara likuiditas ICAAP",
+      prose: [
+        "ICAAP (lesson ini) menjawab: apakah modal kita cukup untuk semua risiko? ILAAP — Internal Liquidity Adequacy Assessment Process — menjawab pertanyaan kembarannya: apakah LIKUIDITAS kita cukup untuk semua skenario? Bank bisa bermodal tebal tetapi mati karena tidak punya kas saat dibutuhkan — modal tidak bisa membayar penarikan dana hari ini. Karena itu regulator memandang keduanya berpasangan: ICAAP untuk solvabilitas, ILAAP untuk likuiditas.",
+        "Lima komponen ILAAP yang sehat, cerminan ICAAP. Satu: strategi dan kebijakan likuiditas yang disetujui dewan — berapa buffer yang harus selalu tersedia, dan dalam bentuk apa. Dua: pengukuran — proyeksi arus kas masuk dan keluar per tenor (harian, mingguan, bulanan), termasuk arus keluar darurat seperti penarikan dana besar. Tiga: buffer HQLA (high-quality liquid assets) — aset yang bisa dijual cepat tanpa kerugian besar saat krisis; LCR dan NSFR (lihat RR20) adalah ukuran regulasi atas kecukupan ini. Empat: stress testing likuiditas — skenario penarikan dana massal, pasar pendanaan menutup, dan kombinasi keduanya; hasilnya menentukan seberapa besar buffer yang harus dipegang. Lima: contingency funding plan (CFP) — rencana darurat tertulis: siapa yang dihubungi, aset apa yang dijual dulu, dan siapa yang memutuskan.",
+        "Hubungan dengan ICAAP: keduanya memakai mesin yang sama (identifikasi risiko → pengukuran → stress test → rencana) tetapi pada 'bahan bakar' yang berbeda — modal vs kas. Laporan yang baik menyajikan keduanya berdampingan di komite: 'modal cukup dengan headroom sekian, likuiditas cukup dengan buffer sekian hari'. Bank yang hanya melaporkan satu sisi sedang menceritakan setengah cerita ketahanannya.",
+        "Contoh ilustratif: bank dengan buffer HQLA yang menutup 30 hari arus keluar bersih dalam skenario stres — tetapi CFP-nya tidak pernah diuji — lolos di angka, gagal di kesiapan. ILAAP yang jujur menguji RENCANANYA, bukan hanya rasionya: pernahkah tim benar-benar mensimulasikan penjualan aset darurat dalam sehari? Bila belum, buffer itu angka di atas kertas.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Krisis likuiditas membunuh lebih cepat daripada krisis solvabilitas: modal yang menipis memberi waktu berbulan-bulan, kas yang habis memberi waktu berjam-jam. ILAAP adalah pengakuan bahwa 'cukup modal' tidak sama dengan 'cukup kas'.",
+      },
+      quiz: [
+        {
+          q: "ILAAP menilai kecukupan apa, sebagai pasangan ICAAP?",
+          options: [
+            { text: "Kecukupan modal terhadap risiko kredit", why: "Salah: itu ICAAP (Pilar 2, lesson ini)." },
+            { text: "Kecukupan likuiditas — kas dan buffer HQLA untuk semua skenario, termasuk stres", why: "Benar: ILAAP = ICAAP-nya likuiditas; stress test + contingency funding plan adalah intinya.", correct: true },
+            { text: "Kecukupan jumlah karyawan divisi risiko", why: "Salah: itu urusan organisasi, bukan ILAAP." },
+            { text: "Kecukupan laba untuk membayar dividen", why: "Salah: laba dan dividen masuk perencanaan modal (ICAAP), bukan likuiditas." },
+          ],
+        },
+      ],
+      reference: "ICAAP = cukup modal. ILAAP = cukup kas. Keduanya: ukur → stres → rencana.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -241,6 +270,7 @@ export const rr25: V2Lesson = {
         "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah. Target: skor \u2265 4 dari 5.",
       ],
       summary: [
+        "ILAAP = pasangan likuiditas ICAAP: strategi + buffer HQLA + stres likuiditas + contingency funding plan.",
         "Pilar 2 = Supervisory Review Process: bank menilai sendiri via ICAAP, OJK mengkaji via SREP \u2014 dasar hukum capital add-on ada di prinsip 3 & 4 Basel.",
         "ICAAP mengisi lubang Pilar 1: risiko konsentrasi, IRRBB, likuiditas, reputasi, strategik \u2014 dihitung dari profil risiko bank itu sendiri, bukan rumus generik.",
         "Enam komponen ICAAP sehat: oversight dewan, assessment & planning, identifikasi risiko menyeluruh, stress testing, monitoring & reporting, internal control review.",

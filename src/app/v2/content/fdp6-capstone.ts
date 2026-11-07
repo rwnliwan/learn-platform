@@ -91,7 +91,7 @@ export const fdp6: V2Lesson = {
       eyebrow: "Langkah 4 · Lab",
       title: "Lab: mini-gerbang rekonsiliasi",
       prose: [
-        "Sebelum menjalankan gerbang sungguhan di Colab, bangun versi mininya di sini. Kamu mengimplementasikan dua fungsi: `rekonsiliasi()` (C1: bandingkan eksak, kembalikan yang gagal) dan `cek_satuan()` (C5: deteksi rasio kelipatan 1000 yang bersih).",
+        "Sebelum menjalankan gerbang sungguhan di Colab, bangun versi mininya di sini. Kamu mengimplementasikan dua fungsi: `rekonsiliasi()` (C1: bandingkan eksak, kembalikan yang gagal) dan `cek_satuan()` (C5: deteksi rasio kelipatan 1000 yang bersih). Gerbang sungguhannya sudah disiapkan sebagai notebook: fdp6-capstone.ipynb di folder fdp-tooling/notebooks — buka file itu di Colab, bukan notebook kosong.",
         "Data uji: benchmark 2 angka KLBF; SCRIPT_OK (benar) harus menghasilkan dict kosong; SCRIPT_TRAP (revenue dalam juta tapi dideklarasikan Rp) harus menghasilkan pesan yang menyebut 'satuan'.",
         "Instruksi eksplorasi: setelah lolos, ubah SCRIPT_TRAP agar revenue-nya 32627776108026 + 1 (selisih Rp1). Apa kata gerbang? Apakah ia menyebut 'satuan'? Seharusnya tidak — selisih Rp1 bukan pola satuan.",
         "Interpretasi: gerbang yang baik tidak hanya bilang 'salah' — ia bilang 'salahnya seperti apa'. Itulah beda C1 dan C5.",
@@ -186,7 +186,9 @@ export const fdp6: V2Lesson = {
         "Diagnosis GAGAL: satuan → definisi → restatement → provenance → periode/concept.",
         "Jangan pernah memaksa angka agar lolos; LULUS + catatan keterbatasan = integritas.",
         "Deliverable: pipeline.py + dataset_kanonis.csv + laporan_rekonsiliasi.md berstatus LULUS.",
+        "Notebook siap-pakai untuk capstone ini: fdp6-capstone.ipynb di folder fdp-tooling/notebooks — jalankan gerbang reconcile.py dari sana, bukan dari notebook kosong.",
       ],
+      next: { label: "FDP7 — Penyimpanan: Di Mana Tabel Kanonis Tinggal", href: "/v2/learn/fdp7-penyimpanan" },
       quiz: [
         {
           q: "Pipeline-mu jalan tanpa error tapi reconcile.py GAGAL di C1. Artinya…",
@@ -227,7 +229,7 @@ export const fdp6: V2Lesson = {
         {
           q: "Apa definisi 'selesai' untuk track Financial Data Pipeline?",
           options: [
-            { text: "Semua 6 lesson dibaca sampai akhir", why: "Membaca bukan membuktikan. Track ini tentang bukti, bukan kehadiran." },
+            { text: "Semua 9 lesson dibaca sampai akhir", why: "Membaca bukan membuktikan. Track ini tentang bukti, bukan kehadiran." },
             { text: "pipeline.py + dataset_kanonis.csv + laporan_rekonsiliasi.md berstatus LULUS", why: "Tepat: tiga deliverable dengan gerbang LULUS — bukti kerja, bukan klaim.", correct: true },
             { text: "Notebook Colab dieksekusi tanpa error", why: "Tanpa error ≠ benar. Gerbang rekonsiliasilah yang menyatakan benar." },
             { text: "16 rasio berhasil dihitung untuk 3 emiten", why: "Menghitung tanpa verifikasi = Sinta jilid dua: 160 angka tanpa bukti." },

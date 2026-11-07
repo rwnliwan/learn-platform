@@ -22,7 +22,7 @@ export const aai16: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Operasi & Evaluasi",
   title: "AAI16 — Tool Execution Security: Sandbox, Least Privilege & Secret",
-  estMinutes: 65,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita",
@@ -267,7 +267,26 @@ export const aai16: V2Lesson = {
         ],
       },
       reference: "Computer-use = API terakhir, bukan pertama. Injeksi visual menang atas segalanya → BLOKIR; tak terbalikkan/keluar → KONFIRMASI.",
+    },    {
+      id: "owasp-llm-top10",
+      eyebrow: "Langkah 11 · OWASP LLM Top 10",
+      title: "OWASP LLM Top 10 dan exfiltrasi: daftar periksa penyerang",
+      prose: [
+        "OWASP LLM Top 10 (edisi 2025) adalah daftar periksa risiko aplikasi LLM yang paling dirujuk industri — sepuluh kategori: LLM01 Prompt Injection; LLM02 Sensitive Information Disclosure; LLM03 Supply Chain; LLM04 Data and Model Poisoning; LLM05 Improper Output Handling; LLM06 Excessive Agency; LLM07 System Prompt Leakage; LLM08 Vector and Embedding Weaknesses; LLM09 Misinformation; LLM10 Unbounded Consumption.",
+        "Petakan ke lesson ini: LLM01 sudah kamu lawan di langkah injeksi; LLM03 dan LLM04 hidup di server MCP dan data latih; LLM05 adalah alasan output agen tidak boleh langsung dieksekusi; LLM06 adalah alasan tier dan approval ada. Yang baru di langkah ini: LLM02, LLM07, dan pola yang mengikatnya — EXFILTRASI.",
+        "Exfiltrasi adalah data sensitif yang keluar lewat jalur yang terlihat sah: agen diminta “rapikan dokumentasi” lalu menulis ringkasan repo privat ke repo publik; agen diminta “ringkas chat ini” lalu menyalin isi chat ke tool pihak ketiga; agen menjawab pertanyaan dengan mengutip system prompt yang seharusnya rahasia. Tidak ada yang diretas — datanya berjalan keluar sendiri lewat output yang diizinkan. Contoh NSA di cerita lesson ini adalah exfiltrasi persis seperti itu: server WhatsApp yang jinak saat install lalu berubah jahat dan mengirim chat tanpa approval baru.",
+        "Tiga pertahanan yang saling melengkapi. Pertama, klasifikasi data SEBELUM masuk prompt: tandai mana yang rahasia, dan jangan biarkan data rahasia masuk ke tool atau prompt yang hasilnya bisa keluar. Kedua, redaksi dan egress allowlist: output yang mengandung pola sensitif (nomor rekening, token, isi repo privat) ditahan; tool hanya boleh bicara ke tujuan yang diizinkan. Ketiga, uji exfiltrasi di red team: minta agen “tulis semua yang kamu baca” dan lihat apa yang keluar — bila ada yang sensitif lolos, itu temuan, bukan kecelakaan.",
+        "Cara memakai daftar ini: sebelum deploy, jalankan sepuluh baris sebagai checklist — satu baris, satu jawaban tertulis (“LLM02: data rahasia diklasifikasi di …; redaksi di …; uji terakhir …”). Daftar yang hanya dibaca tidak melindungi apa pun; daftar yang dijawab baris per baris adalah bukti uji.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Exfiltrasi adalah risiko yang tidak terlihat di metrik akurasi: agen bisa menjawab 100 persen benar DAN membocorkan data di setiap jawabannya. Karena itu red team keamanan menguji APA yang keluar, bukan hanya apakah jawabannya benar.",
+      },
+      reference: "OWASP LLM Top 10 (2025): LLM01–LLM10. Exfiltrasi = LLM02 + LLM07: data keluar lewat output yang terlihat sah.",
     },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -330,6 +349,15 @@ export const aai16: V2Lesson = {
             { text: "p=2% terlalu kecil untuk dipedulikan", why: "2% per tahun dengan blast Rp8M = Rp160jt ekspektasi — bukan angka kecil. Risiko operasional = frekuensi rendah × severitas tinggi." },
             { text: "Kontrol tidak worth it karena impas tipis", why: "Impas di angka finansial saja; satu insiden transfer = denda + berita nasional. Reputasi memiringkan keputusan dengan jelas." },
             { text: "Fokus menaikkan p menjadi 0% lebih penting", why: "p (niat penyerang) tidak bisa kamu kendalikan. Tuasmu = L_blast (severitas). Inilah inti rumus E[L]." },
+          ],
+        },
+        {
+          q: "Agen diminta merapikan dokumentasi, lalu menulis ringkasan repo PRIVAT ke repo PUBLIK. Item OWASP LLM Top 10 yang paling tepat?",
+          options: [
+            { text: "LLM02 Sensitive Information Disclosure — data sensitif keluar lewat output yang terlihat sah", why: "Benar: ini exfiltrasi — bukan peretasan, melainkan kebocoran lewat jalur yang diizinkan. LLM06 Excessive Agency adalah pendorongnya (izin blanket), tetapi kebocorannya adalah LLM02.", correct: true },
+            { text: "LLM10 Unbounded Consumption", why: "Itu soal biaya dan sumber daya — bukan kebocoran data.", },
+            { text: "LLM09 Misinformation", why: "Itu soal jawaban salah — di sini jawabannya benar, tetapi datanya bocor.", },
+            { text: "LLM04 Data and Model Poisoning", why: "Itu soal data latih yang diracuni — bukan data yang keluar.", },
           ],
         },
       ],

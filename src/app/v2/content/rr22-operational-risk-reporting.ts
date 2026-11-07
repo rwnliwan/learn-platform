@@ -29,7 +29,7 @@ export const rr22: V2Lesson = {
   track: "Risk Reporting",
   module: "Pelaporan Risiko Operasional",
   title: "RR22 — Operational Risk Reporting: Dari Loss Data ke KRI",
-  estMinutes: 55,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -224,6 +224,35 @@ export const rr22: V2Lesson = {
       reference: "90 hari: taksonomi + 10 KRI + RCSA mini. Mulai berjalan.",
     },
     {
+      id: "risk-register",
+      eyebrow: "Tambahan · RP2",
+      title: "Risk register: satu baris per risiko, satu pemilik per baris",
+      prose: [
+        "Risk register adalah daftar hidup seluruh risiko operasional bank: tiap risiko menempati SATU baris, dan tiap baris menjawab tujuh pertanyaan — apa risikonya, apa penyebabnya, apa dampaknya bila terjadi, kontrol apa yang sudah ada, berapa risiko RESIDUAL-nya (risiko setelah kontrol), SIAPA pemiliknya, dan rencana aksi apa bila residualnya masih tinggi. Tanpa register, RCSA (langkah 4) hanya menjadi workshop yang baik — hasilnya tidak punya rumah.",
+        "Contoh baris register (ilustratif): risiko 'pegawai memalsukan dokumen kredit' — penyebab: target penjualan agresif + verifikasi manual; dampak: kredit macet + sanksi; kontrol: verifikasi ganda + rotasi petugas; residual: SEDANG; pemilik: Kepala Divisi Kredit; KRI: jumlah dokumen ditolak verifikasi; rencana aksi: otomatisasi verifikasi semester ini. Perhatikan: baris ini TIDAK BERDIRI SENDIRI — ia merujuk taksonomi risiko bersama (lihat RR23) supaya 'fraud internal' di cabang A berarti sama dengan 'fraud internal' di cabang B.",
+        "Register yang baik punya tiga sifat. Satu: HIDUP — diperbarui saat ada insiden, perubahan proses, atau temuan audit; register yang terakhir diperbarui setahun lalu adalah arsip, bukan alat. Dua: BERPEMILIK — tiap baris punya satu nama pemilik; risiko tanpa pemilik = risiko tanpa penanggung jawab. Tiga: TERUKUR — residual dinilai dengan skala yang sama untuk semua baris (misalnya TINGGI/SEDANG/RENDAH dari likelihood × impact), sehingga direksi bisa mengurutkan: dari 42 risiko di register contoh ini, 6 berstatus residual TINGGI — dan keenamnya yang pertama dibahas di komite, bukan ke-42-nya.",
+        "Hubungan dengan RCSA: RCSA adalah PROSES menilainya (workshop + fasilitasi + uji dengan data), risk register adalah HASIL yang didokumentasikan. Hubungan dengan KRI: tiap risiko residual TINGGI di register WAJIB punya KRI yang memantaunya (langkah 3) — risiko tanpa KRI adalah risiko yang baru ketahuan saat sudah jadi kerugian.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Register = daftar risiko yang panjang.” Panjang tanpa pemilik, tanpa residual, tanpa rencana aksi = inventaris ketakutan, bukan alat manajemen. Satu baris register yang lengkap lebih berharga dari 50 baris yang hanya berisi nama risiko.",
+      },
+      quiz: [
+        {
+          q: "Apa yang membedakan risk register dari sekadar daftar risiko?",
+          options: [
+            { text: "Register lebih panjang dan lebih rapi", why: "Salah: panjang bukan ukuran — kelengkapan tiap baris yang membedakan." },
+            { text: "Tiap risiko punya pemilik, kontrol, risiko residual, dan rencana aksi", why: "Benar: tujuh pertanyaan per baris — register adalah daftar yang bisa dieksekusi, bukan sekadar dicatat.", correct: true },
+            { text: "Register hanya berisi risiko yang sudah terjadi", why: "Salah: register justru forward-looking — risiko yang MUNGKIN terjadi, seperti RCSA." },
+            { text: "Register dibuat sekali setahun oleh tim risk saja", why: "Salah: register hidup (diperbarui saat ada pemicu) dan dimiliki unit bisnis sebagai pemilik risiko." },
+          ],
+        },
+      ],
+      reference: "Register = RCSA yang didokumentasikan: satu baris, tujuh jawaban, satu pemilik.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -231,6 +260,7 @@ export const rr22: V2Lesson = {
         "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah. Target: skor \u2265 4 dari 5.",
       ],
       summary: [
+        "Risk register: satu baris per risiko — pemilik + kontrol + residual + rencana aksi.",
         "Basel mengklasifikasikan semua kejadian ke 7 tipe (fraud internal/eksternal, praktik ketenagakerjaan, praktik bisnis, kerusakan aset, kegagalan proses, gangguan sistem) — klasifikasi dulu, atribusi kemudian.",
         "Near-miss (hampir rugi) wajib dicatat: ia data terbaik untuk mencegah kerugian nyata; latih konsistensi klasifikasi dengan 10 kasus nyata tiap kuartal.",
         "Basel III final mengganti pendekatan modal risiko operasional dengan Standardised Measurement Approach — di Indonesia diterapkan bertahap oleh OJK.",

@@ -17,7 +17,7 @@ export const mle18: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Skala & Tanggung Jawab",
   title: "MLE18 — ML Systems Design (A/B, Champion/Challenger)",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-launch",
@@ -28,7 +28,7 @@ export const mle18: V2Lesson = {
         "Tim yang benar memakai champion/challenger: model lama (champion) tetap melayani 90% traffic, model baru (challenger) 10%. Dalam 3 hari terlihat: konversi challenger −2% (karena latensi!). Challenger ditolak SEBELUM merusak 100% traffic. 10% traffic tersakiti 3 hari vs 100% tersakiti seminggu — beda Rp2 miliar.",
         "Twist-nya: ML systems design bukan soal model terbaik, melainkan soal EKSPERIMEN teraman: A/B test, canary, skew train-serve, retraining cadence. Tema JD berfrekuensi tertinggi (0,62) yang belum tercakup — sampai lesson ini.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang A/B test untuk model (metrik, sampel, durasi); (2) menghitung z-test proporsi dan membaca p-value; (3) menjelaskan champion/challenger dan canary; (4) mendeteksi train-serve skew; (5) menentukan retraining cadence.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · A/B test untuk ML — Langkah 3 · Lab: z-test — Langkah 4 · Champion/challenger & skew — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · A/B test untuk ML — Langkah 3 · Lab: z-test — Langkah 4 · Champion/challenger & skew — Langkah 5 · Capacity & SLO — Langkah 6 · Empat design case — Langkah 7 · Peta keputusan — Langkah 8 · Mini-case — Checkpoint.",
       ],
       tasks: [],
       reference: "Model terbaik ≠ bisnis terbaik. Eksperimen aman > launch berani.",
@@ -181,8 +181,30 @@ print("underpowered: z =", z2, "p =", p2, "->", "signifikan" if p2 < 0.05 else "
       reference: "Little's Law untuk kapasitas, SLO di tail bukan rata-rata, utilisasi target 0,7, batch bila freshness harian cukup, rollback terikat burn rate.",
     },
     {
+      id: "design-case",
+      eyebrow: "Langkah 6 · Design case",
+      title: "Empat design case: fraud, kredit, rekomendasi, search ranking",
+      prose: [
+        "Teori launch dan eksperimen dari langkah sebelumnya baru bernilai bila bisa dipakai merancang sistem nyata. Langkah ini menyajikan empat design case dari spec — masing-masing dengan rancangan end-to-end: data dan fitur, model, pola serving, metrik, dan risiko terbesarnya. Bacalah sebagai pola yang bisa dipakai ulang, bukan sebagai jawaban final: tiap case diakhiri dengan pertanyaan yang HARUS dijawab sebelum rancangan dinyatakan selesai.",
+        "Case 1 — Fraud scoring real-time. Kebutuhan: skor risiko tiap transaksi dalam 300ms (p99), alert ke tim CS dalam 1 menit. Data: stream transaksi + histori perilaku per pengguna (velocity: jumlah transaksi 5 menit terakhir, perangkat, lokasi). Fitur HARUS point-in-time: '3 transaksi 5 menit terakhir' dihitung dari data SEBELUM event ini, bukan sesudahnya — kalau tidak, label bocor ke fitur. Model: gradient boosting untuk skor + aturan keras untuk pola yang sudah dikenal. Serving: ONLINE (SLA 300ms menuntutnya) — skor dihitung di stream processor, API checkout hanya membaca skor dari cache; bila model mati, transaksi kecil lolos dengan flag review (default-allow bertingkat), transaksi besar ditahan. Metrik: recall pada fraud dengan false positive di bawah 0,5 persen; guardrail latensi p99. Risiko terbesar: label chargeback datang berhari-hari kemudian — retrain dengan label mentah berarti melatih model bahwa fraud terbaru 'tidak terjadi'.",
+        "Case 2 — Credit scoring. Kebutuhan: skor persetujuan kredit yang bisa dijelaskan ke regulator dan nasabah. Data: riwayat pembayaran, rasio utang terhadap penghasilan, tenor, segmen pekerjaan — semuanya dengan point-in-time correctness (data pada TANGGAL aplikasi, bukan data hari ini). Model: logistic regression atau GBM dengan monotonic constraint (penghasilan naik tidak boleh menurunkan skor) + reason code per keputusan ('ditolak karena rasio utang 62 persen'). Serving: BATCH harian cukup untuk pengajuan reguler (tidak ada yang menunggu milidetik); online hanya untuk pre-approval instan. Metrik: bukan AUC semata — kalibrasi (ECE, MLE4), approval rate per segmen, dan disparate impact ratio per grup (MLE12). Risiko terbesar: drift segmen (resesi mengubah arti 'penghasilan stabil') dan model risk — regulator mensyaratkan validasi berkala dan dokumentasi model card.",
+        "Case 3 — Recommender systems (recsys). Kebutuhan: slot rekomendasi di homepage, SLA p95 50ms, katalog 10 juta item. Arsitektur dua tahap (MLE20): retrieval two-tower + ANN index untuk 500 kandidat, lalu ranking model dengan fitur mahal (konteks real-time, deep CTR) untuk 20 final. Fitur: embedding user dan item (precompute item sekali), sinyal real-time (klik 5 menit terakhir), dan business rules (stok, margin, larangan promosi produk tertentu). Serving: item embedding di-precompute offline; serving hanya embed query + nearest neighbor. Metrik: recall@k pada budget latensi + metrik bisnis (GMV per sesi, retensi) — CTR saja menipu (clickbait, MLE20). Risiko terbesar: feedback loop — model merekomendasikan yang sudah populer, yang populer makin diklik, model makin yakin: filter bubble yang memperkuat dirinya sendiri. Mitigasi: eksplorasi epsilon-greedy atau bandit, dan evaluasi berkala pada trafik eksplorasi.",
+        "Case 4 — Search ranking. Kebutuhan: 10 hasil teratas untuk tiap query dalam 200ms, dari korpus jutaan dokumen. Arsitektur dua tahap seperti recsys, tetapi sinyalnya berbeda: retrieval (BM25 + dense embedding) untuk 1.000 kandidat, lalu learning-to-rank (LambdaRank/GBM) dengan fitur: kecocokan teks (BM25, kecocokan judul), otoritas (PageRank, freshness), dan perilaku (CTR historis per pasangan query-dokumen). Serving: index terpartisi (sharding), cache untuk query populer (head query 20 persen menanggung 80 persen trafik — cache di sini memangkas biaya paling besar), dan re-ranking hanya untuk 100 teratas. Metrik: NDCG@10 dan MRR — BUKAN akurasi; plus evaluasi manusia berkala pada sampel query (relevansi tidak bisa diukur penuh dari klik — klik juga bias posisi). Risiko terbesar: position bias — hasil di posisi 1 diklik karena posisinya, bukan karena relevansinya; melatih ranker di atas klik mentah berarti melatih model untuk mempertahankan urutan lama. Mitigasi: data dari eksperimen acak (posisi diacak untuk sebagian trafik) atau koreksi propensity.",
+        "Pola yang berulang di keempat case: (1) tentukan SLA dari keputusan yang dilayani — ia yang menentukan batch vs online; (2) pisahkan retrieval (cepat, luas) dari ranking (presisi, sempit) bila korpusnya besar; (3) fitur harus point-in-time, atau leakage meracuni segalanya; (4) metrik offline (AUC, NDCG) selalu dipasangkan dengan metrik bisnis + guardrail; (5) tiap case punya SATU risiko yang mendominasi — namakan sebelum membangun. Design case yang baik bukan yang menyebut komponen terbanyak, melainkan yang menjawab 'apa yang paling mungkin membunuh sistem ini, dan apa penangkalnya'.",
+      ],
+      tasks: [
+        { id: "t1", text: "Pilih SATU dari empat case. Tulis rancanganmu dalam 5 baris: data + fitur, model, pola serving (batch/online + alasan SLA), metrik utama + guardrail, risiko terbesar + mitigasi." },
+        { id: "t2", text: "Tulis SATU pertanyaan yang belum terjawab oleh rancanganmu — dan data apa yang dibutuhkan untuk menjawabnya." },
+      ],
+      note: {
+        title: "💡 Intuisi: design case = ujian integrasi",
+        body: "Lesson 1 sampai 5 memberimu perkakas (A/B, canary, skew, kapasitas). Design case menguji apakah kamu memakai perkakas yang TEPAT untuk masalah yang BENAR: fraud butuh online + point-in-time, kredit butuh kalibrasi + penjelasan, recsys butuh dua tahap + anti-feedback-loop, search butuh NDCG + koreksi position bias. Salah memilih perkakas = rancangan yang rapi tetapi salah.",
+      },
+      reference: "Fraud: online 300ms + point-in-time. Kredit: batch + kalibrasi + reason code. Recsys: retrieval + ranking + anti-feedback-loop. Search: NDCG + koreksi position bias.",
+    },
+    {
       id: "peta-keputusan",
-      eyebrow: "Langkah 6 · Peta keputusan",
+      eyebrow: "Langkah 7 · Peta keputusan",
       title: "Peta keputusan: strategi launch apa?",
       prose: [
         "Skenario 1 — model baru, risiko rendah → canary 5% 1 hari → 100%. Standar.",
@@ -198,7 +220,7 @@ print("underpowered: z =", z2, "p =", p2, "->", "signifikan" if p2 < 0.05 else "
     },
     {
       id: "minicase-revenue",
-      eyebrow: "Langkah 7 · Mini-case",
+      eyebrow: "Langkah 8 · Mini-case",
       title: "Mini-case: -3% revenue yang dicegah",
       prose: [
         "Model baru: AUC 0,86→0,89 (+0,03!). Launch langsung 100%: revenue −3% = −Rp300 juta/bulan (latensi 2x → 15% pengguna pergi). Dengan canary 5%: dalam 1 hari terlihat konversi −2% di grup canary → rollback 5 menit. Kerugian: 5% × 1 hari × Rp10 juta = Rp500 ribu. Penghematan: Rp300 juta − Rp500 ribu ≈ Rp299,5 juta/bulan.",
@@ -225,6 +247,7 @@ print("underpowered: z =", z2, "p =", p2, "->", "signifikan" if p2 < 0.05 else "
         "Dosa: peeking, metrik salah (AUC vs revenue), novelty effect.",
         "Champion/challenger permanen; canary 5%; shadow 0% tanpa risiko.",
         "Skew: PSI train vs serve >0,25 → investigasi pipeline; retrain saat drift, bukan kalender.",
+        "Empat design case: fraud (online 300ms + point-in-time), kredit (batch + kalibrasi + reason code), recsys (retrieval + ranking + anti-feedback-loop), search ranking (NDCG + koreksi position bias).",
       ],
       next: { label: "MLE19 — Interpretability (SHAP)", href: "/v2/learn/mle19-interpretability-shap" },
       quiz: [
@@ -289,6 +312,15 @@ print("underpowered: z =", z2, "p =", p2, "->", "signifikan" if p2 < 0.05 else "
             { text: "Selalu — batch selalu lebih baik", why: "Fraud real-time butuh ms — batch harian = fraud lolos.", correct: false },
             { text: "Ketika traffic sangat tinggi", why: "Traffic tinggi justru sering butuh online; kriterianya freshness, bukan volume.", correct: false },
             { text: "Tidak pernah — online lebih modern", why: "'Modern' tidak sama dengan tepat; batch adalah pilihan rasional untuk banyak kasus.", correct: false },
+          ],
+        },
+        {
+          q: "Search ranking: ranker dilatih langsung di atas klik mentah tanpa koreksi. Risiko terbesar?",
+          options: [
+            { text: "Position bias — klik di posisi 1 mencerminkan posisi, bukan relevansi; model belajar mempertahankan urutan lama", why: "Tepat: butuh data posisi acak atau koreksi propensity; klik mentah = umpan balik yang memperkuat dirinya sendiri.", correct: true },
+            { text: "Model terlalu lambat — ranking harus batch", why: "Search ranking butuh online di bawah 200ms; masalahnya bukan batch vs online, melainkan bias data latih.", correct: false },
+            { text: "NDCG tidak bisa dihitung", why: "NDCG bisa dihitung dari relevansi berlabel — masalahnya justru relevansi tidak bisa dibaca penuh dari klik.", correct: false },
+            { text: "Cache query populer merusak ranking", why: "Cache justru penghemat biaya terbesar untuk head query — ia tidak merusak ranking selama invalidasi benar.", correct: false },
           ],
         },
       ],

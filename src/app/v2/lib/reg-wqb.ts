@@ -28,6 +28,8 @@ import { wqb26 } from "../content/wqb26-python-riset-quant";
 import { wqb27 } from "../content/wqb27-ml-alpha";
 import { wqb28 } from "../content/wqb28-portfolio-alpha";
 import { wqb29 } from "../content/wqb29-superalpha";
+import { wqb30 } from "../content/wqb30-capstone-akhir";
+import { wqb31 } from "../content/wqb31-operator-lanjutan";
 
 export const REG_WQB: Record<string, V2Lesson> = {
   "wqb1-apa-itu-alpha": wqb1,
@@ -59,4 +61,6 @@ export const REG_WQB: Record<string, V2Lesson> = {
   "wqb27-ml-alpha": wqb27,
   "wqb28-portfolio-alpha": wqb28,
   "wqb29-superalpha": wqb29,
+  "wqb30-capstone-akhir": wqb30,
+  "wqb31-operator-lanjutan": wqb31,
 };

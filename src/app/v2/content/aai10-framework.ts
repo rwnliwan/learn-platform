@@ -33,7 +33,7 @@ export const aai10: V2Lesson = {
   track: "Agentic AI Engineer",
   module: "Operasi & Evaluasi",
   title: "AAI10 — Framework: LangChain/LangGraph & Alternatif",
-  estMinutes: 50,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -44,6 +44,7 @@ export const aai10: V2Lesson = {
         "Dina menghentikan debat dengan pertanyaan: \u201CApa yang sebenarnya kita butuhkan? Loop, state yang bisa di-resume, dan observability.\u201D Tiba-tiba framework bukan soal merek — soal KONSEP. LangChain = rantai langkah + abstraksi tools. LangGraph = graf state eksplisit + checkpoint. Raw API = kontrol penuh, bangun sendiri.",
         "Twist-nya: setahun kemudian LangChain merilis ulang API-nya (breaking changes), tim kubu A refactor 2 pekan. Tim yang paham KONSEP (state, checkpoint, node) pindah framework dalam sehari — karena yang mereka pindahkan adalah desain, bukan hafalan API. Framework mati; konsep abadi.",
         "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan perbedaan chain vs graph vs raw; (2) merancang state + checkpoint untuk resume; (3) memutuskan build-vs-buy framework; (4) mengimplementasikan orkestrator graf mini dengan checkpoint.",
+        "Perbandingan framework agen (LangChain/LangGraph) diajarkan sebagai modul bersama di AIE20 — LangChain & LangGraph (track AI Engineering); lesson ini fokus pada pemilihan framework untuk agen yang kamu bangun.",
         "Daftar isi: 1) Cerita perang framework · 2) Konsep abadi: state, graf, checkpoint · 3) Lab: graf mini + resume · 4) Peta keputusan build-vs-buy · 5) Mini-case: harga resume · 6) Checkpoint.",
         "Resolusi debat 10 menit setelah pertanyaan Dina: tim memilih LangGraph untuk laporan mingguan (butuh cabang + resume), requests + while loop untuk skrip sekali jalan (linear, sekali pakai). Kubu A dan B sama-sama “menang” — untuk masalah yang berbeda. Yang kalah: debat kusir 3 pekan sebelumnya. Pelajaran: perdebatan framework tanpa KRITERIA = adu merek; dengan kriteria (loop? state? resume? observability?) = keputusan 10 menit. Tulis kriteriamu SEBELUM membuka tab dokumentasi.",
         "Biaya salah pilih — cerita dari tim tetangga. Mereka memilih framework “yang hype” untuk pipeline linear sederhana (ambil → olah → simpan). Tiga pekan kemudian: berjuang melawan konsep graf untuk alur yang tidak punya cabang, debugging state yang tidak dibutuhkan, dan tagihan pelatihan 2 hari. Total: 3 pekan × 2 insinyur × Rp1,5 juta = Rp9 juta untuk kompleksitas yang tidak dipakai. Lalu mereka menulis ulang dengan 60 baris requests + while — selesai 2 hari. Framework yang salah = pajak yang dibayar tiap hari selama sistem hidup.",
@@ -179,7 +180,101 @@ export const aai10: V2Lesson = {
         type: "risk",
         body: "Di pipeline risk batch, resume dari checkpoint = idempotensi operasional. Job 6 jam yang crash di jam ke-5 tanpa checkpoint = 5 jam terbuang + jendela SLA terlewat. Checkpoint bukan fitur — ia kontrol kelangsungan operasi.",
       },
+    },    {
+      id: "llamaindex-vendor-sdk",
+      eyebrow: "Langkah 6 · LlamaIndex & SDK vendor",
+      title: "LlamaIndex dan SDK vendor: peta framework yang belum lengkap",
+      prose: [
+        "Langkah konsep lesson ini membandingkan LangChain, LangGraph, CrewAI, dan kode polos — tetapi spec AG6 juga menyebut dua keluarga yang belum ada: LlamaIndex dan SDK agent dari vendor model. Keduanya mengubah jawaban “framework apa” untuk sebagian tim.",
+        "LlamaIndex adalah data framework: index, retriever, dan query engine sebagai warga kelas satu — kuat bila agenmu RAG-heavy (banyak dokumen, banyak query, banyak reranking). Ia tidak menggantikan LangGraph: LlamaIndex mengatur DATA, LangGraph mengatur ALUR. Tim yang RAG-nya rumit tetapi alurnya linear sering lebih cocok LlamaIndex; tim yang alurnya bercabang dan butuh resume lebih cocok LangGraph.",
+        "SDK agent dari vendor model — OpenAI Agents SDK, Bedrock Agents, Vertex AI Agent Builder, Azure AI Agent Service — terintegrasi dengan cloud masing-masing: mulai tercepat, dokumentasi dan dukungan satu atap. Harganya adalah lock-in tertinggi: agenmu terikat model, billing, dan fitur cloud itu. Pilih bila timmu sudah hidup di cloud tersebut; hindari bila strategimu multi-cloud atau vendor bisa berganti tahun depan.",
+        "Kriteria pilih yang jujur: butuh RAG berat — LlamaIndex; butuh graf dan resume — LangGraph; butuh delegasi multi-agen dengan peran — CrewAI; sudah di cloud X — SDK vendor X; tim kecil dan kebutuhan sederhana — kode polos. Dan cap waktu yang jujur seperti lesson ini: perdebatan framework 2024–2026 bergerak cepat — verifikasi dokumentasi resmi terbaru sebelum memilih, karena nama yang populer tahun lalu bisa jadi sudah berganti rekomendasi.",
+      ],
+      tasks: [],
+      note: {
+        title: "Miskonsepsi: “framework terbaik = yang paling populer”",
+        type: "pitfall",
+        body: "Yang benar: framework terbaik = yang cocok dengan BENTUK masalahmu. LlamaIndex untuk RAG-heavy, LangGraph untuk graf, SDK vendor untuk cloud tunggal, kode polos untuk sederhana. Popularitas adalah sinyal lemah; bentuk masalah adalah sinyal kuat.",
+      },
+      reference: "LlamaIndex = data/RAG-heavy; LangGraph = alur/graf; SDK vendor = mulai cepat, lock-in tertinggi.",
     },
+
+    {
+      id: "lab-skor-framework",
+      eyebrow: "Langkah 7 · Lab framework",
+      title: "Lab: skor framework dengan matriks keputusan",
+      prose: [
+        "Tim Dina membangun agen RAG-heavy atas SOP bank: banyak dokumen, alur linear, tim kecil. Empat kandidat dinilai 1–5 pada empat kriteria berbobot: RAG (0,3), graf/resume (0,3), lock-in rendah (0,2), mulai cepat (0,2). Tugasmu: implementasikan `skor_tertimbang` dan hitung total tiap kandidat, lalu tentukan pemenangnya.",
+        "Skornya: LangGraph 3/5/4/3; LlamaIndex 5/3/4/4; SDK vendor 3/3/2/5; kode polos 2/4/5/2. Perhatikan: LlamaIndex menang BUKAN karena ia “terbaik secara umum”, melainkan karena bobot RAG 0,3 cocok dengan masalah tim — ubah bobotnya (misal graf lebih penting dari RAG), pemenangnya berubah. Matriks keputusan tidak memilihkan framework untukmu; ia memaksa alasanmu tertulis.",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan `skor_tertimbang(skor, bobot)` (jumlah skor x bobot)" },
+        { id: "t2", text: "Hitung total keempat kandidat dan tentukan `pemenang` (skor tertinggi)" },
+      ],
+      expected: "langgraph=3.8\nllamaindex=4.0\nvendor=3.2\npolos=3.2\npemenang=llamaindex",
+      note: {
+        title: "💡 Intuisi",
+        body: "Matriks yang sama dengan bobot berbeda memberi pemenang berbeda — dan itulah gunanya. Bila dua tim memakai matriks sama tetapi bobot berbeda lalu berdebat, mereka tidak berdebat tentang framework; mereka berdebat tentang prioritas. Selesaikan prioritasnya dulu.",
+      },
+      hints: [
+        "Total = sum(s * b untuk s, b dalam zip(skor, bobot)).",
+        "Bulatkan 1 desimal saat mencetak.",
+        "Pemenang = kunci dengan total tertinggi (max dengan key).",
+      ],
+      code: {
+        starter: `# DATA — jangan diubah
+BOBOT = [0.3, 0.3, 0.2, 0.2]  # RAG, graf/resume, lock-in rendah, mulai cepat
+KANDIDAT = {
+    "langgraph": [3, 5, 4, 3],
+    "llamaindex": [5, 3, 4, 4],
+    "vendor": [3, 3, 2, 5],
+    "polos": [2, 4, 5, 2],
+}
+
+# TULIS KODEMU
+def skor_tertimbang(skor, bobot):
+    ...
+
+total = {}
+for nama, skor in KANDIDAT.items():
+    ...
+
+pemenang = ...
+for nama in ["langgraph", "llamaindex", "vendor", "polos"]:
+    print(f"{nama}={total[nama]:.1f}")
+print(f"pemenang={pemenang}")`,
+        lockLines: 10,
+        solution: `# DATA — jangan diubah
+BOBOT = [0.3, 0.3, 0.2, 0.2]  # RAG, graf/resume, lock-in rendah, mulai cepat
+KANDIDAT = {
+    "langgraph": [3, 5, 4, 3],
+    "llamaindex": [5, 3, 4, 4],
+    "vendor": [3, 3, 2, 5],
+    "polos": [2, 4, 5, 2],
+}
+
+# TULIS KODEMU
+def skor_tertimbang(skor, bobot):
+    return sum(s * b for s, b in zip(skor, bobot))
+
+total = {}
+for nama, skor in KANDIDAT.items():
+    total[nama] = round(skor_tertimbang(skor, BOBOT), 1)
+
+pemenang = max(total, key=total.get)
+for nama in ["langgraph", "llamaindex", "vendor", "polos"]:
+    print(f"{nama}={total[nama]:.1f}")
+print(f"pemenang={pemenang}")`,
+        checks: [
+          { kind: "defined", task: "t1", name: "skor_tertimbang", label: "`skor_tertimbang` terdefinisi", msg: "Definisikan skor_tertimbang(skor, bobot)." },
+          { kind: "equal", task: "t2", name: "total", value: {"langgraph": 3.8, "llamaindex": 4.0, "vendor": 3.2, "polos": 3.2}, label: "total keempat kandidat benar", msg: "LlamaIndex: 1,5+0,9+0,8+0,8 = 4,0. Cek perkalian tiap kriteria." },
+          { kind: "equal", task: "t2", name: "pemenang", value: "llamaindex", label: "`pemenang` = llamaindex", msg: "Skor tertinggi 4,0 — untuk kasus RAG-heavy dengan bobot ini." },
+          { kind: "stdout_matches", task: "t2", pattern: "langgraph=3\\.8\\nllamaindex=4\\.0\\nvendor=3\\.2\\npolos=3\\.2\\npemenang=llamaindex", label: "output lima baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Matriks keputusan: bobot x skor. Pemenang bergantung pada bobot — itulah gunanya ia tertulis.",
+    },
+
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -242,6 +337,24 @@ export const aai10: V2Lesson = {
             { text: "Expected waktu 21,3 → 15,6 menit (hemat 27%)", why: "Tepat. Crash di node k = ulangi dari node k saja.", correct: true },
             { text: "Menambah kecepatan node", why: "Node tidak lebih cepat.", },
             { text: "Mengurangi jumlah node", why: "Jumlah node tetap.", },
+          ],
+        },
+        {
+          q: "Tim membangun agen RAG-heavy: banyak dokumen, alur linear, tim kecil. Framework yang paling cocok?",
+          options: [
+            { text: "LlamaIndex — data framework dengan index/retriever/query engine sebagai warga kelas satu", why: "Benar: masalahnya RAG-heavy dan alurnya linear — kekuatan LlamaIndex tepat di sana.", correct: true },
+            { text: "LangGraph — karena paling populer", why: "Popularitas bukan kriteria; LangGraph kuat di graf/resume, bukan kebutuhan utama tim ini.", },
+            { text: "SDK vendor — karena mulai tercepat", why: "Mulai cepat benar, tetapi lock-in tertinggi — dan bukan jawaban atas kebutuhan RAG.", },
+            { text: "Kode polos — karena paling sederhana", why: "Kode polos memaksa tim membangun index dan retriever sendiri — pekerjaan yang sudah ada di LlamaIndex.", },
+          ],
+        },
+        {
+          q: "Kapan SDK agent vendor model (OpenAI Agents, Bedrock, Vertex, Azure) pilihan yang TEPAT?",
+          options: [
+            { text: "Bila tim sudah hidup di cloud tersebut dan strategi multi-cloud bukan prioritas", why: "Benar: mulai tercepat dan dukungan satu atap — dengan harga lock-in tertinggi yang sudah diterima sadar.", correct: true },
+            { text: "Selalu — SDK vendor selalu terbaik", why: "Salah: lock-in dan ketergantungan model adalah harga nyata.", },
+            { text: "Bila ingin pindah vendor tiap kuartal", why: "Kebalikannya: SDK vendor justru yang tersulit dipindah.", },
+            { text: "Bila tim tidak punya akses cloud sama sekali", why: "Tanpa cloud tersebut, SDK-nya tidak bisa dipakai.", },
           ],
         },
       ],

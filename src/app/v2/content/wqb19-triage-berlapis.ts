@@ -218,6 +218,25 @@ export const wqb19: V2Lesson = {
       reference: "Slot langka → yang siap paling bersih, bukan yang angkanya terbesar.",
     },
     {
+      id: "budget-sim",
+      eyebrow: "Langkah 9 · Konsep",
+      title: "Menganggarkan simulasi: wave dirancang di atas jatah yang terbatas",
+      prose: [
+        "Sejauh ini wave dirancang seolah simulasi tidak terbatas: target 164 sim di WQB17, 600 kandidat di triage lesson ini. Kenyataannya simulasi adalah sumber daya yang dijatah platform — dan wave yang tidak menganggarkan jatahnya akan kehabisan di tengah jalan, tepat saat kandidat terbaik belum dicoba.",
+        "Kerangka penganggaran, tiga langkah. Pertama, ketahui jatahmu: berapa sim tersedia per hari atau per minggu di akunmu — angka ini ditentukan platform dan bisa berubah; track ini tidak menulis angkanya sebagai konstanta karena ia tidak terverifikasi dari sumber resmi. Periksa di dashboard platformmu dan catat sebagai angka kerja minggu ini, bukan sebagai hukum abadi.",
+        "Kedua, alokasikan per kolam SEBELUM wave jalan, mengikuti arsitektur WQB17. Contoh ilustratif (bukan angka resmi): jatah 100 sim per minggu dialokasikan 40 ke Kolam Puncak (eksploitasi juara), 40 ke Kolam Lebar (eksplorasi ortogonal), 20 ke Kolam Penyelamatan (perbaikan turnover). Alokasi ditulis sebelum satu sim pun jalan — bila tidak, kolam yang paling berisik (biasanya Puncak) memakan seluruh jatah.",
+        "Ketiga, hitung harga satu sim yang gagal. Wave WQB17: target 164 sim, 102 lolos ambang — 62 sim (37,8 persen) 'dibayar' tanpa hasil. Itu bukan pemborosan — itu harga eksplorasi yang wajar. Yang boros adalah sim yang dihabiskan untuk kandidat yang sebenarnya sudah bisa dibuang di atas kertas: loloskan dulu lewat predictor dan triage kertas (WQB18–19) sebelum sim dibakar. Aturan praktis: satu jam triage kertas menghemat satu hari jatah sim.",
+        "Bila jatah habis: JANGAN turunkan ambang predictor untuk 'menghabiskan' wave (WQB17 sudah membuktikan kandidat ambang-turun mati 3 kali lebih cepat di bank). Yang dilakukan: (1) antrean TAHAN menunggu wave depan dengan rencana perbaikan; (2) riset kertas — baca literatur, tulis ekspresi, uji logikanya tanpa sim; (3) perbaiki kandidat yang sudah ada (diet turnover, ganti decay) agar saat jatah kembali, yang dicoba adalah versi terbaiknya, bukan versi pertamanya.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "“Jatah tinggal sedikit — pakai semuanya untuk varian juara, pasti ada yang lolos.” Varian juara adalah yang paling berkorelasi dengan bank — sim yang dihabiskan di sana membeli duplikat, bukan diversifikasi. Saat jatah menipis, yang diprioritaskan justru Kolam Lebar: satu tiket ortogonal yang hidup lebih berharga dari sepuluh varian juara.",
+      },
+      reference: "Anggarkan dulu (Puncak/Lebar/Penyelamatan), bakar sim sesudahnya. Jatah habis = riset kertas, bukan turun ambang.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -231,6 +250,7 @@ export const wqb19: V2Lesson = {
         "PENALTI ⟺ TO > 0,4 — ortogonal, menempel pada label apapun.",
         "TAHAN = sedang diperbaiki (rencana + tenggat dua wave), bukan vonis.",
         "Antrean deterministik: bersih dulu (F menurun), lalu berpenalti.",
+        "Budget sim: alokasikan per kolam sebelum wave jalan; 62 dari 164 sim wave WQB17 (37,8 persen) adalah harga eksplorasi — jatah habis = riset kertas, bukan turun ambang.",
       ],
       next: { label: "WQB20 — Strategi Cadangan Era Research Consultant", href: "/learn/wqb20-strategi-cadangan" },
       quiz: [
