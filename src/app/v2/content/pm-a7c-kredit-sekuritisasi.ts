@@ -17,7 +17,7 @@ export const pma7c: V2Lesson = {
         "Aturan praktisnya: untuk obligasi polos, credit spread dan OAS hampir sama — tidak ada opsi yang perlu dibersihkan. Untuk obligasi callable, putable, atau MBS, bandingkan OAS, bukan spread mentah — spread mentah akan membuat obligasi callable terlihat murah padahal ia hanya membayar opsi. Analis yang membandingkan spread mentah antar obligasi beropsi sedang membandingkan apel dengan apel yang sudah digigit.",
       ],
       formula: String.raw`\text{Spread} = YTM - y_{\text{pemerintah}} \quad;\quad \text{OAS} = \text{spread setelah nilai opsi dikeluarkan}`,
-      formulaNote: "Spread = selisih YTM obligasi dengan yield pemerintah setenor; OAS = spread yang sama setelah dikurangi nilai opsi tertanam (call, put, atau prepayment). Interpretasi: OAS adalah harga risiko kredit yang bersih — dua obligasi dengan OAS sama memberi kompensasi kredit yang sama, apa pun opsinya.",
+      formulaNote: "Spread = selisih YTM obligasi dengan yield pemerintah setenor; OAS = spread yang disesuaikan dengan nilai opsi tertanam (call, put, atau prepayment); arah penyesuaian tergantung jenis opsi — callable lebih rendah dari spread mentah, putable lebih tinggi. Interpretasi: OAS adalah harga risiko kredit yang bersih — dua obligasi dengan OAS sama memberi kompensasi kredit yang sama, apa pun opsinya.",
       tasks: [],
       note: {
         title: "Sering salah",

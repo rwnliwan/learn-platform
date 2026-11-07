@@ -13,7 +13,7 @@ export const fdp9: V2Lesson = {
       title: "Rasio yang butuh harga — dan harga yang tidak ada",
       prose: [
         "Riko sudah bisa menghitung 16 rasio dari filings: margin, ROE, current ratio. Lalu Sinta bertanya: 'berapa P/E KLBF?' Riko membuka tabel kanonisnya — tidak ada harga saham di sana. Filings berisi laba, aset, dan kas; harga saham hidup di tempat lain: pasar.",
-        "Ia mengunduh harga penutupan dari sumber publik dan menempelkannya ke tabel — lalu mendapat P/E yang aneh: 4,1. Kesalahannya: harga yang ditempel adalah harga Juni 2024, sementara labanya laba FY2024 penuh. Harga dan laba dari dua tanggal berbeda digabung menjadi satu rasio — seperti membandingkan berat badan hari ini dengan tinggi badan lima tahun lalu.",
+        "Ia mengunduh harga penutupan dari sumber publik dan menempelkannya ke tabel — lalu mendapat P/E yang aneh: 4,1. Kesalahannya: harga yang ditempel adalah Rp290 bertanggal 2015, dari deret harga yang tidak disesuaikan dan tidak dicatat tanggalnya, sementara labanya laba FY2024 penuh (EPS Rp70,16). 290 dibagi 70,16 memang 4,1 — tetapi harga 2015 dipasangkan dengan laba 2024. Harga dan laba dari dua tanggal berbeda digabung menjadi satu rasio — seperti membandingkan berat badan hari ini dengan tinggi badan lima tahun lalu.",
         "Twist-nya: market data bukan sekadar 'kolom tambahan'. Ia punya sifat yang berlawanan dengan filings: filings datang per kuartal dan tidak berubah setelah terbit; harga berubah tiap detik dan tidak pernah 'final'. Menggabungkan keduanya adalah soal penjajaran tanggal — dan penjajaran yang salah menghasilkan rasio yang salah dengan percaya diri.",
       ],
       tasks: [],

@@ -24,7 +24,7 @@ export const e26: V2Lesson = {
       title: "Cicilan KPR: anuitas, LTV, DTI, dan PMI",
       prose: [
         "KPR standar memakai amortisasi anuitas: cicilan bulanan tetap, komposisi bunga menurun dan pokok membesar seiring waktu. Rumus cicilan: pokok dikali suku bunga bulanan dikali faktor pengali, dibagi faktor pengali dikurangi satu. Contoh ilustratif: pokok Rp500 juta, bunga 9% per tahun, tenor 20 tahun (240 bulan). Suku bunga bulanan = 0,09 / 12 = 0,0075; faktor (1,0075)^240 ≈ 6,0092. Cicilan = 500.000.000 × 0,0075 × 6,0092 / 5,0092 ≈ Rp4.498.630 per bulan. Total dibayar 240 bulan ≈ Rp1.079.671.147, sehingga total bunga ≈ Rp579.671.147 — lebih besar dari pokoknya.",
-        "Tiga huruf yang menentukan lolos tidaknya KPR. LTV (loan-to-value) = pokok pinjaman dibagi nilai rumah. Rumah ilustratif Rp625 juta dengan pokok Rp500 juta → LTV 80%. DTI (debt-to-income) = cicilan dibagi penghasilan bulanan. Penghasilan ilustratif Rp15 juta per bulan → DTI ≈ 30% (4.498.630 / 15.000.000). Bank umumnya nyaman pada DTI di bawah sekitar 30–40%. PMI (private mortgage insurance) = asuransi yang melindungi PEMBERI PINJAMAN bila debitur gagal bayar; wajib saat LTV di atas 80% — artinya uang muka di bawah 20%. Pada contoh ini LTV tepat 80%, jadi PMI tidak wajib; bila uang muka hanya 10% (LTV 90%), PMI wajib dan premi dibebankan ke debitur.",
+        "Tiga huruf yang menentukan lolos tidaknya KPR. LTV (loan-to-value) = pokok pinjaman dibagi nilai rumah. Rumah ilustratif Rp625 juta dengan pokok Rp500 juta → LTV 80%. DTI (debt-to-income) = cicilan dibagi penghasilan bulanan. Penghasilan ilustratif Rp15 juta per bulan → DTI ≈ 30% (4.498.630 / 15.000.000). Bank umumnya nyaman pada DTI di bawah sekitar 30–40%. PMI (private mortgage insurance) = asuransi yang melindungi PEMBERI PINJAMAN bila debitur gagal bayar; di pasar AS (konvensi GSE), wajib saat LTV di atas 80% — artinya uang muka di bawah 20%. Pada contoh ini LTV tepat 80%, jadi PMI tidak wajib; bila uang muka hanya 10% (LTV 90%), PMI wajib dan premi dibebankan ke debitur.",
       ],
       formula: String.raw`\text{Cicilan} = P \times \frac{r(1+r)^n}{(1+r)^n - 1} \qquad LTV = \frac{\text{pokok}}{\text{nilai rumah}} \qquad DTI = \frac{\text{cicilan}}{\text{penghasilan}}`,
       formulaNote: "P = pokok; r = bunga bulanan (bunga tahunan / 12); n = jumlah bulan. Contoh ilustratif: P = Rp500 jt, r = 0,0075, n = 240, (1+r)^n ≈ 6,0092 → cicilan ≈ Rp4.498.630; total bunga = 240 × 4.498.630 − 500.000.000 ≈ Rp579.671.147.",
@@ -52,7 +52,7 @@ export const e26: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "cicilan=4498630\\s+total_bunga=579671147", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Anuitas: cicilan tetap, bunga menurun, pokok membesar. LTV di atas 80% → PMI wajib.",
+      reference: "Anuitas: cicilan tetap, bunga menurun, pokok membesar. LTV di atas 80% → PMI wajib (pasar AS, konvensi GSE).",
     },
     {
       id: "sekuritisasi",
@@ -162,7 +162,7 @@ export const e26: V2Lesson = {
       tasks: [],
       summary: [
         "Originate-to-distribute: bank membuat KPR lalu menjualnya — modal bebas, tetapi insentif memeriksa debitur melemah.",
-        "KPR anuitas: cicilan = P × r(1+r)^n / ((1+r)^n − 1); LTV di atas 80% → PMI wajib; DTI mengukur beban cicilan.",
+        "KPR anuitas: cicilan = P × r(1+r)^n / ((1+r)^n − 1); LTV di atas 80% → PMI wajib (pasar AS); DTI mengukur beban cicilan.",
         "Sekuritisasi: pool → SPV bankruptcy-remote → MBS; kas dibayar dari atas, rugi masuk dari bawah.",
         "CMO: sequential-pay dan PAC vs support — prepayment ditanggung support, default ditanggung equity.",
         "CDO = tranche dari tranche; synthetic CDO = tranche dari CDS, tanpa obligasi.",
@@ -182,8 +182,8 @@ export const e26: V2Lesson = {
         {
           q: "LTV 90% (uang muka 10%). Apa konsekuensinya bagi debitur?",
           options: [
-            { text: "Tidak ada — LTV hanya angka internal bank", why: "Salah: LTV di atas 80% memicu kewajiban PMI." },
-            { text: "PMI wajib — asuransi yang melindungi pemberi pinjaman, preminya dibebankan ke debitur", why: "Benar: PMI melindungi lender, bukan debitur; pemicunya LTV di atas 80%.", correct: true },
+            { text: "Tidak ada — LTV hanya angka internal bank", why: "Salah: di pasar AS, LTV di atas 80% memicu kewajiban PMI." },
+            { text: "PMI wajib — asuransi yang melindungi pemberi pinjaman, preminya dibebankan ke debitur", why: "Benar: PMI melindungi lender, bukan debitur; di pasar AS, pemicunya LTV di atas 80%.", correct: true },
             { text: "Bunga otomatis 0%", why: "Salah: tidak ada kaitan antara LTV dan bunga nol." },
             { text: "KPR ditolak pasti", why: "Salah: LTV 90% masih bisa disetujui — dengan PMI." },
           ],

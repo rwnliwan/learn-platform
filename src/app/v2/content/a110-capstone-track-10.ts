@@ -229,8 +229,8 @@ export const a110: V2Lesson = {
       tasks: [],
       summary: [
         "Grain: satu baris = satu transaksi; nasabah dan transaksi dihitung terpisah.",
-        "Audit sebelum analisis: miss rate 30%, 1 duplikat, 2 outlier umur — dilaporkan, bukan disembunyikan.",
-        "NPL segmen di bawah 5 juta 20,0%, lima kali segmen di atas 10 juta (4,0%); NPL keseluruhan 10,67%.",
+        "Audit sebelum analisis: miss rate penghasilan 30% (3 dari 10 baris, per kolom penghasilan), 1 duplikat, 2 outlier umur — dilaporkan, bukan disembunyikan.",
+        "NPL segmen di bawah 5 juta 20,0% (8/40), 5–10 juta 10,0% (6/60), di atas 10 juta 4,0% (2/50); NPL keseluruhan 10,67% (16/150) — lima kali lipat segmen terendah vs tertinggi.",
         "Pipeline: agregasi di SQL, analisis di Python; n kecil menyesatkan — selalu tulis n di samping persentase.",
         "Laporan 1 halaman: pertanyaan, temuan, rekomendasi, batasan, jejak audit; rubrik nilai diri target 7 dari 8.",
       ],

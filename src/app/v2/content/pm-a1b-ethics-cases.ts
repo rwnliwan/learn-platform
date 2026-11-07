@@ -192,7 +192,7 @@ export const pma1b: V2Lesson = {
       eyebrow: "Langkah 7 · Strategi Ujian",
       title: "Pola penilai CFA: cara membaca vignette",
       prose: [
-        "Vignette CFA tidak menguji hafalan pasal — ia menguji cara membaca fakta. Strategi yang dipakai pemeriksa berpengalaman: pertama, cari FAKTA pelanggaran, bukan niat pelaku. Kalimat seperti ia berniat baik, analisisnya benar, atau tidak ada yang dirugikan adalah pengecoh — standar menilai perbuatan dan disclosure, bukan niat dan hasil. Bila fakta pelanggaran ada, niat baik tidak menghapusnya.",
+        "Vignette CFA tidak menguji hafalan pasal — ia menguji cara membaca fakta. Strategi yang dipakai pemeriksa berpengalaman: pertama, cari FAKTA pelanggaran, bukan niat pelaku. Kalimat seperti ia berniat baik, analisisnya benar, atau tidak ada yang dirugikan adalah pengecoh — standar menilai perbuatan dan disclosure, bukan niat dan hasil. Bila fakta pelanggaran ada, niat baik tidak menghapusnya. Pengecualian: beberapa standar — mis. misrepresentation dan manipulasi pasar — mensyaratkan unsur kesengajaan atau pengetahuan, jadi baca rumusan standar yang ditanyakan sebelum memutuskan.",
         "Kedua, cari frasa jebakan. Tanpa mengungkapkan hampir selalu berarti ada kewajiban disclosure yang dilanggar. Supervisornya mengetahui berarti ada pelanggaran supervisor tambahan. Di luar jam kantor, urusan pribadi, atau hanya bercerita hampir selalu berarti pelaku sedang membenarkan sesuatu yang seharusnya diungkapkan. Ketiga, bila dua standar tampak relevan, pilih yang paling spesifik: front-running adalah priority of transactions, bukan sekadar conduct umum.",
         "Keempat, ingat pengecualian mutlak: trading atas material nonpublic information tidak bisa disembuhkan oleh disclosure atau izin siapa pun — tidak seperti kebanyakan konflik yang bisa disembuhkan dengan pengungkapan tertulis dan persetujuan. Kelima, kerjakan dengan kerangka 4 langkah dari PM-A1: identifikasi aktor dan aliran uang atau informasi, uji standar dari yang paling spesifik, tanyakan apakah ada disclosure tertulis sebelum bertindak, dan dokumentasikan. Vignette yang terasa rumit biasanya hanya menumpuk dua pelanggaran sederhana — pisahkan aktornya, dan masing-masing pelanggaran akan terlihat sendiri.",
       ],
@@ -246,7 +246,7 @@ export const pma1b: V2Lesson = {
         "Additional compensation: ungkapkan tertulis ke employer dan minta persetujuan sebelum menerima.",
         "Supervisors: tahu ada indikasi tetapi diam adalah pelanggaran tersendiri.",
         "Front-running dan manipulation: mendahului klien dan menciptakan harga artifisial dilarang.",
-        "Cara membaca vignette: cari FAKTA pelanggaran, bukan niat; pilih standar paling spesifik.",
+        "Cara membaca vignette: cari FAKTA pelanggaran, bukan niat — kecuali standar yang ditanyakan mensyaratkan unsur kesengajaan/knowledge; pilih standar paling spesifik.",
       ],
       next: { label: "PM-A4B — Inventori: LIFO Reserve, Liquidation & Write-Down", href: "/learn/pm-a4b-inventory" },
     },

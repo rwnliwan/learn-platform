@@ -1,7 +1,7 @@
 import type { V2Lesson } from "../lib/types";
 
-// DLE27 — Fondasi yang tersebar: rangkaian DL1 (tensor, autodiff, backprop,
-// optimizer, inisialisasi, normalisasi, regularisasi) + DL13 representation
+// DLE27 — Fondasi yang tersebar: rangkaian fondasi (tensor, autodiff, backprop,
+// optimizer, inisialisasi, normalisasi, regularisasi) + representation learning (DLE7/DLE16)
 // learning (SimCLR / NT-Xent). Lab: hitung loss NT-Xent satu pasangan positif.
 const CHAIN_SVG = `<svg viewBox="0 0 640 120" role="img" aria-label="Rantai fondasi: tensor, autodiff, backprop, optimizer, inisialisasi, normalisasi, regularisasi.">
 <g font-family="var(--font-ui)" font-size="11" text-anchor="middle">
@@ -34,22 +34,22 @@ export const dle27: V2Lesson = {
       title: "Mengapa fondasi tersebar — dan mengapa lesson ini ada",
       prose: [
         "Fondasi deep learning tidak diajarkan dalam satu tempat: tensor di DLE1, backprop di DLE2, optimizer di DLE6, inisialisasi dan normalisasi tersebar di DLE6–DLE7, regularisasi di DLE9, representation learning hanya muncul sebagai SimCLR di DLE7 dan DLE16. Akibatnya, banyak pembelajar bisa menulis training loop tetapi tidak bisa menjawab: mengapa ketujuh potongan ini ada, dan apa yang rusak bila satu di antaranya hilang?",
-        "Lesson ini adalah jahitannya. DLE1 adalah petanya; DLE27 adalah benang yang menghubungkan peta itu menjadi satu rangkaian sebab-akibat — lalu melompat ke representation learning (DL13), ide yang menjelaskan mengapa pretraining bekerja dan kapan ia mengalahkan supervised learning murni.",
-        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan rantai DL1 sebagai jawaban berantai atas kegagalan, bukan daftar istilah; (2) menjelaskan representation learning dan loss NT-Xent SimCLR; (3) menghitung loss kontras satu pasangan positif dengan tangan; (4) memutuskan kapan melatih dari nol, kapan pretrain + fine-tune, dan kapan memakai fitur beku.",
+        "Lesson ini adalah jahitannya. DLE1 adalah petanya; DLE27 adalah benang yang menghubungkan peta itu menjadi satu rangkaian sebab-akibat — lalu melompat ke representation learning (DLE7/DLE16), ide yang menjelaskan mengapa pretraining bekerja dan kapan ia mengalahkan supervised learning murni.",
+        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan rantai fondasi sebagai jawaban berantai atas kegagalan, bukan daftar istilah; (2) menjelaskan representation learning dan loss NT-Xent SimCLR; (3) menghitung loss kontras satu pasangan positif dengan tangan; (4) memutuskan kapan melatih dari nol, kapan pretrain + fine-tune, dan kapan memakai fitur beku.",
       ],
       tasks: [],
       note: {
         title: "Cara membaca lesson ini",
         body: "Bila satu istilah terasa asing (mis. BatchNorm, weight decay), kembali ke lesson asalnya — DLE27 tidak mengulang detailnya, melainkan menunjukkan tempat istilah itu dalam rantai. Fondasi yang tersebar hanya bisa dipahami setelah tiap potongannya pernah disentuh.",
       },
-      reference: "DLE1 = peta; DLE27 = jahitan. Rangkaian DL1 + DL13 dalam satu tempat.",
+      reference: "DLE1 = peta; DLE27 = jahitan. Rangkaian fondasi + representation learning (DLE7/DLE16) dalam satu tempat.",
     },
     {
       id: "rangkaian-dl1",
-      eyebrow: "Langkah 2 · Rangkaian DL1",
+      eyebrow: "Langkah 2 · Rangkaian fondasi",
       title: "Tujuh kotak yang saling menjawab: tensor sampai regularisasi",
       prose: [
-        "Rantai DL1 dibaca sebagai sebab-akibat, bukan daftar belanja. (1) Tensor: data dan parameter harus hidup dalam satu struktur yang bisa didiferensiasi — tanpa tensor, tidak ada gradien. (2) Autodiff: menghitung gradien dengan tangan untuk jutaan parameter adalah mustahil; autodiff mencatat graf komputasi dan menurunkan gradien secara mekanis. (3) Backprop: aturan rantai yang diterapkan pada graf — gradien mengalir mundur dari loss ke setiap parameter. (4) Optimizer: gradien saja tidak melatih model — SGD/Adam memutuskan seberapa besar langkah yang diambil dari gradien itu. (5) Inisialisasi: gradien yang mengalir mundur akan meledak atau menghilang bila bobot awal salah skala — inisialisasi yang benar menjaga sinyal tetap hidup di kedalaman. (6) Normalisasi: bahkan dengan inisialisasi benar, distribusi aktivasi bergeser selama training — normalisasi menstabilkannya agar optimizer tidak mengejar target yang bergerak. (7) Regularisasi: model yang sudah bisa belajar dengan stabil masih bisa menghafal — regularisasi (weight decay, dropout, early stopping) memaksanya menggeneralisasi.",
+        "Rantai fondasi dibaca sebagai sebab-akibat, bukan daftar belanja. (1) Tensor: data dan parameter harus hidup dalam satu struktur yang bisa didiferensiasi — tanpa tensor, tidak ada gradien. (2) Autodiff: menghitung gradien dengan tangan untuk jutaan parameter adalah mustahil; autodiff mencatat graf komputasi dan menurunkan gradien secara mekanis. (3) Backprop: aturan rantai yang diterapkan pada graf — gradien mengalir mundur dari loss ke setiap parameter. (4) Optimizer: gradien saja tidak melatih model — SGD/Adam memutuskan seberapa besar langkah yang diambil dari gradien itu. (5) Inisialisasi: gradien yang mengalir mundur akan meledak atau menghilang bila bobot awal salah skala — inisialisasi yang benar menjaga sinyal tetap hidup di kedalaman. (6) Normalisasi: bahkan dengan inisialisasi benar, distribusi aktivasi bergeser selama training — normalisasi menstabilkannya agar optimizer tidak mengejar target yang bergerak. (7) Regularisasi: model yang sudah bisa belajar dengan stabil masih bisa menghafal — regularisasi (weight decay, dropout, early stopping) memaksanya menggeneralisasi.",
         "Uji pemahaman rantai ini dengan satu pertanyaan per kotak: bila kotaknya dihapus, apa yang rusak? Hapus autodiff → gradien ditulis tangan (tidak mungkin). Hapus inisialisasi → gradien hilang di layer dalam (DLE2). Hapus normalisasi → training lambat dan rapuh terhadap learning rate (DLE6). Hapus regularisasi → akurasi latih 1,00, akurasi uji jatuh (DLE9). Bila kamu tidak bisa menjawab 'apa yang rusak', kotaknya belum dipahami — hanya dihafal.",
         "💡 Intuisi: deep learning bukan tujuh teknik yang kebetulan berdampingan — melainkan tujuh jawaban atas tujuh kegagalan yang berurutan. Setiap kali training gagal, tanyakan: kotak mana yang rusak? Bukan: teknik apa lagi yang bisa ditambahkan?",
         "Cara membaca: tujuh kotak = rantai sebab-akibat; panah = 'memungkinkan' atau 'memperbaiki'. Tidak ada kotak yang berdiri sendiri — dan tidak ada kotak yang boleh dilewati dengan alasan 'nanti saja'.",
@@ -58,19 +58,19 @@ export const dle27: V2Lesson = {
       figure: {
         svg: CHAIN_SVG,
         alt: "Rantai fondasi: tensor, autodiff, backprop, optimizer, inisialisasi, normalisasi, regularisasi.",
-        caption: "Rantai DL1: setiap kotak menjawab kegagalan kotak sebelumnya — bukan daftar belanja.",
+        caption: "Rantai fondasi: setiap kotak menjawab kegagalan kotak sebelumnya — bukan daftar belanja.",
       },
       tasks: [],
       note: {
         title: "💡 Intuisi: diagnosis berjalan dari kiri ke kanan",
         body: "Kebanyakan bug training hidup di tiga kotak pertama (tensor, autodiff, backprop) atau di kotak kelima-keenam (inisialisasi, normalisasi). Regularisasi hampir tidak pernah menjadi penyebab training yang tidak konvergen — ia hanya menutupi overfitting setelah training berhasil.",
       },
-      reference: "DL1: tensor → autodiff → backprop → optimizer → inisialisasi → normalisasi → regularisasi.",
+      reference: "Rantai fondasi: tensor → autodiff → backprop → optimizer → inisialisasi → normalisasi → regularisasi.",
     },
     {
       id: "representation-learning",
       eyebrow: "Langkah 3 · Representation learning",
-      title: "DL13: mengapa representasi yang bagus mengalahkan label yang banyak",
+      title: "Representation learning (DLE7/DLE16): mengapa representasi yang bagus mengalahkan label yang banyak",
       prose: [
         "Supervised learning meminta label untuk setiap contoh — mahal, lambat, dan rapuh terhadap kelas yang tidak pernah dilihat. Representation learning membalik urutan: pelajari dulu representasi yang bagus dari data TANPA label, lalu pakai sedikit label untuk tugas akhirnya. SimCLR adalah contoh paling bersih: ambil satu gambar, buat dua augmentasi berbeda (crop, warna, blur), lalu latih model agar kedua augmentasi itu berdekatan di ruang embedding — dan jauh dari gambar lain dalam batch.",
         "Loss-nya NT-Xent: untuk satu pasangan positif dengan kemiripan kosinus s_pos dan negatif s_1…s_K pada suhu τ, loss = −ln(exp(s_pos/τ) / Σ exp(s/τ)). Suhu τ mengontrol ketajaman: τ kecil → distribusi lebih tajam, negatif yang sulit (mirip positif) dihukum lebih keras. Tanpa τ, loss tidak bisa membedakan 'sedikit mirip' dari 'sangat mirip' — dan representasi yang dipelajari menjadi datar.",
@@ -188,7 +188,7 @@ print(f"loss={loss:.3f}")`,
       ],
       tasks: [],
       summary: [
-        "Rantai DL1: tensor → autodiff → backprop → optimizer → inisialisasi → normalisasi → regularisasi — setiap kotak menjawab kegagalan kotak sebelumnya.",
+        "Rantai fondasi: tensor → autodiff → backprop → optimizer → inisialisasi → normalisasi → regularisasi — setiap kotak menjawab kegagalan kotak sebelumnya.",
         "Diagnosis training berjalan dari kiri ke kanan; regularisasi hampir tidak pernah menjadi penyebab training yang tidak konvergen.",
         "Representation learning: pelajari representasi dari data tanpa label (augmentasi + kontras), lalu pakai sedikit label — SimCLR/NT-Xent.",
         "NT-Xent: loss = −ln(exp(s_pos/τ) / Σ exp(s/τ)); semua kemiripan dibagi suhu; loss lab = 0,479 (peluang 0,619).",
@@ -197,7 +197,7 @@ print(f"loss={loss:.3f}")`,
       next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
       quiz: [
         {
-          q: "Mengapa rantai DL1 diajarkan sebagai sebab-akibat, bukan daftar istilah?",
+          q: "Mengapa rantai fondasi diajarkan sebagai sebab-akibat, bukan daftar istilah?",
           options: [
             { text: "Karena setiap kotak menjawab kegagalan kotak sebelumnya", correct: true, why: "Hapus inisialisasi → gradien hilang; hapus normalisasi → training rapuh; hapus regularisasi → menghafal. Rantai = checklist diagnosis, bukan daftar belanja." },
             { text: "Karena urutannya alfabetis dan mudah dihafal", correct: false, why: "Urutan rantai adalah urutan sebab-akibat (tensor memungkinkan gradien, gradien memungkinkan optimizer), bukan alfabet." },

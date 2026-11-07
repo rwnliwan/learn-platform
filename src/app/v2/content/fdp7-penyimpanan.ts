@@ -106,7 +106,7 @@ export const fdp7: V2Lesson = {
       eyebrow: "Langkah 5 · Lab",
       title: "Lab: simpan benchmark ke SQLite, tanyakan kembali",
       prose: [
-        "Kamu menyimpan 8 angka benchmark ke tabel kanonis SQLite (in-memory): KLBF FY2024 penjualan neto 32.627.776.108.026, laba bruto 12.957.040.191.898, laba bersih atribusional 3.240.636.626.331, total ekuitas 24.590.433.810.486; BBRI FY2024 NII 142.057.190 (Rp-juta) dan laba bersih 60.154.887 (Rp-juta); BBCA H1 2026 NII 42.604.563 (Rp-juta) dan laba bersih 29.534.446 (Rp-juta).",
+        "Kamu menyimpan 8 angka benchmark (dari laporan keuangan emiten — filings KLBF FY2024, BBRI FY2024, dan BBCA H1 2026) ke tabel kanonis SQLite (in-memory): KLBF FY2024 penjualan neto 32.627.776.108.026, laba bruto 12.957.040.191.898, laba bersih atribusional 3.240.636.626.331, total ekuitas 24.590.433.810.486; BBRI FY2024 NII 142.057.190 (Rp-juta) dan laba bersih 60.154.887 (Rp-juta); BBCA H1 2026 NII 42.604.563 (Rp-juta) dan laba bersih 29.534.446 (Rp-juta).",
         "Tugasmu: tulis fungsi simpan dan tanya. simpan membuat tabel dengan primary key (emiten, periode, pos), memasukkan 8 baris, lalu mencoba memasukkan ulang baris yang sama dengan INSERT OR IGNORE. tanya menghitung gross margin KLBF dari angka tersimpan (laba bruto dibagi penjualan, kali 100) dan net margin KLBF (laba bersih dibagi penjualan, kali 100).",
         "Eksperimen setelah selesai: jalankan simpan dua kali berturut-turut. Jumlah baris harus tetap 8 — itulah idempotent: pipeline boleh dijalankan ulang tanpa menggandakan data. Lalu ubah satu nilai dan jalankan lagi: apa yang terjadi bila primary key sama tetapi nilainya beda? (Jawaban: INSERT OR IGNORE menolak baris baru — untuk memperbarui angka, butuh aturan filed-menang dari FDP4, bukan insert buta.)",
       ],
@@ -181,7 +181,7 @@ export const fdp7: V2Lesson = {
         "CSV untuk tukar-menukar; Parquet untuk baca-cepat; SQLite untuk kanonis; DuckDB untuk analitik lokal.",
         "Kunci dedup: emiten + periode + pos — pipeline idempotent, simpan ulang tidak menggandakan.",
         "Satuan wajib tersimpan di samping nilai — database tidak memperbaiki jebakan satuan dengan sendirinya.",
-        "Gross margin KLBF FY2024 dari tabel tersimpan: 39,71; net margin: 9,93 (cocok dengan benchmark).",
+        "Gross margin KLBF FY2024 dari tabel tersimpan: 39,71; net margin: 9,93 (cocok dengan benchmark — sumber: laporan keuangan KLBF FY2024).",
       ],
       next: { label: "FDP8 — Otomasi & Penjadwalan: Pipeline yang Jalan Sendiri", href: "/v2/learn/fdp8-otomasi-penjadwalan" },
       quiz: [
