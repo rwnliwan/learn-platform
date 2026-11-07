@@ -27,6 +27,36 @@ INSERT INTO npl_bulanan VALUES ('2026-08', 9800, 304);
 INSERT INTO npl_bulanan VALUES ('2026-09', 9900, 320);
 INSERT INTO npl_bulanan VALUES ('2026-10', 10100, 350);`;
 
+// Lab rekonsiliasi (Langkah 9): dua sumber atas 10 debitur lab yang sama.
+// Sumber A lengkap (10 rekening, Rp5.400 juta); sumber B kehilangan 3
+// rekening terakhir (7 rekening, Rp4.000 juta) — selisih Rp1.400 juta.
+const RR33_REKON_SCHEMA = `CREATE TABLE sumber_a (
+  id INTEGER PRIMARY KEY,
+  baki INTEGER
+);
+CREATE TABLE sumber_b (
+  id INTEGER PRIMARY KEY,
+  baki INTEGER
+);`;
+
+const RR33_REKON_SEED = `INSERT INTO sumber_a VALUES (1, 1200);
+INSERT INTO sumber_a VALUES (2, 800);
+INSERT INTO sumber_a VALUES (3, 500);
+INSERT INTO sumber_a VALUES (4, 600);
+INSERT INTO sumber_a VALUES (5, 400);
+INSERT INTO sumber_a VALUES (6, 300);
+INSERT INTO sumber_a VALUES (7, 200);
+INSERT INTO sumber_a VALUES (8, 900);
+INSERT INTO sumber_a VALUES (9, 150);
+INSERT INTO sumber_a VALUES (10, 350);
+INSERT INTO sumber_b VALUES (1, 1200);
+INSERT INTO sumber_b VALUES (2, 800);
+INSERT INTO sumber_b VALUES (3, 500);
+INSERT INTO sumber_b VALUES (4, 600);
+INSERT INTO sumber_b VALUES (5, 400);
+INSERT INTO sumber_b VALUES (6, 300);
+INSERT INTO sumber_b VALUES (7, 200);`;
+
 export const rr33: V2Lesson = {
   slug: "rr33-sql-risk-reporting",
   track: "Risk Reporting",
@@ -90,7 +120,7 @@ export const rr33: V2Lesson = {
       eyebrow: "Langkah 4 · Konsep",
       title: "Bucketing DPD: dari hari tunggakan ke cerita risiko",
       prose: [
-        "DPD (days past due) adalah jumlah hari tunggakan. Angka mentahnya — 0, 15, 47, 120 — terlalu granular untuk laporan: direksi tidak bisa membaca 10.000 angka DPD. Bucketing mengelompokkannya ke keranjang yang bermakna: 0 (lancar), 1–30 (terlambat ringan), 31–60 (waspada), 61–90 (memburuk), di atas 90 (macet). Keranjangnya mengikuti cara bank mengelola: 1–30 ditelepon, 31–60 dikunjungi, 61–90 direstrukturisasi, di atas 90 dicadangkan penuh.",
+        "DPD (days past due) adalah jumlah hari tunggakan. Angka mentahnya — 0, 15, 47, 120 — terlalu granular untuk laporan: direksi tidak bisa membaca 10.000 angka DPD. Bucketing mengelompokkannya ke keranjang yang bermakna: 0 (lancar), 1–30 (terlambat ringan), 31–60 (waspada), 61–90 (memburuk), di atas 90 (macet). Keranjangnya mengikuti cara bank mengelola: 1–30 ditelepon, 31–60 dikunjungi, 61–90 direstrukturisasi, di atas 90 dicadangkan penuh — dalam contoh kebijakan internal ini.",
         "Di SQL, bucketing ditulis dengan CASE: CASE WHEN dpd = 0 THEN '0' WHEN dpd <= 30 THEN '1-30' WHEN dpd <= 60 THEN '31-60' WHEN dpd <= 90 THEN '61-90' ELSE '>90' END. Tiga aturan penulisan: (1) batas bucket harus menempel tanpa celah dan tanpa tumpang tindih — DPD 30 dan 31 harus jatuh ke bucket berbeda yang jelas; (2) bucket yang sama dipakai di semua laporan dan semua bulan, supaya tren bisa dibandingkan; (3) bucket 'macet' (di atas 90) harus sama dengan definisi NPL di kamus — bila kamus berubah, bucket ikut berubah dan perubahannya dicatat.",
         "Yang dibaca dari tabel bucket bukan totalnya, melainkan MIGRASINYA: berapa baki yang pindah dari bucket 1–30 ke 31–60 bulan ini? Migrasi yang membesar di bucket 31–60 adalah peringatan dini NPL tiga bulan ke depan — debitur tidak meloncat dari lancar ke macet, mereka berjalan melewati bucket satu per satu. Laporan bucketing yang baik menampilkan tabel bulan ini DAN panah migrasinya.",
         "Contoh ilustratif dari data lab: total baki Rp5.400 juta tersebar sebagai berikut — bucket 0: Rp2.700 juta (3 debitur), 1–30: Rp1.150 juta (2), 31–60: Rp900 juta (2), 61–90: Rp150 juta (1), di atas 90: Rp500 juta (2). Dua debitur di atas 90 dengan baki Rp500 juta adalah inti NPL; dua debitur di 31–60 dengan baki Rp900 juta adalah antrean masalah berikutnya. Angka ini akan kamu hitung sendiri di lab.",
@@ -189,7 +219,7 @@ export const rr33: V2Lesson = {
       note: {
         title: "Sering salah",
         type: "pitfall",
-        body: "“NPL naik 0,07 pp — kecil, abaikan.” Kecil di level portofolio bisa besar di level pendorong: +45 baru bermasalah ditahan oleh −35 pemulihan+write-off. Bila pemulihan berhenti bulan depan, kenaikan berikutnya bukan 0,07 pp melainkan 0,45 pp. Waterfall membaca masa depan, bukan hanya masa lalu.",
+        body: "“NPL naik 0,07 pp — kecil, abaikan.” Kecil di level portofolio bisa besar di level pendorong: +45 baru bermasalah ditahan oleh −35 pemulihan+write-off. Bila pemulihan berhenti bulan depan (arus lain sama: baru 45, write-off 15, total akhir 10.100), saldo akhir menjadi 370 — NPL 3,66%, naik 0,26 pp dari 3,40%. Angka 0,45 pp hanyalah kontribusi bruto arus baru (45 ÷ 10.000 × 100), bukan kenaikan NPL-nya. Waterfall membaca masa depan, bukan hanya masa lalu.",
       },
       hints: [
         "saldo_akhir = 340 + 45 - 20 - 15.",
@@ -219,8 +249,21 @@ export const rr33: V2Lesson = {
         "Contoh ilustratif: sumber A (core banking) mencatat 1.250 rekening kredit per 31 Oktober; sumber B (warehouse) mencatat 1.247. Selisih 3 rekening (0,24 persen). Tiga rekening itu harus dicari satu per satu — biasanya: rekening baru yang belum masuk proses ETL malam itu, rekening yang tutup di tengah bulan, atau rekening dengan segmen NULL yang lolos dari GROUP BY. Rekonsiliasi yang berhenti di 'selisih 3, kecil' adalah rekonsiliasi yang gagal: kecil hari ini, besar saat ETL-nya rusak.",
         "Tiga query rekonsiliasi yang wajib ada di setiap paket laporan: (1) jumlah baris per sumber (COUNT); (2) total nilai per sumber (SUM baki); (3) daftar kunci yang hanya ada di satu sumber (LEFT JOIN + IS NULL — anti-join). Yang ketiga paling berharga: ia menyebutkan NAMA rekening yang hilang, bukan hanya jumlahnya. Ambang toleransi (contoh internal: selisih di bawah 0,1 persen boleh jalan dengan catatan) harus tertulis — bukan dirasakan.",
         "Rujuk silang: rekonsiliasi di level konsep diajarkan di RR4 (kualitas data) dan RR31 (Python); lesson ini menambahkan bentuk SQL-nya — anti-join dan perbandingan agregat — supaya kamu bisa menuliskannya langsung di database, tanpa menunggu script Python.",
+        "Lab di bawah memakai 10 debitur lab yang sama (baki Rp juta): sumber A lengkap — 10 rekening, total Rp5.400 juta; sumber B — 7 rekening, total Rp4.000 juta. Perbandingan COUNT/SUM-nya: selisih 3 rekening dan Rp1.400 juta. Tugasmu adalah langkah ketiga: anti-join yang menyebutkan ketiga rekening yang hilang itu (id 8, 9, 10 — baki 900, 150, 350). Jumlahkan baki ketiganya: 900 + 150 + 350 = 1.400 — sama dengan selisih SUM kedua sumber. Itu uji silangmu: anti-join dan agregat harus bercerita sama.",
       ],
-      tasks: [],
+      tasks: [
+        { id: "t1", text: "Tulis anti-join: rekening yang ada di sumber_a tetapi tidak ada di sumber_b, urutkan menaik" },
+      ],
+      sqlLab: {
+        task: "Sumber A mencatat 10 rekening (total Rp5.400 juta), sumber B hanya 7 (total Rp4.000 juta). Tampilkan id dan baki rekening yang ada di sumber_a tetapi TIDAK ada di sumber_b (anti-join dengan LEFT JOIN + IS NULL), urutkan id menaik. Kolom: id, baki.",
+        schema: RR33_REKON_SCHEMA,
+        seedData: RR33_REKON_SEED,
+        starter: "SELECT\n",
+        solution: "SELECT a.id, a.baki FROM sumber_a a LEFT JOIN sumber_b b ON a.id = b.id WHERE b.id IS NULL ORDER BY a.id",
+        expectedColumns: ["id", "baki"],
+        expectedRows: [[8, 900], [9, 150], [10, 350]],
+        orderMatters: true,
+      },
       note: {
         title: "Sering salah",
         type: "pitfall",
@@ -248,8 +291,9 @@ export const rr33: V2Lesson = {
       eyebrow: "Langkah 11 · Mini-case",
       title: "NPL naik — dari mana? Jawab dalam 10 menit",
       prose: [
-        "Komite bertanya: NPL naik dari 3,40 persen ke 3,47 persen bulan ini. Kamu punya 10 menit sebelum rapat. Jawaban yang benar memakai tiga alat lesson ini: (1) cek as-of — pastikan kedua angka memakai as-of yang sama (31 Sep vs 31 Okt, bukan tanggal tarik); (2) buka waterfall — pendorongnya kredit baru bermasalah Rp45 miliar, ditahan pemulihan dan write-off; (3) buka bucketing — berapa baki yang migrasi dari 31–60 ke 61–90 bulan ini, karena itu antrean NPL bulan depan.",
-        "Jawaban 10 menit yang jujur: 'NPL naik 0,07 pp ke 3,47 persen (as-of 31 Okt). Pendorongnya kredit baru bermasalah Rp45 miliar; pemulihan Rp20 miliar dan write-off Rp15 miliar menahan kenaikan. Perhatian: bucket 31–60 berisi Rp900 juta — bila separuhnya migrasi bulan depan, NPL naik lagi sekitar 0,04 pp.' Tiga kalimat, tiga alat, satu keputusan yang bisa diambil. Itulah SQL untuk risk reporting.",
+        "Komite bertanya: NPL naik dari 3,40 persen ke 3,47 persen bulan ini. Kamu punya 10 menit sebelum rapat. Jawaban yang benar memakai tiga alat lesson ini: (1) cek as-of — pastikan kedua angka memakai as-of yang sama (30 Sep vs 31 Okt, bukan tanggal tarik); (2) buka waterfall — pendorongnya kredit baru bermasalah Rp45 miliar, ditahan pemulihan dan write-off; (3) buka bucketing — berapa baki yang migrasi dari 31–60 ke 61–90 bulan ini, karena itu antrean NPL bulan depan.",
+        "Jawaban 10 menit yang jujur: 'NPL naik 0,07 pp ke 3,47 persen (as-of 31 Okt). Pendorongnya kredit baru bermasalah Rp45 miliar; pemulihan Rp20 miliar dan write-off Rp15 miliar menahan kenaikan. Perhatian: bucket 31–60 berisi Rp900 juta — bila separuhnya (Rp450 juta) migrasi bulan depan, NPL naik lagi sekitar 0,004 pp (450 ÷ 10.100.000 × 100, memakai penyebut waterfall Rp10.100 miliar).' Tiga kalimat, tiga alat, satu keputusan yang bisa diambil. Itulah SQL untuk risk reporting.",
+        "Catatan satuan — dua dataset ilustratif yang berbeda: angka bucket memakai total Rp5.400 juta (data lab 10 debitur), sedangkan angka waterfall memakai total Rp10.100 miliar. Keduanya ilustratif, tetapi penyebutnya tidak boleh dicampur: migrasi Rp450 juta hanya bermakna bila dibagi penyebut yang sama dengan NPL-nya.",
       ],
       tasks: [],
       note: {

@@ -23,6 +23,9 @@ import { bi24 } from "../content/bi24-alternative-splicing";
 import { bi21 } from "../content/bi21-cancer-genomics";
 import { bi22 } from "../content/bi22-spatial-transcriptomics";
 import { bi23 } from "../content/bi23-pharmacogenomics";
+import { bi25 } from "../content/bi25-indeks-aligner";
+import { bi26 } from "../content/bi26-bioconductor";
+import { bi27 } from "../content/bi27-enrichment";
 
 export const REG_BI: Record<string, V2Lesson> = {
   "bi1-biologi-molekuler": bi1,
@@ -49,4 +52,7 @@ export const REG_BI: Record<string, V2Lesson> = {
   "bi21-cancer-genomics": bi21,
   "bi22-spatial-transcriptomics": bi22,
   "bi23-pharmacogenomics": bi23,
+  "bi25-indeks-aligner": bi25,
+  "bi26-bioconductor": bi26,
+  "bi27-enrichment": bi27,
 };

@@ -41,9 +41,9 @@ export const cr14a: V2Lesson = {
       eyebrow: "Langkah 3 · Staging",
       title: "Menentukan tumpukan",
       prose: [
-        "Staging = mengklasifikasikan tiap kredit ke Stage 1/2/3 (PSAK 71). Aturan praktis bank. Stage 1: tidak ada SICR → ECL = PD 12-bulan × LGD × EAD. Stage 2: SICR (PD naik ≥2× atau DPD ≥30) → ECL = PD lifetime × LGD × EAD. Stage 3: default (DPD >90 atau unlikely-to-pay) → ECL = 100% × LGD × EAD.",
+        "Staging = mengklasifikasikan tiap kredit ke Stage 1/2/3 (PSAK 109). Aturan praktis bank. Stage 1: tidak ada SICR → ECL = PD 12-bulan × LGD × EAD. Stage 2: SICR (PD naik ≥2× atau DPD ≥30) → ECL = PD lifetime × LGD × EAD. Stage 3: default (DPD >90 atau unlikely-to-pay) → ECL = 100% × LGD × EAD.",
         "Halus tetapi penting: curing — kredit bisa kembali Stage 2→1 jika membaik (dengan masa percobaan, misal 6 bulan DPD 0). Stage bukan jalan satu arah — tetapi juga bukan pintu putar (tidak boleh naik-turun tiap bulan).",
-        "Kolek 2 (DPK) vs Stage 2 (PSAK 71) — hubungannya tidak 1:1. Kolek 2 bisa Stage 1 atau 2 tergantung SICR. Analis Indonesia harus fasih dua bahasa: kolektibilitas (POJK, berbasis DPD + kualitatif) dan stage (PSAK 71, berbasis SICR) — dengan rekonsiliasi yang jelas.",
+        "Kolek 2 (DPK) vs Stage 2 (PSAK 109) — hubungannya tidak 1:1. Kolek 2 bisa Stage 1 atau 2 tergantung SICR. Analis Indonesia harus fasih dua bahasa: kolektibilitas (POJK, berbasis DPD + kualitatif) dan stage (PSAK 109, berbasis SICR) — dengan rekonsiliasi yang jelas.",
       ],
       tasks: [],
       note: {
@@ -185,7 +185,7 @@ export const cr14a: V2Lesson = {
       eyebrow: "Langkah 10 · Rekonsiliasi",
       title: "Dua bahasa: kolektibilitas vs stage",
       prose: [
-        "Analis Indonesia hidup dalam dua bahasa yang tidak sejajar. Kolektibilitas (POJK) berbasis DPD + penilaian kualitatif tiga pilar untuk komersial; stage (PSAK 71) berbasis SICR relatif terhadap origination. Kolek 2 (DPK, 1–90 hari) bisa Stage 1 (telat 5 hari karena administrasi, PD tidak naik signifikan) atau Stage 2 (telat 40 hari + watchlist). Kolek 1 pun bisa Stage 2 — debitur korporasi DPD 0 yang industrinya kolaps dan masuk watchlist: kolektibilitas masih 1 (belum ada tunggakan), stage sudah 2 (SICR kualitatif).",
+        "Analis Indonesia hidup dalam dua bahasa yang tidak sejajar. Kolektibilitas (POJK) berbasis DPD + penilaian kualitatif tiga pilar untuk komersial; stage (PSAK 109) berbasis SICR relatif terhadap origination. Kolek 2 (DPK, 1–90 hari) bisa Stage 1 (telat 5 hari karena administrasi, PD tidak naik signifikan) atau Stage 2 (telat 40 hari + watchlist). Kolek 1 pun bisa Stage 2 — debitur korporasi DPD 0 yang industrinya kolaps dan masuk watchlist: kolektibilitas masih 1 (belum ada tunggakan), stage sudah 2 (SICR kualitatif).",
         "Contoh jebakan: laporan ke direksi menampilkan \"Kolek 1: 95% — portofolio sehat\", sementara 8% dari Kolek 1 itu sebenarnya Stage 2 dengan ECL lifetime. Direksi membaca kesehatan, akuntansi mencatat cadangan. Rekonsiliasi wajib: matriks 5 × 3 (kolektibilitas × stage) setiap bulan. Sel yang harus diinterogasi: Kolek 1 × Stage 2 yang membesar (SICR diam-diam menumpuk), dan Kolek 3+ × Stage 1/2 (seharusnya hampir kosong — jika terisi, definisi default-mu tidak selaras).",
         "Aturan keputusan. Satu: tidak ada kredit Kolek 3+ yang boleh Stage 1 — default akuntansi minimal seketat default regulasi. Dua: selisih definisi didokumentasikan dalam kebijakan, bukan di kepala analis. Tiga: saat OJK bertanya \"mengapa CKPN naik padahal NPL stabil?\", jawabanmu adalah matriks ini — Stage 2 tumbuh di dalam Kolek 1/2. Analis yang hanya fasih satu bahasa akan selalu kalah argumen dari yang fasih dua-duanya.",
       ],
@@ -246,7 +246,7 @@ export const cr14a: V2Lesson = {
           ],
         },
         {
-          q: "Kolek 2 (DPK) vs Stage 2 (PSAK 71) — hubungannya?",
+          q: "Kolek 2 (DPK) vs Stage 2 (PSAK 109) — hubungannya?",
           options: [
             { text: "Sama persis — dua nama untuk satu hal", why: "Berbeda basis: DPD+kualitatif vs SICR." },
             { text: "Tidak 1:1 — Kolek 2 bisa Stage 1 atau 2 tergantung SICR; analis Indonesia harus fasih dua bahasa dengan rekonsiliasi yang jelas", why: "Dua bahasa paralel — laporan yang baik menyajikan keduanya.", correct: true },

@@ -92,12 +92,12 @@ export const pma2b: V2Lesson = {
       eyebrow: "Langkah 4 · Interval Kepercayaan",
       title: "Signifikan secara statistik belum tentu penting secara praktis",
       prose: [
-        "Interval kepercayaan 95 persen untuk mean return adalah mean sampel ditambah dan dikurangi sekitar 1,96 standard error (dengan t kritis bila sampel kecil). Contoh ilustratif: mean 0,9 persen dengan SE 0,5 persen menghasilkan interval 0,9 ditambah dan dikurangi 0,98 — yaitu dari negatif 0,08 persen sampai 1,88 persen. Interval ini mencakup nol, sehingga konsisten dengan kesimpulan uji hipotesis: belum cukup bukti mean-nya positif.",
+        "Interval kepercayaan 95 persen untuk mean return adalah mean sampel ditambah dan dikurangi t kritis sekitar 1,98 dikali standard error (ilustratif; 1,96 adalah nilai z, bukan t(143)). Contoh ilustratif: mean 0,9 persen dengan SE 0,5 persen menghasilkan interval 0,9 ditambah dan dikurangi 0,99 — yaitu dari negatif 0,09 persen sampai 1,89 persen. Interval ini mencakup nol, sehingga konsisten dengan kesimpulan uji hipotesis: belum cukup bukti mean-nya positif.",
         "Interpretasi yang benar: bila eksperimen yang sama diulang berkali-kali, 95 persen dari interval-interval yang dihasilkan akan mencakup mean populasi yang sebenarnya. Interpretasi yang salah — dan sangat umum — adalah ada peluang 95 persen mean sebenarnya berada dalam interval ini. Interval yang sudah dihitung tidak lagi mengandung peluang; mean populasi adalah angka tetap, intervalnya yang bervariasi antar sampel.",
         "Pembedaan terpenting di langkah ini adalah signifikansi statistik versus signifikansi praktis. Dengan sampel 100.000 observasi, efek 0,01 persen bisa signifikan secara statistik — tetapi tidak ada investor yang peduli dengan 0,01 persen. Sebaliknya, efek 2 persen yang tidak signifikan karena sampelnya hanya 12 observasi bisa sangat penting secara ekonomi. Selalu tanyakan dua hal: apakah intervalnya mengecualikan nol, dan apakah besar efeknya berarti sesuatu dalam rupiah?",
       ],
       formula: String.raw`CI_{95\%} = \bar{x} \pm t_{\text{kritis}} \times SE`,
-      formulaNote: "Mean 0,9 persen, SE 0,5 persen, t kritis sekitar 1,96 (ilustratif). Interpretasi: interval dari negatif 0,08 persen sampai 1,88 persen mencakup nol — konsisten dengan gagal tolak H0. Contoh angka: 0,9 dikurangi 0,98 = negatif 0,08; 0,9 ditambah 0,98 = 1,88.",
+      formulaNote: "Mean 0,9 persen, SE 0,5 persen, t kritis sekitar 1,98 (ilustratif; t.975,143 ≈ 1,977). Interpretasi: interval dari negatif 0,09 persen sampai 1,89 persen mencakup nol — konsisten dengan gagal tolak H0. Contoh angka: 0,9 dikurangi 0,99 = negatif 0,09; 0,9 ditambah 0,99 = 1,89.",
       tasks: [],
       note: {
         title: "Sering salah",
@@ -106,11 +106,11 @@ export const pma2b: V2Lesson = {
       },
       quiz: [
         {
-          q: "Interval kepercayaan 95 persen untuk mean return adalah dari negatif 0,08 persen sampai 1,88 persen. Kesimpulan yang benar?",
+          q: "Interval kepercayaan 95 persen untuk mean return adalah dari negatif 0,09 persen sampai 1,89 persen. Kesimpulan yang benar?",
           options: [
             { text: "Ada peluang 95 persen mean sebenarnya ada di dalam interval ini", why: "Salah: itu interpretasi yang umum tetapi keliru — mean populasi tetap, interval yang bervariasi antar sampel." },
             { text: "Interval mencakup nol, konsisten dengan gagal tolak H0; dan lebarnya menunjukkan estimasi masih tidak presisi", why: "Benar: mencakup nol berarti belum cukup bukti mean positif; lebar hampir 2 poin berarti ketidakpastiannya besar.", correct: true },
-            { text: "Mean return pasti negatif", why: "Salah: interval mencakup nilai positif sampai 1,88 persen — data tidak membuktikan mean negatif." },
+            { text: "Mean return pasti negatif", why: "Salah: interval mencakup nilai positif sampai 1,89 persen — data tidak membuktikan mean negatif." },
             { text: "Strateginya terbukti menguntungkan", why: "Salah: interval mencakup nol dan nilai negatif — keuntungan belum terbukti." },
           ],
         },
@@ -257,7 +257,7 @@ export const pma2b: V2Lesson = {
         "Interval kepercayaan mencakup nol berarti belum cukup bukti; signifikan statistik bukan sama dengan penting secara praktis.",
         "OLS: slope = kovarians dibagi varians x; R kuadrat = porsi variasi yang dijelaskan; periksa residual sebelum percaya uji t.",
       ],
-      next: { label: "PM-A3 — Economics: Mikro, Makro & FX", href: "/learn/pm-a3-economics" },
+      next: { label: "PM-A3 — Economics: Mikro, Makro & FX", href: "/v2/learn/pm-a3-economics" },
     },
   ],
 };

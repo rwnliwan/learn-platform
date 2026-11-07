@@ -29,6 +29,7 @@ import { bcd27 } from "../content/bcd27-dao-governance";
 import { bcd28 } from "../content/bcd28-erc4337";
 import { bcd29 } from "../content/bcd29-mikrostruktur-pasar";
 import { bcd30 } from "../content/bcd30-keamanan-smart-contract";
+import { bcd31 } from "../content/bcd31-kriptografi";
 
 export const REG_BCD: Record<string, V2Lesson> = {
   "bcd1-lanskap": bcd1,
@@ -61,4 +62,5 @@ export const REG_BCD: Record<string, V2Lesson> = {
   "bcd28-erc4337": bcd28,
   "bcd29-mikrostruktur-pasar": bcd29,
   "bcd30-keamanan-smart-contract": bcd30,
+  "bcd31-kriptografi": bcd31,
 };

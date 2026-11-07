@@ -1,13 +1,13 @@
 import type { V2Lesson } from "../lib/types";
 
-// Ketersediaan vs jumlah retry: 75% -> 99.5% (dengan backoff).
-const FIG_HARD = `<svg viewBox="0 0 480 250" role="img" aria-label="Ketersediaan naik dari 75 persen ke 99,5 persen dengan retry.">
+// Ketersediaan vs jumlah retry: 75% -> 99,6% (dengan backoff).
+const FIG_HARD = `<svg viewBox="0 0 480 250" role="img" aria-label="Ketersediaan naik dari 75 persen ke 99,6 persen dengan retry.">
 <g stroke="var(--chart-grid)" stroke-width="1"><line x1="44" y1="205" x2="460" y2="205"/><line x1="44" y1="155" x2="460" y2="155"/><line x1="44" y1="105" x2="460" y2="105"/><line x1="44" y1="55" x2="460" y2="55"/></g>
 <g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="38" y="209">75%</text><text x="38" y="159">85%</text><text x="38" y="109">95%</text><text x="38" y="59">100%</text></g>
-<polyline points="80,205 180,130 280,85 380,62" fill="none" stroke="var(--c1)" stroke-width="3"/>
-<g fill="var(--c1)"><circle cx="80" cy="205" r="5"/><circle cx="180" cy="130" r="5"/><circle cx="280" cy="85" r="5"/><circle cx="380" cy="62" r="5"/></g>
+<polyline points="80,205 180,92.5 280,64.4 380,57.3" fill="none" stroke="var(--c1)" stroke-width="3"/>
+<g fill="var(--c1)"><circle cx="80" cy="205" r="5"/><circle cx="180" cy="92.5" r="5"/><circle cx="280" cy="64.4" r="5"/><circle cx="380" cy="57.3" r="5"/></g>
 <g fill="var(--text)" font-size="11" font-family="var(--font-ui)" text-anchor="middle"><text x="80" y="225">0 retry</text><text x="180" y="225">1x</text><text x="280" y="225">2x</text><text x="380" y="225">3x</text></g>
-<g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="middle"><text x="80" y="195">75%</text><text x="180" y="120">90%</text><text x="280" y="75">97%</text><text x="380" y="52">99,5%</text></g>
+<g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="middle"><text x="80" y="195">75%</text><text x="180" y="82.5">93,8%</text><text x="280" y="54.4">98,4%</text><text x="380" y="47.3">99,6%</text></g>
 <text x="240" y="245" font-size="11" fill="var(--text-muted)" font-family="var(--font-ui)" text-anchor="middle">kegagalan transient 25%: retry mengubah nasib</text>
 </svg>`;
 
@@ -48,8 +48,8 @@ export const aai15: V2Lesson = {
       formulaNote: "P_sukses = peluang berhasil dengan n retry (n+1 total percobaan); p = peluang gagal per percobaan (asumsi independen). w_k = jeda sebelum retry ke-k; w_0 = jeda awal. Contoh: p=0,25, n=3 → 1−0,25⁴ = 99,6% (cocok dengan lab!).",
       figure: {
         svg: FIG_HARD,
-        alt: "Ketersediaan naik dari 75 persen ke 99,5 persen dengan retry.",
-        caption: "Efek retry pada kegagalan transient 25%.",
+        alt: "Ketersediaan naik dari 75 persen ke 99,6 persen dengan retry.",
+        caption: "Efek retry pada kegagalan transient 25%: 75% → 93,8% → 98,4% → 99,6% (rumus 1−p^(n+1), p=0,25).",
       },
       tasks: [],
       note: {
@@ -62,7 +62,7 @@ export const aai15: V2Lesson = {
     {
       id: "lab-retry",
       eyebrow: "Langkah 3 · Lab retry",
-      title: "Lab: dari 75% ke 99,5% + circuit breaker",
+      title: "Lab: dari 75% ke 99,6% + circuit breaker",
       prose: [
         "Tool flaky gagal 2x lalu sukses. Implementasikan call_with_retry dengan exponential backoff: coba, gagal → tunggu base×2^k → coba lagi. Hitung attempts yang dibutuhkan. Lalu simulasikan circuit breaker: 5 gagal beruntun → buka sirkuit → tolak cepat tanpa memanggil tool.",
         "Coba ubah: naikkan fail_times ke 5 dengan max_retries=3 — lihat retry MENYERAH (exception) alih-alih berbohong sukses. Retry yang baik tahu kapan berhenti: menyerah eksplisit > gagal diam-diam.",
@@ -196,7 +196,7 @@ print("tool_calls:", calls)`,
       eyebrow: "Langkah 5 · Peta keputusan",
       title: "Peta keputusan: pola apa untuk kegagalan apa?",
       prose: [
-        "Skenario 1 — API timeout sesekali (transient, idempoten) → retry 3x + backoff. Kasus lab: 75% → 99,5%.",
+        "Skenario 1 — API timeout sesekali (transient, idempoten) → retry 3x + backoff. Kasus lab: 75% → 99,6%.",
         "Skenario 2 — pembayaran/debit (non-idempoten) → idempotency key DULU, baru retry. Tanpa kunci: jangan retry otomatis — eskalasi ke manusia.",
         "Skenario 3 — vendor down total (5 gagal beruntun) → circuit breaker + fallback (model lain / cache / pesan jujur). Jangan antre menunggu yang mati.",
         "Skenario 4 — agen 10 langkah, gagal di langkah 8 → checkpointing: lanjut dari 7. Tanpa: ulangi 8 langkah = 8x biaya.",
@@ -211,9 +211,9 @@ print("tool_calls:", calls)`,
       eyebrow: "Langkah 6 · Mini-case",
       title: "Mini-case: debit ganda Rp200 juta pelajaran",
       prose: [
-        "Insiden Rani: 1.000 pembayaran/hari, 2% timeout transient (20/hari). Tanpa retry: 20 gagal/hari × Rp50 ribu biaya CS manual = Rp1 juta/hari + 20 nasabah kecewa. Dengan retry 3x (99,96% sukses): 0,008 gagal/hari ≈ 1 per 4 bulan. Biaya retry: 20 × 3 × Rp200 (token) = Rp12 ribu/hari. ROI: Rp1 juta → Rp12 ribu + kepuasan.",
+        "Insiden Rani: 1.000 pembayaran/hari, 2% timeout transient (20/hari). Tanpa retry: 20 gagal/hari × Rp50 ribu biaya CS manual = Rp1 juta/hari + 20 nasabah kecewa. Dengan retry 3x, peluang satu pembayaran gagal total = 0,02⁴ = 1,6×10⁻⁷ — sukses 99,99998%, praktis 100%: ekspektasi gagal ≈ 20 × 0,02³ ≈ 0,00016/hari ≈ 1 per 17 tahun. (Angka 99,96% adalah untuk SATU retry saja: 1−0,02².) Biaya retry: tiap timeout memicu rata-rata 1 + 0,02 + 0,0004 ≈ 1,02 percobaan ulang — 20 × 1,02 × Rp200 ≈ Rp4.100/hari. ROI: Rp1 juta → ~Rp4 ribu + kepuasan.",
         "Tetapi: tanpa idempotency key, 0,1% retry 'sukses ganda' = 0,02 debit ganda/hari ≈ 7/tahun × Rp5 juta = Rp35 juta/tahun + reputasi. Dengan kunci: 0. Biaya implementasi kunci: 3 hari dev = Rp15 juta sekali. Break-even: <6 bulan. Pelajaran: retry tanpa idempotency = diskon hari ini, denda tahun depan.",
-        "Pembahasan: perhatikan asimetri — kegagalan retry (Rp12 ribu/hari) vs kegagalan idempotency (Rp35 juta/tahun + reputasi). Tim sering mengoptimasi yang murah (tambah retry) sambil mengabaikan yang mahal (kunci). Prioritaskan berdasarkan D (kerusakan), bukan P (frekuensi).",
+        "Pembahasan: perhatikan asimetri — kegagalan retry (~Rp4 ribu/hari) vs kegagalan idempotency (Rp35 juta/tahun + reputasi). Tim sering mengoptimasi yang murah (tambah retry) sambil mengabaikan yang mahal (kunci). Prioritaskan berdasarkan D (kerusakan), bukan P (frekuensi).",
         "Cara membaca: hitung DULU biaya kegagalan per jenis, BARU pilih pola. Urutan yang benar: (1) daftar kegagalan, (2) harga tiap kegagalan, (3) pola termurah yang menutup yang termahal.",
         "Interpretasi: hardening adalah manajemen risiko dengan kode. Lima pola = lima polis asuransi; premi = waktu implementasi; klaim = insiden yang tidak terjadi.",
       ],
@@ -232,13 +232,13 @@ print("tool_calls:", calls)`,
         "Budget latensi dan biaya: agen tanpa budget adalah kartu kredit tanpa limit. Tetapkan: (1) BUDGET LANGKAH: maks 25 langkah per sesi — sesi yang sehat selesai di bawah 12; (2) BUDGET TOKEN: maks 150k token per sesi; proyeksi berjalan dihitung tiap langkah, hentikan elegan bila proyeksi melebihi (dari AAI14: enforce B_maks); (3) BUDGET LATENSI: p99 di bawah 45 detik per sesi — langkah yang melebihi 120 detik di-kill dan di-retry sekali; (4) BUDGET BIAYA: Rp15.000 per sesi; alert pada 80%, hentikan pada 100%. Contoh aritmetik: 10.000 sesi/hari × Rp15.000 = Rp150 juta/hari bila semua mentok — tanpa enforce, satu bug loop tool bisa membakar itu dalam sejam. Dashboard wajib: biaya per sesi (p50/p99), distribusi langkah, top-10 sesi termahal. Aturan: setiap angka budget ditulis di kontrak rilis dan diuji di staging — budget yang tidak di-enforce adalah harapan, bukan kontrol.",
       ],
       formula: String.raw`\hat{p} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}`,
-      formulaNote: "p̂ = tingkat keberhasilan pada golden set (lolos/n); z = 1,96 untuk CI 95%; n = ukuran golden set. Contoh: 182 lolos dari 200 → p̂ = 0,91; CI = 0,91 ± 1,96·akar(0,91·0,09/200) = 0,91 ± 0,040 → [0,87, 0,95]. Dua versi agen dengan p̂ 0,91 vs 0,93 pada n = 200 SELANGNYA TUMPANG TINDIH — perbedaannya noise, bukan kemenangan. Mau membedakan selisih 2%? Butuh n sekitar 2.000. Inilah mengapa ukuran golden set adalah keputusan statistik, bukan tebakan.",
+      formulaNote: "p̂ = tingkat keberhasilan pada golden set (lolos/n); z = 1,96 untuk CI 95%; n = ukuran golden set. Contoh: 182 lolos dari 200 → p̂ = 0,91; CI = 0,91 ± 1,96·akar(0,91·0,09/200) = 0,91 ± 0,040 → [0,87, 0,95]. Dua versi agen dengan p̂ 0,91 vs 0,93 pada n = 200 SELANGNYA TUMPANG TINDIH — perbedaannya noise, bukan kemenangan. Mau membedakan selisih 2%? Butuh n sekitar 2.944 (n ≈ 16·p(1−p)/Δ² = 16 × 0,92 × 0,08 / 0,02²). Inilah mengapa ukuran golden set adalah keputusan statistik, bukan tebakan.",
       tasks: [],
       quiz: [
         {
           q: "Agen A: 182/200 lolos (p̂=0,91). Agen B: 186/200 lolos (p̂=0,93). Klaim 'B lebih baik' — sah?",
           options: [
-            { text: "Tidak — CI 95% keduanya tumpang tindih ([0,87,0,95] vs [0,89,0,97]); selisihnya noise", why: "Benar: dengan n=200, margin ±0,04 menelan selisih 0,02. Butuh n≈2.000 untuk membedakan 2%.", correct: true },
+            { text: "Tidak — CI 95% keduanya tumpang tindih ([0,87,0,95] vs [0,89,0,97]); selisihnya noise", why: "Benar: dengan n=200, margin ±0,04 menelan selisih 0,02. Butuh n≈2.944 untuk membedakan 2%.", correct: true },
             { text: "Sah — 0,93 > 0,91 secara matematis", why: "Salah: membandingkan titik estimasi tanpa interval adalah cara klasik mengumumkan kemenangan palsu." },
             { text: "Sah bila diuji ulang 3 kali dan B menang terus", why: "Salah: pengulangan tanpa ukuran sampel yang cukup hanya mengulang noise yang sama." },
             { text: "Tidak bisa dinilai tanpa LLM-as-judge", why: "Salah: ini soal statistik sampel, bukan kualitas penilaian — judge tidak memperbaiki n yang kecil." },
@@ -275,7 +275,7 @@ print("tool_calls:", calls)`,
       tasks: [],
       summary: [
         "Lima pola: retry+backoff (transient), idempotency (aman diulang), timeout (p99×2), checkpoint (lanjut dari gagal), circuit breaker (lindungi yang sakit).",
-        "P_sukses(n) = 1−p^(n+1); w_k = w_0×2^k: retry mengubah 75% menjadi 99,5%.",
+        "P_sukses(n) = 1−p^(n+1); w_k = w_0×2^k: retry mengubah 75% menjadi 99,6%.",
         "JANGAN retry aksi non-idempoten tanpa kunci — debit ganda > gagal eksplisit.",
         "Biaya: C_sesi ≤ B_maks (enforce!) + kill switch + alert; loop bug = $12.000 semalam.",
         "Checklist 7 item sebelum produksi; deploy = berani karena bisa rollback.",

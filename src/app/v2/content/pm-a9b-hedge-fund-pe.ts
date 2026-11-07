@@ -285,7 +285,7 @@ export const pma9b: V2Lesson = {
         "Real estate: cap rate = NOI dibagi harga; harga wajar = NOI dibagi cap rate pasar. Komoditas: contango menggerogoti, backwardation memberi.",
         "Due diligence: co-invest pribadi, seluruh vintage termasuk yang gagal, valuasi NAV independen.",
       ],
-      next: { label: "PM-A10B — Portfolio Management: IPS, Manajemen Risiko & Rebalancing", href: "/learn/pm-a10b-IPS-risiko" },
+      next: { label: "PM-A10 — Portfolio Management: Diversifikasi, CAPM & IPS", href: "/v2/learn/pm-a10-portfolio-mgmt" },
     },
   ],
 };

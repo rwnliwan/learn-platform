@@ -175,7 +175,7 @@ export const e29: V2Lesson = {
         "Tata kelola: dewan independen, investment policy statement, audit, dan transparansi menggantikan disiplin pasar.",
         "Satu beasiswa Rp50 jt/tahun selamanya butuh Rp1,25 miliar dana abadi pada spending rate 4%.",
       ],
-      next: { label: "E1 — Struktur Pasar (awal track)", href: "/learn/e1-struktur-pasar" },
+      next: { label: "E30 — Fintech dan Inovasi Teknologi Keuangan", href: "/v2/learn/e30-fintech" },
       quiz: [
         {
           q: "Apa itu endowment?",

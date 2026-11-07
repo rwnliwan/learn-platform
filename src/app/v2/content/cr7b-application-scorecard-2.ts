@@ -122,7 +122,7 @@ export const cr7b: V2Lesson = {
       title: "KS, Gini, dan scorecard yang kedaluwarsa",
       prose: [
         "KS (Kolmogorov-Smirnov): jarak maksimum antara kurva kumulatif Good vs Bad. KS 45% = daya beda kuat. Patokan: <20% lemah, 20–40% sedang, 40–60% kuat, >60% curigai (leakage?). Gini = 2×AUC − 1: mengukur daya beda keseluruhan. Gini 0,55 (AUC 0,775) = standar bagus scorecard retail Indonesia. Swap set analysis: bandingkan keputusan model baru vs lama — yang masuk harusnya bad rate rendah, yang keluar bad rate tinggi.",
-        "Tetapi diskriminasi tanpa kalibrasi tidak cukup untuk CKPN. Model A: Gini 0,60 tetapi kalibrasi meleset (skor 650 = PD aktual 8%, bukan 4%). Model B: Gini 0,50 tetapi kalibrasi pas. Untuk perhitungan CKPN (PSAK 71), pilih Model B — ECL butuh angka PD yang benar, bukan cuma ranking yang benar.",
+        "Tetapi diskriminasi tanpa kalibrasi tidak cukup untuk CKPN. Model A: Gini 0,60 tetapi kalibrasi meleset (skor 650 = PD aktual 8%, bukan 4%). Model B: Gini 0,50 tetapi kalibrasi pas. Untuk perhitungan CKPN (PSAK 109), pilih Model B — ECL butuh angka PD yang benar, bukan cuma ranking yang benar.",
         "Scorecard dilatih dari data masa lalu — dunia berubah. Monitoring tiap bulan: PSI (Population Stability Index) — PSI >0,25 = populasi bergeser signifikan; Gini/KS out-of-time — turun >10 poin = alarm; bad rate per skor — skor 650 kini 7% (bukan 4%) = kalibrasi rusak. Scorecard seperti vaksin — perlu booster (rebuild) saat virus bermutasi. Aturan praktis: rebuild tiap 1–2 tahun, monitor tiap bulan.",
       ],
       tasks: [],
@@ -232,7 +232,7 @@ export const cr7b: V2Lesson = {
           ],
         },
         {
-          q: "Model A: Gini 0,60 tapi kalibrasi meleset (skor 650 = PD aktual 8%, bukan 4%). Model B: Gini 0,50 tapi kalibrasi pas. Untuk perhitungan CKPN (PSAK 71), pilih?",
+          q: "Model A: Gini 0,60 tapi kalibrasi meleset (skor 650 = PD aktual 8%, bukan 4%). Model B: Gini 0,50 tapi kalibrasi pas. Untuk perhitungan CKPN (PSAK 109), pilih?",
           options: [
             { text: "Model A — Gini lebih tinggi selalu menang", why: "Gini tinggi tanpa kalibrasi = salah hitung cadangan." },
             { text: "Model B — CKPN butuh angka PD yang benar (kalibrasi); ranking bagus tidak cukup untuk menghitung rupiah cadangan", why: "ECL = PD × LGD × EAD — butuh PD yang benar angkanya.", correct: true },

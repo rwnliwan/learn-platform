@@ -103,8 +103,46 @@ export const biz9: V2Lesson = {
       },
     },
     {
+      id: "firewall",
+      eyebrow: "Langkah 5 · Data quality firewall",
+      title: "Firewall: tolak di pintu, bukan di dashboard",
+      prose: [
+        "Rekonsiliasi menemukan break SETELAH data sampai di dashboard. Firewall mencegahnya SEBELUM masuk: setiap batch yang masuk warehouse/BI melewati tiga gerbang — validasi nilai, validasi status, validasi keunikan — sebelum boleh dipakai. Baris yang gagal tidak dibuang diam-diam: ia masuk tabel karantina dan dihitung reject rate-nya.",
+        "Tiga aturan di lab bawah (format data latihan): (1) amount harus ada dan > 0 — amount null atau negatif = tolak; (2) status harus dalam daftar yang diizinkan (paid, cancelled, refunded) — status asing = tolak; (3) order_id harus unik — kemunculan kedua = tolak sebagai duplikat. Aturan dievaluasi berurutan dan setiap penolakan dicatat alasannya — tanpa alasan, karantina tidak bisa ditindaklanjuti.",
+        "Ambang alert: reject rate = ditolak / total batch. Di bawah 1% = noise, pantau saja. 1–10% = peringatan: cek sumber (biasanya deploy ETL atau perubahan format). Di atas 10% = ALERT + freeze batch: jangan rilis dashboard dari batch itu sebelum investigasi — batch yang 20% barisnya ditolak hampir pasti mengandung break yang sama dengan cerita pembuka (retry ETL, status salah tabel).",
+      ],
+      tasks: [
+        { id: "t1", text: "Implementasikan firewall: `diterima` (order_id) dan `ditolak` [(order_id, alasan)]" },
+        { id: "t2", text: "Hitung `reject_rate` (%) dan `alert` (True jika > 10%)" },
+      ],
+      expected: "diterima=8 ditolak=2 reject_rate=20.0% alert=True",
+      note: {
+        title: "Sering salah",
+        body: "Firewall yang menolak diam-diam tanpa alasan dan tanpa karantina — baris hilang, tidak ada yang tahu kenapa. Tolak + catat alasan + karantina: penolakan yang tidak bisa dijelaskan = data yang tidak bisa diaudit.",
+      },
+      hints: [
+        "Cek berurutan: amount dulu (None atau <= 0), lalu status, lalu duplikat.",
+        "Pakai set untuk order_id yang sudah dilihat.",
+        "reject_rate = len(ditolak)/len(batch)*100; alert jika > 10.",
+      ],
+      code: {
+        starter: `# Firewall: validasi batch sebelum masuk warehouse.\n# (order_id, amount_rb, status)\nbatch = [("O1", 500, "paid"), ("O2", 300, "paid"), ("O3", 200, "cancelled"),\n         ("O4", 450, "paid"), ("O5", 150, "paid"), ("O6", 600, "paid"),\n         ("O7", 250, "paid"), ("O8", 400, "paid"), ("O4", 450, "paid"),\n         ("O9", None, "paid")]\nSTATUS_OK = {"paid", "cancelled", "refunded"}\n\n# TULIS KODEMU: firewall -> diterima, ditolak, reject_rate, alert\nditerima = []\nditolak = []\nreject_rate = 0.0\nalert = False\n\nprint(f"diterima={len(diterima)} ditolak={len(ditolak)} reject_rate={reject_rate:.1f}% alert={alert}")\nprint(f"karantina={ditolak}")`,
+        lockLines: 7,
+        solution: `# Firewall: validasi batch sebelum masuk warehouse.\n# (order_id, amount_rb, status)\nbatch = [("O1", 500, "paid"), ("O2", 300, "paid"), ("O3", 200, "cancelled"),\n         ("O4", 450, "paid"), ("O5", 150, "paid"), ("O6", 600, "paid"),\n         ("O7", 250, "paid"), ("O8", 400, "paid"), ("O4", 450, "paid"),\n         ("O9", None, "paid")]\nSTATUS_OK = {"paid", "cancelled", "refunded"}\n\n# TULIS KODEMU: firewall -> diterima, ditolak, reject_rate, alert\nditerima = []\nditolak = []\ndilihat = set()\nfor o, a, s in batch:\n    if a is None or a <= 0:\n        ditolak.append((o, "amount"))\n    elif s not in STATUS_OK:\n        ditolak.append((o, "status"))\n    elif o in dilihat:\n        ditolak.append((o, "duplikat"))\n    else:\n        diterima.append(o)\n        dilihat.add(o)\nreject_rate = len(ditolak) / len(batch) * 100\nalert = reject_rate > 10\n\nprint(f"diterima={len(diterima)} ditolak={len(ditolak)} reject_rate={reject_rate:.1f}% alert={alert}")\nprint(f"karantina={ditolak}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "diterima", value: ["O1", "O2", "O3", "O4", "O5", "O6", "O7", "O8"], label: "`diterima` = 8 order", msg: "O4 kedua dan O9 (amount null) ditolak." },
+          { kind: "equal", task: "t2", name: "reject_rate", value: 20.0, tol: 1e-9, label: "`reject_rate` = 20.0%", msg: "2 dari 10 baris ditolak." },
+          { kind: "equal", task: "t2", name: "alert", value: true, label: "`alert` = True", msg: "20% > ambang 10% — freeze batch." },
+          { kind: "stdout_matches", task: "t2", pattern: "reject_rate=20\\.0% alert=True", label: "`print` menampilkan hasil", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "stdout_matches", task: "t1", pattern: "O4.*duplikat", label: "Alasan duplikat tercatat", msg: "Penolakan O4 harus beralasan 'duplikat'." },
+          { kind: "stdout_matches", task: "t1", pattern: "O9.*amount", label: "Alasan amount tercatat", msg: "Penolakan O9 harus beralasan 'amount'." },
+        ],
+      },
+      reference: "Firewall = validasi saat masuk + karantina + ambang alert. Tolak beralasan, jangan perbaiki diam-diam.",
+    },
+    {
       id: "lab-break",
-      eyebrow: "Langkah 5 · Lab",
+      eyebrow: "Langkah 6 · Lab",
       title: "Lab: temukan break-nya",
       prose: [
         "Kamu diberi dua sumber: `bi_rows` (11 baris, termasuk jebakan) dan `fin_rows` (8 baris, acuan). Tugasmu: (1) hitung `bi_total`, `fin_total`, `gap`; (2) temukan `cancelled_total` dan `duplikat_ids`, hitung `rev_benar` (paid + dedup); (3) verifikasi jembatan menutup: `tutup = (bi_total - cancelled_total - 450 == fin_total)` — angka 450 adalah nilai duplikat yang kamu temukan.",
@@ -143,11 +181,11 @@ export const biz9: V2Lesson = {
       reference: "Counter untuk deteksi duplikat. Rekonsiliasi = pecah selisih jadi penyebab bernama.",
     },    {
       id: "lab2-rekonsiliasi-tiga-sumber",
-      eyebrow: "Langkah 6 · Lab",
+      eyebrow: "Langkah 7 · Lab",
       title: "Lab: rekonsiliasi tiga sumber",
       prose: [
         "BI bilang 2.450, finance 2.380, warehouse 2.510 — selisih 130 juta dan rapat berubah jadi debat kusir. Tugasmu: terapkan temuan audit (retur 45 hanya di BI, duplikat 60 hanya di warehouse), koreksi ketiganya, dan tentukan sumber mana yang paling dekat ke angka audit independen 2.405.",
-        "Pelajaran sesungguhnya: angka yang 'paling dekat ke kebenaran' belum tentu 'paling benar metodologinya'. Finance tepat 2.380 karena memang tidak pernah salah hitung — ia hanya belum mencatat retur.",
+        "Pelajaran sesungguhnya: angka yang 'paling dekat ke kebenaran' belum tentu 'paling benar metodologinya'. Finance 2.380 benar menurut pembukuannya — ia tidak salah hitung; retur 45 adalah pos terpisah yang masuk ke total BI tetapi belum masuk pembukuan finance (beda pencatatan, bukan salah hitung), sehingga finance tidak dikoreksi: koreksi hanya mengikuti temuan audit, dan untuk finance temuannya nihil. 'Paling dekat ke audit' (BI) adalah soal kecocokan angka, bukan vonis bahwa finance salah hitung.",
         "Coba juga: jika duplikat ternyata 130 (bukan 60), sumber mana yang menang? Sensitivitas terhadap temuan audit = alasan kenapa audit harus independen.",
       ],
       tasks: [
@@ -180,7 +218,7 @@ export const biz9: V2Lesson = {
 
     {
       id: "intuisi",
-      eyebrow: "Langkah 7 · Intuisi kunci",
+      eyebrow: "Langkah 8 · Intuisi kunci",
       title: "💡 Intuisi kunci",
       prose: [
         "💡 Selisih antar sumber adalah informasi, bukan aib. Catat polanya tiap bulan: selisih yang stabil = perbedaan definisi (bisa dijelaskan); selisih yang melompat = ada yang rusak (harus diburu).",
@@ -194,7 +232,7 @@ export const biz9: V2Lesson = {
     },
     {
       id: "peta-keputusan",
-      eyebrow: "Langkah 8 · Peta keputusan",
+      eyebrow: "Langkah 9 · Peta keputusan",
       title: "Peta keputusan: respons per jenis isu",
       prose: [
         "Skenario 1 — Gap rekonsiliasi > ambang pada metrik kritis. → Freeze dashboard + investigasi akar + komunikasikan ke stakeholder SEBELUM mereka menemukan sendiri. Kepercayaan > kecepatan.",
@@ -208,7 +246,7 @@ export const biz9: V2Lesson = {
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 9 · Mini-case",
+      eyebrow: "Langkah 10 · Mini-case",
       title: "Mini-case: 12.000 pelanggan ganda",
       prose: [
         "Database CRM PT SinarJaya: 120.000 baris pelanggan. Audit keunikan menemukan 12.000 baris adalah duplikat (nama sama, email beda format: Budi.Santoso@x.com vs budisantoso@x.com). Dampak: kampanye email terkirim 2x (biaya +Rp180 juta/tahun), \u201Cjumlah pelanggan\u201D overstate 10%, segmentasi RFM kacau.",

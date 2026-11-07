@@ -28,6 +28,7 @@ import { e26 } from "../content/e26-mortgage-cmbs-cdo";
 import { e27 } from "../content/e27-regulasi-keuangan";
 import { e28 } from "../content/e28-capstone-frontier-var";
 import { e29 } from "../content/e29-nonprofit-finance";
+import { e30 } from "../content/e30-fintech";
 
 export const REG_E: Record<string, V2Lesson> = {
   "e1-struktur-pasar": e1,
@@ -59,4 +60,5 @@ export const REG_E: Record<string, V2Lesson> = {
   "e27-regulasi-keuangan": e27,
   "e28-capstone-frontier-var": e28,
   "e29-nonprofit-finance": e29,
+  "e30-fintech": e30,
 };

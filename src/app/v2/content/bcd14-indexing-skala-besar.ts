@@ -14,28 +14,28 @@ export const bcd14: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Query yang memakan 6 jam",
       prose: [
-        "Rabu 10:00. Analis Nara (BCD12!) butuh jawaban: `total volume DEX per token per hari, 90 hari terakhir`. Ia menulis query ke node RPC langsung: ambil semua Transfer event... 90 hari × 86.400 blok × ~200 tx = 1,5 MILIAR tx untuk di-scan. Query jalan... 11:00 (belum selesai). 14:00 (belum). 16:00: TIMEOUT. Ia coba lagi dengan `rentang dipersempit` — jawaban parsial, tidak bisa dipertanggungjawabkan. Kamis pagi ia menemukan kata ajaib: INDEXING.",
-        "Twist-nya: tim sebelah menjawab pertanyaan SAMA dalam 4 DETIK. Bukan karena mereka lebih pintar — karena mereka tidak query blockchain; mereka query INDEKS yang sudah dibangun (subgraph + BigQuery). Nara memindai 1,5 miliar tx SETIAP query; tim sebelah memindai 1,5 miliar tx SEKALI (saat indexing), lalu query tabel kecil. Perbedaannya bukan skill — melainkan arsitektur. Lesson ini: arsitektur itu.",
+        "Rabu 10:00. Analis Nara (BCD12!) butuh jawaban: `total volume DEX per token per hari, 90 hari terakhir`. Ia menulis query ke node RPC langsung: ambil semua Transfer event... 90 hari × 7.200 blok/hari × ~200 tx = ~130 JUTA tx untuk di-scan (86.400 itu detik per hari, bukan blok — Ethereum ~12 detik/blok). Query jalan... 11:00 (belum selesai). 14:00 (belum). 16:00: TIMEOUT. Ia coba lagi dengan `rentang dipersempit` — jawaban parsial, tidak bisa dipertanggungjawabkan. Kamis pagi ia menemukan kata ajaib: INDEXING.",
+        "Twist-nya: tim sebelah menjawab pertanyaan SAMA dalam 4 DETIK. Bukan karena mereka lebih pintar — karena mereka tidak query blockchain; mereka query INDEKS yang sudah dibangun (subgraph + BigQuery). Nara memindai ~130 juta tx SETIAP query; tim sebelah memindai ~130 juta tx SEKALI (saat indexing), lalu query tabel kecil. Perbedaannya bukan skill — melainkan arsitektur. Lesson ini: arsitektur itu.",
         "Indexing = ETL untuk blockchain: ekstrak event dari chain → transform (decode, agregat) → load ke database yang bisa di-query (Postgres, BigQuery). Dua jalur utama: (1) SUBGRAPH (The Graph): definisikan schema + mapping (apa yang diindeks), network desentralisasi yang menjalankannya, query via GraphQL; (2) BIGQUERY (Google public datasets): SEMUA data Ethereum/BSC/Polygon sudah diindeks Google, query via SQL — gratis sampai 1TB/bulan!",
         "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan mengapa query langsung ke RPC tidak skala dan kapan harus indexing; (2) membandingkan subgraph vs BigQuery vs self-indexed untuk kebutuhan konkret; (3) merancang schema indexing (apa diindeks, agregasi apa) untuk pertanyaan analitis; (4) menulis query agregat multi-hari dari tabel indeks; (5) menghitung biaya dan waktu indexing untuk dataset baru.",
-        "Daftar isi: 1) Cerita query 6 jam · 2) Mengapa RPC tidak skala · 3) Subgraph vs BigQuery vs self-host · 4) Lab: agregat dari tabel indeks · 5) Merancang schema: seni memilih · 6) Peta keputusan: jalur indexing apa · 7) Mini-case: 1,5 miliar tx · 8) Checkpoint.",
+        "Daftar isi: 1) Cerita query 6 jam · 2) Mengapa RPC tidak skala · 3) Subgraph vs BigQuery vs self-host · 4) Lab: agregat dari tabel indeks · 5) Merancang schema: seni memilih · 6) Peta keputusan: jalur indexing apa · 7) Mini-case: ~130 juta tx · 8) Checkpoint.",
       ],
       tasks: [
       ],
       note: {
         title: "🚨 Mitos: `Query blockchain = query database biasa`",
         type: "pitfall",
-        body: "Blockchain BUKAN database yang bisa di-query (`SELECT * WHERE ...`) — ia append-only log yang hanya bisa dibaca per blok. Query analitis (`volume per hari 90 hari`) = scan 1,5 miliar tx. Indexing mengubah log menjadi database BETULAN. Jangan lawan arsitekturnya; bangun di atasnya.",
+        body: "Blockchain BUKAN database yang bisa di-query (`SELECT * WHERE ...`) — ia append-only log yang hanya bisa dibaca per blok. Query analitis (`volume per hari 90 hari`) = scan ~130 juta tx. Indexing mengubah log menjadi database BETULAN. Jangan lawan arsitekturnya; bangun di atasnya.",
       },
       reference: "Query RPC = scan tiap kali. Indexing = scan sekali, query selamanya.",
     },
     {
       id: "mengapa-rpc",
       eyebrow: "Langkah 2 · Konsep",
-      title: "Mengapa RPC tidak skala: aritmetika 1,5 miliar",
+      title: "Mengapa RPC tidak skala: aritmetika 130 juta",
       prose: [
-        "RPC (eth_getLogs) dirancang untuk OPERASIONAL (cek 1 tx, baca 1 blok), bukan ANALITIS. Batasan keras: (1) max 10.000 blok per request (banyak provider!); (2) rate limit 10–30 req/detik; (3) timeout 30–60 detik. Untuk 90 hari (~648.000 blok): 65 request berantai (10.000 blok/request) × 3 detik = 3 menit HANYA untuk daftar log — lalu DECODE tiap log (1,5 miliar × 0,1ms = 42 jam!). Total: 6 jam untuk query Nara yang gagal, 42 jam jika diteruskan. Dan ini untuk SATU pertanyaan!",
-        "Matematika yang jujur: T_query = (blok / 10.000) × t_req + N_log × t_decode. Dengan blok=648.000, t_req=3s, N_log=1,5M (setelah filter!), t_decode=0,1ms: 195 detik + 150 detik = ~6 menit?? Tunggu — itu jika SUDAH TAHU log mana yang relevan. Tanpa indeks, kamu tidak tahu: harus scan SEMUA 1,5 MILIAR tx dulu (42 jam) untuk menemukan 1,5 juta yang relevan. Indeks = yang tahu di mana yang relevan.",
+        "RPC (eth_getLogs) dirancang untuk OPERASIONAL (cek 1 tx, baca 1 blok), bukan ANALITIS. Batasan keras: (1) max 10.000 blok per request (banyak provider!); (2) rate limit 10–30 req/detik; (3) timeout 30–60 detik. Untuk 90 hari (~648.000 blok): 65 request berantai (10.000 blok/request) × 3 detik = 3 menit HANYA untuk daftar log — lalu SCAN semua ~130 juta tx (~130 jt × 0,1ms ≈ 3,6 jam) untuk menemukan log yang relevan, baru DECODE. Total: query Nara sudah makan 6 jam sebelum timeout — dan itu untuk SATU pertanyaan!",
+        "Matematika yang jujur: T_query = (blok / 10.000) × t_req + N_log × t_decode. Dengan blok=648.000, t_req=3s, N_log=1,5M (setelah filter!), t_decode=0,1ms: 195 detik + 150 detik = ~6 menit?? Tunggu — itu jika SUDAH TAHU log mana yang relevan. Tanpa indeks, kamu tidak tahu: harus scan SEMUA ~130 juta tx dulu (≈3,6 jam) untuk menemukan 1,5 juta yang relevan. Indeks = yang tahu di mana yang relevan.",
         "Analogi yang tepat: RPC = perpustakaan TANPA katalog (cari buku = buka tiap rak!). Indexing = MEMBUAT katalog (sekali), lalu cari via katalog (detik). Nara membuka 648.000 `rak` (blok) tiap query; tim sebelah membuka katalog. Jangan salahkan Nara — salahkan yang menyuruhnya tanpa katalog.",
         "Tiga pola yang GAGAL di RPC tapi TRIVIAL di indeks: (1) AGREGASI WAKTU (`volume per hari`) — butuh scan penuh; (2) JOIN (`transfer DARI address yang pernah terima DARI mixer`) — RPC tidak bisa join!; (3) FULL HISTORY (`semua tx address ini sejak 2020`) — 6 tahun scan. Jika pertanyaanmu mengandung `per hari`, `rata-rata`, `semua`, atau `yang pernah` — itu sinyal BUTUH INDEKS, bukan RPC yang lebih sabar.",
         "Biaya tersembunyi RPC: provider mengenakan $50–$200/bulan untuk 100 juta request — dan query Nara = ribuan request BERAT (compute units 10x!). Satu analis `rajin` bisa menghabiskan kuota tim seminggu dalam sehari. Indeks: bayar SEKALI (indexing), query ringan selamanya. Ekonominya sama dengan lesson MLOps13: pindai sekali, bukan tiap kali.",
@@ -44,7 +44,7 @@ export const bcd14: V2Lesson = {
       ],
       note: {
         title: "💡 Intuisi: katalog vs rak",
-        body: "RPC tanpa indeks = cari buku dengan membuka tiap rak perpustakaan (648.000 rak!). Indexing = buat katalog sekali (mahal, 42 jam), lalu tiap pencarian 4 detik (murah). Pertanyaan analitis ke-2 dan seterusnya = katalog MENANG telak. Jangan buka rak dua kali.",
+        body: "RPC tanpa indeks = cari buku dengan membuka tiap rak perpustakaan (648.000 rak!). Indexing = buat katalog sekali (mahal, ~3,6 jam), lalu tiap pencarian 4 detik (murah). Pertanyaan analitis ke-2 dan seterusnya = katalog MENANG telak. Jangan buka rak dua kali.",
       },
       reference: "Sinyal butuh indeks: `per hari`, `rata-rata`, `semua`, `yang pernah`. RPC = operasional, bukan analitis.",
     },
@@ -61,7 +61,7 @@ export const bcd14: V2Lesson = {
         "Jebakan subgraph: (1) mapping yang SALAH = indeks yang salah SELAMANYA (re-index 1–7 hari!). Test di subgraph lokal DULU. (2) `BigInt` vs `BigDecimal`: salah tipe = presisi hilang (nilai $ jadi 0!). (3) Jangan indeks SEMUA event `untuk jaga-jaga` — tiap field = biaya indexing + query. Indeks yang DIBUTUHKAN, bukan yang MUNGKIN dibutuhkan (pelajaran langkah 5!).",
       ],
       formula: String.raw`T_{q} = \frac{N_{scan}}{r} \quad ; \quad N_{indeks} \ll N_{scan}`,
-      formulaNote: "T_q = waktu query; N_scan = baris yang dipindai; r = kecepatan pindai. Tanpa indeks: N_scan = 1,5 miliar (42 jam). Dengan indeks: N_indeks = 90 baris agregat (4 detik). Indeks mengubah N, bukan r — itu sebabnya selalu menang untuk query berulang.",
+      formulaNote: "T_q = waktu query; N_scan = baris yang dipindai; r = kecepatan pindai. Tanpa indeks: N_scan = ~130 juta (≈3,6 jam). Dengan indeks: N_indeks = 90 baris agregat (4 detik). Indeks mengubah N, bukan r — itu sebabnya selalu menang untuk query berulang.",
       tasks: [
       ],
       note: {
@@ -77,8 +77,8 @@ export const bcd14: V2Lesson = {
       title: "Lab: agregat dari tabel indeks",
       prose: [
         "Bayangkan `token_transfers` SUDAH terindeks (kolom: hari, token, jumlah, n_tx). Tugasmu: (1) bangun tabel harian per token (agregat!); (2) jawab `total volume USDC hari 1–2`; (3) jawab `jumlah tx WETH hari 1–3`.",
-        "Cara membaca: tabel harian = 6 baris (bukan 15 transfer!) — INI keajaiban agregasi. Interpretasi: query analitis membaca 6 baris, bukan 1,5 miliar. Itulah mengapa 4 detik, bukan 6 jam.",
-        "Coba eksplorasi: tambah token baru (mis. DAI, 2 transfer) — tabel harian bertambah 1 baris, query tetap instan. Skala data mentah 10x = tabel agregat tetap kecil. Itulah `N_indeks << N_scan`.",
+        "Cara membaca: tabel harian = 9 baris (bukan 15 transfer!) — INI keajaiban agregasi. Interpretasi: query analitis membaca 9 baris, bukan ~130 juta. Itulah mengapa 4 detik, bukan 6 jam.",
+        "Coba eksplorasi: tambah token baru (mis. USDT, 2 transfer di hari 1) — tabel harian bertambah 1 baris, query tetap instan. Skala data mentah 10x = tabel agregat tetap kecil. Itulah `N_indeks << N_scan`.",
       ],
       tasks: [
         { id: "t1", text: "Bangun `daily` — agregat per (hari, token): jumlah + n_tx" },
@@ -88,7 +88,7 @@ export const bcd14: V2Lesson = {
       expected: "9 baris harian dari 15 transfer · USDC day1-2: (560.0, 5) · WETH day1-3: 3 tx",
       note: {
         title: "💡 Intuisi: agregat = katalog",
-        body: "15 transfer mentah → 6 baris harian. Setiap query `per hari` membaca 6 baris, bukan 15 (dan bukan 1,5 miliar!). Agregasi saat indexing = membayar sekali (42 jam) agar tiap query murah (4 detik). Inilah ekonomi indexing.",
+        body: "15 transfer mentah → 9 baris harian. Setiap query `per hari` membaca 9 baris, bukan 15 (dan bukan ~130 juta!). Agregasi saat indexing = membayar sekali (~3,6 jam) agar tiap query murah (4 detik). Inilah ekonomi indexing.",
       },
       hints: [
         "Gunakan dict dengan kunci (hari, token): [total_jumlah, count].",
@@ -115,9 +115,10 @@ export const bcd14: V2Lesson = {
         "Kesalahan termahal indexing: mengindeks SEMUA `untuk jaga-jaga`. Tiap field = biaya indexing (waktu + storage) + kompleksitas mapping. Contoh nyata: tim mengindeks 40 field per Swap `karena mungkin butuh` — indexing 7 hari (bukan 2!), storage 600GB (bukan 150GB!), dan 35 field TIDAK PERNAH di-query. Biaya `jaga-jaga`: 5 hari + 450GB sia-sia. Schema yang baik = MINIMAL untuk pertanyaan yang NYATA.",
         "Metode 3 langkah: (1) TULIS 5–10 pertanyaan konkret DULU (`volume USDC per hari`, `top 10 pool by fee`) — bukan `mungkin nanti`; (2) EKSTRAK field yang dibutuhkan (token, jumlah, timestamp → agregat harian); (3) TAMBAH 20% buffer (2–3 field yang `hampir pasti` butuh, mis. tx_hash untuk drill-down). Yang tidak masuk daftar = TIDAK diindeks. Jika nanti butuh = re-index parsial (lebih murah dari 450GB sia-sia!).",
         "Granularitas: per BLOCK? per JAM? per HARI? Aturan: indeks pada granularitas PERTANYAAN TERKECIL. Butuh `per jam`? Indeks per jam (bukan per blok! 7.200x lebih kecil!). Butuh drill-down sesekali? Simpan tx_hash di agregat harian → drill-down via RPC untuk 1 tx (murah!) bukan semua (mahal!). Granularitas yang tepat = 90% penghematan storage.",
-        "Contoh schema Nara (diperbaiki): entitas `DailyVolume { hari, token, total_jumlah, n_tx, tx_hash_sample }`. 90 hari × 50 token = 4.500 baris (bukan 1,5 miliar!). Query `volume USDC per hari` = baca 90 baris = 0,1 detik. tx_hash_sample = 1 contoh per hari untuk drill-down (`tunjukkan 1 tx contoh`). Minimal, cepat, cukup.",
+        "Contoh schema Nara (diperbaiki): entitas `DailyVolume { hari, token, total_jumlah, n_tx, tx_hash_sample }`. 90 hari × 50 token = 4.500 baris (bukan ~130 juta!). Query `volume USDC per hari` = baca 90 baris = 0,1 detik. tx_hash_sample = 1 contoh per hari untuk drill-down (`tunjukkan 1 tx contoh`). Minimal, cepat, cukup.",
         "Reorg: blockchain bisa `menulis ulang` 1–2 blok terakhir (reorg!). Indeks yang tidak handle reorg = data SALAH untuk blok terbaru. Solusi: (1) delay indexing 12 blok (~3 menit di Ethereum) untuk finality; (2) atau handle `revert` di mapping (kompleks!). Untuk analisis harian: delay 12 blok = tidak masalah. Untuk alerting real-time: JANGAN pakai indeks agregat — pakai stream langsung (self-host!). Pilih by kebutuhan, bukan kemalasan.",
         "Pertumbuhan (chart): data indeks tumbuh 30GB → 600GB dalam 7 hari pertama (backfill!), lalu ~5GB/hari (steady). Rencanakan storage 2x proyeksi (600GB → sediakan 1,2TB!). Backfill = maraton (7 hari); steady = joging (5GB/hari). Jangan kaget di hari ke-3 backfill (260GB!) — itu NORMAL. Yang tidak normal: tidak merencanakan.",
+        "Contoh hitung end-to-end (dataset baru — DEX di Polygon, 30 hari): blok ~2 detik → 43.200 blok/hari × 30 hari = 1.296.000 blok; × ~150 tx/blok ≈ 194 juta tx. Scan mentah: 194 jt × 0,1 ms ≈ 5,4 jam per query — dan itu baru scan, belum decode + agregasi. Dengan indeks: agregat harian 30 hari × 40 token = 1.200 baris × 100 byte ≈ 120 KB; query-nya membaca 1.200 baris, bukan 194 juta. Di BigQuery, query agregat yang memindai ~80 GB (kolom terfilter, 30 hari) = 0,078 TB × $6,25 ≈ $0,49 per query — di bawah jatah gratis 1 TB/bulan. Keputusan: indexing sekali (~5,4 jam scan + backfill) vs tiap query 5,4 jam — untuk pertanyaan harian (Q >> 3), indexing menang telak.",
       ],
       formula: String.raw`S = N_{entitas} \cdot f_{hari} \cdot b \quad ; \quad \text{indeks} \iff Q \ge 3`,
       formulaNote: "S = storage; N_entitas = jumlah entitas (token/pool); f_hari = frekuensi (1 untuk harian); b = byte per baris. Indeks BERNILAI jika pertanyaan diajukan Q >= 3x (bayar sekali, pakai berkali-kali). Q = 1 (sekali saja)? RPC langsung mungkin cukup!",
@@ -157,11 +158,11 @@ export const bcd14: V2Lesson = {
     {
       id: "minicase",
       eyebrow: "Langkah 7 · Mini-case",
-      title: "1,5 miliar tx, 3 pertanyaan, 1 keputusan",
+      title: "~130 juta tx, 3 pertanyaan, 1 keputusan",
       prose: [
-        "Tim Nara: 3 pertanyaan rutin (tiap hari!): (1) volume per token per hari (90 hari); (2) top 20 address by volume (7 hari); (3) alert jika address baru terima > $1 juta (real-time!). Data: Ethereum, 1,5 miliar tx/90 hari.",
+        "Tim Nara: 3 pertanyaan rutin (tiap hari!): (1) volume per token per hari (90 hari); (2) top 20 address by volume (7 hari); (3) alert jika address baru terima > $1 juta (real-time!). Data: Ethereum, ~130 juta tx/90 hari.",
         "**Pertanyaan:** (a) Jalur indexing apa untuk masing-masing? (b) Schema minimal untuk (1)+(2)? (c) Estimasi storage. (d) Bagaimana (3) diimplementasikan?",
-        "**Pembahasan:** (a) (1)+(2): BigQuery (historis + generik + tiap hari = Q >> 3!). (3): self-hosted stream (real-time < 10 detik — BigQuery delay 60 menit = TERLAMBAT!). DUA jalur (bukan satu!) — kebutuhan beda = arsitektur beda. (b) DailyVolume{hari, token, jumlah, n_tx} + AddressVolume{minggu, address, jumlah}. (c) 90×50 + 1×10.000 ≈ 15.000 baris × 100 byte = 1,5MB (!!) vs 1,5 miliar tx mentah. (d) Stream: subscribe Transfer event via websocket → filter jumlah > $1jt → cek umur address (first-seen) → alert. Tanpa indeks sama sekali — stream, bukan query!",
+        "**Pembahasan:** (a) (1)+(2): BigQuery (historis + generik + tiap hari = Q >> 3!). (3): self-hosted stream (real-time < 10 detik — BigQuery delay 60 menit = TERLAMBAT!). DUA jalur (bukan satu!) — kebutuhan beda = arsitektur beda. (b) DailyVolume{hari, token, jumlah, n_tx} + AddressVolume{minggu, address, jumlah}. (c) 90×50 + 1×10.000 ≈ 15.000 baris × 100 byte = 1,5MB (!!) vs ~130 juta tx mentah. (d) Stream: subscribe Transfer event via websocket → filter jumlah > $1jt → cek umur address (first-seen) → alert. Tanpa indeks sama sekali — stream, bukan query!",
       ],
       tasks: [
       ],
@@ -184,9 +185,9 @@ export const bcd14: V2Lesson = {
         {
           q: "Query `volume per token per hari, 90 hari` ke RPC langsung. Masalah UTAMA?",
           options: [
-            { text: "RPC timeout 30 detik", why: "Timeout hanya gejala. Masalah utama = ARSITEKTUR: RPC tidak dirancang untuk agregasi 1,5 miliar tx." },
-            { text: "Harus scan 1,5 miliar tx untuk menemukan yang relevan — butuh indeks, bukan kesabaran", why: "Tepat. Tanpa katalog (indeks), tiap query = buka 648.000 rak. Solusinya arsitektur (indexing), bukan `coba lagi`.", correct: true },
-            { text: "Query-nya salah tulis", why: "Query benar; yang salah = ekspektasi bahwa RPC bisa analitis. Query sempurna tetap 42 jam." },
+            { text: "RPC timeout 30 detik", why: "Timeout hanya gejala. Masalah utama = ARSITEKTUR: RPC tidak dirancang untuk agregasi ~130 juta tx." },
+            { text: "Harus scan ~130 juta tx untuk menemukan yang relevan — butuh indeks, bukan kesabaran", why: "Tepat. Tanpa katalog (indeks), tiap query = buka 648.000 rak. Solusinya arsitektur (indexing), bukan `coba lagi`.", correct: true },
+            { text: "Query-nya salah tulis", why: "Query benar; yang salah = ekspektasi bahwa RPC bisa analitis. Query sempurna tetap ~3,6 jam." },
             { text: "Provider-nya jelek — ganti provider", why: "Semua provider punya batas 10.000 blok + rate limit yang sama. Ganti provider = masalah yang sama." },
           ],
         },
@@ -214,7 +215,7 @@ export const bcd14: V2Lesson = {
             { text: "Hasil instan — BigQuery cepat", why: "Cepat YA, tapi memindai ~500GB = setengah kuota gratis SEBULAN dalam 1 query!" },
             { text: "~500GB terpindai = setengah kuota 1TB/bulan habis sekali query", why: "Tepat. Selalu filter block_timestamp DULU + SELECT kolom yang perlu SAJA. Gratis yang boros = mahal.", correct: true },
             { text: "Error — tabel terlalu besar", why: "Tidak error — BigQuery kuat. Justru itu bahayanya: berhasil tapi mahal." },
-            { text: "Tidak apa-apa — gratis unlimited", why: "Gratis 1TB/bulan, bukan unlimited. Di atasnya bayar $5/TB." },
+            { text: "Tidak apa-apa — gratis unlimited", why: "Gratis 1TB/bulan, bukan unlimited. Di atasnya bayar $6,25/TB (tarif on-demand US, per Okt 2026 — berbeda per region)." },
           ],
         },
         {
@@ -229,15 +230,15 @@ export const bcd14: V2Lesson = {
         {
           q: "Kapan indexing TIDAK bernilai (lebih baik RPC langsung)?",
           options: [
-            { text: "Pertanyaan diajukan 1x saja (Q < 3)", why: "Tepat (rumus langkah 5). Bayar 42 jam indexing untuk 1 query = rugi. RPC langsung cukup.", correct: true },
-            { text: "Data 1,5 miliar tx", why: "Data BESAR = indexing MAKIN bernilai (penghematan makin besar)." },
+            { text: "Pertanyaan diajukan 1x saja (Q < 3)", why: "Tepat (rumus langkah 5). Bayar ~3,6 jam indexing untuk 1 query = rugi. RPC langsung cukup.", correct: true },
+            { text: "Data ~130 juta tx", why: "Data BESAR = indexing MAKIN bernilai (penghematan makin besar)." },
             { text: "Butuh jawaban 4 detik", why: "4 detik = BUTUH indeks! RPC tidak bisa 4 detik untuk agregat besar." },
             { text: "Selalu bernilai — indeks segalanya", why: "`Segalanya` = 40 field jaga-jaga = 600GB sia-sia. Tidak selalu." },
           ],
         },
       ],
       summary: [
-        "RPC = operasional (per blok), bukan analitis — 1,5 miliar tx = 42 jam scan.",
+        "RPC = operasional (per blok), bukan analitis — ~130 juta tx = ~3,6 jam scan.",
         "Indexing = pindai sekali (mahal), query selamanya (murah): N_indeks << N_scan.",
         "Tiga jalur: BigQuery (historis generik, gratis) → subgraph (custom, real-time) → self-host (kritis).",
         "Schema: 5–10 pertanyaan DULU, minimal + 20% buffer; granularitas = pertanyaan terkecil.",

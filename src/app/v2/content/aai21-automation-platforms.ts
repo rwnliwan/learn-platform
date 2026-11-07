@@ -268,7 +268,7 @@ print(f"lolos={len(lolos_ids)} draft={len(draft_ids)} biaya=Rp{biaya_total}")`,
         "Keputusan memakai angka: hitung C_bulan dengan V masa depan + titik impas migrasi.",
         "Aturan 10 detik: V 6 bulan lagi? node termahal? masuk git? siap harga naik 2×?",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "AAI22 — Katalog Pola Desain Agen: ReAct, Reflection, Routing & Evaluator-Optimizer", href: "/v2/learn/aai22-pola-desain-agen" },
       quiz: [
         {
           q: "SapaTim membayar Rp10 juta/bulan untuk workflow yang intinya hanya filter + satu klasifikasi. Pelajaran utamanya?",

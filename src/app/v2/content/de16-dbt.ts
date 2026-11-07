@@ -136,7 +136,7 @@ export const de16: V2Lesson = {
       eyebrow: "Langkah 7 · Lab",
       title: "Lab: test runner mini",
       prose: [
-        "Data mart_revenue (sampel 6 baris) mengandung duplikat order_id=2 dan amount null.",
+        "Data mart_revenue (sampel 5 baris) mengandung duplikat order_id=2 dan amount null.",
         "Tugasmu: implementasikan 3 generic test dbt (unique, not_null, relationships) dan daftarkan yang gagal.",
         "Hasil: 2 gagal, 1 lolos. Di dbt nyata: dbt test MERAH → pipeline berhenti → data kotor tidak mencapai dashboard. Inilah kontrak yang ditegakkan mesin.",
       ],
@@ -147,7 +147,7 @@ export const de16: V2Lesson = {
       expected: "gagal=['not_null_amount', 'unique_order_id']",
       note: {
         title: "Sering salah",
-        body: "Menghitung unique dari SEMUA kolom (baris 2 dan 5 identik total? tidak — (2,102,300) muncul 2x, ya duplikat penuh di sini). Test unique = pada KOLOM KEY (order_id), bukan seluruh baris.",
+        body: "Menghitung unique dari SEMUA kolom: baris 2 dan 5 memang identik penuh — (2,102,300) muncul 2× — tetapi itu kebetulan data sampel ini. Test unique yang benar tetap pada KOLOM KEY (order_id): dua baris boleh identik total tanpa melanggar unique jika key-nya berbeda, dan dua baris yang berbeda total tetap melanggar unique jika key-nya sama.",
       },
       hints: [
         "unique: len(ids) == len(set(ids)).",

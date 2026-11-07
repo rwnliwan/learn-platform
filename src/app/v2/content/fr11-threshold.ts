@@ -12,8 +12,8 @@ export const fr11: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Threshold 0,5 yang salah semua orang",
       prose: [
-        "Threshold default di semua tutorial ML: 0,5. Skor > 0,5 = fraud, < 0,5 = aman. Untuk BankMega, threshold 0,5 berarti 2.125 alert per hari untuk tim yang kapasitasnya 800. Hari pertama: investigator lembur sampai malam. Hari ketiga: mereka berhenti membuka antrian. Hari ketujuh: model dimatikan.",
-        "Model yang sama, threshold 0,022 (bukan 0,5!), menghasilkan 800 alert per hari — pas dengan kapasitas tim. Threshold optimalnya: 0,022. Ya, nol koma nol dua dua. Angka \"aneh\" ini bukan bug — ia adalah jawaban dari pertanyaan: \"pada skor berapa 800 review/hari memberikan expected value maksimal?\"",
+        "Threshold default di semua tutorial ML: 0,5. Skor > 0,5 = fraud, < 0,5 = aman. Untuk BankMega, threshold 0,05 berarti 2.129 alert per hari untuk tim yang kapasitasnya 800. Hari pertama: investigator lembur sampai malam. Hari ketiga: mereka berhenti membuka antrian. Hari ketujuh: model dimatikan.",
+        "Model yang sama, threshold ≈0,08 (bukan 0,05!), menghasilkan 800 alert per hari — pas dengan kapasitas tim. Threshold operasionalnya: ≈0,08. Ya, nol koma nol delapan. Angka \"aneh\" ini bukan bug — ia adalah jawaban dari pertanyaan: \"pada skor berapa 800 review/hari memberikan expected value maksimal?\"",
         "Kebanyakan tim memperlakukan threshold sebagai hyperparameter teknis. Yang benar: threshold adalah keputusan bisnis yang dihitung dari kapasitas tim, biaya review, dan biaya fraud yang lolos. Ia harus dihitung, bukan ditebak.",
       ],
       tasks: [],
@@ -65,12 +65,31 @@ export const fr11: V2Lesson = {
       eyebrow: "Langkah 3 · Dari kapasitas",
       title: "Threshold dihitung mundur dari tim",
       prose: [
-        "Kasus BankMega: 2.125 alert per hari, kapasitas 10 investigator x 80 = 800 slot. Caranya: urutkan semua skor hari itu menurun, ambil 800 teratas — skor ke-800 itulah τ operasional hari itu (dalam contoh: 0,05). Prinsip: τ bukan angka tetap — ia bergerak mengikuti volume dan kapasitas harian.",
-        "Rumus keputusan: setiap alert ke-k direview jika expected value-nya positif — P(fraud|skor) x loss > biaya review. Jika P(fraud|0,022) x Rp1,1jt > Rp25rb → review. Threshold = titik impas persamaan ini. Dan jangan lupakan: biaya review bukan cuma gaji — ada fatigue (reviewer ke-800 lebih ceroboh dari reviewer ke-80) dan opportunity cost.",
+        "Kasus BankMega: 2.129 alert per hari, kapasitas 10 investigator x 80 = 800 slot. Caranya: urutkan semua skor hari itu menurun, ambil 800 teratas — skor ke-800 itulah τ operasional hari itu (dalam contoh: ≈0,08 dari simulasi Langkah 2). Prinsip: τ bukan angka tetap — ia bergerak mengikuti volume dan kapasitas harian. Lab di bawah mempraktikkannya pada distribusi yang sama dengan Langkah 2 (seed 30, 10.000 transaksi).",
+        "Rumus keputusan: setiap alert ke-k direview jika expected value-nya positif — P(fraud|skor) x loss > biaya review. Titik impasnya: P(fraud|skor) > Rp25 ribu / Rp1,1 juta ≈ 0,023 — di bawah peluang itu, review lebih mahal daripada kerugian yang dihindari. (Jangan tertukar: 0,023 di sini adalah peluang fraud, bukan threshold skor.) Threshold = titik impas persamaan ini. Dan jangan lupakan: biaya review bukan cuma gaji — ada fatigue (reviewer ke-800 lebih ceroboh dari reviewer ke-80) dan opportunity cost.",
       ],
       formula: String.raw`P(\text{fraud} \mid \text{skor}) \times \text{loss} > \text{biaya review} \Rightarrow \text{review}`,
       formulaNote: "Review alert jika kerugian yang dihindari melebihi biaya review.",
-      tasks: [],
+      tasks: [
+        { id: "t1", text: "Hitung `tau_kapasitas`: skor ke-800 dari skor terurut menurun" },
+        { id: "t2", text: "Hitung `n_alert` pada τ itu dan bandingkan dengan τ=0,05" },
+      ],
+      expected: "tau_kapasitas=0.08 n_alert=800 (tau=0.05 -> 2129 alert)",
+      hints: [
+        "terurut = sorted(scores, reverse=True); tau = terurut[800-1].",
+        "n_alert = sum(1 for s in scores if s >= tau_kapasitas) — pakai >= agar skor ke-800 sendiri ikut tereview.",
+        "Bandingkan dengan 2.129 alert pada τ=0,05 (Langkah 2) — kapasitas 800 terlampaui 2,7×.",
+      ],
+      code: {
+        starter: `# Threshold dari kapasitas: urutkan skor, ambil 800 teratas.\nimport random\nrandom.seed(30)\nn = 10000\nscores = [random.betavariate(1, 30) for _ in range(n)]\n\n# TULIS KODEMU: tau dari kapasitas 800/hari\ntau_kapasitas = \nn_alert = \nn_005 = \n\nprint(f"tau_kapasitas={tau_kapasitas:.2f} n_alert={n_alert}")\nprint(f"tau=0.05 -> {n_005} alert")`,
+        lockLines: 5,
+        solution: `# Threshold dari kapasitas: urutkan skor, ambil 800 teratas.\nimport random\nrandom.seed(30)\nn = 10000\nscores = [random.betavariate(1, 30) for _ in range(n)]\n\n# TULIS KODEMU: tau dari kapasitas 800/hari\nterurut = sorted(scores, reverse=True)\ntau_kapasitas = terurut[800 - 1]\nn_alert = sum(1 for s in scores if s >= tau_kapasitas)\nn_005 = sum(1 for s in scores if s > 0.05)\n\nprint(f"tau_kapasitas={tau_kapasitas:.2f} n_alert={n_alert}")\nprint(f"tau=0.05 -> {n_005} alert")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "tau_kapasitas", value: 0.08, tol: 0.005, label: "`tau_kapasitas` sekitar 0.08", msg: "Skor ke-800 dari 10.000 skor terurut menurun (seed 30)." },
+          { kind: "equal", task: "t2", name: "n_alert", value: 800, tol: 0, label: "`n_alert` = 800", msg: "Tepat kapasitas tim — tidak lebih, tidak kurang." },
+          { kind: "stdout_matches", task: "t2", pattern: "tau=0\\.05 -> 2129 alert", label: "τ=0,05 → 2.129 alert", msg: "τ=0,05 membanjiri tim: 2.129 alert vs kapasitas 800." },
+        ],
+      },
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -150,7 +169,7 @@ export const fr11: V2Lesson = {
         "Arsitektur yang benar: hibrida, bukan penggantian. Ambang statis (misal Rp500 ribu untuk kewajiban pelaporan) TETAP ADA — itu kewajiban hukum, bukan pilihan desain. Ambang adaptif DITAMBAHKAN sebagai lapisan kedua: rule 'di bawah ambang statis TAPI di atas p99,5 perilaku + frekuensi anomali' → inilah yang menangkap Rp490 ribu × 9. Statis untuk compliance, adaptif untuk deteksi. Jangan pernah mengganti ambang regulasi dengan ambang perilaku — auditor tidak peduli p99,5-mu; ia peduli angkanya. Lapisi, jangan ganti. Dua ambang, dua tujuan, nol konflik.",
         "Empat bahaya ambang adaptif — karena tidak ada makan siang gratis. Satu: riwayat tipis — nasabah baru 2 minggu tidak punya p99,5 yang bermakna; fallback ke ambang segmen (karyawan baru → segmen karyawan), bukan ke default global. Dua: perilaku legit yang bervariasi — pedagang musiman, pekerja proyek; solusinya segmen + fitur kalender (FR16), bukan persentil yang lebih longgar. Tiga: poisoning perlahan — penipu 'memanaskan' rekening dengan transaksi yang naik bertahap selama 3 bulan, menggeser p99,5 ke atas, lalu menyerang di bawah ambang barunya; solusinya jendela riwayat tetap (90 hari, bukan all-time) + deteksi drift (bila p99,5 naik > 30% dalam sebulan tanpa penjelasan, flag). Empat: komputasi — persentil per nasabah per hari untuk 10 juta nasabah; solusinya hitung batch harian (bukan real-time) dan cache — perilaku tidak berubah per menit.",
         "Contoh implementasi 30 hari. Minggu 1–2: hitung p99,5 per nasabah dari 90 hari riwayat (batch, semalam untuk 10 juta nasabah di klaster modern — bisa). Analisis distribusi: berapa % nasabah yang p99,5-nya di bawah Rp500 ribu? (Biasanya 60–70% — mayoritas orang jarang transaksi besar.) Minggu 3: shadow mode — jalankan rule adaptif tanpa aksi, ukur alert/hari dan precision via sampling. Target: alert ≤ 80% kapasitas, precision ≥ 25%. Minggu 4: go-live bertahap — 10% trafik → 50% → 100%, dengan kill switch. Yang diukur bukan hanya fraud tertangkap, tapi juga false positive per segmen — bila pedagang protes massal, segmennya yang dikalibrasi ulang, bukan seluruh sistem yang dimatikan.",
-        "Angka dampaknya. Bank dengan 200.000 trx/hari, ambang statis Rp500 ribu: structuring Rp490 ribu × 9 lolos 100% — estimasi kebocoran Rp180 juta/bulan dari pola ini saja (dari sampling investigasi). Setelah lapisan adaptif: 73% pola tertangkap (p99,5 + frekuensi), kebocoran turun ke Rp49 juta/bulan. False positive tambahan: 1.000 alert/hari × precision 30% = 700 FP × Rp25 ribu = Rp17,5 juta/bulan biaya review. Net: hemat Rp113,5 juta/bulan. Dan yang tak terhitung: penipu yang tahu ambangnya 'bergerak' mulai menghindari bank ini — deterrence (FR9). Ambang yang hidup tidak hanya menangkap; ia mengusir.",
+        "Angka dampaknya. Bank dengan 200.000 trx/hari, ambang statis Rp500 ribu: structuring Rp490 ribu × 9 lolos 100% — estimasi kebocoran Rp180 juta/bulan dari pola ini saja (dari sampling investigasi). Setelah lapisan adaptif: 73% pola tertangkap (p99,5 + frekuensi), kebocoran turun ke Rp49 juta/bulan. False positive tambahan: 1.000 alert/hari × precision 30% = 700 FP/hari × Rp25 ribu = Rp17,5 juta/hari ≈ Rp525 juta/bulan biaya review. Net: kebocoran turun Rp180 juta → Rp49 juta (hemat Rp131 juta/bulan), tetapi biaya review tambahannya ≈Rp525 juta/bulan — net −Rp394 juta/bulan. Dengan angka ini lapisan adaptif TIDAK hemat secara langsung: klaim 'hemat Rp113,5 juta/bulan' runtuh karena salah satuan (biaya per hari ditulis per bulan). Agar impas, precision harus naik ke ~82,5% (FP ≤ ~175/hari) atau biaya review per FP turun ke ~Rp6.200 — atau nilai deterrence (FR9) yang menutup selisihnya, tetapi deterrence bukan angka di laporan ini, jangan pakai ia untuk menambal net yang negatif. Dan yang tak terhitung: penipu yang tahu ambangnya 'bergerak' mulai menghindari bank ini — deterrence (FR9). Ambang yang hidup tidak hanya menangkap; ia mengusir.",
 
         "Duel angka: penyerang beradaptasi — lalu apa? Penipu tahu ambangmu adaptif (ia menguji dengan transfer kecil). Ia mencoba 'pemanasan': 3 bulan transaksi naik bertahap Rp100 ribu → Rp300 ribu → Rp500 ribu, menggeser p99,5 nasabah A dari Rp1,2 juta ke Rp2 juta. Lalu menyerang Rp1,9 juta × 5 = Rp9,5 juta — di bawah ambang baru. Pertahanan berlapis: (1) jendela riwayat tetap 90 hari — pemanasan 3 bulan baru menggeser sepertiga bobot; (2) deteksi drift — p99,5 naik > 30%/bulan tanpa penjelasan (gaji naik? promosi?) → flag 'pemanasan mungkin'; (3) frekuensi TETAP dipantau — 5× Rp1,9 juta dalam 1 jam anomali berapa pun ambangnya. Ambang adaptif bukan benteng; ia parit pertama. Parit kedua selalu frekuensi + drift.",
         "Ambang adaptif juga berlaku untuk SKOR model — bukan hanya nominal. FR11 langkah 5 (peta) menyebut 'τ adaptif: target alert rate dari kapasitas'. Itulah ambang adaptif versi skor: bukan τ = 0,7 tetap, melainkan τ_harian = skor persentil ke-(1 − kapasitas/volume). Volume naik 2x saat gajian? τ naik otomatis agar alert tetap 1.500/hari — investigator tidak tenggelam. Prinsipnya sama dengan nominal: threshold mengikuti dunia, bukan dunia mengikuti threshold. Implementasi: hitung distribusi skor 7 hari terakhir tiap pagi, set τ hari ini. Satu baris cron, menghemat 1 rapat darurat per bulan.",
@@ -188,7 +207,7 @@ export const fr11: V2Lesson = {
             { text: "Karena 0,5 angka ganjil", why: "Bukan soal ganjil/genap." },
             { text: "0,5 hanya 'netral' jika biaya FP = biaya FN — di fraud tidak pernah: FN jutaan rupiah vs FP puluhan ribu", why: "Threshold = keputusan ekonomi, bukan default library.", correct: true },
             { text: "Karena 0,5 terlalu tinggi", why: "Kadang terlalu tinggi, kadang terlalu rendah — intinya ia tebakan, bukan perhitungan." },
-            { text: "Tidak berbahaya", why: "Kasus BankMega: 0,5 → 2.125 alert vs kapasitas 800 → tim mogok." },
+            { text: "Tidak berbahaya", why: "Kasus BankMega: 0,05 → 2.129 alert vs kapasitas 800 → tim mogok." },
           ],
         },
         {
@@ -196,7 +215,7 @@ export const fr11: V2Lesson = {
           options: [
             { text: "τ = 0,5", why: "Default yang tidak dihitung dari kapasitas." },
             { text: "Urutkan skor menurun, ambil 800 teratas — skor ke-800 = τ operasional hari itu (target alert rate 0,8%)", why: "Threshold dihitung mundur dari kapasitas, adaptif harian.", correct: true },
-            { text: "τ = 0,022 selamanya", why: "0,022 adalah contoh satu hari — τ harus bergerak mengikuti volume." },
+            { text: "τ = 0,08 selamanya", why: "0,08 adalah contoh satu hari — τ harus bergerak mengikuti volume." },
             { text: "Tanpa threshold", why: "Tanpa threshold = tanpa keputusan = chaos." },
           ],
         },

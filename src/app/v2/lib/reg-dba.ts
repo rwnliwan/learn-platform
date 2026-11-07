@@ -24,6 +24,10 @@ import { dba22 } from "../content/dba22-sql-server-always-on";
 import { dba23 } from "../content/dba23-database-kubernetes-iac";
 import { dba24 } from "../content/dba24-etl-untuk-dba";
 import { dba25 } from "../content/dba25-sertifikasi-oracle-azure";
+import { dba26 } from "../content/dba26-normalisasi-dba";
+import { dba27 } from "../content/dba27-administrasi-mysql";
+import { dba28 } from "../content/dba28-administrasi-postgresql";
+import { dba29 } from "../content/dba29-transaksi-konkurensi-dba";
 
 export const REG_DBA: Record<string, V2Lesson> = {
   "dba1-lanskap": dba1,
@@ -51,4 +55,8 @@ export const REG_DBA: Record<string, V2Lesson> = {
   "dba23-database-kubernetes-iac": dba23,
   "dba24-etl-untuk-dba": dba24,
   "dba25-sertifikasi-oracle-azure": dba25,
+  "dba26-normalisasi-dba": dba26,
+  "dba27-administrasi-mysql": dba27,
+  "dba28-administrasi-postgresql": dba28,
+  "dba29-transaksi-konkurensi-dba": dba29,
 };

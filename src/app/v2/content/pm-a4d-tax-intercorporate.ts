@@ -255,7 +255,7 @@ export const pma4d: V2Lesson = {
         "ETR = beban pajak dibagi laba sebelum pajak; baca rekonsiliasinya sebelum memproyeksikan pajak.",
         "Pasif di bawah 20 persen, equity method 20 sampai 50 persen, konsolidasi di atas 50 persen; goodwill = harga dikurangi nilai wajar aset bersih.",
       ],
-      next: { label: "PM-A2B — Quant Lanjut: Distribusi, Uji Hipotesis & Regresi", href: "/learn/pm-a2b-quant-lanjut" },
+      next: { label: "PM-A5 — Corporate Issuers: Governance, WACC & Modal Kerja", href: "/v2/learn/pm-a5-corporate-issuers" },
     },
   ],
 };

@@ -294,7 +294,7 @@ print("Lolos: %d | Ditahan: %d | Ditolak: %d" % (len(lolos), len(ditahan), len(d
         "80% pola MDG bisa dipinjam tanpa SAP: golden record + steward bernama + validasi sebagai kode + audit trail.",
         "Governance proporsional: ukur lead time perubahan; mulai dari satu domain tersakit.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DM28 — Migrasi Data: Strategi, Cutover, dan Validasi", href: "/v2/learn/dm28-migrasi-data" },
       quiz: [
         {
           q: "Perusahaan sudah dua kali cleansing tetapi data kembali kotor dengan pola sama. Diagnosis yang tepat?",

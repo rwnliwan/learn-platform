@@ -77,7 +77,7 @@ export const mk10: V2Lesson = {
       title: "Branded search dan retargeting",
       prose: [
         "Branded search: ROAS atribusi 4,0, iROAS 0,6. Orang yang mengetik nama brand-mu memang mau beli — iklan hanya memungut yang sudah niat. Matikan branded search sejenak (geo test): penjualan hampir tidak turun.",
-        "Retargeting: 92% conversion-nya palsu — user yang di-retarget memang akan kembali sendiri. Atribusi last-click memberi semua kredit ke retargeting; eksperimen menunjukkan hampir semuanya bukan kausal.",
+        "Retargeting: studi industri melaporkan ~90% conversion-nya palsu — user yang di-retarget memang akan kembali sendiri. Atribusi last-click memberi semua kredit ke retargeting; eksperimen menunjukkan hampir semuanya bukan kausal.",
         "Dua channel ini terlihat paling efisien di dashboard dan paling tidak inkremental di eksperimen. Selalu uji keduanya sebelum scale.",
       ],
       tasks: [],
@@ -141,7 +141,7 @@ export const mk10: V2Lesson = {
       title: "Geo-experiment: n kecil, variansi besar — hitung MDE-nya",
       prose: [
         "Geo-experiment punya masalah yang tidak dimiliki A/B user-level: unit-nya sedikit. 10 kota vs 10 kota = n efektif 10 per grup, bukan 10.000. Dengan n kecil, minimum detectable effect (MDE) membesar: MDE ≈ 4 × sigma / sqrt(n), di mana sigma = std dev penjualan mingguan per kota.",
-        "Worked SegarSari: sigma Rp50jt/minggu/kota, n = 10 → MDE ≈ 4 × 50jt / sqrt(10) = Rp63,2jt per kota per minggu. Efek Rp2jt/kota/minggu yang mereka temukan JAUH di bawah MDE ini — artinya dengan desain acak sederhana, eksperimen 10 vs 10 tidak punya power untuk mendeteksi efek sekecil itu. Mereka beruntung — atau desainnya lebih pintar dari acak sederhana.",
+        "Worked SegarSari: sigma Rp50jt/minggu/kota, n = 10 → MDE ≈ 4 × 50jt / sqrt(10) = Rp63,2jt per kota per minggu. Efek Rp2jt/kota/minggu yang mereka temukan JAUH di bawah MDE ini — artinya dengan desain acak sederhana, eksperimen 10 vs 10 tidak punya power untuk mendeteksi efek sekecil itu. Matched pairs pun hanya menurunkan MDE ke Rp28,3jt — masih 14× efek — jadi kalaupun efeknya 'terlihat', itu lebih mungkin keberuntungan daripada deteksi (vonis lengkap + CI pasca-eksperimennya di Mini-case Langkah 12).",
         "Cara menaikkan power tanpa tambah kota: (1) matched pairs — pasangkan kota mirip sebelum randomisasi; korelasi antar-pasangan rho = 0,8 memangkas MDE ke Rp28,3jt; (2) perpanjang periode baseline untuk kovariat yang lebih baik; (3) agregasi mingguan yang lebih panjang. Aturan: JANGAN menjalankan geo-experiment tanpa menghitung MDE dulu — underpowered geo test = Rp ratusan juta untuk jawaban 'tidak tahu'.",
       ],
       tasks: [],
@@ -196,7 +196,7 @@ rho = 0.8  # korelasi antar kota berpasangan
 mde_biasa =
 mde_pair =
 
-print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f"}`,
+print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f}")`,
         lockLines: 5,
         solution: `import math
 # 10 kota treatment, 10 kontrol; std dev mingguan per kota Rp50jt
@@ -209,7 +209,7 @@ mde_biasa = 4 * sigma / math.sqrt(n)
 sigma_ef = sigma * math.sqrt(1 - rho)
 mde_pair = 4 * sigma_ef / math.sqrt(n)
 
-print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f"}`,
+print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "mde_biasa", value: 63245553, tol: 1, label: "`mde_biasa` seharusnya 63245553", msg: "4 × 50jt / sqrt(10). MDE 63jt = efek kecil tak terdeteksi." },
           { kind: "equal", task: "t2", name: "mde_pair", value: 28284271, tol: 1, label: "`mde_pair` seharusnya 28284271", msg: "Pairing rho=0,8 memangkas MDE lebih dari separuh." },
@@ -280,19 +280,22 @@ print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f"}`,
       eyebrow: "Langkah 12 · Mini-case",
       title: "SegarSari, bagian 2: dari 20 kota ke keputusan nasional",
       prose: [
-        "Setelah geo-experiment 20 kota (inkremental Rp160jt dari spend Rp500jt, iROAS 5,4), direksi bertanya: 'scale nasional butuh spend Rp5 miliar — lanjut?' Tiga fakta: (1) MDE eksperimen ≈ Rp63jt/kota/minggu (acak) — efek Rp2jt/kota/minggu terdeteksi hanya karena matched pairs yang baik; (2) efek tidak seragam: 3 kota besar menyumbang 70% inkremental; (3) atribusi platform mengklaim iROAS nasional akan 8x lipat.",
-        "Pertanyaan: (1) Apa risiko scale 10x lipat langsung? (2) Rancang scale bertahap yang aman. (3) Bagaimana klaim 'iROAS 8x' diuji?",
-        "Pembahasan: (1) Efek terkonsentrasi di 3 kota — scale ke 100 kota belum tentu linear; MDE per kota tetap; diminishing return (saturasi) belum terukur. (2) Scale 3x ke kota mirip 3 pemenang, dengan holdout 10% yang menyala; evaluasi 8 minggu; baru putuskan 10x. (3) Klaim platform diuji dengan holdout nasional kecil atau geo test lanjutan — bukan dipercaya buta. Ingat: incremental ≤ attributed, selalu.",
+        "Setelah geo-experiment 20 kota, direksi bertanya: 'scale nasional butuh spend Rp5 miliar — lanjut?' Tiga fakta — dan satu koreksi jujur: (1) MDE eksperimen ≈ Rp63,2jt/kota/minggu (acak); matched pairs (rho=0,8) hanya menurunkannya ke Rp28,3jt — masih 14× efek Rp2jt/kota/minggu yang diklaim 'terdeteksi'. Klaim lama lesson ini ('terdeteksi hanya karena matched pairs yang baik') SALAH secara statistik: matched pairs tidak membuat efek sekecil itu terdeteksi. (2) Efek diklaim tidak seragam: 3 kota besar menyumbang 70% inkremental — tapi pada data yang didominasi noise, 'pemenang' seperti ini sering kali hanya kota yang kebetulan beruntung (winner's curse), bukan pola yang bisa di-scale. (3) Atribusi platform mengklaim iROAS nasional akan 8× lipat.",
+        "Catatan kejujuran angka: lesson ini memakai dua bingkai SegarSari — bingkai geo (Rp2jt/kota/minggu → Rp160jt total) dan bingkai konversi Langkah 2 (2.700 × Rp1jt → Rp2,7 M, iROAS 5,4). Keduanya tidak bisa benar bersamaan untuk eksperimen yang sama (Rp160jt / Rp500jt = 0,32 ≠ 5,4) — analisis di bawah memakai bingkai geo; bingkai konversi dipakai untuk lift/iROAS di Langkah 2. Jangan campur keduanya saat mengambil keputusan.",
+        "Pertanyaan: (1) Apa risiko scale 10× lipat langsung dari estimasi yang tidak terdeteksi ini? (2) Rancang langkah aman sebelum bicara scale. (3) Bagaimana klaim 'iROAS 8×' diuji?",
+        "Pembahasan — vonis statistik dulu, baru keputusan bisnis. (1) Inferensi pasca-eksperimen: SE estimasi DiD ≈ MDE/4 ≈ Rp7,1jt/kota/minggu (matched pairs). CI 95% untuk efek: Rp2jt ± 1,96 × Rp7,1jt = Rp2jt ± Rp13,9jt → [−Rp11,9jt, +Rp15,9jt] per kota per minggu. NOL ada di dalam interval — bahkan efek NEGATIF pun konsisten dengan data. Total inkremental: Rp160jt dengan CI 95% [−Rp949jt, +Rp1.269jt] — rentang yang mencakup rugi besar dan untung besar. VONIS: TIDAK TERDETEKSI — Rp160jt adalah estimasi titik yang 'tidak ditolak' oleh data yang terlalu berisik, bukan temuan. Scale 10× langsung = mengalikan ketidakpastian 10×: angka nasional bisa nol, bisa negatif. (2) Langkah aman: JANGAN scale dulu — perbaiki dulu alat ukurnya. Efek sekecil Rp2jt tidak akan pernah terdeteksi geo-experiment: butuh ~200 minggu (MDE turun dengan √durasi) atau ~205 kota per grup untuk mendeteksi efek setara break-even Rp6,25jt/kota/minggu (spend Rp500jt / 80 kota-minggu). Alat yang benar untuk efek sekecil ini adalah eksperimen user-level / holdout 10% yang menyala terus (n ribuan, bukan 10 kota) — baru bicara scale setelah estimasi punya CI yang tidak mencakup nol. (3) Klaim platform 'iROAS 8×' diuji dengan holdout nasional kecil atau geo test lanjutan — bukan dipercaya buta. Ingat: incremental ≤ attributed, selalu.",
       ],
+      formula: String.raw`\text{CI}_{95\%} = \hat{\tau} \pm 1{,}96 \times \text{SE} \qquad \text{SE} \approx \frac{\text{MDE}}{4}`,
+      formulaNote: "τ̂ (tau-hat) = estimasi efek DiD (di sini Rp2jt/kota/minggu); SE = standard error estimasi — dari konvensi lesson ini, MDE ≈ 4×SE, jadi SE ≈ MDE/4 (matched pairs: 28,3jt/4 ≈ Rp7,1jt). CI yang mencakup NOL = efek tidak terdeteksi secara statistik, sebesar apa pun estimasi titiknya. Beda dengan MDE (pra-eksperimen: 'seberapa kecil efek yang BISA dideteksi?') — CI adalah inferensi pasca-eksperimen ('seberapa presisi efek yang TERUKUR?').",
       tasks: [],
       quiz: [
         {
-          q: "SegarSari: 70% inkremental dari 3 kota besar. Scale nasional 10x langsung?",
+          q: "SegarSari: efek Rp2jt/kota/minggu dengan CI 95% [−Rp11,9jt, +Rp15,9jt]. Scale nasional 10× langsung?",
           options: [
-            { text: "Tidak — scale bertahap 3x ke kota mirip pemenang + holdout, evaluasi, baru putuskan", why: "Efek terkonsentrasi + saturasi belum terukur = ekstrapolasi linear berbahaya.", correct: true },
-            { text: "Ya — iROAS 5,4 menguntungkan, gas penuh", why: "5,4 di 20 kota ≠ 5,4 di 200 kota; konsentrasi efek + diminishing return." },
+            { text: "Tidak — efeknya belum terbukti: CI mencakup nol; jangan scale dulu, validasi dengan holdout/desain berpower, baru putuskan", why: "Benar: Rp160jt adalah estimasi titik yang tidak terdeteksi (CI total [−Rp949jt, +Rp1.269jt]). Scale 10× = mengalikan ketidakpastian; '3 kota pemenang' pun bisa jadi winner's curse.", correct: true },
+            { text: "Ya — iROAS 5,4 menguntungkan, gas penuh", why: "5,4 adalah estimasi titik dari bingkai konversi — dan dari bingkai geo, CI-nya mencakup rugi. Gas penuh di atas estimasi yang tidak terdeteksi = bakar uang." },
             { text: "Ya — klaim platform 8x lipat mendukung", why: "Klaim platform = atribusi, bukan kausal; harus diuji." },
-            { text: "Tidak — hentikan channel ini", why: "Berlebihan; 5,4 menguntungkan, hanya scale-nya yang harus bertahap." },
+            { text: "Tidak — hentikan channel ini", why: "'Tidak terdeteksi' ≠ 'terbukti nol'. Efeknya mungkin ada — hanya saja eksperimen ini tidak bisa melihatnya. Yang benar: ukur ulang dengan alat yang berpower, bukan menghentikan tanpa bukti." },
           ],
         },
         {
@@ -305,7 +308,7 @@ print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f"}`,
           ],
         },
       ],
-      reference: "Scale bertahap + holdout; uji klaim platform, jangan telan.",
+      reference: "Tidak terdeteksi ≠ terbukti nol — ukur ulang berpower dulu, baru scale; uji klaim platform, jangan telan.",
     },
     {
       id: "checkpoint",
@@ -335,10 +338,10 @@ print(f"mde_biasa={mde_biasa:.0f} mde_pair={mde_pair:.0f"}`,
           ],
         },
         {
-          q: "Retargeting 92% palsu. Kenapa atribusi melebih-lebihkannya?",
+          q: "Retargeting ~90% palsu. Kenapa atribusi melebih-lebihkannya?",
           options: [
             { text: "Last-click memberi kredit penuh ke sentuhan terakhir", why: "User yang memang mau kembali \u201Cdipungut\u201D retargeting di garis finis.", correct: true },
-            { text: "Retargeting memang paling efektif", why: "Eksperimen bilang sebaliknya: 92% non-kausal." },
+            { text: "Retargeting memang paling efektif", why: "Eksperimen bilang sebaliknya: ~90% non-kausal." },
             { text: "Data retargeting lebih lengkap", why: "Bukan soal kelengkapan — soal kausalitas." },
           ],
         },

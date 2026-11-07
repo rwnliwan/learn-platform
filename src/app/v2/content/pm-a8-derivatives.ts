@@ -303,7 +303,7 @@ export const pma8: V2Lesson = {
         "Put-call parity (Eropa): C + PV(X) = P + S.",
         "Tidak hedging = spekulasi — keputusan pasif tetap keputusan.",
       ],
-      next: { label: "PM-A9 — Alternatives: di Luar Saham-Obligasi", href: "/learn/pm-a9-alternatives" },
+      next: { label: "PM-A8B — Derivatives: Harga Opsi, Greeks & Strategi", href: "/v2/learn/pm-a8b-harga-opsi" },
     },
   ],
 };

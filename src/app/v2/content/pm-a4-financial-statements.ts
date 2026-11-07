@@ -293,7 +293,7 @@ export const pma4: V2Lesson = {
         "DuPont: ROE = margin \u00d7 turnover \u00d7 leverage — beli komposisinya, bukan angkanya.",
         "Rasio kunci: current, quick, DER, coverage, margin, ROE, DSO, CCC.",
       ],
-      next: { label: "PM-A5 — Corporate Issuers: Governance, WACC & Modal Kerja", href: "/learn/pm-a5-corporate-issuers" },
+      next: { label: "PM-A4B — Inventori: LIFO Reserve, Liquidation & Write-Down", href: "/v2/learn/pm-a4b-inventory" },
     },
   ],
 };

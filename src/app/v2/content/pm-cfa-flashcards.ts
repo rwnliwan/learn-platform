@@ -343,7 +343,7 @@ export const pmcfaFlashcards: V2Lesson = {
         "Again bila salah atau tidak bisa menjawab; Easy hanya bila jawaban langsung muncul.",
         "Bank soal terlemah menentukan lesson berikutnya, bukan bank soal yang sudah kuat.",
       ],
-      next: { label: "PM-CFA Formula Sheet: Rumus yang Wajib di Luar Kepala", href: "/learn/pm-cfa-formula-sheet" },
+      next: { label: "PM-CFA Formula Sheet: Rumus yang Wajib di Luar Kepala", href: "/v2/learn/pm-cfa-formula-sheet" },
     },
   ],
 };

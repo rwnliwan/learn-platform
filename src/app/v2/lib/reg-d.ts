@@ -22,6 +22,8 @@ import { d19 } from "../content/d19-apache-airflow";
 import { d20 } from "../content/d20-docker-git-workflow";
 import { d21 } from "../content/d21-pyspark";
 import { d22 } from "../content/d22-bigquery-snowflake";
+import { d23 } from "../content/d23-oop-formal";
+import { d24 } from "../content/d24-web-scraping";
 
 export const REG_D: Record<string, V2Lesson> = {
   "d1-python-dasar": d1,
@@ -47,4 +49,6 @@ export const REG_D: Record<string, V2Lesson> = {
   "d20-docker-git-workflow": d20,
   "d21-pyspark": d21,
   "d22-bigquery-snowflake": d22,
+  "d23-oop-formal": d23,
+  "d24-web-scraping": d24,
 };

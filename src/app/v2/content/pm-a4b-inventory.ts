@@ -259,7 +259,7 @@ export const pma4b: V2Lesson = {
         "Write-down: IFRS lower of cost or NRV dan reversal boleh; US GAAP lower of cost or market dan reversal dilarang.",
         "Turnover = COGS dibagi rata-rata inventori; DOH = 365 dibagi turnover; waspadai channel stuffing.",
       ],
-      next: { label: "PM-A4C — Aset Tetap, Utang & Sewa", href: "/learn/pm-a4c-fixed-assets-debt" },
+      next: { label: "PM-A4C — Aset Tetap, Utang & Sewa", href: "/v2/learn/pm-a4c-fixed-assets-debt" },
     },
   ],
 };

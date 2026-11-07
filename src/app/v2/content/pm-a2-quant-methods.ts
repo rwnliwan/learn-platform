@@ -304,7 +304,7 @@ export const pma2: V2Lesson = {
         "Regresi: slope = beta, R\u00b2 = explanatory power; R\u00b2 tinggi \u2260 kausalitas; waspadai overfitting dan ekstrapolasi.",
         "Proyek mutually exclusive: NPV menang atas IRR.",
       ],
-      next: { label: "PM-A3 — Economics: Mikro, Makro & FX", href: "/learn/pm-a3-economics" },
+      next: { label: "PM-A2B — Quant Lanjut: Distribusi, Uji Hipotesis & Regresi", href: "/v2/learn/pm-a2b-quant-lanjut" },
     },
   ],
 };

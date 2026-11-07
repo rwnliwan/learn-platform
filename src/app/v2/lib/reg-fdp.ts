@@ -8,6 +8,7 @@ import { fdp6 } from "../content/fdp6-capstone";
 import { fdp7 } from "../content/fdp7-penyimpanan";
 import { fdp8 } from "../content/fdp8-otomasi-penjadwalan";
 import { fdp9 } from "../content/fdp9-market-data";
+import { fdp10 } from "../content/fdp10-model-tiga-laporan";
 
 export const REG_FDP: Record<string, V2Lesson> = {
   "fdp1-xbrl": fdp1,
@@ -19,4 +20,5 @@ export const REG_FDP: Record<string, V2Lesson> = {
   "fdp7-penyimpanan": fdp7,
   "fdp8-otomasi-penjadwalan": fdp8,
   "fdp9-market-data": fdp9,
+  "fdp10-model-tiga-laporan": fdp10,
 };

@@ -20,6 +20,7 @@ import { llmops18 } from "../content/llmops18-agent-ops";
 import { llmops19 } from "../content/llmops19-mcp";
 import { llmops20 } from "../content/llmops20-evaluasi-llm-rag";
 import { llmops21 } from "../content/llmops21-gateway-semantic-caching";
+import { llmops22 } from "../content/llmops22-rlhf-dpo-ops";
 
 export const REG_LLMOPS: Record<string, V2Lesson> = {
   "llmops1-lanskap": llmops1,
@@ -43,4 +44,5 @@ export const REG_LLMOPS: Record<string, V2Lesson> = {
   "llmops19-mcp": llmops19,
   "llmops20-evaluasi-llm-rag": llmops20,
   "llmops21-gateway-semantic-caching": llmops21,
+  "llmops22-rlhf-dpo-ops": llmops22,
 };

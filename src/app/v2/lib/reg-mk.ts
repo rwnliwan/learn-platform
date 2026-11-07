@@ -27,6 +27,9 @@ import { mk25 } from "../content/mk25-dashboard-marketing";
 import { mk26 } from "../content/mk26-crm-ops";
 import { mk27 } from "../content/mk27-seo-analytics";
 import { mk28 } from "../content/mk28-mmp-mobile-attribution";
+import { mk29 } from "../content/mk29-conjoint-analysis";
+import { mk30 } from "../content/mk30-riset-pasar-survei";
+import { mk31 } from "../content/mk31-kualitas-data-rekonsiliasi";
 
 export const REG_MK: Record<string, V2Lesson> = {
   "mk1-funnel-aarrr": mk1,
@@ -57,4 +60,7 @@ export const REG_MK: Record<string, V2Lesson> = {
   "mk26-crm-ops": mk26,
   "mk27-seo-analytics": mk27,
   "mk28-mmp-mobile-attribution": mk28,
+  "mk29-conjoint-analysis": mk29,
+  "mk30-riset-pasar-survei": mk30,
+  "mk31-kualitas-data-rekonsiliasi": mk31,
 };

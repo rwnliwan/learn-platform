@@ -207,7 +207,7 @@ export const pmcfaFormulaSheet: V2Lesson = {
         "FIFO inventory = LIFO + reserve; DTL menunda pajak ke masa depan, DTA sebaliknya.",
         "VaR diam tentang ekor — laporkan bersama expected shortfall; Sharpe memakai return berlebih.",
       ],
-      next: { label: "PM-CFA Drill Kalkulator BA II Plus", href: "/learn/pm-cfa-calculator-drill" },
+      next: { label: "PM-CFA Drill Kalkulator BA II Plus", href: "/v2/learn/pm-cfa-calculator-drill" },
     },
   ],
 };

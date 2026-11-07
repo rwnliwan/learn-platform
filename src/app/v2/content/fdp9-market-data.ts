@@ -60,7 +60,7 @@ export const fdp9: V2Lesson = {
       eyebrow: "Langkah 4 · Konsep",
       title: "Penjajaran tanggal: aturan harga-setelah-periode",
       prose: [
-        "Aturan: harga yang dipasangkan dengan laba periode P harus bertanggal SETELAH akhir periode P — dan idealnya setelah tanggal filing terbit, agar harga sudah 'tahu' isi laporan itu. Harga sebelum akhir periode mengandung informasi yang belum terjadi saat laba dihitung — itu look-ahead: rasio yang memakai masa depan.",
+        "Aturan: harga yang dipasangkan dengan laba periode P harus bertanggal SETELAH akhir periode P — dan idealnya setelah tanggal filing terbit, agar harga sudah 'tahu' isi laporan itu. Harga 30 Juni sendiri tidak mengandung informasi masa depan; yang look-ahead adalah laba FY2024 penuh yang dipasangkan ke rasio bertanggal 30 Juni — laba setahun penuh itu baru diketahui setelah periode berakhir, jadi rasio Juni memakai masa depan.",
         "Contoh konkret: laba KLBF FY2024 (periode berakhir 31 Des 2024). Harga yang selaras: harga penutupan setelah 31 Des 2024 — mis. 31 Mar 2025. Harga 30 Jun 2024 TIDAK selaras: ia berasal dari tengah periode laba, saat setengah laba bahkan belum terjadi. Rasio yang memakai harga Juni untuk laba setahun penuh adalah rasio yang membandingkan apel dengan setengah apel.",
         "Di tabel kanonis, harga disimpan sebagai baris fakta juga — dengan pos 'harga_penutupan', periode yang sama dengan periode laba, plus kolom tanggal_harga yang sebenarnya. Dua tanggal itu berbeda dan keduanya penting: periode menjawab 'laba periode mana', tanggal_harga menjawab 'harga kapan'. Menyimpan satu tanpa yang lain adalah cara tercepat kehilangan jejak penjajaran.",
         "Satu jebakan terakhir: harga harian punya akhir pekan dan hari libur. Bila tanggal target bukan hari bursa, ambil harga penutupan terakhir yang tersedia SEBELUM tanggal target — dan catat tanggal aktualnya, bukan tanggal targetnya. 'Harga 31 Mar 2025' yang sebenarnya harga 28 Mar (Jumat) harus tercatat sebagai 28 Mar.",
@@ -154,6 +154,7 @@ export const fdp9: V2Lesson = {
         "Rasio filings saja (margin, ROE, NPL, LDR, CAR) tidak butuh harga; P/E, mcap, yield, P/B butuh harga + tanggal.",
         "Harga penutupan terakhir sebelum tanggal target bila tanggal target bukan hari bursa — dan catat tanggal aktualnya.",
       ],
+      next: { label: "FDP10 — Model 3-Laporan Forecasting dan Rekonsiliasi", href: "/v2/learn/fdp10-model-tiga-laporan" },
       quiz: [
         {
           q: "Dengan EPS KLBF FY2024 Rp70,16 dan harga ilustratif Rp1.650, berapa P/E-nya?",

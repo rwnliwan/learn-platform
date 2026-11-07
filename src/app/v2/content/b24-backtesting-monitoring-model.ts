@@ -273,7 +273,7 @@ export const b24: V2Lesson = {
         "Rekalibrasi (angka meleset, ranking baik) vs rebuild (ranking rusak) vs selidiki (PSI saja).",
         "Monitoring otomatis terjadwal + ambang tertulis sebelum live + keputusan tercatat.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "A1.10 Capstone Track 10: Pipeline Kredit dari SQL ke Python", href: "/v2/learn/a110-capstone-track-10" },
       quiz: [
         {
           q: "Bucket “risiko 10%” ternyata gagal bayar 22%, tetapi AUC tetap 0,78. Kesimpulan tepat?",

@@ -31,7 +31,7 @@ export const cr13: V2Lesson = {
       prose: [
         "EAD (Exposure at Default) = total tagihan bank pada saat debitur default. Term loan (KPR, KTA angsuran): EAD ≈ sisa pokok (+ tunggakan bunga). Pasti, tidak bisa ditarik lagi — tidak butuh CCF. Revolving (kartu kredit, cerukan, KMK revolving): EAD = outstanding + (undrawn × CCF) — karena debitur bisa menarik sisa limit sebelum macet.",
         "Contoh: kartu kredit limit Rp 100 jt, outstanding Rp 60 jt, CCF 35% (kondisi menurun). Undrawn = 100 − 60 = Rp 40 jt. Tambahan = 40 × 35% = Rp 14 jt. EAD = 60 + 14 = Rp 74 jt (bukan 60!). Selisih Rp 14 jt = \"utang masa depan\" yang belum terjadi tetapi harus dicadangkan hari ini.",
-        "32% dari EAD tidak terlihat di laporan hari ini. Bank yang menghitung EL dari outstanding saja underestimate sepertiga eksposur kartu kreditnya. Inilah mengapa CCF wajib dalam perhitungan ECL dan modal.",
+        "18,9% dari EAD tidak terlihat di laporan hari ini. Bank yang menghitung EL dari outstanding saja underestimate sekitar seperlima eksposur kartu kreditnya. Inilah mengapa CCF wajib dalam perhitungan ECL dan modal.",
       ],
       formula: String.raw`\text{EAD}_{\text{revolving}} = \text{Outstanding} + (\text{Undrawn} \times \text{CCF})`,
       formulaNote: "Undrawn = limit − outstanding. Untuk term loan: EAD ≈ sisa pokok.",
@@ -108,28 +108,28 @@ export const cr13: V2Lesson = {
       eyebrow: "Langkah 6 · Lab Utilisasi",
       title: "Utilisasi sebagai prediktor",
       prose: [
-        "5000 nasabah kartu kredit disimulasikan (terkunci): utilisasi ~ beta(2,5) — kebanyakan rendah; PD naik eksponensial dengan utilisasi. Tugasmu: hitung default rate band utilisasi 0–20% dan 60–80%, lalu bandingkan.",
+        "200.000 nasabah kartu kredit disimulasikan (terkunci): utilisasi ~ beta(2,5) — kebanyakan rendah; PD naik eksponensial dengan utilisasi. Tugasmu: hitung default rate band utilisasi 0–20% dan 60–80%, lalu bandingkan. Jumlah 200.000 sengaja besar: band 60–80% hanya berisi ~4% nasabah, jadi dengan 5.000 nasabah rasionya berisik — n besar membuat angka yang kamu ukur jujur terhadap modelnya (nilai analitik: ≈1,32% vs ≈4,34%, rasio ≈3,3).",
       ],
       tasks: [
         { id: "t1", text: "Hitung `rate_rendah` (%) band 0–20%" },
         { id: "t2", text: "Hitung `rate_tinggi` (%) band 60–80% dan `rasio` = tinggi/rendah" },
         { id: "t3", text: "Cetak ketiganya dengan `print`" },
       ],
-      expected: "rendah=0.66 tinggi=6.15 rasio=9.3",
+      expected: "rendah=1.30 tinggi=4.34 rasio=3.3",
       hints: [
         "Saring nasabah dengan 0 <= u < 0.2 untuk band rendah.",
         "Default rate = rata-rata status default × 100.",
         "b = [d for u, d in nasabah if 0 <= u < 0.2]; rate = sum(b)/len(b)*100",
       ],
       code: {
-        starter: `import random, math\nrandom.seed(77)\n\nnasabah = []\nfor _ in range(5000):\n    util = random.betavariate(2, 5)\n    pd = 0.01 * math.exp(2.2 * util)\n    nasabah.append((util, random.random() < pd))\n\n# TULIS KODEMU: default rate dua band utilisasi\nrate_rendah = \nrate_tinggi = \nrasio = \n\nprint(f"rendah={rate_rendah:.2f} tinggi={rate_tinggi:.2f} rasio={rasio:.1f}")`,
+        starter: `import random, math\nrandom.seed(77)\n\nnasabah = []\nfor _ in range(200000):\n    util = random.betavariate(2, 5)\n    pd = 0.01 * math.exp(2.2 * util)\n    nasabah.append((util, random.random() < pd))\n\n# TULIS KODEMU: default rate dua band utilisasi\nrate_rendah = \nrate_tinggi = \nrasio = \n\nprint(f"rendah={rate_rendah:.2f} tinggi={rate_tinggi:.2f} rasio={rasio:.1f}")`,
         lockLines: 7,
-        solution: `import random, math\nrandom.seed(77)\n\nnasabah = []\nfor _ in range(5000):\n    util = random.betavariate(2, 5)\n    pd = 0.01 * math.exp(2.2 * util)\n    nasabah.append((util, random.random() < pd))\n\n# TULIS KODEMU: default rate dua band utilisasi\nb_rendah = [d for u, d in nasabah if 0 <= u < 0.2]\nb_tinggi = [d for u, d in nasabah if 0.6 <= u < 0.8]\nrate_rendah = sum(b_rendah)/len(b_rendah)*100\nrate_tinggi = sum(b_tinggi)/len(b_tinggi)*100\nrasio = rate_tinggi / rate_rendah\n\nprint(f"rendah={rate_rendah:.2f} tinggi={rate_tinggi:.2f} rasio={rasio:.1f}")`,
+        solution: `import random, math\nrandom.seed(77)\n\nnasabah = []\nfor _ in range(200000):\n    util = random.betavariate(2, 5)\n    pd = 0.01 * math.exp(2.2 * util)\n    nasabah.append((util, random.random() < pd))\n\n# TULIS KODEMU: default rate dua band utilisasi\nb_rendah = [d for u, d in nasabah if 0 <= u < 0.2]\nb_tinggi = [d for u, d in nasabah if 0.6 <= u < 0.8]\nrate_rendah = sum(b_rendah)/len(b_rendah)*100\nrate_tinggi = sum(b_tinggi)/len(b_tinggi)*100\nrasio = rate_tinggi / rate_rendah\n\nprint(f"rendah={rate_rendah:.2f} tinggi={rate_tinggi:.2f} rasio={rasio:.1f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "rate_rendah", value: 0.66, tol: 0.2, label: "`rate_rendah` sekitar 0.66", msg: "Band 0–20%: default rate rendah." },
-          { kind: "equal", task: "t2", name: "rate_tinggi", value: 6.15, tol: 0.4, label: "`rate_tinggi` sekitar 6.15", msg: "Band 60–80%: jauh lebih tinggi." },
-          { kind: "equal", task: "t2", name: "rasio", value: 9.3, tol: 0.8, label: "`rasio` sekitar 9.3", msg: "Hubungan eksponensial: ~9× lipat." },
-          { kind: "stdout_matches", task: "t3", pattern: "rendah=0\\.66\\s+tinggi=6\\.15\\s+rasio=9\\.3", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "rate_rendah", value: 1.30, tol: 0.2, label: "`rate_rendah` sekitar 1.30", msg: "Band 0–20%: default rate rendah." },
+          { kind: "equal", task: "t2", name: "rate_tinggi", value: 4.34, tol: 0.4, label: "`rate_tinggi` sekitar 4.34", msg: "Band 60–80%: jauh lebih tinggi." },
+          { kind: "equal", task: "t2", name: "rasio", value: 3.3, tol: 0.8, label: "`rasio` sekitar 3.3", msg: "Hubungan eksponensial: ~3× lipat." },
+          { kind: "stdout_matches", task: "t3", pattern: "rendah=1\\.30\\s+tinggi=4\\.34\\s+rasio=3\\.3", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Pelajaran ganda: utilisasi tinggi = PD tinggi; utilisasi RENDAH + limit BESAR = EAD tersembunyi.",
@@ -149,7 +149,7 @@ export const cr13: V2Lesson = {
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "Menghitung EL kartu kredit dari outstanding saja — 32% eksposur tidak terlihat di laporan. Bu Sinta yang 'hemat' (terpakai Rp 10 jt dari limit Rp 100 jt) default di Rp 85 jt: bank mencatat kerugian 8,5× lipat dari yang terlihat. Limit tak terpakai bukan 'tidak ada risiko' — melainkan risiko yang sedang tidur.",
+        body: "Menghitung EL kartu kredit dari outstanding saja — 18,9% eksposur tidak terlihat di laporan. Bu Sinta yang 'hemat' (terpakai Rp 10 jt dari limit Rp 100 jt) default di Rp 85 jt: bank mencatat kerugian 8,5× lipat dari yang terlihat. Limit tak terpakai bukan 'tidak ada risiko' — melainkan risiko yang sedang tidur.",
       },
     },
     {
@@ -265,7 +265,7 @@ export const cr13: V2Lesson = {
             { text: "Tidak ada — flat lebih sederhana", why: "Sederhana tetapi salah di kedua arah." },
             { text: "Salah dua arah: segmen sehat overestimate (tidak kompetitif), segmen kritis underestimate 2× (kurang cadangan tepat di segmen terpenting)", why: "Yang sehat 'dihukum' berlebihan, yang kritis diremehkan. CCF harus kondisional.", correct: true },
             { text: "Flat selalu underestimate", why: "Tidak selalu — untuk segmen sehat justru overestimate." },
-            { text: "CCF tidak penting", why: "CCF menentukan sepertiga EAD kartu kredit." },
+            { text: "CCF tidak penting", why: "CCF menentukan sekitar seperlima EAD kartu kredit (dalam contoh: 14/74 ≈ 19%)." },
           ],
         },
       ],

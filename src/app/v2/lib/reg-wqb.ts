@@ -30,6 +30,8 @@ import { wqb28 } from "../content/wqb28-portfolio-alpha";
 import { wqb29 } from "../content/wqb29-superalpha";
 import { wqb30 } from "../content/wqb30-capstone-akhir";
 import { wqb31 } from "../content/wqb31-operator-lanjutan";
+import { wqb32 } from "../content/wqb32-pairs-trading";
+import { wqb33 } from "../content/wqb33-eksekusi";
 
 export const REG_WQB: Record<string, V2Lesson> = {
   "wqb1-apa-itu-alpha": wqb1,
@@ -63,4 +65,6 @@ export const REG_WQB: Record<string, V2Lesson> = {
   "wqb29-superalpha": wqb29,
   "wqb30-capstone-akhir": wqb30,
   "wqb31-operator-lanjutan": wqb31,
+  "wqb32-pairs-trading": wqb32,
+  "wqb33-eksekusi": wqb33,
 };

@@ -27,6 +27,7 @@ import { mle25 } from "../content/mle25-unsupervised";
 import { mle26 } from "../content/mle26-fine-tuning-llm";
 import { mle27 } from "../content/mle27-llm-serving";
 import { mle28 } from "../content/mle28-rag-agent-production";
+import { mle29 } from "../content/mle29-time-series-ml";
 
 export const REG_MLE: Record<string, V2Lesson> = {
   "mle1-lanskap": mle1,
@@ -57,4 +58,5 @@ export const REG_MLE: Record<string, V2Lesson> = {
   "mle26-fine-tuning-llm": mle26,
   "mle27-llm-serving": mle27,
   "mle28-rag-agent-production": mle28,
+  "mle29-time-series-ml": mle29,
 };

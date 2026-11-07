@@ -271,7 +271,7 @@ export const pma1: V2Lesson = {
         "GIPS: composite lengkap, histori 5\u219210 tahun, total return, fee diungkapkan; verification \u2260 audit angka.",
         "Refleks vignette: \u201ctanpa mengungkapkan\u201d \u2192 cari pelanggaran disclosure; \u201csupervisor tahu\u201d \u2192 tambah IV(C); dokumentasikan setiap dilema.",
       ],
-      next: { label: "PM-A2 — Quant Methods: TVM, Statistik & Regresi", href: "/learn/pm-a2-quant-methods" },
+      next: { label: "PM-A1B — Bank Kasus Etika: Vignette Pelanggaran", href: "/v2/learn/pm-a1b-ethics-cases" },
     },
   ],
 };

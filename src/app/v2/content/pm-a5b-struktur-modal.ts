@@ -268,7 +268,7 @@ export const pma5b: V2Lesson = {
         "Dividen: irrelevance sebagai titik awal; bird-in-hand, tax preference, signaling, dan clientele menjelaskan dunia nyata.",
         "Dividen residual = laba dikurangi ekuitas untuk anggaran modal; buyback fleksibel dan menunda pajak, tetapi berbahaya bila dibeli kemahalan.",
       ],
-      next: { label: "PM-A6 — Equity: Struktur Pasar, Indeks & Efisiensi", href: "/learn/pm-a6-equity" },
+      next: { label: "PM-A6 — Equity: Struktur Pasar, Indeks & Efisiensi", href: "/v2/learn/pm-a6-equity" },
     },
   ],
 };

@@ -304,7 +304,7 @@ export const pma5: V2Lesson = {
         "WACC = bobot pasar \u00d7 biaya (utang after-tax) = hurdle rate.",
         "CCC = DIO + DSO \u2212 DPO — pendek = kas sehat; tenor pendanaan = tenor aset.",
       ],
-      next: { label: "PM-A6 — Equity: Struktur Pasar, Indeks & Efisiensi", href: "/learn/pm-a6-equity" },
+      next: { label: "PM-A5B — Corporate Issuers: Struktur Modal & Kebijakan Dividen", href: "/v2/learn/pm-a5b-struktur-modal" },
     },
   ],
 };

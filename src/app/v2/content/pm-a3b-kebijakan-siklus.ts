@@ -268,7 +268,7 @@ export const pma3b: V2Lesson = {
         "PPP relatif: perubahan kurs sama dengan selisih inflasi — jangkar jangka panjang.",
         "Covered IRP adalah hukum arbitrase; uncovered IRP adalah ekspektasi yang sering gagal. Carry trade untung dari selisih bunga dan hancur oleh depresiasi mendadak.",
       ],
-      next: { label: "PM-A4 — Financial Statements: 3 Laporan & Rasio", href: "/learn/pm-a4-financial-statements" },
+      next: { label: "PM-A4 — Financial Statements: 3 Laporan & Rasio", href: "/v2/learn/pm-a4-financial-statements" },
     },
   ],
 };

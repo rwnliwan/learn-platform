@@ -30,8 +30,8 @@ export const cr10: V2Lesson = {
       title: "Iklim vs cuaca",
       prose: [
         "PD TTC (Through-the-Cycle): rata-rata peluang default sepanjang siklus ekonomi (boom + resesi). Stabil, tidak reaktif. Dipakai untuk modal (Basel/IRB) — regulator tidak mau modal naik-turun tiap kuartal.",
-        "PD PIT (Point-in-Time): peluang default kondisi saat ini (12 bulan ke depan dari hari ini). Reaktif terhadap siklus. Dipakai untuk ECL/PSAK 71 & pricing — cadangan harus mencerminkan realita kini.",
-        "TTC seperti iklim Jakarta — \"rata-rata 28°C\" (stabil, untuk perencanaan jangka panjang). PIT seperti ramalan besok — \"besok hujan badai\" (reaktif, untuk keputusan harian). Contoh: 2020 (resesi) — PIT melonjak 4,5%, ECL ikut melonjak (ingat cerita CR4B!); TTC tetap 2%, modal tidak panik. 2022 (boom) — PIT turun 1,6%, ECL ringan. Pelajaran: ECL itu procyclical — kritik utama PSAK 71 yang harus dipahami analis.",
+        "PD PIT (Point-in-Time): peluang default kondisi saat ini (12 bulan ke depan dari hari ini). Reaktif terhadap siklus. Dipakai untuk ECL/PSAK 109 & pricing — cadangan harus mencerminkan realita kini.",
+        "TTC seperti iklim Jakarta — \"rata-rata 28°C\" (stabil, untuk perencanaan jangka panjang). PIT seperti ramalan besok — \"besok hujan badai\" (reaktif, untuk keputusan harian). Contoh: 2020 (resesi) — PIT melonjak 4,5%, ECL ikut melonjak (ingat cerita CR4B!); TTC tetap 2%, modal tidak panik. 2022 (boom) — PIT turun 1,6%, ECL ringan. Pelajaran: ECL itu procyclical — kritik utama PSAK 109 yang harus dipahami analis.",
       ],
       formula: String.raw`\text{PD}_{\text{PIT}}(z) = \text{PD}_{\text{TTC}} \times e^{-0{,}5\, z}`,
       formulaNote: "z = kondisi ekonomi (−2 resesi berat … +2 boom). PIT berayun di sekitar TTC: TTC = jangkar, PIT = ayunan.",
@@ -41,7 +41,7 @@ export const cr10: V2Lesson = {
         type: "pitfall",
         body: "\"PD ya PD — satu angka untuk semua keperluan.\" PD TTC untuk modal, PD PIT untuk ECL — dua angka berbeda dari filosofi berbeda. Bank besar memelihara keduanya dengan penyesuaian siklus yang terdokumentasi.",
       },
-      reference: "Kapan pakai apa? TTC → modal (Basel, stabil). PIT → ECL (PSAK 71, responsif).",
+      reference: "Kapan pakai apa? TTC → modal (Basel, stabil). PIT → ECL (PSAK 109, responsif).",
     },
     {
       id: "lab-ttc-pit",
@@ -107,7 +107,7 @@ export const cr10: V2Lesson = {
       eyebrow: "Langkah 6 · Lifetime PD",
       title: "Merangkai tahun demi tahun",
       prose: [
-        "Lifetime PD = peluang default kumulatif selama sisa tenor (bukan 12 bulan). Dibutuhkan untuk ECL Stage 2/3 (PSAK 71). Dihitung dari PD marginal (peluang default di tahun ke-t dengan syarat selamat sampai tahun t−1). Logikanya: peluang selamat T tahun = kalikan peluang selamat tiap tahun; lifetime PD = 1 − itu.",
+        "Lifetime PD = peluang default kumulatif selama sisa tenor (bukan 12 bulan). Dibutuhkan untuk ECL Stage 2/3 (PSAK 109). Dihitung dari PD marginal (peluang default di tahun ke-t dengan syarat selamat sampai tahun t−1). Logikanya: peluang selamat T tahun = kalikan peluang selamat tiap tahun; lifetime PD = 1 − itu.",
         "Contoh: PD marginal thn1 2%, thn2 1,8%, thn3 1,5%. Peluang selamat: 0,98 × 0,982 × 0,985 = 0,948. Lifetime PD = 1 − 0,948 = 5,2%. Bandingkan dengan PD 12-bulan (2%): lifetime 2,6× lipat — inilah \"bahan bakar\" cliff effect Stage 1→2.",
         "Lifetime PD bukan PD 12-bulan × tenor (itu double counting — menghitung yang sudah default dua kali). PD marginal biasanya menurun seiring waktu (seasoning — yang lemah gugur duluan, CR6). Dan ingat: lifetime PD untuk ECL memakai PIT, bukan TTC.",
       ],
@@ -152,7 +152,7 @@ export const cr10: V2Lesson = {
       title: "Peta keputusan: PD mana untuk apa",
       prose: [
         "Skenario 1 — Menghitung kebutuhan modal (IRB/Basel). → Pakai PD TTC (Through-the-Cycle): rata-rata sepanjang siklus, stabil. Alasan: regulator tidak mau modal naik-turun tiap kuartal mengikuti cuaca ekonomi.",
-        "Skenario 2 — Menghitung ECL/PSAK 71 atau menetapkan pricing. → Pakai PD PIT (Point-in-Time): 'cuaca' saat ini. Contoh nyata: 2020, PIT melonjak 2% → 4,5% sehingga ECL ikut melonjak — cadangan harus mencerminkan realita kini, bukan iklim rata-rata.",
+        "Skenario 2 — Menghitung ECL/PSAK 109 atau menetapkan pricing. → Pakai PD PIT (Point-in-Time): 'cuaca' saat ini. Contoh nyata: 2020, PIT melonjak 2% → 4,5% sehingga ECL ikut melonjak — cadangan harus mencerminkan realita kini, bukan iklim rata-rata.",
         "Skenario 3 — Kredit masuk Stage 2/3. → Pakai lifetime PD dari PD marginal (1 − Π(1−PD_t)), bukan PD 12-bulan × tenor. Contoh nyata: PD marginal 2%/1,8%/1,5% → lifetime 5,2% — 2,6× lipat PD tahunan. Inilah 'bahan bakar' cliff effect Stage 1→2.",
         "Skenario 4 — Data default rapi baru tersedia sejak 2015. → Jangan rata-rata mentah: reweight boom vs tekanan 50:50. Contoh nyata: rata-rata 2016–2025 = 2,4%, tetapi komposisi 7 tahun tenang + 3 tahun tekanan → TTC yang benar 2,8%. Selisih 0,4 poin × Rp 30 T × LGD 45% = Rp 54 M modal yang tidak dibentuk.",
         "Skenario 5 — Model miskalibrasi: realisasi 1,5× prediksi di semua grade, tetapi Gini stabil. → Rekalibrasi (faktor koreksi ke master scale, 2 minggu) — bukan rebuild (6 bulan). Rebuild hanya bila ranking rusak (Gini jatuh) atau populasi bergeser (PSI tinggi).",
@@ -274,7 +274,7 @@ export const cr10: V2Lesson = {
           q: "Lifetime PD KPR 15 tahun adalah 12%, PD 12-bulan 1,2%. Mengapa lifetime jauh lebih besar dan kapan dipakai?",
           options: [
             { text: "Karena PD 12-bulan × 15 = 18% — tinggal kalikan", why: "Itu double counting." },
-            { text: "Lifetime = 1 − (peluang selamat tiap tahun dikalikan); dipakai untuk ECL Stage 2/3 (PSAK 71) — inilah bahan bakar cliff effect", why: "Lompatan 1,2% → 12% inilah yang membuat perpindahan stage menghantam laba.", correct: true },
+            { text: "Lifetime = 1 − (peluang selamat tiap tahun dikalikan); dipakai untuk ECL Stage 2/3 (PSAK 109) — inilah bahan bakar cliff effect", why: "Lompatan 1,2% → 12% inilah yang membuat perpindahan stage menghantam laba.", correct: true },
             { text: "Lifetime selalu = 10× PD 12-bulan", why: "Tidak ada kelipatan tetap." },
             { text: "Tidak dipakai di mana-mana", why: "Dipakai untuk ECL Stage 2/3." },
           ],

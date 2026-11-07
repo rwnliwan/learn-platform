@@ -252,7 +252,7 @@ print(f"biaya_tanpa=$" f"{biaya_tanpa:.4f}" f" biaya_cache=$" f"{biaya_cache:.4f
         "Budget guardrail: alert 80%, tolak non-kritis di 100%, allowlist untuk kritis.",
         "Tidak ada request membayar model mahal untuk pekerjaan model murah.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "LLMOps22 — Operasionalisasi RLHF & DPO: dari Preferensi ke Produksi", href: "/v2/learn/llmops22-rlhf-dpo-ops" },
       quiz: [
         {
           q: "61% request adalah variasi 40 pertanyaan yang sama, semuanya ke model termahal. Intervensi pertama dengan ROI tercepat?",

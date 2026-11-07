@@ -17,7 +17,7 @@ export const mr12: V2Lesson = {
         "Dan basis risk punya sifat jahat: ia meledak tepat saat kamu paling butuh hedge bekerja — karena penyebab krisis harga dan penyebab basis melebar sering sama (gangguan logistik, misalnya). Definisi: basis = F_hedge − S_spot; P&L posisi ter-hedge = −Δ(basis). Hedge sempurna tidak menghilangkan P&L — ia mengubahnya menjadi perubahan basis. Jika basis konstan → P&L nol. Jika basis bergerak → itulah sisa risikomu.",
       ],
       formula: String.raw`\text{Basis} = F_{\text{hedge}} - S_{\text{spot}} \qquad P\&L_{\text{hedged}} = -\Delta(\text{basis})`,
-      formulaNote: "F_hedge = harga futures kontrak lindung nilai; S_spot = harga spot aset yang dilindungi. Basis melebar (naik) merugikan posisi short spot + long futures. Contoh cerita: basis 2 jt → 12 jt per ton × 1.000 ton → P&L = −Rp10 miliar. Interpretasi: hedge tidak menghapus P&L — ia mengubahnya menjadi perubahan basis. Laporkan sisa basis risk sebagai angka, bukan klaim 'risiko nol'.",
+      formulaNote: "F_hedge = harga futures kontrak lindung nilai; S_spot = harga spot aset yang dilindungi. Basis melebar (naik) merugikan posisi long spot + short futures — posisi produsen CPO (pegang fisik, jual futures). Posisi sebaliknya (short spot + long futures) justru UNTUNG saat basis melebar, karena P&L-nya = +Δbasis. Contoh cerita: basis 2 jt → 12 jt per ton × 1.000 ton → P&L = −Rp10 miliar. Interpretasi: hedge tidak menghapus P&L — ia mengubahnya menjadi perubahan basis. Laporkan sisa basis risk sebagai angka, bukan klaim 'risiko nol'.",
       tasks: [
         { id: "t1", text: "Hitung kerugian hedge CPO dari cerita: 1.000 ton × selisih basis." },
         { id: "t2", text: "Jelaskan kenapa basis meledak tepat saat hedge paling dibutuhkan." },
@@ -56,6 +56,7 @@ export const mr12: V2Lesson = {
       prose: [
         "Eksposur: piutang USD 10 juta, spot 16.000, volatilitas harian 0,8%. VaR 99%/1-hari = 2,33 × 0,008 × 10 jt × 16.000 = Rp2,98 miliar. Itu risiko 1 hari jika tidak di-hedge. Alternatif: forward 90 hari. Biaya forward = forward points × nosional, dengan points ≈ (r_IDR − r_USD) × T × spot = (6% − 4,5%) × 0,25 × 16.000 = Rp60 per USD → Rp600 juta untuk USD 10 juta.",
         "Perbandingannya: risiko 1 hari Rp2,98 M vs biaya mengunci 90 hari Rp600 jt. Keputusan hedge = perbandingan biaya vs risiko — tetapi ingat, VaR 1-hari bukan risiko 90-hari (butuh scaling atau simulasi), dan forward mengunci dua arah: jika rupiah melemah, kamu tidak ikut untung (opportunity cost).",
+        "Perbandingan ketiga — opsi FX, untuk eksposur yang belum pasti (Langkah 2). Premi put USD 90 hari, ATM (strike = spot 16.000), dihitung Garman–Kohlhagen dengan asumsi lesson ini (vol tahunan 12,7% dari vol harian 0,8% × √252; r_IDR 6%, r_USD 4,5%; T = 0,25 tahun; tanpa bid-ask/selisih pasar): premi ≈ Rp371 per USD → ≈Rp3,71 miliar untuk USD 10 juta (2,32% dari nosional Rp160 miliar). Bandingkan: VaR 1-hari Rp2,98 M, forward 90 hari Rp600 jt, opsi 90 hari ≈Rp3,71 M — opsi ~6× lebih mahal dari forward, dan preminya sendiri sudah melebihi VaR 1-hari. Yang dibeli premi itu: biaya maksimum yang pasti = premi (Rp3,71 M), sementara bila rupiah melemah kamu tetap ikut untung (put kedaluwarsa tak bernilai, piutang dikonversi di kurs pasar yang lebih baik). Angka ini ILUSTRATIF — premi dihitung dari asumsi lesson, bukan harga pasar; yang penting ordonya: opsi = harga fleksibilitas, dan fleksibilitas itu mahal. Peringatan horizon yang sama berlaku seperti di atas: jangan bandingkan premi 90-hari dengan VaR 1-hari seolah apel-to-apel.",
         "Untuk komoditas, hubungan spot-futures mengikuti cost of carry: F = S·e^((r+u−y)T) — r biaya pendanaan, u biaya penyimpanan (besar untuk komoditas fisik!), y convenience yield (kenyamanan memegang fisik). Contango (F>S): pasar santai, pasokan cukup. Backwardation (F<S): pasar panik kekurangan barang — convenience yield melonjak. Transisi contango → backwardation = perubahan basis yang tajam — itulah yang membunuh hedge di cerita pembuka.",
         "Carry trade rupiah: logika dan jebakannya. Forward points ≈ (r_IDR − r_USD) × T × spot — selisih BI rate vs Fed funds rate menentukan biaya hedge. Saat BI rate 6% dan Fed 4,5%, mengunci USD 90 hari 'membayar' 1,5% per tahun — bukan biaya sembarangan, melainkan cerminan covered interest parity: tidak ada untung gratisan dari selisih bunga tanpa menanggung risiko kurs. Jebakannya: saat pasar tenang, investor global meminjam USD murah dan menaruh di SBN/SRBI berbunga tinggi — arus masuk menguatkan rupiah, terlihat seperti mesin uang. Tetapi saat sentimen berbalik (taper tantrum 2013), arus keluar serentak: rupiah melemah tajam tepat saat semua carry trader ingin keluar bersamaan — unwind yang berdarah. Eksposur carry terlihat kecil di VaR masa tenang, tetapi distribusinya berekor tebal ke sisi pelemahan rupiah.",
         "Cross-currency basis — harga kelangkaan dolar. Covered interest parity bilang forward points = selisih suku bunga, tetapi di dunia nyata ada basis: premi/diskon tambahan karena dolar langka. Saat krisis (2008, Maret 2020), semua orang berebut dolar — basis USD/IDR melebar, biaya hedge USD melonjak di luar hitungan selisih bunga. Untuk bank Indonesia yang mendanai USD via cross-currency swap, basis yang melebar = biaya pendanaan naik diam-diam. Pantau basis sebagai indikator stres pendanaan valas: basis yang melebar = pasar berteriak kekurangan dolar.",
@@ -87,7 +88,7 @@ export const mr12: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "var_fx=2982400000\\s+fwd_cost=600000000", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "VaR 1-hari Rp2,98 M vs biaya kunci 90 hari Rp600 jt. Hedge = biaya vs risiko.",
+      reference: "VaR 1-hari Rp2,98 M vs forward 90 hari Rp600 jt vs premi opsi put ATM ≈Rp3,71 M (ilustratif). Hedge = biaya vs risiko.",
     },
     {
       id: "basis-risk",
@@ -113,7 +114,7 @@ export const mr12: V2Lesson = {
       hints: [
         "h_star = rho * sig_S / sig_F.",
         "pnl_hedged = -(basis_akhir - basis_awal) * tonase.",
-        "Tanda negatif: basis melebar merugikan short spot + long futures.",
+        "Tanda negatif: basis melebar merugikan long spot + short futures (posisi produsen CPO).",
       ],
       code: {
         starter: `# Hedge ratio: korelasi dan volatilitas spot vs futures\nrho, sig_S, sig_F = 0.8, 12, 10\n# CPO: basis melebar 2jt -> 12jt per ton, 1000 ton\nbasis_awal, basis_akhir, ton = 2_000_000, 12_000_000, 1000\n\n# TULIS KODEMU\nh_star = \npnl_hedged = \n\nprint(f"h_star={h_star:.2f}  pnl_hedged={pnl_hedged:.0f}")`,

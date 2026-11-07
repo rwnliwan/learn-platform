@@ -26,6 +26,7 @@ import { c23 } from "../content/c23-sql-ke-bi-tools";
 import { c24 } from "../content/c24-dbt-hands-on";
 import { c25 } from "../content/c25-dialek-warehouse-cloud";
 import { c26 } from "../content/c26-stored-procedure";
+import { c27 } from "../content/c27-ddl-dml";
 
 export const REG_C: Record<string, V2Lesson> = {
   "c1-select-dasar": c1,
@@ -55,4 +56,5 @@ export const REG_C: Record<string, V2Lesson> = {
   "c24-dbt-hands-on": c24,
   "c25-dialek-warehouse-cloud": c25,
   "c26-stored-procedure": c26,
+  "c27-ddl-dml": c27,
 };

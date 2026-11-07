@@ -10,6 +10,8 @@ import { pma8 } from "../content/pm-a8-derivatives";
 import { pma9 } from "../content/pm-a9-alternatives";
 import { pma10 } from "../content/pm-a10-portfolio-mgmt";
 import { pma1b } from "../content/pm-a1b-ethics-cases";
+import { pma1c } from "../content/pm-a1c-ethics-vii";
+import { pma1d } from "../content/pm-a1d-ethics-basis-suitability";
 import { pma2b } from "../content/pm-a2b-quant-lanjut";
 import { pma3b } from "../content/pm-a3b-kebijakan-siklus";
 import { pma4b } from "../content/pm-a4b-inventory";
@@ -26,6 +28,7 @@ import { pma10b } from "../content/pm-a10b-IPS-risiko";
 import { pmcfaFormulaSheet } from "../content/pm-cfa-formula-sheet";
 import { pmcfaCalculatorDrill } from "../content/pm-cfa-calculator-drill";
 import { pmcfaMockExam1 } from "../content/pm-cfa-mock-exam-1";
+import { pmcfaMockExam2 } from "../content/pm-cfa-mock-exam-2";
 import { pmcfaFlashcards } from "../content/pm-cfa-flashcards";
 import { pmb1 } from "../content/pm-b1-regresi";
 import { pmb2 } from "../content/pm-b2-timeseries";
@@ -39,6 +42,8 @@ import { pmb8 } from "../content/pm-b8-faktor-risiko";
 export const REG_PM1: Record<string, V2Lesson> = {
   "pm-a1-ethics": pma1,
   "pm-a1b-ethics-cases": pma1b,
+  "pm-a1c-ethics-vii": pma1c,
+  "pm-a1d-ethics-basis-suitability": pma1d,
   "pm-a2-quant-methods": pma2,
   "pm-a2b-quant-lanjut": pma2b,
   "pm-a3-economics": pma3,
@@ -64,6 +69,7 @@ export const REG_PM1: Record<string, V2Lesson> = {
   "pm-cfa-formula-sheet": pmcfaFormulaSheet,
   "pm-cfa-calculator-drill": pmcfaCalculatorDrill,
   "pm-cfa-mock-exam-1": pmcfaMockExam1,
+  "pm-cfa-mock-exam-2": pmcfaMockExam2,
   "pm-cfa-flashcards": pmcfaFlashcards,
   "pm-b1-regresi": pmb1,
   "pm-b2-timeseries": pmb2,

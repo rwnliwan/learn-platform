@@ -289,7 +289,7 @@ export const pma10b: V2Lesson = {
         "Rebalancing: calendar vs tolerance band; tax-aware — uang baru dulu, rekening pensiun, baru jual kena pajak.",
         "Empat bias: loss aversion, overconfidence, anchoring, herding — lawannya proses tertulis. IPS direview saat hidup berubah, bukan saat pasar bergejolak.",
       ],
-      next: { label: "PM-B1 — Regresi Berganda: Model & Misspesifikasi", href: "/learn/pm-b1-regresi" },
+      next: { label: "PM-B1 — Regresi Berganda: Model & Misspesifikasi", href: "/v2/learn/pm-b1-regresi" },
     },
   ],
 };

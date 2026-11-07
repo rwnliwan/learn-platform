@@ -311,7 +311,7 @@ export const pma6: V2Lesson = {
         "Efisiensi: lemah \u2192 semi-kuat \u2192 kuat; derajat, bukan biner.",
         "DDM: P0 = D1/(r\u2212g); 80%+ nilai dari terminal — rendah hati pada asumsi.",
       ],
-      next: { label: "PM-A7 — Fixed Income: Pricing, Duration & Kredit", href: "/learn/pm-a7-fixed-income" },
+      next: { label: "PM-A6B — Equity: DDM Multi-Stage, FCFE & Kelipatan Wajar", href: "/v2/learn/pm-a6b-valuasi-lanjutan" },
     },
   ],
 };

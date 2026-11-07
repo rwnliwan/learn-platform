@@ -43,6 +43,8 @@ import { cr37 } from "../content/cr37-slik-biro-kredit";
 import { cr38 } from "../content/cr38-dashboard-kri-powerbi";
 import { cr39 } from "../content/cr39-internal-rating-system";
 import { cr40 } from "../content/cr40-loan-structuring";
+import { cr41 } from "../content/cr41-merton-kmv";
+import { cr42 } from "../content/cr42-altman-zscore";
 
 export const REG_CR: Record<string, V2Lesson> = {
   "cr1-produk-kredit": cr1,
@@ -89,4 +91,6 @@ export const REG_CR: Record<string, V2Lesson> = {
   "cr38-dashboard-kri-powerbi": cr38,
   "cr39-internal-rating-system": cr39,
   "cr40-loan-structuring": cr40,
+  "cr41-merton-kmv": cr41,
+  "cr42-altman-zscore": cr42,
 };

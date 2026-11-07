@@ -159,7 +159,7 @@ export const b12: V2Lesson = {
       eyebrow: "Langkah 5 · Mini-case",
       title: "ECL dengan 3 skenario makro",
       prose: [
-        "IFRS 9/PSAK 71 mewajibkan ECL = rata-rata tertimbang skenario: baseline (50%), adverse (30%), severe (20%). Bank punya model PD bersyarat makro \u2014 tapi distribusi makro kontinu, bukan 3 titik.",
+        "IFRS 9/PSAK 109 mewajibkan ECL = rata-rata tertimbang skenario: baseline (50%), adverse (30%), severe (20%). Bank punya model PD bersyarat makro \u2014 tapi distribusi makro kontinu, bukan 3 titik.",
         "Monte Carlo memperbaiki \u201C3 skenario\u201D: sampel 10.000 path makro (GDP, unemployment) dari distribusi forecast \u2192 hitung PD & ECL tiap path \u2192 rata-ratakan. Ini menghilangkan \u201Cloncatan\u201D antar 3 skenario diskret dan menangkap non-linearitas (Jensen, B5!). ECL 3-skenario bisa bias jika hubungan makro\u2192PD cembung.",
         "Risikonya: (1) distribusi forecast makro harus jujur (bukan Normal jika resesi berekor); (2) korelasi antar variabel makro (copula!); (3) 10.000 path \u00D7 portofolio besar = komputasi berat \u2192 butuh variance reduction atau surrogate model. MC memindahkan masalah dari \u201Crumus\u201D ke \u201Ckualitas model simulasi\u201D \u2014 tetap butuh B7\u2013B10 yang benar.",
       ],

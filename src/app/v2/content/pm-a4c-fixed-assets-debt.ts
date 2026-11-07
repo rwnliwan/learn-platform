@@ -247,7 +247,7 @@ export const pma4c: V2Lesson = {
         "Obligasi: harga = PV pada tingkat pasar; beban bunga efektif di atas kupon bila diskon.",
         "IFRS 16: sewa masuk neraca sebagai ROU asset dan lease liability sebesar PV pembayaran.",
       ],
-      next: { label: "PM-A4D — Pajak Tangguhan & Intercorporate Investments", href: "/learn/pm-a4d-tax-intercorporate" },
+      next: { label: "PM-A4D — Pajak Tangguhan & Intercorporate Investments", href: "/v2/learn/pm-a4d-tax-intercorporate" },
     },
   ],
 };

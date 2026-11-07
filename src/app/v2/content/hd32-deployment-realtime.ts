@@ -364,7 +364,7 @@ print(f"total alert: {n_alert} dari {len(stream)} interval")`,
           ],
         },
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "HD33 — Fondasi R untuk Data Kesehatan: Wrangling, Visualisasi dan Model Dasar", href: "/v2/learn/hd33-fondasi-r" },
     },
   ],
 };

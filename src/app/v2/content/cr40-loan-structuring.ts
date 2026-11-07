@@ -201,7 +201,7 @@ export const cr40: V2Lesson = {
         "Pricing mengikuti risiko struktur — struktur berisiko harus lebih mahal.",
         "Uji struktur di bulan kas tersempit, bukan rata-rata.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "CR41 — Model Struktural Merton dan KMV untuk PD Korporasi", href: "/v2/learn/cr41-merton-kmv" },
       quiz: [
         {
           q: "Distributor dengan kas musiman (sepi awal tahun, ramai akhir tahun) mengajukan KMK Rp1,2 miliar. Struktur terbaik…",

@@ -317,7 +317,7 @@ export const pma6c: V2Lesson = {
         "Rantai proyeksi: pasar, pangsa, pendapatan, margin, laba, arus kas, valuasi; uji tiap mata rantai.",
         "Pangsa tanpa margin adalah vanity metric; bank dibaca dengan semua lensa sekaligus: NIM, NPL, CAR, CASA, ROE, dan leverage.",
       ],
-      next: { label: "PM-A7 — Fixed Income: Pricing, Duration & Kredit", href: "/learn/pm-a7-fixed-income" },
+      next: { label: "PM-A7 — Fixed Income: Pricing, Duration & Kredit", href: "/v2/learn/pm-a7-fixed-income" },
     },
   ],
 };

@@ -31,6 +31,9 @@ import { hd29 } from "../content/hd29-dhis2-dqa";
 import { hd30 } from "../content/hd30-stata-spss-sas";
 import { hd31 } from "../content/hd31-hedis-cms";
 import { hd32 } from "../content/hd32-deployment-realtime";
+import { hd33 } from "../content/hd33-fondasi-r";
+import { hd34 } from "../content/hd34-deep-learning-kesehatan";
+import { hd35 } from "../content/hd35-surveilans-end-to-end";
 
 export const REG_HD: Record<string, V2Lesson> = {
   "hd1-sistem-kesehatan": hd1,
@@ -65,4 +68,7 @@ export const REG_HD: Record<string, V2Lesson> = {
   "hd30-stata-spss-sas": hd30,
   "hd31-hedis-cms": hd31,
   "hd32-deployment-realtime": hd32,
+  "hd33-fondasi-r": hd33,
+  "hd34-deep-learning-kesehatan": hd34,
+  "hd35-surveilans-end-to-end": hd35,
 };

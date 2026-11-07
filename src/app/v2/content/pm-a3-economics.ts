@@ -308,7 +308,7 @@ export const pma3: V2Lesson = {
         "FX: cross-rate via mata uang bersama; forward wajar = covered IRP; petakan eksposur per emiten.",
         "Selalu riil: kurangi inflasi sebelum memutuskan.",
       ],
-      next: { label: "PM-A4 — Financial Statements: 3 Laporan & Rasio", href: "/learn/pm-a4-financial-statements" },
+      next: { label: "PM-A3B — Economics: Kebijakan Moneter, Siklus & Paritas FX", href: "/v2/learn/pm-a3b-kebijakan-siklus" },
     },
   ],
 };

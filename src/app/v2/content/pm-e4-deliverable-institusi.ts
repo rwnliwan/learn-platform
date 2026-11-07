@@ -218,7 +218,7 @@ print(f"Kelengkapan={kelengkapan:.0%}  Skor urutan={skor_urutan:.2f}  Vonis: {vo
         "Atribusi Brinson: excess = efek alokasi + efek seleksi — menjawab “dibayar untuk apa?”.",
         "Rubrik draf: kelengkapan 100% DAN skor urutan ≥ 0,8 — lengkap tapi tak terbaca = tidak layak.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "C12 — Style Analysis: Returns-Based dan Holdings-Based", href: "/v2/learn/pm-c12-style-analysis" },
       quiz: [
         {
           q: "Di mana rekomendasi seharusnya berada dalam memo komite?",

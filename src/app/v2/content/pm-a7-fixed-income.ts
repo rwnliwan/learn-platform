@@ -296,7 +296,7 @@ export const pma7: V2Lesson = {
         "Sekuritisasi: waterfall — kerugian dari bawah (equity) ke atas.",
         "Aturan: duration \u2264 horizon; tanya tranche; bandingkan YTM.",
       ],
-      next: { label: "PM-A8 — Derivatives: Forward, Swap & Opsi", href: "/learn/pm-a8-derivatives" },
+      next: { label: "PM-A7B — Fixed Income: Durasi, Konveksitas & Kurva Yield", href: "/v2/learn/pm-a7b-durasi-konveksitas" },
     },
   ],
 };

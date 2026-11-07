@@ -289,7 +289,7 @@ export const pma6b: V2Lesson = {
         "Kelipatan wajar dari fundamental: P/E = payout dibagi (r dikurangi g); P/BV = (ROE dikurangi g) dibagi (r dikurangi g); P/S = margin kali payout dibagi (r dikurangi g).",
         "P/E sama bukan valuasi sama: bandingkan P/E pasar dengan P/E wajar masing-masing saham.",
       ],
-      next: { label: "PM-A6C — Equity: Analisis Industri & Keunggulan Kompetitif", href: "/learn/pm-a6c-analisis-industri" },
+      next: { label: "PM-A6C — Equity: Analisis Industri & Keunggulan Kompetitif", href: "/v2/learn/pm-a6c-analisis-industri" },
     },
   ],
 };

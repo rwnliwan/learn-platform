@@ -95,7 +95,8 @@ export const wqb31: V2Lesson = {
       prose: [
         "Deret uji (10 hari, satu saham): x = [12, 15, 11, 40, 13, 14, 18, 16, 19, 25]. Dua nilai ekstrem di dalamnya: 40 dan 11. Tugasmu: tulis lima fungsi dan hitung tujuh angka.",
         "Winsorize dengan batas 12 sampai 20: potong 11 menjadi 12 dan 40 menjadi 20, lalu jumlahkan hasilnya. Ts_sum dan ts_max dengan jendela 3: ambil nilai terakhirnya (tiga hari terakhir: 16, 19, 25). Ts_rank dengan jendela 5: persentil nilai terakhir (25) di antara lima hari terakhir (14, 18, 16, 19, 25). Ts_argmax dengan jendela 5: posisi nilai maksimum di dalam lima hari terakhir (0 sampai 4). Group_rank: di grup A [10, 30, 20], berapa rank 20 (posisi dibagi jumlah anggota). Vec_avg: rata-rata [1, 2, 3].",
-        "Eksperimen setelah selesai: hitung ts_sum(3) TANPA winsorize, lalu DENGAN winsorize — selisihnya adalah suara outlier 40 di dalam agregat. Itulah alasan winsorize selalu didahulukan sebelum agregat.",
+        "Eksperimen setelah selesai: hitung ts_sum(3) TANPA winsorize, lalu DENGAN winsorize — di ujung deret, jendela [16, 19, 25] berjumlah 60 dan setelah winsorize [16, 19, 20] berjumlah 55: selisih 5 itu suara pemotongan 25 ke 20, bukan suara outlier 40 (40 sudah lama keluar dari jendela). Outlier 40 bersuara di jendela-jendela yang memuatnya — misalnya jendela [15, 11, 40] berjumlah 66 mentah vs [15, 12, 20] berjumlah 47 setelah winsorize. Itulah alasan winsorize selalu didahulukan sebelum agregat — tetapi atribusi selisih harus menyebut nilai yang benar-benar dipotong di jendela itu.",
+        "Catatan batas implementasi lab — empat perilaku di bawah adalah pilihan implementasi pedagogis Python di lab ini, BUKAN semantik FASTEXPR yang dijamin platform: (1) jendela awal yang pendek: fungsi lab memakai irisan dari indeks 0 (max(0, i-d+1)), jadi ts_sum(3) di hari pertama hanya menjumlah satu nilai — platform bisa mengembalikan NaN sampai jendela penuh; (2) ties di ts_rank: lab menghitung nilai yang kurang dari ATAU SAMA DENGAN nilai terakhir, jadi nilai kembar dihitung penuh — konvensi ties lain (rata-rata rank, rank pertama) memberi angka berbeda; (3) NaN: lab ini tidak menangani NaN sama sekali — deret nyata bisa mengandung NaN (hari libur, data hilang) dan tiap platform punya aturan propagasi NaN sendiri; (4) maksimum berulang di ts_argmax: lab memakai index() sehingga mengembalikan kemunculan PERTAMA — platform bisa mengembalikan yang terakhir. Sebelum memakai operator ini di riset nyata, periksa dokumentasi FASTEXPR untuk keempat konvensi ini.",
       ],
       tasks: [
         { id: "t1", text: "Tulis `winsorize`, `ts_sum`, `ts_max`, `ts_rank`, `ts_argmax`, `group_rank`, `vec_avg`" },
@@ -135,7 +136,7 @@ export const wqb31: V2Lesson = {
       prose: [
         "Pertanyaan 'apakah saham ini ekstrem terhadap sejarahnya sendiri?' → ts_rank. 'Apakah saham ini pemimpin di sektornya?' → group_rank. 'Apakah saham ini ekstrem terhadap pasar hari ini?' → rank.",
         "Pertanyaan 'berapa total akumulasi 10 hari terakhir?' → ts_sum. 'Berapa tertinggi sebulan terakhir?' → ts_max. 'Kapan terakhir kali mencapai tertinggi itu?' → ts_argmax.",
-        "Pertanyaan 'bagaimana merangkum 12 field sentimen menjadi satu skor?' → vec_avg atau vec_median. 'Bagaimana menjinakkan outlier sebelum ranking?' → winsorize — selalu SEBELUM rank atau agregat, tidak pernah sesudah.",
+        "Pertanyaan 'bagaimana merangkum 12 field sentimen menjadi satu skor?' → vec_avg atau vec_median. 'Bagaimana menjinakkan outlier sebelum ranking?' → winsorize — BILA dipakai, selalu SEBELUM rank atau agregat, tidak pernah sesudah. Tetapi winsorize tidak selalu dipakai: bila outlier itu sendiri sinyalnya (Langkah 3 — mis. mendeteksi saham yang baru saja melonjak karena berita), jangan dipotong.",
         "Aturan 10 detik: bila ekspresimu memakai rank atas data yang belum di-winsorize, tanyakan dulu 'saham ekstrem apa yang sedang mendominasi ranking ini?' Bila jawabannya satu saham dengan corporate action, winsorize dulu.",
       ],
       tasks: [],
@@ -171,6 +172,7 @@ export const wqb31: V2Lesson = {
         "Keluarga vec_* merangkum banyak field menjadi satu skor yang lebih tenang.",
         "Lab: winsor_sum 159, ts_sum3 60, ts_max3 25, ts_rank5 1,0, ts_argmax5 4, group_rank 0,667, vec_avg 2,0.",
       ],
+      next: { label: "WQB32 — Pairs Trading dan Cointegration", href: "/v2/learn/wqb32-pairs-trading" },
       quiz: [
         {
           q: "Deret [12, 15, 11, 40, 13] di-winsorize ke batas 12–20, lalu dijumlahkan. Hasilnya?",

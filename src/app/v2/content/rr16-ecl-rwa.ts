@@ -20,7 +20,7 @@ export const rr16: V2Lesson = {
   slug: "rr16-ecl-rwa",
   track: "Risk Reporting",
   module: "Angka Risiko & Regulasi",
-  title: "RR16 — ECL (PSAK 71) & RWA Reporting",
+  title: "RR16 — ECL (PSAK 109) & RWA Reporting",
   estMinutes: 50,
   steps: [
     {
@@ -29,8 +29,8 @@ export const rr16: V2Lesson = {
       title: "Rp16,8 miliar yang hilang dalam semalam",
       prose: [
         "PT Sinar Abadi: kredit Rp200 miliar, lancar, Stage 1. ECL-nya Rp1,08 miliar — kecil, nyaris tidak terlihat di laporan laba. Lalu DPD menyentuh 35 hari + restrukturisasi disetujui. Dua pemicu itu = SICR (significant increase in credit risk). Esok paginya Sinar Abadi duduk di Stage 2 — dan ECL-nya Rp13,5 miliar. Laba kuartal bank turun Rp12,4 miliar dalam semalam.",
-        "Twist-nya: debiturnya tidak berubah. Tidak ada gagal bayar baru, tidak ada kabar buruk. Yang berubah = klasifikasi. Inilah 'tebing staging' PSAK 71/IFRS 9: ECL Stage 1 memakai PD 12 bulan (1,2%), Stage 2 memakai PD lifetime (15%) — 12,5x lipat untuk debitur yang sama, hanya karena dua pemicu administratif.",
-        "Lesson ini tentang dua angka yang menentukan laporan keuangan dan modal bank: ECL (cadangan kerugian ekspektasian — PSAK 71) dan RWA (aset tertimbang menurut risiko — penyebut CAR). Keduanya lahir dari PD×LGD×EAD yang sama, tetapi menjawab pertanyaan berbeda: 'berapa cadangannya?' vs 'berapa modalnya?'",
+        "Twist-nya: debiturnya tidak berubah. Tidak ada gagal bayar baru, tidak ada kabar buruk. Yang berubah = klasifikasi. Inilah 'tebing staging' PSAK 109/IFRS 9: ECL Stage 1 memakai PD 12 bulan (1,2%), Stage 2 memakai PD lifetime (15%) — 12,5x lipat untuk debitur yang sama, hanya karena dua pemicu administratif.",
+        "Lesson ini tentang dua angka yang menentukan laporan keuangan dan modal bank: ECL (cadangan kerugian ekspektasian — PSAK 109) dan RWA (aset tertimbang menurut risiko — penyebut CAR). Keduanya lahir dari PD×LGD×EAD yang sama, tetapi menjawab pertanyaan berbeda: 'berapa cadangannya?' vs 'berapa modalnya?'",
         "Setelah lesson ini kamu bisa: (1) menghitung ECL per stage dari PD×LGD×EAD; (2) menjelaskan tebing Stage 1→2; (3) menghitung RWA dan CAR dari bobot risiko; (4) menyusun laporan ECL per stage untuk komite.",
       ],
       tasks: [],
@@ -46,7 +46,7 @@ export const rr16: V2Lesson = {
       eyebrow: "Langkah 2 · Konsep",
       title: "Tiga stage, satu rumus",
       prose: [
-        "PSAK 71 membagi kredit ke 3 stage. Stage 1: performing — ECL 12-month (kerugian ekspektasian 12 bulan ke depan). Stage 2: SICR — ECL lifetime (seluruh sisa tenor). Stage 3: credit-impaired (gagal bayar) — ECL lifetime dengan PD 100%. Pemicu SICR standar: DPD > 30 hari, restrukturisasi, penurunan rating signifikan.",
+        "PSAK 109 membagi kredit ke 3 stage. Stage 1: performing — ECL 12-month (kerugian ekspektasian 12 bulan ke depan). Stage 2: SICR — ECL lifetime (seluruh sisa tenor). Stage 3: credit-impaired (gagal bayar) — ECL lifetime dengan PD 100%. Pemicu SICR standar: DPD > 30 hari, restrukturisasi, penurunan rating signifikan.",
         "Rumusnya satu: ECL = PD × LGD × EAD. PD = peluang gagal bayar; LGD = porsi yang hilang jika gagal (1 − recovery); EAD = eksposur saat gagal (termasuk plafond belum ditarik × CCF). Contoh Sinar Abadi Stage 1: 0,012 × 0,45 × 200 = Rp1,08 M. Stage 2: 0,15 × 0,45 × 200 = Rp13,5 M. Debitur sama, EAD sama, LGD sama — hanya PD yang melompat.",
         "Tiga miskonsepsi umum. Satu: 'ECL = CKPN lama dengan nama baru.' Bukan — CKPN lama menunggu kerugian terjadi (incurred); ECL mencadangkan sebelum terjadi (expected). Dua: 'Stage 2 = macet.' Bukan — Stage 2 masih membayar; ia naik stage karena RISIKONYA naik. Tiga: 'PD lifetime = PD 12-month × sisa tahun.' Bukan — PD lifetime dari kurva survival, bukan perkalian linear.",
         "Cara membaca figur: tiga batang = ECL tiga stage untuk eksposur yang sama. Interpretasi: tebing 1→2 (Rp1,08 M → Rp13,5 M) adalah risiko laba terbesar — bukan Stage 3 yang sudah pasti. Monitor 'jarak ke SICR', bukan hanya stage saat ini.",
@@ -175,7 +175,7 @@ export const rr16: V2Lesson = {
       title: "Berapa yang turun kasta?",
       prose: [
         "Lab 1–2 menghitung ECL per stage. Lab ini mengukur migrasi: dari 1.000 debitur Stage 1, dalam setahun 120 turun ke Stage 2 dan 30 langsung ke Stage 3. Tingkat migrasi 15% adalah input kunci model ECL — dan KRI yang dipantau OJK.",
-        "Migrasi yang melonjak dari 15% ke 25% berarti kualitas portofolio memburuk sebelum NPL bergerak. Inilah keunggulan PSAK 71: ia memaksa bank mengakui pemburukan saat terjadi, bukan saat debitur sudah gagal bayar.",
+        "Migrasi yang melonjak dari 15% ke 25% berarti kualitas portofolio memburuk sebelum NPL bergerak. Inilah keunggulan PSAK 109: ia memaksa bank mengakui pemburukan saat terjadi, bukan saat debitur sudah gagal bayar.",
       ],
       tasks: [
         { id: "t1", text: "Hitung tingkat migrasi per stage" },
@@ -246,7 +246,7 @@ export const rr16: V2Lesson = {
         {
           q: "Mana pemicu SICR yang valid?",
           options: [
-            { text: "DPD 35 hari + restrukturisasi", why: "Benar: dua pemicu standar PSAK 71.", correct: true },
+            { text: "DPD 35 hari + restrukturisasi", why: "Benar: dua pemicu standar PSAK 109.", correct: true },
             { text: "Laba bank turun kuartal ini", why: "Laba bank bukan pemicu SICR debitur." },
             { text: "Suku bunga BI naik", why: "Makro memengaruhi PD model, bukan pemicu SICR individual." }
           ],

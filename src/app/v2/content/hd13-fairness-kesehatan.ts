@@ -113,7 +113,7 @@ export const hd13: V2Lesson = {
       tasks: [],
       note: {
         title: "Kaitan ke risk",
-        body: "Vendor berdalih “AUC keseluruhan 0,87, sudah bagus” saat audit menemukan TPR difabel 55% vs lansia 85% pada skor prioritas vaksin. Tolak argumen itu: AUC agregat menyembunyikan siapa yang terlewat. Selalu tampilkan metrik per grup di dashboard monitoring, bukan cuma agregat.",
+        body: "Contoh kedua, dari audit skor prioritas vaksin (grup difabel vs lansia dibandingkan sebagai pasangan audit): vendor berdalih “AUC keseluruhan 0,87, sudah bagus” saat audit menemukan TPR difabel 55% vs lansia 85%. Tolak argumen itu: AUC agregat menyembunyikan siapa yang terlewat. Selalu tampilkan metrik per grup di dashboard monitoring, bukan cuma agregat.",
         type: "risk",
       },
       reference: "Audit fairness = tabel 2×2 per grup + diagnosis + mitigasi + verifikasi.",
@@ -171,7 +171,7 @@ export const hd13: V2Lesson = {
       expected: "tpr_c≈0.375 gap_max≈0.375",
       note: {
         title: "Kaitan ke risk",
-        body: "Gap 37,5 poin berarti lansia desa yang benar-benar butuh rujukan terlewat 2× lebih sering daripada pasien kota. Deploy tanpa mitigasi = RS secara sistematis menelantarkan kelompok paling rentan — dengan stempel “berbasis AI”.",
+        body: "Gap 37,5 poin berarti lansia desa yang benar-benar butuh rujukan terlewat 2,5× lebih sering daripada pasien kota. Deploy tanpa mitigasi = RS secara sistematis menelantarkan kelompok paling rentan — dengan stempel “berbasis AI”.",
         type: "risk",
       },
       hints: [
@@ -222,6 +222,76 @@ print(f"tpr_c={tpr_c:.3f} gap_max={gap_max:.3f}")`,
       reference: "Gap >0,10 investigasi; >0,20 mitigasi. Mulai dari label, bukan dari metrik.",
     },
     {
+      id: "lab-mitigasi-fairness",
+      eyebrow: "Langkah 8 · Lab",
+      title: "Mitigasi: threshold per grup menutup gap — dengan harga",
+      prose: [
+        "Audit Langkah 7 menemukan gap TPR 37,5 poin (kota 75% vs irisan desa+lansia 37,5%). Sekarang jalankan mitigasi post-processing yang dijanjikan Langkah 4: threshold PER GRUP. Simulasi skor model: pasien yang benar-benar butuh (positif) di grup A dan C, plus pasien yang tidak butuh (negatif) di grup C. Threshold tunggal t=0 mereproduksi audit — TPR A ≈ 0,74, TPR C ≈ 0,39.",
+        "Tugasmu: cari threshold t_c untuk grup C agar TPR_C ≈ 0,75 (kuantil 25% dari skor positif C — 75% skor di atasnya), lalu hitung harganya: FPR_C sebelum vs sesudah. Inilah trade-off yang dijanjikan lesson ini: gap menutup, tapi false positive naik.",
+        "Batas kejujuran lab ini: threshold per grup adalah mitigasi POST-PROCESSING — ia tidak memperbaiki label atau representasi (Langkah 4: perbaiki label dulu). Dan di dunia nyata, threshold berbeda antar grup butuh dasar hukum yang jelas + dokumentasi persetujuan — bukan keputusan diam-diam.",
+      ],
+      tasks: [
+        { id: "t1", text: "Hitung `t_c` (threshold grup C agar TPR_C ≈ 0,75)" },
+        { id: "t2", text: "Hitung `gap_sesudah` dan `fpr_sebelum`/`fpr_sesudah`, cetak" },
+      ],
+      expected: "t_c≈-0.99 tpr_c≈0.750 gap≈0.013 fpr_c=0.070->0.312",
+      note: {
+        title: "Kaitan ke risk",
+        body: "Harga mitigasi ini nyata: FPR_C naik 7,0% → 31,2% — hampir sepertiga pasien C yang tidak butuh kini dirujuk (beban RS + kecemasan pasien). Bandingkan dengan mitigasi pre-processing (perbaiki label, tambah data): sering menutup gap TANPA harga sebesar ini. Threshold per grup adalah jalan terakhir yang terukur — bukan jalan pertama.",
+        type: "risk",
+      },
+      hints: [
+        "t_c = kuantil 25% skor positif C: sorted(pos_c)[len(pos_c)//4].",
+        "TPR/FPR = proporsi skor di atas threshold: sum(1 for s in skor if s > t)/len(skor).",
+        "gap_sesudah = |TPR_A(t=0) − TPR_C(t_c)|.",
+      ],
+      code: {
+        starter: `import random
+random.seed(13)
+# Skor model (simulasi): positif = benar-benar butuh rujukan
+pos_a = [random.gauss(0.67, 1) for _ in range(2000)]   # kota: TPR ~0,75 di t=0
+pos_c = [random.gauss(-0.32, 1) for _ in range(2000)]  # desa+lansia: TPR ~0,39 di t=0
+neg_c = [random.gauss(-1.5, 1) for _ in range(2000)]   # desa+lansia, tidak butuh
+
+def rate(skor, t):
+    return sum(1 for s in skor if s > t) / len(skor)
+
+# TULIS KODEMU: threshold per grup + harga mitigasi
+t_c = 
+gap_sesudah = 
+fpr_sebelum = 
+fpr_sesudah = 
+
+print(f"t_c={t_c:.2f} tpr_c={rate(pos_c, t_c):.3f} gap={gap_sesudah:.3f} fpr_c={fpr_sebelum:.3f}->{fpr_sesudah:.3f}")`,
+        lockLines: 11,
+        solution: `import random
+random.seed(13)
+# Skor model (simulasi): positif = benar-benar butuh rujukan
+pos_a = [random.gauss(0.67, 1) for _ in range(2000)]   # kota: TPR ~0,75 di t=0
+pos_c = [random.gauss(-0.32, 1) for _ in range(2000)]  # desa+lansia: TPR ~0,39 di t=0
+neg_c = [random.gauss(-1.5, 1) for _ in range(2000)]   # desa+lansia, tidak butuh
+
+def rate(skor, t):
+    return sum(1 for s in skor if s > t) / len(skor)
+
+# TULIS KODEMU: threshold per grup + harga mitigasi
+t_c = sorted(pos_c)[len(pos_c) // 4]
+gap_sesudah = abs(rate(pos_a, 0) - rate(pos_c, t_c))
+fpr_sebelum = rate(neg_c, 0)
+fpr_sesudah = rate(neg_c, t_c)
+
+print(f"t_c={t_c:.2f} tpr_c={rate(pos_c, t_c):.3f} gap={gap_sesudah:.3f} fpr_c={fpr_sebelum:.3f}->{fpr_sesudah:.3f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "t_c", value: -0.99, tol: 0.05, label: "`t_c` seharusnya ≈ -0,99", msg: "Kuantil 25% skor positif C: 75% skor di atasnya → TPR_C ≈ 0,75." },
+          { kind: "equal", task: "t2", name: "gap_sesudah", value: 0.013, tol: 0.02, label: "`gap_sesudah` seharusnya ≈ 0,01", msg: "0,75 − 0,75 ≈ 0 — gap 37,5 poin menutup." },
+          { kind: "equal", task: "t2", name: "fpr_sebelum", value: 0.07, tol: 0.02, label: "`fpr_sebelum` seharusnya ≈ 0,07", msg: "FPR_C di threshold tunggal t=0." },
+          { kind: "equal", task: "t2", name: "fpr_sesudah", value: 0.312, tol: 0.02, label: "`fpr_sesudah` seharusnya ≈ 0,31", msg: "Harga mitigasi: FPR_C naik karena threshold diturunkan." },
+          { kind: "stdout_matches", task: "t2", pattern: "t_c=-0\\.99 tpr_c=0\\.750 gap=0\\.013 fpr_c=0\\.070->0\\.312", label: "`print` menampilkan hasil mitigasi", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Threshold per grup menutup gap TPR; harganya FPR naik. Perbaiki label/data dulu.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -235,6 +305,7 @@ print(f"tpr_c={tpr_c:.3f} gap_max={gap_max:.3f}")`,
         "Metrik parity, equalized odds, kalibrasi per grup tak bisa semua (impossibility).",
         "Mitigasi: pre (label/data) > in (constraint) > post (threshold).",
         "Threshold per grup = post-processing terakhir: setarakan TPR dengan harga FPR naik, butuh dasar hukum yang jelas.",
+        "Lab mitigasi: threshold per grup menutup gap TPR 37,5 → ~1 poin dengan harga FPR_C 7% → 31%.",
       ],
       next: { label: "HD14 — NLP Klinis", href: "/learn/hd14-nlp-klinis" },
       quiz: [

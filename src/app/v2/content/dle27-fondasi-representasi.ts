@@ -73,7 +73,7 @@ export const dle27: V2Lesson = {
       title: "Representation learning (DLE7/DLE16): mengapa representasi yang bagus mengalahkan label yang banyak",
       prose: [
         "Supervised learning meminta label untuk setiap contoh — mahal, lambat, dan rapuh terhadap kelas yang tidak pernah dilihat. Representation learning membalik urutan: pelajari dulu representasi yang bagus dari data TANPA label, lalu pakai sedikit label untuk tugas akhirnya. SimCLR adalah contoh paling bersih: ambil satu gambar, buat dua augmentasi berbeda (crop, warna, blur), lalu latih model agar kedua augmentasi itu berdekatan di ruang embedding — dan jauh dari gambar lain dalam batch.",
-        "Loss-nya NT-Xent: untuk satu pasangan positif dengan kemiripan kosinus s_pos dan negatif s_1…s_K pada suhu τ, loss = −ln(exp(s_pos/τ) / Σ exp(s/τ)). Suhu τ mengontrol ketajaman: τ kecil → distribusi lebih tajam, negatif yang sulit (mirip positif) dihukum lebih keras. Tanpa τ, loss tidak bisa membedakan 'sedikit mirip' dari 'sangat mirip' — dan representasi yang dipelajari menjadi datar.",
+        "Loss-nya NT-Xent: untuk satu pasangan positif dengan kemiripan kosinus s_pos dan negatif s_1…s_K pada suhu τ, loss = −ln(exp(s_pos/τ) / Σ exp(s/τ)). Suhu τ mengontrol ketajaman: τ kecil → distribusi lebih tajam, negatif yang sulit (mirip positif) dihukum lebih keras. Tanpa τ eksplisit, softmax tetap membedakan 'sedikit mirip' dari 'sangat mirip' — itu setara dengan τ = 1. Suhu mengubah ketajaman distribusi dan pembobotan gradien, bukan menciptakan kemampuan membedakan dari nol.",
         "Mengapa ini bekerja? Augmentasi mendefinisikan 'apa yang TIDAK penting' (crop, warna, blur tidak mengubah identitas gambar) — dan kontras mendefinisikan 'apa yang penting' (dua augmentasi dari gambar yang sama harus tetap berdekatan). Model yang lolos dari tugas ini telah belajar fitur yang invarian terhadap augmentasi — dan fitur invarian itulah yang mentransfer ke tugas baru dengan sedikit label. DLE7 (transfer) dan DLE16 (CLIP) adalah dua wajah dari ide yang sama: representasi dulu, label kemudian.",
         "💡 Intuisi: label memberi tahu model 'ini kucing'; kontras memberi tahu model 'dua foto ini adalah foto yang sama, dan yang lain bukan'. Yang kedua lebih murah (tanpa label) dan lebih umum (berlaku untuk gambar apa pun) — karena itu pretraining kontras mengalahkan supervised murni saat label langka.",
       ],
@@ -93,7 +93,7 @@ export const dle27: V2Lesson = {
       title: "Lab: hitung loss NT-Xent dengan tangan",
       prose: [
         "Satu pasangan positif dengan kemiripan kosinus 0,9; dua negatif dengan kemiripan 0,2 dan 0,4; suhu τ = 0,5. Hitung: pembilang = exp(0,9/0,5) = exp(1,8) = 6,0496. Penyebut = 6,0496 + exp(0,2/0,5) + exp(0,4/0,5) = 6,0496 + 1,4918 + 2,2255 = 9,7670. Rasio = 0,6194. Loss = −ln(0,6194) = 0,479. Perhatikan: SEMUA kemiripan dibagi suhu — bukan hanya positifnya. Membagi hanya positif (kesalahan umum) memberi 0,371 — angka yang salah karena rumusnya tidak konsisten.",
-        "Apa arti 0,479? Model memberi peluang 0,619 kepada pasangan yang benar — lebih baik dari tebakan acak (1/3 ≈ 0,333 untuk 1 positif + 2 negatif), tetapi jauh dari sempurna (loss 0 = peluang 1). Naikkan kemiripan positif ke 0,95 dan loss turun; turunkan suhu ke 0,2 dan loss naik — karena distribusi menajam dan negatif 0,4 menjadi 'lebih berbahaya'. Coba sendiri: ubah angka-angka di lab dan amati arah perubahannya sebelum membaca penjelasannya.",
+        "Apa arti 0,479? Model memberi peluang 0,619 kepada pasangan yang benar — lebih baik dari tebakan acak (1/3 ≈ 0,333 untuk 1 positif + 2 negatif), tetapi jauh dari sempurna (loss 0 = peluang 1). Naikkan kemiripan positif ke 0,95 dan loss turun; turunkan suhu ke 0,2 dan loss TURUN menjadi 0,106 — karena positif 0,9 sudah jauh memimpin, suhu rendah justru 'menegaskan' keunggulan itu (pembilang exp(4,5) = 90,02 mendominasi penyebut 100,12; peluang pasangan benar naik menjadi 0,899). Suhu rendah tidak selalu menaikkan loss: ia menajamkan selisih yang sudah ada — bila positif memimpin, loss turun; bila justru negatif yang memimpin (mis. s_pos 0,4 lawan negatif 0,9: loss 1,313 pada τ = 0,5 menjadi 2,579 pada τ = 0,2), loss naik. Coba sendiri: ubah angka-angka di lab dan amati arah perubahannya sebelum membaca penjelasannya.",
         "💡 Intuisi: loss kontras adalah soal pilihan ganda dengan suhu. τ = seberapa 'tegas' model harus membedakan; s_pos = seberapa yakin model pada jawaban benar. Loss 0,479 = model cukup yakin, belum yakin penuh.",
       ],
       tasks: [
@@ -194,7 +194,7 @@ print(f"loss={loss:.3f}")`,
         "NT-Xent: loss = −ln(exp(s_pos/τ) / Σ exp(s/τ)); semua kemiripan dibagi suhu; loss lab = 0,479 (peluang 0,619).",
         "Keputusan jalur: fitur beku (label sedikit, domain mirip) → adapter (label sedang) → dari nol (label melimpah / domain baru).",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DLE28 — Sequence Forecasting: RNN, 1D ConvNet, WaveNet & Transformer", href: "/v2/learn/dle28-sequence-forecasting" },
       quiz: [
         {
           q: "Mengapa rantai fondasi diajarkan sebagai sebab-akibat, bukan daftar istilah?",

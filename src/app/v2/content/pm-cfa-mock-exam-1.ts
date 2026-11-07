@@ -275,7 +275,7 @@ export const pmcfaMockExam1: V2Lesson = {
         "Isi error log untuk setiap soal salah: topik, penyebab, perbaikan, tanggal review, status.",
         "Soal salah otomatis menjadi kartu FSRS di /v2/review — jawab jujur dengan Again, Hard, Good, atau Easy.",
       ],
-      next: { label: "PM-CFA Flashcards: Kilat 30 Kartu Lintas Area", href: "/learn/pm-cfa-flashcards" },
+      next: { label: "PM-CFA Mock Exam 2: 18 Soal Gaya CFA", href: "/v2/learn/pm-cfa-mock-exam-2" },
       quiz: [
         {
           q: "Kamu mendapat 12 benar dari 18 (67%). Apa langkah berikutnya yang tepat?",

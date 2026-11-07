@@ -234,7 +234,7 @@ export const pma1b: V2Lesson = {
           q: "Atasan Citra menyetujui rekomendasi itu tanpa memeriksa, padahal compliance sudah memperingatkan soal basis riset Citra. Ini?",
           options: [
             { text: "Bukan pelanggaran atasan — pelakunya Citra", why: "Salah: supervisor yang tahu ada indikasi dan tidak bertindak melanggar kewajibannya sendiri." },
-            { text: "Pelanggaran responsibilities of supervisors — tahu ada indikasi tetapi tidak mengawasi", why: "Benar: peringatan compliance adalah indikasi yang wajib ditindaklanjuti dengan pemeriksaan dan dokumentasi.", correct: true },
+            { text: "Pelanggaran responsibilities of supervisors — tahu ada indikasi tetapi tidak mengawasi", why: "Benar: peringatan compliance adalah indikasi yang wajib ditindaklanjuti dengan pemeriksaan dan dokumentasi. (Catatan: rekomendasi Citra sendiri — tanpa basis memadai — melanggar V(A) Diligence and Reasonable Basis.)", correct: true },
             { text: "Hanya pelanggaran bila rekomendasi itu salah", why: "Salah: kewajiban supervisor soal pengawasan, bukan soal benar tidaknya rekomendasi." },
           ],
         },
@@ -248,7 +248,7 @@ export const pma1b: V2Lesson = {
         "Front-running dan manipulation: mendahului klien dan menciptakan harga artifisial dilarang.",
         "Cara membaca vignette: cari FAKTA pelanggaran, bukan niat — kecuali standar yang ditanyakan mensyaratkan unsur kesengajaan/knowledge; pilih standar paling spesifik.",
       ],
-      next: { label: "PM-A4B — Inventori: LIFO Reserve, Liquidation & Write-Down", href: "/learn/pm-a4b-inventory" },
+      next: { label: "PM-A1C — Standard VII & Integritas Program CFA", href: "/v2/learn/pm-a1c-ethics-vii" },
     },
   ],
 };

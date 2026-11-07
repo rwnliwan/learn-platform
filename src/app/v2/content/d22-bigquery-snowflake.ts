@@ -258,7 +258,7 @@ export const d22: V2Lesson = {
         "4 jebakan: SELECT * berulang, tanpa filter partisi, view/dashboard mahal di-refresh, warehouse idle.",
         "Kecil & sporadis = lokal/BQ on-demand; terjadwal = Snowflake + auto-suspend; dari aplikasi = parameterized + dry-run.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "D23 — OOP Formal: Class, Inheritance, Polymorphism", href: "/v2/learn/d23-oop-formal" },
       quiz: [
         {
           q: "Rina menjalankan SELECT * FROM t_24TB LIMIT 5 sebanyak 20× di BigQuery on-demand. Tagihan?",

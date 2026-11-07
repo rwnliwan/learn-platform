@@ -20,6 +20,7 @@ import { aai17 } from "../content/aai17-a2a-protocol";
 import { aai19 } from "../content/aai19-cloud-deployment-agen";
 import { aai20 } from "../content/aai20-agen-sebagai-service";
 import { aai21 } from "../content/aai21-automation-platforms";
+import { aai22 } from "../content/aai22-pola-desain-agen";
 
 export const REG_AAI: Record<string, V2Lesson> = {
   "aai1-lanskap": aai1,
@@ -43,4 +44,5 @@ export const REG_AAI: Record<string, V2Lesson> = {
   "aai19-cloud-deployment-agen": aai19,
   "aai20-agen-sebagai-service": aai20,
   "aai21-automation-platforms": aai21,
+  "aai22-pola-desain-agen": aai22,
 };

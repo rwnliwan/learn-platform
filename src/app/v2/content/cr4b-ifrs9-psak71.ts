@@ -4,7 +4,7 @@ export const cr4b: V2Lesson = {
   slug: "cr4b-ifrs9-psak71",
   track: "Credit Risk",
   module: "Kinerja & Analisis Portofolio",
-  title: "CR4B — IFRS 9 / PSAK 71: Cadangan Masa Depan",
+  title: "CR4B — IFRS 9 / PSAK 109: Cadangan Masa Depan",
   estMinutes: 45,
   steps: [
     {
@@ -14,7 +14,7 @@ export const cr4b: V2Lesson = {
       prose: [
         "Akhir 2019, Bank Nusantara membukukan laba Rp 2,1 triliun — direksi tersenyum, bonus cair. Tiga bulan kemudian, pandemi. Tim risiko menjalankan ulang model ECL: ribuan debitur yang tadinya Stage 1 bermigrasi ke Stage 2 karena prospek ekonominya memburuk.",
         "Hasilnya: cadangan (CKPN) melonjak Rp 1,4 triliun dalam satu kuartal. Laba tahun berjalan langsung terpangkas dua pertiganya — padahal belum ada satu pun debitur yang benar-benar macet. Para direktur syok: \"Kok bisa rugi padahal belum ada yang gagal bayar?!\"",
-        "Jawabannya: PSAK 71 (adopsi Indonesia dari IFRS 9, berlaku 1 Januari 2020). Cadangan tidak lagi menunggu kerugian terjadi — melainkan mencadangkan kerugian yang diperkirakan akan terjadi. Laba bank kini bergerak mengikuti ekspektasi masa depan, bukan cuma realisasi masa lalu.",
+        "Jawabannya: PSAK 109 (adopsi Indonesia dari IFRS 9 — dulu PSAK 71, berlaku 1 Januari 2020; penomoran baru efektif 1 Januari 2024). Cadangan tidak lagi menunggu kerugian terjadi — melainkan mencadangkan kerugian yang diperkirakan akan terjadi. Laba bank kini bergerak mengikuti ekspektasi masa depan, bukan cuma realisasi masa lalu.",
       ],
       tasks: [],
       note: {
@@ -22,30 +22,30 @@ export const cr4b: V2Lesson = {
         type: "risk",
         body: "Hafalkan rantai sebab-akibat ini: prakiraan PDB direvisi turun → PD forward-looking naik → SICR terpicu massal → migrasi Stage 1→2 → ECL melonjak 4–8× per kredit → laba kuartal anjlok. Satu revisi prakiraan ekonomi bisa menggerakkan laba bank ratusan miliar.",
       },
-      reference: "PSAK 71 = IFRS 9 versi Indonesia, berlaku 1 Januari 2020.",
+      reference: "PSAK 109 (dulu PSAK 71) = IFRS 9 versi Indonesia, berlaku 1 Januari 2020.",
     },
     {
       id: "revolusi",
       eyebrow: "Langkah 2 · Revolusi",
       title: "Dari \"sudah rugi\" ke \"akan rugi\"",
       prose: [
-        "Sebelum 2020 (PSAK 55, incurred loss): cadangan dibentuk setelah ada bukti objektif kerugian (telat bayar, bangkrut). Sejak 2020 (PSAK 71, expected credit loss): cadangan dibentuk berdasarkan ekspektasi kerugian masa depan — sebelum ada tunggakan. PSAK 55 seperti pemadam kebakaran — baru bergerak saat api terlihat. PSAK 71 seperti detektor asap — berbunyi saat mencium bau hangus. Detektor asap menyelamatkan lebih banyak rumah, tetapi juga lebih sering false alarm — dan tiap alarm berbayar mahal (cadangan naik, laba turun).",
-        "Mengapa berubah? Krisis 2008 membuktikan incurred loss terlambat: bank-bank terlihat sehat sampai detik sebelum kolaps karena cadangannya baru dibentuk saat semuanya sudah terbakar. G20 memerintahkan perubahan global → IFRS 9 → PSAK 71.",
+        "Sebelum 2020 (PSAK 239 — dulu PSAK 55, incurred loss): cadangan dibentuk setelah ada bukti objektif kerugian (telat bayar, bangkrut). Sejak 2020 (PSAK 109 — dulu PSAK 71, expected credit loss): cadangan dibentuk berdasarkan ekspektasi kerugian masa depan — sebelum ada tunggakan. PSAK 239 seperti pemadam kebakaran — baru bergerak saat api terlihat. PSAK 109 seperti detektor asap — berbunyi saat mencium bau hangus. Detektor asap menyelamatkan lebih banyak rumah, tetapi juga lebih sering false alarm — dan tiap alarm berbayar mahal (cadangan naik, laba turun).",
+        "Mengapa berubah? Krisis 2008 membuktikan incurred loss terlambat: bank-bank terlihat sehat sampai detik sebelum kolaps karena cadangannya baru dibentuk saat semuanya sudah terbakar. G20 memerintahkan perubahan global → IFRS 9 → PSAK 109 (dulu PSAK 71).",
       ],
       tasks: [],
       note: {
         title: "Sering salah",
         type: "pitfall",
-        body: "\"PSAK 71 hanya urusan akuntan — analis risiko tidak perlu paham.\" ECL = PD × LGD × EAD yang forward-looking — dan PD/LGD/EAD adalah makanan sehari-hari analis risiko (CR3, CR10–CR13). Di bank modern, tim risiko memasok modelnya, tim akuntansi mencatatnya.",
+        body: "\"PSAK 109 hanya urusan akuntan — analis risiko tidak perlu paham.\" ECL = PD × LGD × EAD yang forward-looking — dan PD/LGD/EAD adalah makanan sehari-hari analis risiko (CR3, CR10–CR13). Di bank modern, tim risiko memasok modelnya, tim akuntansi mencatatnya.",
       },
-      reference: "Incurred (PSAK 55): setelah bukti · Expected (PSAK 71): sebelum tunggakan.",
+      reference: "Incurred (PSAK 239 — dulu PSAK 55): setelah bukti · Expected (PSAK 109 — dulu PSAK 71): sebelum tunggakan.",
     },
     {
       id: "stage",
       eyebrow: "Langkah 3 · Stage",
       title: "Tiga stage: ruang rawat inap kredit",
       prose: [
-        "PSAK 71 membagi setiap kredit ke 3 stage berdasarkan perubahan risiko sejak awal diberikan. Stage 1 — sehat: risiko tidak meningkat signifikan sejak origination. Cadangan = ECL 12 bulan (PD 12-bulan × LGD × EAD). Stage 2 — risiko meningkat signifikan (SICR): risiko naik signifikan TAPI belum default. Cadangan = ECL lifetime (PD selama sisa tenor × LGD × EAD) — melonjak berkali-kali lipat. Stage 3 — default/impaired: sudah gagal bayar (umumnya DPD >90 atau unlikely to pay). Cadangan = ECL lifetime dengan PD = 100%.",
+        "PSAK 109 membagi setiap kredit ke 3 stage berdasarkan perubahan risiko sejak awal diberikan. Stage 1 — sehat: risiko tidak meningkat signifikan sejak origination. Cadangan = ECL 12 bulan (PD 12-bulan × LGD × EAD). Stage 2 — risiko meningkat signifikan (SICR): risiko naik signifikan TAPI belum default. Cadangan = ECL lifetime (PD selama sisa tenor × LGD × EAD) — melonjak berkali-kali lipat. Stage 3 — default/impaired: sudah gagal bayar (umumnya DPD >90 atau unlikely to pay). Cadangan = ECL lifetime dengan PD = 100%.",
         "Contoh: KPR Rp 500 jt, LGD 45%, PD 12-bulan 2%, PD lifetime (sisa tenor) 9%. Stage 1: ECL = 0,02 × 0,45 × 500 = Rp 4,5 jt. Stage 2: ECL = 0,09 × 0,45 × 500 = Rp 20,25 jt — naik 4,5× lipat hanya karena pindah stage! Stage 3: ECL = 1,0 × 0,45 × 500 = Rp 225 jt. Lompatannya tidak linear — inilah cliff effect: perpindahan stage menghantam laba sekaligus.",
         "SICR (Significant Increase in Credit Risk) = kriteria pindah Stage 1 → Stage 2. Kriteria kuantitatif: PD saat ini naik signifikan dibanding PD saat origination — praktik umum naik ≥2× lipat. Backstop 30 hari: DPD ≥ 30 hari otomatis dianggap SICR — jaring pengaman bila model PD telat merespons. SICR membandingkan risiko relatif terhadap awal, bukan absolut: kredit yang lahir berisiko (PD awal 8%) lalu membaik (PD kini 5%) = tetap Stage 1 meski levelnya masih di atas KPR prima.",
       ],
@@ -131,7 +131,7 @@ export const cr4b: V2Lesson = {
       eyebrow: "Langkah 6 · Procyclical",
       title: "ECL memperdalam siklus",
       prose: [
-        "PSAK 71 itu procyclical — ia memperdalam siklus. Saat ekonomi memburuk, PD forward-looking naik → ECL melonjak → laba anjlok → bank mengetatkan kredit → ekonomi makin memburuk. Saat ekonomi bagus, sebaliknya. Regulator sadar akan hal ini, tetapi belum ada obat sempurnanya. Analis yang paham procyclicality tidak panik saat ECL melonjak di awal resesi — ia tahu itu fitur akuntansi, bukan vonis.",
+        "PSAK 109 itu procyclical — ia memperdalam siklus. Saat ekonomi memburuk, PD forward-looking naik → ECL melonjak → laba anjlok → bank mengetatkan kredit → ekonomi makin memburuk. Saat ekonomi bagus, sebaliknya. Regulator sadar akan hal ini, tetapi belum ada obat sempurnanya. Analis yang paham procyclicality tidak panik saat ECL melonjak di awal resesi — ia tahu itu fitur akuntansi, bukan vonis.",
         "Dua hal yang diawasi ketat. Pertama, manipulasi staging: Stage 2 bank tidak pernah naik meski ekonomi resesi 2 tahun = red flag. Dalam resesi, sebagian portofolio pasti mengalami SICR. Stage 2 yang datar = indikasi ambang SICR terlalu longgar atau override manual — auditor dan OJK akan membongkar ini. Kedua, management overlay: saat model tidak menangkap risiko material (misal event unprecedented), manajemen boleh menambah cadangan — tetapi wajib ada dasar data, metodologi, persetujuan komite, dan masa berlaku. Overlay \"angka ajaib\" tanpa dasar = red flag.",
       ],
       tasks: [],
@@ -152,7 +152,7 @@ export const cr4b: V2Lesson = {
         "Tindakan: (1) pertahankan staging, jelaskan ke direksi dengan data — tunjukkan bahwa menahan migrasi = menunda bom (saat debitur benar-benar macet, Stage 3 menghantam lebih keras + teguran OJK/auditor); (2) aksi bisnis: perketat origination KMK perdagangan sementara + intensifkan monitoring debitur Stage 2 (restrukturisasi dini lebih murah daripada menunggu default — CR22).",
       ],
       tasks: [],
-      reference: "Stage 2 adalah \"NPL-nya PSAK 71\": indikator awal sebelum kredit benar-benar macet.",
+      reference: "Stage 2 adalah \"NPL-nya PSAK 109\": indikator awal sebelum kredit benar-benar macet.",
     },
     {
       id: "tebing-laba",
@@ -170,7 +170,7 @@ export const cr4b: V2Lesson = {
     {
       id: "psak71-praktis",
       eyebrow: "Langkah 9 · Praktik",
-      title: "PSAK 71 untuk bank kecil: jalan pintas yang sah",
+      title: "PSAK 109 untuk bank kecil: jalan pintas yang sah",
       prose: [
         "Tidak semua bank butuh model satelit. Untuk BPR dan bank kecil dengan portofolio homogen, standar mengizinkan pendekatan sederhana: matriks provisi (provision matrix) — tarif kerugian per bucket DPD yang dikalibrasi dari sejarah sendiri, ditambah penyesuaian forward-looking yang sederhana. Sederhana bukan berarti asal; berarti proporsional dengan kompleksitas.",
         "Contoh dengan angka: BPR dengan kredit Rp 200 M. Lancar Rp 150 M × 1% = Rp 1,5 M; DPD 1–30 Rp 30 M × 5% = Rp 1,5 M; DPD 31–60 Rp 12 M × 15% = Rp 1,8 M; DPD 61–90 Rp 5 M × 40% = Rp 2 M; DPD 90+ Rp 3 M × 100% = Rp 3 M. ECL = Rp 11,8 M. Penyesuaian forward-looking: pengangguran regional naik 2 poin → overlay +20% = Rp 14,2 M, didokumentasikan satu paragraf (sumber data, alasan, masa berlaku). Selesai — patuh, sederhana, bisa dipertahankan.",
@@ -193,7 +193,7 @@ export const cr4b: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "PSAK 55 = incurred (setelah bukti); PSAK 71 = expected (sebelum tunggakan), berlaku 1 Jan 2020.",
+        "PSAK 239 (dulu PSAK 55) = incurred (setelah bukti); PSAK 109 (dulu PSAK 71) = expected (sebelum tunggakan), berlaku 1 Jan 2020.",
         "Stage 1: ECL 12 bulan · Stage 2: ECL lifetime (SICR) · Stage 3: ECL lifetime, PD 100%.",
         "SICR: PD naik ≥2× sejak origination, atau backstop DPD ≥30 hari. Yang diukur perubahan relatif, bukan level.",
         "Cliff effect: pindah Stage 1→2 melonjak 4–8× — ambang SICR sangat politis.",
@@ -202,12 +202,12 @@ export const cr4b: V2Lesson = {
       next: { label: "CR5 — Definisi Default", href: "/learn/cr5-definisi-default" },
       quiz: [
         {
-          q: "Perbedaan fundamental PSAK 55 vs PSAK 71?",
+          q: "Perbedaan fundamental PSAK 239 (dulu PSAK 55) vs PSAK 109 (dulu PSAK 71)?",
           options: [
-            { text: "PSAK 71 tarif pajaknya lebih tinggi", why: "Tidak ada hubungannya dengan tarif pajak." },
-            { text: "PSAK 55: cadangan setelah ada bukti kerugian (incurred); PSAK 71: cadangan berdasarkan ekspektasi kerugian masa depan (expected)", why: "Incurred → expected. PSAK 71 mencadangkan SEBELUM tunggakan terjadi — detektor asap vs pemadam kebakaran.", correct: true },
+            { text: "PSAK 109 tarif pajaknya lebih tinggi", why: "Tidak ada hubungannya dengan tarif pajak." },
+            { text: "PSAK 239 (dulu PSAK 55): cadangan setelah ada bukti kerugian (incurred); PSAK 109 (dulu PSAK 71): cadangan berdasarkan ekspektasi kerugian masa depan (expected)", why: "Incurred → expected. PSAK 109 mencadangkan SEBELUM tunggakan terjadi — detektor asap vs pemadam kebakaran.", correct: true },
             { text: "Tidak ada bedanya, hanya ganti nama", why: "Bedanya fundamental: kapan cadangan dibentuk." },
-            { text: "PSAK 71 menghapus CKPN", why: "Justru CKPN menjadi lebih besar dan lebih awal." },
+            { text: "PSAK 109 menghapus CKPN", why: "Justru CKPN menjadi lebih besar dan lebih awal." },
           ],
         },
         {
@@ -233,7 +233,7 @@ export const cr4b: V2Lesson = {
           options: [
             { text: "ECL turun — resesi membuat bank lebih hati-hati", why: "Kehati-hatian tidak menurunkan ECL akuntansi." },
             { text: "ECL melonjak (PD forward-looking naik, SICR massal) tepat saat laba tertekan — memperdalam siklus, itulah procyclicality", why: "ECL forward-looking naik saat prakiraan memburuk — menghantam laba di momen terburuk.", correct: true },
-            { text: "ECL tidak berubah — akuntansi tidak peduli ekonomi", why: "Justru PSAK 71 membuat akuntansi peduli pada prakiraan ekonomi." },
+            { text: "ECL tidak berubah — akuntansi tidak peduli ekonomi", why: "Justru PSAK 109 membuat akuntansi peduli pada prakiraan ekonomi." },
             { text: "ECL dihapus selama resesi", why: "Tidak ada penghapusan seperti itu." },
           ],
         },
@@ -242,7 +242,7 @@ export const cr4b: V2Lesson = {
           options: [
             { text: "Kapan saja — manajemen bebas menambah cadangan sesuai feeling", why: "Feeling tanpa dasar = red flag auditor." },
             { text: "Saat model tidak menangkap risiko material; wajib ada dasar data, metodologi, persetujuan komite, dan masa berlaku", why: "Overlay legal untuk risiko yang luput dari model, tetapi harus metodologis dan di-governance.", correct: true },
-            { text: "Tidak pernah — overlay dilarang PSAK 71", why: "Overlay tidak dilarang — yang dilarang adalah overlay tanpa dasar." },
+            { text: "Tidak pernah — overlay dilarang PSAK 109", why: "Overlay tidak dilarang — yang dilarang adalah overlay tanpa dasar." },
             { text: "Hanya saat laba sedang tinggi (income smoothing)", why: "Itu manipulasi laba, bukan overlay yang dibenarkan." },
           ],
         },

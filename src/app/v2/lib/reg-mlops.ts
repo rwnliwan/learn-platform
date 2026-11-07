@@ -21,6 +21,7 @@ import { mlops19 } from "../content/mlops19-llmops-end-to-end";
 import { mlops20 } from "../content/mlops20-cloud-ml-platforms";
 import { mlops21 } from "../content/mlops21-kserve-inference-optimization";
 import { mlops22 } from "../content/mlops22-distributed-training";
+import { mlops23 } from "../content/mlops23-airflow-orkestrasi";
 
 export const REG_MLOPS: Record<string, V2Lesson> = {
   "mlops1-lanskap": mlops1,
@@ -45,4 +46,5 @@ export const REG_MLOPS: Record<string, V2Lesson> = {
   "mlops20-cloud-ml-platforms": mlops20,
   "mlops21-kserve-inference-optimization": mlops21,
   "mlops22-distributed-training": mlops22,
+  "mlops23-airflow-orkestrasi": mlops23,
 };

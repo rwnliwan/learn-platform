@@ -92,8 +92,135 @@ export const bi10: V2Lesson = {
       reference: "PCA berlabel batch = gambar pertama. Batch > kondisi = lampu merah.",
     },
     {
+      id: "lab-koreksi-batch",
+      eyebrow: "Langkah 4 · Lab",
+      title: "Koreksi batch: mean-centering per batch, sinyal tetap utuh",
+      prose: [
+        "Langkah 3 menemukan batch mendominasi (korelasi dalam-batch 0,33 > dalam-kondisi 0,14). Sekarang KOREKSI: untuk tiap gen, kurangi mean batch-nya lalu tambah kembali grand mean — mean-centering per batch. Ini inti transparan dari ComBat: ComBat penuh menambahkan penskalaan variansi per gen + empirical Bayes (butuh numpy/R — di produksi pakai pyComBat atau sva::ComBat), tapi logika lokasinya persis ini.",
+        "Dua hal diukur — dan keduanya harus benar sekaligus: (1) gap batch hilang: rata-rata |mean batch B − mean batch A| per gen harus → 0; (2) sinyal biologis UTUH: selisih mean kasus−kontrol pada 10 gen sinyal harus TETAP. Koreksi yang menghapus sinyal sama gagalnya dengan koreksi yang tidak menghapus batch.",
+        "Syarat yang membuat lab ini valid: desain SEIMBANG — tiap batch berisi kontrol DAN kasus. Bila semua kasus di batch A dan semua kontrol di batch B (confounded total), koreksi ini menghapus sinyal biologisnya juga — tidak ada koreksi yang valid, ulangi eksperimen (lihat Langkah 5, skenario 3). Dan catatan metodologi: JANGAN pakai korelasi mentah antar-sampel Langkah 3 untuk menilai hasil koreksi — setelah grand mean ditambah kembali, profil mean bersama mendominasi korelasi itu; ukur selisih mean per gen seperti di lab ini.",
+      ],
+      tasks: [
+        { id: "t1", text: "Tulis rumus koreksi per gen (kurangi mean batch, tambah grand mean)" },
+        { id: "t2", text: "Bandingkan gap batch + sinyal sebelum vs sesudah" },
+        { id: "t3", text: "Tarik kesimpulan: lanjut atau ulangi" },
+      ],
+      expected: "gap batch: 1.29 -> 0.00 · sinyal: 0.62 -> 0.62 · Batch TERKOREKSI, sinyal UTUH",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Menjalankan ComBat lalu mengklaim batch 'hilang' tanpa mengukur ulang. Koreksi yang benar DIBUKTIKAN dengan angka (gap batch → 0, sinyal tetap) — bukan diasumsikan dari nama fungsinya. Dan ingat: koreksi lokasi saja tidak menyentuh perbedaan VARIANSI antar batch; bila variansi batch beda jauh, butuh ComBat penuh.",
+      },
+      hints: [
+        "Koreksi per gen: expr[g] - mb + mg (mb = mean batch, mg = grand mean).",
+        "gap_batch dan sinyal sudah disediakan — panggil untuk sampel dan terkoreksi.",
+        "Syarat lolos: gap_sesudah < 0,01 DAN sinyal hampir tidak berubah.",
+      ],
+      code: {
+        starter: `import random, statistics as st
+random.seed(88)
+pola_batch = [3.0 if i % 3 == 0 else 0.0 for i in range(100)]
+sampel = []
+for b in ['A','B']:
+    for k in ['kontrol','kasus']:
+        for r in range(3):
+            expr = [random.gauss(0,1) + (pola_batch[i] if b=='B' else 0)
+                    + (0.8 if k=='kasus' and i<10 else 0) for i in range(100)]
+            sampel.append((f'{b}-{k}{r}', b, k, expr))
+
+def gap_batch(data):
+    # rata-rata |mean batch B - mean batch A| per gen
+    return sum(abs(st.mean([s[3][g] for s in data if s[1]=='B'])
+                   - st.mean([s[3][g] for s in data if s[1]=='A'])) for g in range(100)) / 100
+
+def sinyal(data):
+    # selisih mean kasus-kontrol pada 10 gen sinyal (gen 0-9)
+    return st.mean([st.mean([s[3][g] for s in data if s[2]=='kasus'])
+                    - st.mean([s[3][g] for s in data if s[2]=='kontrol']) for g in range(10)])
+
+# TULIS KODEMU: koreksi mean per batch (tambah kembali grand mean)
+def koreksi(data):
+    out = []
+    for nama, b, k, expr in data:
+        corr = []
+        for g in range(100):
+            mb = st.mean([s[3][g] for s in data if s[1] == b])
+            mg = st.mean([s[3][g] for s in data])
+            corr.append( )
+        out.append((nama, b, k, corr))
+    return out
+
+terkoreksi = koreksi(sampel)
+gap_sebelum = gap_batch(sampel)
+gap_sesudah = gap_batch(terkoreksi)
+sinyal_sebelum = sinyal(sampel)
+sinyal_sesudah = sinyal(terkoreksi)
+
+print(f'gap batch: {gap_sebelum:.2f} -> {gap_sesudah:.2f}')
+print(f'sinyal kasus-kontrol: {sinyal_sebelum:.2f} -> {sinyal_sesudah:.2f}')
+if gap_sesudah < 0.01 and abs(sinyal_sesudah - sinyal_sebelum) < 0.05:
+    print('Batch TERKOREKSI, sinyal UTUH -> lanjutkan analisis.')
+else:
+    print('Koreksi belum beres -> cek rumus koreksimu.')`,
+        lockLines: 22,
+        solution: `import random, statistics as st
+random.seed(88)
+pola_batch = [3.0 if i % 3 == 0 else 0.0 for i in range(100)]
+sampel = []
+for b in ['A','B']:
+    for k in ['kontrol','kasus']:
+        for r in range(3):
+            expr = [random.gauss(0,1) + (pola_batch[i] if b=='B' else 0)
+                    + (0.8 if k=='kasus' and i<10 else 0) for i in range(100)]
+            sampel.append((f'{b}-{k}{r}', b, k, expr))
+
+def gap_batch(data):
+    # rata-rata |mean batch B - mean batch A| per gen
+    return sum(abs(st.mean([s[3][g] for s in data if s[1]=='B'])
+                   - st.mean([s[3][g] for s in data if s[1]=='A'])) for g in range(100)) / 100
+
+def sinyal(data):
+    # selisih mean kasus-kontrol pada 10 gen sinyal (gen 0-9)
+    return st.mean([st.mean([s[3][g] for s in data if s[2]=='kasus'])
+                    - st.mean([s[3][g] for s in data if s[2]=='kontrol']) for g in range(10)])
+
+# TULIS KODEMU: koreksi mean per batch (tambah kembali grand mean)
+def koreksi(data):
+    out = []
+    for nama, b, k, expr in data:
+        corr = []
+        for g in range(100):
+            mb = st.mean([s[3][g] for s in data if s[1] == b])
+            mg = st.mean([s[3][g] for s in data])
+            corr.append(expr[g] - mb + mg)
+        out.append((nama, b, k, corr))
+    return out
+
+terkoreksi = koreksi(sampel)
+gap_sebelum = gap_batch(sampel)
+gap_sesudah = gap_batch(terkoreksi)
+sinyal_sebelum = sinyal(sampel)
+sinyal_sesudah = sinyal(terkoreksi)
+
+print(f'gap batch: {gap_sebelum:.2f} -> {gap_sesudah:.2f}')
+print(f'sinyal kasus-kontrol: {sinyal_sebelum:.2f} -> {sinyal_sesudah:.2f}')
+if gap_sesudah < 0.01 and abs(sinyal_sesudah - sinyal_sebelum) < 0.05:
+    print('Batch TERKOREKSI, sinyal UTUH -> lanjutkan analisis.')
+else:
+    print('Koreksi belum beres -> cek rumus koreksimu.')`,
+        checks: [
+          { kind: "equal", task: "t2", name: "gap_sesudah", value: 0, tol: 1e-9, label: "`gap_sesudah` seharusnya ≈ 0", msg: "Mean per batch disamakan ke grand mean — selisih antar-batch hilang." },
+          { kind: "equal", task: "t2", name: "sinyal_sesudah", value: 0.62, tol: 0.05, label: "`sinyal_sesudah` seharusnya ≈ 0,62", msg: "Sinyal kasus-kontrol tidak ikut terhapus — desain seimbang." },
+          { kind: "stdout_matches", task: "t2", pattern: "gap batch: 1\\.29 -> 0\\.00", label: "gap batch tercetak", msg: "Cek format print: gap batch sebelum -> sesudah." },
+          { kind: "stdout_matches", task: "t2", pattern: "sinyal kasus-kontrol: 0\\.62 -> 0\\.62", label: "sinyal tercetak", msg: "Sinyal sebelum dan sesudah harus sama (0,62)." },
+          { kind: "stdout_matches", task: "t3", pattern: "Batch TERKOREKSI, sinyal UTUH", label: "kesimpulan: terkoreksi", msg: "Gap → 0 dan sinyal utuh = koreksi berhasil." },
+        ],
+      },
+      reference: "Koreksi lokasi: kurangi mean batch, tambah grand mean. Buktikan: gap → 0, sinyal tetap.",
+    },
+    {
       id: "pca-power",
-      eyebrow: "Langkah 4 · PCA, UMAP, power",
+      eyebrow: "Langkah 5 · PCA, UMAP, power",
       title: "Baca struktur sebelum percaya sinyal",
       prose: [
         "PCA: proyeksi linear variansi maksimal — untuk QC dan struktur global. Plot PCA berlabel batch/kondisi: bila titik mengelompok per batch, bukan per kondisi → berhenti, jangan lanjut ke uji. UMAP: non-linear, menjaga tetangga lokal — untuk visualisasi klaster single-cell. Jangan ukur jarak antar-klaster dari UMAP: ia mengorbankan jarak global.",
@@ -114,7 +241,7 @@ export const bi10: V2Lesson = {
     },
     {
       id: "peta-keputusan",
-      eyebrow: "Langkah 5 · Peta keputusan",
+      eyebrow: "Langkah 6 · Peta keputusan",
       title: "Peta keputusan: koreksi dan QC statistik apa?",
       prose: [
         "Lima skenario yang dihadapi bioinformatikawan:",
@@ -134,7 +261,7 @@ export const bi10: V2Lesson = {
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 6 · Mini-case",
+      eyebrow: "Langkah 7 · Mini-case",
       title: "“Signature 50 gen” yang ternyata signature mesin",
       prose: [
         "Paper mengklaim signature 50 gen untuk prognosis kanker (n=200). Perusahaan ingin lisensi. Kamu diminta due diligence. Temuan: 100 sampel baik disekuensing di mesin NovaSeq (2023), 100 buruk di HiSeq (2021). “Signature” = gen-gen yang ekspresinya beda antar mesin. Tanpa koreksi multiple testing yang benar (p<0,05 mentah dari 20.000 gen).",
@@ -154,7 +281,7 @@ export const bi10: V2Lesson = {
     },
     {
       id: "adv-gwas-threshold",
-      eyebrow: "Langkah 7 · Advanced",
+      eyebrow: "Langkah 8 · Advanced",
       title: "Ambang GWAS 5e-8 dan anatomi multiple testing skala genom",
       prose: [
         "Angka 5×10⁻⁸ bukan mistis: ia adalah koreksi Bonferroni untuk ~1 juta SNP independen (0,05 / 1.000.000). Karena linkage disequilibrium, 10 juta SNP ter-genotipe hanya mewakili ~1 juta blok independen pada populasi Eropa — dari sanalah ambangnya lahir. Pada populasi Afrika dengan LD lebih pendek, jumlah tes independen lebih besar dan ambang “setara” sedikit lebih ketat; memakai 5e-8 secara buta lintas populasi adalah penyederhanaan yang perlu disadari.",
@@ -170,7 +297,7 @@ export const bi10: V2Lesson = {
     },
     {
       id: "adv-stratifikasi",
-      eyebrow: "Langkah 8 · Advanced",
+      eyebrow: "Langkah 9 · Advanced",
       title: "Stratifikasi populasi: musuh dalam selimut GWAS",
       prose: [
         "Stratifikasi populasi adalah confounder paling licik dalam genetika: jika kasus dan kontrol punya komposisi ancestri berbeda, SNP yang hanya menandai ancestri akan tampak “terkait penyakit”. Contoh klasik: SNP terkait kemampuan memakai sumpit akan “signifikan” bila kasus diambil dari populasi Asia dan kontrol dari Eropa — bukan karena gen sumpit menyebabkan penyakit, melainkan karena ancestri berkorelasi dengan status kasus.",
@@ -200,6 +327,7 @@ export const bi10: V2Lesson = {
         "Multiple testing: tanpa koreksi = banjir false positive.",
         "Bonferroni (FWER) untuk klaim final; FDR/BH untuk penemuan.",
         "Batch effect: deteksi via PCA; cegah via desain interleaved.",
+        "Koreksi batch: mean-centering per batch menghapus gap 1,29 → 0,00 tanpa menghapus sinyal (0,62 tetap); ComBat penuh = ini + skala variansi + empirical Bayes.",
         "Batch confounded total = tidak terselamatkan.",
         "PCA untuk QC/struktur global; UMAP untuk klaster (jarak antar-klaster tak bermakna).",
         "Power: hitung sebelum eksperimen dengan m terkoreksi.",

@@ -26,6 +26,8 @@ import { dle24 } from "../content/dle24-rag-implementasi";
 import { dle25 } from "../content/dle25-tensorflow-keras";
 import { dle26 } from "../content/dle26-video-tracking";
 import { dle27 } from "../content/dle27-fondasi-representasi";
+import { dle28 } from "../content/dle28-sequence-forecasting";
+import { dle29 } from "../content/dle29-speech-audio";
 
 export const REG_DLE: Record<string, V2Lesson> = {
   "dle1-lanskap": dle1,
@@ -55,4 +57,6 @@ export const REG_DLE: Record<string, V2Lesson> = {
   "dle25-tensorflow-keras": dle25,
   "dle26-video-tracking": dle26,
   "dle27-fondasi-representasi": dle27,
+  "dle28-sequence-forecasting": dle28,
+  "dle29-speech-audio": dle29,
 };

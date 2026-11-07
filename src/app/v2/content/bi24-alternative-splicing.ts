@@ -283,6 +283,7 @@ for ev in events:
         "rMATS = uji per peristiwa (short-read); DEXSeq = exon usage; long-read = satu-satunya cara jujur melihat isoform utuh + kombinasi jarak jauh.",
         "Waspada: ΔPSI dari junction read sedikit = gosip; intron retention massal = curigai artefak dulu; validasi kandidat secara ortogonal.",
       ],
+      next: { label: "BI25 · Indeks dan Aligner: BWT, FM-Index, dan Cara Kerja BWA/Bowtie", href: "/v2/learn/bi25-indeks-aligner" },
       quiz: [
         {
           q: "I = 30, E = 70 pada kondisi A; I = 80, E = 20 pada kondisi B. ΔPSI (B − A)?",

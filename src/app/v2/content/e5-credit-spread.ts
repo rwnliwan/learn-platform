@@ -65,7 +65,7 @@ export const e5: V2Lesson = {
       eyebrow: "Langkah 3 · Expected loss",
       title: "Harga ketakutan statistik dalam rupiah",
       prose: [
-        "Expected loss = PD × LGD × EAD — kerugian yang secara statistik diharapkan per tahun, dalam rupiah. Bank memakai ini untuk cadangan kerugian (CKPN/ECL di PSAK 71).",
+        "Expected loss = PD × LGD × EAD — kerugian yang secara statistik diharapkan per tahun, dalam rupiah. Bank memakai ini untuk cadangan kerugian (CKPN/ECL di PSAK 109).",
         "Obligasi Rp1 miliar, rating BBB (PD = 0,4%/tahun), LGD 45%. Hitung EL-nya, lalu bandingkan dengan spread pasar 1,8% (= Rp18 juta/tahun).",
       ],
       formula: String.raw`EL = PD \times LGD \times EAD`,

@@ -309,7 +309,7 @@ export const pma10: V2Lesson = {
         "SML: di atas = undervalued; CML untuk portofolio efisien.",
         "IPS: tujuan, toleransi, horizon, likuiditas — jangkar anti-bias behavioral.",
       ],
-      next: { label: "PM-B1 — Regresi Berganda: Model & Misspesifikasi", href: "/learn/pm-b1-regresi" },
+      next: { label: "PM-A10B — Portfolio Management: IPS, Manajemen Risiko & Rebalancing", href: "/v2/learn/pm-a10b-IPS-risiko" },
     },
   ],
 };

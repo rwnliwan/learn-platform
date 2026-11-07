@@ -291,7 +291,7 @@ print("Total: %d jam" % sum(h for _, h in fase))`,
         "Verifikasi kode ujian di situs resmi sebelum membayar — peta kedaluwarsa, vendor tidak.",
         "Track Database Administrator selesai — 25 lesson dari fondasi operasi hingga sertifikasi. Kembali ke kurikulum untuk track berikutnya.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DBA26 — Normalisasi dari Kursi DBA: BCNF, Review Skema, dan Denormalisasi Operasional", href: "/v2/learn/dba26-normalisasi-dba" },
       quiz: [
         {
           q: "Kandidat DBA perlu sertifikasi Oracle. Kombinasi ujian yang benar untuk OCP 19c?",

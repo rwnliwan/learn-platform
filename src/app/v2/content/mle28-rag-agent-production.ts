@@ -237,7 +237,7 @@ print(f"pemenang: {menang} — chunk halus menangkap query lebih baik (indeks 2x
         "Agent butuh allowlist tool + batasan aksi destruktif + budget loop; tool output = vektor serangan.",
         "Observability RAG: skor retrieval, faithfulness, jejak tool — bukan hanya latency.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MLE29 — Time Series Forecasting dengan ML: ARIMA, Prophet & XGBoost", href: "/v2/learn/mle29-time-series-ml" },
       quiz: [
         {
           q: "Setelah mengganti model embedding, jawaban RAG memburuk. Langkah pertama yang benar?",

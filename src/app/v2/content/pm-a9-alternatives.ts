@@ -300,7 +300,7 @@ export const pma9: V2Lesson = {
         "Komoditas via futures: cek kurva (contango/backwardation) dulu.",
         "Tuntut illiquidity premium 3\u20134% di atas publik; maksimal 15\u201320% portofolio di illikuid.",
       ],
-      next: { label: "PM-A10 — Portfolio Management: Diversifikasi, CAPM & IPS", href: "/learn/pm-a10-portfolio-mgmt" },
+      next: { label: "PM-A9B — Alternatives: Hedge Fund, PE & Aset Riil", href: "/v2/learn/pm-a9b-hedge-fund-pe" },
     },
   ],
 };

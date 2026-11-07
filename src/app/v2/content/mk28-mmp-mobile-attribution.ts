@@ -263,7 +263,7 @@ export const mk28: V2Lesson = {
           ],
         },
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MK29 — Conjoint Analysis: Mengukur Nilai Fitur dari Pilihan Pelanggan", href: "/v2/learn/mk29-conjoint-analysis" },
     },
   ],
 };

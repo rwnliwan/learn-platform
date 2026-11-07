@@ -116,8 +116,33 @@ export const bcd29: V2Lesson = {
         "Hubungan yang harus dihafal: slippage naik kurang-lebih sebanding dengan ukuran order dibagi kedalaman. Order 10 kali lebih besar di book yang sama tidak menghasilkan slippage 10 kali lipat secara persis — ia menghabiskan level harga demi level harga, dan tiap level lebih jauh dari harga tengah. Karena itu analis mengukur likuiditas dengan KURVA (slippage untuk order 1.000, 10.000, 100.000 USD), bukan satu angka.",
         "Di AMM, likuiditas diukur dari ukuran pool: order yang bernilai 1 persen dari pool menghasilkan price impact sekitar 1 persen (dari rumus x kali y sama dengan k — lihat BCD4). Pool 1 juta USD menelan order 10.000 USD dengan impact sekitar 1 persen; pool 100 juta USD menelan order yang sama dengan impact sekitar 0,01 persen. Inilah alasan token kecil dengan pool kecil sangat volatil: bukan karena 'dimanipulasi', melainkan karena kolamnya dangkal.",
         "Peringatan analis: likuiditas yang terlihat bisa menipu. Order book bisa dipenuhi order yang dibatalkan sebelum dieksekusi (spoofing — order palsu untuk menciptakan kesan permintaan), dan pool AMM bisa berisi likuiditas yang ditarik sepihak saat dibutuhkan (lihat BCD17 soal concentrated liquidity). Ukur likuiditas dari transaksi yang BENAR-BENAR terjadi (volume yang tereksekusi + slippage yang terealisasi), bukan dari janji di book.",
+        "Lab di bawah memakai order book Langkah 3 (harga tengah 10.000; ask 20 token di 10.010 lalu 30 di 10.020; bid 100 token di 9.990 lalu 50 di 9.980). Tugasmu: tulis fungsi eksekusi yang berjalan menuruni level demi level dan mengembalikan harga rata-rata serta slippage terhadap harga tengah — untuk beli 40 dan 50 token, dan jual 120 dan 150 token. Perhatikan polanya: makin besar order, makin jauh harga rata-rata dari harga tengah — slippage adalah KURVA, bukan satu angka.",
       ],
-      tasks: [],
+      tasks: [
+        { id: "t1", text: "Tulis `eksekusi`: telusuri level demi level, kembalikan harga rata-rata dan slippage (%) vs harga tengah" },
+        { id: "t2", text: "Hitung beli 40, beli 50, jual 120, jual 150 token, lalu cetak semuanya" },
+      ],
+      expected: "beli40: avg=10015.00 slip=0.15% | beli50: avg=10016.00 slip=0.16% | jual120: avg=9988.33 slip=0.12% | jual150: avg=9986.67 slip=0.13%",
+      formula: String.raw`\text{avg} = \frac{\sum (\text{harga} \times \text{jumlah})}{\sum \text{jumlah}} \quad ; \quad \text{slip} = \frac{|\text{avg} - \text{mid}|}{\text{mid}} \times 100\%`,
+      formulaNote: "avg = harga rata-rata eksekusi; mid = harga tengah (10.000). Beli: avg di atas mid; jual: avg di bawah mid. Slippage selalu dihitung sebagai BIAYA — nilainya positif di kedua arah.",
+      hints: [
+        "Ambil min(sisa, jumlah level) di tiap level — jangan ambil seluruh level bila order sudah terpenuhi.",
+        "Slippage beli = (avg − mid) / mid × 100; slippage jual = (mid − avg) / mid × 100.",
+        "Beli 40: 20 di 10.010 + 20 di 10.020 → avg 10.015. Jual 120: 100 di 9.990 + 20 di 9.980.",
+      ],
+      code: {
+        starter: `# Order book contoh (Langkah 3). JANGAN UBAH baris ini.\nmid = 10000\nasks = [(10010, 20), (10020, 30)]  # (harga, jumlah) — sisi jual\nbids = [(9990, 100), (9980, 50)]   # (harga, jumlah) — sisi beli\n\n# TULIS KODEMU\ndef eksekusi(levels, ukuran, sisi, mid):\n    \n\nb40_avg, b40_slip = eksekusi(asks, 40, "beli", mid)\nb50_avg, b50_slip = eksekusi(asks, 50, "beli", mid)\nj120_avg, j120_slip = eksekusi(bids, 120, "jual", mid)\nj150_avg, j150_slip = eksekusi(bids, 150, "jual", mid)\nprint(f"beli40: avg={b40_avg:.2f} slip={b40_slip:.2f}% | beli50: avg={b50_avg:.2f} slip={b50_slip:.2f}% | jual120: avg={j120_avg:.2f} slip={j120_slip:.2f}% | jual150: avg={j150_avg:.2f} slip={j150_slip:.2f}%")`,
+        lockLines: 4,
+        solution: `# Order book contoh (Langkah 3). JANGAN UBAH baris ini.\nmid = 10000\nasks = [(10010, 20), (10020, 30)]  # (harga, jumlah) — sisi jual\nbids = [(9990, 100), (9980, 50)]   # (harga, jumlah) — sisi beli\n\ndef eksekusi(levels, ukuran, sisi, mid):\n    sisa = ukuran\n    total = 0\n    for harga, jumlah in levels:\n        ambil = min(sisa, jumlah)\n        total += ambil * harga\n        sisa -= ambil\n        if sisa == 0:\n            break\n    avg = total / ukuran\n    if sisi == "beli":\n        slip = (avg - mid) / mid * 100\n    else:\n        slip = (mid - avg) / mid * 100\n    return avg, slip\n\nb40_avg, b40_slip = eksekusi(asks, 40, "beli", mid)\nb50_avg, b50_slip = eksekusi(asks, 50, "beli", mid)\nj120_avg, j120_slip = eksekusi(bids, 120, "jual", mid)\nj150_avg, j150_slip = eksekusi(bids, 150, "jual", mid)\nprint(f"beli40: avg={b40_avg:.2f} slip={b40_slip:.2f}% | beli50: avg={b50_avg:.2f} slip={b50_slip:.2f}% | jual120: avg={j120_avg:.2f} slip={j120_slip:.2f}% | jual150: avg={j150_avg:.2f} slip={j150_slip:.2f}%")`,
+        checks: [
+          { kind: "equal", task: "t2", name: "b40_avg", value: 10015, tol: 1e-9, label: "`b40_avg` = 10015", msg: "(20×10.010 + 20×10.020) / 40." },
+          { kind: "equal", task: "t2", name: "b40_slip", value: 0.15, tol: 0.01, label: "`b40_slip` sekitar 0,15%", msg: "(10.015 − 10.000) / 10.000 × 100." },
+          { kind: "equal", task: "t2", name: "b50_avg", value: 10016, tol: 1e-9, label: "`b50_avg` = 10016", msg: "(20×10.010 + 30×10.020) / 50." },
+          { kind: "equal", task: "t2", name: "j120_avg", value: 9988.333333333334, tol: 0.01, label: "`j120_avg` sekitar 9988,33", msg: "(100×9.990 + 20×9.980) / 120." },
+          { kind: "equal", task: "t2", name: "j150_slip", value: 0.13333333333333333, tol: 0.01, label: "`j150_slip` sekitar 0,13%", msg: "(10.000 − 9.986,67) / 10.000 × 100." },
+          { kind: "stdout_matches", task: "t2", pattern: "beli40: avg=10015\\.00 slip=0\\.15% \\| beli50: avg=10016\\.00 slip=0\\.16% \\| jual120: avg=9988\\.33 slip=0\\.12% \\| jual150: avg=9986\\.67 slip=0\\.13%", label: "Keempat order tercetak", msg: "Samakan format dengan Hasil yang diharapkan." },
+        ],
+      },
       note: {
         title: "Sering salah",
         type: "pitfall",
@@ -223,9 +248,10 @@ export const bcd29: V2Lesson = {
         "CEX = cepat + custodial + data dilaporkan; DEX = transparan + non-custodial + data terverifikasi.",
         "Funding rate = transfer long-short per 8 jam; 0,01% per interval = 10,95% per tahun.",
         "Basis = perpetual − spot; melebar tiba-tiba = sinyal perubahan sentimen atau likuiditas.",
+        "Slippage adalah kurva, bukan satu angka — di book contoh, beli 40 token = 0,15%, beli 50 = 0,16%; jual 120 = 0,12%, jual 150 = 0,13%.",
         "Volume adalah rumor sampai diperiksa alamatnya — waspadai siklus dana dan konsentrasi.",
       ],
-      next: { label: "BCD30 — Keamanan Smart Contract", href: "/learn/bcd30-keamanan-smart-contract" },
+      next: { label: "BCD30 — Keamanan Smart Contract", href: "/v2/learn/bcd30-keamanan-smart-contract" },
       quiz: [
         {
           q: "Order beli pasar 40 token: ask 20 token di 10.010 dan 30 token di 10.020. Harga eksekusi rata-rata?",

@@ -13,7 +13,7 @@ export const cr11: V2Lesson = {
       title: "Ramalan yang menggerakkan triliunan",
       prose: [
         "Maret 2020. Tim ekonomi Bank Nusantara merevisi proyeksi: pengangguran dari 5% → 9%, GDP dari +5% → −2%. Angka-angka itu dimasukkan ke \"model satelit\" — dan keluar: PD portofolio naik 2× lipat. Efek dominonya: ECL naik Rp 1,4 triliun. Laba kuartal anjlok. Direksi menatap tim risiko: \"Kalian yakin ramalannya? Satu revisi Excel menguapkan Rp 1,4 T?!\"",
-        "Itulah kekuatan forward-looking PSAK 71: cadangan bukan cermin masa lalu, melainkan jendela ke masa depan — dan jendela itu terbuat dari ramalan ekonomi. Ramalan yang salah = cadangan yang salah = laba yang salah.",
+        "Itulah kekuatan forward-looking PSAK 109: cadangan bukan cermin masa lalu, melainkan jendela ke masa depan — dan jendela itu terbuat dari ramalan ekonomi. Ramalan yang salah = cadangan yang salah = laba yang salah.",
         "Tidak ada yang tahu masa depan — jadi standar mewajibkan beberapa skenario (bukan satu ramalan), dirata-ratakan berbobot. Lesson ini membedah mesinnya: dari variabel makro sampai overlay manusia.",
       ],
       tasks: [],
@@ -74,7 +74,7 @@ export const cr11: V2Lesson = {
       eyebrow: "Langkah 4 · Skenario",
       title: "Probability-weighting: harga kejujuran",
       prose: [
-        "PSAK 71 melarang memakai satu ramalan tunggal — wajib beberapa skenario (minimal: optimis, baseline, pesimis) yang dirata-ratakan berbobot probabilitas. Bobot harus jumlah 100% dan tidak bias (tidak boleh 90% optimis saat resesi di depan mata).",
+        "PSAK 109 melarang memakai satu ramalan tunggal — wajib beberapa skenario (minimal: optimis, baseline, pesimis) yang dirata-ratakan berbobot probabilitas. Bobot harus jumlah 100% dan tidak bias (tidak boleh 90% optimis saat resesi di depan mata).",
         "Mengapa tidak cukup baseline? Karena hubungan ekonomi→kerugian non-linear (cembung): kerugian di skenario pesimis jauh lebih besar dari penghematan di skenario optimis. Rata-rata dari 3 skenario > skenario tengah saja. Contoh: ECL optimis Rp 8 M (20%), baseline Rp 14 M (50%), pesimis Rp 28 M (30%). Kalikan: 0,2×8 = 1,6; 0,5×14 = 7,0; 0,3×28 = 8,4. Jumlahkan: Rp 17,0 M. Bandingkan dengan baseline saja (Rp 14 M): selisih +Rp 3 M (+21%) — \"premi\" untuk mengakui ketidakpastian.",
         "Skenario pesimis (30% × Rp 28 M = Rp 8,4 M kontribusi) mendominasi ECL final meski probabilitasnya bukan yang terbesar — karena kerugiannya non-linear. Siapa yang menentukan 30% vs 20% untuk pesimis? Komite — bukan satu analis.",
       ],

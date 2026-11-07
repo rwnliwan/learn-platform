@@ -210,7 +210,7 @@ export const bcd30: V2Lesson = {
         "Scorecard: laporkan skor DAN item gagalnya; satu gagal kritis bisa membatalkan skor bagus.",
         "Custody + multisig: tak ada satu kunci berkuasa; kunci di perangkat, lokasi, dan orang yang berbeda.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "BCD31 — Kriptografi Blockchain: Hash, Merkle Tree dan Tanda Tangan Digital", href: "/v2/learn/bcd31-kriptografi" },
       quiz: [
         {
           q: "Kontrak mengirim dana SEBELUM memperbarui saldo. Penyerang (kontrak) memanggil tarik berulang. Ini kelas exploit apa?",

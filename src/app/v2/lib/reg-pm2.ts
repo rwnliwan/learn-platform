@@ -11,6 +11,8 @@ import { pmc8 } from "../content/pm-c8-equity-portfolio";
 import { pmc9 } from "../content/pm-c9-derivatives-overlay";
 import { pmc10 } from "../content/pm-c10-trading-execution";
 import { pmc11 } from "../content/pm-c11-ethics-esg";
+import { pmc12 } from "../content/pm-c12-style-analysis";
+import { pmc13 } from "../content/pm-c13-manager-selection";
 import { pmd1 } from "../content/pm-d1-data-harga";
 import { pmd2 } from "../content/pm-d2-optimisasi";
 import { pmd3 } from "../content/pm-d3-regresi-faktor";
@@ -28,6 +30,7 @@ import { pmE1 } from "../content/pm-e1-ai-tools-analis";
 import { pmE2 } from "../content/pm-e2-esg-praktis";
 import { pmE3 } from "../content/pm-e3-liquidity-risk";
 import { pmE4 } from "../content/pm-e4-deliverable-institusi";
+import { pmcapstone } from "../content/pm-capstone";
 
 export const REG_PM2: Record<string, V2Lesson> = {
   "pm-b9-intercorporate": pmb9,
@@ -42,6 +45,8 @@ export const REG_PM2: Record<string, V2Lesson> = {
   "pm-c9-derivatives-overlay": pmc9,
   "pm-c10-trading-execution": pmc10,
   "pm-c11-ethics-esg": pmc11,
+  "pm-c12-style-analysis": pmc12,
+  "pm-c13-manager-selection": pmc13,
   "pm-d1-data-harga": pmd1,
   "pm-d2-optimisasi": pmd2,
   "pm-d3-regresi-faktor": pmd3,
@@ -59,4 +64,5 @@ export const REG_PM2: Record<string, V2Lesson> = {
   "pm-e2-esg-praktis": pmE2,
   "pm-e3-liquidity-risk": pmE3,
   "pm-e4-deliverable-institusi": pmE4,
+  "pm-capstone": pmcapstone,
 };

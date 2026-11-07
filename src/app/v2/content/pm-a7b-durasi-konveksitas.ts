@@ -201,7 +201,7 @@ export const pma7b: V2Lesson = {
       eyebrow: "Langkah 7 · Jebakan",
       title: "Duration sama, konveksitas beda: jebakan yang paling mahal",
       prose: [
-        "Bayangkan dua obligasi, keduanya modified duration 4,21. Obligasi pertama adalah obligasi ilustratif kita: 5 tahun, kupon 6 persen, convexity 22,92. Obligasi kedua adalah obligasi callable dengan kupon lebih tinggi tetapi opsi call yang aktif — duration-nya juga 4,21, tetapi convexity-nya negatif: saat yield turun, harganya tertahan di harga call dan tidak ikut naik. Laporan risiko yang hanya menampilkan duration menyatakan keduanya setara. Laporan itu salah — dan salahnya mahal.",
+        "Bayangkan dua obligasi, keduanya modified duration 4,21. Obligasi pertama adalah obligasi ilustratif kita: 5 tahun, kupon 6 persen, convexity 22,92. Obligasi kedua adalah obligasi callable dengan kupon lebih tinggi tetapi opsi call yang aktif — duration-nya juga 4,21, tetapi convexity-nya negatif: saat yield turun, harganya tertahan di harga call dan tidak ikut naik. Catatan: durasi callable umumnya lebih pendek dari obligasi polos sebanding — angka 4,21 di sini ilustratif, dipakai agar jebakan \u201cduration sama, risiko beda\u201d terlihat jelas. Laporan risiko yang hanya menampilkan duration menyatakan keduanya setara. Laporan itu salah — dan salahnya mahal.",
         "Saat yield naik 2 persen, obligasi pertama jatuh ke 92,01 (convexity menyelamatkan 0,44 dari tebakan linear). Obligasi callable kedua jatuh lebih dalam dari tebakan linearnya — negative convexity berarti kurva melengkung ke arah yang merugikan: rugi diperbesar saat yield naik, untung dipangkas saat yield turun. Pemegangnya membayar mahal untuk kupon yang lebih tinggi dengan mata uang yang tidak terlihat di laporan duration: ia menjual convexity kepada emiten.",
         "Peta keputusan penutup: pertama, jangan pernah membandingkan dua obligasi hanya dari duration — minta convexity dan effective duration. Kedua, duration panjang tanpa convexity yang sepadan adalah posisi rapuh: ia untung kecil saat benar, rugi besar saat salah. Ketiga, barbell mengalahkan bullet saat kamu yakin volatilitas akan tinggi tetapi tidak tahu arahnya — dan bullet mengalahkan barbell saat kamu yakin volatilitas akan rendah, karena kamu dibayar yield lebih tinggi untuk convexity yang tidak kamu butuhkan. Duration menjawab berapa besar nyerinya; convexity menjawab seberapa adil nyeri itu dibagi.",
       ],
@@ -286,7 +286,7 @@ export const pma7b: V2Lesson = {
         "Bullet = satu tenor; barbell = dua ekstrem, convexity tertinggi, yield terendah; ladder = tersebar dan digulirkan. Riding the yield curve memanfaatkan roll-down saat kurva menanjak.",
         "Duration sama bukan berarti risiko sama: selalu minta convexity dan effective duration — negative convexity berarti rugi diperbesar, untung dipangkas.",
       ],
-      next: { label: "PM-A7C — Fixed Income: Analisis Kredit & Sekuritisasi", href: "/learn/pm-a7c-kredit-sekuritisasi" },
+      next: { label: "PM-A7C — Fixed Income: Analisis Kredit & Sekuritisasi", href: "/v2/learn/pm-a7c-kredit-sekuritisasi" },
     },
   ],
 };

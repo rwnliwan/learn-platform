@@ -253,7 +253,7 @@ export const c26: V2Lesson = {
         "Di database: hemat roundtrip, invarian lintas penulis, audit wajib. Di aplikasi: butuh library, test matang.",
         "Kuburan logika dicegah dengan: dokumentasi + definisi di Git + aturan “di dalam/di luar” per kasus.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "C27 — DDL/DML: Membuat dan Mengubah Data", href: "/v2/learn/c27-ddl-dml" },
       quiz: [
         {
           q: "Job 50.000 baris × (1 SELECT + 1 UPDATE) @ 0,1 dtk/roundtrip jalan 3 jam. Diagnosis Dewi yang benar?",

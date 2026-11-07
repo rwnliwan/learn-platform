@@ -250,7 +250,7 @@ export const mlops22: V2Lesson = {
         "Bottleneck bisa komputasi, komunikasi, ATAU data — tambah GPU hanya membantu yang pertama.",
         "Maraton (berhari-hari, spot): Ray Train + checkpoint lengkap berkala ke object storage.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MLOps23 — Orkestrasi dengan Airflow: DAG, Retry & Backfill", href: "/v2/learn/mlops23-airflow-orkestrasi" },
       quiz: [
         {
           q: "8 GPU lebih lambat dari 4 GPU (47 vs 42 menit/epoch). Penjelasan yang benar?",

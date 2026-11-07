@@ -275,7 +275,7 @@ export const pma7c: V2Lesson = {
         "CDO: attachment = mulai berdarah, detachment = habis; korelasi antar debitur bisa menjebol attachment yang terlihat aman.",
         "Downgrade = repricing: harga jatuh, covenant bisa terpicu, dan cliff effect menunggu di batas investment grade.",
       ],
-      next: { label: "PM-A8 — Derivatives: Forward, Swap & Opsi", href: "/learn/pm-a8-derivatives" },
+      next: { label: "PM-A8 — Derivatives: Forward, Swap & Opsi", href: "/v2/learn/pm-a8-derivatives" },
     },
   ],
 };

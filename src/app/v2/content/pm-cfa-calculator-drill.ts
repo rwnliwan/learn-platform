@@ -303,7 +303,7 @@ export const pmcfaCalculatorDrill: V2Lesson = {
         "Statistik: CFA memakai Sx (sample, pembagi n−1).",
         "T-bill: discount (penyebut nominal, 360 hari) di bawah MMY (penyebut harga) di bawah BEY (365 hari).",
       ],
-      next: { label: "PM-CFA Mock Exam 1: 18 Soal Gaya CFA", href: "/learn/pm-cfa-mock-exam-1" },
+      next: { label: "PM-CFA Mock Exam 1: 18 Soal Gaya CFA", href: "/v2/learn/pm-cfa-mock-exam-1" },
     },
   ],
 };

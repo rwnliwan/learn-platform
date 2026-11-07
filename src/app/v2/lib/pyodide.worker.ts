@@ -70,6 +70,23 @@ try:
 except Exception:
     __tree__ = None
 
+def __values_equal__(v, e, tol):
+    try:
+        import numpy as np
+        if isinstance(v, np.ndarray):
+            v = v.tolist()
+        if isinstance(e, np.ndarray):
+            e = e.tolist()
+    except ImportError:
+        pass
+    if isinstance(v, (list, tuple)) and isinstance(e, (list, tuple)):
+        if len(v) != len(e):
+            return False
+        return all(__values_equal__(a, b, tol) for a, b in zip(v, e))
+    if isinstance(v, (int, float)) and isinstance(e, (int, float)) and tol:
+        return abs(v - e) <= tol
+    return v == e
+
 __results__ = []
 for __spec__ in __specs__:
     __ok__ = False
@@ -83,10 +100,7 @@ for __spec__ in __specs__:
             __v__ = __ns__.get(__spec__["name"])
             __e__ = __spec__["value"]
             __tol__ = __spec__.get("tol") or 0
-            if isinstance(__v__, (int, float)) and isinstance(__e__, (int, float)) and __tol__:
-                __ok__ = abs(__v__ - __e__) <= __tol__
-            else:
-                __ok__ = __v__ == __e__
+            __ok__ = __values_equal__(__v__, __e__, __tol__)
             __detail__ = "" if __ok__ else "hasilmu %r" % (__v__,)
         elif __kind__ == "contains":
             __c__ = __ns__.get(__spec__["name"])

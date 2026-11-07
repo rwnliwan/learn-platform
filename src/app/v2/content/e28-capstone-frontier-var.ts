@@ -119,11 +119,11 @@ export const e28: V2Lesson = {
       eyebrow: "Langkah 5 · VaR historis & parametrik",
       title: "Dua cara mengukur VaR portofolio — dan kenapa berbeda",
       prose: [
-        "Ambil return bulanan minimum-variance portfolio (bobot dibulatkan [0,225; 0,467; 0,308] dari Langkah 3) pada data ilustratif 20 bulan. Bulan terburuk: −2,92% (bulan ke-5, saat ketiga aset jatuh bersamaan). VaR historis 95% = −return terburuk ke-2 (persentil 5% dari 20 data) = 0,0222 = 2,22% per bulan. Pada portofolio ilustratif Rp100 juta, itu ≈ Rp2,23 juta.",
-        "VaR parametrik 95% memakai asumsi normal: −(mean − 1,645 × sd). Mean return portofolio 0,45%, sd 1,25% → VaR = −(0,0045 − 1,645 × 0,0125) = 0,0162 = 1,62% per bulan (≈ Rp1,62 juta). VaR parametrik LEBIH KECIL dari VaR historis — persis peringatan E13: asumsi normal meremehkan ekor, karena return nyata punya ekor lebih tebal dari kurva normal. App yang baik menampilkan keduanya dan memberi tahu pengguna mana yang lebih konservatif dan kenapa.",
+        "Ambil return bulanan minimum-variance portfolio (bobot analitik dibulatkan [0,225; 0,467; 0,308] dari Langkah 3 — bukan bobot grid [0,25; 0,45; 0,30]) pada data ilustratif 20 bulan. Bulan terburuk: −2,92% (bulan ke-5, saat ketiga aset jatuh bersamaan). VaR historis 95% = −return terburuk ke-2 (persentil 5% dari 20 data) = 0,0222 = 2,22% per bulan. Pada portofolio ilustratif Rp100 juta, itu ≈ Rp2,23 juta.",
+        "VaR parametrik 95% memakai asumsi normal: −(mean − 1,645 × sd). Mean return portofolio 0,45%, sd 1,25% (analitik) → VaR = −(0,0045 − 1,645 × 0,0125) = 0,0162 = 1,62% per bulan (≈ Rp1,62 juta). VaR parametrik LEBIH KECIL dari VaR historis — persis peringatan E13: asumsi normal meremehkan ekor, karena return nyata punya ekor lebih tebal dari kurva normal. App yang baik menampilkan keduanya dan memberi tahu pengguna mana yang lebih konservatif dan kenapa.",
       ],
       formula: String.raw`VaR^{hist}_{95\%} = -\text{persentil ke-5 return} \qquad VaR^{param}_{95\%} = -(\mu - 1{,}645\cdot\sigma)`,
-      formulaNote: "Data ilustratif, bobot min-var dibulatkan [0,225; 0,467; 0,308]. VaR historis 95% = 0,0222 (≈ Rp2,23 jt dari Rp100 jt); VaR parametrik 95% = 0,0162 (≈ Rp1,62 jt). Historis lebih besar karena menangkap ekor nyata.",
+      formulaNote: "Data ilustratif, bobot min-var analitik dibulatkan [0,225; 0,467; 0,308] (vol 1,25% analitik; grid memberi 1,26%). VaR historis 95% = 0,0222 (≈ Rp2,23 jt dari Rp100 jt); VaR parametrik 95% = 0,0162 (≈ Rp1,62 jt). Historis lebih besar karena menangkap ekor nyata.",
       tasks: [
         { id: "t1", text: "Hitung `var_hist` (VaR historis 95% dari return portofolio)" },
         { id: "t2", text: "Hitung `var_param` (VaR parametrik 95%, z = 1,645)" },
