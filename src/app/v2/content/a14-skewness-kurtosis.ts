@@ -186,6 +186,62 @@ export const a14: V2Lesson = {
       reference: "γ₁ = +2,6: jangan sebut mean loss sebagai kerugian tipikal.",
     },
     {
+      id: "jarque-bera",
+      eyebrow: "Langkah 6 · Jarque-Bera: uji normalitas",
+      title: "Jarque-Bera: skew dan kurtosis dalam satu vonis",
+      prose: [
+        "Skewness dan kurtosis dari langkah 2–3 bisa digabung menjadi satu uji formal: Jarque-Bera. Rumusnya: JB = n/6 × (S² + K²/4), dengan S = skewness dan K = excess kurtosis. Untuk data normal, S = 0 dan K = 0, jadi JB = 0. Makin jauh dari normal, makin besar JB. Keputusannya: bandingkan dengan nilai kritis chi-square df = 2 pada 5 persen, yaitu 5,99 — JB di atas itu berarti tolak normalitas.",
+        "Contoh: return harian 250 hari (ilustratif) dengan skewness 0,8 dan excess kurtosis 3,0. JB = 250/6 × (0,8² + 3,0²/4) = 41,67 × (0,64 + 2,25) = 41,67 × 2,89 ≈ 120,42. Jauh di atas 5,99 — normalitas ditolak dengan telak. Perhatikan kontribusi tiap suku: suku kurtosis (2,25) hampir empat kali suku skewness (0,64) — pada data return, ekorlah yang paling sering membunuh asumsi normal.",
+        "Tiga catatan jujur: pertama, JB sensitif terhadap ukuran sampel — dengan n besar, penyimpangan kecil pun tertolak; dengan n kecil, penyimpangan besar pun lolos. Kedua, JB adalah uji gabungan — ia tidak memberi tahu apakah yang salah itu skew atau ekornya; baca S dan K terpisah untuk diagnosis. Ketiga, menolak normalitas bukan berarti membuang model — artinya ganti mesin: pakai distribusi berekor tebal, VaR historis, atau expected shortfall, seperti pelajaran mini-case LGD di langkah 5.",
+      ],
+      formula: String.raw`JB = \frac{n}{6}\left(S^2 + \frac{K^2}{4}\right) = \frac{250}{6}(0{,}64 + 2{,}25) \approx 120{,}42 > 5{,}99`,
+      formulaNote: "JB = statistik Jarque-Bera; n = 250 hari; S = 0,8 = skewness; K = 3,0 = excess kurtosis; 5,99 = nilai kritis chi-square df=2 pada 5 persen — JB jauh di atasnya, normalitas ditolak.",
+      tasks: [
+        { id: "t1", text: "Hitung `jb` = n/6 × (S² + K²/4) dari data return (2 desimal)" },
+        { id: "t2", text: "Tentukan `keputusan` = \"TOLAK_NORMAL\" jika jb > 5,99, selain itu \"LOLOS\"" },
+      ],
+      expected: "jb=120.42  keputusan=TOLAK_NORMAL",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "JB 120 berarti model normal sudah mati sebelum dipakai — VaR normal atas data ini adalah angka fiksi. Menolak normalitas adalah awal analisis risiko yang jujur, bukan akhir dari segalanya.",
+      },
+      hints: [
+        "jb = round(n/6 * (skew**2 + kurt**2/4), 2).",
+        "Nilai kritis chi-square df=2 pada 5% = 5,99.",
+        "keputusan = \"TOLAK_NORMAL\" if jb > 5.99 else \"LOLOS\"",
+      ],
+      code: {
+        starter: `# return harian 250 hari (ilustratif): skew 0,8, excess kurtosis 3,0\nn, skew, kurt = 250, 0.8, 3.0\nkritis = 5.99  # chi-square df=2, 5%\n\n# TULIS KODEMU\njb = \nkeputusan = \n\nprint(f"jb={jb}  keputusan={keputusan}")`,
+        lockLines: 2,
+        solution: `# return harian 250 hari (ilustratif): skew 0,8, excess kurtosis 3,0\nn, skew, kurt = 250, 0.8, 3.0\nkritis = 5.99  # chi-square df=2, 5%\n\n# TULIS KODEMU\njb = round(n/6 * (skew**2 + kurt**2/4), 2)\nkeputusan = "TOLAK_NORMAL" if jb > kritis else "LOLOS"\n\nprint(f"jb={jb}  keputusan={keputusan}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "jb", value: 120.42, tol: 0.01, label: "`jb` seharusnya 120.42", msg: "250/6 × (0,64 + 2,25) = 120,42." },
+          { kind: "equal", task: "t2", name: "keputusan", value: "TOLAK_NORMAL", label: "`keputusan` seharusnya TOLAK_NORMAL", msg: "120,42 > 5,99 — normalitas ditolak." },
+          { kind: "stdout_matches", task: "t2", pattern: "jb=120\\.42\\s+keputusan=TOLAK_NORMAL", label: "`print` menampilkan keduanya", msg: "Format: jb=...  keputusan=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "JB = 120,42 dengan kritis 5,99. Kesimpulan?",
+          options: [
+            { text: "Data normal — lanjutkan VaR normal", why: "Salah: JB jauh di atas kritis — normalitas ditolak dengan telak." },
+            { text: "Normalitas ditolak — ganti mesin: distribusi berekor tebal, VaR historis, atau expected shortfall", why: "Benar: JB 120 berarti asumsi normal sudah mati.", correct: true },
+            { text: "Tidak bisa disimpulkan — JB bukan uji formal", why: "Salah: JB adalah uji formal dengan distribusi chi-square df=2." },
+          ],
+        },
+        {
+          q: "Suku kurtosis (2,25) hampir 4x suku skewness (0,64). Apa artinya?",
+          options: [
+            { text: "Skewness tidak penting", why: "Salah: skewness tetap penting — hanya saja di data ini ekor lebih dominan." },
+            { text: "Pada data return, ekor tebal adalah pembunuh utama asumsi normal", why: "Benar: JB didominasi suku kurtosis — itulah mengapa VaR normal jebol.", correct: true },
+            { text: "Kurtosis harus diabaikan dalam JB", why: "Salah: kurtosis adalah setengah dari rumus JB." },
+          ],
+        },
+      ],
+      reference: "JB = n/6 × (S² + K²/4). Kritis 5,99 (df=2). Tolak normal ≠ buang model — ganti mesin.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

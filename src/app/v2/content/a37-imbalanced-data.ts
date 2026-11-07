@@ -15,6 +15,7 @@ export const a37: V2Lesson = {
         "Tim fraud bank meluncurkan model ML baru. Di data uji: akurasi 99,97 persen. Semua orang merayakan — sampai kepala fraud memeriksa daftar tangkapan: kosong. Dari 10.000 transaksi uji berisi 3 fraud aktual, model tidak menandai satu pun.",
         "Yang terjadi: model belajar strategi paling aman — tebak selalu aman. Dengan fraud rate 0,03 persen, strategi malas itu benar 99,97 persen dan loss function-nya sangat puas. Model tidak rusak; ia rasional — diberi insentif yang salah, ia memilih kemalasan yang optimal.",
         "Solusinya bukan data lebih banyak (10 juta transaksi aman tidak membantu jika hanya 3.000 fraud), melainkan mengubah insentif: membuat kesalahan pada kelas langka lebih mahal daripada kesalahan pada kelas umum.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Fraud/ML Analytics, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {

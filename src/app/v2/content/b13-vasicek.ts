@@ -47,10 +47,10 @@ export const b13: V2Lesson = {
     {
       id: "kuantil-var",
       eyebrow: "Langkah 2 · VaR kredit",
-      title: "Rumus kuantil: ekor 9x mean",
+      title: "Rumus kuantil: ekor 8,8x mean",
       prose: [
         "Bersyarat pada Y (ekonomi diketahui), default antar debitur independen dengan p(Y) = \u03A6((\u03A6\u207B\u00B9(PD) \u2212 \u221A\u03C1\u00B7Y)/\u221A(1\u2212\u03C1)). Untuk portofolio besar homogen (LLN!), fraksi default \u2192 p(Y). Kuantilnya ada rumus tertutup: q_\u03B1 = \u03A6((\u03A6\u207B\u00B9(PD) + \u221A\u03C1\u00B7\u03A6\u207B\u00B9(\u03B1))/\u221A(1\u2212\u03C1)).",
-        "Contoh: PD=2%, \u03C1=0,15, \u03B1=99,9%. \u03A6\u207B\u00B9(0,02)=\u22122,05, \u03A6\u207B\u00B9(0,999)=3,09. q = \u03A6((\u22122,05+\u221A0,15\u00D73,09)/\u221A0,85) = \u03A6(\u22120,92) \u2248 17,9%. Bandingkan: ekspektasi cuma 2%, tapi VaR 99,9% = 17,9% \u2014 9x lipat!",
+        "Contoh: PD=2%, \u03C1=0,15, \u03B1=99,9%. \u03A6\u207B\u00B9(0,02)=\u22122,05, \u03A6\u207B\u00B9(0,999)=3,09. q = \u03A6((\u22122,05+\u221A0,15\u00D73,09)/\u221A0,85) = \u03A6(\u22120,93) \u2248 17,6%. Bandingkan: ekspektasi cuma 2%, tapi VaR 99,9% = 17,6% \u2014 8,8x lipat!",
         "Inilah mengapa modal bank besar: melindungi dari ekor korelasi. Basel IRB memakai rumus ini (dengan penyesuaian maturity & LGD); \u03C1 ditetapkan regulator per segmen (misal 0,12\u20130,24 untuk korporasi).",
       ],
       formula: String.raw`q_\alpha = \Phi\left(\frac{\Phi^{-1}(PD) + \sqrt{\rho}\,\Phi^{-1}(\alpha)}{\sqrt{1-\rho}}\right)`,
@@ -59,11 +59,11 @@ export const b13: V2Lesson = {
         { id: "t1", text: "Hitung `q` = kuantil 99,9% untuk PD=2%, \u03C1=0,15" },
         { id: "t2", text: "Cetak `q` sebagai persen 1 desimal" },
       ],
-      expected: "q=17.9%",
+      expected: "q=17.6%",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "Ekor \u2248 9x mean \u2014 modal melindungi dari korelasi, bukan dari rata-rata. Modal SANGAT sensitif terhadap \u03C1: salah estimasi sedikit \u2192 modal salah besar.",
+        body: "Ekor \u2248 8,8x mean \u2014 modal melindungi dari korelasi, bukan dari rata-rata. Modal SANGAT sensitif terhadap \u03C1: salah estimasi sedikit \u2192 modal salah besar.",
       },
       hints: [
         "Gunakan statistics.NormalDist().inv_cdf dan .cdf.",
@@ -75,8 +75,8 @@ export const b13: V2Lesson = {
         lockLines: 2,
         solution: `import math, statistics\nND = statistics.NormalDist()\npd, rho, alpha = 0.02, 0.15, 0.999\n\n# TULIS KODEMU: kuantil Vasicek 99,9%\nq = ND.cdf((ND.inv_cdf(pd) + math.sqrt(rho)*ND.inv_cdf(alpha)) / math.sqrt(1-rho))\n\nprint(f"q={q:.1%}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "q", value: 0.179, tol: 0.003, label: "`q` seharusnya \u2248 17,9%", msg: "\u03A6(\u22120,92) \u2248 0,179." },
-          { kind: "stdout_matches", task: "t2", pattern: "q=17\\.9%", label: "`print` menampilkan q", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "q", value: 0.176, tol: 0.003, label: "`q` seharusnya \u2248 17,6%", msg: "\u03A6(\u22120,93) \u2248 0,176." },
+          { kind: "stdout_matches", task: "t2", pattern: "q=17\\.6%", label: "`print` menampilkan q", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "statistics.NormalDist: inv_cdf & cdf. VaR kredit = PD kondisional pada ekonomi seburuk kuantil 1\u2212\u03B1.",
@@ -158,14 +158,14 @@ export const b13: V2Lesson = {
       title: "Kalibrasi \u03C1 dari 10 tahun data",
       prose: [
         "Bank punya 10 tahun data default tahunan portofolio UKM: rata-rata 3%, tapi tahun terburuk 11%. Model independen (Binomial) bilang P(\u226511%) \u2248 0. Perkirakan \u03C1 yang konsisten: cari \u03C1 sehingga q_90% \u2248 11% (tahun terburuk dari 10 \u2248 kuantil 90%).",
-        "Coba \u03C1=0,2: q_90% = \u03A6((\u03A6\u207B\u00B9(0,03)+\u221A0,2\u00D71,28)/\u221A0,8) \u2248 7%. Kurang. \u03C1=0,35 \u2192 \u22488,2%. \u03C1=0,5 \u2192 \u22488,5%. Butuh \u03C1 sangat tinggi atau model multi-faktor \u2014 data 10 titik tidak cukup untuk kalibrasi presisi! Inilah pesan sebenarnya: kalibrasi \u03C1 dari deret pendek sangat tidak pasti.",
+        "Coba \u03C1=0,2: q_90% = \u03A6((\u03A6\u207B\u00B9(0,03)+\u221A0,2\u00D71,28)/\u221A0,8) \u2248 7,2%. Kurang. \u03C1=0,35 \u2192 \u22488,2%. \u03C1=0,5 \u2192 \u22488,4%. Butuh \u03C1 sangat tinggi atau model multi-faktor \u2014 data 10 titik tidak cukup untuk kalibrasi presisi! Inilah pesan sebenarnya: kalibrasi \u03C1 dari deret pendek sangat tidak pasti.",
         "Bahaya mengkalibrasi dari 10 tahun \u201Ctenang\u201D: tidak mengandung krisis \u2014 \u03C1 terkalibrasi terlalu rendah (period bias). Praktik benar: pakai \u03C1 regulator (konservatif) + stress + data lintas siklus + benchmark antar bank.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `q90` untuk PD=3%, \u03C1=0,2 (bandingkan dengan 11%)" },
         { id: "t2", text: "Cetak `q90` sebagai persen 1 desimal" },
       ],
-      expected: "q90=7.0% (< 11%: butuh \u03C1 lebih besar)",
+      expected: "q90=7.2% (< 11%: butuh \u03C1 lebih besar)",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -181,11 +181,67 @@ export const b13: V2Lesson = {
         lockLines: 2,
         solution: `import math, statistics\nND = statistics.NormalDist()\n\n# TULIS KODEMU: kuantil 90% Vasicek, PD=3%, rho=0.2\nq90 = ND.cdf((ND.inv_cdf(0.03) + math.sqrt(0.2)*ND.inv_cdf(0.9)) / math.sqrt(0.8))\n\nprint(f"q90={q90:.1%}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "q90", value: 0.0706, tol: 0.003, label: "`q90` seharusnya \u2248 7,1%", msg: "\u03A6(\u22121,47) \u2248 0,0706 < 11% \u2014 \u03C1=0,2 belum cukup." },
-          { kind: "stdout_matches", task: "t2", pattern: "q90=7\\.1%", label: "`print` menampilkan q90", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "q90", value: 0.0719, tol: 0.003, label: "`q90` seharusnya \u2248 7,2%", msg: "\u03A6(\u22121,46) \u2248 0,0719 < 11% \u2014 \u03C1=0,2 belum cukup." },
+          { kind: "stdout_matches", task: "t2", pattern: "q90=7\\.2%", label: "`print` menampilkan q90", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Kalibrasi \u03C1 dari deret pendek = sangat tidak pasti. Pakai \u03C1 konservatif + stress.",
+    },
+    {
+      id: "modal-vasicek",
+      eyebrow: "Langkah 6 · Modal Vasicek",
+      title: "Dari kuantil ke modal: unexpected loss",
+      prose: [
+        "Kuantil q dari langkah 2 adalah kerugian di skenario buruk (99,9 persen). Modal bukan q itu sendiri — modal adalah unexpected loss: selisih antara kerugian skenario buruk dan kerugian yang diharapkan. Rumusnya: modal per unit eksposur = LGD × (q − PD). Ekspektasi (PD × LGD) sudah dicadangkan lewat provisi atau CKPN; modal menutup sisanya — yang tidak diharapkan.",
+        "Contoh: PD = 2 persen, ρ = 0,15, LGD = 45 persen. Kuantil 99,9 persen dari langkah 2: q ≈ 17,63 persen. Modal = 0,45 × (0,1763 − 0,02) = 0,45 × 0,1563 ≈ 7,03 persen dari eksposur. Bandingkan dengan expected loss-nya: 0,02 × 0,45 = 0,9 persen. Modalnya hampir 8x expected loss — sekali lagi, ekor yang menentukan, bukan rata-rata.",
+        "Tiga hal yang membuat angka ini bergerak: ρ naik → q naik → modal naik (paling sensitif); PD naik → q dan ekspektasi sama-sama naik, tetapi selisihnya melebar; LGD naik → modal naik proporsional. Inilah alasan Basel menetapkan ρ per segmen dan mewajibkan stress: parameter yang paling menentukan modal adalah yang paling sulit diestimasi — jadi regulator memaksa konservatisme di sana.",
+      ],
+      formula: String.raw`\text{Modal} = LGD \times (q_{99{,}9\%} - PD) = 0{,}45 \times (0{,}1763 - 0{,}02) \approx 7{,}03\%`,
+      formulaNote: "Modal = unexpected loss per unit eksposur; LGD = 45 persen; q = 17,63 persen = kuantil Vasicek 99,9 persen; PD = 2 persen; 0,45 × 0,1563 = 0,0703 = 7,03 persen.",
+      tasks: [
+        { id: "t1", text: "Hitung `q` = kuantil Vasicek 99,9% (PD=2%, ρ=0,15)" },
+        { id: "t2", text: "Hitung `capital` = LGD × (q − PD) dengan LGD=45%, cetak keduanya 4 desimal" },
+      ],
+      expected: "q=0.1763  capital=0.0703",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Modal ≈ 8x expected loss (7,03% vs 0,9%) — bank yang mencadangkan modal sebesar expected loss-nya sedang bermain api. Provisi menutup yang diharapkan; modal menutup yang tidak diharapkan.",
+      },
+      hints: [
+        "q = rumus kuantil langkah 2 (ND.cdf dan ND.inv_cdf).",
+        "capital = lgd * (q - pd).",
+        "print(f\"q={q:.4f}  capital={capital:.4f}\")",
+      ],
+      code: {
+        starter: `import math, statistics\nND = statistics.NormalDist()\npd, rho, lgd = 0.02, 0.15, 0.45\n\n# TULIS KODEMU: kuantil 99,9% lalu modal = LGD x (q - PD)\nq = \ncapital = \n\nprint(f"q={q:.4f}  capital={capital:.4f}")`,
+        lockLines: 2,
+        solution: `import math, statistics\nND = statistics.NormalDist()\npd, rho, lgd = 0.02, 0.15, 0.45\n\n# TULIS KODEMU: kuantil 99,9% lalu modal = LGD x (q - PD)\nq = ND.cdf((ND.inv_cdf(pd) + math.sqrt(rho)*ND.inv_cdf(0.999)) / math.sqrt(1-rho))\ncapital = lgd * (q - pd)\n\nprint(f"q={q:.4f}  capital={capital:.4f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "q", value: 0.1763, tol: 0.003, label: "`q` seharusnya ≈ 0.1763", msg: "Kuantil Vasicek 99,9% untuk PD=2%, ρ=0,15." },
+          { kind: "equal", task: "t2", name: "capital", value: 0.0703, tol: 0.001, label: "`capital` seharusnya ≈ 0.0703", msg: "0,45 × (0,1763 − 0,02) ≈ 0,0703." },
+          { kind: "stdout_matches", task: "t2", pattern: "q=0\\.1763\\s+capital=0\\.0703", label: "`print` menampilkan keduanya", msg: "Format: q=...  capital=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Modal Vasicek = LGD × (q − PD). Kenapa bukan LGD × q?",
+          options: [
+            { text: "Karena PD sudah dicadangkan lewat provisi/CKPN — modal hanya menutup unexpected loss", why: "Benar: expected loss = PD × LGD ditutup provisi; modal = selisihnya.", correct: true },
+            { text: "Karena q terlalu kecil", why: "Salah: q justru besar — 17,63% vs PD 2%." },
+            { text: "Karena LGD tidak berlaku untuk modal", why: "Salah: LGD mengalikan keduanya — kerugian = fraksi default × LGD." },
+          ],
+        },
+        {
+          q: "ρ naik dari 0,15 ke 0,30. Apa yang terjadi pada modal?",
+          options: [
+            { text: "Tetap — modal hanya bergantung PD dan LGD", why: "Salah: q naik dengan ρ, jadi modal naik." },
+            { text: "Naik — kuantil q menggemuk, selisih (q − PD) melebar", why: "Benar: modal paling sensitif terhadap ρ — itulah mengapa ρ di-stress.", correct: true },
+            { text: "Turun — korelasi tinggi berarti diversifikasi", why: "Salah: korelasi tinggi menghancurkan diversifikasi, bukan menciptakannya." },
+          ],
+        },
+      ],
+      reference: "Modal = LGD × (q − PD). Provisi menutup EL; modal menutup UL.",
     },
     {
       id: "checkpoint",

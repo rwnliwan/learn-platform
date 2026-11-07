@@ -15,6 +15,7 @@ export const a36: V2Lesson = {
         "Multifinance CepatCair bangga: model PD baru mereka punya AUC 0,86 — tertinggi yang pernah ada. Tim pricing memakai PD model untuk menetapkan bunga: bunga = PD x LGD + margin. Tarif mereka jadi kompetitif — lebih murah dari pesaing. Penyaluran meledak.",
         "Setahun kemudian, audit menemukan lubang Rp200 miliar. Investigasi: model itu memang jago me-ranking (AUC 0,86), tapi probabilitasnya sistematis kekecilan 40 persen — PD 6 persen dari model ternyata default 10 persen di dunia nyata. Tarif yang kompetitif itu sebenarnya tarif bunuh diri: mereka menjual risiko Rp10 dengan harga Rp6.",
         "Tidak ada metrik di dashboard yang menangkap ini — karena dashboard hanya menampilkan AUC. Model yang sempurna me-ranking bisa bencana dalam pricing.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Fraud/ML Analytics, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {

@@ -15,6 +15,7 @@ export const a310: V2Lesson = {
         "Desk trading sebuah bank memakai VaR 99 persen berbasis volatilitas historis 1 tahun dengan bobot sama. Selama 250 hari perdagangan, VaR jebol 3 kali — sesuai teori (1 persen x 250 = 2,5). Model dinyatakan valid. Semua tenang.",
         "Lalu krisis mini datang. Dalam satu bulan, VaR jebol 12 kali. Bukan karena modelnya rusak kemarin — tapi karena volatilitas historis 1 tahun lambat merespons: ia masih ingat 11 bulan pasar tenang, sehingga VaR-nya kekecilan saat badai datang. Breach ke-12 memicu margin call berantai; desk rugi dua kuartal profit dalam 3 minggu.",
         "Data untuk VaR yang benar sudah ada — return-return besar minggu itu berteriak volatilitas naik. Tapi estimator bobot-sama tuli terhadap kabar terbaru: ia memberi bobot sama ke return kemarin dan return 11 bulan lalu. Lesson ini tentang estimator volatilitas yang mendengar: EWMA dan GARCH.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Market Risk, Portfolio Management, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {

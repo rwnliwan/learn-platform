@@ -226,6 +226,67 @@ export const a11: V2Lesson = {
       reference: "Proporsi bersyarat: sum(1 for x in data if x >= 3)/len(data).",
     },
     {
+      id: "dashboard-ordinal",
+      eyebrow: "Langkah 7 · Dashboard ordinal",
+      title: "Dashboard ordinal: tunjukkan distribusi, bukan mean",
+      prose: [
+        "Cerita buruk di langkah 1 sudah selesai — sekarang bangun dashboard yang benar. Dashboard ordinal yang jujur menampilkan enam hal: median sebagai nilai tengah, kuartil bawah dan atas (Q1 dan Q3) sebagai rentang tengah data, persentase tiap bucket skor 1 sampai 5, top-2-box yaitu persentase skor 4 sampai 5, proporsi kumulatif, dan NPL ratio untuk skor kolektibilitas.",
+        "Contoh survei kepuasan nasabah, 100 responden (ilustratif): skor 1 sebanyak 10 orang, skor 2 sebanyak 15, skor 3 sebanyak 25, skor 4 sebanyak 30, skor 5 sebanyak 20. Mediannya 3,5 — nilai tengah antara skor 3 dan skor 4, karena 100 data genap: data ke-50 adalah 3 dan data ke-51 adalah 4, jadi (3 + 4) / 2 = 3,5. Top-2-box-nya 50 persen, yaitu 30 tambah 20 dibagi 100. Skor 1 sampai 2 sebanyak 25 persen — satu dari empat nasabah tidak puas, sinyal churn yang tidak pernah terlihat dari mean 3,35.",
+        "Chart yang dipakai: diverging stacked bar untuk skala Likert — satu batang 100 persen dengan skor negatif di kiri, netral di tengah, dan skor positif di kanan, sehingga mata langsung membaca keseimbangan sentimen. Bar chart biasa dipakai hanya untuk satu pertanyaan tanpa pembanding sentimen, dan histogram dipakai untuk melihat bentuk distribusi skor mentah. Yang dilarang: garis mean di chart, anotasi mean di sumbu, dan mean skor sebagai KPI — ketiganya memberi presisi palsu atas jarak antar level yang tidak pernah diukur.",
+        "Aturan satu kalimatnya: dashboard ordinal menjawab tiga pertanyaan — berapa nilai tengahnya (median), berapa persen yang puas atau bermasalah (top-2-box dan bottom-2-box), dan bagaimana bentuk distribusinya (persentase per bucket). Kalau satu angka di dashboardmu adalah mean skor 1 sampai 5, dashboard itu berbohong dengan rapi.",
+      ],
+      formula: String.raw`\text{top-2-box} = \frac{n_4 + n_5}{n} \times 100\% = \frac{30 + 20}{100} \times 100\% = 50\%`,
+      formulaNote: "top-2-box = persentase responden dengan skor 4 atau 5; n_4 = 30 responden skor 4; n_5 = 20 responden skor 5; n = 100 total responden; 50/100 = 0,5 = 50 persen.",
+      tasks: [
+        { id: "t1", text: "Hitung `median` skor survei dengan statistics.median" },
+        { id: "t2", text: "Hitung `top2` = % responden skor 4–5" },
+        { id: "t3", text: "Hitung `bottom2` = % responden skor 1–2" },
+      ],
+      expected: "median=3.5  top2=50.0  bottom2=25.0",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Top-2-box dan bottom-2-box adalah angka yang ditindaklanjuti: bottom-2-box 25 persen berarti satu dari empat nasabah tidak puas. Untuk kolektibilitas, padanannya adalah NPL ratio per bucket, bukan rata-rata skor.",
+      },
+      hints: [
+        "Bangun list: [1]*10 + [2]*15 + [3]*25 + [4]*30 + [5]*20.",
+        "Median dari 100 data = rata-rata data ke-50 dan ke-51: statistics.median.",
+        "top2 = sum(1 for x in skor if x >= 4) / len(skor) * 100",
+      ],
+      code: {
+        starter: `import statistics as st\n\n# Survei kepuasan nasabah, 100 responden (ilustratif)\nskor = [1]*10 + [2]*15 + [3]*25 + [4]*30 + [5]*20\n\n# TULIS KODEMU\nmedian = \ntop2 = \nbottom2 = \n\nprint(f"median={median}  top2={top2}  bottom2={bottom2}")`,
+        lockLines: 4,
+        solution: `import statistics as st\n\n# Survei kepuasan nasabah, 100 responden (ilustratif)\nskor = [1]*10 + [2]*15 + [3]*25 + [4]*30 + [5]*20\n\n# TULIS KODEMU\nmedian = st.median(skor)\ntop2 = sum(1 for x in skor if x >= 4) / len(skor) * 100\nbottom2 = sum(1 for x in skor if x <= 2) / len(skor) * 100\n\nprint(f"median={median}  top2={top2}  bottom2={bottom2}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "median", value: 3.5, tol: 1e-9, label: "`median` seharusnya 3.5", msg: "Data ke-50 = 3, data ke-51 = 4; (3 + 4)/2 = 3,5." },
+          { kind: "equal", task: "t2", name: "top2", value: 50.0, tol: 1e-9, label: "`top2` seharusnya 50.0", msg: "(30 + 20)/100 × 100 = 50%." },
+          { kind: "equal", task: "t3", name: "bottom2", value: 25.0, tol: 1e-9, label: "`bottom2` seharusnya 25.0", msg: "(10 + 15)/100 × 100 = 25%." },
+          { kind: "stdout_matches", task: "t3", pattern: "median=3\\.5\\s+top2=50\\.0\\s+bottom2=25\\.0", label: "`print` menampilkan ketiganya", msg: "Format: median=...  top2=...  bottom2=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Dashboard survei Likert menampilkan mean skor 3,35 sebagai KPI utama. Apa yang salah?",
+          options: [
+            { text: "Tidak ada — 3,35 di atas 3 jadi memang puas", why: "Skor Likert ordinal; jarak antar level tidak diukur, jadi mean 3,35 memberi presisi palsu." },
+            { text: "Mean skor ordinal tidak bermakna — ganti dengan median, % per bucket, dan top-2-box", why: "Median + distribusi + top-2-box menjawab nilai tengah, bentuk, dan proporsi puas tanpa memalsukan jarak.", correct: true },
+            { text: "Sampelnya kurang besar", why: "Ukuran sampel tidak memperbaiki masalah skala." },
+            { text: "Harusnya pakai standar deviasi juga", why: "SD dari skor ordinal juga tidak bermakna." },
+          ],
+        },
+        {
+          q: "Chart terbaik untuk membandingkan sentimen Likert antar dua cabang adalah…",
+          options: [
+            { text: "Diverging stacked bar — skor negatif kiri, netral tengah, positif kanan", why: "Mata langsung membaca keseimbangan sentimen dan perbandingan antar cabang.", correct: true },
+            { text: "Line chart dengan garis mean tiap cabang", why: "Mean skor ordinal dilarang tampil; line chart juga menyiratkan tren antar kategori." },
+            { text: "Pie chart 5 slice per cabang", why: "Lima sudut sulit dibandingkan antar cabang." },
+            { text: "Bar chart sumbu Y mulai dari 3", why: "Sumbu terpotong mendistorsi, dan yang diplot tetap mean yang tidak bermakna." },
+          ],
+        },
+      ],
+      reference: "st.median(list). Dashboard ordinal = median + % bucket + top-2-box; tanpa mean.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -239,6 +300,7 @@ export const a11: V2Lesson = {
         "Interval = jarak sama, nol palsu → mean/SD valid, tapi dilarang klaim N kali lipat.",
         "Rasio = nol absolut → semua operasi valid; pastikan kolom angka bukan berkedok (kode, tahun, skor).",
         "Tulis grain dulu — satu baris = ___ — sebelum query agregasi apa pun.",
+        "Dashboard ordinal: tampilkan median, % per bucket, dan top-2-box — jangan tampilkan mean skor sebagai KPI.",
       ],
       next: { label: "A1.3 — Ukuran Sebaran", href: "/learn/a13-sebaran" },
       quiz: [

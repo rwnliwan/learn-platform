@@ -15,6 +15,7 @@ export const dm12: V2Lesson = {
         "Suatu pagi, forum gelap menjual \"database 270 juta baris\" berisi NIK, nama, alamat, nomor HP — diduga dari sebuah institusi besar. Harganya: Rp250 juta. Sekali bocor, data itu tidak bisa \"ditarik kembali\" — ia digandakan selamanya. Korbannya menerima SMS penipuan bertahun-tahun kemudian.",
         "Investigasi sering menemukan bukan peretasan canggih, melainkan akses berlebihan yang dibiarkan: analis junior bisa download 270 juta baris tanpa approval tercatat; backup tidak terenkripsi; tidak ada yang tahu siapa mengakses apa. Keamanan data jarang jebol karena \"hacker jenius\" — biasanya jebol karena pintu yang tidak dikunci.",
         "Skala 270 juta baris sulit dibayangkan — sampai dihitung blast radius-nya. Tiap baris berisi NIK, nama, dan nomor HP: penjahat tidak perlu menipu semuanya; cukup jual paket per 1 juta baris seharga Rp5–15 juta di forum, dan paket itu beredar selamanya. Pola akses yang memungkinkan pencurian sebesar ini nyaris selalu sama: akun service dengan hak baca penuh tanpa MFA, kredensial yang tidak pernah dirotasi, dan tidak ada alert untuk download massal. Tiga pintu itu — service account, kredensial abadi, tanpa alert — adalah checklist 10 menit yang menutup sebagian besar cerita seperti ini: inventarisasi semua akun non-manusia, wajibkan rotasi maksimal 90 hari, dan pasang alert untuk download di atas ambang normal.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Fraud/ML Analytics, Health Data Science, Marketing Analytics, dan Data Management — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       reference: "Kunci pintu dengan benar: akses, teknik perlindungan, dan hukum yang mengaturnya.",
@@ -169,6 +170,80 @@ export const dm12: V2Lesson = {
         type: "pitfall",
         body: "Yang benar: urutan respons baku adalah contain → assess → notify → remediate — dan contain tidak boleh menunggu forensik selesai. Contoh konkret: API key database ditemukan di repo GitHub publik; rapat tiga jam mencari “siapa yang push” sementara key masih aktif berarti bot pemindai terus menyedot data selama rapat berlangsung. Tindakan pertama: cabut dan rotasi key saat itu juga, lalu tutup jalur aksesnya — forensik (siapa, sejak kapan, seberapa banyak) berjalan paralel setelah pendarahan berhenti. Pelakunya bisa dicari setelah pintunya ditutup; tidak ada investigasi yang layak menukar tiga jam pendarahan data dengan rasa penasaran.",
       },
+    },
+    {
+      id: "uu-pdp-hak",
+      eyebrow: "Langkah 9 · UU PDP: hak subjek data & dasar pemrosesan",
+      title: "UU PDP: hak subjek data dan dasar pemrosesan",
+      prose: [
+        "UU PDP memberi subjek data — nasabah, karyawan, siapa pun yang datanya kamu proses — hak yang bisa mereka tuntut. Hak akses: mereka boleh meminta salinan data pribadinya yang kamu simpan. Hak perbaikan: data yang salah wajib diperbaiki. Hak penghapusan: mereka boleh meminta datanya dihapus, dengan pengecualian untuk kewajiban hukum seperti retensi yang diwajibkan regulator. Hak penarikan persetujuan: consent yang pernah diberikan bisa ditarik kapan pun, dan penarikan itu memicu penghapusan data untuk tujuan tersebut. Hak keberatan dan pembatasan: mereka boleh menolak pemrosesan tertentu, mis. pemasaran langsung.",
+        "Setiap pemrosesan data pribadi butuh dasar hukum — bukan sekadar \"kami butuh datanya\". Dasar yang umum: persetujuan subjek data (untuk tujuan yang spesifik dan tercatat), pelaksanaan kontrak (memproses data nasabah untuk menjalankan perjanjian kredit), kewajiban hukum (melapor ke regulator, menyimpan data sesuai retensi yang diwajibkan), dan kepentingan sah pengendali (mis. pencegahan fraud — dengan catatan tidak mengalahkan hak subjek data). Aturannya: satu tujuan, satu dasar, tercatat. Mengumpulkan data dengan alasan kontrak lalu memakainya untuk marketing tanpa dasar baru adalah pelanggaran — itu sebabnya consent dicatat per purpose, bukan satu centang untuk semua.",
+        "Ketika kebocoran terjadi, UU PDP mewajibkan pemberitahuan: kepada subjek data yang terdampak dan kepada otoritas yang berwenang, dalam tenggat yang ditetapkan aturan pelaksana — jadi siapkan template notifikasi dan daftar kontak regulator sebelum insiden, bukan sambil panik jam 2 pagi. Notifikasi yang baik berisi apa yang bocor, berapa subjek terdampak, apa risikonya, dan apa yang sudah dilakukan. Menyembunyikan kebocoran tidak mengecilkan denda — ia menambah pelanggaran kedua di atas pelanggaran pertama.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Hak hapus yang tidak bisa dieksekusi karena data tersebar tanpa lineage (DM10) adalah pelanggaran yang menunggu ditemukan auditor. Kemampuan menghapus — di semua salinan, termasuk backup — harus dirancang sejak arsitektur, bukan dicari saat permintaan hapus datang.",
+      },
+      quiz: [
+        {
+          q: "Nasabah menarik persetujuan pemakaian datanya untuk marketing. Tindakan yang benar?",
+          options: [
+            { text: "Berhenti mengirim SMS, tetapi simpan datanya untuk dipakai nanti", why: "Penarikan consent memicu penghapusan data untuk tujuan itu, bukan sekadar berhenti mengirim." },
+            { text: "Hapus data marketing-nya sesuai tujuan yang ditarik, dan catat penarikan itu di tabel consent", why: "Consent per purpose: penarikan = hapus untuk purpose itu + jejak tercatat.", correct: true },
+            { text: "Minta ia mengirim surat bermeterai dulu", why: "Mempersulit penarikan consent adalah pola yang melanggar semangat UU PDP." },
+            { text: "Pindahkan datanya ke tabel lain agar tidak terlihat", why: "Memindahkan bukan menghapus — auditor lineage akan menemukannya." },
+          ],
+        },
+        {
+          q: "Bank memproses data nasabah untuk menjalankan perjanjian kredit. Dasar pemrosesan yang tepat?",
+          options: [
+            { text: "Pelaksanaan kontrak — pemrosesan diperlukan untuk menjalankan perjanjian", why: "Data yang dibutuhkan untuk menjalankan kredit punya dasar kontrak, bukan sekadar persetujuan umum.", correct: true },
+            { text: "Tidak butuh dasar selama datanya dienkripsi", why: "Enkripsi adalah pengamanan teknis, bukan dasar hukum pemrosesan." },
+            { text: "Kepentingan sah bank untuk apa saja", why: "Kepentingan sah tidak seluas itu — ia harus seimbang dengan hak subjek data." },
+            { text: "Persetujuan lisan dari petugas cabang", why: "Persetujuan harus tercatat dan spesifik per tujuan, bukan lisan dan umum." },
+          ],
+        },
+      ],
+      reference: "Hak: akses, perbaiki, hapus, tarik consent, keberatan. Dasar: consent, kontrak, kewajiban hukum, kepentingan sah — satu tujuan, satu dasar, tercatat.",
+    },
+    {
+      id: "dpia-privacy-by-design",
+      eyebrow: "Langkah 10 · DPIA & privacy by design",
+      title: "DPIA dan privacy by design",
+      prose: [
+        "DPIA (Data Protection Impact Assessment) adalah penilaian dampak sebelum pemrosesan berisiko tinggi dimulai — bukan sesudah insiden. Kapan ia wajib: saat pemrosesan kemungkinan besar berisiko tinggi bagi hak subjek data. Tandanya: profiling skala besar (scoring ribuan nasabah), pemrosesan data sensitif dalam jumlah besar (data kesehatan, biometrik), pemantauan sistematis di area publik, atau teknologi baru yang belum teruji dampaknya. Aturan praktisnya: kalau kamu ragu apakah perlu DPIA, buatlah — DPIA yang ternyata tidak wajib hanya membuang satu sore; DPIA yang tidak dibuat padahal wajib membuang denda.",
+        "Checklist DPIA: deskripsikan pemrosesan (data apa, dari mana, untuk apa, siapa penerimanya); buktikan keperluan dan proporsionalitas (apakah tujuan ini bisa dicapai dengan data yang lebih sedikit?); nilai risikonya (apa yang terjadi pada subjek data kalau bocor atau salah pakai?); tetapkan mitigasi (masking, pseudonymisasi, pembatasan akses, retensi pendek); minta masukan DPO atau penasihat privasi; dan review berkala — DPIA bukan dokumen sekali tulis, ia di-review saat pemrosesannya berubah. Hasil DPIA yang menemukan risiko tinggi yang tidak bisa dimitigasi adalah alasan untuk tidak meluncurkan — bukan untuk menulis catatan kaki.",
+        "Privacy by design adalah DPIA yang naik kelas menjadi arsitektur: privasi dirancang sejak awal, bukan ditempel. Prinsipnya: minimisasi secara default (kumpulkan sesedikit mungkin), pengaturan paling privat sebagai default (akses tertutup kecuali dibuka dengan alasan), pseudonymisasi dan masking sejak pipeline pertama, dan retensi yang menempel pada data (tanggal hapus ikut bersama record-nya). Lawan dari privacy by design adalah \"kumpulkan semua dulu, pikirkan privasinya nanti\" — pola yang membuat setiap proyek baru mewarisi utang privasi proyek lama.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "DPIA dibuat setelah sistem diluncurkan, sebagai dokumen kepatuhan untuk audit. DPIA sesudah peluncuran adalah otopsi — ia mendokumentasikan risiko yang sudah berjalan. DPIA yang benar adalah gerbang: tidak lolos, tidak rilis.",
+      },
+      quiz: [
+        {
+          q: "Bank meluncurkan model scoring baru untuk 2 juta nasabah dengan profiling otomatis. Langkah privasi yang benar?",
+          options: [
+            { text: "Luncurkan dulu, DPIA dibuat belakangan kalau sempat", why: "DPIA adalah gerbang sebelum rilis, bukan dokumen sesudahnya." },
+            { text: "Lakukan DPIA sebelum peluncuran: deskripsi, proporsionalitas, penilaian risiko, mitigasi, review DPO", why: "Profiling skala besar = pemrosesan berisiko tinggi; DPIA wajib sebelum rilis.", correct: true },
+            { text: "Tidak perlu DPIA karena datanya dienkripsi", why: "Enkripsi tidak menghapus risiko profiling — ia hanya satu mitigasi." },
+            { text: "Cukup minta persetujuan direksi secara lisan", why: "Persetujuan lisan bukan penilaian dampak yang terdokumentasi." },
+          ],
+        },
+        {
+          q: "Mana contoh privacy by design yang benar?",
+          options: [
+            { text: "Kumpulkan semua data dulu, pikirkan privasi saat audit datang", why: "Itu lawan dari privacy by design — utang privasi yang diwariskan." },
+            { text: "Minimisasi secara default, akses tertutup kecuali dibuka dengan alasan, masking sejak pipeline pertama", why: "Privasi dirancang sejak arsitektur: default paling privat + minimisasi + perlindungan sejak awal.", correct: true },
+            { text: "Masking ditambahkan setahun setelah sistem berjalan", why: "Tempelan belakangan — data mentah sudah tersebar setahun di downstream." },
+            { text: "Hanya DPO yang tahu data apa saja yang dikumpulkan", why: "Transparansi dan dokumentasi adalah bagian dari desain; kerahasiaan internal bukan privasi." },
+          ],
+        },
+      ],
+      reference: "DPIA = gerbang sebelum rilis berisiko tinggi. Privacy by design = minimisasi + default privat + perlindungan sejak pipeline pertama.",
     },
     {
       id: "checkpoint",

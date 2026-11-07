@@ -53,6 +53,7 @@ export const c15: V2Lesson = {
         "Laporan keuangan kuartalan: total penyaluran Rp 48 miliar. Audit menemukan: Rp 2 miliar double-count dari duplikat + 300 debitur hilang dari filter NULL yang salah. Laporan ditarik, direksi malu, analis dimutasi. Akar masalah: tidak ada quality check di pipeline.",
         "Rp 2 miliar double-count + 300 debitur hilang — bukan karena analisnya bodoh, melainkan karena tidak ada yang mengecek. Quality check memakan 10 menit; tanpanya, laporan Rp 48 miliar ditarik dan karir melayang. Asuransi termurah di industri data bukanlah tools mahal — melainkan query validasi yang dijalankan sebelum laporan dikirim. Profesional = paranoid yang sistematis.",
         "Enam dimensi cek: (1) completeness — ada yang hilang? (2) uniqueness — ada duplikat? (3) validity — nilai di luar domain? (4) consistency — aturan bisnis dilanggar? (5) timeliness — data terbaru kapan? (6) accuracy — cocok dengan sumber kebenaran? Jadikan 6 cek ini template untuk setiap tabel baru: 15 menit menjalankan template ini menghemat berhari-hari debugging.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Fraud/ML Analytics, Health Data Science, dan Data Management — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {

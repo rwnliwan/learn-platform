@@ -186,6 +186,62 @@ export const b8: V2Lesson = {
       reference: "Diagnosis \u2192 MLE \u2192 banding \u2192 cek ekor khusus \u2192 validasi out-of-sample.",
     },
     {
+      id: "goodness-of-fit",
+      eyebrow: "Langkah 6 · Uji kecocokan mendalam",
+      title: "Chi-square: hitung sendiri uji kecocokannya",
+      prose: [
+        "Langkah 3 menyebut chi-square sekilas — sekarang hitung sendiri. Uji chi-square membandingkan frekuensi teramati (O) dengan frekuensi harapan model (E) per bin: χ² = Σ (O − E)² / E. Makin besar χ², makin jauh data dari model. Keputusannya: bandingkan dengan nilai kritis dari tabel chi-square pada derajat bebas df = jumlah bin − 1 − jumlah parameter yang diestimasi.",
+        "Contoh: 100 klaim asuransi dikelompokkan ke 4 bin besarnya klaim. Teramati: 45, 30, 15, 10. Model memprediksi: 40, 30, 20, 10. χ² = (45−40)²/40 + (30−30)²/30 + (15−20)²/20 + (10−10)²/10 = 0,625 + 0 + 1,25 + 0 = 1,88. Derajat bebas df = 4 − 1 = 3 (tidak ada parameter diestimasi dari data ini), nilai kritis 5 persen = 7,81. Karena 1,88 < 7,81, model LOLOS — gagal menolak, dengan catatan dari langkah 3: lolos bukan berarti benar.",
+        "Tiga jebakan chi-square: bin yang terlalu kecil (frekuensi harapan di bawah 5 membuat χ² tidak stabil — gabungkan bin); bin yang dipilih setelah melihat data (mengubah bin sampai lolos = memalsukan uji); dan lupa bahwa chi-square buta terhadap urutan — ia tidak tahu bin 1 dan bin 4 itu ekor, jadi untuk risiko tetap lengkapi dengan Anderson-Darling dan QQ-plot ujung.",
+      ],
+      formula: String.raw`\chi^2 = \sum \frac{(O - E)^2}{E} = \frac{25}{40} + 0 + \frac{25}{20} + 0 = 1{,}88 < 7{,}81`,
+      formulaNote: "χ² = statistik chi-square; O = frekuensi teramati; E = frekuensi harapan model; 1,88 < 7,81 = nilai kritis df=3 pada 5 persen — model lolos (gagal menolak, bukan terbukti benar).",
+      tasks: [
+        { id: "t1", text: "Hitung `chi2` = Σ (O−E)²/E dari 4 bin (2 desimal)" },
+        { id: "t2", text: "Tentukan `keputusan` = \"LOLOS\" jika chi2 < 7,81, selain itu \"TOLAK\"" },
+      ],
+      expected: "chi2=1.88  keputusan=LOLOS",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "\"χ² kecil berarti model benar.\" Tidak — χ² kecil berarti gagal menolak. Dengan n kecil, uji tidak punya power dan model yang salah pun lolos. Selalu laporkan n dan power bersama χ².",
+      },
+      hints: [
+        "chi2 = sum((o-e)**2/e for o, e in zip(obs, exp)).",
+        "Nilai kritis df=3 pada 5% = 7,81.",
+        "keputusan = \"LOLOS\" if chi2 < 7.81 else \"TOLAK\"",
+      ],
+      code: {
+        starter: `# 100 klaim, 4 bin: teramati vs harapan model\nobs = [45, 30, 15, 10]\nexp = [40, 30, 20, 10]\nkritis = 7.81  # chi-square df=3, 5%\n\n# TULIS KODEMU\nchi2 = \nkeputusan = \n\nprint(f"chi2={chi2}  keputusan={keputusan}")`,
+        lockLines: 3,
+        solution: `# 100 klaim, 4 bin: teramati vs harapan model\nobs = [45, 30, 15, 10]\nexp = [40, 30, 20, 10]\nkritis = 7.81  # chi-square df=3, 5%\n\n# TULIS KODEMU\nchi2 = round(sum((o-e)**2/e for o, e in zip(obs, exp)), 2)\nkeputusan = "LOLOS" if chi2 < kritis else "TOLAK"\n\nprint(f"chi2={chi2}  keputusan={keputusan}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "chi2", value: 1.88, tol: 0.01, label: "`chi2` seharusnya 1.88", msg: "0,625 + 0 + 1,25 + 0 = 1,88." },
+          { kind: "equal", task: "t2", name: "keputusan", value: "LOLOS", label: "`keputusan` seharusnya LOLOS", msg: "1,88 < 7,81 — gagal menolak." },
+          { kind: "stdout_matches", task: "t2", pattern: "chi2=1\\.88\\s+keputusan=LOLOS", label: "`print` menampilkan keduanya", msg: "Format: chi2=...  keputusan=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Chi-square = 1,88 < kritis 7,81. Interpretasi tepat?",
+          options: [
+            { text: "Model terbukti benar", why: "Salah: gagal menolak bukan bukti benar — uji adalah saringan, bukan sertifikat." },
+            { text: "Gagal menolak — model lolos saringan ini, tetapi cek power, AD, dan QQ-plot ekor", why: "Benar: lolos chi-square tidak menjamin ekor benar.", correct: true },
+            { text: "Model salah — harus ditolak", why: "Salah: 1,88 jauh di bawah kritis." },
+          ],
+        },
+        {
+          q: "Frekuensi harapan salah satu bin hanya 2. Apa yang harus dilakukan?",
+          options: [
+            { text: "Jalankan saja — chi-square tahan bin kecil", why: "Salah: E < 5 membuat χ² tidak stabil." },
+            { text: "Gabungkan bin itu dengan bin tetangga sampai E ≥ 5, lalu hitung ulang", why: "Benar: gabungkan bin kecil sebelum menguji.", correct: true },
+            { text: "Hapus bin itu dari data", why: "Salah: menghapus data = memalsukan uji." },
+          ],
+        },
+      ],
+      reference: "χ² = Σ(O−E)²/E. E < 5 → gabung bin. Lolos ≠ benar.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

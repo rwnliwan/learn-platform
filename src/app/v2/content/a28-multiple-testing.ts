@@ -14,6 +14,7 @@ export const a28: V2Lesson = {
       prose: [
         "Komik sains terkenal menggambarkan ilmuwan menguji apakah jelly bean menyebabkan jerawat — 20 warna, masing-masing uji α = 5%. Hasil: 19 tidak signifikan; satu warna — hijau — signifikan (p < 0,05)! Headline: JELLY BEAN HIJAU MENYEBABKAN JERAWAT — TERBUKTI SECARA ILMIAH! Tentu saja omong kosong: dengan 20 uji pada α = 5%, peluang minimal satu false positive adalah 64% — bahkan jika jelly bean tidak berpengaruh sama sekali.",
         "Ini mekanisme di balik krisis replikasi sains, strategi trading yang bagus di backtest hancur di live, dan A/B test yang menang lalu gagal direplikasi. Setiap kali kamu menguji banyak hal dan melaporkan yang menarik, kamu mengulangi eksperimen jelly bean hijau.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Bioinformatics, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `fwer` = 1 − 0,95^20, bulatkan 2 desimal" },

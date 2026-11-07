@@ -245,6 +245,76 @@ export const a12: V2Lesson = {
       reference: "Pangkat pecahan: x**(1/3). Bobot biasanya dijumlahkan = 1.",
     },
     {
+      id: "kapan-mean-tepat",
+      eyebrow: "Langkah 7 · Kapan mean tepat",
+      title: "Membela mean: empat situasi di mana mean adalah pilihan benar",
+      prose: [
+        "Lesson ini banyak memperingatkan soal mean — tetapi mean bukan musuh. Mean adalah alat yang tepat dalam empat situasi, dan analis senior tahu kapan membelanya. Pertama, data simetris unimodal: saat mean, median, dan modus hampir sama, mean justru paling informatif karena memakai semua data. Contoh (ilustratif): skor ujian 48, 49, 50, 51, 52 — mean 50, median 50, keduanya sama. Cek cepatnya: kalau mean dan median berdekatan, mean aman dipakai.",
+        "Kedua, keputusan berbasis expected value. Harga, cadangan, dan expected loss adalah nilai harapan — dan nilai harapan secara definisi adalah mean. Peluang macet 2 persen dikali loss Rp50 juta sama dengan expected loss Rp1 juta: 0,02 × 50.000.000 = 1.000.000. Di sini median tidak berguna: median skenario macet atau tidak adalah nol, tetapi bank tetap harus mencadangkan Rp1 juta per debitur. Expected loss yang dihitung dari median adalah cadangan yang salah harga.",
+        "Ketiga, agregasi linear atau aditif yang butuh total. Pendapatan total, biaya total, dan total eksposur adalah mean dikali banyaknya data — hanya mean yang bisa dikalikan kembali menjadi total. Kalau direksi bertanya berapa total pendapatan 1.000 nasabah, median tidak bisa menjawab; mean bisa, karena total = mean × n. Keempat, inferensi statistik yang butuh mean: Central Limit Theorem, confidence interval, dan uji hipotesis dibangun di atas mean sampel — median tidak punya mesin inferensi semudah itu.",
+        "Uji lakmusnya satu kalimat: tanyakan apa yang akan dilakukan dengan angka itu. Kalau dipakai untuk menggambarkan orang tipikal di data miring — pakai median. Kalau dipakai untuk mengalikan menjadi total, mencadangkan expected loss, atau masuk ke rumus statistik — mean adalah jawabannya, dan memaksakan median justru salah.",
+      ],
+      formula: String.raw`E[L] = p \times L = 0{,}02 \times \text{Rp }50.000.000 = \text{Rp }1.000.000`,
+      formulaNote: "E[L] = expected loss; p = 0,02 = peluang macet 2 persen; L = Rp50 juta = loss jika macet; 0,02 × 50.000.000 = 1.000.000 = cadangan per debitur.",
+      tasks: [
+        { id: "t1", text: "Hitung `mean` skor simetris [48, 49, 50, 51, 52]" },
+        { id: "t2", text: "Hitung `median` skor yang sama" },
+        { id: "t3", text: "Hitung `expected_loss` = peluang macet 2% × loss Rp50 juta" },
+      ],
+      expected: "mean=50.0  median=50  expected_loss=1000000.0",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "CKPN dan expected loss adalah mean, bukan median: cadangan = PD × LGD × EAD dirata-rata atas portofolio. Analis yang mengganti mean dengan median karena trauma outlier akan membuat bank kekurangan cadangan tepat saat ekor kanan datang.",
+      },
+      hints: [
+        "Mean = sum(skor) / len(skor); median = st.median(skor).",
+        "expected_loss = 0.02 * 50_000_000.",
+        "Bandingkan mean dan median: keduanya 50 — data simetris.",
+      ],
+      code: {
+        starter: `import statistics as st\n\nskor = [48, 49, 50, 51, 52]  # simetris, tanpa outlier (ilustratif)\n\np_macat = 0.02          # peluang macet 2%\nloss = 50_000_000       # Rp, loss jika macet\n\n# TULIS KODEMU\nmean = \nmedian = \nexpected_loss = \n\nprint(f"mean={mean}  median={median}  expected_loss={expected_loss}")`,
+        lockLines: 6,
+        solution: `import statistics as st\n\nskor = [48, 49, 50, 51, 52]  # simetris, tanpa outlier (ilustratif)\n\np_macat = 0.02          # peluang macet 2%\nloss = 50_000_000       # Rp, loss jika macet\n\n# TULIS KODEMU\nmean = sum(skor) / len(skor)\nmedian = st.median(skor)\nexpected_loss = p_macat * loss\n\nprint(f"mean={mean}  median={median}  expected_loss={expected_loss}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "mean", value: 50, tol: 1e-9, label: "`mean` seharusnya 50", msg: "(48+49+50+51+52)/5 = 50." },
+          { kind: "equal", task: "t2", name: "median", value: 50, tol: 1e-9, label: "`median` seharusnya 50", msg: "Data simetris: nilai tengah = 50." },
+          { kind: "equal", task: "t3", name: "expected_loss", value: 1000000, tol: 1e-9, label: "`expected_loss` seharusnya 1000000", msg: "0,02 × 50.000.000 = 1.000.000." },
+          { kind: "stdout_matches", task: "t3", pattern: "mean=50\\.0\\s+median=50\\s+expected_loss=1000000\\.0", label: "`print` menampilkan ketiganya", msg: "Format: mean=...  median=...  expected_loss=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Data simetris unimodal, mean 50 dan median 50. Mana yang dipakai?",
+          options: [
+            { text: "Median — mean selalu dilarang", why: "Tidak ada larangan umum atas mean; di data simetris mean justru memakai semua informasi." },
+            { text: "Mean — karena data simetris, mean ≈ median dan mean memakai semua data", why: "Saat ketiganya hampir sama, mean adalah ringkasan yang jujur dan paling informatif.", correct: true },
+            { text: "Modus saja", why: "Modus untuk kategori; di data kontinu simetris ia membuang informasi." },
+            { text: "Tidak satu pun — laporkan semua data mentah", why: "Ringkasan tetap dibutuhkan; data mentah bukan pengganti ringkasan." },
+          ],
+        },
+        {
+          q: "Peluang macet 2% × loss Rp50 juta = expected loss Rp1 juta. Kenapa median tidak bisa menggantikan mean di sini?",
+          options: [
+            { text: "Karena median skenario macet/tidak adalah 0 — cadangan Rp0 berarti bank tidak mencadangkan apa-apa", why: "Expected loss adalah nilai harapan (mean); median skenario biner tidak mengandung informasi peluang.", correct: true },
+            { text: "Karena median lebih besar dari mean", why: "Di sini median 0, lebih kecil — dan justru itu masalahnya." },
+            { text: "Karena median tidak bisa dihitung untuk data biner", why: "Median bisa dihitung; masalahnya maknanya, bukan hitungannya." },
+            { text: "Karena regulator melarang median", why: "Regulator tidak melarang median — yang salah adalah memakai ukuran yang tidak sesuai keputusan." },
+          ],
+        },
+        {
+          q: "Direksi bertanya berapa total pendapatan 1.000 nasabah. Ukuran pemusatan mana yang bisa menjawab?",
+          options: [
+            { text: "Median — kalikan median dengan 1.000", why: "Median × n bukan total; hanya mean × n = total." },
+            { text: "Mean — total = mean × n, hanya mean yang bisa dikalikan kembali menjadi total", why: "Agregasi aditif butuh mean; inilah situasi ketiga di mana mean benar.", correct: true },
+            { text: "Modus — kalikan modus dengan 1.000", why: "Modus × n juga bukan total." },
+            { text: "Tidak ada — total tidak bisa diturunkan dari ringkasan", why: "Total justru bisa diturunkan dari mean — itulah keunggulan mean." },
+          ],
+        },
+      ],
+      reference: "Data simetris → mean. Expected value, total, dan inferensi → mean. Tipikal di data miring → median.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

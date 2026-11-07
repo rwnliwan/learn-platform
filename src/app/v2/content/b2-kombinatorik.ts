@@ -190,6 +190,62 @@ export const b2: V2Lesson = {
       reference: "n=50 \u2192 94,8% (belum cukup). n=55 \u2192 96,3% (cukup).",
     },
     {
+      id: "kombinasi-skenario",
+      eyebrow: "Langkah 6 · Kombinasi untuk skenario",
+      title: "Berapa skenario stress yang harus diuji?",
+      prose: [
+        "Kombinatorik bukan hanya soal kartu poker — ia menghitung beban kerja stress test. Bank punya 12 faktor risiko (suku bunga, kurs, harga minyak, dan seterusnya) dan ingin menguji semua skenario \"3 faktor memburuk bersamaan\". Berapa skenarionya? Urutan faktor tidak penting — skenario {suku bunga, kurs, minyak} sama dengan {minyak, kurs, suku bunga} — jadi ini kombinasi: C(12,3) = 220 skenario.",
+        "Bandungkan dengan permutasi: kalau urutan dianggap penting, P(12,3) = 12 × 11 × 10 = 1.320 — enam kali lipat lebih banyak, semuanya duplikat dari 220 skenario yang sama. Salah memilih rumus di sini berarti menguji 1.320 skenario padahal 220 sudah mencakup semuanya — atau sebaliknya, mengira 220 skenario sudah mencakup semua urutan padahal soalnya memang butuh urutan (mis. urutan kejadian dalam simulasi Monte Carlo berurutan).",
+        "Aturan praktisnya: skenario stress = kombinasi (pilih faktor mana yang memburuk); jalur simulasi = permutasi (urutan kejadian penting). Dan waspadai ledakan kombinatorial: C(20,5) = 15.504 — naik dari 12 ke 20 faktor saja membuat skenario lengkap tidak lagi layak diuji satu per satu. Di situlah sampling cerdas masuk: pilih skenario ekstrem yang paling relevan (berdasarkan korelasi dan dampak), bukan semua kombinasi.",
+      ],
+      formula: String.raw`C(12,3) = \frac{12!}{3!\,9!} = 220 \qquad P(12,3) = 12 \times 11 \times 10 = 1320`,
+      formulaNote: "C(12,3) = 220 skenario stress 3-faktor dari 12 faktor (urutan tidak penting); P(12,3) = 1.320 (urutan penting) — 6x lipat karena 3! = 6 urutan per skenario yang sama.",
+      tasks: [
+        { id: "t1", text: "Hitung `skenario` = C(12,3) — skenario 3 faktor memburuk" },
+        { id: "t2", text: "Hitung `urutan` = P(12,3) — kalau urutan dianggap penting, cetak keduanya" },
+      ],
+      expected: "skenario=220  urutan=1320",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Stress test yang menguji 1.320 skenario padahal 220 sudah cukup membuang 6x komputasi — dan stress test yang menguji 220 skenario padahal urutan kejadian penting akan melewatkan jalur krisis yang sesungguhnya. Tanyakan dulu: urutannya penting?",
+      },
+      hints: [
+        "math.comb(12, 3) dan math.perm(12, 3).",
+        "Selisihnya faktor 3! = 6 — tiap skenario punya 6 urutan.",
+        "print(f\"skenario={skenario}  urutan={urutan}\")",
+      ],
+      code: {
+        starter: `import math\n\n# 12 faktor risiko, skenario \"3 faktor memburuk bersamaan\"\n\n# TULIS KODEMU: kombinasi (urutan tak penting) vs permutasi (urutan penting)\nskenario = \nurutan = \n\nprint(f"skenario={skenario}  urutan={urutan}")`,
+        lockLines: 1,
+        solution: `import math\n\n# 12 faktor risiko, skenario \"3 faktor memburuk bersamaan\"\n\n# TULIS KODEMU: kombinasi (urutan tak penting) vs permutasi (urutan penting)\nskenario = math.comb(12, 3)\nurutan = math.perm(12, 3)\n\nprint(f"skenario={skenario}  urutan={urutan}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "skenario", value: 220, tol: 1e-9, label: "`skenario` seharusnya 220", msg: "C(12,3) = 220." },
+          { kind: "equal", task: "t2", name: "urutan", value: 1320, tol: 1e-9, label: "`urutan` seharusnya 1320", msg: "P(12,3) = 12×11×10 = 1.320." },
+          { kind: "stdout_matches", task: "t2", pattern: "skenario=220\\s+urutan=1320", label: "`print` menampilkan keduanya", msg: "Format: skenario=...  urutan=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "12 faktor risiko, skenario \"3 memburuk bersamaan\". Berapa skenario, dan kenapa kombinasi?",
+          options: [
+            { text: "1.320 — karena urutan memburuk penting", why: "Salah: skenario {A,B,C} sama dengan {C,B,A} — urutan tidak penting." },
+            { text: "220 — C(12,3); urutan faktor tidak penting dalam satu skenario", why: "Benar: kombinasi — tukar faktor, skenarionya tetap sama.", correct: true },
+            { text: "36 — 12 × 3", why: "Salah: itu bukan rumus pencacahan yang benar." },
+          ],
+        },
+        {
+          q: "C(20,5) = 15.504 skenario. Apa implikasinya untuk stress test?",
+          options: [
+            { text: "Uji semuanya — komputer pasti kuat", why: "Salah: ledakan kombinatorial membuat pengujian lengkap tidak layak." },
+            { text: "Sampling cerdas: pilih skenario ekstrem yang paling relevan, bukan semua kombinasi", why: "Benar: prioritaskan berdasarkan korelasi dan dampak.", correct: true },
+            { text: "Kurangi faktornya jadi 5", why: "Salah: membuang faktor = membuang risiko yang tidak terlihat." },
+          ],
+        },
+      ],
+      reference: "Skenario stress = kombinasi. Jalur berurutan = permutasi. Ledakan kombinatorial → sampling cerdas.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

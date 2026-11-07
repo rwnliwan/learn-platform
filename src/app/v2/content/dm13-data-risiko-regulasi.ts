@@ -148,6 +148,83 @@ export const dm13: V2Lesson = {
       reference: "Prinsip tanpa mesin harian = poster dinding.",
     },
     {
+      id: "bcbs239-self-assessment",
+      eyebrow: "Langkah 9 · BCBS 239 self-assessment",
+      title: "BCBS 239 self-assessment: nilai dirimu sebelum regulator menilai",
+      prose: [
+        "Empat belas prinsip dari langkah 2 harus diubah menjadi angka — itulah self-assessment. Kelompokkan dulu agar penilaiannya tidak acak: tata kelola dan infrastruktur (prinsip 1–2: governance agregasi yang kuat, arsitektur data yang mendukung); kapabilitas agregasi (prinsip 3–6: akurasi dan integritas, kelengkapan, ketepatan waktu, adaptabilitas); praktik pelaporan (prinsip 7–11: akurat, komprehensif, jelas, frekuensi tepat, distribusi ke pengambil keputusan); pengawasan (prinsip 12–14: review regulator dan dewan, remediasi, kerja sama).",
+        "Tiap prinsip dinilai 1 sampai 5 dengan bukti, bukan perasaan: skor 1 berarti tidak ada proses; 3 berarti proses tertulis dan berjalan untuk laporan rutin; 5 berarti teruji dalam fire drill — pertanyaan ad-hoc regulator dijawab dalam 48 jam dengan angka yang bisa dipertahankan. Aturan buktinya: setiap skor di atas 3 wajib ditemani artefak (contoh laporan, log fire drill, tiket break) — skor tanpa bukti adalah skor 2 yang menyamar.",
+        "Contoh penilaian (ilustratif): 14 prinsip sebuah bank menengah dinilai [3, 2, 4, 3, 2, 3, 4, 3, 3, 4, 2, 3, 3, 2] — jumlahnya 41, rata-ratanya 41/14 = 2,93. Levelnya: 4 ke atas = Patuh, 3 sampai 3,99 = Berkembang, 2 sampai 2,99 = Dasar, di bawah 2 = Belum memadai. Bank ini berada di level Dasar, dengan 4 prinsip berskor 2 — prinsip 2 (arsitektur), 5 (ketepatan waktu), 11 (distribusi laporan), dan 14 (remediasi). Empat prinsip itu menjadi backlog perbaikan tahun ini; menaikkan rata-rata tanpa memperbaiki yang terlemah adalah mengecat rumah yang fondasinya retak.",
+      ],
+      formula: String.raw`\bar{s} = \frac{1}{14}\sum_{i=1}^{14} s_i = \frac{41}{14} \approx 2{,}93 \;\; \rightarrow \;\; \text{Dasar}`,
+      formulaNote: "s-bar = rata-rata skor 14 prinsip; s_i = skor prinsip ke-i (1–5); 41 = jumlah 14 skor; 41/14 = 2,93 — masuk rentang level Dasar (2 sampai 2,99).",
+      tasks: [
+        { id: "t1", text: "Hitung `skor_rata` = rata-rata 14 skor prinsip (2 desimal)" },
+        { id: "t2", text: "Tentukan `level` dari skor rata-rata (fungsi `nama_level` sudah tersedia)" },
+        { id: "t3", text: "Hitung `terlemah` = jumlah prinsip dengan skor 2" },
+      ],
+      expected: "skor_rata=2.93  level=Dasar  terlemah=4",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Self-assessment yang jujur adalah hadiah: temuanmu sendiri datang tanpa denda dan memberi waktu memperbaiki sebelum regulator datang. Bank yang menilai dirinya 4,8 tanpa bukti akan dinilai regulator 2,1 — dengan denda.",
+      },
+      hints: [
+        "skor_rata = round(sum(skor) / len(skor), 2)",
+        "level = nama_level(skor_rata)",
+        "terlemah = sum(1 for s in skor if s == 2)",
+      ],
+      code: {
+        starter: `# skor 14 prinsip BCBS 239, bank menengah (ilustratif, skala 1-5)\n# urutan: P1 tata kelola, P2 arsitektur, P3 akurasi, P4 kelengkapan,\n# P5 ketepatan waktu, P6 adaptabilitas, P7-P11 pelaporan, P12-P14 pengawasan\nskor = [3, 2, 4, 3, 2, 3, 4, 3, 3, 4, 2, 3, 3, 2]\n\ndef nama_level(s):\n    if s >= 4: return "Patuh"\n    if s >= 3: return "Berkembang"\n    if s >= 2: return "Dasar"\n    return "Belum memadai"\n\n# TULIS KODEMU\nskor_rata = \nlevel = \nterlemah = \n\nprint(f"skor_rata={skor_rata}  level={level}  terlemah={terlemah}")`,
+        lockLines: 11,
+        solution: `# skor 14 prinsip BCBS 239, bank menengah (ilustratif, skala 1-5)\n# urutan: P1 tata kelola, P2 arsitektur, P3 akurasi, P4 kelengkapan,\n# P5 ketepatan waktu, P6 adaptabilitas, P7-P11 pelaporan, P12-P14 pengawasan\nskor = [3, 2, 4, 3, 2, 3, 4, 3, 3, 4, 2, 3, 3, 2]\n\ndef nama_level(s):\n    if s >= 4: return "Patuh"\n    if s >= 3: return "Berkembang"\n    if s >= 2: return "Dasar"\n    return "Belum memadai"\n\n# TULIS KODEMU\nskor_rata = round(sum(skor) / len(skor), 2)\nlevel = nama_level(skor_rata)\nterlemah = sum(1 for s in skor if s == 2)\n\nprint(f"skor_rata={skor_rata}  level={level}  terlemah={terlemah}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "skor_rata", value: 2.93, tol: 0.01, label: "`skor_rata` seharusnya 2.93", msg: "Jumlah 14 skor = 41; 41/14 = 2,93." },
+          { kind: "equal", task: "t2", name: "level", value: "Dasar", label: "`level` seharusnya Dasar", msg: "Skor 2,93 masuk rentang 2–2,99 = Dasar." },
+          { kind: "equal", task: "t3", name: "terlemah", value: 4, tol: 0, label: "`terlemah` seharusnya 4", msg: "Prinsip 2, 5, 11, dan 14 berskor 2 — empat prinsip." },
+          { kind: "stdout_matches", task: "t3", pattern: "skor_rata=2\\.93\\s+level=Dasar\\s+terlemah=4", label: "`print` menampilkan ketiganya", msg: "Format: skor_rata=...  level=...  terlemah=... ." },
+        ],
+      },
+      reference: "Rata-rata tanpa bukti = skor 2 yang menyamar. Perbaiki yang terlemah dulu.",
+    },
+    {
+      id: "jejak-audit-lineage",
+      eyebrow: "Langkah 10 · Jejak audit: dari angka laporan ke sumber",
+      title: "Jejak audit: dari angka laporan ke sumber",
+      prose: [
+        "Satu angka di laporan regulator — mis. NPL 3,2 persen — harus bisa ditelusur mundur sampai ke sumbernya. Jejak audit (audit trail) adalah rantai itu: angka agregat di laporan, lalu mart risiko tempat ia dihitung, lalu enam feed sumber yang masuk ke mart, lalu tabel core banking dan sistem treasury di hulu, lengkap dengan versi kode transformasi dan timestamp setiap tahap. Aturan praktisnya: setiap angka yang dikirim ke regulator harus bisa di-drill-down minimal tiga level oleh orang yang tidak ikut membangun pipeline-nya. Kalau hanya pembuatnya yang bisa menelusuri, itu bukan lineage — itu ingatan.",
+        "Tiga artefak melengkapi lineage. Rekonsiliasi: angka yang sama menurut dua sumber independen (finance vs risiko) cocok dalam toleransi — dan setiap break punya tiket berisi penyebab terverifikasi, resolusi, penandatangan, dan tanggal. Sign-off: tiga tanda tangan — maker (analis yang menyusun), checker (reviewer independen yang memverifikasi rekonsiliasi dan lineage), dan data owner (yang menandatangani secara tercatat dengan timestamp). Immutability: snapshot laporan yang sudah dikirim dikunci; koreksi diterbitkan sebagai versi baru dengan alasan tertulis, bukan edit diam-diam atas file yang sudah dikirim.",
+        "Case: regulator menunjuk angka eksposur properti Rp4,2 triliun di laporan dan bertanya dari mana. Dengan lineage lengkap, analis mengklik angka itu dan menelusuri agregat, mart, feed, dan posisi individual dalam satu jam — lengkap dengan versi kode dan timestamp. Tanpa lineage: analis menelepon lima tim, masing-masing menunjuk tim lain, spreadsheet digali dari email tiga bulan lalu — enam minggu, persis cerita pembuka lesson ini. Investasi lineage terbayar pada interogasi pertama.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Angka tanpa jejak adalah angka yang tidak bisa dipertahankan — dan regulator menilai proses, bukan hanya angka. \"Angka benar tapi tidak bisa dijelaskan caranya\" sama dengan tidak patuh.",
+      },
+      quiz: [
+        {
+          q: "Regulator menunjuk satu angka di laporan dan bertanya dari mana asalnya. Bukti apa yang harus kamu tunjukkan?",
+          options: [
+            { text: "Screenshot dashboard dan janji lisan analis", why: "Screenshot bukan jejak; janji bukan bukti." },
+            { text: "Lineage lengkap: agregat → mart → feed → sumber, plus versi kode, timestamp, rekonsiliasi lolos, dan tiga tanda tangan", why: "Jejak penuh + rekonsiliasi + sign-off + immutability = angka yang bisa dipertahankan.", correct: true },
+            { text: "File spreadsheet yang dipakai menyusun laporan", why: "Spreadsheet manual tidak teraudit, tidak terulang, dan tidak bisa drill-down." },
+            { text: "Email persetujuan atasan", why: "Email bukan pengganti lineage, rekonsiliasi, dan sign-off tercatat." },
+          ],
+        },
+        {
+          q: "Laporan yang sudah dikirim ke regulator ternyata salah Rp120 miliar karena feed terlambat masuk. Tindakan yang benar?",
+          options: [
+            { text: "Edit diam-diam file yang sudah dikirim agar angkanya benar", why: "Edit diam-diam atas laporan terkirim = pemalsuan dokumen dalam bahasa regulator." },
+            { text: "Terbitkan versi baru dengan alasan tertulis dan persetujuan tercatat", why: "Koreksi transparan = patuh; versi baru + alasan + tanda tangan membangun kepercayaan.", correct: true },
+            { text: "Biarkan — selisihnya kecil", why: "Kecil bukan argumen; laporan salah yang dibiarkan adalah temuan audit." },
+            { text: "Tunggu sampai regulator yang menemukan", why: "Menunggu ketahuan adalah strategi paling mahal yang ada." },
+          ],
+        },
+      ],
+      reference: "Angka tanpa jejak tidak dikirim. Koreksi = versi baru + alasan, bukan edit diam-diam.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

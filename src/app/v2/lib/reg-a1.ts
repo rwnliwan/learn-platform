@@ -8,6 +8,7 @@ import { a16 } from "../content/a16-korelasi";
 import { a17 } from "../content/a17-missing-data";
 import { a18 } from "../content/a18-visualisasi";
 import { a19 } from "../content/a19-eda-end-to-end";
+import { a110 } from "../content/a110-capstone-track-10";
 import { a21 } from "../content/a21-sampling-bias";
 import { a210 } from "../content/a210-power-sampel";
 import { a211 } from "../content/a211-ab-testing";
@@ -32,6 +33,7 @@ export const REG_A1: Record<string, V2Lesson> = {
   "a17-missing-data": a17,
   "a18-visualisasi": a18,
   "a19-eda-end-to-end": a19,
+  "a110-capstone-track-10": a110,
   "a21-sampling-bias": a21,
   "a210-power-sampel": a210,
   "a211-ab-testing": a211,

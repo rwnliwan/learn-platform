@@ -15,6 +15,7 @@ export const b12: V2Lesson = {
         "Tempel kertas 2\u00D72 m di dinding, gambar lingkaran diameter 2 m. Lempar 10.000 butir beras acak. Yang jatuh di lingkaran: misal 7.854. Maka \u03C0 \u2248 4 \u00D7 7854/10000 = 3,1416. Kedengarannya konyol \u2014 tapi ini Monte Carlo: menjawab pertanyaan deterministik dengan acak.",
         "Prinsipnya: peluang butir jatuh di lingkaran = luas lingkaran / luas kertas = \u03C0/4 \u2014 dan LLN (B11) menjamin frekuensi \u2192 peluang. Banyak masalah = menghitung ekspektasi E[g(X)] yang integralnya sulit \u2192 ganti dengan rata-rata simulasi.",
         "Di keuangan: harga opsi eksotik, VaR portofolio kompleks, ECL dengan banyak skenario \u2014 semua yang rumusnya tidak ada atau terlalu sulit \u2014 dijawab Monte Carlo. Ketika rumus eksak tidak ada, \u201Ctebak-tebakan terstruktur\u201D (acak + LLN) lebih dapat diandalkan daripada model elegan yang asumsinya salah.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Market Risk, dan Portfolio Management — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       formula: String.raw`E[g(X)] \approx \frac{1}{N}\sum_{i=1}^{N} g(X_i), \quad SE_{MC} = \frac{\sigma_g}{\sqrt{N}}`,
       formulaNote: "X_i sampel acak. Ini LLN (B11) yang dipekerjakan.",

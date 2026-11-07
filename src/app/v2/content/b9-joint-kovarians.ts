@@ -192,6 +192,63 @@ export const b9: V2Lesson = {
       reference: "Stress korelasinya. Lindung nilai berbasis \u03C1 rendah = \u03C1 itu sendiri risikonya.",
     },
     {
+      id: "kovarians-portofolio",
+      eyebrow: "Langkah 6 · Kovarians portofolio 2 aset",
+      title: "Kovarians portofolio: saat korelasi negatif menjadi lindung nilai",
+      prose: [
+        "Langkah 4 memberi rumus varians portofolio — sekarang bedah suku kovariansnya. Dua aset: saham σ₁ = 10 persen, obligasi σ₂ = 30 persen, korelasi ρ = −0,5, bobot 50:50. Kovariansnya: Cov = ρ × σ₁ × σ₂ = −0,5 × 0,10 × 0,30 = −0,015. Negatif — kedua aset cenderung bergerak berlawanan, dan itulah sumber diversifikasi.",
+        "Varians portofolio = 0,25 × 0,01 + 0,25 × 0,09 + 2 × 0,25 × (−0,015) = 0,0025 + 0,0225 − 0,0075 = 0,0175. SD-nya = √0,0175 ≈ 13,23 persen — di bawah rata-rata volatilitas kedua aset (20 persen). Tanpa suku kovarians (ρ = 0), variansnya 0,025 dan SD-nya 15,81 persen; korelasi negatif menghemat 2,6 poin volatilitas. Inilah lindung nilai alami: bukan dari aset yang aman, melainkan dari aset yang bergerak berlawanan.",
+        "Tiga pelajaran: pertama, kovarians adalah satu-satunya suku yang bisa negatif — diversifikasi hidup atau mati di sana. Kedua, korelasi negatif yang besar lebih berharga daripada volatilitas yang kecil: aset berisiko dengan ρ = −0,5 melindungi lebih baik daripada aset aman dengan ρ = +0,8. Ketiga, korelasi negatif yang diandalkan sebagai lindung nilai harus di-stress — korelasi −0,5 di masa tenang bisa menjadi +0,3 di krisis, dan saat itu lindung nilainya berubah menjadi pengganda risiko.",
+      ],
+      formula: String.raw`\mathrm{Var} = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2w_1w_2\,\mathrm{Cov} = 0{,}0025 + 0{,}0225 - 0{,}0075 = 0{,}0175`,
+      formulaNote: "Cov = ρσ₁σ₂ = −0,5 × 0,10 × 0,30 = −0,015; Var = 0,0175; SD = √0,0175 ≈ 13,23 persen — di bawah rata-rata volatilitas 20 persen.",
+      tasks: [
+        { id: "t1", text: "Hitung `cov` = ρ × σ₁ × σ₂" },
+        { id: "t2", text: "Hitung `var_port` dan `sd_port` portofolio 50:50 (4 desimal)" },
+      ],
+      expected: "cov=-0.015  var_port=0.0175  sd_port=0.1323",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Lindung nilai berbasis korelasi negatif adalah korelasi itu sendiri sebagai risiko: saat krisis membalik tandanya, portofolio yang tadinya terlindungi menjadi terekspos ganda. Stress korelasinya, bukan hanya volatilitasnya.",
+      },
+      hints: [
+        "cov = rho * s1 * s2.",
+        "var_port = 0.25*s1**2 + 0.25*s2**2 + 2*0.25*cov.",
+        "sd_port = round(var_port ** 0.5, 4)",
+      ],
+      code: {
+        starter: `import math\n\n# saham sigma 10%, obligasi sigma 30%, korelasi -0,5, bobot 50:50\ns1, s2, rho = 0.10, 0.30, -0.5\n\n# TULIS KODEMU\ncov = \nvar_port = \nsd_port = \n\nprint(f"cov={cov}  var_port={var_port}  sd_port={sd_port}")`,
+        lockLines: 2,
+        solution: `import math\n\n# saham sigma 10%, obligasi sigma 30%, korelasi -0,5, bobot 50:50\ns1, s2, rho = 0.10, 0.30, -0.5\n\n# TULIS KODEMU\ncov = rho * s1 * s2\nvar_port = 0.25*s1**2 + 0.25*s2**2 + 2*0.25*cov\nsd_port = round(var_port ** 0.5, 4)\n\nprint(f"cov={cov}  var_port={var_port}  sd_port={sd_port}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "cov", value: -0.015, tol: 1e-9, label: "`cov` seharusnya -0.015", msg: "−0,5 × 0,10 × 0,30 = −0,015." },
+          { kind: "equal", task: "t2", name: "var_port", value: 0.0175, tol: 1e-9, label: "`var_port` seharusnya 0.0175", msg: "0,0025 + 0,0225 − 0,0075 = 0,0175." },
+          { kind: "equal", task: "t2", name: "sd_port", value: 0.1323, tol: 0.001, label: "`sd_port` seharusnya 0.1323", msg: "√0,0175 ≈ 0,1323 = 13,23%." },
+          { kind: "stdout_matches", task: "t2", pattern: "cov=-0\\.015\\s+var_port=0\\.0175\\s+sd_port=0\\.1323", label: "`print` menampilkan ketiganya", msg: "Format: cov=...  var_port=...  sd_port=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Dua aset σ=10% dan 30%, ρ=−0,5, 50:50. SD portofolio 13,23% — di bawah rata-rata σ (20%). Kenapa?",
+          options: [
+            { text: "Karena bobotnya sama", why: "Salah: bobot sama tanpa korelasi negatif memberi SD 15,81%." },
+            { text: "Karena suku kovarians negatif mengurangi varians — lindung nilai alami", why: "Benar: Cov = −0,015 menghemat 2,6 poin volatilitas.", correct: true },
+            { text: "Karena σ obligasi lebih besar", why: "Salah: σ besar menaikkan varians, bukan menurunkannya." },
+          ],
+        },
+        {
+          q: "Korelasi −0,5 di masa tenang menjadi +0,3 di krisis. Apa yang terjadi pada lindung nilai?",
+          options: [
+            { text: "Tetap melindungi — korelasi tidak memengaruhi varians", why: "Salah: varians portofolio ditentukan korelasi." },
+            { text: "Berbalik menjadi pengganda risiko — suku kovarians yang tadinya negatif menjadi positif", why: "Benar: lindung nilai berbasis korelasi adalah korelasi itu sendiri sebagai risiko.", correct: true },
+            { text: "Tidak ada efek selama bobot tetap", why: "Salah: bobot tetap, tetapi suku interaksi berubah tanda." },
+          ],
+        },
+      ],
+      reference: "Cov negatif = satu-satunya sumber diversifikasi. Stress tandanya, bukan hanya besarnya.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

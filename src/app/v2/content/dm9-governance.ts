@@ -150,6 +150,80 @@ export const dm9: V2Lesson = {
       reference: "Governance hidup = veto yang dipakai, sensor yang bunyi, keputusan yang tertulis.",
     },
     {
+      id: "raci-data",
+      eyebrow: "Langkah 9 · RACI data: siapa memutuskan apa",
+      title: "RACI data: siapa memutuskan apa",
+      prose: [
+        "Langkah 4 memperkenalkan RACI — sekarang terapkan ke empat peran data. Data Owner (pemilik bisnis, mis. Head of Retail) adalah Accountable: ia menandatangani definisi, akses, dan retensi, dan ia yang disalahkan kalau datanya kacau. Data Steward adalah Responsible: ia mengerjakan — menjaga definisi, kualitas, dan dokumentasi harian. Data Custodian (biasanya tim TI atau platform) adalah Responsible untuk penyimpanan, backup, dan keamanan teknis — ia menjaga mesinnya, bukan maknanya. Data Consumer (analis, tim risiko, marketing) adalah Consulted atau Informed: ia memakai data dan memberi masukan, tetapi tidak memutuskan definisinya.",
+        "Matriksnya untuk satu keputusan — mis. mengubah definisi nasabah aktif: Responsible = steward data nasabah (menulis analisis dampak: 12 dashboard terdampak, 3 model ML memakai fitur ini); Accountable = Head of Retail selaku owner (satu nama, ia yang menandatangani); Consulted = tim risiko dan marketing (terdampak) plus legal (apakah definisi baru melanggar komitmen laporan); Informed = seluruh analis via changelog. Perhatikan pemisahannya: yang menganalisis (R) bukan yang memutuskan (A) — analis tidak boleh memaksakan definisi yang nyaman secara teknis tetapi salah secara bisnis. Dan Consulted bukan veto: masukannya wajib didengar dan dicatat, tetapi keputusan tetap di tangan A.",
+        "Case konflik kepemilikan: tabel nasabah_prioritas dipakai 6 tim. Marketing mengklaim pemiliknya (\"kami yang paling sering pakai\"), Risiko mengklaim juga (\"model kami bergantung padanya\"), lalu Legal meminta hapus 2.000 baris dan tidak ada yang berani memutuskan. Penyelesaiannya bukan voting — voting menghasilkan kompromi yang tidak dipakai siapa pun. Council menunjuk satu owner berdasarkan siapa yang menanggung risikonya: domain nasabah adalah milik Head of Retail, karena KPI dan bonusnya bergantung pada data nasabah; Marketing dan Risiko menjadi Consulted permanen untuk tabel itu; Legal menjadi Consulted wajib untuk keputusan hapus. Keputusan dicatat dengan tanggal dan nama — krisis berikutnya menjadi eksekusi prosedur, bukan rapat darurat tiga jam.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Custodian (tim TI) ditulis sebagai Accountable untuk definisi bisnis. TI menjaga mesinnya — backup, enkripsi, uptime — bukan maknanya. Definisi \"nasabah aktif\" adalah keputusan bisnis; yang menandatanganinya harus pemilik bisnis yang menanggung risikonya.",
+      },
+      quiz: [
+        {
+          q: "Definisi \"nasabah aktif\" diubah. Siapa Accountable (A) — satu-satunya penandatangan?",
+          options: [
+            { text: "Data steward — ia yang menulis analisis dampaknya", why: "Steward adalah Responsible (mengerjakan analisis), bukan Accountable." },
+            { text: "Head of Retail selaku data owner domain nasabah", why: "Satu A: pemilik bisnis yang KPI-nya bergantung pada data itu.", correct: true },
+            { text: "Tim TI selaku custodian", why: "Custodian menjaga mesin (storage, backup), bukan makna definisi." },
+            { text: "Data council secara kolektif", why: "Council memutus sengketa lintas-domain; keputusan domain ada di owner-nya." },
+          ],
+        },
+        {
+          q: "Dua tim mengklaim pemilik tabel yang sama. Penyelesaian yang benar?",
+          options: [
+            { text: "Voting antar tim — suara terbanyak menang", why: "Voting menghasilkan kompromi definisi yang tidak dipakai siapa pun." },
+            { text: "Council menunjuk satu owner berdasarkan siapa menanggung risikonya, tim lain jadi Consulted, keputusan dicatat", why: "Satu A bernama + peran lain jelas + jejak tertulis = konflik selesai permanen.", correct: true },
+            { text: "Jadikan keduanya co-owner", why: "Dua A = tidak ada yang benar-benar bertanggung jawab." },
+            { text: "Biarkan siapa yang paling sering memakai yang memutuskan", why: "Frekuensi pakai bukan wewenang; pemakai terbanyak bisa jadi bukan penanggung risiko." },
+          ],
+        },
+      ],
+      reference: "Owner = A (satu nama). Steward = R. Custodian = mesin. Consumer = C/I. Consulted bukan veto.",
+    },
+    {
+      id: "retensi-klasifikasi",
+      eyebrow: "Langkah 10 · Kebijakan retensi & klasifikasi",
+      title: "Kebijakan retensi dan klasifikasi data",
+      prose: [
+        "Klasifikasi menjawab: seberapa sensitif data ini, dan perlakuan apa yang mengikutinya. Tiga tingkat yang umum: Publik — boleh dibagikan ke siapa pun (mis. alamat kantor cabang, suku bunga yang diumumkan); Internal — hanya karyawan yang membutuhkan (mis. laporan kinerja cabang, daftar produk internal); Rahasia — akses ketat, masking atau enkripsi wajib (mis. NIK, nomor rekening, gaji, hasil scoring individu). Aturannya: klasifikasi ditentukan pemilik data saat data dibuat, bukan saat audit datang; dan setiap tingkat punya perlakuan teknis yang otomatis ditegakkan — bukan diingat manusia.",
+        "Retensi menjawab: berapa lama data disimpan, lalu dihapus bagaimana. Contoh aturan retensi (ilustratif — angka pastinya mengikuti regulasi dan kebijakan internal): data transaksi 5 tahun lalu hapus otomatis; log akses 1 tahun; data marketing disimpan selama consent berlaku dan dihapus saat consent ditarik; backup mengikuti retensi sumbernya — backup bukan tempat persembunyian data yang seharusnya sudah dihapus. Retensi tanpa penghapusan otomatis adalah janji kosong: manusia tidak akan menghapus 800 TB arsip dengan tangan.",
+        "Keduanya bertemu di satu titik: data Rahasia yang sudah melewati masa retensi adalah bom waktu ganda — blast radius kebocoran terbesar untuk data yang bahkan sudah tidak dibutuhkan. Itu sebabnya kebijakan retensi dan klasifikasi ditulis berpasangan di dokumen yang sama, disahkan council, dan ditegakkan otomatis: job penghapusan terjadwal, scan klasifikasi berkala, dan alert kalau ada tabel Rahasia tanpa owner atau tanpa tanggal retensi.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Menyimpan NIK nasabah yang sudah menutup rekening 5 tahun lalu — tanpa dasar retensi — berarti menanggung risiko denda dan kebocoran untuk data yang tidak menghasilkan apa-apa. Minimisasi adalah pengendalian risiko termurah: data yang tidak ada tidak bisa bocor.",
+      },
+      quiz: [
+        {
+          q: "NIK dan nomor rekening nasabah masuk klasifikasi apa, dan perlakuannya?",
+          options: [
+            { text: "Publik — boleh dibagikan", why: "NIK adalah identifier paling sensitif; publik berarti kebocoran yang dilegalkan." },
+            { text: "Internal — cukup karyawan saja", why: "Internal terlalu longgar untuk identifier: butuh akses ketat plus masking/enkripsi." },
+            { text: "Rahasia — akses ketat, masking atau enkripsi wajib", why: "Klasifikasi Rahasia memicu perlakuan teknis otomatis yang paling ketat.", correct: true },
+            { text: "Tidak perlu diklasifikasi — yang penting dienkripsi", why: "Tanpa klasifikasi tidak ada yang tahu perlakuan apa yang berlaku; enkripsi saja tidak mengatur siapa boleh akses." },
+          ],
+        },
+        {
+          q: "Aturan retensi \"data transaksi 5 tahun\" tanpa penghapusan otomatis. Masalahnya?",
+          options: [
+            { text: "Tidak ada — aturannya sudah tertulis", why: "Kebijakan tanpa sensor dan eksekusi otomatis adalah dekorasi." },
+            { text: "Retensi tanpa hapus otomatis = janji kosong; data melewati masa retensi tetap tersimpan dan tetap bisa bocor", why: "Penegakan harus otomatis: job hapus terjadwal + alert tabel tanpa tanggal retensi.", correct: true },
+            { text: "Harusnya 10 tahun agar aman", why: "Lebih lama menyimpan justru memperbesar blast radius, bukan memperkecil." },
+            { text: "Backup tidak perlu mengikuti retensi", why: "Backup yang menyimpan data kedaluwarsa adalah tempat persembunyian data yang seharusnya sudah dihapus." },
+          ],
+        },
+      ],
+      reference: "Klasifikasi (Publik/Internal/Rahasia) + retensi berpasangan, disahkan council, ditegakkan otomatis.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

@@ -150,6 +150,81 @@ export const fr16: V2Lesson = {
       reference: "Alert dari residu, bukan angka mentah. Tanya kalender dulu — tapi jangan berhenti di kalender.",
     },
     {
+      id: "change-point",
+      eyebrow: "Langkah 7 · Change-point detection",
+      title: "Di mana tepatnya patah? Cari titik perubahan level",
+      prose: [
+        "CUSUM di langkah 3 adalah alarm online — ia berteriak saat pergeseran terakumulasi melewati ambang. Change-point detection menjawab pertanyaan lanjutannya secara offline: di titik mana tepatnya level itu patah? Bedanya: CUSUM berkata \"ada yang berubah sekitar hari ke-18\", change-point berkata \"patahnya di hari ke-10, level sebelum 100,1 dan sesudah 140,0\".",
+        "Metode paling sederhana: uji semua titik patah yang mungkin. Untuk tiap kandidat k, bagi deret menjadi kiri (hari 1 sampai k) dan kanan (hari k+1 sampai akhir), hitung SSE total = SSE(kiri) + SSE(kanan) — jumlah kuadrat deviasi dari mean masing-masing sisi. Titik patah terbaik adalah k dengan SSE total terkecil: pembagian yang membuat tiap sisi paling homogen. Contoh (ilustratif): volume transaksi harian 20 hari, 10 hari pertama sekitar 100, 10 hari berikutnya sekitar 140. SSE total minimal di k = 10, dengan SSE 62,9 — jauh lebih kecil dari pembagian lain. Mean sebelum 100,1, mean sesudah 140,0: pergeseran +39,9, sekitar +40 persen.",
+        "Dua catatan: pertama, satu titik patah tidak cukup bila ada banyak pergeseran — lanjutannya binary segmentation: cari satu titik patah, lalu ulangi pencarian di tiap sisi secara rekursif. Kedua, change-point butuh data lengkap sesudah kejadian — ia alat investigasi dan backtest, bukan alarm real-time. Pipeline yang benar: CUSUM untuk alarm cepat, change-point untuk menentukan kapan tepatnya serangan dimulai (berguna untuk menentukan jendela investigasi dan menghitung kerugian sejak titik patah).",
+      ],
+      formula: String.raw`k^* = \arg\min_k \big[ SSE(1..k) + SSE(k+1..n) \big]`,
+      formulaNote: "k* = titik patah terbaik; SSE = sum of squared errors dari mean tiap sisi; k* meminimalkan SSE total — pembagian yang membuat tiap sisi paling homogen.",
+      tasks: [
+        { id: "t1", text: "Cari `titik_patah` = k dengan SSE total terkecil" },
+        { id: "t2", text: "Hitung `sse_min` = SSE total di titik itu (1 desimal), cetak keduanya" },
+      ],
+      expected: "titik_patah=10  sse_min=62.9",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Titik patah menentukan jendela kerugian: semua transaksi sesudah k = 10 adalah populasi yang harus di-review. Salah menentukan titik patah 5 hari berarti 5 hari transaksi fraud lolos dari investigasi — atau 5 hari transaksi sah ikut dibekukan.",
+      },
+      hints: [
+        "Coba semua k dari 2 sampai len(data)-2, hitung sse(data[:k]) + sse(data[k:]).",
+        "titik_patah = min(range(2, len(data)-1), key=lambda k: sse(data[:k]) + sse(data[k:])).",
+        "sse_min = round(sse(data[:titik_patah]) + sse(data[titik_patah:]), 1)",
+      ],
+      code: {
+        starter: `# Volume transaksi harian (Rp jt, ilustratif): ada pergeseran level di tengah\n# data = [98, 102, 99, 101, 100, 103, 97, 100, 102, 99,\n#         138, 142, 139, 141, 140, 137, 143, 139, 141, 140]\ndata = [98, 102, 99, 101, 100, 103, 97, 100, 102, 99,\n        138, 142, 139, 141, 140, 137, 143, 139, 141, 140]\n\ndef sse(xs):\n    m = sum(xs) / len(xs)\n    return sum((x - m) ** 2 for x in xs)\n\n# TULIS KODEMU: cari titik patah yang meminimalkan SSE total\ntitik_patah = \nsse_min = \n\nprint(f"titik_patah={titik_patah}  sse_min={sse_min}")`,
+        lockLines: 9,
+        solution: `# Volume transaksi harian (Rp jt, ilustratif): ada pergeseran level di tengah\n# data = [98, 102, 99, 101, 100, 103, 97, 100, 102, 99,\n#         138, 142, 139, 141, 140, 137, 143, 139, 141, 140]\ndata = [98, 102, 99, 101, 100, 103, 97, 100, 102, 99,\n        138, 142, 139, 141, 140, 137, 143, 139, 141, 140]\n\ndef sse(xs):\n    m = sum(xs) / len(xs)\n    return sum((x - m) ** 2 for x in xs)\n\n# TULIS KODEMU: cari titik patah yang meminimalkan SSE total\ntitik_patah = min(range(2, len(data)-1), key=lambda k: sse(data[:k]) + sse(data[k:]))\nsse_min = round(sse(data[:titik_patah]) + sse(data[titik_patah:]), 1)\n\nprint(f"titik_patah={titik_patah}  sse_min={sse_min}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "titik_patah", value: 10, tol: 0, label: "`titik_patah` seharusnya 10", msg: "Pergeseran terjadi setelah hari ke-10: 10 hari pertama ~100, 10 hari berikutnya ~140." },
+          { kind: "equal", task: "t2", name: "sse_min", value: 62.9, tol: 0.1, label: "`sse_min` seharusnya 62.9", msg: "SSE total minimal di k=10." },
+          { kind: "stdout_matches", task: "t2", pattern: "titik_patah=10\\s+sse_min=62\\.9", label: "`print` menampilkan keduanya", msg: "Format: titik_patah=...  sse_min=... ." },
+        ],
+      },
+      reference: "CUSUM = alarm online; change-point = lokasi patah offline. Binary segmentation untuk banyak patahan.",
+    },
+    {
+      id: "case-atm-lanjutan",
+      eyebrow: "Langkah 8 · Case ATM lanjutan",
+      title: "Gelombang kedua: penipu yang belajar dari gelombang pertama",
+      prose: [
+        "Seminggu setelah mini-case langkah 5, gelombang kedua datang — dan penipunya sudah belajar. Sabtu jam 2 pagi lagi, 2 ATM: 30 penarikan @Rp2,4 juta — total Rp72 juta dalam 2 jam. Kali ini tiap penarikan Rp2,4 juta, tepat di bawah ambang Rp2,5 juta yang dipakai tim fraud setelah insiden pertama. Kartunya dari 3 cabang berbeda, bukan 1 — dan jedanya ~4 menit, bukan ~2 menit. Kalau aturanmu hanya \"blokir pola minggu lalu\", gelombang ini lolos.",
+        "Yang menangkapnya: change-point pada volume per ATM — baseline 2 ATM jam 2 pagi total Rp10 juta (ilustratif), malam itu Rp72 juta = 7,2x lipat, dan titik patahnya tepat saat ATM dibuka jam 2 pagi. Lalu grouping: 30 kartu dari 3 cabang ternyata satu batch penerbitan baru yang sama (tanggal terbit berdekatan) — clustering yang tidak terlihat kalau hanya melihat kolom cabang. Dan tanda structuring: 30 penarikan menumpuk tepat di bawah ambang Rp2,5 juta — distribusi nominal yang menumpuk di bawah threshold adalah sidik jari penghindaran ambang.",
+        "Respons dan pelajaran: blokir batch penerbitan (bukan per cabang), tutup 2 ATM sementara, dan perbaiki aturan — ambang tetap tidak boleh jadi satu-satunya pertahanan. Ganti dengan agregat per ATM per jam + velocity per batch kartu + deteksi penumpukan nominal di bawah ambang. Penipu beradaptasi dengan aturanmu; pertahanan yang tidak beradaptasi adalah jadwal serangan berikutnya.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Structuring — memecah transaksi tepat di bawah ambang — adalah pola yang sama di AML: penipu tidak melawan aturanmu, ia menari di bawahnya. Deteksi harus naik ke agregat dan distribusi, bukan bertahan di ambang per transaksi.",
+      },
+      quiz: [
+        {
+          q: "30 penarikan @Rp2,4 jt, tepat di bawah ambang Rp2,5 jt. Sinyal utamanya?",
+          options: [
+            { text: "Nominalnya kecil — abaikan", why: "Salah: penumpukan tepat di bawah ambang adalah sidik jari structuring." },
+            { text: "Structuring: distribusi nominal menumpuk di bawah threshold + agregat 7,2x baseline", why: "Benar: per transaksi lolos, agregat dan distribusinya berteriak.", correct: true },
+            { text: "ATM-nya rusak", why: "Salah: ATM berfungsi — kartunya yang terkoordinasi." },
+            { text: "Kebetulan — 30 orang butuh uang tunai bersamaan jam 2 pagi", why: "Salah: jam 2 pagi + batch penerbitan sama = bukan kebetulan." },
+          ],
+        },
+        {
+          q: "Gelombang kedua lolos dari aturan yang dibuat setelah gelombang pertama. Pelajaran desain deteksinya?",
+          options: [
+            { text: "Turunkan ambang jadi Rp1 juta — pasti tertangkap", why: "Salah: penipu akan pindah ke Rp0,9 juta; ambang tetap selalu bisa ditarik." },
+            { text: "Naik ke agregat (per ATM per jam), velocity per batch kartu, dan deteksi penumpukan di bawah ambang", why: "Benar: pertahanan harus beradaptasi — agregat + distribusi, bukan satu ambang.", correct: true },
+            { text: "Blokir semua penarikan jam 2 pagi", why: "Salah: memblokir nasabah sah adalah biaya yang tidak perlu — dan penipu pindah jam." },
+            { text: "Tidak ada yang bisa dilakukan — penipu selalu menang", why: "Salah: change-point + grouping menangkap gelombang ini; adaptasi adalah pekerjaannya." },
+          ],
+        },
+      ],
+      reference: "Penipu belajar dari aturanmu. Deteksi: agregat + grouping + distribusi nominal, bukan satu ambang.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

@@ -29,6 +29,25 @@ const m = await import("/tmp/metabundle.mjs");
 const slimSteps = (steps) =>
   (steps ?? []).map((s) => [s.id, s.title]);
 
+// Modul bersama (spec topik-10-track.md §"Modul bersama"): ditulis sekali,
+// dipakai banyak track — diberi tag `shared` di lessonMeta.json (sh: 1)
+// dan DITUNDA duplikasi; track pemakai menautkan ke lesson ini.
+// Daftar diverifikasi 2026-11-07 (gap audit Learn v2): 12 lesson.
+const SHARED_SLUGS = new Set([
+  "a312-survival-analysis", // dipakai Credit Risk, Health, Marketing
+  "a37-imbalanced-data", // dipakai Credit Risk, Fraud, Health, Marketing
+  "a28-multiple-testing", // dipakai Bioinformatics, Health, Marketing
+  "a213-kausalitas", // dipakai Credit Risk, Health, Marketing
+  "a313-kausal", // dipakai Credit Risk, Health, Marketing
+  "a310-volatilitas", // GARCH; dipakai Market Risk, Portfolio Mgmt, Marketing
+  "a36-kalibrasi", // dipakai Credit Risk, Fraud, Health, Marketing
+  "a314-explainability", // dipakai Credit Risk, Fraud, Health, Marketing
+  "b12-monte-carlo", // dipakai Credit Risk, Market Risk, Portfolio Mgmt
+  "dm12-keamanan-privasi", // dipakai Fraud, Health, Marketing, Data Mgmt
+  "c15-data-quality", // dipakai Credit Risk, Fraud, Health, Data Mgmt
+  "dm7-kualitas-data", // dipakai Credit Risk, Fraud, Health, Data Mgmt
+]);
+
 const lessons = {};
 const lessonSteps = {};
 let noEst = 0;
@@ -38,6 +57,7 @@ for (const l of m.getV2Lessons()) {
     t: l.title,
     tr: l.track,
     e: l.estMinutes,
+    ...(SHARED_SLUGS.has(l.slug) ? { sh: 1 } : {}),
   };
   lessonSteps[l.slug] = slimSteps(l.steps);
 }

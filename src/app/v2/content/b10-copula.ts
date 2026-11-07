@@ -187,6 +187,62 @@ export const b10: V2Lesson = {
       reference: "Bawah \u2192 Clayton, atas \u2192 Gumbel, dua-duanya \u2192 t, tidak ada \u2192 Gaussian.",
     },
     {
+      id: "tail-dependence",
+      eyebrow: "Langkah 6 · Tail dependence",
+      title: "Seberapa menular ekstrem itu? Koefisien tail dependence",
+      prose: [
+        "Langkah 2 membandingkan copula secara kualitatif — sekarang ukur dengan angka. Koefisien lower tail dependence: λ_bawah = limit P(V ≤ q | U ≤ q) saat q → 0. Artinya: kalau satu variabel sudah di ekor bawah ekstrem, berapa peluang yang lain ikut? λ = 0 berarti ekstrem (hampir) independen; λ = 0,7 berarti 70 persen kejadian ekstrem bawah datang berpasangan.",
+        "Angka tiap keluarga: Gaussian λ = 0 untuk korelasi berapa pun di bawah 1 — inilah dosa 2008 dalam satu angka. Copula t punya λ simetris atas dan bawah yang tumbuh saat derajat bebas ν kecil dan korelasi ρ besar. Clayton punya rumus tertutup: λ_bawah = 2^(−1/θ). Untuk θ = 2: λ_bawah = 2^(−0,5) ≈ 0,71 — 71 persen default ekstrem datang berpasangan, berbanding 0 persen versi Gaussian dengan korelasi yang sama.",
+        "Implikasi praktisnya: dua model dengan marginal sama dan korelasi sama bisa memberi peluang default bersama yang berbeda 10x lipat — bedanya hanya λ. Saat memilih copula, tanyakan dulu berapa λ yang dibutuhkan datamu: estimasi empirisnya dari frekuensi kejadian bersama di kuantil 5 persen terbawah, lalu pilih keluarga yang λ-nya paling dekat. Korelasi menjawab gerak sehari-hari; λ menjawab gerak di hari krisis — dan hari krisislah yang menentukan modal.",
+      ],
+      formula: String.raw`\lambda_{\text{bawah}} = \lim_{q \to 0} P(V \le q \mid U \le q), \qquad \lambda_{\text{bawah}}^{\text{Clayton}} = 2^{-1/\theta}`,
+      formulaNote: "λ_bawah = koefisien lower tail dependence; θ (theta) = parameter Clayton; θ = 2 → 2^(−1/2) ≈ 0,71 — 71 persen kejadian ekstrem bawah datang berpasangan; Gaussian: λ = 0.",
+      tasks: [
+        { id: "t1", text: "Hitung `lambda_clayton` = 2^(-1/theta) untuk theta = 2 (2 desimal)" },
+        { id: "t2", text: "Tetapkan `lambda_gauss` = 0 — Gaussian tanpa tail dependence" },
+      ],
+      expected: "lambda_clayton=0.71  lambda_gauss=0",
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "λ adalah satu angka yang membedakan model yang jujur di krisis dari model yang hanya jujur di masa tenang. Kalau laporan risikomu tidak menyebut λ, tanyakan: copula apa, dan berapa tail dependence-nya?",
+      },
+      hints: [
+        "lambda_clayton = round(2 ** (-1/theta), 2).",
+        "Gaussian: lambda = 0 berapa pun korelasinya (di bawah 1).",
+        "print(f\"lambda_clayton={lambda_clayton}  lambda_gauss={lambda_gauss}\")",
+      ],
+      code: {
+        starter: `# Clayton theta=2 vs Gaussian: siapa yang menularkan ekstrem bawah?\ntheta = 2\n\n# TULIS KODEMU\nlambda_clayton = \nlambda_gauss = \n\nprint(f"lambda_clayton={lambda_clayton}  lambda_gauss={lambda_gauss}")`,
+        lockLines: 2,
+        solution: `# Clayton theta=2 vs Gaussian: siapa yang menularkan ekstrem bawah?\ntheta = 2\n\n# TULIS KODEMU\nlambda_clayton = round(2 ** (-1/theta), 2)\nlambda_gauss = 0\n\nprint(f"lambda_clayton={lambda_clayton}  lambda_gauss={lambda_gauss}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "lambda_clayton", value: 0.71, tol: 0.01, label: "`lambda_clayton` seharusnya 0.71", msg: "2^(−1/2) ≈ 0,707 → 0,71." },
+          { kind: "equal", task: "t2", name: "lambda_gauss", value: 0, tol: 1e-9, label: "`lambda_gauss` seharusnya 0", msg: "Gaussian: λ = 0 — ekstrem (hampir) independen." },
+          { kind: "stdout_matches", task: "t2", pattern: "lambda_clayton=0\\.71\\s+lambda_gauss=0", label: "`print` menampilkan keduanya", msg: "Format: lambda_clayton=...  lambda_gauss=... ." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Clayton θ=2 memberi λ_bawah ≈ 0,71, Gaussian λ=0, korelasi sama. Artinya?",
+          options: [
+            { text: "Kedua model sama risikonya", why: "Salah: peluang default bersama ekstrem beda jauh — 71% vs 0%." },
+            { text: "Clayton: 71% kejadian ekstrem bawah datang berpasangan; Gaussian: ekstrem (hampir) independen", why: "Benar: λ mengukur penularan ekstrem — korelasi saja tidak menangkapnya.", correct: true },
+            { text: "Gaussian lebih aman karena λ=0", why: "Salah: λ=0 bukan aman — ia meremehkan risiko krisis bersama." },
+          ],
+        },
+        {
+          q: "Untuk memilih copula dari data, ukuran yang paling relevan di ekor adalah…",
+          options: [
+            { text: "Korelasi Pearson saja", why: "Salah: korelasi tidak menentukan bentuk ekor." },
+            { text: "Frekuensi kejadian bersama di kuantil ekstrem — estimasi empiris λ", why: "Benar: bandingkan λ empiris dengan λ tiap keluarga, lalu pilih yang paling dekat.", correct: true },
+            { text: "Mean tiap marginal", why: "Salah: marginal tidak menentukan dependensi." },
+          ],
+        },
+      ],
+      reference: "λ = ukuran penularan ekstrem. Gaussian 0, Clayton 2^(−1/θ), t simetris.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

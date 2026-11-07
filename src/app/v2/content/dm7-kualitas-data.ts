@@ -14,6 +14,7 @@ export const dm7: V2Lesson = {
       prose: [
         "Sebuah bank menyalurkan KUR Rp14 miliar ke 200 debitur — yang ternyata sudah meninggal. Bukan fraud, bukan korupsi. Kolom status_hidup di tabel nasabah tidak pernah di-update dari Dukcapil selama 3 tahun; nilainya basi. Model scoring membaca \"hidup\", analis membaca \"layak\", uang cair ke ahli waris fiktif.",
         "Tidak ada yang salah hitung. Semua query benar, semua dashboard akurat — akurat menggambarkan data yang salah. Inilah sifat kualitas data yang paling menakutkan: ia tidak membuat sistem error; ia membuat sistem yakin pada kebohongan.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Fraud/ML Analytics, Health Data Science, dan Data Management — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       reference: "Kualitas data diukur, dites, dan dipantau seperti nyawa perusahaan — karena memang begitu.",
@@ -145,6 +146,81 @@ export const dm7: V2Lesson = {
       ],
       tasks: [],
       reference: "Kualitas = insentif yang benar + sensor yang tepat + disiplin hulu.",
+    },
+    {
+      id: "skor-kualitas-ambang",
+      eyebrow: "Langkah 9 · Skor kualitas & ambang lolos",
+      title: "Skor kualitas dan ambang go atau no-go",
+      prose: [
+        "Enam dimensi dari langkah 2 harus diringkas menjadi satu angka yang bisa diputuskan — itulah data-quality scorecard. Caranya: tiap dimensi diberi bobot sesuai dampak bisnisnya, tiap dimensi diukur 0 sampai 100, lalu skor = jumlah tertimbang. Contoh bobot (ilustratif — sesuaikan dengan risikomu): akurasi 30 persen, kelengkapan 25 persen, konsistensi 15 persen, ketepatan waktu 10 persen, validitas 10 persen, keunikan 10 persen. Jumlah bobot harus 100 persen; kalau tidak, skormu bukan rata-rata tertimbang melainkan angka karangan.",
+        "Skor tanpa ambang adalah hiasan. Ambang go atau no-go yang umum: skor 90 ke atas = GO, data boleh naik ke Gold; 75 sampai 89 = BERSYARAT, naik dengan pengecualian tercatat plus tiket perbaikan hulu ber-SLA; di bawah 75 = NO-GO, data dikarantina dan tidak dipakai untuk keputusan. Ambang dinegosiasi dengan pemilik bisnis — bukan ditetapkan sepihak oleh tim data — karena merekalah yang menanggung akibat keputusan atas data itu.",
+        "Contoh hitung (ilustratif): tabel nasabah dinilai akurasi 96, kelengkapan 88, konsistensi 92, ketepatan waktu 90, validitas 97, keunikan 99. Skornya = 0,30×96 + 0,25×88 + 0,15×92 + 0,10×90 + 0,10×97 + 0,10×99 = 28,8 + 22 + 13,8 + 9 + 9,7 + 9,9 = 93,2. Statusnya GO — tetapi catatan kelengkapan 88 tetap masuk tiket perbaikan, karena skor total yang hijau tidak boleh menutupi dimensi yang kuning.",
+      ],
+      formula: String.raw`\text{skor} = \sum w_i \times m_i = 0{,}30(96) + 0{,}25(88) + 0{,}15(92) + 0{,}10(90) + 0{,}10(97) + 0{,}10(99) = 93{,}2`,
+      formulaNote: "skor = rata-rata tertimbang; w_i = bobot dimensi i (jumlah = 1); m_i = nilai dimensi i (0–100); 28,8 + 22 + 13,8 + 9 + 9,7 + 9,9 = 93,2 — di atas ambang GO 90.",
+      tasks: [
+        { id: "t1", text: "Hitung `skor` = rata-rata tertimbang 6 dimensi (1 desimal)" },
+        { id: "t2", text: "Tentukan `status`: GO jika skor >= 90, BERSYARAT jika >= 75, NO-GO jika di bawah 75" },
+      ],
+      expected: "skor=93.2  status=GO",
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Skor total hijau lalu semua dimensi dianggap beres. Skor 93,2 dengan kelengkapan 88 berarti 12 persen data hilang — untuk kolom kritis seperti NIK, itu tetap temuan. Selalu laporkan skor per dimensi di samping skor total.",
+      },
+      hints: [
+        "skor = round(sum(metrik[k] * bobot[k] for k in metrik), 1)",
+        "status = \"GO\" if skor >= 90 else (\"BERSYARAT\" if skor >= 75 else \"NO-GO\")",
+        "Pastikan jumlah bobot = 1,0.",
+      ],
+      code: {
+        starter: `# penilaian tabel nasabah (ilustratif, skala 0-100)\nmetrik = {"akurasi": 96, "kelengkapan": 88, "konsistensi": 92,\n          "ketepatan": 90, "validitas": 97, "keunikan": 99}\nbobot = {"akurasi": 0.30, "kelengkapan": 0.25, "konsistensi": 0.15,\n         "ketepatan": 0.10, "validitas": 0.10, "keunikan": 0.10}\n\n# TULIS KODEMU\nskor = \nstatus = \n\nprint(f"skor={skor}  status={status}")`,
+        lockLines: 5,
+        solution: `# penilaian tabel nasabah (ilustratif, skala 0-100)\nmetrik = {"akurasi": 96, "kelengkapan": 88, "konsistensi": 92,\n          "ketepatan": 90, "validitas": 97, "keunikan": 99}\nbobot = {"akurasi": 0.30, "kelengkapan": 0.25, "konsistensi": 0.15,\n         "ketepatan": 0.10, "validitas": 0.10, "keunikan": 0.10}\n\n# TULIS KODEMU\nskor = round(sum(metrik[k] * bobot[k] for k in metrik), 1)\nstatus = "GO" if skor >= 90 else ("BERSYARAT" if skor >= 75 else "NO-GO")\n\nprint(f"skor={skor}  status={status}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "skor", value: 93.2, tol: 0.01, label: "`skor` seharusnya 93.2", msg: "0,30×96 + 0,25×88 + 0,15×92 + 0,10×90 + 0,10×97 + 0,10×99 = 93,2." },
+          { kind: "equal", task: "t2", name: "status", value: "GO", label: "`status` seharusnya GO", msg: "Skor 93,2 ≥ ambang GO 90." },
+          { kind: "stdout_matches", task: "t2", pattern: "skor=93\\.2\\s+status=GO", label: "`print` menampilkan keduanya", msg: "Format: skor=...  status=... ." },
+        ],
+      },
+      reference: "Bobot jumlah 100%; ambang GO/BERSYARAT/NO-GO tertulis dan disepakati bisnis.",
+    },
+    {
+      id: "remediasi-hulu",
+      eyebrow: "Langkah 10 · Remediasi: perbaiki di hulu, bukan di laporan",
+      title: "Perbaiki di hulu, bukan di laporan",
+      prose: [
+        "Setiap temuan kualitas punya dua alamat perbaikan: hulu (sumber dan proses yang menghasilkan data) atau hilir (laporan dan pipeline yang mengonsumsinya). Aturan defaultnya: perbaiki di hulu. Validasi di form input, kontrak dengan tim sumber, dan perbaikan proses adalah obat permanen — sekali benar, semua downstream ikut benar. Perbaikan di hilir — imputasi di query, filter di dashboard, pengecualian di laporan — adalah perban: menutup gejala sambil sumbernya terus berdarah.",
+        "Pengecualian bukan dilarang — tetapi ia punya syarat. Pengecualian yang sah itu sementara (ada tanggal kedaluwarsa), tercatat (tiket dengan alasan dan penandatangan), bertuan (pemilik bernama yang bertanggung jawab menutupnya), dan ber-SLA (misalnya perbaikan hulu dalam 5 hari kerja). Pengecualian yang tidak memenuhi keempatnya adalah auto-fix diam-diam dengan nama yang lebih sopan. Contoh: email invalid 8 persen di tabel nasabah — pengecualian sahnya: kampanye minggu ini jalan dengan filter email valid plus catatan kaki di laporan; tiket perbaikan validasi form ke tim produk dengan SLA 5 hari kerja; minggu depan pengecualian dicabut atau diperpanjang secara tertulis, bukan dibiarkan menggantung.",
+        "Case penutup: kolom kota berisi \"Jakarta\" dan \"JKT\" secara bersamaan. Perbaikan hilirnya: mapping di query (\"JKT\" jadi \"Jakarta\") — cepat, tetapi setiap analis baru harus menemukan mapping itu sendiri, dan satu query yang lupa mapping menghasilkan angka yang beda. Perbaikan hulunya: daftar kota baku di form input plus rule konsistensi di pintu Silver — sekali jalan, tidak ada lagi \"JKT\" yang lolos. Biaya hulu terasa lebih mahal minggu ini; biaya hilir dibayar selamanya oleh setiap orang yang menyentuh data itu.",
+      ],
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Pengecualian tanpa tanggal kedaluwarsa menjadi kebijakan bayangan: enam bulan kemudian tidak ada yang ingat kenapa 8 persen email difilter, dan laporan direksi diam-diam mengecualikan segmen nasabah yang mungkin justru paling berisiko.",
+      },
+      quiz: [
+        {
+          q: "Email invalid 8% di tabel nasabah. Tindakan yang benar?",
+          options: [
+            { text: "Hapus barisnya diam-diam di query agar laporan rapi", why: "Auto-fix diam-diam menyembunyikan masalah sumber — morfin, bukan obat." },
+            { text: "Pengecualian tercatat sementara + tiket perbaikan validasi form di hulu ber-SLA", why: "Hilir menambal sementara dengan jejak; hulu menyembuhkan permanen.", correct: true },
+            { text: "Biarkan — 8% itu kecil", why: "Kecil yang berulang adalah masalah sistemik yang menunggu meledak." },
+            { text: "Ubah rule agar email invalid dianggap valid", why: "Mengubah rule agar lolos = mematikan alarm kebakaran." },
+          ],
+        },
+        {
+          q: "Mana ciri pengecualian kualitas yang TIDAK sah?",
+          options: [
+            { text: "Sementara, tercatat, bertuan, ber-SLA", why: "Itu justru definisi pengecualian yang sah." },
+            { text: "Permanen tanpa tanggal kedaluwarsa dan tanpa pemilik — dibiarkan menggantung", why: "Pengecualian tanpa kedaluwarsa menjadi kebijakan bayangan yang tidak pernah ditutup.", correct: true },
+            { text: "Disetujui pemilik data dan dicatat di tiket", why: "Itu syarat pengecualian yang sah." },
+            { text: "Dicabut setelah perbaikan hulu selesai", why: "Itu penutup yang benar dari siklus pengecualian." },
+          ],
+        },
+      ],
+      reference: "Hulu = obat permanen; hilir = perban sementara yang tercatat dan ber-SLA.",
     },
     {
       id: "checkpoint",

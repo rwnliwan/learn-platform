@@ -14,6 +14,7 @@ export const a213: V2Lesson = {
       prose: [
         "Data menunjukkan korelasi kuat: penjualan es krim naik → kasus tenggelam naik (r = 0,9). Seorang politisi mengusulkan pelarangan es krim di pantai untuk menyelamatkan nyawa. Terdengar logis dari angkanya. Tentu saja itu absurd: variabel ketiganya musim panas — panas membuat orang beli es krim dan berenang. Larangan es krim tidak menyelamatkan satu pun perenang.",
         "Bentuk yang sama bersembunyi di keputusan bisnis bernilai miliaran: nasabah yang ikut webinar lebih jarang default → perbanyak webinar. Padahal yang ikut webinar memang nasabah yang lebih melek finansial. Bedanya dengan es krim: di bisnis, Z-nya tidak selalu semusim panas yang jelas terlihat.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [
         { id: "t1", text: "Catat `r_mentah` = 0,9 (korelasi es krim–tenggelam)" },

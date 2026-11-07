@@ -4,14 +4,15 @@ import meta from "./lessonMeta.json";
 // di jalur client (lihat header scripts/gen-lesson-meta.mjs: registry penuh
 // = konten ~26 MB yang dulu ikut ke shared chunk client 22 MB).
 // File ini hanya membaca lessonMeta.json (~0,09 MB: judul, track,
-// estMinutes). Judul per step TIDAK ada di sini — ia pindah ke
+// estMinutes, + flag shared `sh` untuk modul bersama lintas-track).
+// Judul per step TIDAK ada di sini — ia pindah ke
 // lessonMetaSteps.json (~0,42 MB) yang HANYA dipakai /v2/kebingungan via
 // dynamic import (lazy); halaman lain tidak pernah mengunduhnya. Konten
 // penuh (prosa, quiz, lab) tetap dibaca server-side dari registry.ts.
 // WAJIB regenerasi lessonMeta.json + lessonMetaSteps.json setiap kali
 // konten lesson/misi/proyek berubah, sebelum deploy.
 
-type SlimLesson = { t: string; tr: string; e: number };
+type SlimLesson = { t: string; tr: string; e: number; sh?: number };
 type SlimMisi = { t: string; tr: string; e: number };
 type SlimProyek = { t: string };
 
@@ -26,6 +27,8 @@ export interface LessonMeta {
   title: string;
   track: string;
   estMinutes: number;
+  /** modul bersama lintas-track (tag `shared`, spec topik-10-track) */
+  shared?: boolean;
 }
 
 export interface MisiMeta {
@@ -41,6 +44,7 @@ function toLessonMeta(slug: string, s: SlimLesson): LessonMeta {
     title: s.t,
     track: s.tr,
     estMinutes: s.e,
+    ...(s.sh === 1 ? { shared: true } : {}),
   };
 }
 

@@ -24,6 +24,10 @@ import { e22 } from "../content/e22-reksa-dana-etf";
 import { e23 } from "../content/e23-excel-financial-modeling";
 import { e24 } from "../content/e24-wppe-pasar-modal";
 import { e25 } from "../content/e25-research-note";
+import { e26 } from "../content/e26-mortgage-cmbs-cdo";
+import { e27 } from "../content/e27-regulasi-keuangan";
+import { e28 } from "../content/e28-capstone-frontier-var";
+import { e29 } from "../content/e29-nonprofit-finance";
 
 export const REG_E: Record<string, V2Lesson> = {
   "e1-struktur-pasar": e1,
@@ -51,4 +55,8 @@ export const REG_E: Record<string, V2Lesson> = {
   "e23-excel-financial-modeling": e23,
   "e24-wppe-pasar-modal": e24,
   "e25-research-note": e25,
+  "e26-mortgage-cmbs-cdo": e26,
+  "e27-regulasi-keuangan": e27,
+  "e28-capstone-frontier-var": e28,
+  "e29-nonprofit-finance": e29,
 };

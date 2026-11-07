@@ -15,6 +15,7 @@ export const a312: V2Lesson = {
         "Tim risiko ingin tahu berapa lama rata-rata nasabah bertahan sebelum default. Analis mengambil data 5 tahun, lalu — agar bersih — membuang 70 persen nasabah: mereka yang belum default (masih aktif) dan yang lunas lebih awal. Dari 30 persen yang tersisa (yang benar-benar default), rata-rata waktu default = 14 bulan. Laporan: rata-rata nasabah default dalam 14 bulan. Direksi panik.",
         "Kesalahan fatal: 70 persen yang dibuang bukan sampah — mereka adalah kabar baik. Nasabah yang masih aktif 5 tahun tanpa default adalah bukti bertahan lama, bukan data rusak. Dengan membuang mereka, analis hanya mengukur yang gagal — seperti mengukur rata-rata umur manusia hanya dari data kuburan.",
         "Jawaban yang benar memakai semua data termasuk yang tersensor — dan median waktu default-nya ternyata di atas 60 bulan. Metode yang bisa melakukan ini bernama Kaplan-Meier.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {

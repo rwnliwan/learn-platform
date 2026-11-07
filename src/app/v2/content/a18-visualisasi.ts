@@ -260,6 +260,44 @@ export const a18: V2Lesson = {
       reference: "LF ≤ 1,05 jujur; LF ≈ 49 = murni kebohongan visual.",
     },
     {
+      id: "ordinal-chart",
+      eyebrow: "Langkah 8 · Chart ordinal",
+      title: "Diverging stacked bar, bar biasa, atau histogram?",
+      prose: [
+        "Tiga chart untuk tiga pertanyaan berbeda atas data ordinal. Diverging stacked bar dipakai saat pertanyaanmu adalah sentimen: seberapa besar kubu positif vs negatif. Satu batang 100 persen per kelompok, skor negatif di kiri, netral di tengah, skor positif di kanan — perbandingan antar cabang atau antar periode langsung terbaca. Contoh: kepuasan nasabah 200 responden (ilustratif) — sangat tidak puas 5 persen, tidak puas 10 persen, netral 25 persen, puas 40 persen, sangat puas 20 persen — top-2-box 60 persen, bottom-2-box 15 persen. Dua cabang berdampingan dalam diverging stacked bar langsung menunjukkan cabang mana yang kubu negatifnya lebih besar.",
+        "Bar chart biasa dipakai saat pertanyaanmu adalah frekuensi per level tanpa muatan sentimen: berapa responden di tiap skor, atau perbandingan satu level antar kelompok. Syaratnya: sumbu Y dari nol, satu pesan per chart, dan yang diplot adalah frekuensi atau persentase — bukan mean skor. Histogram dipakai saat pertanyaanmu adalah bentuk distribusi skor mentah: apakah menumpuk di tengah, miring ke kanan, atau dua punuk. Untuk Likert 5 level, histogram dan bar chart frekuensi hampir identik — pilih salah satu, jangan tampilkan keduanya.",
+        "Larangan yang tidak bisa ditawar: jangan tampilkan mean di sumbu, di anotasi, atau sebagai garis vertikal di chart ordinal. Garis mean di tengah distribusi Likert terlihat ilmiah padahal mengasumsikan jarak antar level sama — asumsi yang tidak pernah diukur. Kalau direksi meminta satu angka, beri median plus top-2-box di teks pendamping, bukan garis di chart.",
+        "Aturan pilihnya: sentimen antar kelompok — diverging stacked bar; frekuensi per level — bar chart; bentuk distribusi — histogram. Dan sebelum memilih, tanyakan dulu skala datanya — chart yang benar untuk data rasio bisa menjadi chart yang berbohong untuk data ordinal.",
+      ],
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Histogram Likert dengan garis mean vertikal di 3,35. Garisnya terlihat presisi, tetapi 3,35 adalah mean atas jarak yang tidak pernah diukur — presisi palsu dengan bungkus visual yang meyakinkan.",
+      },
+      quiz: [
+        {
+          q: "Kamu membandingkan kepuasan Likert 5 level antar 3 cabang. Chart terbaik?",
+          options: [
+            { text: "Diverging stacked bar — satu batang 100% per cabang, negatif kiri, positif kanan", why: "Keseimbangan sentimen dan perbandingan antar cabang langsung terbaca.", correct: true },
+            { text: "Line chart dengan mean tiap cabang", why: "Mean skor ordinal dilarang tampil; line chart menyiratkan tren antar kategori." },
+            { text: "Pie chart 5 slice per cabang", why: "Tiga pie × lima sudut = tidak ada yang bisa dibandingkan." },
+            { text: "Histogram dengan garis mean vertikal", why: "Garis mean di chart ordinal = presisi palsu atas jarak yang tidak diukur." },
+          ],
+        },
+        {
+          q: "Kapan bar chart biasa lebih tepat daripada diverging stacked bar untuk data Likert?",
+          options: [
+            { text: "Saat ingin membandingkan sentimen positif vs negatif antar kelompok", why: "Itu justru tugas diverging stacked bar." },
+            { text: "Saat pertanyaannya frekuensi per level tanpa muatan sentimen — dan yang diplot frekuensi atau persentase, bukan mean", why: "Bar chart menjawab berapa di tiap level; sentimen butuh diverging.", correct: true },
+            { text: "Saat ingin menampilkan mean skor sebagai KPI", why: "Mean skor ordinal tidak boleh ditampilkan sebagai KPI dalam chart apa pun." },
+            { text: "Saat sumbu Y bisa mulai dari 3 agar perbedaan terlihat besar", why: "Sumbu terpotong mendistorsi bar chart — lie factor bicara." },
+          ],
+        },
+      ],
+      reference: "Sentimen antar kelompok → diverging stacked bar; frekuensi → bar; bentuk → histogram. Tanpa mean di chart ordinal.",
+    },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

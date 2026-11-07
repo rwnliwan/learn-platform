@@ -15,6 +15,7 @@ export const a314: V2Lesson = {
         "2019, Apple Card diluncurkan. Tak lama keluhan meledak: seorang programmer mendapat limit 20 kali lebih kecil dari istrinya — padahal mereka berbagi rekening, aset, dan riwayat kredit yang lebih buruk darinya. Algoritma seksis, tuduhnya. Regulator New York membuka investigasi.",
         "Goldman Sachs bersikeras: model tidak memakai gender sebagai variabel. Dan itu mungkin benar — tapi tidak cukup. Model bisa mempelajari proksi: pola belanja, nama depan, kode pos yang berkorelasi dengan gender. Menghapus kolom gender tidak menghapus informasi gender dari 100 variabel lain yang saling berkaitan.",
         "Investigasi 2 tahun akhirnya tidak menemukan diskriminasi ilegal — tapi kerusakan reputasi sudah terjadi. Pelajarannya permanen: kami tidak memakai variabel sensitif bukan pertahanan. Yang dibutuhkan: pengujian fairness yang sistematis plus kemampuan menjelaskan tiap keputusan individual.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Fraud/ML Analytics, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {

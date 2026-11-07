@@ -15,6 +15,7 @@ export const a313: V2Lesson = {
         "Bank meluncurkan Program Sehat Finansial — edukasi plus restrukturisasi untuk nasabah berisiko. Setahun kemudian: nasabah peserta program default 18 persen, non-peserta 9 persen. Kesimpulan manajemen: program menyebabkan default naik 2 kali lipat — hentikan.",
         "Analis yang teliti melihat siapa yang ikut: program ditawarkan ke nasabah yang sudah menunggak 60+ hari — kelompok yang memang berisiko tinggi dari sananya. Membandingkan peserta vs non-peserta = membandingkan apel busuk vs apel segar, lalu menyalahkan programnya. Setelah dibandingkan dengan kelompok kontrol yang setara risikonya, program ternyata menurunkan default 3 poin.",
         "Angka 18 vs 9 persen itu benar secara matematis — yang salah adalah lompatan ke menyebabkan. Inilah selection bias: perbedaan yang diamati mencerminkan siapa yang dipilih, bukan efek perlakuan.",
+        "Lesson bersama (shared): materi ini dipakai juga di track Credit Risk, Health Data Science, dan Marketing Analytics — pelajari sekali di sini, dan tautkan dari sana, jangan diduplikasi.",
       ],
       tasks: [],
       note: {
