@@ -49,9 +49,9 @@ export const pmd4: V2Lesson = {
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "\u2018Sharpe tinggi = bagus, langsung live.\u2019 Salah. Audit dulu: lookahead? overfit? 1.000 trial → ekspektasi Sharpe 1,5 (deflated!). Backtest hebat + audit gagal = bom.",
+        body: "\u2018Sharpe tinggi = bagus, langsung live.\u2019 Salah. Audit dulu: lookahead? overfit? 1.000 trial → ekspektasi Sharpe ≈1,5 (deflated! — aturan praktis, tergantung panjang data). Backtest hebat + audit gagal = bom.",
       },
-      reference: "Kisah nyata 2019: auditor tanya \u2018apakah info tersedia?\u2019 → lookahead 2 bulan → Sharpe 0,3 → batalkan → hemat USD 20 juta.",
+      reference: "Contoh audit (ilustratif, komposit kasus nyata): auditor tanya \u2018apakah info tersedia?\u2019 → lookahead 2 bulan → Sharpe 0,3 → batalkan sebelum live.",
     },
     {
       id: "lab-lookahead",
@@ -115,7 +115,7 @@ export const pmd4: V2Lesson = {
       title: "Menghafal, bukan belajar",
       prose: [
         "Overfitting: strategi menghafal noise historis (banyak parameter!) → in-sample bagus, out-of-sample hancur. Deteksi: jurang IS→OOS (in-sample Sharpe 4,0, OOS 0,5 = overfit!), train/test split waktu, walk-forward, deflated Sharpe (koreksi jumlah trial!). Aturannya: parameter sedikit + logika ekonomi + out-of-sample wajib.",
-        "Deflated Sharpe (Bailey & Lopez de Prado): probabilitas Sharpe benar > 0 setelah koreksi trial. Intuisinya: lempar koin 100×, dapat 70 kepala \u2014 hebat? Tidak, coba cukup banyak! Praktisnya: 1.000 trial → ekspektasi Sharpe ≈ 1,5 (bukan 0!): \u2018temuan\u2019 harus mengalahkan itu. Contoh: quant coba 1.000 kombinasi → terbaik Sharpe 2,0 → deflated = 60% (tidak meyakinkan!). Walk-forward 2015\u20132018 train → 2019 test: Sharpe 0,3. Mati.",
+        "Deflated Sharpe (Bailey & Lopez de Prado): probabilitas Sharpe benar > 0 setelah koreksi trial. Intuisinya: lempar koin 100×, dapat 70 kepala \u2014 hebat? Tidak, coba cukup banyak! Praktisnya: 1.000 trial → ekspektasi Sharpe ≈ 1,5 (bukan 0!) — aturan praktis untuk data harian ~5 tahun; makin pendek datanya, makin tinggi bar-nya: \u2018temuan\u2019 harus mengalahkan itu. Contoh: quant coba 1.000 kombinasi → terbaik Sharpe 2,0 → deflated = 60% (tidak meyakinkan!). Walk-forward 2015\u20132018 train → 2019 test: Sharpe 0,3. Mati.",
         "Pelajaran: \u2018terbaik dari 1.000\u2019 = juara menghafal. Lapor semua trial, bukan juaranya. Catat SEMUA trial \u2014 \u2018lupa\u2019 999 trial gagal = penipuan diri (p-hacking). Jurnal trial = kejujuran kuantitatif. Aturan praktis: Sharpe 2,0 dari 100 trial = lemah; Sharpe 1,5 dari 1 trial = kuat.",
       ],
       formula: String.raw`DSR = \Phi\left(\frac{(\hat{SR} - SR_0)\sqrt{T-1}}{\sqrt{1 - \gamma_3\hat{SR} + \frac{\gamma_4-1}{4}\hat{SR}^2}}\right)`,

@@ -29,7 +29,7 @@ export const hd14: V2Lesson = {
       eyebrow: "Langkah 2 · Lab simulasi",
       title: "NER berbasis aturan (simulasi konsep)",
       prose: [
-        "Simulasikan NER berbasis aturan untuk Bahasa Indonesia: dari satu kalimat klinis, ekstrak gejala yang benar-benar dialami (present, tidak dinegasi) dan obat yang disebut. Aturan negasi sederhana: bila kata negasi (“tidak ada”, “tanpa”, “menyangkal”) muncul SEBELUM entitas dalam kalimat, entitas itu dinegasi.",
+        "Simulasikan NER berbasis aturan untuk Bahasa Indonesia: dari satu kalimat klinis, ekstrak gejala yang benar-benar dialami (present, tidak dinegasi) dan obat yang disebut. Aturan negasi sederhana: bila kata negasi (“tidak ada”, “tanpa”, “menyangkal”) muncul SEBELUM entitas dalam kalimat, entitas itu dinegasi. Catatan: kode di bawah memakai `t[:i]` — seluruh teks sebelum entitas, bukan hanya kalimatnya. Negasi di kalimat sebelumnya ikut terhitung; sistem nyata membatasi jendela ke kalimat yang sama.",
         "Ini simulasi konsep — bukan model besar. Tujuannya merasakan di mana aturan bekerja dan di mana ia rapuh (itulah kebutuhan ML/LLM nantinya).",
       ],
       tasks: [
@@ -39,7 +39,7 @@ export const hd14: V2Lesson = {
       expected: "gejala_ada=['nyeri dada']  obat_ditemukan=['aspirin']",
       note: {
         title: "Sering salah",
-        body: "Mengecek keberadaan kata tanpa melihat konteks negasi — “sesak napas” ikut tercatat sebagai gejala. Inilah error yang membuat F1 negasi anjlok ke 0,71 sementara obat mencapai 0,9+.",
+        body: "Mengecek keberadaan kata tanpa melihat konteks negasi — “sesak napas” ikut tercatat sebagai gejala. Inilah error yang membuat F1 negasi anjlok ke 0,71 sementara obat mencapai 0,9+ (angka ilustratif dari evaluasi per tipe entitas).",
         type: "pitfall",
       },
       hints: [
@@ -174,7 +174,7 @@ export const hd14: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: teks klinis adalah bahasa kedua dokter",
-        body: "Praktisi NLP klinis yang baik memperlakukan catatan dokter sebagai dialek tersendiri — bukan Bahasa Indonesia yang rapi. Heuristiknya: pertama, hormati singkatan lokal sebelum memanggil model besar — kamus singkatan RS (“SOB”, “DM”, “tdk”) yang dibangun dari 1.000 catatan sering menaikkan F1 lebih banyak daripada mengganti arsitektur model. Kedua, negasi dan ketidakpastian adalah separuh pekerjaan: “menyangkal nyeri dada”, “curiga TB”, “riwayat DM” — tiga pola ini memutuskan apakah entitasmu bermakna klinis atau sampah. Ketiga, evaluasi seperti auditor, bukan seperti pemasar: laporkan F1 per tipe entitas dengan definisi kecocokan yang eksplisit (strict vs lenient), karena agregat menyembunyikan titik lemah yang justru paling berbahaya — negasi yang F1-nya 0,71 sementara obat 0,94. Keempat, untuk LLM sebagai ekstraktor: jangan percaya klaim “tanpa training” — ukur halusinasi span (entitas yang tidak ada di teks!) dengan metrik factuality yang dinilai klinisi, dan selalu human-in-the-loop untuk output yang menyentuh pasien. Teks klinis tidak memaafkan ekstraksi yang ceroboh — ia mengubahnya menjadi keputusan medis yang salah.",
+        body: "Praktisi NLP klinis yang baik memperlakukan catatan dokter sebagai dialek tersendiri — bukan Bahasa Indonesia yang rapi. Heuristiknya: pertama, hormati singkatan lokal sebelum memanggil model besar — kamus singkatan RS (“SOB”, “DM”, “tdk”) yang dibangun dari 1.000 catatan sering menaikkan F1 lebih banyak daripada mengganti arsitektur model. Kedua, negasi dan ketidakpastian adalah separuh pekerjaan: “menyangkal nyeri dada”, “curiga TB”, “riwayat DM” — tiga pola ini memutuskan apakah entitasmu bermakna klinis atau sampah. Ketiga, evaluasi seperti auditor, bukan seperti pemasar: laporkan F1 per tipe entitas dengan definisi kecocokan yang eksplisit (strict vs lenient), karena agregat menyembunyikan titik lemah yang justru paling berbahaya — negasi yang F1-nya 0,71 sementara obat 0,94 (angka ilustratif). Keempat, untuk LLM sebagai ekstraktor: jangan percaya klaim “tanpa training” — ukur halusinasi span (entitas yang tidak ada di teks!) dengan metrik factuality yang dinilai klinisi, dan selalu human-in-the-loop untuk output yang menyentuh pasien. Teks klinis tidak memaafkan ekstraksi yang ceroboh — ia mengubahnya menjadi keputusan medis yang salah.",
       },
       reference: "Evaluasi NER: F1 per tipe entitas, definisi kecocokan eksplisit, kappa anotator, taksonomi error.",
     },
@@ -261,7 +261,7 @@ export const hd14: V2Lesson = {
         {
           q: "Evaluasi NER yang benar?",
           options: [
-            { text: "Precision/recall/F1 PER TIPE ENTITAS (negasi sering paling lemah)", why: "Benar: agregat menyembunyikan kelemahan fatal (negasi F1 0,71 vs obat 0,94).", correct: true },
+            { text: "Precision/recall/F1 PER TIPE ENTITAS (negasi sering paling lemah)", why: "Benar: agregat menyembunyikan kelemahan fatal (negasi F1 0,71 vs obat 0,94 — angka ilustratif).", correct: true },
             { text: "Satu angka F1 agregat", why: "Agregat menyembunyikan titik lemah yang justru paling berbahaya." },
             { text: "Kecepatan saja", why: "Kecepatan tidak mengukur kebenaran ekstraksi." },
             { text: "Jumlah baris kode", why: "Tidak ada hubungannya dengan kualitas." },

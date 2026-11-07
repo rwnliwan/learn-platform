@@ -40,7 +40,7 @@ export const misiGabungEvaluasi: V2Mission = {
           "Menemukan 4 sabotase di laporan evaluasi dan menulis dokumen desain evaluasi ulang dengan kontrol bias.",
         ],
         prereqSummary:
-          "LLM-as-judge = memakai model bahasa untuk menilai output agen — praktis dan murah, tapi judge-nya juga bisa bias. Bias evaluasi = kecenderungan sistematis judge memberi skor terlalu tinggi atau rendah, misalnya memihak jawaban yang mirip gaya bahasanya sendiri (self-preference bias). Cohen's kappa = ukuran kesepakatan dua penilai setelah dikoreksi faktor kebetulan; di bawah 0,2 artinya nyaris tidak sepakat.",
+          "LLM-as-judge = memakai model bahasa untuk menilai output agen — praktis dan murah, tapi judge-nya juga bisa bias. Bias evaluasi = kecenderungan sistematis judge memberi skor terlalu tinggi atau rendah, misalnya memihak jawaban yang mirip gaya bahasanya sendiri (self-preference bias). Cohen's kappa = ukuran kesepakatan dua penilai setelah dikoreksi faktor kebetulan; 0–0,2 artinya kesepakatan ringan (slight, Landis & Koch); di bawah 0 artinya nyaris tidak sepakat (poor).",
         datasetNote:
           "Data 100% SINTETIS: 240 kasus evaluasi fiksi hasil generator acak (seed 42) — BUKAN hasil evaluasi agen nyata, BUKAN data produksi, TANPA jawaban agen asli.\nFile: eval_cases.csv — kolom case_id, difficulty (mudah/sedang/sulit), task_type (qa/penalaran/kode), judge_score (0-100), judge_verdict (lulus/gagal, ambang 60), human_label (lulus/gagal, hanya 60 baris), judge_prompt_id (selalu v1-bocor).\nCatatan: prompt judge v1 memuat kunci jawaban di dalam template-nya (disengaja untuk misi ini).\nMetode & batas jujur: file METODE.md di folder yang sama.",
       },

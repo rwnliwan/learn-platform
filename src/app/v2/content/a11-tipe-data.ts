@@ -20,8 +20,9 @@ export const a11: V2Lesson = {
       tasks: [
         { id: "t1", text: "Bangun daftar `skor` lalu hitung `rata`-nya" },
         { id: "t2", text: "Hitung proporsi debitur macet (`skor` 5) sebagai `macet`" },
+        { id: "t3", text: "Hitung `median` skor — ringkasan yang sah untuk data ordinal" },
       ],
-      expected: "rata=1.5  macet=0.1",
+      expected: "rata=1.5  macet=0.1  median=1",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -31,15 +32,17 @@ export const a11: V2Lesson = {
         "Bangun list dengan perkalian: [1]*80.",
         "Rata-rata = sum(skor) / len(skor).",
         "macet = skor.count(5) / len(skor)",
+        "Median = nilai tengah setelah diurutkan: sorted(skor)[len(skor)//2].",
       ],
       code: {
-        starter: `# Surabaya: 80 lancar (1), 10 kurang lancar (2), 10 macet (5)\nskor = [1]*80 + [2]*10 + [5]*10\n\n# TULIS KODEMU\nrata = \nmacet = \n\nprint(f"rata={rata}  macet={macet}")`,
+        starter: `# Surabaya: 80 lancar (1), 10 kurang lancar (2), 10 macet (5)\nskor = [1]*80 + [2]*10 + [5]*10\n\n# TULIS KODEMU\nrata = \nmacet = \nmedian = \n\nprint(f"rata={rata}  macet={macet}  median={median}")`,
         lockLines: 2,
-        solution: `# Surabaya: 80 lancar (1), 10 kurang lancar (2), 10 macet (5)\nskor = [1]*80 + [2]*10 + [5]*10\n\n# TULIS KODEMU\nrata = sum(skor) / len(skor)\nmacet = skor.count(5) / len(skor)\n\nprint(f"rata={rata}  macet={macet}")`,
+        solution: `# Surabaya: 80 lancar (1), 10 kurang lancar (2), 10 macet (5)\nskor = [1]*80 + [2]*10 + [5]*10\n\n# TULIS KODEMU\nrata = sum(skor) / len(skor)\nmacet = skor.count(5) / len(skor)\nmedian = sorted(skor)[len(skor)//2]\n\nprint(f"rata={rata}  macet={macet}  median={median}")`,
         checks: [
           { kind: "equal", task: "t1", name: "rata", value: 1.5, tol: 1e-9, label: "`rata` seharusnya 1.5", msg: "(80×1 + 10×2 + 10×5)/100 = 1,5. Cek komposisi list-nya." },
           { kind: "equal", task: "t2", name: "macet", value: 0.1, tol: 1e-9, label: "`macet` seharusnya 0.1", msg: "10 dari 100 debitur berskor 5. Hitung skor.count(5) / len(skor)." },
-          { kind: "stdout_matches", task: "t2", pattern: "rata=1\\.5\\s+macet=0\\.1", label: "`print` menampilkan keduanya", msg: "Format: rata=...  macet=... ." },
+          { kind: "equal", task: "t3", name: "median", value: 1, tol: 1e-9, label: "`median` seharusnya 1", msg: "Urutkan skor, ambil nilai tengah: 80 debitur berskor 1, jadi mediannya 1." },
+          { kind: "stdout_matches", task: "t2", pattern: "rata=1\\.5\\s+macet=0\\.1\\s+median=1", label: "`print` menampilkan keduanya", msg: "Format: rata=...  macet=... ." },
         ],
       },
       reference: "sum(list), len(list), list.count(x).",
@@ -83,7 +86,7 @@ export const a11: V2Lesson = {
       eyebrow: "Langkah 3 · Ordinal",
       title: "Ordinal: urutan ada, jaraknya misterius",
       prose: [
-        "Data ordinal punya urutan yang bermakna, tapi jarak antar level tidak diketahui sama. Rating kredit AAA > AA > A > BBB; tingkat kepuasan 1–5; kolektibilitas 1–5. Boleh dibandingkan urutannya, tidak boleh dijumlahkan.",
+        "Data ordinal punya urutan yang bermakna, tapi jarak antar level tidak diketahui sama. Rating kredit AAA > AA > A > BBB; tingkat kepuasan 1–5; kolektibilitas 1–5. Boleh dibandingkan urutannya, tidak boleh dijumlahkan. Yang sah: median, kuartil, dan proporsi kumulatif — mis. median skor, atau proporsi debitur skor ≥4 — bukan mean.",
         "Portofolio 100 debitur: 70 rating A, 20 B, 8 C, 2 D. Kode buatan A=1, B=2, C=3, D=4 memberi rata-rata 1,42 — terbaca aman. Tapi PD riil tiap rating tidak berjarak sama: A=0,2%, B=1%, C=5%, D=20%. Expected loss sebenarnya 1,14%, dan 2 debitur rating D tenggelam di antara 70 debitur A.",
       ],
       tasks: [
