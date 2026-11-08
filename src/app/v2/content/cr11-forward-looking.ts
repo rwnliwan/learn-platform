@@ -14,13 +14,13 @@ export const cr11: V2Lesson = {
       prose: [
         "Maret 2020. Tim ekonomi Bank Nusantara merevisi proyeksi: pengangguran dari 5% → 9%, GDP dari +5% → −2%. Angka-angka itu dimasukkan ke \"model satelit\" — dan keluar: PD portofolio naik 2× lipat. Efek dominonya: ECL naik Rp 1,4 triliun. Laba kuartal anjlok. Direksi menatap tim risiko: \"Kalian yakin ramalannya? Satu revisi Excel menguapkan Rp 1,4 T?!\"",
         "Itulah kekuatan forward-looking PSAK 109: cadangan bukan cermin masa lalu, melainkan jendela ke masa depan — dan jendela itu terbuat dari ramalan ekonomi. Ramalan yang salah = cadangan yang salah = laba yang salah.",
-        "Tidak ada yang tahu masa depan — jadi standar mewajibkan beberapa skenario (bukan satu ramalan), dirata-ratakan berbobot. Lesson ini membedah mesinnya: dari variabel makro sampai overlay manusia.",
+        "Tidak ada yang tahu masa depan — jadi standar mensyaratkan ECL mencerminkan rentang hasil yang berbobot probabilitas (bukan satu ramalan), dirata-ratakan berbobot. Lesson ini membedah mesinnya: dari variabel makro sampai overlay manusia.",
       ],
       tasks: [],
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "Bobot skenario adalah keputusan paling sensitif di seluruh rantai ECL. Menaikkan bobot pesimis 30% → 50% (seperti Q1 2020) menaikkan ECL dari Rp 17 M ke Rp 21 M (+24%) — CKPN melonjak, laba anjlok, \"tanpa ada yang macet\".",
+        body: "Bobot skenario adalah keputusan paling sensitif di seluruh rantai ECL. Menaikkan bobot pesimis 30% → 50% — dengan seluruh 20 poin diambil dari optimis, sehingga bobot menjadi 0/50/50 (seperti Q1 2020) — menaikkan ECL dari Rp 17 M ke Rp 21 M (+24%) — CKPN melonjak, laba anjlok, \"tanpa ada yang macet\".",
       },
       reference: "Rantai: ramalan makro → model satelit → PD per skenario → ECL tertimbang → CKPN.",
     },
@@ -74,12 +74,12 @@ export const cr11: V2Lesson = {
       eyebrow: "Langkah 4 · Skenario",
       title: "Probability-weighting: harga kejujuran",
       prose: [
-        "PSAK 109 melarang memakai satu ramalan tunggal — wajib beberapa skenario (minimal: optimis, baseline, pesimis) yang dirata-ratakan berbobot probabilitas. Bobot harus jumlah 100% dan tidak bias (tidak boleh 90% optimis saat resesi di depan mata).",
-        "Mengapa tidak cukup baseline? Karena hubungan ekonomi→kerugian non-linear (cembung): kerugian di skenario pesimis jauh lebih besar dari penghematan di skenario optimis. Rata-rata dari 3 skenario > skenario tengah saja. Contoh: ECL optimis Rp 8 M (20%), baseline Rp 14 M (50%), pesimis Rp 28 M (30%). Kalikan: 0,2×8 = 1,6; 0,5×14 = 7,0; 0,3×28 = 8,4. Jumlahkan: Rp 17,0 M. Bandingkan dengan baseline saja (Rp 14 M): selisih +Rp 3 M (+21%) — \"premi\" untuk mengakui ketidakpastian.",
+        "PSAK 109 melarang memakai satu ramalan tunggal — ECL harus mencerminkan rentang hasil yang berbobot probabilitas (probability-weighted range of outcomes). Praktik umum memakai tiga skenario bernama (optimis, baseline, pesimis), tetapi standar TIDAK menetapkan minimum tiga skenario bernama: yang wajib adalah cakupan hasil yang berbobot, bukan jumlah labelnya. Bobot harus jumlah 100% dan tidak bias (tidak boleh 90% optimis saat resesi di depan mata).",
+        "Mengapa tidak cukup baseline? Karena hubungan ekonomi→kerugian non-linear (cembung): kerugian di skenario pesimis jauh lebih besar dari penghematan di skenario optimis. Rata-rata dari 3 skenario > skenario tengah saja. Contoh: ECL optimis Rp 8 M (20%), baseline Rp 14 M (50%), pesimis Rp 28 M (30%). Kalikan: 0,2×8 = 1,6; 0,5×14 = 7,0; 0,3×28 = 8,4. Jumlahkan: Rp 17,0 M. Bandingkan dengan baseline saja (Rp 14 M): selisih +Rp 3 M (+21%). Selisih ini BUKAN premi konveksitas murni yang terisolasi: ia menggabungkan efek bobot asimetris (pesimis 30% vs optimis 20%) dan non-linearitas PD/LGD — memisahkan keduanya butuh perhitungan terpisah. Dan “rata-rata 3 skenario > skenario tengah” bukan hukum umum: ia benar di contoh ini karena skenario pesimis jauh lebih berat; dengan bobot atau ECL berbeda, rata-rata berbobot bisa sama atau di bawah baseline.",
         "Skenario pesimis (30% × Rp 28 M = Rp 8,4 M kontribusi) mendominasi ECL final meski probabilitasnya bukan yang terbesar — karena kerugiannya non-linear. Siapa yang menentukan 30% vs 20% untuk pesimis? Komite — bukan satu analis.",
       ],
       formula: String.raw`\text{ECL}_{\text{final}} = \sum_s p_s \times \text{ECL}_s`,
-      formulaNote: "p_s = probabilitas skenario s. Selisih vs baseline = premi ketidakpastian (wajib diakui).",
+      formulaNote: "p_s = probabilitas skenario s. Selisih vs baseline = gabungan efek bobot asimetris + non-linearitas (bukan premi konveksitas murni); rata-rata berbobot bisa di atas, sama, atau di bawah baseline tergantung bobot dan ECL tiap skenario.",
       tasks: [],
       note: {
         title: "Sering salah",
@@ -112,7 +112,7 @@ export const cr11: V2Lesson = {
         solution: `skenario = {\n    "Optimis":  {"prob": 0.20, "ecl": 8},\n    "Baseline": {"prob": 0.50, "ecl": 14},\n    "Pesimis":  {"prob": 0.30, "ecl": 28},\n}\n\n# TULIS KODEMU\necl_final = sum(s["prob"] * s["ecl"] for s in skenario.values())\nselisih = ecl_final - 14\n\nprint(f"final={ecl_final:.2f} selisih={selisih:+.2f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "ecl_final", value: 17.0, tol: 1e-9, label: "`ecl_final` seharusnya 17.00", msg: "1.6 + 7.0 + 8.4 = 17.0." },
-          { kind: "equal", task: "t2", name: "selisih", value: 3.0, tol: 1e-9, label: "`selisih` seharusnya +3.00", msg: "17.0 − 14 = 3.0 — premi ketidakpastian (+21%)." },
+          { kind: "equal", task: "t2", name: "selisih", value: 3.0, tol: 1e-9, label: "`selisih` seharusnya +3.00", msg: "17.0 − 14 = 3.0 — selisih dari bobot + non-linearitas (+21%), bukan premi konveksitas murni." },
           { kind: "stdout_matches", task: "t3", pattern: "final=17\\.00\\s+selisih=\\+3\\.00", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
@@ -140,9 +140,9 @@ export const cr11: V2Lesson = {
       eyebrow: "Langkah 7 · Peta keputusan",
       title: "Peta keputusan: ECL forward-looking yang jujur",
       prose: [
-        "Skenario 1 — Membangun model satelit. → Regresi historis makro → PD (misal tiap +1% pengangguran → default rate +0,65%), tetapi waspadai jendela estimasi berstimulus. Contoh nyata: beta 0,65 dari era Covid meremehkan kerapuhan — beta tanpa-stimulus 1,1 memberi default rate 8,4% bukan 4,35%. Selisihnya Rp 360 M cadangan.",
+        "Skenario 1 — Membangun model satelit. → Regresi historis makro → PD (misal tiap +1% pengangguran → default rate +0,65%), tetapi waspadai jendela estimasi berstimulus. Contoh nyata: beta 0,65 dari era Covid meremehkan kerapuhan — beta tanpa-stimulus 1,1 memberi default rate 8,4% bukan 4,35% (dengan catatan: contoh ini mengganti beta sambil memegang intercept −1,5 dari regresi lama — itu ilustrasi sensitivitas, bukan estimasi baru; regresi sungguhan dari data 2013–2019 akan mengubah intercept juga). Selisihnya Rp 364,5 M cadangan.",
         "Skenario 2 — Memasukkan proyeksi makro. → Pakai konsensus beberapa sumber + fan chart; jangan satu sumber, satu angka. Contoh nyata: PDB meleset 1,2 poin × beta −0,8 = PD underestimated 0,96 poin — ECL yang 'forward-looking' ternyata forward-wrong 35%.",
-        "Skenario 3 — Menetapkan bobot skenario. → Jangkar tahunan (misal 20/50/30) + koridor ±10 poin + pemicu objektif (PMI <50 tiga bulan). Contoh nyata: ECL final Rp 17,0 M vs baseline saja Rp 14 M — selisih +21% adalah 'premi kejujuran' atas ketidakpastian.",
+        "Skenario 3 — Menetapkan bobot skenario. → Jangkar tahunan (misal 20/50/30) + koridor ±10 poin + pemicu objektif (PMI <50 tiga bulan). Contoh nyata: ECL final Rp 17,0 M vs baseline saja Rp 14 M — selisih +21% adalah selisih dari bobot asimetris + non-linearitas di contoh ini — bukan premi konveksitas murni, dan bukan hukum umum bahwa rata-rata berbobot selalu di atas baseline.",
         "Skenario 4 — Ada risiko yang belum tertangkap model (banjir, regulasi baru). → Overlay boleh, dengan 4 syarat: spesifik & terdokumentasi, besaran dihitung (bukan angka cantik), disetujui komite, dan punya tanggal kedaluwarsa. Overlay abadi = model rusak + laba diatur manual.",
         "Skenario 5 — Manajemen mengusulkan overlay Rp 500 M 'ketidakpastian global' tiap kuartal. → Tolak dalam bentuk itu: tidak spesifik (sudah tercakup skenario pesimis = double counting), tidak dihitung, berpola earnings smoothing. Minta hitungan bottom-up atau tolak.",
         "Aturan praktis 10 detik: ECL = Σ p_s × ECL_s — beta dari data jujur, bobot dari aturan (bukan mood komite), overlay dari perhitungan (bukan firasat).",
@@ -160,7 +160,7 @@ export const cr11: V2Lesson = {
       prose: [
         "Q4 2026, manajemen Bank Nusantara mengusulkan overlay Rp 500 M (menaikkan CKPN) dengan alasan \"ketidakpastian ekonomi global\". Fakta: tidak ada perhitungan rinci — angka Rp 500 M \"kesepakatan manajemen\"; model ECL sudah mencakup 3 skenario dengan bobot yang disetujui komite; overlay serupa Rp 400 M dipasang Q3 — belum pernah direview/dilepas; laba tahun ini di atas target — analis curiga overlay dipakai \"menabung\" laba.",
         "Pembahasan: tolak dalam bentuk saat ini; setujui bersyarat. Argumen: (1) tidak spesifik — \"ketidakpastian global\" sudah tercakup di skenario pesimis model, overlay ganda = double counting; (2) tidak dihitung — Rp 500 M tanpa metodologi = angka politik, bukan risiko; (3) pola earnings management — overlay Q3 belum direview + laba di atas target = indikasi cookie jar reserve.",
-        "(4) Solusi: jika memang ada risiko spesifik (misal eksposur ke sektor tertentu), hitung bottom-up (eksposur × stress PD) + tetapkan tanggal review Q1. Overlay tanpa kedaluwarsa = bom audit.",
+        "(4) Solusi: jika memang ada risiko spesifik (misal eksposur ke sektor tertentu), hitung bottom-up (eksposur × stress PD × LGD, didiskonto ke nilai kini, dikurangi ECL yang sudah dimodelkan untuk risiko yang sama agar tidak double counting) + tetapkan tanggal review Q1. Overlay tanpa kedaluwarsa = bom audit.",
       ],
       tasks: [],
       reference: "Empat syarat overlay sah: spesifik · dihitung · disetujui komite · ada tanggal review.",
@@ -171,7 +171,7 @@ export const cr11: V2Lesson = {
       title: "Beta makro yang menipu",
       prose: [
         "Beta makro 0,65 dari langkah 2 diestimasi dari data historis — dan data historis Indonesia nyaris selalu mencakup anomali. Jika jendela estimasi 2018–2025 mencakup era stimulus Covid (pengangguran 7,1% tetapi default diredam restrukturisasi massal), regresi \"belajar\" bahwa pengangguran tidak terlalu berbahaya. Beta yang dihasilkan adalah beta dunia berstimulus — diterapkan ke dunia tanpa stimulus, ia meremehkan kerapuhan. Hubungan historis bukan hukum alam; ia adalah artefak kebijakan pada periode itu.",
-        "Contoh dengan angka: beta pengangguran terestimasi 0,65. Skenario pesimis (pengangguran 9%) → default rate 4,35%. Tetapi jika beta tanpa-stimulus yang benar adalah 1,1 (diukur dari data 2013–2019), default rate seharusnya −1,5 + 1,1×9 = 8,4% — hampir 2× lipat! Selisih 4 poin pada portofolio Rp 20 T dengan LGD 45% = Rp 360 M cadangan yang tidak dibentuk. Satu asumsi jendela estimasi menghapus ratusan miliar dari neraca.",
+        "Contoh dengan angka: beta pengangguran terestimasi 0,65. Skenario pesimis (pengangguran 9%) → default rate 4,35%. Tetapi jika beta tanpa-stimulus yang benar adalah 1,1 (diukur dari data 2013–2019), default rate seharusnya −1,5 + 1,1×9 = 8,4% — hampir 2× lipat! Selisih 4,05 poin pada portofolio Rp 20 T dengan LGD 45% = Rp 364,5 M cadangan yang tidak dibentuk. Perhatian: angka ini mengganti beta sambil MEMEGANG intercept −1,5 dari regresi lama — itu ilustrasi, bukan estimasi baru: dalam regresi sungguhan, mengganti jendela data mengubah intercept juga (a baru harus diestimasi ulang dari data 2013–2019). Angka 8,4% di sini hanya menunjukkan sensitivitas terhadap beta, bukan default rate hasil regresi baru. Satu asumsi jendela estimasi menghapus ratusan miliar dari neraca.",
         "Cara salah yang umum: model satu variabel (hanya pengangguran) tanpa lag — padahal makro memimpin default 2–4 kuartal (PHK hari ini → gagal bayar 6 bulan lagi). Cara benar: spesifikasi dengan lag (pengangguran t−2), uji beberapa variabel (PDB, BI rate, harga komoditas untuk segmen terkait), dan selalu tampilkan selang kepercayaan beta — beta 0,65 ± 0,4 berarti \"kita tidak terlalu tahu\", bukan \"0,65\".",
         "Aturan keputusan. Satu: estimasi ulang dengan jendela yang mengecualikan periode stimulus sebagai pembanding — jika beta berubah >30%, jendelamu terkontaminasi. Dua: wajib ada model tandingan (challenger) dengan spesifikasi berbeda; jika keduanya sepakat, baru percaya. Tiga: dokumentasikan lag yang dipakai dan alasannya — \"makro kuartal ini untuk default kuartal ini\" hampir selalu salah secara ekonomi. Empat: beta adalah ukuran kerapuhan portofolio — portofolio dengan beta besar (KUR, kartu) butuh buffer skenario lebih tebal daripada yang betanya kecil.",
       ],
@@ -200,9 +200,9 @@ export const cr11: V2Lesson = {
       eyebrow: "Langkah 11 · Koridor bobot",
       title: "Menjinakkan bobot yang rewel",
       prose: [
-        "Bobot skenario yang diubah tiap kuartal mengikuti mood komite menciptakan ECL yang rewel — naik-turun bukan karena risiko berubah, melainkan karena narasi berubah. Solusinya: koridor stabilitas. Tetapkan bobot baseline (misalnya 20/50/30) sebagai jangkar tahunan; perubahan kuartalan hanya boleh dalam koridor ±10 poin dan wajib dipicu indikator objektif (misalnya PMI 3 bulan di bawah 50, atau spread obligasi melebar 100bps) — bukan firasat.",
+        "Bobot skenario yang diubah tiap kuartal mengikuti mood komite menciptakan ECL yang rewel — naik-turun bukan karena risiko berubah, melainkan karena narasi berubah. Solusinya: koridor stabilitas. Tetapkan bobot baseline (misalnya 20/50/30) sebagai jangkar tahunan; perubahan kuartalan hanya boleh dalam koridor ±10 poin dan wajib dipicu indikator objektif (misalnya PMI 3 bulan di bawah 50, atau spread obligasi melebar 100bps) — bukan firasat. Catatan materialitas: koridor ±10 poin absolut tidak mengukur materialitas — pergeseran 8 poin pada portofolio Rp20 T bisa menggerakkan ECL ratusan miliar. Karena itu koridor dibaca bersama ambang materialitas rupiah (misal perubahan ECL > Rp50 M atau >5% ECL wajib dibawa ke komite meski masih di dalam koridor ±10 poin); koridor membatasi ayunan, bukan menggantikan penilaian materialitas.",
         "Contoh: kuartal I, komite ingin pesimis 30% → 45% karena \"berita buruk banyak\". Dengan koridor, yang diizinkan maksimal 40% — dan hanya jika pemicu objektif terpenuhi. Jika tidak terpenuhi, bobot tetap, tetapi kekhawatiran didokumentasikan sebagai risiko pantauan. Hasilnya: ECL kuartalan stabil dan bisa dijelaskan; perubahan besar hanya terjadi setahun sekali saat jangkar di-review dengan data penuh. Auditor menyukai ini — diskresi yang dibatasi aturan lebih mudah diuji daripada diskresi murni.",
-        "Aturan keputusan. Satu: jangkar tahunan + koridor kuartalan ±10 poin + pemicu objektif tertulis. Dua: setiap perubahan bobot dicatat dengan pemicu yang dipenuhi — \"firasat komite\" bukan pemicu. Tiga: backtest bobot — apakah skenario pesimis yang dibobot 30% benar-benar terjadi ~30% dari waktu? Jika tidak pernah terjadi dalam 5 tahun, bobotmu terlalu gemuk atau definisi pesimismu terlalu lunak.",
+        "Aturan keputusan. Satu: jangkar tahunan + koridor kuartalan ±10 poin + pemicu objektif tertulis. Dua: setiap perubahan bobot dicatat dengan pemicu yang dipenuhi — \"firasat komite\" bukan pemicu. Tiga: backtest bobot — apakah skenario pesimis yang dibobot 30% benar-benar terjadi ~30% dari waktu? Peluang skenario 30% tidak terjadi sekalipun dalam 5 tahun = 0,7⁵ ≈ 16,8% — jadi “tidak pernah terjadi dalam 5 tahun” saja BELUM membuktikan bobot terlalu gemuk; yang diuji adalah frekuensi jangka panjang dan ketajaman definisi skenario, bukan 5 tahun tanpa kejadian.",
       ],
       tasks: [],
       reference: "Diskresi tanpa koridor = ECL yang rewel. Batasi dengan pemicu objektif.",
@@ -218,7 +218,7 @@ export const cr11: V2Lesson = {
       summary: [
         "Model satelit = penerjemah makro→PD/LGD. Koefisiennya = beta makro portofolio.",
         "ECL final = rata-rata berbobot skenario (optimis/baseline/pesimis), bukan baseline saja.",
-        "Selisih vs baseline = premi ketidakpastian (konveksitas) — wajib diakui.",
+        "Selisih vs baseline = gabungan efek bobot + non-linearitas (bukan premi konveksitas murni); rata-rata berbobot bisa di atas, sama, atau di bawah baseline.",
         "Bobot skenario = keputusan komite; sangat sensitif terhadap laba.",
         "Overlay sah jika spesifik, dihitung, disetujui, ada kedaluwarsa. Jika tidak = manipulasi.",
       ],
@@ -238,7 +238,7 @@ export const cr11: V2Lesson = {
           options: [
             { text: "Rp 14 M (pakai baseline saja)", why: "Mengabaikan skenario ekstrem = underestimate sistematis." },
             { text: "Rp 16,67 M (rata-rata biasa)", why: "Bukan rata-rata biasa — melainkan berbobot probabilitas." },
-            { text: "Rp 17,0 M (0,2×8 + 0,5×14 + 0,3×28) — probability-weighted", why: "1,6 + 7,0 + 8,4 = Rp 17,0 M. Lebih besar dari baseline karena kerugian non-linear.", correct: true },
+            { text: "Rp 17,0 M (0,2×8 + 0,5×14 + 0,3×28) — probability-weighted", why: "1,6 + 7,0 + 8,4 = Rp 17,0 M. Di contoh ini lebih besar dari baseline karena skenario pesimis berbobot 30% dengan ECL jauh lebih besar — bukan hukum umum.", correct: true },
             { text: "Rp 28 M (pakai yang terburuk)", why: "Bukan yang terburuk saja — melainkan rata-rata berbobot." },
           ],
         },

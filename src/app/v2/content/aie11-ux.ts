@@ -3,12 +3,12 @@ import type { V2Lesson } from "../lib/types";
 // Kurva kalibrasi: diagonal ideal + 2 titik bin (terlalu percaya diri).
 const FIG_KALIBRASI = `<svg viewBox="0 0 480 250" role="img" aria-label="Kurva kalibrasi: dua bin di bawah diagonal, model terlalu percaya diri.">
 <g stroke="var(--chart-grid)" stroke-width="1"><line x1="60" y1="200" x2="440" y2="200"/><line x1="60" y1="155" x2="440" y2="155"/><line x1="60" y1="110" x2="440" y2="110"/><line x1="60" y1="65" x2="440" y2="65"/><line x1="60" y1="20" x2="440" y2="20"/><line x1="60" y1="20" x2="60" y2="200"/><line x1="440" y1="20" x2="440" y2="200"/></g>
-<line x1="60" y1="200" x2="440" y2="20" stroke="var(--text-muted)" stroke-width="2" stroke-dasharray="8 6"/>
+<line x1="60" y1="128" x2="440" y2="20" stroke="var(--text-muted)" stroke-width="2" stroke-dasharray="8 6"/>
 <g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="middle"><text x="60" y="218">0,4</text><text x="155" y="218">0,55</text><text x="250" y="218">0,7</text><text x="345" y="218">0,85</text><text x="440" y="218">1,0</text></g>
 <g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="54" y="204">0</text><text x="54" y="159">0,25</text><text x="54" y="114">0,5</text><text x="54" y="69">0,75</text><text x="54" y="24">1</text></g>
-<circle cx="321" cy="88" r="9" fill="var(--c4)"/>
-<circle cx="138" cy="140" r="9" fill="var(--c1)"/>
-<g font-size="11" font-family="var(--font-ui)" fill="var(--text)"><text x="336" y="84">yakin 0,81 → benar 0,63</text><text x="153" y="136">yakin 0,52 → benar 0,33</text></g>
+<circle cx="320" cy="87" r="9" fill="var(--c4)"/>
+<circle cx="136" cy="141" r="9" fill="var(--c1)"/>
+<g font-size="11" font-family="var(--font-ui)" fill="var(--text)"><text x="335" y="83">yakin 0,81 → benar 0,63</text><text x="151" y="137">yakin 0,52 → benar 0,33</text></g>
 <text x="250" y="240" font-size="11" fill="var(--text-muted)" font-family="var(--font-ui)" text-anchor="middle">sumbu X = keyakinan · sumbu Y = akurasi · garis putus = kalibrasi sempurna</text>
 </svg>`;
 
@@ -59,7 +59,7 @@ export const aie11: V2Lesson = {
       title: "Lab: mengaudit kejujuran chatbot",
       prose: [
         "Enam jawaban chatbot: tiga benar bersitasi, satu salah bersitasi, satu salah tanpa sitasi, satu abstain yang jujur. Hitung coverage (proporsi jawaban non-abstain yang bersitasi) dan akurasi di antara yang bersitasi — lalu jawab: apakah sitasi menjamin kebenaran?",
-        "Coba ubah: buat jawaban ke-5 ('Limit kartu Rp100 juta [dok-7]', salah) menjadi benar, jalankan ulang, dan lihat akurat_dg_sitasi naik ke 100 persen. Sitasi tidak menjamin benar — ia menjamin BISA DIPERIKSA.",
+        "Coba ubah: buat jawaban ke-5 ('Limit kartu Rp100 juta [dok-7]', salah) menjadi benar, jalankan ulang, dan lihat akurat_dg_sitasi naik ke 100 persen. Sitasi tidak menjamin benar — ia membuat pemeriksaan MUNGKIN (bisa diperiksa): sumber yang dikutip sendiri bisa salah atau disalahkutip, jadi “bisa diperiksa” ≠ “benar”.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `coverage` (jawaban non-abstain yang bersitasi)" },
@@ -77,9 +77,9 @@ export const aie11: V2Lesson = {
         "dg_sitasi = yang bersitasi; akurat = sum(j[\"benar\"] for j in dg_sitasi)/len(dg_sitasi)",
       ],
       code: {
-        starter: `# DATA SEED — jangan ubah\nJAWABAN = [\n    {"teks": "Bunga deposito 4,5% [dok-3].", "sitasi": 1, "benar": True},\n    {"teks": "Bunga deposito 5%.", "sitasi": 0, "benar": False},\n    {"teks": "Saya tidak menemukan info itu di dokumen.", "sitasi": 0, "benar": True, "abstain": True},\n    {"teks": "Limit kartu Rp50 juta [dok-7].", "sitasi": 1, "benar": True},\n    {"teks": "Limit kartu Rp100 juta [dok-7].", "sitasi": 1, "benar": False},\n    {"teks": "Biaya transfer Rp6.500 [dok-2].", "sitasi": 1, "benar": True},\n]\n\n# TULIS KODEMU: coverage sitasi dan akurasi ber-sitasi\nnon_abstain = \ncoverage = \ndg_sitasi = \nakurat_bersitasi = \n\nprint(f"coverage={coverage:.0%}  akurat_dg_sitasi={akurat_bersitasi:.0%}")`,
+        starter: `# DATA SEED — jangan ubah\nJAWABAN = [\n    {"teks": "Bunga deposito 4,5% [dok-3].", "sitasi": 1, "benar": True},\n    {"teks": "Bunga deposito 5%.", "sitasi": 0, "benar": False},\n    {"teks": "Saya tidak menemukan info itu di dokumen.", "sitasi": 0, "benar": True, "abstain": True},\n    {"teks": "Limit kartu Rp50 juta [dok-7].", "sitasi": 1, "benar": True},\n    {"teks": "Limit kartu Rp100 juta [dok-7].", "sitasi": 1, "benar": False},\n    {"teks": "Biaya transfer Rp10.000 [dok-2].", "sitasi": 1, "benar": True},\n]\n\n# TULIS KODEMU: coverage sitasi dan akurasi ber-sitasi\nnon_abstain = \ncoverage = \ndg_sitasi = \nakurat_bersitasi = \n\nprint(f"coverage={coverage:.0%}  akurat_dg_sitasi={akurat_bersitasi:.0%}")`,
         lockLines: 11,
-        solution: `# DATA SEED — jangan ubah\nJAWABAN = [\n    {"teks": "Bunga deposito 4,5% [dok-3].", "sitasi": 1, "benar": True},\n    {"teks": "Bunga deposito 5%.", "sitasi": 0, "benar": False},\n    {"teks": "Saya tidak menemukan info itu di dokumen.", "sitasi": 0, "benar": True, "abstain": True},\n    {"teks": "Limit kartu Rp50 juta [dok-7].", "sitasi": 1, "benar": True},\n    {"teks": "Limit kartu Rp100 juta [dok-7].", "sitasi": 1, "benar": False},\n    {"teks": "Biaya transfer Rp6.500 [dok-2].", "sitasi": 1, "benar": True},\n]\n\n# TULIS KODEMU: coverage sitasi dan akurasi ber-sitasi\nnon_abstain = [j for j in JAWABAN if not j.get("abstain")]\ncoverage = sum(j["sitasi"] for j in non_abstain)/len(non_abstain)\ndg_sitasi = [j for j in non_abstain if j["sitasi"]]\nakurat_bersitasi = sum(j["benar"] for j in dg_sitasi)/len(dg_sitasi)\n\nprint(f"coverage={coverage:.0%}  akurat_dg_sitasi={akurat_bersitasi:.0%}")`,
+        solution: `# DATA SEED — jangan ubah\nJAWABAN = [\n    {"teks": "Bunga deposito 4,5% [dok-3].", "sitasi": 1, "benar": True},\n    {"teks": "Bunga deposito 5%.", "sitasi": 0, "benar": False},\n    {"teks": "Saya tidak menemukan info itu di dokumen.", "sitasi": 0, "benar": True, "abstain": True},\n    {"teks": "Limit kartu Rp50 juta [dok-7].", "sitasi": 1, "benar": True},\n    {"teks": "Limit kartu Rp100 juta [dok-7].", "sitasi": 1, "benar": False},\n    {"teks": "Biaya transfer Rp10.000 [dok-2].", "sitasi": 1, "benar": True},\n]\n\n# TULIS KODEMU: coverage sitasi dan akurasi ber-sitasi\nnon_abstain = [j for j in JAWABAN if not j.get("abstain")]\ncoverage = sum(j["sitasi"] for j in non_abstain)/len(non_abstain)\ndg_sitasi = [j for j in non_abstain if j["sitasi"]]\nakurat_bersitasi = sum(j["benar"] for j in dg_sitasi)/len(dg_sitasi)\n\nprint(f"coverage={coverage:.0%}  akurat_dg_sitasi={akurat_bersitasi:.0%}")`,
         checks: [
           { kind: "equal", task: "t1", name: "coverage", value: 0.8, tol: 1e-9, label: "`coverage` seharusnya 0.8", msg: "4 dari 5 jawaban non-abstain bersitasi." },
           { kind: "equal", task: "t2", name: "akurat_bersitasi", value: 0.75, tol: 1e-9, label: "`akurat_bersitasi` seharusnya 0.75", msg: "3 dari 4 yang bersitasi benar — sitasi tidak menjamin kebenaran." },
@@ -94,9 +94,9 @@ export const aie11: V2Lesson = {
       title: "Kalibrasi: keyakinan harus sesuai kenyataan",
       prose: [
         "Model yang terkalibrasi: saat ia berkata 'yakin 90 persen', ia benar 90 persen dari waktu. Model yang tidak terkalibrasi: yakin 90 persen tetapi benar 60 persen — seperti di lab, dua bin keyakinan sama-sama di bawah diagonal. Pengguna yang melihat 'yakin' akan percaya penuh; kalibrasi yang buruk adalah kebohongan yang sistematis.",
-        "Expected Calibration Error (ECE): kelompokkan prediksi ke bin keyakinan, hitung selisih |akurasi − keyakinan| tiap bin, rata-ratakan berbobot. ECE 0 = sempurna; 0,188 seperti lab = cukup buruk untuk diperbaiki. Perbaikan: temperature scaling, abstention di bin rendah, atau tampilkan rentang alih-alih angka pasti.",
+        "Expected Calibration Error (ECE): kelompokkan prediksi ke bin keyakinan, hitung selisih |akurasi − keyakinan| tiap bin, rata-ratakan berbobot. ECE 0 = sempurna pada binning yang dipakai — bukan bukti kalibrasi sempurna (binning kasar bisa menyembunyikan miskalibrasi di dalam bin; ECE 0 pada 3 bin tidak menjamin ECE 0 pada 10 bin); 0,188 seperti lab = cukup buruk untuk diperbaiki. Perbaikan: temperature scaling, abstention di bin rendah, atau tampilkan rentang alih-alih angka pasti.",
         "Kepribadian kalibrasi: ia seperti prakiraan cuaca — '70 persen hujan' yang benar 70 persen waktunya berguna; yang benar 30 persen waktunya adalah penipuan berkedok statistik.",
-        "ECE 0,188 — artinya apa. Model bilang “yakin 90 persen” pada 100 jawaban, tetapi hanya 71 yang benar → miscalibration 19 poin ≈ ECE 0,188. Akibat: pengguna PERCAYA 90 persen → keputusan salah 19 persen lebih sering dari ekspektasi! Solusi: temperature scaling (1 jam) → ECE 0,06. Aturan: jika menampilkan keyakinan ke pengguna, ECE HARUS <0,1. Keyakinan yang salah = kebohongan sistematis dengan angka.",
+        "ECE 0,188 — artinya apa. Model bilang “yakin 90 persen” pada 100 jawaban, tetapi hanya 71 yang benar → miscalibration 19 poin ≈ ECE 0,188. Akibat: pengguna PERCAYA 90 persen → keputusan salah 19 persen lebih sering dari ekspektasi! Solusi (contoh hasil eksperimen, bukan janji): temperature scaling — pada satu eksperimen memakan ~1 jam dan menurunkan ECE ke 0,06; ukur ulang di datamu, hasilnya bisa berbeda. Aturan: jika menampilkan keyakinan ke pengguna, ECE HARUS <0,1 (gerbang keras) — dan target yang dikejar <0,05 sebelum keyakinan numerik ditampilkan (lihat lab). Dua angka ini bukan kontradiksi: 0,1 = batas minimal lolos, 0,05 = target yang dikejar. Keyakinan yang salah = kebohongan sistematis dengan angka.",
         "Menampilkan ketidakpastian — tiga pola UI. (1) Skor angka (“yakin 72%”): presisi, tetapi pengguna salah tafsir 72% = “hampir pasti”. (2) Kata (“cukup yakin”): manusiawi, tetapi kabur. (3) Aksi (“verifikasi ke sumber ini →”): terbaik — ketidakpastian menjadi LANGKAH. Untuk finansial: pola (3) wajib (jangan biarkan angka Rp50 juta tanpa tombol verifikasi!). Ketidakpastian yang tidak bisa ditindaklanjuti = kecemasan; yang bisa = kepercayaan.",
         "Kalibrasi per domain — tidak global. Model terkalibrasi untuk FAQ (ECE 0,05) bisa miscalibrated untuk medis (ECE 0,20)! Ukur ECE PER KATEGORI. Satu angka global = menyembunyikan yang buruk. Segmentasi = kejujuran.",
       ],
@@ -130,7 +130,7 @@ export const aie11: V2Lesson = {
       expected: "ECE=0.188",
       note: {
         title: "💡 Intuisi",
-        body: "ECE menerjemahkan 'model terlalu pede' menjadi angka yang bisa dibawa ke rapat. 'ECE kita 0,19' lebih kuat dari 'kayaknya modelnya terlalu yakin' — dan memberi target konkret: di bawah 0,05 sebelum menampilkan keyakinan ke pengguna.",
+        body: "ECE menerjemahkan 'model terlalu pede' menjadi angka yang bisa dibawa ke rapat. 'ECE kita 0,19' lebih kuat dari 'kayaknya modelnya terlalu yakin' — dan memberi target konkret: di bawah 0,05 (target; gerbang keras 0,1) sebelum menampilkan keyakinan ke pengguna.",
       },
       hints: [
         "nilai = ece(DATA) — fungsi sudah tersedia.",
@@ -145,7 +145,7 @@ export const aie11: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "ECE=0\\.188", label: "`print` menampilkan ECE", msg: "Format: ECE=0.188." },
         ],
       },
-      reference: "ECE < 0,05 sebelum keyakinan ditampilkan ke pengguna. Ukur dulu, tampilkan kemudian.",
+      reference: "ECE < 0,1 (gerbang keras) — target < 0,05 — sebelum keyakinan ditampilkan ke pengguna. Ukur dulu, tampilkan kemudian.",
     },
     {
       id: "peta-keputusan",
@@ -171,7 +171,7 @@ export const aie11: V2Lesson = {
         "Chatbot produk finansial NusaBank: 10.000 jawaban per hari, 1 persen salah = 100 jawaban salah per hari. Tiap komplain: Rp500.000 penanganan + risiko reputasi → exposure Rp50 juta per hari.",
         "Desain jujur: abstain di 5 persen kasus paling meragukan (500 per hari) → dialihkan ke manusia Rp15.000 × 500 = Rp7,5 juta; jawaban salah turun ke 0,2 persen = 20 × Rp500.000 = Rp10 juta. Total Rp17,5 juta vs Rp50 juta — hemat Rp32,5 juta per hari.",
         "Twist: fitur yang 'mengurangi kemampuan' (menolak menjawab) justru menaikkan metrik bisnis — karena yang dihemat bukan token, melainkan kepercayaan dan biaya komplain. Kejujuran adalah strategi, bukan sekadar etika.",
-        "Rp32,5 juta/hari — dihitung. 10.000 jawaban/hari, 8 persen salah (800). Tanpa abstention: 800 salah × Rp50 ribu biaya = Rp40 juta/hari. Dengan abstention (model diam saat ragu, 500 di antaranya): 300 salah × Rp50 ribu = Rp15 juta + 500 × Rp15 ribu (CS manusia) = Rp7,5 juta → total Rp22,5 juta. Hemat: Rp40 − 22,5 = Rp17,5 juta/hari... dari mana 32,5? Tambah: 300 jawaban “yakin tetapi salah” yang merusak kepercayaan = churn. “Saya tidak tahu” = Rp32,5 juta/hari kejujuran. Mengaku tidak tahu = fitur termahal.",
+        "Rp32,5 juta/hari — dihitung dengan SATU skenario yang sama seperti di atas (1% salah, Rp500 ribu per komplain). 10.000 jawaban/hari, 1 persen salah (100). Tanpa abstention: 100 salah × Rp500 ribu = Rp50 juta/hari. Dengan abstention (500 jawaban paling meragukan dialihkan ke manusia — asumsi: abstention menangkap 80 dari 100 jawaban salah): jawaban salah turun ke 0,2 persen (20) × Rp500 ribu = Rp10 juta + 500 × Rp15 ribu (CS manusia) = Rp7,5 juta → total Rp17,5 juta. Hemat: Rp50 − 17,5 = Rp32,5 juta/hari. Catatan: angka ini murni biaya komplain + CS — churn dari jawaban salah yang merusak kepercayaan TIDAK dihitung, jadi Rp32,5 juta adalah batas bawah, bukan total nilai kejujuran. Mengaku tidak tahu = fitur termahal.",
       ],
       tasks: [],
       note: {

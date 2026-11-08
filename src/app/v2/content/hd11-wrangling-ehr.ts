@@ -13,8 +13,8 @@ export const hd11: V2Lesson = {
       title: "17 definisi “diabetes”",
       prose: [
         "Sebuah studi multi-RS ingin meneliti diabetes. RS A mendefinisikan: “ada kode E11”. RS B: “HbA1c ≥ 6,5%”. RS C: “ada resep metformin”. Hasil prevalensi: 4%, 11%, 7%. Studi yang sama, penyakit yang sama — tiga jawaban. Bukan karena populasinya beda, tapi karena definisinya beda.",
-        "Di data EHR, “pasien diabetes” bukanlah fakta yang tinggal diambil — ia adalah konstruksi yang harus didefinisikan, ditulis sebagai aturan komputabel (fenotipe), dan divalidasi. Fenotipe komputabel: aturan eksplisit yang mengubah data EHR mentah menjadi label klinis. Contoh fenotipe diabetes tipe 2 — inklusi (salah satu): kode ICD E11, HbA1c ≥ 6,5% (LOINC 4548-4), resep metformin/insulin (RxNorm); eksklusi: kode kehamilan O24 (diabetes gestasional), usia < 18; tanggal index: kejadian inklusi pertama.",
-        "Tanpa validasi, fenotipe sekadar tebakan berlabel. Validasi standar: ambil 50–200 chart acak, minta dokter menilai buta terhadap aturan, hitung PPV fenotipe (target ≥ 90%). Hanya kode E11 saja PPV-nya sekitar 62% (banyak rule-out dan upcoding); menambah lab + obat + eksklusi menaikkan ke 94%. Definisi satu baris = label sampah.",
+        "Di data EHR, “pasien diabetes” bukanlah fakta yang tinggal diambil — ia adalah konstruksi yang harus didefinisikan, ditulis sebagai aturan komputabel (fenotipe), dan divalidasi. Fenotipe komputabel: aturan eksplisit yang mengubah data EHR mentah menjadi label klinis. Contoh fenotipe diabetes tipe 2 — inklusi (salah satu): kode ICD E11, HbA1c ≥ 6,5% (LOINC 4548-4), resep metformin/insulin (RxNorm); eksklusi: kode kehamilan O24 (diabetes gestasional), usia < 18; tanggal index: kejadian inklusi pertama. Dua peringatan: (1) metformin juga dipakai untuk PCOS/prediabetes dan insulin juga untuk T1DM — obat saja sebagai inklusi adalah kriteria LEMAH, bukan bukti T2DM; fenotipe nyata butuh kombinasi sumber + validasi. (2) Kehamilan dengan kode E11 BUKAN otomatis diabetes gestasional — gestasional berkode O24, sedangkan T2DM yang sudah ada sebelum hamil tetap E11; “E11 + hamil = gestasional” adalah penyederhanaan yang salah secara klinis.",
+        "Tanpa validasi, fenotipe sekadar tebakan berlabel. Validasi standar: ambil 50–200 chart acak, minta dokter menilai buta terhadap aturan, hitung PPV fenotipe (target ≥ 90%). Angka “kode E11 saja PPV ~62%, kombinasi lab+obat+eksklusi → 94%” di lesson ini ILUSTRATIF (contoh pengajaran, bukan hasil studi tertentu) — PPV nyata sangat bergantung pada populasi, cara coding RS, dan definisi gold standard; jangan kutip angka ini sebagai fakta. Yang benar secara umum: kode saja PPV-nya rendah; kombinasi sumber + chart review menaikkannya — SEBERAPA BESAR hanya bisa dijawab validasi di datamu sendiri. Definisi satu baris = label sampah.",
       ],
       tasks: [],
       note: {
@@ -30,7 +30,7 @@ export const hd11: V2Lesson = {
       title: "Terapkan aturan fenotipe diabetes",
       prose: [
         "Diberikan 8 pasien sintetis (kode, HbA1c, obat, status hamil, usia). Tulis fungsi `fenotipe(p)` yang mengembalikan True bila pasien memenuhi aturan T2DM: inklusi = ada kode E11 ATAU HbA1c ≥ 6,5 ATAU ada obat antidiabetik (metformin/insulin); eksklusi = hamil ATAU usia < 18.",
-        "Perhatikan pasien jebakan: P5 punya E11 tapi hamil (gestasional — eksklusi), P7 punya E11 tapi usia 16 (eksklusi), P8 HbA1c-nya 6,4 — di bawah ambang 6,5.",
+        "Perhatikan pasien jebakan: P5 punya E11 tapi hamil — dalam aturan SINTETIS lab ini, hamil = eksklusi (penyederhanaan pengajaran: kehamilan mengubah interpretasi glukosa; dalam praktik, E11 pada ibu hamil BUKAN otomatis diabetes gestasional — itu O24 — dan T2DM yang sudah ada sebelum hamil tetap E11); P7 punya E11 tapi usia 16 (eksklusi), P8 HbA1c-nya 6,4 — di bawah ambang 6,5.",
       ],
       tasks: [
         { id: "t1", text: "Tulis fungsi `fenotipe(p)` sesuai aturan inklusi/eksklusi" },
@@ -39,7 +39,7 @@ export const hd11: V2Lesson = {
       expected: "hasil=['P1', 'P2', 'P3', 'P4']  n_masuk=4",
       note: {
         title: "Sering salah",
-        body: "Lupa eksklusi: hanya menulis aturan inklusi lalu P5 (hamil) dan P7 (usia 16) ikut lolos. Eksklusi adalah setengah dari fenotipe — diabetes gestasional bukan diabetes tipe 2.",
+        body: "Lupa eksklusi: hanya menulis aturan inklusi lalu P5 (hamil) dan P7 (usia 16) ikut lolos. Eksklusi adalah setengah dari fenotipe. Catatan: dalam aturan sintetis lab ini `hamil` = eksklusi; dalam praktik, E11 pada ibu hamil BUKAN otomatis diabetes gestasional (itu O24) — T2DM yang sudah ada sebelum hamil tetap E11. Lab ini menyederhanakan demi mengajarkan pola inklusi/eksklusi, bukan mendefinisikan fenotipe klinis yang sebenarnya.",
         type: "pitfall",
       },
       hints: [
@@ -149,9 +149,9 @@ export const hd11: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Model sepsis yang “terlalu bagus”",
       prose: [
-        "Tim RS membangun model prediksi sepsis dari EHR: AUC 0,97. Semua antusias. Kamu diminta review sebelum deploy. Temuanmu: fitur terkuat adalah “kultur darah dipesan” dan “antibiotik spektrum luas diberikan” — keduanya terjadi setelah dokter mencurigai sepsis. Label sepsis diambil dari kode ICD saat pulang.",
+        "Tim RS membangun model prediksi sepsis dari EHR: prediction time = saat pasien masuk IGD (triase), target = sepsis dalam 24 jam ke depan, AUC 0,97. Semua antusias. Kamu diminta review sebelum deploy. Temuanmu: fitur terkuat adalah “kultur darah dipesan” dan “antibiotik spektrum luas diberikan” — keduanya terjadi SETELAH triase, yaitu setelah prediction time dan setelah dokter mencurigai sepsis. Label sepsis diambil dari kode ICD saat pulang.",
         "Dua cacat fatal. Pertama, target leakage: fitur “kultur darah” dan “antibiotik” adalah akibat kecurigaan klinis — model memprediksi masa lalu, bukan masa depan. AUC 0,97 adalah ilusi. Kedua, label berisik: kode ICD sepsis tidak andal (coding untuk billing; definisi Sepsis-3 butuh kriteria SOFA terfenotipe).",
-        "Perbaikan: definisikan prediction time yang jelas (mis. 6 jam sebelum kecurigaan), hanya pakai fitur yang tersedia sebelum titik itu, label via kriteria Sepsis-3 terfenotipe (bukan ICD mentah), dan validasi prospektif silent-mode. Pelajaran: AUC tinggi pada data EHR lebih sering berarti kebocoran daripada kecerdasan. Kurasi > kuantitas: 20 fitur yang dipahami mengalahkan 2.000 fitur mentah.",
+        "Perbaikan: prediction time sudah dinyatakan di setup (saat triase) — maka auditnya sederhana: hanya pakai fitur yang tersedia SEBELUM triase; “kultur darah dipesan” dan “antibiotik diberikan” terjadi setelah triase, jadi keduanya harus dibuang. Bila tim ingin prediksi “6 jam sebelum kecurigaan”, nyatakan itu sebagai prediction time dan ulangi audit fitur terhadap titik baru itu. Label via kriteria Sepsis-3 terfenotipe (bukan ICD mentah), dan validasi prospektif silent-mode. Pelajaran: AUC tinggi pada data EHR lebih sering berarti kebocoran daripada kecerdasan. Kurasi > kuantitas: 20 fitur yang dipahami mengalahkan 2.000 fitur mentah.",
       ],
       tasks: [],
       note: {
@@ -237,7 +237,7 @@ export const hd11: V2Lesson = {
           q: "Fenotipe komputabel adalah…",
           options: [
             { text: "Aturan eksplisit multi-sumber (kode+lab+obat+eksklusi) yang tervalidasi", why: "Benar: fenotipe = terjemahan klinik → logika boolean yang divalidasi. Kode mentah saja PPV-nya rendah.", correct: true },
-            { text: "Kode ICD mentah", why: "Kode mentah PPV-nya ~62% — penuh rule-out dan upcoding." },
+            { text: "Kode ICD mentah", why: "Kode mentah PPV-nya rendah (angka 62% di lesson ini ilustratif) — penuh rule-out dan upcoding." },
             { text: "Diagnosis dokter", why: "Diagnosis dokter adalah intuisi klinis; fenotipe adalah versi komputabelnya." },
             { text: "Nama kolom database", why: "Nama kolom bukan definisi klinis." },
           ],

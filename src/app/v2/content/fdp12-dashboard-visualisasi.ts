@@ -12,15 +12,15 @@ export const fdp12: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Dashboard yang cantik, data yang basi",
       prose: [
-        "Sebuah perusahaan meluncurkan dashboard keuangan yang indah: grafik revenue, margin, dan arus kas yang bergerak halus. Direksi memujinya — sampai seorang analis memeriksa stempel waktunya. Data terakhir masuk pukul 06:00, dashboard dibaca pukul 06:47 — lag 47 menit, masih di dalam SLA 60 menit. Tetapi dari 50 emiten yang seharusnya tampil, hanya 48 yang datanya lengkap — cakupan 96,0 persen — dan dua yang hilang justru emiten terbesar kedua dan ketiga. Dashboard itu cantik, tetapi ia bercerita tentang 48 emiten seolah-olah mereka adalah 50.",
-        "Lesson ini mengajarkan dashboard dari sudut pipeline — bukan dari sudut desain grafik. Yang menentukan apakah dashboard keuangan bisa dipercaya bukan warnanya, melainkan tiga hal: kesegaran data (lag), kelengkapan (cakupan), dan kejujuran tentang apa yang hilang. Seorang analis pipeline membangun dashboard sebagai ujung dari pipeline-nya, bukan sebagai hiasan di atasnya.",
+        "Sebuah perusahaan meluncurkan dashboard keuangan yang indah: grafik revenue, margin, dan arus kas yang bergerak halus. Direksi memujinya — sampai seorang analis memeriksa stempel waktunya. Data terakhir masuk pukul 06:00, dashboard dibaca pukul 06:47 — umur data 47 menit, masih di dalam SLA 60 menit. (Ini UMUR DATA, bukan lag refresh — lihat Langkah 3.) Tetapi dari 50 emiten yang seharusnya tampil, hanya 48 yang datanya lengkap — cakupan 96,0 persen — dan dua yang hilang justru emiten terbesar kedua dan ketiga. Dashboard itu cantik, tetapi ia bercerita tentang 48 emiten seolah-olah mereka adalah 50.",
+        "Lesson ini mengajarkan dashboard dari sudut pipeline — bukan dari sudut desain grafik. Yang menentukan apakah dashboard keuangan bisa dipercaya bukan warnanya, melainkan tiga hal: kesegaran data (umur data — bedakan dari lag refresh), kelengkapan (cakupan), dan kejujuran tentang apa yang hilang. Seorang analis pipeline membangun dashboard sebagai ujung dari pipeline-nya, bukan sebagai hiasan di atasnya.",
       ],
       tasks: [],
       note: {
         title: "Yang sudah ada vs yang baru di sini",
         body: "Dashboard sebagai topik BI sudah ada di MK25 (dashboard marketing) — tetapi itu sudut pemasaran. Di track FDP, tidak ada lesson tentang dashboard sama sekali: FDP8 membahas otomasi penjadwalan pipeline, FDP9 membahas penggabungan harga dengan filings, tetapi tidak ada yang membahas ujung pipeline — layar tempat angka itu dibaca dan diputuskan. Lesson ini membangun sudut FDP-nya: lag, cakupan, refresh, dan kejujuran data.",
       },
-      reference: "Lag 47 menit (SLA 60 menit); cakupan 48 dari 50 emiten (96,0 persen); 2 emiten terbesar hilang.",
+      reference: "Umur data 47 menit (SLA 60 menit); cakupan 48 dari 50 emiten (96,0 persen); 2 emiten terbesar hilang.",
     },
     {
       id: "tujuan",
@@ -28,8 +28,8 @@ export const fdp12: V2Lesson = {
       title: "Tujuan pembelajaran",
       prose: [
         "Setelah lesson ini, kamu bisa membangun dan menilai dashboard keuangan dari sudut pipeline.",
-        "(1) Menjelaskan tiga metrik kesehatan dashboard: lag, cakupan, dan kesegaran;",
-        "(2) Menghitung lag refresh dan cakupan emiten dari data pipeline;",
+        "(1) Menjelaskan tiga metrik kesehatan dashboard: umur data, cakupan, dan kesegaran (plus lag refresh sebagai konsep terpisah);",
+        "(2) Menghitung umur data dan cakupan emiten dari data pipeline — dan membedakannya dari lag refresh;",
         "(3) Memilih visualisasi yang benar untuk tiap jenis angka keuangan;",
         "(4) Menandai data yang hilang atau basi secara eksplisit di layar;",
         "(5) Menentukan kapan dashboard harus dimatikan sementara, bukan dibiarkan menampilkan angka salah.",
@@ -50,7 +50,7 @@ export const fdp12: V2Lesson = {
         title: "Dashboard yang dimatikan lebih baik dari dashboard yang berbohong",
         body: "Bila pipeline gagal total dan tidak ada data baru, pilihan yang benar adalah menampilkan layar 'data belum tersedia' — bukan menampilkan data kemarin seolah-olah data hari ini. Satu keputusan yang diambil dari data basi bisa lebih mahal daripada satu hari tanpa dashboard.",
       },
-      reference: "Lag 47 menit (SLA 60); cakupan 96,0 persen jumlah — tetapi cek cakupan nilai; stempel waktu di tiap panel.",
+      reference: "Umur data 47 menit (SLA 60); cakupan 96,0 persen jumlah — tetapi cek cakupan nilai; stempel waktu di tiap panel.",
     },
     {
       id: "visualisasi",
@@ -73,27 +73,27 @@ export const fdp12: V2Lesson = {
       eyebrow: "Langkah 5 · Lab",
       title: "Lab: menghitung lag dan cakupan dashboard",
       prose: [
-        "Lab ini menghitung tiga metrik kesehatan dashboard: lag refresh dalam menit, cakupan emiten dalam persen, dan jumlah emiten yang hilang. Hitung dulu di kepala. Lag: 06:47 dikurangi 06:00 sama dengan 47 menit. Cakupan: 48 dibagi 50 dikali 100 sama dengan 96,0 persen. Emiten hilang: 50 dikurangi 48 sama dengan 2.",
-        "Tugas lab: isi tiga variabel — lag_menit, cakupan_pct, hilang — lalu cetak ketiganya. Tiga angka ini adalah header kesehatan yang harus tampil di atas setiap dashboard keuangan: seberapa segar, seberapa lengkap, dan apa yang hilang.",
+        "Lab ini menghitung tiga metrik kesehatan dashboard: umur data dalam menit, cakupan emiten dalam persen, dan jumlah emiten yang hilang. Hitung dulu di kepala. Umur data: 06:47 dikurangi 06:00 sama dengan 47 menit. Perhatian: ini UMUR DATA, bukan lag refresh — lag refresh adalah selisih antara jadwal refresh dan refresh yang benar-benar selesai (misal: dijadwalkan 06:00, selesai 06:05 → lag refresh 5 menit). Di lab ini jadwal/selesai refresh tidak diberikan, jadi yang dihitung adalah umur data. Cakupan: 48 dibagi 50 dikali 100 sama dengan 96,0 persen. Emiten hilang: 50 dikurangi 48 sama dengan 2.",
+        "Tugas lab: isi tiga variabel — umur_data_menit, cakupan_pct, hilang — lalu cetak ketiganya. Tiga angka ini adalah header kesehatan yang harus tampil di atas setiap dashboard keuangan: seberapa segar, seberapa lengkap, dan apa yang hilang.",
         "Setelah lolos, coba eksperimen: ubah emiten lengkap menjadi 44 dan lihat cakupan jatuh ke 88,0 persen — lalu tanyakan: apakah dashboard ini masih boleh dipakai untuk keputusan? Jawabannya: hanya bila 6 yang hilang itu kecil nilainya dan ditandai jelas; bila salah satunya adalah emiten terbesar, dashboard harus dimatikan sementara.",
       ],
       tasks: [
-        { id: "t1", text: "Hitung lag refresh dalam menit" },
+        { id: "t1", text: "Hitung umur data dalam menit" },
         { id: "t2", text: "Hitung cakupan emiten dalam persen" },
         { id: "t3", text: "Hitung jumlah emiten yang datanya hilang" },
       ],
-      expected: "lag_menit=47\ncakupan_pct=96.0\nhilang=2",
+      expected: "umur_data_menit=47\ncakupan_pct=96.0\nhilang=2",
       hints: [
-        "Lag = waktu baca dikurangi waktu data masuk, dalam menit.",
+        "Umur data = waktu baca dikurangi waktu data masuk, dalam menit. (Lag refresh = jadwal refresh vs selesai refresh — bukan ini.)",
         "Cakupan = emiten lengkap dibagi total emiten, dikali 100.",
         "Hilang = total emiten dikurangi emiten lengkap.",
       ],
       code: {
-        starter: "# Kesehatan dashboard keuangan. JANGAN UBAH.\njam_data_masuk = 6 * 60 + 0  # 06:00 dalam menit\njam_dibaca = 6 * 60 + 47  # 06:47 dalam menit\nemiten_lengkap = 48\ntotal_emiten = 50\n\n# TULIS KODEMU: lag, cakupan, emiten hilang\nlag_menit = \ncakupan_pct = \nhilang = \nprint(f\"lag_menit={lag_menit}\")\nprint(f\"cakupan_pct={round(cakupan_pct, 1)}\")\nprint(f\"hilang={hilang}\")",
+        starter: "# Kesehatan dashboard keuangan. JANGAN UBAH.\njam_data_masuk = 6 * 60 + 0  # 06:00 dalam menit\njam_dibaca = 6 * 60 + 47  # 06:47 dalam menit\nemiten_lengkap = 48\ntotal_emiten = 50\n\n# TULIS KODEMU: lag, cakupan, emiten hilang\numur_data_menit = \ncakupan_pct = \nhilang = \nprint(f\"umur_data_menit={umur_data_menit}\")\nprint(f\"cakupan_pct={round(cakupan_pct, 1)}\")\nprint(f\"hilang={hilang}\")",
         lockLines: 6,
-        solution: "# Kesehatan dashboard keuangan. JANGAN UBAH.\njam_data_masuk = 6 * 60 + 0  # 06:00 dalam menit\njam_dibaca = 6 * 60 + 47  # 06:47 dalam menit\nemiten_lengkap = 48\ntotal_emiten = 50\n\n# TULIS KODEMU: lag, cakupan, emiten hilang\nlag_menit = jam_dibaca - jam_data_masuk\ncakupan_pct = emiten_lengkap / total_emiten * 100\nhilang = total_emiten - emiten_lengkap\nprint(f\"lag_menit={lag_menit}\")\nprint(f\"cakupan_pct={round(cakupan_pct, 1)}\")\nprint(f\"hilang={hilang}\")",
+        solution: "# Kesehatan dashboard keuangan. JANGAN UBAH.\njam_data_masuk = 6 * 60 + 0  # 06:00 dalam menit\njam_dibaca = 6 * 60 + 47  # 06:47 dalam menit\nemiten_lengkap = 48\ntotal_emiten = 50\n\n# TULIS KODEMU: lag, cakupan, emiten hilang\numur_data_menit = jam_dibaca - jam_data_masuk\ncakupan_pct = emiten_lengkap / total_emiten * 100\nhilang = total_emiten - emiten_lengkap\nprint(f\"umur_data_menit={umur_data_menit}\")\nprint(f\"cakupan_pct={round(cakupan_pct, 1)}\")\nprint(f\"hilang={hilang}\")",
         checks: [
-          { kind: "stdout_matches", task: "t1", pattern: "lag_menit=47", label: "Lag 47 menit", msg: "06:47 - 06:00 = 47 menit. Di dalam SLA 60 menit." },
+          { kind: "stdout_matches", task: "t1", pattern: "umur_data_menit=47", label: "Umur data 47 menit", msg: "06:47 - 06:00 = 47 menit (umur data, bukan lag refresh). Di dalam SLA 60 menit." },
           { kind: "stdout_matches", task: "t2", pattern: "cakupan_pct=96.0", label: "Cakupan 96,0 persen", msg: "48 / 50 x 100 = 96,0. Tetapi cek juga cakupan nilai — dua yang hilang bisa jadi yang terbesar." },
           { kind: "stdout_matches", task: "t3", pattern: "hilang=2", label: "2 emiten hilang", msg: "50 - 48 = 2. Dua yang hilang harus disebutkan namanya di dashboard, bukan disembunyikan." },
         ],
@@ -102,7 +102,7 @@ export const fdp12: V2Lesson = {
         title: "Contoh kontrak dashboard (satu panel)",
         body: "Sumber — pipeline filings harian. SLA — data tersedia paling lambat 07:00, umur data maksimal 60 menit. Status — stempel waktu sumber + lampu hijau/kuning/merah. Bila gagal — panel menampilkan 'data belum tersedia' dan alert ke pemilik pipeline. Cakupan — jumlah DAN nilai emiten yang hilang (2 emiten yang hilang di cerita pembuka adalah yang terbesar kedua dan ketiga — cakupan 96 persen berdasarkan jumlah menyembunyikan itu). Kontrak ini ditulis sebelum dashboard dibangun, bukan sesudahnya.",
       },
-      reference: "Lag 47 menit; cakupan 96,0 persen; 2 emiten hilang.",
+      reference: "Umur data 47 menit; cakupan 96,0 persen; 2 emiten hilang.",
     },
     {
       id: "mini-case",
@@ -129,8 +129,8 @@ export const fdp12: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Tiga metrik: lag, cakupan (jumlah dan nilai), kesegaran.",
-        "Lab: lag 47 menit; cakupan 96,0 persen; 2 emiten hilang.",
+        "Tiga metrik: umur data (bedakan dari lag refresh), cakupan (jumlah dan nilai), kesegaran.",
+        "Lab: umur data 47 menit; cakupan 96,0 persen; 2 emiten hilang.",
         "Tren: garis. Komposisi: batang bertumpuk. Perbandingan: batang horizontal terurut.",
         "Satu grafik, satu pesan; sumbu batang mulai dari nol; jangan dua sumbu Y.",
         "Dashboard yang gagal harus menampilkan 'data belum tersedia', bukan angka basi.",
@@ -138,12 +138,12 @@ export const fdp12: V2Lesson = {
       next: { label: "FDP13 — Kerangka Data Quality Formal: Enam Dimensi, Satu Skor", href: "/v2/learn/fdp13-kerangka-data-quality" },
       quiz: [
         {
-          q: "Data masuk 06:00, dashboard dibaca 06:47, 48 dari 50 emiten lengkap. Berapa lag dan cakupannya?",
+          q: "Data masuk 06:00, dashboard dibaca 06:47, 48 dari 50 emiten lengkap. Berapa umur data dan cakupannya?",
           options: [
-            { text: "Lag 47 menit; cakupan 96,0 persen", why: "Tepat: 06:47 - 06:00 = 47 menit; 48/50 = 96,0 persen.", correct: true },
-            { text: "Lag 47 menit; cakupan 48,0 persen", why: "Salah: 48,0 persen adalah hasil bila pembaginya 100, bukan 50." },
-            { text: "Lag 60 menit; cakupan 96,0 persen", why: "Salah: 60 menit adalah SLA-nya, bukan lag aktualnya." },
-            { text: "Lag 47 menit; cakupan 100 persen — dua yang hilang tidak dihitung", why: "Salah: cakupan justru mengukur yang hilang. Menyembunyikannya adalah kebohongan." },
+            { text: "Umur data 47 menit; cakupan 96,0 persen", why: "Tepat: 06:47 - 06:00 = 47 menit (umur data — bukan lag refresh); 48/50 = 96,0 persen.", correct: true },
+            { text: "Umur data 47 menit; cakupan 48,0 persen", why: "Salah: 48,0 persen adalah hasil bila pembaginya 100, bukan 50." },
+            { text: "Umur data 60 menit; cakupan 96,0 persen", why: "Salah: 60 menit adalah SLA-nya, bukan umur data aktualnya." },
+            { text: "Umur data 47 menit; cakupan 100 persen — dua yang hilang tidak dihitung", why: "Salah: cakupan justru mengukur yang hilang. Menyembunyikannya adalah kebohongan." },
           ],
         },
         {

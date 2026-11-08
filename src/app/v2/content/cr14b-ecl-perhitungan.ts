@@ -12,7 +12,7 @@ export const cr14b: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Model statistik yang menggerakkan triliunan",
       prose: [
-        "Rina menatap spreadsheet ECL-nya: satu debitur KPR, ECL Rp 15,3 juta. Dua baris itu — dikali 200.000 rekening KPR — menjadi Rp 3,06 triliun cadangan di neraca. Dan setiap rupiahnya mengurangi laba yang dilaporkan ke publik, ke OJK, ke pemegang saham.",
+        "Rina menatap spreadsheet ECL-nya: satu debitur KPR, ECL Rp 11,3 juta. Dua baris itu — dikali 200.000 rekening KPR — menjadi Rp 2,26 triliun cadangan di neraca. Dan setiap rupiahnya mengurangi laba yang dilaporkan ke publik, ke OJK, ke pemegang saham.",
         "\"Gila,\" gumam Rina. \"Model statistikku menggerakkan laba bank triliunan. Kalau PD-ku salah 10%...\" Ia tidak menyelesaikan kalimatnya. Tidak perlu.",
         "ECL bukan latihan akademis — ia adalah jembatan antara statistik dan uang sungguhan. Part 2 ini menyeberangi jembatan itu sampai ke jurnal, lalu menguji: bagaimana mempertahankannya di depan direksi, auditor, dan OJK.",
       ],
@@ -30,8 +30,8 @@ export const cr14b: V2Lesson = {
       title: "Satu debitur, lima langkah",
       prose: [
         "Rantai lengkap (prasyarat: CR10 PD, CR12 LGD, CR13 EAD, CR11 skenario, CR14a staging/diskonto): (1) staging → tentukan 12-bulan vs lifetime (misal: Stage 2); (2) PD per tahun → dari model PIT + satelit, per skenario; (3) EAD per tahun → amortisasi pokok (menyusut!); (4) kalikan & diskonto → Σ PD_t × LGD × EAD_t / (1+r)^t; (5) bobot skenario → ECL final.",
-        "Contoh: KPR Rp 500 jt, tenor 10 tahun, LGD 30%, r 8%, Stage 2. PD PIT: optimis 0,8%/tahun (20%), baseline 1,2% (50%), pesimis 2,5% (30%). Amortisasi 8%/tahun. Per skenario, jumlahkan 10 tahun: optimis Rp 8,1 jt; baseline Rp 12,2 jt; pesimis Rp 25,4 jt. Bobot: 0,2×8,1 + 0,5×12,2 + 0,3×25,4 = Rp 15,3 jt. Inilah ECL final satu debitur. × 200.000 rekening = Rp 3,06 T.",
-        "Perhatikan: amortisasi memangkas ECL ~35% dibanding tanpa amortisasi — struktur pembayaran adalah komponen ECL yang sah. KPR dengan balloon payment 60% di akhir tenor yang dihitung dengan asumsi amortisasi linear = ECL underestimate + risiko refinancing di ujung yang tidak tercakup.",
+        "Contoh: KPR Rp 500 jt, tenor 10 tahun, LGD 30%, r 8%, Stage 2. PD PIT: optimis 0,8%/tahun (20%), baseline 1,2% (50%), pesimis 2,5% (30%). Amortisasi 8%/tahun. Per skenario, jumlahkan 10 tahun dengan fungsi lab (EAD 500×0,92^(t−1), diskonto 8%): optimis Rp 6,0 jt; baseline Rp 9,0 jt; pesimis Rp 18,7 jt. Bobot: 0,2×6,0 + 0,5×9,0 + 0,3×18,7 = Rp 11,3 jt. Inilah ECL final satu debitur. × 200.000 rekening = Rp 2,26 T.",
+        "Perhatikan: amortisasi memangkas ECL ~26% dibanding tanpa amortisasi — pada skenario optimis, Rp 8,05 jt tanpa amortisasi menjadi Rp 5,99 jt dengan amortisasi (dihitung dengan fungsi lab sendiri: (8,05−5,99)/8,05 = 25,6%). Struktur pembayaran adalah komponen ECL yang sah. KPR dengan balloon payment 60% di akhir tenor yang dihitung dengan asumsi amortisasi linear = ECL underestimate + risiko refinancing di ujung yang tidak tercakup.",
       ],
       formula: String.raw`\text{ECL} = \sum_s p_s \sum_{t=1}^{T} \frac{\text{PD}_{t,s} \times \text{LGD} \times \text{EAD}_t}{(1+r)^t}`,
       formulaNote: "s = skenario (bobot paling akhir), t = tahun. Diskonto setelah perkalian tahunan.",
@@ -68,7 +68,7 @@ export const cr14b: V2Lesson = {
           { kind: "stdout_matches", task: "t3", pattern: "opt=6\\.0\\s+base=9\\.0\\s+pes=18\\.7\\s+final=11\\.3", label: "`print` menampilkan semuanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Amortisasi memangkas ECL ~35% — struktur pembayaran adalah komponen ECL yang sah.",
+      reference: "Amortisasi memangkas ECL ~26% (8,05 → 5,99 jt pada skenario optimis) — struktur pembayaran adalah komponen ECL yang sah.",
     },
     {
       id: "jurnal",
@@ -92,7 +92,7 @@ export const cr14b: V2Lesson = {
       title: "Uji guncang model",
       prose: [
         "Analisis sensitivitas = mengubah satu asumsi ±X% dan mengukur perubahan ECL. Tujuannya: (1) tahu asumsi mana paling kritis; (2) siapkan jawaban saat direksi/auditor bertanya \"bagaimana jika...?\"; (3) tentukan rentang wajar ECL (bukan satu angka kaku).",
-        "Hasil ilustrasi: bobot pesimis +10pp → ECL +18% — paling sensitif! PD/LGD/EAD +10% → +10% (linear, sesuai rumus). Suku bunga +2% → ECL turun 6% (diskonto lebih besar). Pelajaran: perdebatan metodologi seharusnya paling sengit di bobot skenario — bukan di detail teknis PD. Sensitivitas = peta prioritas: yang paling sensitif = yang paling butuh governance ketat.",
+        "Hasil ilustrasi (dihitung dengan fungsi lab yang sama — ECL final Rp 11,31 jt): bobot pesimis +10pp (diambil dari optimis, bobot jadi 10/50/40) → ECL +11% — paling sensitif! PD/LGD/EAD +10% → +10% (linear, sesuai rumus). Suku bunga +2pp (8%→10%) → ECL turun ~7% (diskonto lebih besar). Pelajaran: perdebatan metodologi seharusnya paling sengit di bobot skenario — bukan di detail teknis PD. Sensitivitas = peta prioritas: yang paling sensitif = yang paling butuh governance ketat.",
       ],
       tasks: [],
       reference: "Mengecilkan bobot pesimis agar ECL turun = manipulasi, bukan sensitivitas.",
@@ -165,7 +165,7 @@ export const cr14b: V2Lesson = {
       title: "Skenario yang terlihat netral tapi tidak",
       prose: [
         "Tiga skenario berbobot 20/50/30 terlihat \"netral\" — tetapi netralitasnya ilusi karena ECL tidak linear terhadap kondisi ekonomi. Saat ekonomi memburuk, PD naik DAN LGD naik bersamaan (agunan ikut jatuh harganya), sehingga ECL skenario pesimis bukan sekadar \"sedikit lebih besar\" — ia bisa 2–3× lipat baseline. Bobot 30% pada angka yang 2,5× lipat menyumbang porsi yang jauh lebih besar dari 30%. Inilah non-linearitas dari langkah 1: merata-ratakan PD dulu lalu menghitung ECL sekali menghancurkan convexity ini.",
-        "Contoh dengan angka: satu debitur KPR. ECL optimis Rp 8,1 jt (bobot 20%), baseline Rp 12,2 jt (50%), pesimis Rp 25,4 jt (30%). ECL final = 0,2×8,1 + 0,5×12,2 + 0,3×25,4 = 1,62 + 6,10 + 7,62 = Rp 15,34 jt. Perhatikan: skenario pesimis menyumbang Rp 7,62 jt — hampir setengah total — dari bobot hanya 30%. Cara salah yang lazim: \"pesimis belum terjadi, pakai bobot 10% saja\" → ECL = 1,62 + 7,32 + 2,54 = Rp 11,48 jt. Cadangan susut Rp 3,86 jt per debitur (25%!) hanya karena satu angka judgmental digeser. Inilah mengapa analisis sensitivitas menempatkan bobot skenario sebagai asumsi paling kritis.",
+        "Contoh dengan angka: satu debitur KPR. ECL optimis Rp 6,0 jt (bobot 20%), baseline Rp 9,0 jt (50%), pesimis Rp 18,7 jt (30%). ECL final = 0,2×6,0 + 0,5×9,0 + 0,3×18,7 = 1,20 + 4,50 + 5,61 = Rp 11,31 jt. Perhatikan: skenario pesimis menyumbang Rp 5,61 jt — hampir setengah total (49,7%) — dari bobot hanya 30%. Cara salah yang lazim: \"pesimis belum terjadi, pakai bobot 10% saja\" → ECL = 1,20 + 5,40 + 1,87 = Rp 8,47 jt. Cadangan susut Rp 2,84 jt per debitur (25%!) hanya karena satu angka judgmental digeser. Inilah mengapa analisis sensitivitas menempatkan bobot skenario sebagai asumsi paling kritis.",
         "Mode kegagalan kedua: double counting dengan overlay. Bank menambahkan overlay manajemen Rp 500 M \"untuk ketidakpastian\" DI ATAS ECL tertimbang yang skenario pesimisnya sudah mencakup ketidakpastian yang sama. Hasilnya cadangan ganda untuk risiko yang sama — terlihat konservatif, tetapi mengaburkan akuntabilitas: saat kondisi membaik, overlay \"lupa\" dilepas karena tidak ada yang ingat ia menutupi apa. Aturannya: setiap overlay wajib dipetakan ke celah model yang spesifik, lengkap dengan tanggal kedaluwarsa.",
         "Aturan keputusan. Satu: bobot harus berjumlah tepat 1,0 — auditor selalu mengecek ini pertama. Dua: dokumentasikan alasan tiap bobot dengan narasi ekonomi 2–3 kalimat (bukan \"berdasarkan judgment manajemen\"). Tiga: uji sensitivitas ±10pp pada bobot pesimis setiap kuartal dan laporkan ke komite risiko. Empat: bandingkan bobotmu dengan probabilitas implisit pasar (misalnya dari spread obligasi) setahun sekali — jika bobot pesimismu jauh lebih ringan dari yang dihargai pasar, bersiaplah menjelaskan ke auditor.",
       ],

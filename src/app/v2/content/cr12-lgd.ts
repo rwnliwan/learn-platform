@@ -12,8 +12,8 @@ export const cr12: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Agunan Rp 800 juta ≠ recovery Rp 800 juta",
       prose: [
-        "Pak Bambang mengajukan kredit Rp 500 juta dengan agunan rumah \"senilai Rp 800 juta\". Tim bisnis: \"Agunan 160% dari utang — aman.\" Tiga tahun kemudian, realisasinya: rumah laku lelang Rp 620 juta (pasar turun + lelang selalu diskon); biaya lelang, hukum, appraisal: Rp 50 juta; Pak Bambang mencicil Rp 45 juta selama proses; nilai waktu: recovery tahun ke-2–3 didiskonto.",
-        "Total kembali bersih: Rp 390 juta. LGD = 1 − 390/500 = 22%. Bukan 0% seperti dibayangkan — dan ini kasus bagus (ada agunan properti!).",
+        "Pak Bambang mengajukan kredit Rp 500 juta dengan agunan rumah \"senilai Rp 800 juta\". Tim bisnis: \"Agunan 160% dari utang — aman.\" Tiga tahun kemudian, realisasinya: rumah laku lelang Rp 280 juta di tahun ke-1 dan Rp 40 juta di tahun ke-2 (total Rp 320 juta dari nilai Rp 800 juta — pasar turun + lelang selalu diskon); Pak Bambang mencicil Rp 45 juta selama proses; klaim asuransi Rp 25 juta; biaya lelang, hukum, appraisal: Rp 50 juta; nilai waktu: recovery tahun ke-2 didiskonto (diskonto Rp 18,05 juta).",
+        "Arus masuk total Rp 390 juta (lelang 280 + 40, cicilan 45, asuransi 25) — tetapi itu angka KOTOR, bukan recovery bersih. Setelah biaya Rp 50 juta dan diskonto Rp 18,05 juta, recovery bersih didiskonto = Rp 321,95 juta ≈ Rp 322 juta. LGD = 1 − 322/500 = 35,6% — sama dengan hasil lab berikut, karena ini contoh yang sama. Bukan 0% seperti dibayangkan — dan ini kasus bagus (ada agunan properti!).",
         "Di antara agunan dan recovery ada diskon lelang, biaya, waktu, dan ekonomi — empat pencuri yang memakan recovery. Lesson ini menghitung jejak mereka satu per satu.",
       ],
       tasks: [],
@@ -22,7 +22,7 @@ export const cr12: V2Lesson = {
         type: "risk",
         body: "Tiga potongan antara nilai agunan dan recovery: (1) haircut pasar — lelang < nilai pasar, apalagi saat krisis; (2) biaya — hukum/lelang bisa 10–20%; (3) waktu — diskonto 2–3 tahun. Analis yang memakai nilai agunan mentah sedang berhalusinasi.",
       },
-      reference: "Haircut agunan = (800−620)/800 = 22,5% — agunan 'menyusut' sebelum dipakai.",
+      reference: "Haircut agunan = (800−320)/800 = 60% — agunan 'menyusut' sebelum dipakai.",
     },
     {
       id: "workout",
@@ -34,7 +34,7 @@ export const cr12: V2Lesson = {
         "Workout LGD seperti laporan keuangan proyek penyelamatan — tiap rupiah masuk dan keluar dicatat, waktu dihargai. Bank yang tidak mendiskonto recovery 3 tahun = mengklaim \"kembali Rp 100\" padahal nilai kini cuma Rp 75.",
       ],
       formula: String.raw`\text{LGD} = 1 - \frac{\sum_t \frac{\text{Recovery}_t - \text{Biaya}_t}{(1+r)^t}}{\text{EAD}}`,
-      formulaNote: "r = biasanya suku bunga kredit itu sendiri. Recovery rate = 1 − LGD.",
+      formulaNote: "r = tingkat diskonto — untuk ECL (PSAK 109) dipakai EIR awal kredit; untuk workout LGD praktiknya memakai EIR atau biaya modal. Tingkat diskonto recovery TIDAK harus sama dengan suku bunga kredit — sebutkan r yang dipakai dan alasannya. Recovery rate = 1 − LGD.",
       tasks: [],
       reference: "Bank memakai nilai likuidasi (bukan nilai pasar) saat menilai agunan di awal.",
     },
@@ -140,14 +140,14 @@ export const cr12: V2Lesson = {
         "Skenario 1 — Kredit dengan agunan properti. → Hitung dari nilai LIKUIDASI (lelang cepat), bukan appraisal marketing; kurangi biaya lelang/hukum; diskonto ke nilai kini. Contoh nyata: ruko 'senilai Rp 1 M' → likuidasi Rp 600 M → recovery kini Rp 446 jt → LGD 44%, bukan 'aman'. LTV menipu: 80% (klaim) vs 133% (realita).",
         "Skenario 2 — Agunan di kawasan sepi / tidak likuid. → Tambahkan haircut likuiditas: 3 ruko sebelahnya 2 tahun tidak laku = agunan yang tidak bisa dijual saat dibutuhkan. Nilai tanpa likuiditas = angka di atas kertas.",
         "Skenario 3 — Menghitung modal (IRB). → Pakai downturn LGD = max(rata-rata jangka panjang, LGD saat resesi). Contoh nyata: LGD 35% → 55% saat resesi; dikombinasikan PD yang naik 2×, EL saat krisis bisa 3× lipat normal — dua mesin kerugian menyala bersamaan.",
-        "Skenario 4 — Recovery sudah berjalan 36 bulan dan kurva mendatar. → Hentikan: tiap bulan tambahan hanya menambah 1–2% dengan biaya penuh. Investasi di kecepatan eksekusi (0–24 bulan) selalu mengalahkan 'menunggu harga bagus'.",
+        "Skenario 4 — Recovery sudah berjalan 36 bulan dan kurva mendatar. → Hentikan: tiap bulan tambahan hanya menambah 1–2% dengan biaya penuh. Investasi di kecepatan eksekusi (0–24 bulan) hampir selalu mengalahkan 'menunggu harga bagus' — kecuali ada alasan kuat yang dibuktikan data (misal pasar sedang crash sementara dan diperkirakan pulih), bukan sekadar harapan harga naik.",
         "Skenario 5 — Kredit tanpa agunan (KTA, kartu kredit). → Terima LGD 80–90% dan harga harus mencerminkan: bunga 2–3% per bulan bukan keserakahan — melainkan aritmetika LGD 86% (contoh: recovery Rp 7 jt dari Rp 50 jt).",
         "Aturan praktis 10 detik: LGD = 1 − recovery bersih kini / EAD; pakai nilai likuidasi bukan pasar; waktu dan biaya adalah empat pencuri recovery — diskonto mereka.",
       ],
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "'Agunan 160% dari utang — aman.' Tiga tahun kemudian: lelang Rp 620 jt (diskon pasar turun), biaya Rp 50 jt, didiskonto waktu — recovery bersih Rp 390 jt dari Rp 500 jt, LGD 22%. Dan itu kasus BAGUS. Agunan bukan recovery; agunan adalah janji recovery yang dipotong empat pencuri.",
+        body: "'Agunan 160% dari utang — aman.' Tiga tahun kemudian: lelang Rp 320 jt (280 + 40, diskon pasar turun), cicilan Rp 45 jt, asuransi Rp 25 jt, biaya Rp 50 jt, diskonto Rp 18,05 jt — recovery bersih Rp 322 jt dari Rp 500 jt, LGD 35,6%. Dan itu kasus BAGUS. Agunan bukan recovery; agunan adalah janji recovery yang dipotong empat pencuri.",
       },
     },
     {
@@ -200,10 +200,10 @@ export const cr12: V2Lesson = {
       next: { label: "CR13 — EAD & CCF", href: "/v2/learn/cr13-ead-ccf" },
       quiz: [
         {
-          q: "EAD Rp 500 jt, recovery bersih didiskonto Rp 390 jt. LGD?",
+          q: "EAD Rp 500 jt, recovery bersih didiskonto Rp 322 jt. LGD?",
           options: [
-            { text: "78%", why: "Itu recovery rate-nya, bukan LGD." },
-            { text: "22% (1 − 390/500)", why: "Ingat: recovery sudah bersih (dikurangi biaya) dan didiskonto — bukan angka kotor.", correct: true },
+            { text: "64,4%", why: "Itu recovery rate-nya (322/500), bukan LGD." },
+            { text: "35,6% (1 − 322/500)", why: "Ingat: recovery sudah bersih (dikurangi biaya) dan didiskonto — bukan angka kotor (390 jt adalah arus masuk kotor).", correct: true },
             { text: "110%", why: "LGD tidak melebihi 100% dalam kasus ini." },
             { text: "0%", why: "Recovery tidak penuh — LGD tidak nol." },
           ],

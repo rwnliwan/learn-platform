@@ -12,11 +12,11 @@ export const e11: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita pembuka",
       title: "Rumus 1973 yang mengubah Wall Street",
       prose: [
-        "Tahun 1973, Fischer Black dan Myron Scholes mempublikasikan cara menghitung harga wajar opsi. Sebelumnya, harga opsi = tebakan bandar. Sesudahnya = sains (Nobel 1997). Rumus ini begitu fundamental hingga setiap trading screen opsi di dunia menampilkannya — termasuk Greeks, panel instrumen risiko yang lahir dari rumus yang sama.",
-        "Kabar baik: kamu tidak perlu menurunkan rumusnya. Kamu perlu memahami inputnya, membaca outputnya, dan mengendarai Greeks-nya. Dari lima input, empat bisa dilihat — harga saham, strike, waktu, bunga. Hanya satu yang tidak bisa dilihat: volatilitas masa depan. Seluruh tebakan pasar terkompresi menjadi satu angka misterius.",
+        "Tahun 1973, Fischer Black dan Myron Scholes mempublikasikan cara menghitung harga wajar opsi. Sebelumnya, harga opsi = tebakan bandar. Sesudahnya = sains — dan pada 1997, Nobel Ekonomi diberikan kepada Robert Merton & Myron Scholes atas karya ini (Fischer Black meninggal pada 1995 dan tidak menerima Nobel). Rumus ini begitu fundamental hingga setiap trading screen opsi di dunia menampilkannya — termasuk Greeks, panel instrumen risiko yang lahir dari rumus yang sama.",
+        "Kabar baik: kamu tidak perlu menurunkan rumusnya. Kamu perlu memahami inputnya, membaca outputnya, dan mengendarai Greeks-nya. Dari lima input (versi tanpa dividen — saham berdividen butuh q sebagai input keenam), empat bisa dilihat — harga saham, strike, waktu, bunga. Hanya satu yang tidak bisa dilihat: volatilitas masa depan. Seluruh tebakan pasar terkompresi menjadi satu angka misterius.",
       ],
       formula: String.raw`C = S \cdot N(d_1) - K e^{-rT} \cdot N(d_2) \qquad d_1 = \frac{\ln(S/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}, \quad d_2 = d_1 - \sigma\sqrt{T}`,
-      formulaNote: "S = harga saham; K = strike; T = sisa waktu (tahun); r = risk-free; σ = volatilitas; N(·) = peluang kumulatif normal.",
+      formulaNote: "S = harga saham; K = strike; T = sisa waktu (tahun); r = risk-free; σ = volatilitas; N(·) = peluang kumulatif normal. Catatan: rumus di atas untuk saham TANPA dividen — untuk saham berdividen tambahkan dividend yield q: C = S·e^(−qT)·N(d₁) − K·e^(−rT)·N(d₂), dengan d₁ memakai (r − q + σ²/2). Lima input yang diajarkan di sini belum lengkap untuk saham berdividen.",
       tasks: [
         { id: "t1", text: "Hitung `d1` dan `d2` (S=K=100, T=1, r=6%, σ=30%)" },
         { id: "t2", text: "Hitung `call` (harga wajar call)" },
@@ -42,14 +42,14 @@ export const e11: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "d1=0\\.350\\s+d2=0\\.050\\s+call=14\\.72", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Lima input BS; σ satu-satunya opini — trader opsi = trader volatilitas.",
+      reference: "Lima input BS (tanpa dividen); σ satu-satunya opini — trader opsi = trader volatilitas.",
     },
     {
       id: "iv",
       eyebrow: "Langkah 2 · Implied volatility",
       title: "Membaca pikiran pasar dari harga opsi",
       prose: [
-        "Balikkan Black-Scholes: diketahui harga pasar opsi (C), cari σ yang membuatnya cocok. Itulah implied volatility (IV) — volatilitas yang “ditakuti/diharapkan” pasar untuk sisa umur opsi. IV 20% = pasar memprediksi saham bergerak ±20% (tahunan) ke depan.",
+        "Balikkan Black-Scholes: diketahui harga pasar opsi (C), cari σ yang membuatnya cocok. Itulah implied volatility (IV) — volatilitas yang “ditakuti/diharapkan” pasar untuk sisa umur opsi. IV 20% ≈ pasar menghargai opsi seolah-olah volatilitas tahunan (1-sigma log-return) sekitar 20% — kira-kira 68% peluang pergerakan tahunan dalam ±20% JIKA return lognormal. Itu BUKAN prediksi arah, bukan pula janji rentang: IV adalah harga ketidakpastian, bukan ramalan gerakan.",
         "IV melonjak sebelum pemilu/laporan keuangan = pasar bersiap guncangan. Setelah peristiwa lewat → IV anjlok (volatility crush) — pembeli opsi yang “benar arah” pun bisa rugi karena premi menyusut!",
       ],
       tasks: [],
@@ -107,7 +107,7 @@ export const e11: V2Lesson = {
       tasks: [],
       quiz: [
         {
-          q: "Dari 5 input Black-Scholes, mana yang TIDAK bisa diobservasi langsung?",
+          q: "Dari 5 input Black-Scholes versi tanpa dividen, mana yang TIDAK bisa diobservasi langsung?",
           options: [
             { text: "Harga saham (S)", why: "Salah: S terlihat di layar setiap detik." },
             { text: "Strike (K)", why: "Salah: K tertulis di kontrak opsinya." },
@@ -150,7 +150,7 @@ export const e11: V2Lesson = {
       prose: [
         "Market maker/penjual opsi → jaga delta netral, panen theta: delta-hedge tiap hari (kebal arah), biarkan time decay menggerogoti opsi yang dijual. Risiko: gamma — gerakan besar mendadak. Yakin ada guncangan besar (arah tidak tahu) → beli volatilitas: long straddle (call+put) — vega dan gamma positif, untung dari gerakan besar ke arah mana pun.",
         "Pasar tenang, IV mahal → jual volatilitas (tertutup!): theta + vega bekerja untuk penjual. Peringatan keras: short opsi telanjang = rugi tak terbatas. Lindungi portofolio saham → long put: delta negatif put menetralkan sebagian delta saham; theta = biaya asuransi yang disadari.",
-        "Aturan 10 detik: lima input BS; σ satu-satunya opini. Pembeli opsi dibayar arah; penjual dibayar waktu. IV tinggi + peristiwa dekat = jangan beli.",
+        "Aturan 10 detik: lima input BS (versi tanpa dividen; saham berdividen butuh q); σ satu-satunya opini. Pembeli opsi dibayar arah; penjual dibayar waktu. IV tinggi + peristiwa dekat = jangan beli.",
       ],
       tasks: [],
       reference: "Pilih sisi sesuai keunggulanmu. Volatility crush memakan yang benar arah sekalipun.",
@@ -199,7 +199,7 @@ export const e11: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Black-Scholes: C = S·N(d₁) − Ke^(−rT)·N(d₂); lima input, σ satu-satunya opini.",
+        "Black-Scholes (tanpa dividen): C = S·N(d₁) − Ke^(−rT)·N(d₂); lima input, σ satu-satunya opini — saham berdividen butuh input keenam, dividend yield q.",
         "Implied volatility = ekspektasi pasar forward-looking; jangan beli opsi saat IV mahal menjelang peristiwa.",
         "Delta = kecepatan (hedge ratio); gamma = akselerasi (terbesar ATM dekat expiry).",
         "Theta = bocor waktu (pembeli membayar, penjual memanen). Vega = sensitivitas ke volatilitas.",
@@ -211,7 +211,7 @@ export const e11: V2Lesson = {
           q: "Implied volatility (IV) 60% artinya…",
           options: [
             { text: "Saham pasti naik 60%", why: "Salah: IV bukan soal arah — ia soal besar gerakan." },
-            { text: "Pasar memprediksi/menakuti pergerakan ±60% (tahunan) ke depan", why: "Benar: ekspektasi forward-looking, BUKAN historis. IV tinggi = premi mahal.", correct: true },
+            { text: "Pasar menghargai opsi seolah-olah volatilitas tahunan (1-sigma log-return) sekitar 60%", why: "Benar: kira-kira 68% peluang gerakan tahunan dalam ±60% jika lognormal — bukan prediksi arah. IV = ekspektasi forward-looking, BUKAN historis. IV tinggi = premi mahal.", correct: true },
             { text: "Opsi pasti untung", why: "Salah: IV tinggi justru membuat opsi mahal — pembeli butuh gerakan ekstra besar." },
             { text: "Volatilitas historis 60%", why: "Salah: IV = ekspektasi masa depan, bukan catatan masa lalu." },
           ],

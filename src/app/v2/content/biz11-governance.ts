@@ -74,7 +74,7 @@ export const biz11: V2Lesson = {
       title: "Definisi metrik = dataset + filter + agregasi + versi",
       prose: [
         "Definisi yang bisa dieksekusi punya 5 komponen: NAMA (revenue_net), DATASET (orders), FILTER (status='paid'), AGREGASI (SUM(amount - refund)), VERSI + PEMILIK (v2, Finance, disetujui 2026-09-01). Hilang satu = definisi belum lengkap.",
-        "Contoh formal: revenue_net v2 = SUM(amount − refund) WHERE status='paid' ON orders, pemilik Finance. Siapa pun, kapan pun, menjalankan ini mendapat 1.300. Tidak ada ruang interpretasi.",
+        "Contoh formal: revenue_net v2 = SUM(amount − refund) WHERE status='paid' ON orders, pemilik Finance. Siapa pun, kapan pun, menjalankan definisi ini pada DATA YANG SAMA mendapat 1.300 — tidak ada ruang interpretasi soal DEFINISI. Tapi reproduksi tidak dijamin fungsi saja: bila data bertambah atau terkoreksi (retur masuk belakangan, order baru), angkanya berubah; yang dijamin fungsi adalah definisinya, bukan angkanya. Untuk reproduksi penuh, simpan juga snapshot data + versi data.",
         "Versioning: definisi BERUBAH (v1 memasukkan pending → v2 tidak). Tanpa versi, tren historis patah diam-diam: \u201Crevenue turun 20%\u201D padahal yang berubah definisinya. Aturan: perubahan definisi = versi baru + changelog + tanggal efektif + restatement opsional.",
         "Kepribadian: metric layer adalah \u201Csi konstitusi\u201D — ia tidak melarang definisi lain, ia mencatat semuanya dan menetapkan mana yang resmi. Amandemen boleh, tapi tercatat dan diumumkan.",
         "💡 Intuisi kunci: setiap metrik yang masuk slide board WAJIB punya kartu definisi 5 komponen. Tidak ada kartu = tidak naik ke board. Aturan sederhana ini membunuh 90% perang definisi.",
@@ -151,8 +151,8 @@ export const biz11: V2Lesson = {
       eyebrow: "Langkah 6 · Lab",
       title: "Lab: definisi mana yang berlaku kapan",
       prose: [
-        "Definisi 'revenue' berubah v1 → v2 pada 1 Juni 2025. Tiga laporan terbit Januari, Juli, dan November — versi mana yang dipakai tiap laporan? Tugasmu: tulis fungsi resolusi versi-berdasar-tanggal dan audit konsistensinya.",
-        "Hasilnya: laporan Januari dan November pakai v1, laporan Juli pakai v2. Tren yang membandingkan ketiganya patah diam-diam di Juni — persis jebakan yang dibahas di lesson ini.",
+        "Definisi 'revenue' berubah v1 → v2 pada 1 Juni 2025. Tiga laporan terbit Januari 2025, Juli 2025, dan November 2025 — versi mana yang dipakai tiap laporan? Tugasmu: tulis fungsi resolusi versi-berdasar-tanggal dan audit konsistensinya.",
+        "Hasilnya: laporan Januari pakai v1, laporan Juli dan November pakai v2. Tren yang membandingkan ketiganya patah diam-diam di Juni — persis jebakan yang dibahas di lesson ini. (Catatan: draf lama menulis tanggal November sebagai 2024-11-30 — sebelum Januari 2025 — sehingga “Nov pakai v1” itu artefak tanggal yang salah, bukan isi lesson; tanggal yang benar 2025-11-30.)",
         "Coba juga: apa yang harus dilakukan agar tren tidak patah? Restatement: hitung ulang histori dengan v2 (atau bekukan v1 untuk tren lama). Keduanya butuh registry — tanpa registry, restatement mustahil.",
       ],
       tasks: [
@@ -160,7 +160,7 @@ export const biz11: V2Lesson = {
         { id: "t2", text: "Isi `versi_terpakai` untuk tiap tanggal laporan" },
         { id: "t3", text: "Tentukan `konsisten`: True jika semua versi sama" },
       ],
-      expected: "versi_terpakai=['v1', 'v2', 'v1']",
+      expected: "versi_terpakai=['v1', 'v2', 'v2']",
       note: {
         title: "Sering salah",
         body: "Memakai versi terbaru untuk SEMUA tanggal ('kan v2 yang paling benar'). Definisi berlaku sesuai tanggal berlakunya — laporan lama memakai definisi lama, kecuali di-restatement eksplisit.",
@@ -171,11 +171,11 @@ export const biz11: V2Lesson = {
         "konsisten = len(set(versi_terpakai)) == 1.",
       ],
       code: {
-        starter: `# Registry metrik berversi: (nama, versi, berlaku_dari, definisi)\nREGISTRY = [\n    ("revenue", "v1", "2024-01-01", "gross"),\n    ("revenue", "v2", "2025-06-01", "net of refund"),\n]\n# Tiga laporan memakai angka revenue pada tanggal berikut:\nTANGGAL_LAPORAN = ["2025-01-15", "2025-07-20", "2024-11-30"]\n# TULIS KODEMU: versi_terpakai, konsisten\nversi_terpakai = []\nkonsisten = True\n`,
+        starter: `# Registry metrik berversi: (nama, versi, berlaku_dari, definisi)\nREGISTRY = [\n    ("revenue", "v1", "2024-01-01", "gross"),\n    ("revenue", "v2", "2025-06-01", "net of refund"),\n]\n# Tiga laporan memakai angka revenue pada tanggal berikut:\nTANGGAL_LAPORAN = ["2025-01-15", "2025-07-20", "2025-11-30"]\n# TULIS KODEMU: versi_terpakai, konsisten\nversi_terpakai = []\nkonsisten = True\n`,
         lockLines: 7,
-        solution: `# Registry metrik berversi: (nama, versi, berlaku_dari, definisi)\nREGISTRY = [\n    ("revenue", "v1", "2024-01-01", "gross"),\n    ("revenue", "v2", "2025-06-01", "net of refund"),\n]\n# Tiga laporan memakai angka revenue pada tanggal berikut:\nTANGGAL_LAPORAN = ["2025-01-15", "2025-07-20", "2024-11-30"]\n\n# TULIS KODEMU: definisi_pada, versi_terpakai, konsisten\ndef definisi_pada(nama, tgl):\n    cocok = [r for r in REGISTRY if r[0] == nama and r[2] <= tgl]\n    return max(cocok, key=lambda r: r[2])\n\nversi_terpakai = [definisi_pada("revenue", t)[1] for t in TANGGAL_LAPORAN]\nkonsisten = len(set(versi_terpakai)) == 1\n\nprint(f"versi_terpakai={versi_terpakai}")\nprint(f"konsisten={konsisten}")\n`,
+        solution: `# Registry metrik berversi: (nama, versi, berlaku_dari, definisi)\nREGISTRY = [\n    ("revenue", "v1", "2024-01-01", "gross"),\n    ("revenue", "v2", "2025-06-01", "net of refund"),\n]\n# Tiga laporan memakai angka revenue pada tanggal berikut:\nTANGGAL_LAPORAN = ["2025-01-15", "2025-07-20", "2025-11-30"]\n\n# TULIS KODEMU: definisi_pada, versi_terpakai, konsisten\ndef definisi_pada(nama, tgl):\n    cocok = [r for r in REGISTRY if r[0] == nama and r[2] <= tgl]\n    return max(cocok, key=lambda r: r[2])\n\nversi_terpakai = [definisi_pada("revenue", t)[1] for t in TANGGAL_LAPORAN]\nkonsisten = len(set(versi_terpakai)) == 1\n\nprint(f"versi_terpakai={versi_terpakai}")\nprint(f"konsisten={konsisten}")\n`,
         checks: [
-          { kind: "equal", task: "t2", name: "versi_terpakai", value: ["v1", "v2", "v1"], label: "`versi_terpakai` benar", msg: "Jan→v1, Jul→v2, Nov→v1." },
+          { kind: "equal", task: "t2", name: "versi_terpakai", value: ["v1", "v2", "v2"], label: "`versi_terpakai` benar", msg: "Jan→v1, Jul→v2, Nov→v2." },
           { kind: "equal", task: "t3", name: "konsisten", value: false, label: "`konsisten` = False", msg: "Tren patah di Juni." },
         ],
       },
@@ -242,9 +242,9 @@ export const biz11: V2Lesson = {
         {
           q: "Tiga angka revenue (2.550 / 1.300 / 2.350) semuanya benar. Solusi governance-nya?",
           options: [
-            { text: "Pilih satu, hapus dua lainnya", why: "Tiga angka revenue (2.550/1.300/2.350) lahir dari tiga definisi yang masing-masing sah untuk keperluannya: gross untuk sales, net untuk finance, recognized untuk akuntansi. Menghapus dua di antaranya = mematikan analisis yang bergantung padanya. Solusi governance bukan 'satu definisi untuk semua', melainkan 'semua definisi tercatat, satu dik kanonisasi'." },
+            { text: "Pilih satu, hapus dua lainnya", why: "Tiga angka revenue (2.550/1.300/2.350) lahir dari tiga definisi yang masing-masing sah untuk keperluannya: gross untuk sales, net untuk finance, expected (paid + pending) untuk product. Menghapus dua di antaranya = mematikan analisis yang bergantung padanya. Solusi governance bukan 'satu definisi untuk semua', melainkan 'semua definisi tercatat, satu dikanonisasi'. (Catatan: angka ketiga BUKAN recognized revenue akuntansi — recognized butuh kriteria pengakuan pendapatan, bukan sekadar paid + pending.)" },
             { text: "Daftarkan ketiganya berversi + tandai satu kanonis untuk pelaporan resmi", why: "Tepat: daftarkan ketiga definisi di registry (dataset + filter + agregasi + versi), lalu tetapkan SATU sebagai kanonis untuk pelaporan resmi. Yang lain tetap hidup untuk keperluan spesifiknya — terdokumentasi, berversi, tidak liar. Inilah beda governance vs penyeragaman buta.", correct: true },
-            { text: "Rata-ratakan ketiganya", why: "Merata-ratakan gross, net, dan recognized menghasilkan angka yang bukan apa-apa: bukan gross, bukan net, bukan recognized. Ini kesalahan kategori — seperti merata-ratakan suhu Celsius dan Fahrenheit. Angka 'kompromi' menenangkan rapat tetapi meracuni keputusan." },
+            { text: "Rata-ratakan ketiganya", why: "Merata-ratakan gross, net, dan expected menghasilkan angka yang bukan apa-apa: bukan gross, bukan net, bukan expected. Ini kesalahan kategori — seperti merata-ratakan suhu Celsius dan Fahrenheit. Angka 'kompromi' menenangkan rapat tetapi meracuni keputusan." },
             { text: "Serahkan ke tim dengan jabatan tertinggi", why: "Memilih definisi 'punya direktur' = governance berdasarkan kekuasaan, bukan kegunaan. Enam bulan kemudian direktur pindah, definisinya ikut pindah, dan histori menjadi tidak bisa dibandingkan. Kriteria yang benar: definisi mana yang paling tepat untuk keputusan ini — tercatat dan bisa diaudit." },
           ],
         },

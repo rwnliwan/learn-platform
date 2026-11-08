@@ -13,7 +13,7 @@ const PRUNE_SVG = `<svg viewBox="0 0 560 210" role="img" aria-label="Tanpa pruni
 <text x="20" y="150" font-size="11" fill="var(--text-muted)">+ kompresi zstd</text>
 <rect x="170" y="132" width="4" height="22" rx="4" fill="var(--c3)" opacity="0.9"/>
 <text x="184" y="149" font-size="11" fill="var(--text)">0,17 GB</text>
-<text x="20" y="188" font-size="12" fill="var(--text)">209x lebih sedikit — query sama, partisi cerdas</text>
+<text x="20" y="188" font-size="12" fill="var(--text)">scan menjadi 1/209 dari semula — query sama, partisi cerdas</text>
 </g></svg>`;
 
 export const de11: V2Lesson = {
@@ -62,7 +62,7 @@ export const de11: V2Lesson = {
         "Kompresi (Snappy cepat, Zstd rapat ~4x) mengecilkan tiap file. Kombinasi keduanya pada contoh kita: 36,5 GB → 0,7 GB (pruning) → 0,17 GB (+kompresi). 209x.",
         "💡 Intuisi: partisi berdasarkan kolom yang paling sering di-filter (tanggal!), bukan yang paling 'logis'. Cek 10 query teratas: jika 9 memfilter tanggal, partisinya tanggal. Sederhana tapi sering dilanggar.",
         "💡 Intuisi: kompresi hampir selalu menang untuk analitik (baca-sekali-tulis-sekali). CPU dekompresi murah; I/O mahal. Pengecualian: data yang ditulis-dan-dibaca ribuan kali per detik (jarang di analitik).",
-        "Cara membaca: tiga bar untuk query yang SAMA (7 hari terakhir dari 365 partisi harian @100 MB): tanpa pruning 36,5 GB → dengan pruning 0,7 GB → plus kompresi zstd 0,17 GB. Anotasi: '209x lebih sedikit'.",
+        "Cara membaca: tiga bar untuk query yang SAMA (7 hari terakhir dari 365 partisi harian @100 MB): tanpa pruning 36,5 GB → dengan pruning 0,7 GB → plus kompresi zstd 0,17 GB. Anotasi: 'scan menjadi 1/209 dari semula' — bukan '209x lebih sedikit' (biaya menjadi 1/209, bukan berkurang 209 kali lipat).",
         "Interpretasi: pruning (lewati 358 partisi yang tidak dibutuhkan) memberi 52x; kompresi memberi 4x lagi; gabungannya perkalian: 209x. Dua optimasi 'biasa' yang dikombinasikan mengalahkan satu optimasi heroik.",
       ],
       figure: {
@@ -113,7 +113,7 @@ export const de11: V2Lesson = {
       expected: "tanpa_pruning_GB=36.5 | dengan_pruning_GB=0.7 | pruning_kompresi_GB=0.17 | total_penghematan=209x",
       note: {
         title: "Sering salah",
-        body: "Menghitung penghematan sebagai selisih (36,5 − 0,17) bukan rasio. Untuk biaya cloud yang proporsional per GB, yang relevan adalah rasio: 209x lebih murah — bukan 'hemat 36,33 GB'.",
+        body: "Menghitung penghematan sebagai selisih (36,5 − 0,17) bukan rasio. Untuk biaya cloud yang proporsional per GB, yang relevan adalah rasio: biaya menjadi 1/209 dari semula — bukan 'hemat 36,33 GB'.",
       },
       hints: [
         "tanpa = 365 × 100 MB; pruning = 7 × 100 MB.",
@@ -271,7 +271,7 @@ export const de11: V2Lesson = {
           q: "Manajemen bertanya 'optimasi ini hemat berapa?'. Jawaban yang meyakinkan?",
           options: [
             { text: "'Query jadi lebih cepat'", why: "'Lebih cepat' tidak masuk spreadsheet. Manajemen butuh rupiah." },
-            { text: "'Dari Rp994 ribu/tahun/query menjadi Rp4,7 ribu — 209x, hemat Rp989 ribu per query'", why: "Tepat: bahasa manajemen = uang per tahun. 209x terdengar teknis; Rp989 ribu hemat per query per tahun = disetujui. Selalu terjemahkan ke rupiah.", correct: true },
+            { text: "'Dari Rp999 ribu/tahun/query menjadi Rp4,8 ribu — 209x, hemat Rp994 ribu per query'", why: "Tepat: bahasa manajemen = uang per tahun. 209x terdengar teknis; Rp994 ribu hemat per query per tahun = disetujui. Selalu terjemahkan ke rupiah. (Catatan: Rp994 ribu adalah HEMATNYA — 999.188 − 4.791 = 994.397 — bukan biaya awalnya; biaya awal Rp999 ribu. Mengurangkan sekali lagi menghasilkan Rp989 ribu yang salah.)", correct: true },
             { text: "'Best practice says so'", why: "Argumen otoritas tanpa angka = lemah. Best practice butuh bukti lokal." },
             { text: "'Kompetitor juga begitu'", why: "Kompetitor tidak membayar tagihanmu. Angka sendiri yang meyakinkan." },
           ],

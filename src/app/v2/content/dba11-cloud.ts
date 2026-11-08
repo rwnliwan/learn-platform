@@ -137,10 +137,10 @@ export const dba11: V2Lesson = {
         { id: "t1", text: "Hitung `biaya_od` dan `biaya_ri` bulanan pada utilisasi 1,0" },
         { id: "t2", text: "Hitung `breakeven_util`: u saat biaya sama (3 desimal)" },
       ],
-      expected: "biaya_od=365.0  biaya_ri=221.0",
+      expected: "biaya_od=365.0  biaya_ri=221.0\nbreakeven_util=0.342",
       note: {
         title: "Sering salah",
-        body: "Membandingkan tarif per jam saja ($0,50 vs $0,20) dan lupa $2.600 di muka. Biaya muka dibagi 12 bulan = $216,67/bulan yang harus 'dibayar' oleh selisih tarif.",
+        body: "Membandingkan tarif per jam saja ($0,50 vs $0,20) dan lupa $900 di muka. Biaya muka dibagi 12 bulan = $75/bulan yang harus 'dibayar' oleh selisih tarif. JANGAN tertukar: $2.600 adalah kira-kira TOTAL setahun reserved ($900 + $0,20×730×12 = $2.652), BUKAN uang mukanya — memakai $2.600 sebagai uang muka menghasilkan biaya bulanan $362,67 dan titik impas 0,989, yang berarti reserved hampir tidak pernah menang (total setahun $4.352 vs on-demand $4.380 — hemat $28 setahun, absurd untuk produk reserved).",
       },
       hints: [
         "biaya_ri(u) = 2600/12 + 0.20*730*u; biaya_od(u) = 0.50*730*u.",

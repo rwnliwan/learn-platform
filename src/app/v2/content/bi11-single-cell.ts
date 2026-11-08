@@ -116,7 +116,7 @@ export const bi11: V2Lesson = {
         "Skenario 1 — Menentukan filter QC sel. → 200 ≤ nFeature ≤ 2500 dan %MT < 10 — lalu sesuaikan per jaringan. Alasan: doublet punya nFeature tinggi, sel sekarat %MT tinggi; tapi kardiomiosit sehat pun %MT tinggi. Contoh nyata: filter buta membuang separuh neuron yang valid.",
         "Skenario 2 — Memilih resolusi clustering. → Naikkan sampai tiap klaster punya marker biologis jelas; berhenti sebelum menjadi noise. Alasan: resolusi adalah parameter, bukan kebenaran. Contoh nyata: 12 klaster dengan marker vs 30 klaster tanpa cerita.",
         "Skenario 3 — Klaster kecil 0,5% tanpa marker jelas. → Curigai doublet dulu sebelum klaim tipe sel langka. Alasan: doublet dua tipe sel meniru “tipe baru” dengan sempurna. Contoh nyata: “progenitor hibrida” yang runtuh setelah skor doublet.",
-        "Skenario 4 — Sel mengekspresikan marker T-cell DAN B-cell sekaligus. → Diagnosis: doublet; verifikasi dengan skor doublet dan hapus. Alasan: satu sel sejati jarang mengekspresikan program dua lineage penuh. Contoh nyata: klaster “ganda” yang hilang setelah filtering doublet.",
+        "Skenario 4 — Sel mengekspresikan marker T-cell DAN B-cell sekaligus. → Curigai doublet DULU; verifikasi dengan skor doublet (Scrublet/DoubletFinder) + nFeature; hapus HANYA bila bukti mendukung. Alasan: satu sel sejati jarang mengekspresikan program dua lineage penuh — TAPI marker ganda saja BUKAN diagnosis: bisa juga sel stres, artefak ambient RNA, atau subpopulasi langka yang sebenarnya. “Diagnosis: doublet” tanpa skor doublet = tebakan. Contoh nyata: klaster “ganda” yang hilang setelah filtering doublet — dan sebaliknya, klaster ganda yang BERTAHAN setelah skor doublet rendah dan butuh validasi eksperimental.",
         "Skenario 5 — Mengklaim urutan diferensiasi dari pseudotime. → Sajikan sebagai urutan, bukan waktu nyata; validasi dengan eksperimen. Alasan: pseudotime mengurutkan kemiripan transkripsional, bukan jam biologis. Contoh nyata: trajectory yang “terbalik” setelah validasi lineage tracing.",
         "Aturan praktis 10 detik: QC dulu, klaster secukupnya, klaster kecil = curigai doublet, UMAP untuk melihat bukan untuk mengukur."
       ],
@@ -163,7 +163,7 @@ export const bi11: V2Lesson = {
       eyebrow: "Langkah 8 · Advanced",
       title: "Resolusi clustering dan anotasi yang tidak mengarang",
       prose: [
-        "Parameter resolution (Louvain/Leiden) mengontrol kehalusan klaster: 0,4–0,6 memberi tipe sel mayor, 0,8–1,2 memecah subtipe. Tidak ada resolution yang “benar” — yang ada hanyalah yang didukung marker. Overclustering (resolution terlalu tinggi) memecah satu tipe sel menjadi 5 klaster tanpa perbedaan marker yang meyakinkan; underclustering menggabungkan subtipe fungsional berbeda. Praktik yang benar: coba 2–3 resolution, lalu pilih yang tiap klasternya punya marker gen yang jelas dan konsisten.",
+        "Parameter resolution (Louvain/Leiden) mengontrol kehalusan klaster: sebagai TITIK AWAL yang umum dipakai, 0,4–0,6 sering memberi klaster kasar setingkat tipe sel mayor dan 0,8–1,2 memecah lebih halus — TAPI rentang ini BUKAN level biologis: angka yang sama bisa memberi hasil berbeda di dataset lain (tergantung jumlah sel, kedalaman sekuensing, dan struktur biologinya). Tidak ada resolution yang “benar” — yang ada hanyalah yang didukung marker. Overclustering (resolution terlalu tinggi) memecah satu tipe sel menjadi 5 klaster tanpa perbedaan marker yang meyakinkan; underclustering menggabungkan subtipe fungsional berbeda. Praktik yang benar: coba 2–3 resolution, lalu pilih yang tiap klasternya punya marker gen yang jelas dan konsisten.",
         "Anotasi tipe sel adalah klaim yang butuh bukti berlapis: (1) marker gen kanonis dari literatur (CD3D untuk T-cell, MS4A1/CD20 untuk B-cell) yang terekspresi spesifik di klaster; (2) anotasi otomatis (CellTypist, SingleR) sebagai pembanding independen — bila manual dan otomatis sepakat, keyakinan naik; (3) validasi ortogonal untuk klaim baru (imunofluoresens, FACS, atau literatur). Klaster tanpa marker yang meyakinkan bukan “tipe sel baru” — ia artefak, doublet yang lolos, atau batch.",
         "Dua jebakan visualisasi: jarak antar-klaster di UMAP tidak bermakna kuantitatif (UMAP mengorbankan jarak global demi struktur lokal) — jangan klaim “klaster A lebih mirip B daripada C” dari posisi gambar. Dan pseudotime/trajectory (Monocle, scVelo) mengurutkan sel sepanjang gradien transkripsi — ia BUKAN waktu nyata tanpa validasi eksperimental (pulse-chase, lineage tracing).",
         "Aturan keputusan: klaim tipe sel baru butuh tiga hal — marker spesifik, replikasi di sampel independen, dan validasi ortogonal. Dua dari tiga = hipotesis menarik. Satu dari tiga = jangan dipublikasikan.",
@@ -172,7 +172,7 @@ export const bi11: V2Lesson = {
         { id: "t1", text: "Resolution 1,5 menghasilkan 22 klaster tanpa marker jelas. Diagnosis dan perbaikannya?" },
         { id: "t2", text: "Sebutkan tiga bukti yang dibutuhkan sebelum mengklaim tipe sel baru" },
       ],
-      reference: "Resolution 0,4–1,2 · marker kanonis + anotasi otomatis · UMAP ≠ jarak · pseudotime ≠ waktu.",
+      reference: "Resolution = titik awal 0,4–1,2 (bukan level biologis) · marker kanonis + anotasi otomatis · UMAP ≠ jarak · pseudotime ≠ waktu.",
     },
     {
       id: "checkpoint",
@@ -184,7 +184,7 @@ export const bi11: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: sel tunggal = mikroskop yang berisik",
-        body: "Tiga heuristik analis single-cell. Pertama, ingat resolusinya: satu sel hanya menangkap 10–20% molekul mRNA-nya (dropout) — nol di matriks bukan berarti gen mati, melainkan gen tak tertangkap. Bedakan “tidak terekspresi” dari “tidak terdeteksi” sebelum membuat klaim biologi; gen yang penting bisa dropout di 80% selnya. Kedua, artefak dulu, biologi kemudian: setiap klaster “menarik” harus lolos interogasi — doublet? batch? soup? %MT? Klaster yang hanya muncul di satu batch bukan penemuan, melainkan efek batch yang diberi nama. Ketiga, anotasi adalah argumen multi-bukti: marker kanonis + anotator otomatis + (untuk klaim baru) validasi ortogonal. Satu bukti = hipotesis; tiga bukti = temuan. Keempat — nasihat dari lapangan: untuk naskah, simpan objek Seurat/AnnData berversi + seed + versi paket; reviewer single-cell adalah spesies yang teliti dan akan meminta reproduksi.",
+        body: "Tiga heuristik analis single-cell. Pertama, ingat resolusinya: satu sel hanya menangkap 10–20% molekul mRNA-nya (dropout) — nol di matriks bukan berarti gen mati, melainkan gen tak tertangkap. Bedakan “tidak terekspresi” dari “tidak terdeteksi” sebelum membuat klaim biologi; gen yang penting bisa dropout di 80% selnya. Kedua, artefak dulu, biologi kemudian: setiap klaster “menarik” harus lolos interogasi — doublet? batch? soup? %MT? Klaster yang hanya muncul di satu batch BELUM tentu penemuan — ia BISA efek batch yang diberi nama, tapi bisa juga subpopulasi nyata yang kebetulan hanya ada di sampel itu; verifikasi dulu (apakah ia hilang setelah integrasi batch? adakah di sampel independen? punya marker?) sebelum klaim ke arah mana pun. Ketiga, anotasi adalah argumen multi-bukti: marker kanonis + anotator otomatis + (untuk klaim baru) validasi ortogonal. Satu bukti = hipotesis; tiga bukti = temuan. Keempat — nasihat dari lapangan: untuk naskah, simpan objek Seurat/AnnData berversi + seed + versi paket; reviewer single-cell adalah spesies yang teliti dan akan meminta reproduksi.",
       },
       summary: [
         "scRNA-seq = heterogenitas per sel; bulk = rata-rata.",
@@ -236,7 +236,7 @@ export const bi11: V2Lesson = {
           q: "%MT tinggi pada suatu barcode menandakan…",
           options: [
             { text: "Sel sehat", why: "Sel sehat mempertahankan RNA sitoplasma; %MT-nya rendah." },
-            { text: "Sel mati/stres (mitokondria bocor, RNA sitoplasma hilang) — buang", why: "QC klasik. Tapi threshold tergantung jaringan (otak lebih toleran)!", correct: true },
+            { text: "Kemungkinan sel mati/stres — TAPI jangan buang buta: cek jaringannya dulu", why: "QC klasik: sel sekarat bocor sitoplasma, mitokondria tertinggal → %MT naik. Tapi kardiomiosit/hepatosit SEHAT bisa 20–30% — buang buta = membuang sel sehat. Tetapkan ambang per jaringan dari distribusi data.", correct: true },
             { text: "Sel membelah", why: "Pembelahan tidak ditandai %MT tinggi." },
             { text: "Doublet pasti", why: "Doublet ditandai nFeature tinggi + marker ganda, bukan %MT." },
           ],
