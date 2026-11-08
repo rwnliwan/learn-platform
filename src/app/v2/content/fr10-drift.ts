@@ -29,7 +29,7 @@ export const fr10: V2Lesson = {
       eyebrow: "Langkah 2 · Validasi temporal",
       title: "Jangan biarkan model mencontek masa depan",
       prose: [
-        "Simulasi: pola fraud berubah di bulan 7 (penipu adaptasi — skor fraud turun). Threshold dipelajari dari bulan 1–6. Validasi random split (campuran semua bulan): F1 = 0,89 — terlihat bagus. Validasi time split (hanya bulan 9–12, masa depan betulan): F1 = 0,76. Selisih 0,13 = ukuran kebohongan random split.",
+        "Simulasi: pola fraud berubah di bulan 7 (penipu adaptasi — skor fraud turun). Threshold dipelajari dari bulan 1–6. Validasi random split (campuran semua bulan): F1 = 0,89 — terlihat bagus. Validasi time split (hanya bulan 9–12, masa depan betulan): F1 = 0,76. Selisih 0,13 = ukuran OPTIMISME random split (bukan 'kebohongan' \u2014 random split tidak berbohong, ia hanya mengukur hal yang salah untuk data berurutan waktu: validasi masa depan butuh time split).",
         "Aturan: train di masa lalu, validasi di masa depan, dengan gap/embargo di antaranya = maturation window (label validasi harus matang juga!). Angka validasi dari random split untuk fraud = tidak valid. Titik.",
       ],
       tasks: [
@@ -37,7 +37,7 @@ export const fr10: V2Lesson = {
         { id: "t2", text: "Evaluasi di validasi random split vs time split (bulan 9–12)" },
         { id: "t3", text: "Cetak precision/recall/F1 keduanya" },
       ],
-      expected: "Random split: F1=0.89 | Time split: F1=0.76 — selisih = ukuran kebohongan",
+      expected: "Random split: F1=0.89 | Time split: F1=0.76 — selisih = ukuran optimisme random split",
       note: {
         title: "Sering salah",
         type: "pitfall",

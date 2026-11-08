@@ -49,7 +49,7 @@ export const pma3: V2Lesson = {
       title: "Hitung harga optimal dari elastisitas",
       prose: [
         "Dari (P\u2212MC)/P = \u22121/E diperoleh P = MC/(1 + 1/E). Dengan MC = Rp50.000 dan elastisitas demand E = \u22124: P = 50.000/(1\u22120,25) = Rp66.667, markup = 25% (= \u22121/E — cocok).",
-        "Bandingkan dengan komoditas (E = \u22128): P = Rp11.429, markup cuma 14%. Diferensiasi mengubah E dari \u22128 ke \u22122 dan menggandakan harga jual — inilah matematika moat.",
+        "Bandingkan dengan komoditas (E = \u22128): P = Rp57.143, markup = 12,5% (= −1/E). Diferensiasi mengubah E dari \u22128 ke \u22122 dan menaikkan harga +75% (1,75×) — inilah matematika moat.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `harga` optimal dengan MC = 50000, E = \u22124" },
@@ -122,9 +122,9 @@ export const pma3: V2Lesson = {
       title: "Jangkar kewajaran suku bunga",
       prose: [
         "Taylor rule: r = r* + \u03c0 + 0,5(\u03c0\u2212\u03c0*) + 0,5(output gap). Dengan r* = 2%, inflasi aktual 6%, target 2%, output gap +2%: r = 2 + 6 + 0,5\u00d74 + 0,5\u00d72 = 11%.",
-        "Jika BI rate aktual jauh di bawah angka Taylor, kebijakan relatif longgar — atau pasar akan menuntut kenaikan. Taylor rule bukan ramalan sempurna, tetapi jangkar: ia memberi tahu apakah kebijakan saat ini hawkish atau dovish relatif terhadap kondisi. Analis obligasi memakai ini tiap RDG BI.",
+        "Jika BI rate aktual jauh di bawah angka Taylor, kebijakan relatif longgar — atau pasar MUNGKIN menuntut kenaikan (Taylor rule adalah acuan/jangkar, bukan ramalan). Taylor rule bukan ramalan sempurna, tetapi jangkar: ia memberi tahu apakah kebijakan saat ini hawkish atau dovish relatif terhadap kondisi. Analis obligasi memakai ini tiap RDG BI.",
         "Cara membaca: sumbu X = tingkat pengangguran (%), sumbu Y = inflasi π (%); kurva menurun = trade-off jangka pendek; garis putus-putus horizontal = target inflasi BI 2%, vertikal = NAIRU.",
-        "Interpretasi: titik kondisi kini (π=6%, u=5%) berada jauh di atas target — Taylor rule di teks memberi r = 11%, artinya jika BI rate aktual jauh di bawah itu, pasar akan menuntut kenaikan. Kurva mengingatkan: menekan inflasi lewat rate hike biasanya dibayar dengan pengangguran lebih tinggi.",
+        "Interpretasi: titik kondisi kini (π=6%, u=5%) berada jauh di atas target — Taylor rule di teks memberi r = 11%, artinya jika BI rate aktual jauh di bawah itu, pasar MUNGKIN menuntut kenaikan (Taylor rule adalah acuan/jangkar, bukan ramalan). Kurva mengingatkan: menekan inflasi lewat rate hike biasanya dibayar dengan pengangguran lebih tinggi.",
       ],
       figure: {
         svg: PHILLIPS_SVG,
@@ -132,7 +132,7 @@ export const pma3: V2Lesson = {
         caption: "Angka π=6%, π*=2%, dan r=11% sama persis dengan contoh Taylor rule di teks (r*=2, gap +2). Garis target dan NAIRU adalah ilustrasi — intinya: Taylor rule adalah jangkar kewajaran suku bunga, bukan ramalan.",
       },
       formula: String.raw`r = r^* + \pi + 0{,}5(\pi - \pi^*) + 0{,}5 \times \text{output gap}`,
-      formulaNote: "r* = suku bunga riil natural (~2% — rate saat ekonomi seimbang); π = inflasi aktual (6%); π* = target inflasi bank sentral (2%); output gap = selisih output aktual vs potensial (+2% = ekonomi overheating). Interpretasi: r Taylor adalah suku bunga “wajar” menurut kondisi ekonomi — acuan menilai apakah kebijakan bank sentral sedang longgar atau ketat. Contoh angka: 2 + 6 + 0,5×(6−2) + 0,5×2 = 11%; jika BI rate aktual jauh di bawah angka Taylor-nya, pasar akan menuntut kenaikan.",
+      formulaNote: "r* = suku bunga riil natural (~2% — rate saat ekonomi seimbang); π = inflasi aktual (6%); π* = target inflasi bank sentral (2%); output gap = selisih output aktual vs potensial (+2% = ekonomi overheating). Interpretasi: r Taylor adalah suku bunga “wajar” menurut kondisi ekonomi — acuan menilai apakah kebijakan bank sentral sedang longgar atau ketat. Contoh angka: 2 + 6 + 0,5×(6−2) + 0,5×2 = 11%; jika BI rate aktual jauh di bawah angka Taylor-nya, pasar MUNGKIN menuntut kenaikan (Taylor rule adalah acuan/jangkar, bukan ramalan).",
       tasks: [
         { id: "t1", text: "Hitung `r` Taylor rule: r* = 2, inflasi 6, target 2, gap +2" },
         { id: "t2", text: "Cetak hasilnya" },
@@ -222,7 +222,7 @@ export const pma3: V2Lesson = {
       title: "Peta keputusan: lensa ekonomi untuk keputusan analis",
       prose: [
         "Skenario 1 — Menilai apakah perusahaan punya pricing power. → Lihat struktur pasarnya: oligopoli atau diferensiasi kuat = margin defensif = valuasi premium. Indeks Lerner (P−MC)/P = −1/E mengukurnya.",
-        "Skenario 2 — Menentukan harga jual optimal. → P = MC/(1+1/E) dari elastisitas demand. Diferensiasi yang mengubah E dari −8 ke −2 menggandakan harga jual — inilah matematika moat.",
+        "Skenario 2 — Menentukan harga jual optimal. → P = MC/(1+1/E) dari elastisitas demand. Diferensiasi yang mengubah E dari −8 ke −2 menaikkan harga +75% (1,75×) — inilah matematika moat.",
         "Skenario 3 — Menilai arah suku bunga acuan. → Taylor rule sebagai jangkar: r = r* + π + 0,5(π−π*) + 0,5(output gap). Aktual jauh di bawah angka Taylor = kebijakan relatif longgar. Analis obligasi memakai ini setiap RDG.",
         "Skenario 4 — Mengecek kewajaran forward FX. → Covered IRP: F* = S × (1+r_d)/(1+r_f). Pasar jauh di atas F* = forward USD kemahalan = peluang jual forward.",
         "Skenario 5 — Berita makro baru rilis (Fed hawkish, BI naik). → Jangan bereaksi ke angkanya — pasar bergerak oleh kejutan vs ekspektasi. Petakan rantainya: Fed → arus modal → IDR → biaya impor → demand, seperti warung Bu Ratna.",

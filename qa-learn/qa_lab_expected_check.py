@@ -41,6 +41,12 @@ def parse_expected(raw: str):
     Kembalikan dict k->[v, ...], atau None bila tidak ada token k=v sama sekali.
     """
     pairs: dict[str, list[str]] = {}
+    # GG-6 (R8): `expected` kadang menulis "pi≈[0.88, 0.07, 0.05]" — tanda
+    # "≈" membuat token k=v tidak terurai sehingga pasangan expected/check
+    # yang bertentangan LOLOS tanpa diperiksa (kasus b14 R8: expected
+    # [0.86,0.08,0.06] vs check [0.88,0.07,0.05]). Normalisasi "≈" → "="
+    # agar bentuk itu ikut dibandingkan seperti k=v biasa.
+    raw = raw.replace("≈", "=")
     toks = re.split(r"\s+", raw.strip())
     i = 0
     while i < len(toks):

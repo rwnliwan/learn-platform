@@ -145,7 +145,7 @@ export const d9: V2Lesson = {
       eyebrow: "Langkah 5 · Sintesis",
       title: "Dokumentasi: EDA yang hilang = tak pernah ada",
       prose: [
-        "Catat dengan struktur: pertanyaan, jawaban, validasi, tindak lanjut. Contoh: Q 'NPL per kota?' A 'Medan 8% tertinggi' validasi 'n=2, kecil — tidak signifikan' tindak 'kumpulkan data 6 bulan'.",
+        "Catat dengan struktur: pertanyaan, jawaban, validasi, tindak lanjut. Contoh: Q 'NPL per kota?' A 'Jakarta 60% tertinggi (3 dari 5)' validasi 'n=5, kecil — tidak signifikan' tindak 'kumpulkan data 6 bulan'.",
         "Untuk atasan: 1 halaman — konteks, 3 temuan, batasan, rekomendasi. Maksimal. EDA hebat = temuan + kerendahan hati (batasan). Rekomendasi tanpa batasan adalah kecerobohan.",
       ],
       tasks: [],

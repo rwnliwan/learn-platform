@@ -69,7 +69,7 @@ export const llmops14: V2Lesson = {
         "Aturan penyaringan dari praktik produksi: HTTP 429 (rate limit) → tunggu sebentar (backoff) lalu fallback — provider-nya sehat, kuotamu yang habis. HTTP 500/502/503 (server error) → fallback LANGSUNG tanpa tunggu — provider-nya yang sakit. TIMEOUT → fallback — jangan menunggu mayat. HTTP 400 (bad request) → JANGAN fallback, JANGAN retry — request-nya yang salah; mengulanginya ke 3 provider = membayar 3x untuk kesalahan yang sama. LiteLLM mengimplementasikan persis ini: fallbacks otomatis hanya untuk 429/500.",
         "Dua jebakan fallback: (1) FALLBACK STORM — semua request gagal ke A lalu menyerbu B dalam 1 detik → B ikut tumbang (cascade!). Obatnya: backoff + circuit breaker (pola AAI15) + fallback ke provider yang BENAR-BENAR independen (beda region, beda infrastruktur — fallback dari OpenAI US ke OpenAI EU bukan independen saat control plane-nya down!). (2) FALLBACK MAHAL DIAM-DIAM — rantai `murah → mahal` membuat tagihan meledak saat provider murah down 3 jam (semua request lari ke frontier!). Obatnya: budget cap per virtual key + alert — Bifrost dan OpenRouter mendukung batas budget.",
         "Retry-aware: fallback yang baik tahu kapan MENCOBA LAGI vs kapan PINDAH. 429 sekali → retry ke provider sama setelah 2 detik (mungkin spike sesaat). 429 tiga kali beruntun → pindah provider (kuota key ini memang habis). 500 → pindah langsung (retry ke server yang sakit = buang waktu). Bedakan `coba lagi` dan `coba tempat lain` — keduanya ada di rantai yang benar.",
-        "Matematika ketahanan: tiga provider masing-masing availability 99% (0,99) yang independen → availability rantai = 1 − 0,01³ = 0,999999 (six nines!). Tiga `sembilan` menjadi enam `sembilan` — bukan karena provider-nya hebat, melainkan karena rantai membuat kegagalan harus terjadi BERSAMAAN di ketiganya.",
+        "Matematika ketahanan: tiga provider masing-masing availability 99% (0,99) yang independen → availability rantai = 1 − 0,01³ = 0,999999 (six nines!). Tiga `sembilan` menjadi enam `sembilan` — bukan karena provider-nya hebat, melainkan karena rantai membuat kegagalan harus terjadi BERSAMAAN di ketiganya — dengan asumsi ketiga provider gagal secara independen. Bila mereka berbagi control plane/region/vendor, angka ini runtuh (lihat jebakan fallback di atas).",
       ],
       formula: String.raw`A_{rantai} = 1 - (1-a_1)(1-a_2)(1-a_3)`,
       formulaNote: "A_rantai = availability gabungan; a_i = availability tiap provider (wajib independen!). Contoh: 0,99³ → 0,999999. Syarat yang sering dilanggar: dua region dari vendor yang sama BUKAN independen saat control plane vendor down — rantai semu = rasa aman palsu.",
@@ -99,8 +99,8 @@ export const llmops14: V2Lesson = {
       ],
       expected: "routed: frontier=33 mid=37 cheap=46 · availability=96.7% fallbacks=9 · cost=$0.44 vs $1.27 hemat=65.5%",
       note: {
-        title: "💡 Intuisi: 400 adalah satu-satunya error yang `jujur`",
-        body: "429 berkata `coba nanti`, 500 berkata `coba tempat lain` — keduanya masih memberi harapan. 400 berkata `salahmu, bukan salahku` — mengulanginya ke provider lain tidak akan mengubah apa-apa kecuali tagihan. Router yang baik menghormati kejujuran 400: catat, kembalikan ke aplikasi, jangan bakar uang.",
+        title: "💡 Intuisi: 400 sering jadi error yang paling `jujur`",
+        body: "429 berkata `coba nanti`, 500 berkata `coba tempat lain` — keduanya masih memberi harapan. 400 berkata `salahmu, bukan salahku` — mengulanginya ke provider lain tidak akan mengubah apa-apa kecuali tagihan. Router yang baik menghormati kejujuran 400: catat, kembalikan ke aplikasi, jangan bakar uang. TAPI tidak semua 4xx begitu: 429 dan 408 bisa sementara/bergantung provider — jangan pukul rata semua 4xx sebagai 'salah pengirim'.",
       },
       hints: [
         "policy: cx >= 0.70 -> 'frontier'; cx >= 0.35 -> 'mid'; else 'cheap'.",
@@ -140,7 +140,7 @@ export const llmops14: V2Lesson = {
       ],
       note: {
         title: "💡 Intuisi: 11 mikrodetik vs 200 milidetik = 18.000x",
-        body: "Overhead Bifrost (11µs) vs classifier RouteLLM (200ms) beda 18.000x — keduanya disebut `router` tapi hidup di dunia berbeda. Jangan bandingkan apel dan orkestra: gateway diukur dari latensi tambahannya, learned router dari rupiah yang dihematnya. Arsitektur yang benar memakai keduanya di lapisan masing-masing.",
+        body: "Overhead Bifrost (11µs) vs classifier RouteLLM (rentang 50–200ms; 200ms adalah ujung atas) beda 18.000x — keduanya disebut `router` tapi hidup di dunia berbeda. Jangan bandingkan apel dan orkestra: gateway diukur dari latensi tambahannya, learned router dari rupiah yang dihematnya. Arsitektur yang benar memakai keduanya di lapisan masing-masing.",
       },
       reference: "Bifrost 11µs · Kong 1-3ms · LiteLLM 8-15ms · OpenRouter 25-50ms · RouteLLM 50-200ms.",
     },
@@ -153,7 +153,7 @@ export const llmops14: V2Lesson = {
         "**Skenario 2 — Bank/enterprise, 5.000+ RPS, UU PDP, wajib in-VPC.** → Bifrost self-hosted. 11µs, virtual key + budget + audit log untuk compliance. Jangan: OpenRouter (payload ke server pihak ketiga).",
         "**Skenario 3 — Perusahaan yang API gateway-nya sudah Kong.** → Kong AI Gateway (plugin ai-proxy). Memakai ulang mesh yang ada selalu lebih murah daripada menambah sistem baru.",
         "**Skenario 4 — Tim Python, fase eksperimen, gonta-ganti provider tiap minggu.** → LiteLLM. Drop-in, 100+ provider, fallbacks langsung jalan. Naik kelas ke Bifrost saat RPS > 1.000 atau butuh governance ketat.",
-        "**Skenario 5 — Tagihan jebol $40rb/bulan, 80% request sepele, latensi longgar (batch job).** → RouteLLM sebagai classifier DI DALAM gateway (hemat >75%). Jangan: untuk chatbot real-time (tambahan 200ms terasa oleh user).",
+        "**Skenario 5 — Tagihan jebol $40rb/bulan, 80% request sepele, latensi longgar (batch job).** → RouteLLM sebagai classifier DI DALAM gateway (hemat >75%). Jangan: untuk chatbot real-time (tambahan 50–200ms terasa oleh user).",
         "Aturan praktis 10 detik: `RPS > 1.000 atau regulasi ketat?` → Bifrost. `Tim kecil & harus cepat?` → LiteLLM/OpenRouter. `Sudah pakai Kong?` → plugin Kong. `Tagihan jebol & latensi longgar?` → RouteLLM di dalam gateway. `Ragu?` → mulai dari LiteLLM, ukur, naik kelas saat datanya berkata demikian.",
       ],
       tasks: [
@@ -205,7 +205,7 @@ export const llmops14: V2Lesson = {
           options: [
             { text: "Retry ke provider yang sama 3x dengan backoff", why: "400 = request-nya yang salah (format/parameter). Retry tidak akan mengubah apa-apa kecuali membuang waktu." },
             { text: "Fallback ke provider cadangan — mungkin dia bisa", why: "Salah dan mahal: request yang sama akan 400 juga di provider lain (atau lebih buruk: diinterpretasi berbeda). 3x 400 = 3x biaya untuk kesalahan yang sama." },
-            { text: "Jangan retry/fallback — kembalikan error ke aplikasi untuk diperbaiki", why: "Tepat. 400 adalah satu-satunya error yang `jujur`: masalahnya di pengirim, bukan penerima. Satu-satunya obat = perbaiki request-nya.", correct: true },
+            { text: "Jangan retry/fallback — kembalikan error ke aplikasi untuk diperbaiki", why: "Tepat. 400 sering jadi error yang paling `jujur`: masalahnya di pengirim, bukan penerima. Satu-satunya obat = perbaiki request-nya.", correct: true },
             { text: "Fallback ke model yang lebih mahal — lebih pintar pasti bisa", why: "Model mahal tidak memperbaiki JSON yang rusak. Ini seperti membayar dokter spesialis untuk SIM yang kedaluwarsa." },
           ],
         },

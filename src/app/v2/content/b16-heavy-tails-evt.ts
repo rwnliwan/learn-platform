@@ -12,9 +12,9 @@ export const b16: V2Lesson = {
       eyebrow: "Langkah 1 · Heavy tail",
       title: "Banjir \u201C1-in-100-tahun\u201D yang datang 3x seabad",
       prose: [
-        "Kota membangun tanggul untuk banjir \u201C1-in-100-tahun\u201D berdasar 50 tahun data dengan model Normal. Dalam 30 tahun berikutnya, banjir sebesar itu datang 3 kali. Yang salah: modelnya. Tinggi banjir berekor tebal \u2014 ekstrapolasi Normal dari 50 tahun data meremehkan kuantil 1% secara sistematis.",
+        "Kota membangun tanggul untuk banjir \u201C1-in-100-tahun\u201D berdasar 50 tahun data dengan model Normal. Dalam 30 tahun berikutnya, banjir sebesar itu datang 3 kali. Yang salah: modelnya. Di bawah model 1%-per-tahun dengan tahun-tahun independen, P(\u22653 banjir dalam 30 tahun) = 0,33% \u2014 tiga kejadian dalam 30 tahun bukan 'sial 0,33%', melainkan bukti model Normal-nya salah. Tinggi banjir berekor tebal \u2014 ekstrapolasi Normal dari 50 tahun data meremehkan kuantil 1% secara sistematis.",
         "Definisi: distribusi berekor tebal (kanan) jika ekornya turun lebih lambat dari eksponensial. Praktisnya: Pareto, lognormal (agak), t-Student \u2014 vs Normal/Eksponensial (tipis). Konsekuensi: momen bisa tak hingga (B7.2); sampel maksimum tumbuh cepat; CLT lambat/gagal.",
-        "Tes 10 detik: urutkan data, lihat 1% teratas menyumbang berapa % dari total. Normal: ~3%. Pareto \u03B1=1,5: ~30%+. Jika \u201Csecuil data menguasai total\u201D \u2014 kamu di wilayah heavy tail, dan mean/SD tidak bisa dipercaya.",
+        "Tes 10 detik: urutkan data, lihat 1% teratas menyumbang berapa % dari total. Normal: ~3%. Pareto \u03B1=1,5: ~21,5% (1% teratas menguasai \u2248 seperlima total \u2014 hitung: 0,01^((1,5\u22121)/1,5) \u2248 0,215). Jika \u201Csecuil data menguasai total\u201D \u2014 kamu di wilayah heavy tail, dan mean/SD tidak bisa dipercaya.",
       ],
       formula: String.raw`\lim_{x\to\infty} \frac{P(X > x)}{e^{-\lambda x}} = \infty \quad \text{untuk semua } \lambda > 0`,
       formulaNote: "P(X>x) = ekor distribusi: peluang melampaui x; e^(−λx) = ekor eksponensial pembanding — turun sangat cepat; / = lomba siapa lebih cepat menuju nol; lim_{x→∞} = lihat perilaku di nilai raksasa; = ∞ artinya pembilang menang telak: ekor distribusi turun LEBIH LAMBAT dari eksponensial mana pun, berapa pun λ-nya. Contoh maknanya: banjir 1-in-100-tahun yang datang 3 kali dalam 30 tahun — angka ini artinya bukan kesialan statistik, melainkan model Normal yang ekornya turun terlalu cepat sehingga meremehkan kejadian besar secara sistematis. Di bawah ekor tebal, yang menurut Normal mustahil hanyalah jarang — dan jarang bukan tidak pernah.",
@@ -50,7 +50,7 @@ export const b16: V2Lesson = {
       title: "Teorema limit untuk maksimum",
       prose: [
         "CLT adalah teorema limit untuk rata-rata. EVT punya padanannya untuk maksimum: (M_n \u2212 b_n)/a_n \u2192 G_\u03BE, dengan M_n = max(X_1,\u2026,X_n) dan G_\u03BE = Generalized Extreme Value (GEV).",
-        "\u03BE > 0: Fr\u00E9chet \u2014 heavy tail (Pareto-like). Ini yang menakutkan. \u03BE = 0: Gumbel \u2014 ekor tipis (Normal/Eksponensial). \u03BE < 0: Weibull \u2014 ada batas atas hingga. Jika CLT bilang \u201Crata-rata selalu jadi lonceng\u201D, Fisher-Tippett bilang \u201Cmaksimum selalu jadi salah satu dari tiga bentuk\u201D \u2014 dan bentuknya (\u03BE) menentukan apakah duniamu jinak atau liar.",
+        "\u03BE > 0: Fr\u00E9chet \u2014 heavy tail (Pareto-like). Ini yang menakutkan. \u03BE = 0: Gumbel \u2014 ekor tipis (Normal/Eksponensial). \u03BE < 0: Weibull \u2014 ada batas atas hingga. Jika CLT bilang \u201Crata-rata selalu jadi lonceng\u201D, Fisher-Tippett bilang \u201Cmaksimum (yang ternormalisasi dengan baik) konvergen ke salah satu dari tiga bentuk \u2014 bila limitnya ada\u201D \u2014 dan bentuknya (\u03BE) menentukan apakah duniamu jinak atau liar.",
         "Metode block maxima: ambil maksimum per blok (tahunan), fit GEV via MLE \u2192 estimasi return level. Tapi boros: 1 data per tahun! POT (langkah 4) memakai semua data ekor.",
       ],
       formula: String.raw`\frac{M_n - b_n}{a_n} \xrightarrow{d} G_\xi \qquad G_\xi(x) = \exp\!\big(-(1+\xi x)^{-1/\xi}\big)`,
@@ -81,7 +81,7 @@ export const b16: V2Lesson = {
       eyebrow: "Langkah 3 · Lab",
       title: "Normal vs Pareto: siapa meremehkan ekor?",
       prose: [
-        "Data sebenarnya Pareto(\u03B1=1,5), n=5000. Fit Normal via MLE (mean & SD sampel), lalu bandingkan kuantil 99%: empiris vs prediksi Normal (\u03BC + 2,326\u03C3). Normal meremehkan secara sistematis \u2014 inilah dosa insinyur tanggul di cerita pembuka.",
+        "Data sebenarnya Pareto(\u03B1=1,5), n=5000. Fit Normal via MLE (mean & SD sampel), lalu bandingkan kuantil 99%: empiris vs prediksi Normal (\u03BC + 2,326\u03C3). Normal dapat meremehkan secara sistematis bila ekornya memang tebal \u2014 dalam contoh ini kuantil empiris jauh di atas prediksi Normal; inilah dosa insinyur tanggul di cerita pembuka.",
         "Perhatikan juga: SD sampel meledak karena 1\u20132 monster \u2014 gejala klasik heavy tail yang merusak seluruh inferensi berbasis SD.",
       ],
       tasks: [
@@ -93,7 +93,7 @@ export const b16: V2Lesson = {
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "Ekstrapolasi Normal/Eksponensial ke wilayah 1-in-100 meremehkan secara sistematis. Diagnosis 10 detik: plot log-log dulu \u2014 garis lurus = Pareto.",
+        body: "Ekstrapolasi Normal/Eksponensial ke wilayah 1-in-100 dapat meremehkan secara sistematis bila data berekor tebal \u2014 diagnosis dulu (plot log-log), jangan vonis dari distribusinya saja. Diagnosis 10 detik: plot log-log dulu \u2014 garis lurus = Pareto.",
       },
       hints: [
         "q_emp = data terurut ke-int(0.99*N).",
@@ -118,7 +118,7 @@ export const b16: V2Lesson = {
       title: "Memakai semua data ekor",
       prose: [
         "Block maxima boros (1 data per tahun!). POT (Peaks Over Threshold): ambil semua exceedance di atas ambang u. Teorema Pickands-Balkema-de Haan: exceedance ternormalisasi \u2192 Generalized Pareto (GPD). Return level \u201C1-in-m observasi\u201D: x_m = u + (\u03B2/\u03BE)((m\u00B7\u03B6_u)^\u03BE \u2212 1), dengan \u03B6_u = P(X>u).",
-        "Contoh: kerugian operasional, ambang u=Rp10 M, 40 exceedance dari 1.000 hari (\u03B6=4%). Fit GPD: \u03BE=0,3, \u03B2=5. VaR99,9% = 10 + (5/0,3)[(0,04/0,001)^0,3 \u2212 1] = 10 + 16,67\u00D72,03 \u2248 Rp43,8 M. POT memakai 40 titik, bukan cuma max tahunan \u2014 jauh lebih efisien. \u03BE>0 = ekor tebal = ekstrapolasi meledak.",
+        "Contoh: kerugian operasional, ambang u=Rp10 M, 40 exceedance dari 1.000 hari (\u03B6=4%). Fit GPD: \u03BE=0,3, \u03B2=5. VaR99,9% = 10 + (5/0,3)[(0,04/0,001)^0,3 \u2212 1] = 10 + 16,67\u00D72,02 \u2248 Rp43,7 juta (satuan: Rp JUTA \u2014 u=10 berarti Rp10 juta, bukan Rp10 miliar). POT memakai 40 titik, bukan cuma max tahunan \u2014 jauh lebih efisien. \u03BE>0 = ekor tebal = ekstrapolasi meledak.",
         "Pemilihan ambang u: trade-off bias-varians \u2014 terlalu rendah (teorema belum berlaku), terlalu tinggi (sedikit data). Praktik: u di sekitar kuantil 90\u201395% data, lalu cek stabilitas: geser u sedikit \u2014 jika \u03BE berubah drastis, ambangmu salah atau data tidak cukup.",
       ],
       formula: String.raw`x_m = u + \frac{\beta}{\xi}\left((m\,\zeta_u)^{\xi} - 1\right)`,
@@ -130,7 +130,7 @@ export const b16: V2Lesson = {
       expected: "var999=43.7 (Rp juta)",
       note: {
         title: "Sering salah",
-        body: "\u201C\u20181-in-100-tahun\u2019 berarti aman 99 tahun.\u201D Artinya peluang 1% tiap tahun \u2014 seperti dadu 100-sisi tiap tahun. P(terjadi dalam 30 tahun) = 1\u22120,99\u00B3\u2070 \u2248 26%! Return level adalah probabilitas tahunan, bukan jadwal.",
+        body: "\u201C\u20181-in-100-tahun\u2019 berarti aman 99 tahun.\u201D Artinya peluang 1% tiap tahun \u2014 seperti dadu 100-sisi tiap tahun. P(terjadi dalam 30 tahun) = 1\u22120,99\u00B3\u2070 \u2248 26% (dengan asumsi tiap tahun independen \u2014 bila banjir antar-tahun berkorelasi, angka ini berubah)! Return level adalah probabilitas tahunan, bukan jadwal.",
       },
       hints: [
         "var999 = 10 + (5/0.3)*((0.04/0.001)**0.3 - 1).",
@@ -229,7 +229,7 @@ export const b16: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: di ekor tebal, jangan tanya rata-rata — tanya kuantilnya",
-        body: "Pada data berekor tebal, rata-rata adalah statistik yang rapuh: satu observasi raksasa bisa menghapus seluruh sejarah. Praktisi yang berpengalaman mengganti pertanyaannya — bukan berapa rata-rata kerugiannya, melainkan berapa kerugian yang hanya terlampaui 1% waktu. Kuantil, VaR, tetap bermakna bahkan ketika mean tidak ada (α ≤ 1) atau varians takhingga (α ≤ 2). Aturan keputusannya: estimasi indeks ekor ξ dulu, baru pilih perkakasnya. ξ mendekati nol: dunia Gumbel, relatif jinak. ξ di atas 0,3: waspada — ekor tebal terkonfirmasi, VaR Normal meremehkan secara sistematis. ξ di atas 0,5: varians takhingga — berhentilah mengutip simpangan baku seolah ia bermakna. Untuk memodelkan ekor, pakai POT: ambil semua data di atas threshold u, fit GPD — jangan buang data ekor dengan hanya memakai maksimum tahunan. Jebakan termahalnya tetap klasik: menyebut banjir 1-in-100-tahun dari 50 tahun data yang di-fit Normal. Itu bukan estimasi; itu harapan yang ditulis dengan angka. Ekor harus diukur dengan perkakas ekor.",
+        body: "Pada data berekor tebal, rata-rata adalah statistik yang rapuh: satu observasi raksasa bisa menghapus seluruh sejarah. Praktisi yang berpengalaman mengganti pertanyaannya — bukan berapa rata-rata kerugiannya, melainkan berapa kerugian yang hanya terlampaui 1% waktu. Kuantil, VaR, tetap bermakna bahkan ketika mean tidak ada (α ≤ 1) atau varians takhingga (α ≤ 2). Aturan keputusannya: estimasi indeks ekor ξ dulu, baru pilih perkakasnya. ξ mendekati nol: dunia Gumbel, relatif jinak. ξ di atas 0,3: waspada — ekor tebal terkonfirmasi, VaR Normal dapat meremehkan secara sistematis bila \u03BE > 0. \u03BE di atas 0,5: varians takhingga — berhentilah mengutip simpangan baku seolah ia bermakna. Untuk memodelkan ekor, pakai POT: ambil semua data di atas threshold u, fit GPD — jangan buang data ekor dengan hanya memakai maksimum tahunan. Jebakan termahalnya tetap klasik: menyebut banjir 1-in-100-tahun dari 50 tahun data yang di-fit Normal. Itu bukan estimasi; itu harapan yang ditulis dengan angka. Ekor harus diukur dengan perkakas ekor.",
       },
       summary: [
         "Heavy tail: ekor turun lambat; deteksi via log-log/Hill/rasio max-sum.",
@@ -267,7 +267,7 @@ export const b16: V2Lesson = {
         {
           q: "Data klaim: mean=5, median=2, max=200 (n=1.000). Bukti ekor tebal?",
           options: [
-            { text: "Mean jauh > median + max = 40x mean", why: "Benar: di Normal, max 1000 sampel \u2248 mean+3,1SD \u2014 tidak 40x mean.", correct: true },
+            { text: "Mean jauh > median + max = 40x mean", why: "Sinyal kuat (bukan bukti formal): di Normal, max 1000 sampel \u2248 mean+3,1SD \u2014 tidak 40x mean. Bukti formal butuh uji indeks ekor, bukan satu ringkasan.", correct: true },
             { text: "n=1.000 terlalu kecil", why: "Salah: n bukan buktinya." },
             { text: "Median < mean selalu berarti heavy tail", why: "Salah: skew ringan juga begitu \u2014 butuh besaran ekstremnya." },
           ],

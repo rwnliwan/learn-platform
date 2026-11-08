@@ -13,7 +13,7 @@ export const e12: V2Lesson = {
       title: "Rupiah melemah — salah siapa?",
       prose: [
         "USD/IDR menembus Rp16.500. Media ribut: “Rupiah terpuruk!” Tapi di saat yang sama, bank sentral AS menaikkan suku bunga — dolar menguat terhadap semua mata uang dunia, dari yen sampai euro. Rupiah “melemah” 3%, yen melemah 8%. Pertanyaan yang benar bukan “kenapa rupiah melemah?” melainkan “melemah terhadap apa, dan karena apa?”",
-        "Nilai tukar = harga relatif dua ekonomi. Covered interest parity: kurs forward “wajar” ditentukan selisih suku bunga dua negara — kalau tidak, ada arbitrase bebas risiko. Spot 16.500, bunga IDR 6%, USD 4,5%, T = 1 tahun → hitung forward wajarnya.",
+        "Nilai tukar = harga relatif dua ekonomi. Covered interest parity: kurs forward “wajar” ditentukan selisih suku bunga dua negara — kalau tidak, ada peluang arbitrase (secara teori bebas risiko \u2014 dalam praktik, biaya transaksi, friksi pasar, dan risiko eksekusi membuat arbitrase 'bebas risiko' jarang benar-benar bebas risiko). Spot 16.500, bunga IDR 6%, USD 4,5%, T = 1 tahun → hitung forward wajarnya.",
       ],
       formula: String.raw`F = S \times \frac{1 + r_d \cdot T}{1 + r_f \cdot T}`,
       formulaNote: "F = forward wajar; S = spot; r_d = bunga domestik; r_f = bunga asing; T = tenor (tahun).",

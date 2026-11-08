@@ -1,56 +1,6 @@
 import type { V2Lesson } from "../lib/types";
 
-const SETUP = `import sqlite3
-db = sqlite3.connect(":memory:")
-cur = db.cursor()
-cur.executescript("""CREATE TABLE nasabah (
-  id INTEGER PRIMARY KEY,
-  nama TEXT,
-  kota TEXT,
-  penghasilan REAL,
-  dpd INTEGER,
-  status TEXT
-)""")
-data_nasabah = [
-    (1, 'Andi', 'Jakarta', 8500000, 0, 'lancar'),
-    (2, 'Budi', 'Bandung', 12000000, 15, 'lancar'),
-    (3, 'Citra', 'Jakarta', 6700000, 45, 'telat'),
-    (4, 'Dewi', 'Surabaya', 15000000, 0, 'lancar'),
-    (5, 'Eko', 'Jakarta', None, 90, 'macet'),
-    (6, 'Fitri', 'Bandung', 9200000, 5, 'lancar'),
-    (7, 'Gilang', 'Medan', 7800000, 30, 'telat'),
-    (8, 'Hesti', 'Jakarta', 11000000, 0, 'lancar'),
-    (9, 'Irfan', 'Surabaya', 5400000, 120, 'macet'),
-    (10, 'Joko', 'Medan', 8900000, 0, 'lancar')
-]
-cur.executemany("INSERT INTO nasabah VALUES (?,?,?,?,?,?)", data_nasabah)
-cur.executescript("""CREATE TABLE transaksi (
-  id INTEGER PRIMARY KEY,
-  nasabah_id INTEGER,
-  tanggal TEXT,
-  jumlah REAL,
-  kategori TEXT,
-  channel TEXT
-)""")
-data_transaksi = [
-    (1, 1, '2026-09-01', 500000, 'belanja', 'mobile'),
-    (2, 1, '2026-09-03', 250000, 'makan', 'mobile'),
-    (3, 2, '2026-09-01', 1000000, 'belanja', 'web'),
-    (4, 3, '2026-09-05', 75000, 'makan', 'mobile'),
-    (5, 2, '2026-09-10', 2000000, 'travel', 'web'),
-    (6, 4, '2026-09-02', 300000, 'belanja', 'mobile'),
-    (7, 5, '2026-09-08', 150000, 'makan', 'atm'),
-    (8, 3, '2026-09-12', 500000, 'belanja', 'mobile'),
-    (9, 1, '2026-09-15', 1200000, 'travel', 'web'),
-    (10, 6, '2026-09-20', 80000, 'makan', 'mobile'),
-    (11, 7, '2026-09-21', 950000, 'belanja', 'mobile'),
-    (12, 2, '2026-09-25', 400000, 'makan', 'web'),
-    (13, 8, '2026-09-26', 600000, 'belanja', 'mobile'),
-    (14, 9, '2026-09-27', 200000, 'makan', 'atm'),
-    (15, 10, '2026-09-28', 350000, 'belanja', 'web')
-]
-cur.executemany("INSERT INTO transaksi VALUES (?,?,?,?,?,?)", data_transaksi)
-db.commit()`;
+const SETUP = `import sqlite3\ndb = sqlite3.connect(":memory:")\ncur = db.cursor()\ncur.executescript("""CREATE TABLE nasabah (\n  id INTEGER PRIMARY KEY,\n  nama TEXT,\n  kota TEXT,\n  penghasilan REAL,\n  dpd INTEGER,\n  status TEXT\n)""")\ndata_nasabah = [\n    (1, 'Andi', 'Jakarta', 8500000, 0, 'lancar'),\n    (2, 'Budi', 'Bandung', 12000000, 15, 'lancar'),\n    (3, 'Citra', 'Jakarta', 6700000, 45, 'telat'),\n    (4, 'Dewi', 'Surabaya', 15000000, 0, 'lancar'),\n    (5, 'Eko', 'Jakarta', None, 90, 'macet'),\n    (6, 'Fitri', 'Bandung', 9200000, 5, 'lancar'),\n    (7, 'Gilang', 'Medan', 7800000, 30, 'telat'),\n    (8, 'Hesti', 'Jakarta', 11000000, 0, 'lancar'),\n    (9, 'Irfan', 'Surabaya', 5400000, 120, 'macet'),\n    (10, 'Joko', 'Medan', 8900000, 0, 'lancar')\n]\ncur.executemany("INSERT INTO nasabah VALUES (?,?,?,?,?,?)", data_nasabah)\ncur.executescript("""CREATE TABLE transaksi (\n  id INTEGER PRIMARY KEY,\n  nasabah_id INTEGER,\n  tanggal TEXT,\n  jumlah REAL,\n  kategori TEXT,\n  channel TEXT,\n  waktu TEXT,\n  kota TEXT\n)""")\ndata_transaksi = [\n    (1, 1, '2026-09-01', 500000, 'belanja', 'mobile', '2026-09-01 10:00', 'Jakarta'),\n    (2, 1, '2026-09-03', 250000, 'makan', 'mobile', '2026-09-03 09:00', 'Jakarta'),\n    (3, 2, '2026-09-01', 1000000, 'belanja', 'web', '2026-09-01 11:00', 'Bandung'),\n    (4, 3, '2026-09-05', 75000, 'makan', 'mobile', '2026-09-05 08:00', 'Jakarta'),\n    (5, 2, '2026-09-10', 2000000, 'travel', 'web', '2026-09-10 15:00', 'Bandung'),\n    (6, 4, '2026-09-02', 300000, 'belanja', 'mobile', '2026-09-02 10:00', 'Surabaya'),\n    (7, 5, '2026-09-08', 150000, 'makan', 'atm', '2026-09-08 12:00', 'Jakarta'),\n    (8, 3, '2026-09-12', 500000, 'belanja', 'mobile', '2026-09-12 13:00', 'Jakarta'),\n    (9, 1, '2026-09-15', 1200000, 'travel', 'web', '2026-09-15 09:00', 'Jakarta'),\n    (10, 6, '2026-09-20', 80000, 'makan', 'mobile', '2026-09-20 07:00', 'Bandung'),\n    (11, 7, '2026-09-21', 950000, 'belanja', 'mobile', '2026-09-21 16:00', 'Medan'),\n    (12, 2, '2026-09-25', 400000, 'makan', 'web', '2026-09-25 18:00', 'Bandung'),\n    (13, 8, '2026-09-26', 600000, 'belanja', 'mobile', '2026-09-26 10:00', 'Jakarta'),\n    (14, 9, '2026-09-27', 200000, 'makan', 'atm', '2026-09-27 11:00', 'Surabaya'),\n    (15, 10, '2026-09-28', 350000, 'belanja', 'web', '2026-09-28 09:00', 'Medan'),\n    (16, 1, '2026-09-01', 400000, 'belanja', 'mobile', '2026-09-01 10:30', 'Surabaya'),\n    (17, 2, '2026-09-10', 300000, 'belanja', 'web', '2026-09-10 17:00', 'Bandung')\n]\ncur.executemany("INSERT INTO transaksi VALUES (?,?,?,?,?,?,?,?)", data_transaksi)\ncur.executescript("""CREATE TABLE jarak_kota (\n  kota_a TEXT,\n  kota_b TEXT,\n  km REAL\n)""")\ndata_jarak = [\n    ('Jakarta', 'Surabaya', 700),\n    ('Jakarta', 'Bandung', 150),\n    ('Jakarta', 'Medan', 1400),\n]\ncur.executemany("INSERT INTO jarak_kota VALUES (?,?,?)", data_jarak)\ndb.commit()`;
 
 const TAIL = `
 # TULIS QUERY-MU sebagai string sql, lalu jalankan.
@@ -93,7 +43,7 @@ export const c14: V2Lesson = {
       title: "Agregat jendela harian",
       prose: [
         "Struktur alert: agregat jendela → CASE skor → saring yang relevan. `WITH v AS (SELECT nasabah_id, date(tanggal) AS tgl, COUNT(*) AS n, SUM(jumlah) AS amt FROM transaksi GROUP BY 1, 2) SELECT nasabah_id, tgl, n, amt, CASE WHEN n >= 3 OR amt >= 2000000 THEN 'waspada' ELSE 'normal' END AS alert FROM v;` — level: kritis (auto-block?), waspada (review manual), normal (abaikan).",
-        "Di data lab yang tenang ini, hanya 1 baris yang lolos ambang: Budi, 10 Sep, total 2jt. Alert harus actionable — tiap alert = ada tindakan jelas. Alert tanpa tindakan = noise.",
+        "Di data lab yang tenang ini, hanya 1 baris yang lolos ambang: Budi, 10 Sep, total 2jt. Alert harus actionable — tiap alert = ada tindakan jelas. Alert tanpa tindakan = noise. Catatan: agregat HARIAN ini proksi kasar untuk velocity 10-menit/1-jam — velocity menit butuh kolom waktu (Langkah 3).",
       ],
       tasks: [
         { id: "t1", text: "Tulis query di `sql`: per nasabah per hari hitung `n` dan `amt`, beri label `alert` ('waspada' jika n >= 3 atau amt >= 2000000)" },
@@ -119,7 +69,7 @@ rows = cur.fetchall()
 waspada =
 
 print("waspada:", waspada)`,
-        lockLines: 51,
+        lockLines: 66,
         solution:
           SETUP +
           `
@@ -153,22 +103,23 @@ print("waspada:", waspada)`,
       eyebrow: "Langkah 3 · Lab impossible travel",
       title: "Fisika sederhana",
       prose: [
-        "Transaksi di Jakarta jam 10:00, lalu di Surabaya jam 10:30 — mustahil ditempuh (700 km dalam 30 menit). Pola: `LAG` (C9!) untuk pasangan berurutan per nasabah, lalu aturan kota beda + jeda < ambang (2 jam) = mustahil. Pengembangan: jarak_km / jeda_jam = kecepatan implisit; > 800 km/jam = flag.",
-        "Tapi: impossible travel = screening, bukan vonis. VPN, perjalanan dinas (pesawat!), transaksi online dengan lokasi merchant aneh = penjelasan sah. Selalu ada langkah verifikasi (hubungi nasabah) sebelum blokir. Di lab ini: hitung jeda (jam) antar transaksi berurutan per nasabah — berapa yang tercepat?",
+        "Transaksi di Jakarta jam 10:00, lalu di Surabaya jam 10:30 — mustahil ditempuh (700 km dalam 30 menit). Pola: `LAG` (C9!) untuk pasangan berurutan per nasabah, lalu hitung jeda (jam) DAN kecepatan implisit (km/jam) dari tabel jarak_kota: kota beda + jeda < ambang (2 jam) = mustahil; kecepatan implisit > 800 km/jam = flag.",
+        "Tapi: impossible travel = screening, bukan vonis. VPN, perjalanan dinas (pesawat!), transaksi online dengan lokasi merchant aneh = penjelasan sah. Selalu ada langkah verifikasi (hubungi nasabah) sebelum blokir. Di lab ini: hitung jeda (jam) antar transaksi berurutan per nasabah DAN kecepatan implisitnya — berapa yang tercepat, dan berapa kecepatan maksimumnya?",
       ],
       tasks: [
-        { id: "t1", text: "Tulis query di `sql`: jeda jam antar transaksi berurutan per nasabah (`LAG(tanggal)` + `julianday`)" },
-        { id: "t2", text: "Hitung `tercepat` = jeda minimum dan pastikan = 48.0" },
+        { id: "t1", text: "Tulis query di `sql`: jeda jam antar transaksi berurutan per nasabah (`LAG(waktu)` + `julianday`) dan kecepatan implisit (km/jam) via join jarak_kota (kedua arah; kota sama = 0 km)" },
+        { id: "t2", text: "Hitung `tercepat` = jeda minimum dan pastikan = 0.5" },
+        { id: "t3", text: "Hitung `vmax` = kecepatan implisit maksimum dan pastikan = 1400.0" },
       ],
-      expected: "tercepat = 48.0 jam (Andi: 1 Sep → 3 Sep)",
+      expected: "tercepat = 0.5 jam (Andi: Jakarta 10:00 → Surabaya 10:30); vmax = 1400.0 km/jam > 800 → flag impossible travel",
       note: {
         title: "Sering salah",
         body: "“Impossible travel = pasti fraud.” Tidak — filter channel = 'offline' dulu untuk transaksi online (kota = kota merchant, bukan lokasi kartu!), atau false positive membanjiri tim.",
       },
       hints: [
-        "CTE: WITH s AS (SELECT nasabah_id, tanggal, LAG(tanggal) OVER (PARTITION BY nasabah_id ORDER BY tanggal) AS lalu FROM transaksi).",
-        "Jeda jam: (julianday(tanggal) - julianday(lalu)) * 24 — saring lalu IS NOT NULL.",
-        "tercepat = min(r[2] for r in rows)  →  48.0.",
+        "CTE: WITH s AS (SELECT nasabah_id, waktu, kota, LAG(waktu) OVER (PARTITION BY nasabah_id ORDER BY waktu) AS lalu, LAG(kota) OVER (PARTITION BY nasabah_id ORDER BY waktu) AS kota_lalu FROM transaksi).",
+        "Jeda jam: (julianday(waktu) - julianday(lalu)) * 24 — saring lalu IS NOT NULL; jarak: CASE kota = kota_lalu THEN 0 ELSE (SELECT km FROM jarak_kota WHERE (kota_a = kota_lalu AND kota_b = kota) OR (kota_a = kota AND kota_b = kota_lalu)) END.",
+        "tercepat = min(r[3] for r in rows)  →  0.5; vmax = max(r[4] for r in rows if r[4] is not None)  →  1400.0.",
       ],
       code: {
         starter:
@@ -180,36 +131,52 @@ sql = """
 """
 cur.execute(sql)
 rows = cur.fetchall()
-# TULIS KODEMU: jeda minimum (kolom: nasabah_id, tanggal, jeda_jam)
+# TULIS KODEMU: jeda minimum + kecepatan implisit maksimum (kolom: nasabah_id, waktu, kota, jeda_jam, kec_kmh)
 tercepat =
+vmax =
 
-print("tercepat:", tercepat)`,
-        lockLines: 51,
+print("tercepat:", tercepat)
+print("vmax:", vmax)`,
+        lockLines: 66,
         solution:
           SETUP +
           `
 # TULIS QUERY-MU sebagai string sql, lalu jalankan.
 sql = """
 WITH s AS (
-  SELECT nasabah_id, tanggal,
-  LAG(tanggal) OVER (PARTITION BY nasabah_id ORDER BY tanggal) AS lalu
+  SELECT nasabah_id, waktu, kota,
+  LAG(waktu) OVER (PARTITION BY nasabah_id ORDER BY waktu) AS lalu,
+  LAG(kota) OVER (PARTITION BY nasabah_id ORDER BY waktu) AS kota_lalu
   FROM transaksi
+),
+j AS (
+  SELECT nasabah_id, waktu, kota,
+  (julianday(waktu) - julianday(lalu)) * 24 AS jeda_jam,
+  CASE WHEN kota = kota_lalu THEN 0
+       ELSE (SELECT km FROM jarak_kota
+             WHERE (kota_a = kota_lalu AND kota_b = kota)
+                OR (kota_a = kota AND kota_b = kota_lalu))
+  END AS km
+  FROM s WHERE lalu IS NOT NULL
 )
-SELECT nasabah_id, tanggal,
-(julianday(tanggal) - julianday(lalu)) * 24 AS jeda_jam
-FROM s
-WHERE lalu IS NOT NULL
+SELECT nasabah_id, waktu, kota, jeda_jam,
+CASE WHEN jeda_jam > 0 AND km IS NOT NULL THEN km / jeda_jam END AS kec_kmh
+FROM j
 """
 cur.execute(sql)
 rows = cur.fetchall()
-# TULIS KODEMU: jeda minimum (kolom: nasabah_id, tanggal, jeda_jam)
-tercepat = min(r[2] for r in rows)
+# TULIS KODEMU: jeda minimum + kecepatan implisit maksimum (kolom: nasabah_id, waktu, kota, jeda_jam, kec_kmh)
+tercepat = min(r[3] for r in rows)
+vmax = max(r[4] for r in rows if r[4] is not None)
 
-print("tercepat:", tercepat)`,
+print("tercepat:", tercepat)
+print("vmax:", vmax)`,
         checks: [
           { kind: "defined", task: "t1", name: "sql", label: "`sql` terdefinisi", msg: "Tulis query-mu sebagai string di variabel sql." },
-          { kind: "contains", task: "t1", name: "sql", value: "LAG", label: "Query memakai LAG", msg: "Pasangan berurutan memakai LAG(tanggal) OVER (PARTITION BY nasabah_id ORDER BY tanggal)." },
-          { kind: "equal", task: "t2", name: "tercepat", value: 48.0, tol: 1e-9, label: "`tercepat` seharusnya 48.0", msg: "Jeda tersingkat = Andi: 1 Sep → 3 Sep = 48 jam." },
+          { kind: "contains", task: "t1", name: "sql", value: "LAG", label: "Query memakai LAG", msg: "Pasangan berurutan memakai LAG(waktu) OVER (PARTITION BY nasabah_id ORDER BY waktu)." },
+          { kind: "contains", task: "t1", name: "sql", value: "jarak_kota", label: "Query memakai tabel jarak_kota", msg: "Kecepatan implisit butuh jarak antar kota dari tabel jarak_kota (kedua arah)." },
+          { kind: "equal", task: "t2", name: "tercepat", value: 0.5, tol: 1e-6, label: "`tercepat` seharusnya 0.5", msg: "Jeda tersingkat = Andi: Jakarta 10:00 → Surabaya 10:30 = 0,5 jam." },
+          { kind: "equal", task: "t3", name: "vmax", value: 1400.0, tol: 0.01, label: "`vmax` seharusnya 1400.0", msg: "Kecepatan implisit maksimum = 700 km / 0,5 jam = 1400 km/jam > 800 → flag impossible travel." },
         ],
       },
       reference: "Impossible travel = LAG pasangan + aturan jarak/waktu; screening, bukan vonis.",
@@ -261,7 +228,7 @@ print("tercepat:", tercepat)`,
       eyebrow: "Langkah 7 · Velocity skala",
       title: "Self-join lookback yang mahal, pra-agregasi, dan as-of join",
       prose: [
-        "Pola velocity yang naif adalah self-join lookback: untuk tiap transaksi, join ke SEMUA transaksi kartu yang sama dalam jendela ke belakang, lalu hitung. SELECT t1.id, COUNT(*) FROM transaksi t1 JOIN transaksi t2 ON t2.kartu_id = t1.kartu_id AND t2.waktu BETWEEN t1.waktu - interval '1 jam' AND t1.waktu — secara logis benar, secara fisik bencana: tiap baris memindai ulang seluruh jendela, kompleksitas mendekati O(n × w) dengan w = rata-rata transaksi per jendela. Pada 50 juta transaksi dengan rata-rata 20 transaksi per kartu per jam, ini miliaran perbandingan per evaluasi aturan. Inilah query yang “jalan di lab, mati di produksi”.",
+        "Contoh di bawah memakai skema PRODUKSI (kartu_id, waktu) — bukan kolom fixture lab ini (nasabah_id, tanggal/waktu/kota). Pola velocity yang naif adalah self-join lookback: untuk tiap transaksi, join ke SEMUA transaksi kartu yang sama dalam jendela ke belakang, lalu hitung. SELECT t1.id, COUNT(*) FROM transaksi t1 JOIN transaksi t2 ON t2.kartu_id = t1.kartu_id AND t2.waktu BETWEEN t1.waktu - interval '1 jam' AND t1.waktu — secara logis benar, secara fisik bencana: tiap baris memindai ulang seluruh jendela, kompleksitas mendekati O(n × w) dengan w = rata-rata transaksi per jendela. Pada 50 juta transaksi dengan rata-rata 20 transaksi per kartu per jam, ini miliaran perbandingan per evaluasi aturan. Inilah query yang “jalan di lab, mati di produksi”.",
         "Strategi pra-agregasi membalik urutannya: hitung dulu ringkasan per kartu per bucket waktu yang kasar (mis. per 5 menit), baru evaluasi aturan di atas ringkasan. WITH agg AS (SELECT kartu_id, bucket_5m, COUNT(*) AS n, SUM(nominal) AS total FROM transaksi GROUP BY 1, 2) — 50 juta baris menjadi ratusan ribu bucket. Aturan “lebih dari 10 transaksi per jam” kemudian dihitung sebagai SUM(n) atas 12 bucket ke belakang per kartu — murah, dan bisa di-materialize sebagai tabel agregat yang di-refresh incremental (hanya bucket terbaru yang dihitung ulang). Harga yang dibayar: granularitas — bucket 5 menit tidak bisa menjawab “dalam 63 detik terakhir”; pilih granularitas dari jendela tersempit yang harus didukung.",
         "Untuk presisi penuh tanpa self-join, senjata modernnya adalah window function dengan RANGE frame atas interval waktu: COUNT(*) OVER (PARTITION BY kartu_id ORDER BY waktu RANGE BETWEEN INTERVAL '1 jam' PRECEDING AND CURRENT ROW) — satu sort per kartu, satu pass, tiap baris melihat tepat 1 jam ke belakang. Ini O(n log n), bukan O(n × w), dan semantiknya persis “jendela geser”. Syaratnya: database harus mendukung RANGE atas interval (Postgres ya; SQLite memakai pola subquery/join terbatas). Bila tidak tersedia, alternatifnya adalah “as-of join” ke tabel agregat: tiap transaksi di-join ke snapshot agregat per kartu per jam terakhir — bukan ke transaksi mentah.",
         "As-of join adalah pola yang lebih umum dari sekadar fraud: menggabungkan event dengan STATE pada saat event terjadi. “Limit kartu saat transaksi dilakukan” tidak boleh diambil dari tabel limit HARI INI (anakronisme — limitnya mungkin sudah berubah); ia harus di-join ke versi limit yang berlaku pada waktu transaksi (berlaku_dari <= waktu_transaksi). Tanpa ini, aturan “transaksi melebihi 80% limit” salah menilai ribuan transaksi historis — dan backtest aturan fraud-mu mengukur sesuatu yang tidak pernah terjadi. Aturan keras: setiap atribut yang berubah terhadap waktu dan dipakai dalam aturan/backtest WAJIB di-join secara as-of.",

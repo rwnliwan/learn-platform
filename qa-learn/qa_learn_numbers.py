@@ -12,6 +12,7 @@ Fixture: (file, wajib ADA, wajib TIDAK ADA).
 Jalankan: python3 qa_learn_numbers.py
 Keluar 0 = lolos; 1 = gagal.
 """
+import re
 import sys
 from pathlib import Path
 
@@ -1153,12 +1154,67 @@ FIXTURES = [
         ["se_mean≈2.8"],
         [],
     ),
+    # --- Ronde 8 Terra (2026-11-09, GG-2: angka hitung/pembulatan/satuan) ---
+    # Angka kanonis R8; hitung ulang independen di qa_r8_recompute.py.
+    # KETERBATASAN (aturan Septian 00:53): fixture ini string-level per
+    # angka — kelas "angka prose" secara umum hanya terkunci bila angkanya
+    # punya parameter pertama yang bisa dihitung ulang (qa_r8_recompute.py);
+    # angka benchmark tanpa sumber dikunci daftar terlarang di
+    # qa_absolute_claims.py + prompt review ronde berikut.
+    (
+        "b14-markov-chain.ts",
+        ["(0,86; 0,07; 0,07)", "88% lancar, 7% telat, 5% macet"],
+        ["(0,72; 0,13; 0,15)", "86% lancar, 8% telat, 6% macet"],
+    ),
+    (
+        "b16-heavy-tails-evt.ts",
+        ["Rp43,7 juta", "0,33%"],
+        ["Rp43,8 M", "0,36%"],
+    ),
+    (
+        "b17-bayesian-praktis.ts",
+        ["konsentrasi 1.000"],
+        ["(5.000+3)/(100.000+10)"],
+    ),
+    (
+        "pm-a3-economics.ts",
+        ["Rp57.143", "markup = 12,5%"],
+        ["Rp11.429", "menggandakan harga jual"],
+    ),
+    (
+        "fr13-realtime.ts",
+        ["Rp1,33 per transaksi", "Rp0,133 per transaksi"],
+        ["Rp1.333 per transaksi", "Rp133 per transaksi"],
+    ),
+    (
+        "mk14-pricing.ts",
+        ["15% dari unit promo"],
+        ["Kanibalisasi 62,5%"],
+    ),
+    (
+        "d9-eda.ts",
+        ["Medan 0%"],
+        ["Medan 8% tertinggi"],
+    ),
+    (
+        "bi13-epigenomik.ts",
+        ["α=100 → beta = 850/1100 = 0,7727"],
+        [],
+    ),
 ]
+
+
+def _decode(raw: str) -> str:
+    # File lesson menyimpan non-ASCII sebagai escape \uXXXX; needle
+    # ditulis dengan karakter aslinya — decode dulu sebelum membandingkan.
+    return re.sub(r"\\u([0-9a-fA-F]{4})",
+                  lambda m: chr(int(m.group(1), 16)), raw)
+
 
 def main() -> int:
     ok = True
     for fname, must_have, must_not in FIXTURES:
-        text = (ROOT / fname).read_text()
+        text = _decode((ROOT / fname).read_text())
         for s in must_have:
             if s not in text:
                 print(f"FAIL {fname}: angka kanonis hilang: {s!r}")

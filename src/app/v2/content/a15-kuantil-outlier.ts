@@ -58,7 +58,7 @@ export const a15: V2Lesson = {
       note: {
         title: "Sering salah",
         type: "pitfall",
-        body: "Persentil ke-90 berarti nilainya 90. Salah: persentil adalah posisi relatif, bukan nilai absolut. Persentil ke-90 bisa Rp 13,9 juta atau Rp 130 juta — tergantung datanya. Yang dijamin hanya: 90% data berada di bawahnya.",
+        body: "Persentil ke-90 berarti nilainya 90. Salah: persentil adalah posisi relatif, bukan nilai absolut. Persentil ke-90 bisa Rp 13,9 juta atau Rp 130 juta — tergantung datanya. Yang bisa dikatakan: SEKITAR 90% data berada di bawahnya \u2014 persentil sampel adalah estimasi posisi (tergantung definisi interpolasi), bukan jaminan hitungan eksak.",
       },
       hints: [
         "pos = 0.90 × (n + 1).",
@@ -85,8 +85,8 @@ export const a15: V2Lesson = {
         "Boxplot merangkum distribusi dalam lima angka: min, Q1, median, Q3, max — plus titik-titik outlier di luar whisker. Data 12 gaji: 8, 9, 10, 10, 11, 11, 12, 12, 13, 14, 15, 45. Median = (11+12)/2 = 11,5. Q1 = median paruh bawah = (10+10)/2 = 10. Q3 = median paruh atas = (13+14)/2 = 13,5. IQR = 3,5. Gaji 45 melayang sendirian — kandidat outlier.",
         "Posisi median di dalam kotak adalah pendeteksi skew tercepat: median menempel ke bawah kotak → right skew; menempel ke atas → left skew; tepat di tengah → kira-kira simetris. Analis senior membuka boxplot sebelum membaca tabel statistik apa pun.",
       ],
-      formula: String.raw`\text{IQR} = Q_3 - Q_1 \qquad \text{pagar} = Q_3 \pm 1{,}5 \times \text{IQR}`,
-      formulaNote: "IQR = rentang interkuartil (Q3-Q1); Q1, Q3 = kuartil bawah dan atas; pagar = batas outlier Tukey; 1,5 = konvensi praktis — data di luar pagar = kandidat outlier.",
+      formula: String.raw`\text{IQR} = Q_3 - Q_1 \qquad \text{pagar bawah} = Q_1 - 1{,}5 \times \text{IQR} \qquad \text{pagar atas} = Q_3 + 1{,}5 \times \text{IQR}`,
+      formulaNote: "IQR = rentang interkuartil (Q3-Q1); Q1, Q3 = kuartil bawah dan atas; pagar bawah memakai Q1, pagar atas memakai Q3 \u2014 bukan Q3 untuk keduanya: bawah = Q1 \u2212 1,5\u00d7IQR, atas = Q3 + 1,5\u00d7IQR; 1,5 = konvensi praktis \u2014 data di luar pagar = kandidat outlier. Contoh data lesson: Q1=10, Q3=13,5, IQR=3,5 \u2192 pagar bawah 4,75, atas 18,75.",
       tasks: [
         { id: "t1", text: "Hitung `q1` = median 6 data pertama" },
         { id: "t2", text: "Hitung `q3` = median 6 data terakhir" },
@@ -233,7 +233,7 @@ export const a15: V2Lesson = {
       title: "37 transaksi flag: mana yang dipercaya?",
       prose: [
         "Kamu analis fraud. Kemarin ada 12.480 transaksi kartu kredit: mean nominal Rp 380 ribu, median Rp 210 ribu, max Rp 87 juta. Z-score (|z| > 3) menandai 41 transaksi, IQR menandai 120, MAD (|M| > 3,5) menandai 38.",
-        "(a) Untuk triase awal: MAD (atau IQR). Median jauh di bawah mean → data right-skewed dan pasti terkontaminasi. Z-score menderita dua penyakit: asumsi simetri dilanggar + masking effect dari transaksi raksasa yang menggembungkan SD. Angka 41 dari z-score paling tidak bisa dipercaya.",
+        "(a) Untuk triase awal: MAD (atau IQR). Median jauh di bawah mean → data right-skewed dan sangat mungkin terkontaminasi (sinyal, bukan vonis \u2014 'pasti' butuh bukti, bukan selisih median-mean). Z-score menderita dua penyakit: asumsi simetri dilanggar + masking effect dari transaksi raksasa yang menggembungkan SD. Angka 41 dari z-score paling tidak bisa dipercaya.",
         "(b) 3 dari 38 flag MAD adalah nasabah prioritas dengan histori transaksi besar yang valid → whitelist + segmentasi: keluarkan dari flagging rutin tapi monitor perubahan pola. Jangan tuning ambang global hanya karena 3 false positive. (c) Transaksi Rp 87 juta dari nasabah baru tanpa histori → jangan hapus, investigasi: justru profil risiko tertinggi. Eskalasi ke tim verifikasi; statusnya ditahan untuk review, bukan dibuang.",
       ],
       tasks: [],
@@ -256,7 +256,7 @@ export const a15: V2Lesson = {
         "Persentil adalah posisi relatif (90% data di bawahnya), bukan nilai absolut.",
         "Boxplot = rontgen lima angka; posisi median di kotak mendeteksi skew dalam 3 detik.",
         "Z-score untuk data bersih & normal; menderita masking effect pada data kotor.",
-        "Pagar Tukey = Q1/Q3 ± 1,5×IQR (konvensi, bukan hukum); 3,0 untuk anomali sangat ekstrem.",
+        "Pagar Tukey: bawah = Q1 \u2212 1,5\u00d7IQR, atas = Q3 + 1,5\u00d7IQR (konvensi, bukan hukum); 3,0 untuk anomali sangat ekstrem.",
         "MAD kebal masking — pilihan untuk data kotor dan deteksi fraud; terdeteksi ≠ dibuang.",
       ],
       next: { label: "A1.6 — Korelasi", href: "/v2/learn/a16-korelasi" },
@@ -264,9 +264,9 @@ export const a15: V2Lesson = {
         {
           q: "Q1=20, Q3=40. Berapa batas atas outlier (metode IQR)?",
           options: [
-            { text: "60", why: "Itu Q3 — pagarnya di atas Q3." },
+            { text: "60", why: "Itu Q3 + IQR (40+20) \u2014 pengalinya 1,5, bukan 1." },
             { text: "70", why: "IQR = 20; batas atas = 40 + 1,5 × 20 = 70.", correct: true },
-            { text: "80", why: "Itu Q3 + IQR — pengalinya 1,5, bukan 1." },
+            { text: "80", why: "Itu Q3 + 2\u00d7IQR (40+40) \u2014 pengalinya 1,5, bukan 2." },
             { text: "100", why: "Tidak ada dasarnya; hitung IQR dulu, baru pagar." },
           ],
         },
@@ -275,7 +275,7 @@ export const a15: V2Lesson = {
           options: [
             { text: "Z-score", why: "Mean/SD-nya terkontaminasi outlier — masking effect membuatnya gagal." },
             { text: "IQR", why: "IQR robust dan bagus, tapi MAD lebih kebal untuk data sangat kotor." },
-            { text: "MAD", why: "Median tidak terpengaruh outlier lain: tidak ada masking effect.", correct: true },
+            { text: "MAD", why: "Median/MAD jauh lebih kebal masking daripada mean/SD \u2014 tapi masking masih mungkin bila >50% data terkontaminasi.", correct: true },
             { text: "Range", why: "Range hanya memakai 2 titik — paling rapuh." },
           ],
         },

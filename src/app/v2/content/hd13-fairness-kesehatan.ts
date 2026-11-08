@@ -19,7 +19,7 @@ export const hd13: V2Lesson = {
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "Mengira menghapus variabel sensitif (etnis, gender) dari fitur membuat model adil. Justru sebaliknya seringnya: model mempelajari proksi (kode pos, nama, bahasa) yang berkorelasi dengan variabel sensitif — kini tanpa bisa diaudit per grup karena grupnya “tidak ada”. “Buta” tidak sama dengan “adil”.",
+        body: "Mengira menghapus variabel sensitif (etnis, gender) dari fitur membuat model adil. Justru sebaliknya seringnya: model mempelajari proksi (kode pos, nama, bahasa) yang berkorelasi dengan variabel sensitif — dan bila label grupnya ikut dihapus, audit per grup jadi mustahil. “Buta” tidak sama dengan “adil”. Menghapus grup dari fitur input bukan menghapusnya dari dataset evaluasi: audit per grup tetap bisa bila label grup disimpan terpisah untuk evaluasi.",
         type: "pitfall",
       },
       reference: "Audit fairness sebelum optimasi akurasi. Setelah deploy = skandal.",
@@ -50,15 +50,15 @@ export const hd13: V2Lesson = {
           ],
         },
       ],
-      reference: "90% masalah fairness lahir di definisi label, bukan di arsitektur model.",
+      reference: "Sering kali, masalah fairness lahir di definisi label, bukan di arsitektur model ('90%' BUKAN statistik terukur — jangan dikutip sebagai fakta).",
     },
     {
       id: "metrik-impossibility",
       eyebrow: "Langkah 3 · Metrik",
       title: "Tiga metrik yang tidak bisa akur",
       prose: [
-        "Demographic parity: tingkat positif sama antar grup. Equalized odds: TPR & FPR sama antar grup. Kalibrasi per grup: angka jujur di tiap grup. Teorema impossibility (Chouldechova 2017, Kleinberg 2016): bila base rate beda antar grup, ketiganya tidak bisa dipenuhi bersamaan — kecuali model sempurna atau acak.",
-        "Contoh dalam angka: dua grup, base rate butuh-perawatan A=10%, B=30%, model sempurna terkalibrasi per grup. Demographic parity menuntut tingkat rujukan SAMA → melanggar kalibrasi (salah satu grup dirujuk berlebihan atau kurang). Equalized odds + kalibrasi bisa jalan, tapi parity dikorbankan.",
+        "Demographic parity: tingkat positif sama antar grup. Equalized odds: TPR & FPR sama antar grup. Kalibrasi per grup: angka jujur di tiap grup. Teorema impossibility (Chouldechova 2017, Kleinberg 2016): bila base rate beda antar grup, ketiganya tidak bisa dipenuhi bersamaan — kecuali model sempurna (yang memenuhi equalized odds + kalibrasi, tapi TETAP gagal demographic parity bila base rate beda) atau bila base rate sama. Model acak hanya memenuhi ketiganya dalam arti degenerat (skor konstan = base rate per grup).",
+        "Contoh dalam angka: dua grup, base rate butuh-perawatan A=10%, B=30%, model sempurna terkalibrasi per grup merujuk A 10% dan B 30% — parity DILANGGAR oleh model sempurna itu sendiri (bukan oleh model yang buruk): demographic parity menuntut tingkat rujukan SAMA, yang justru melanggar kalibrasi (salah satu grup dirujuk berlebihan atau kurang). Equalized odds + kalibrasi bisa jalan, tapi parity dikorbankan.",
         "Tidak ada metrik tunggal yang benar — pilih sesuai nilai klinis dan nyatakan trade-off-nya eksplisit. Untuk alokasi perawatan, equalized odds (kesempatan terdeteksi sama) lebih relevan dari demographic parity. Untuk skrining penyakit mematikan, prioritaskan equal opportunity/TPR; untuk alokasi bantuan terbatas, pilih kalibrasi per grup agar skor berarti sama untuk semua.",
       ],
       tasks: [],
@@ -71,7 +71,7 @@ export const hd13: V2Lesson = {
         {
           q: "Base rate beda antar grup. Yang BENAR tentang metrik fairness?",
           options: [
-            { text: "Demographic parity + equalized odds + kalibrasi tak bisa bersamaan — pilih sesuai misi", why: "Benar: teorema impossibility. Pilih metrik sesuai nilai klinis dan nyatakan trade-off eksplisit.", correct: true },
+            { text: "Demographic parity + equalized odds + kalibrasi tak bisa bersamaan — pilih sesuai misi", why: "Benar: teorema impossibility (dengan pengecualian model sempurna / base rate sama). Pilih metrik sesuai nilai klinis dan nyatakan trade-off eksplisit.", correct: true },
             { text: "Semua metrik bisa dipenuhi bersamaan", why: "Salah: justru itu yang dibuktikan mustahil oleh teorema impossibility." },
             { text: "Cukup pakai akurasi", why: "Akurasi agregat adalah tempat bersembunyi disparitas — ia menyembunyikan penderitaan minoritas." },
             { text: "Tidak ada metrik yang valid", why: "Terlalu nihilistik: metrik-metrik itu valid, hanya tidak bisa semuanya sekaligus." },
@@ -88,8 +88,8 @@ export const hd13: V2Lesson = {
         "Lima situasi keputusan yang dihadapi tim AI kesehatan — karena “AUC keseluruhan bagus” tidak pernah cukup sebagai jawaban:",
         "Skenario 1 — “Model siap deploy — sudah adil?” → Audit per grup DULU: tabel 2×2 per kelompok (TPR, FPR, PPV) — bukan cuma AUC agregat. Contoh: model rujukan dengan AUC 0,87 ternyata TPR Grup A 75% vs Grup B 50% — separuh pasien pedesaan yang butuh rujukan terlewat. Agregat menyembunyikan siapa yang terlewat.",
         "Skenario 2 — “Ditemukan disparitas — sumbernya dari pintu mana?” → Diagnosis empat pintu: representasi (Grup B hanya 15% data latih), label (”butuh rujukan” didefinisikan dari rujukan historis — padahal akses B lebih rendah sehingga labelnya under-ascertained), fitur proxy (kode pos sebagai proksi ras/pendapatan), agregasi (satu threshold untuk semua). Obatnya beda untuk tiap pintu.",
-        "Skenario 3 — “Metrik fairness mana yang dipakai?” → Pilih yang selaras dengan bahaya klinisnya — dan ingat impossibility theorem: kalibrasi per grup + equalized odds tidak bisa dipenuhi bersamaan bila prevalensi antar grup berbeda. Untuk rujukan yang terlewat = bahaya, utamakan equal opportunity (TPR setara); untuk alokasi sumber daya langka, pertimbangkan kalibrasi. Jangan kejar semua metrik sekaligus.",
-        "Skenario 4 — “Bagaimana memitigasinya?” → Bertahap dan terukur: (a) perbaiki label — definisikan “butuh” dari kriteria klinis, bukan perilaku historis yang bias; (b) tambah data / bobot ulang grup yang kurang terwakili; (c) threshold per grup hingga TPR setara. Verifikasi: contoh audit menutup gap 25 poin menjadi 2 poin dengan harga AUC hanya 0,01 — trade-off akurasi-vs-fairness sering kecil, jangan jadikan alasan menunda.",
+        "Skenario 3 — “Metrik fairness mana yang dipakai?” → Pilih yang selaras dengan bahaya klinisnya — dan ingat impossibility theorem: kalibrasi per grup + equalized odds tidak bisa dipenuhi bersamaan bila prevalensi antar grup berbeda — kecuali model sempurna. Untuk rujukan yang terlewat = bahaya, utamakan equal opportunity (TPR setara); untuk alokasi sumber daya langka, pertimbangkan kalibrasi. Jangan kejar semua metrik sekaligus.",
+        "Skenario 4 — “Bagaimana memitigasinya?” → Bertahap dan terukur: (a) perbaiki label — definisikan “butuh” dari kriteria klinis, bukan perilaku historis yang bias; (b) tambah data / bobot ulang grup yang kurang terwakili; (c) threshold per grup hingga TPR setara. Verifikasi: contoh audit menutup gap 25 poin menjadi 2 poin dengan harga AUC hanya 0,01 DALAM CONTOH AUDIT INI — trade-off akurasi-vs-fairness sering kecil, jangan jadikan alasan menunda.",
         "Skenario 5 — “Grup kecil atau irisan identitas?” → Audit interseksionalitas: disparitas bisa bersembunyi di irisan (mis. perempuan pedesaan lansia) yang tak terlihat saat grup dianalisis satu dimensi. Sampel kecil di irisan bukan alasan melewatkan — laporkan dengan interval ketidakpastian yang jujur.",
         "Aturan praktis 10 detik: deploy → audit per grup dulu → disparitas → diagnosis empat pintu → metrik sesuai bahaya klinis (ingat impossibility) → mitigasi bertahap + verifikasi → cek irisan identitas.",
       ],
@@ -108,7 +108,7 @@ export const hd13: V2Lesson = {
       prose: [
         "Model memprediksi “butuh rujukan spesialis”. Evaluasi pada 2.000 pasien: Grup A (1.200, perkotaan): TP=180, FN=60, FP=120, TN=840. Grup B (800, pedesaan): TP=90, FN=90, FP=60, TN=560. Hitung: TPR A = 180/240 = 75%; TPR B = 90/180 = 50%. Kesenjangan 25 poin — model melewatkan separuh pasien Grup B yang butuh rujukan, vs seperempat di Grup A.",
         "Diagnosis penyebab: representasi training Grup B hanya 15% data latih, dan label “butuh rujukan” didefinisikan dari rujukan yang benar-benar terjadi — padahal pasien B yang butuh lebih jarang dirujuk (akses!) sehingga label B under-ascertained. Dua pintu bias sekaligus: representasi + label.",
-        "Mitigasi bertahap: (a) perbaiki label — definisikan ulang “butuh” dari kriteria klinis (skor keparahan), bukan rujukan historis; (b) tambah data B / bobot ulang; (c) threshold per grup — turunkan threshold B hingga TPR setara (equal opportunity), dengan harga FPR B naik. Setelah mitigasi: TPR A=74%, TPR B=72% (gap 2 poin), dengan penurunan AUC hanya 0,01. Trade-off akurasi-vs-fairness sering kecil — jangan jadikan alasan menunda.",
+        "Mitigasi bertahap: (a) perbaiki label — definisikan ulang “butuh” dari kriteria klinis (skor keparahan), bukan rujukan historis; (b) tambah data B / bobot ulang; (c) threshold per grup — turunkan threshold B hingga TPR setara (equal opportunity), dengan harga FPR B naik. Setelah mitigasi: TPR A=74%, TPR B=72% (gap 2 poin), dengan penurunan AUC hanya 0,01 (dalam contoh audit ini). Trade-off akurasi-vs-fairness sering kecil — jangan jadikan alasan menunda.",
       ],
       tasks: [],
       note: {
@@ -302,7 +302,7 @@ print(f"t_c={t_c:.2f} tpr_c={rate(pos_c, t_c):.3f} gap={gap_sesudah:.3f} fpr_c={
       summary: [
         "Empat pintu bias: data, label, representasi, deployment — audit berurutan.",
         "Kasus klasik: proksi label (biaya ≠ kebutuhan) membawa sejarah ke model.",
-        "Metrik parity, equalized odds, kalibrasi per grup tak bisa semua (impossibility).",
+        "Metrik parity, equalized odds, kalibrasi per grup tak bisa semua (impossibility — kecuali model sempurna/base rate sama).",
         "Mitigasi: pre (label/data) > in (constraint) > post (threshold).",
         "Threshold per grup = post-processing terakhir: setarakan TPR dengan harga FPR naik, butuh dasar hukum yang jelas.",
         "Lab mitigasi: threshold per grup menutup gap TPR 37,5 → ~1 poin dengan harga FPR_C 7% → 31%.",
@@ -312,7 +312,7 @@ print(f"t_c={t_c:.2f} tpr_c={rate(pos_c, t_c):.3f} gap={gap_sesudah:.3f} fpr_c={
         {
           q: "Menghapus variabel etnis dari fitur membuat model adil. Benar atau salah?",
           options: [
-            { text: "Salah — proksi tetap membawa info itu, kini tanpa bisa diaudit", why: "Benar: kebutaan ≠ keadilan. Fairness butuh pengukuran per grup.", correct: true },
+            { text: "Salah — proksi tetap membawa info itu; audit per grup tetap bisa bila label grup disimpan untuk evaluasi", why: "Benar: kebutaan ≠ keadilan. Fairness butuh pengukuran per grup.", correct: true },
             { text: "Benar", why: "Salah: model mempelajari proksi (kode pos, nama, bahasa) yang berkorelasi dengan variabel sensitif." },
             { text: "Tergantung", why: "Terlalu aman: secara umum menghapus justru merusak auditabilitas." },
             { text: "Hanya untuk data kecil", why: "Ukuran data tidak relevan dengan masalah proksi ini." },

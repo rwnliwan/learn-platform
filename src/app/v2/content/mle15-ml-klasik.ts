@@ -45,7 +45,7 @@ export const mle15: V2Lesson = {
       title: "Model Rp180 juta yang kalah dari 20 baris",
       prose: [
         "Startup pinjol menyewa konsultan deep learning: 3 bulan, Rp180 juta, neural network untuk skor kredit dari 40 fitur tabel. Akurasi: 81%. Seorang analis iseng menjalankan XGBoost 20 baris di laptop: 84% — dalam 2 jam. Konsultan berdalih 'data kurang'; analis menambahkan: 'coba logistic regression dulu?' — 82% dalam 5 menit.",
-        "Twist-nya: untuk DATA TABEL, urutan kekuatan sering terbalik dari gengsi — gradient boosting > random forest > logistic regression > deep learning. DL unggul di citra/teks/audio, BUKAN tabel. Rp180 juta membayar pelajaran: pilih algoritma dari JENIS DATA, bukan dari hype. Lesson ini = peta lengkap algoritma klasik + cara memilih yang benar (diminta eksplisit di JD: scikit-learn, XGBoost/LightGBM).",
+        "Twist-nya: untuk DATA TABEL, urutan kekuatan SERING (bukan selalu) terbalik dari gengsi — gradient boosting > random forest > logistic regression > deep learning. 'Sering' di sini = pola yang umum di benchmark publik, BUKAN hukum: ada dataset tabel di mana logistic regression menang — buktikan dengan CV di datamu. DL unggul di citra/teks/audio, BUKAN tabel. Rp180 juta membayar pelajaran: pilih algoritma dari JENIS DATA, bukan dari hype. Lesson ini = peta lengkap algoritma klasik + cara memilih yang benar (diminta eksplisit di JD: scikit-learn, XGBoost/LightGBM).",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) memetakan 6 keluarga algoritma ke jenis masalah; (2) menjelaskan bias-variance trade-off dengan contoh; (3) menjalankan k-fold CV dan membaca hasilnya; (4) memilih model via perbandingan yang adil (baseline dulu!); (5) melakukan feature selection sederhana.",
         "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Enam keluarga algoritma — Langkah 3 · Lab: CV & model selection — Langkah 4 · Bias-variance & feature selection — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
       ],
@@ -77,7 +77,7 @@ export const mle15: V2Lesson = {
       note: {
         title: "🚨 Miskonsepsi",
         type: "pitfall",
-        body: "'Model kompleks selalu lebih baik.' Salah — untuk 40 fitur tabel 10.000 baris, XGBoost mengalahkan neural network 9 dari 10 kali (dan 50x lebih cepat training). Kompleksitas tanpa kebutuhan = overfitting + biaya. Mulai dari yang sederhana; naik HANYA jika CV membuktikan.",
+        body: "'Model kompleks selalu lebih baik.' Salah — untuk 40 fitur tabel 10.000 baris, XGBoost SERING mengalahkan neural network dalam benchmark publik (bukan '9 dari 10 kali' yang terukur — angka itu ilustratif) dan biasanya jauh lebih cepat training. Kompleksitas tanpa kebutuhan = overfitting + biaya. Mulai dari yang sederhana; naik HANYA jika CV membuktikan.",
       },
       reference: "Linear jujur, tree memotong, ensemble bermusyawarah. Tabel = boosting.",
     },
@@ -87,7 +87,7 @@ export const mle15: V2Lesson = {
       title: "Lab: baseline dulu, baru model",
       prose: [
         "120 sampel, 4 fitur, target biner. Bandingkan dua kandidat dengan 5-fold CV: (1) baseline majority (selalu tebak kelas terbanyak) — 'lawan' yang harus dikalahkan; (2) kNN k=5 (numpy murni). Implementasikan kedua akurasi + loop CV, tentukan pemenang.",
-        "Perhatikan: baseline HANYA 0,47 — di bawah tebak acak 0,5! (Ketidakseimbangan fold kecil.) Model yang 'kalah dari acak' = tidak belajar apa-apa. Coba ubah: k=1 (overfit? CV turun?) dan k=51 (underfit?). k adalah kenop bias-variance KNN.",
+        "Perhatikan: baseline HANYA 0,47 — di bawah tebak acak 0,5! (Ketidakseimbangan fold kecil: fold 24 sampel, mayoritas train bisa berbeda dari mayoritas test; fold 1 akurasi 0,42; mayoritas global 51,7% > 50%.) Baseline fold ini bukan 'tebak acak' — ia tebak mayoritas train, dan pada fold kecil ia bisa kalah dari 0,5. Model yang 'kalah dari acak' = tidak belajar apa-apa. Coba ubah: k=1 (overfit? CV turun?) dan k=51 (underfit?). k adalah kenop bias-variance KNN.",
         "Cara membaca: cv_majority vs cv_knn = 'apakah modelku lebih baik dari tidak belajar?'. Interpretasi: 0,83 vs 0,47 = model belajar pola nyata, bukan hafalan (CV menguji di data tak terlihat).",
       ],
       tasks: [
@@ -231,7 +231,7 @@ print("pemenang =", "knn" if np.mean(s_knn) > np.mean(s_maj) else "majority")`,
       eyebrow: "Langkah 6 · Peta keputusan",
       title: "Peta keputusan: model apa untuk dataku?",
       prose: [
-        "Skenario 1 — data tabel <100 ribu baris → XGBoost/LightGBM. Juara bertahan; tuning 1 hari.",
+        "Skenario 1 — data tabel <100 ribu baris → COBA DULU XGBoost/LightGBM (titik awal yang umum, bukan pilihan otomatis — bandingkan via CV). Juara bertahan; tuning 1 hari.",
         "Skenario 2 — harus bisa dijelaskan ke regulator → regresi logistik (+ SHAP untuk boosting bila perlu). Akurasi sedikit turun, audit lolos.",
         "Skenario 3 — data sedikit (<1.000) → linear/naive Bayes + regularisasi kuat. Model kompleks = overfit pasti.",
         "Skenario 4 — teks → TF-IDF + linear/naive Bayes (baseline 1 jam), naik ke transformer bila perlu.",
@@ -437,7 +437,7 @@ print("MAE regresi_lag    =", round(mae_lr, 3))`,
           q: "40 fitur tabel, 10.000 baris, tanpa keharusan explainability. Pilihan pertama?",
           options: [
             { text: "XGBoost/LightGBM + CV", why: "Tepat: juara data tabel; CV membuktikan.", correct: true },
-            { text: "Neural network 5 layer", why: "Untuk tabel, NN kalah dari boosting 9/10 kali + 50x lebih lambat.", correct: false },
+            { text: "Neural network 5 layer", why: "Untuk tabel, NN SERING kalah dari boosting dalam benchmark publik (bukan '9/10 kali' yang terukur — angka itu ilustratif) dan biasanya jauh lebih lambat.", correct: false },
             { text: "KNN k=3", why: "Baseline boleh, tetapi bukan pilihan utama untuk 10rb baris.", correct: false },
             { text: "Tanpa model — tebak acak", why: "Itu baseline — lawan minimum yang harus dikalahkan, bukan solusi yang dikirim ke produksi.", correct: false },
           ],

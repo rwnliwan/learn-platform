@@ -63,7 +63,7 @@ export const aai14: V2Lesson = {
       title: "Lab: packing 5.300 token ke budget 2.000",
       prose: [
         "Enam pesan total 5.300 token, budget 2.000. Strategimu: SELALU pertahankan system + 2 pesan terakhir (jangkar + kekinian), isi pesan tengah selama muat, ringkas sisanya menjadi 1 pesan ringkasan 150 token. Implementasikan pack_context dan lihat komposisinya.",
-        "Coba ubah: naikkan BUDGET ke 4.000 dan lihat ringkasan hilang (semua muat). Turunkan ke 800 dan lihat hanya jangkar + ringkasan yang selamat. Budget = kenop yang mengubah strategi otomatis — itulah engineering, bukan tuning manual.",
+        "Coba ubah: naikkan BUDGET ke 5.300 dan lihat ringkasan hilang (semua muat: 200+1.500×3+300+300 = 5.300). Turunkan ke 800 dan lihat hanya jangkar yang selamat — ringkasan 150 token pun tak muat di atas 800 token jangkar. Budget = kenop yang mengubah strategi otomatis — itulah engineering, bukan tuning manual.",
         "Cara membaca: kept_ids menunjukkan siapa selamat; total_tokens vs budget menunjukkan disiplin. Interpretasi: 950 token dari 2.000 = masih ada ruang untuk R (respons). Packing yang baik menyisakan ruang napas.",
       ],
       tasks: [
@@ -95,7 +95,7 @@ BUDGET = 2000
 # TULIS KODEMU: packing konteks berprioritas
 def pack_context(messages, budget):
     # TODO t1: kept = [system] + 2 terakhir; isi pesan tengah selagi muat
-    # TODO t2: sisa tengah -> 1 pesan ringkasan 150 token
+    # TODO t2: sisa tengah -> 1 pesan ringkasan 150 token (bila muat di budget — ringkasan tidak boleh membuat total melebihi budget)
     # kembalikan (packed_list, total_tokens)
     return [], 0
 
@@ -126,7 +126,7 @@ def pack_context(messages, budget):
             used += m["tokens"]
     dropped = [m for m in messages[1:-2] if m not in middle]
     summary = []
-    if dropped:
+    if dropped and used + 150 <= budget:
         summary = [{"id": "ringkasan", "role": "system", "tokens": 150,
                     "text": f"ringkasan {len(dropped)} pesan lama"}]
         used += 150
@@ -151,7 +151,7 @@ print("total_tokens =", used)`,
       prose: [
         "Compaction = saat konteks mencapai 80 persen budget, panggil model untuk MERINGKAS riwayat menjadi memori padat, lalu mulai sesi baru dengan ringkasan itu. Pola produksi: 'ringkasan progresif' — setiap compaction merangkum (ringkasan lama + kejadian baru), bukan merangkum mentah berulang (yang meluruh seperti fotokopi dari fotokopi).",
         "Tiga level memori untuk agen long-running. Level 1 (kerja): konteks aktif seperti lab ini. Level 2 (episodik): ringkasan per sesi/tugas, disimpan di luar konteks, diambil saat relevan. Level 3 (semantik): fakta abadi ('nasabah alergi kacang') di database terstruktur. Agen yang hanya punya level 1 = amnesia tiap sesi berakhir.",
-        "Prompt caching = penghematan untuk konteks yang diulang. Blok sistem + jangkar (500 token) SAMA di semua request → provider men-cache-nya: bayar 10 persen untuk token cache-hit. 10.000 request/hari × 500 token × Rp150/juta = Rp750 ribu/hari tanpa cache → Rp75 ribu dengan cache. Syarat: prefix konteks harus IDENTIK — itulah alasan jangkar ditaruh di awal dan tidak diubah-ubah.",
+        "Prompt caching = penghematan untuk konteks yang diulang — HANYA bila provider-mu mendukung prompt caching dengan tarif cache-hit 10% (angka Rp150/juta dan diskon 90% di lesson ini adalah contoh, bukan tarif universal; cek tarif provider-mu). Blok sistem + jangkar (500 token) SAMA di semua request → provider men-cache-nya: bayar 10 persen untuk token cache-hit. 10.000 request/hari × 500 token × Rp150/juta = Rp750 ribu/hari tanpa cache → Rp75 ribu dengan cache. Syarat: prefix konteks harus IDENTIK — itulah alasan jangkar ditaruh di awal dan tidak diubah-ubah.",
         "Kepribadian compaction: seperti wartawan merangkum sidang 8 jam menjadi 1 halaman berita — fakta kunci selamat, basa-basi hilang. Keterampilan merangkum = keterampilan terpenting agen long-running, dan ia bisa diuji: bandingkan keputusan agen dengan vs tanpa compaction di golden set.",
       ],
       formula: String.raw`Hemat = N \times S \times C \times (1 - d)`,
@@ -173,7 +173,7 @@ print("total_tokens =", used)`,
         "Skenario 3 — multi-sesi (agen coding berhari-hari) → tiga level memori. Episodik per tugas + semantik untuk fakta abadi. Konteks aktif hanya untuk 'sekarang'.",
         "Skenario 4 — biaya membengkak → prompt caching dulu (hemat 90 persen untuk prefix), baru optimasi isi. Urutan salah = mengoptimasi yang murah sementara yang mahal bocor.",
         "Skenario 5 — ada data sensitif di riwayat → sanitasi + segregasi. Jangan biarkan NIK/nomor kartu masuk ringkasan abadi (level 3). Ringkasan yang menyimpan PII = bom waktu retensi.",
-        "Aturan praktis 10 detik: (1) sesi <20 pesan? packing saja. (2) >80% budget? compaction. (3) lintas sesi? 3 level. (4) mahal? cache prefix. (5) sensitif? sanitasi dulu.",
+        "Aturan praktis 10 detik: (1) sesi <20 pesan? packing saja. (2) >80% budget? compaction (titik awal yang umum — kalibrasi dari datamu, bukan hukum universal). (3) lintas sesi? 3 level. (4) mahal? cache prefix. (5) sensitif? sanitasi dulu.",
       ],
       tasks: [],
       note: {
@@ -187,7 +187,7 @@ print("total_tokens =", used)`,
       title: "Mini-case: 200 pesan, 30.000 token, Rp45 juta/bulan",
       prose: [
         "Agen Dina: 5.000 sesi/bulan, rata-rata 200 pesan × 150 token = 30.000 token/sesi. Tanpa engineering: tiap request membawa 30.000 token × Rp150/juta = Rp4.500/request. 5.000 × 20 request/sesi × Rp4.500 = Rp450 juta/bulan — VERSI TANPA compaction (konteks penuh tiap request!). Realita sedikit lebih baik (terpotong diam-diam), tetapi kualitas hancur.",
-        "Dengan engineering: packing (H_efektif 82%) + compaction di 80% + caching prefix 500 token. Rata-rata token/request turun ke 3.000 (10x!), cache-hit 90% untuk 500 prefix. Biaya: 5.000 × 20 × (2.500×Rp150/jt + 500×Rp15/jt) = 100.000 × Rp382,5 = Rp38,25 juta/bulan. Hemat: Rp450 − 38,25 = Rp411,75 juta/bulan. Plus: kualitas NAIK (tidak ada rot).",
+        "Dengan engineering: packing (H_efektif 82%) + compaction di 80% (titik awal yang umum — kalibrasi dari datamu, bukan hukum universal) + caching prefix 500 token. Rata-rata token/request turun ke 3.000 (10x!), cache-hit 90% untuk 500 prefix. Biaya: 5.000 × 20 × (2.500×Rp150/jt + 500×Rp15/jt) = 100.000 × Rp382,5 = Rp38,25 juta/bulan. Hemat: Rp450 − 38,25 = Rp411,75 juta/bulan. Plus: kualitas NAIK (tidak ada rot).",
         "Pembahasan: angka Rp450 juta adalah 'tagihan jika jujur' — realita tanpa engineering membayar lebih sedikit TETAPI dengan kualitas rusak (rot diam-diam). Jadi perbandingan jujurnya: Rp38 juta + kualitas baik vs (misal) Rp150 juta + kualitas rusak. Engineering = lebih murah DAN lebih baik — kombinasi langka yang seharusnya membuat keputusan mudah.",
         "Cara membaca: tiga tuas — (1) kurangi token/request (packing+compaction): 30.000→3.000; (2) murahkan token tetap (caching): 90% off; (3) jaga kualitas (jangkar): rot → 0. Kalikan ketiganya = transformasi, bukan optimasi.",
         "Interpretasi: context engineering adalah 'optimasi gratis' terbesar di agen produksi 2026 — karena kebanyakan tim tidak melakukannya sama sekali. Keunggulan kompetitif = melakukan hal membosankan yang benar.",
@@ -250,7 +250,7 @@ print("total_tokens =", used)`,
       summary: [
         "Tiga pembunuh konteks: rot (terpotong), bloat (sampah 62%), poisoning (racun menetap).",
         "Budget B = S + W + H + R; target H_efektif > 80%; jangkar fakta kunci di sistem.",
-        "Packing: jangkar > kekinian > ringkasan > riwayat mentah; compaction progresif di 80% budget.",
+        "Packing: jangkar > kekinian > ringkasan > riwayat mentah; compaction progresif di 80% budget (titik awal yang umum — kalibrasi dari datamu, bukan hukum universal).",
         "Tiga level memori: kerja (aktif), episodik (per sesi), semantik (fakta abadi).",
         "Prompt caching: prefix identik = diskon 90%; pisahkan yang tetap dari yang berubah.",
         "Jendela 1 juta token tidak menggantikan kurasi — bloat justru membesar.",

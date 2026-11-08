@@ -50,7 +50,7 @@ export const b14: V2Lesson = {
       title: "P\u00B2 = semua jalur 2-langkah",
       prose: [
         "P(X_n=j | X_0=i) = (P^n)_ij. Contoh: dari Telat, 2 bulan lagi di Macet? (P\u00B2)_Telat\u2192Macet = 0,6\u00D70,01 + 0,3\u00D70,10 + 0,1\u00D70,70 = 0,106. Tiga jalur: Telat\u2192Lancar\u2192Macet (0,006), Telat\u2192Telat\u2192Macet (0,03), Telat\u2192Macet\u2192Macet (0,07).",
-        "Distribusi vektor: \u03C0^(n) = \u03C0^(0) P^n. Contoh 6 bulan: awal 1.000 Telat \u2192 \u03C0^(0)=(0,1,0). Baris Telat dari P^6 \u2248 (0,72; 0,13; 0,15) \u2192 prediksi: 720 lancar, 130 telat, 150 macet. Satu perkalian matriks menjawab \u201C6 bulan lagi\u201D!",
+        "Distribusi vektor: \u03C0^(n) = \u03C0^(0) P^n. Contoh 6 bulan: awal 1.000 Telat \u2192 \u03C0^(0)=(0,1,0). Baris Telat dari P^6 \u2248 (0,86; 0,07; 0,07) \u2192 prediksi: 860 lancar, 71 telat, 68 macet. Satu perkalian matriks menjawab \u201C6 bulan lagi\u201D!",
         "Inti Chapman-Kolmogorov: (P\u00B2)_ij = \u03A3_k P_ik P_kj \u2014 \u201Csemua jalan dari i ke j via k\u201D.",
       ],
       formula: String.raw`P(X_{n} = j \mid X_0 = i) = (P^n)_{ij} \qquad \pi^{(n)} = \pi^{(0)} P^n`,
@@ -88,7 +88,7 @@ export const b14: V2Lesson = {
       title: "Takdir jangka panjang portofolio",
       prose: [
         "\u03C0 = \u03C0P, \u03A3\u03C0_i = 1. \u201CDistribusi yang jika dicapai, tetap selamanya.\u201D Untuk rantai irreducible & aperiodik, apa pun awalnya \u2192 konvergen ke \u03C0 (unik!). Selesaikan untuk matriks di atas: π ≈ (0,88; 0,07; 0,05).",
-        "Artinya: dalam jangka panjang, portofolio stabil di 86% lancar, 8% telat, 6% macet \u2014 apa pun kondisi awal! \u03C0 adalah \u201Ckomposisi keseimbangan\u201D portofolio. Jika komposisi saat ini jauh dari \u03C0, ia akan \u201Cmelayang\u201D ke sana \u2014 prediksi struktural tanpa perlu forecast ekonomi!",
+        "Artinya: dalam jangka panjang, portofolio stabil di 88% lancar, 7% telat, 5% macet \u2014 apa pun kondisi awal! \u03C0 adalah \u201Ckomposisi keseimbangan\u201D portofolio. Jika komposisi saat ini jauh dari \u03C0, ia akan \u201Cmelayang\u201D ke sana \u2014 prediksi struktural tanpa perlu forecast ekonomi!",
         "Cara mudah: iterasikan \u03C0^(n+1) = \u03C0^(n) P sampai stabil (50 iterasi cukup). Tidak perlu eigenvector manual.",
       ],
       formula: String.raw`\pi = \pi P, \qquad \sum_i \pi_i = 1`,
@@ -97,7 +97,7 @@ export const b14: V2Lesson = {
         { id: "t1", text: "Iterasikan `pi = pi @ P` 50x dari awal (0,1,0)" },
         { id: "t2", text: "Cetak `pi` akhir dengan 2 desimal" },
       ],
-      expected: "pi\u2248[0.86, 0.08, 0.06]",
+      expected: "pi\u2248[0.88, 0.07, 0.05]",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -126,7 +126,7 @@ export const b14: V2Lesson = {
       prose: [
         "Roll rate collection: T30 \u2192 T60: 40%; T60 \u2192 T90: 50%; T90 \u2192 Macet: 60%. Dari Rp1 M di T30, berapa ekspektasi yang jadi macet 3 bulan lagi? (Asumsi: yang tidak roll kembali lancar.)",
         "P(T30 \u2192 Macet dalam 3 langkah) = 0,4 \u00D7 0,5 \u00D7 0,6 = 0,12. Ekspektasi macet = Rp1 M \u00D7 0,12 = Rp120 juta. Bandingkan dengan \u201Casumsi roll 100%\u201D: Rp1 M \u2014 estimasi naif 8x lipat terlalu besar. Roll rate = realisme.",
-        "Rantai perkalian roll rate = inti provisioning IFRS 9 staging. Tiga angka kecil (0,4; 0,5; 0,6) mengalahkan satu asumsi besar.",
+        "Rantai perkalian roll rate = salah satu komponen staging/ECL dalam provisioning IFRS 9 \u2014 bukan satu-satunya inti; staging juga memakai SICR, info forward-looking, dan backstop. Tiga angka kecil (0,4; 0,5; 0,6) mengalahkan satu asumsi besar.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `p_mac` = P(T30\u2192Macet dalam 3 langkah)" },
@@ -160,8 +160,8 @@ export const b14: V2Lesson = {
       eyebrow: "Langkah 5 · Mini-case",
       title: "Vintage 2024: kapan macetnya puncak?",
       prose: [
-        "Vintage kredit 2024: 5.000 akun, semua \u201CLancar\u201D di bulan 0. Direksi tanya: \u201CKapan jumlah Macet mencapai puncak, dan berapa? Kami siapkan tim collection.\u201D Jalankan proyeksi 12 bulan dari \u03C0 awal [5000,0,0]: Macet naik terus awalnya, mencapai puncak sekitar bulan 18\u201324 (~600\u2013700 akun), lalu melandai menuju stasioner.",
-        "Mengapa tidak monoton naik? Karena Macet bukan absorbing di matriks ini (10% kembali lancar/bulan) \u2014 ada arus masuk (dari Telat) dan arus keluar (sembuh). Puncak = saat arus masuk = arus keluar.",
+        "Vintage kredit 2024: 5.000 akun, semua \u201CLancar\u201D di bulan 0. Direksi tanya: \u201CKapan jumlah Macet mencapai puncak, dan berapa? Kami siapkan tim collection.\u201D Jalankan proyeksi 12 bulan dari \u03C0 awal [5000,0,0]: Macet naik terus \u2014 bulan 12 sudah \u2248250 akun \u2014 dan mendatar menuju stasioner ~256 akun (5,1% dari 5.000). TIDAK ADA puncak lalu turun: arus masuk dari Telat selalu lebih besar dari arus keluar sampai keseimbangan tercapai.",
+        "Mengapa tidak ada puncak lalu turun? Karena Macet bukan absorbing di matriks ini (10% kembali lancar/bulan, 20% ke Telat) \u2014 ada arus masuk (dari Telat) dan arus keluar (sembuh). Keseimbangan = saat arus masuk = arus keluar, dan itu terjadi di stasioner ~256 akun \u2014 kurvanya naik monoton ke sana, bukan naik ke puncak lalu turun.",
         "Pelajaran modeling: definisi status menentukan dinamika! Jika \u201CMacet\u201D didefinisikan absorbing (write-off), kurvanya monoton naik \u2014 keputusan definisi = keputusan hasil. Selalu tanyakan definisi status sebelum percaya proyeksi.",
       ],
       tasks: [],
@@ -172,10 +172,10 @@ export const b14: V2Lesson = {
       },
       quiz: [
         {
-          q: "Mengapa jumlah Macet tidak monoton naik di proyeksi vintage?",
+          q: "Mengapa jumlah Macet naik terus lalu mendatar (bukan naik ke puncak lalu turun) di proyeksi vintage?",
           options: [
             { text: "Matriksnya salah", why: "Salah: matriksnya valid \u2014 dinamikanya memang begitu." },
-            { text: "Macet bukan absorbing: ada arus masuk (dari Telat) dan arus keluar (sembuh 10%)", why: "Benar: puncak = saat arus masuk = arus keluar.", correct: true },
+            { text: "Macet bukan absorbing, tapi arus masuk dari Telat selalu lebih besar dari arus keluar sampai keseimbangan (~256 akun)", why: "Benar: naik monoton menuju stasioner 255,8 akun \u2014 tidak ada puncak lalu turun; keseimbangan = arus masuk = arus keluar.", correct: true },
             { text: "Nasabah baru terus masuk", why: "Salah: vintage tertutup \u2014 tidak ada nasabah baru." },
           ],
         },
@@ -253,7 +253,7 @@ export const b14: V2Lesson = {
           options: [
             { text: "Bisa keluar lagi", why: "Salah: itu kebalikannya." },
             { text: "Sekali masuk tak keluar (baris = [0,\u2026,1])", why: "Benar: menyerap. Analisis fokus ke waktu/peluang absorbsi.", correct: true },
-            { text: "Tidak pernah dimasuki", why: "Salah: justru pasti dimasuki dari status lain." },
+            { text: "Tidak pernah dimasuki", why: "Salah: absorbing = sekali masuk tak keluar; soal peluang DICAPAI-nya (bisa 0 bila tak terjangkau) adalah soal lain." },
           ],
         },
         {

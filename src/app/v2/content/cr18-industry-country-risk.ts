@@ -29,7 +29,7 @@ export const cr18: V2Lesson = {
       title: "Lima faktor penilaian",
       prose: [
         "Industry risk = risiko yang melekat pada sektor usaha, terlepas dari kualitas perusahaan individual. Lima faktor: siklus & volatilitas (komoditas liar; kesehatan stabil); kompetisi & hambatan masuk (tekstil mudah; pelabuhan sulit); regulasi & kebijakan (tambang: royalti & larangan ekspor; fintech: POJK ketat); tren permintaan (EV tumbuh; batubara PLTU menurun struktural); ESG & transisi (terancam transisi energi/iklim?).",
-        "Tekstil (default rate 8,5%) vs teknologi (1,2%) — beda 7× lipat! Artinya: debitur tekstil \"terbaik\" bisa lebih berisiko dari debitur teknologi \"biasa\". Implikasi pricing: bunga harus mencerminkan risiko industri, bukan cuma rasio perusahaan (CR21).",
+        "Tekstil (default rate 8,5%) vs teknologi (1,2%) — beda 7× lipat! (Angka ILUSTRATIF untuk lesson ini \u2014 bukan statistik resmi; tanpa periode/populasi/definisi, jangan dikutip sebagai fakta. Yang penting: urutan besar risikonya, bukan angkanya.) Artinya: debitur tekstil \"terbaik\" bisa lebih berisiko dari debitur teknologi \"biasa\". Implikasi pricing: bunga harus mencerminkan risiko industri, bukan cuma rasio perusahaan (CR21).",
         "Debitur tekstil terbaik (DSCR 2,0) vs debitur teknologi biasa (DSCR 1,5): yang berisiko lebih tinggi = tekstil — default rate industrinya 7× lipat; \"kolam beracun\" mengalahkan \"ikan sehat\".",
       ],
       tasks: [],
@@ -70,9 +70,9 @@ export const cr18: V2Lesson = {
       eyebrow: "Langkah 4 · Siklus",
       title: "Roller coaster batubara",
       prose: [
-        "Indonesia = ekonomi komoditas. Batubara, sawit, nikel menentukan nasib ribuan debitur. Harga batubara: dari 60 (2020) ke 350 (2022) lalu ke 130 (2025) — naik-turun 5× lipat dalam 5 tahun! Perusahaan tambang dengan BEP 100: tahun 2022 untung besar (bagi dividen jor-joran), tahun 2020 hampir mati.",
+        "Indonesia = ekonomi komoditas. Batubara, sawit, nikel menentukan nasib ribuan debitur. Harga batubara: dari 60 (2020) ke 350 (2022) lalu ke 130 (2025) — naik-turun 5× lipat dalam 5 tahun! Perusahaan tambang dengan BEP US$100/ton: tahun 2022 untung besar (bagi dividen jor-joran), tahun 2020 hampir mati.",
         "Pelajaran kredit: (1) uji DSCR pada harga konservatif (bukan harga puncak!); (2) waspadai perilaku boom — dividen besar & ekspansi agresif di puncak = bom waktu; (3) covenant berbasis harga komoditas.",
-        "Tambang cash cost US$110/ton mengajukan ekspansi saat harga US$350 (DSCR 10×). Di harga normal US$100 ia rugi kas. Vonis: TOLAK — ini taruhan harga komoditas, bukan kredit investasi; uji DSCR di harga stres, bukan puncak. Operator biaya tinggi hanya hidup saat harga abnormal.",
+        "Contoh lain \u2014 tambang berbiaya tinggi, cash cost US$110/ton, mengajukan ekspansi saat harga US$350 (DSCR 10×). Di harga normal US$100 ia rugi kas. Vonis: TOLAK — ini taruhan harga komoditas, bukan kredit investasi; uji DSCR di harga stres, bukan puncak. Operator biaya tinggi hanya hidup saat harga abnormal.",
       ],
       tasks: [],
       note: {
@@ -129,12 +129,12 @@ export const cr18: V2Lesson = {
       eyebrow: "Langkah 7 · Peta keputusan",
       title: "Peta keputusan: menilai kolam sebelum ikannya",
       prose: [
-        "Skenario 1 — Debitur komoditas mengajukan kredit investasi. → Uji DSCR pada harga konservatif/TTC, bukan spot. Contoh nyata: tambang BEP US$85 mengajukan ekspansi saat harga US$350 (DSCR 10×) — di harga normal US$100 ia rugi kas. Vonis: TOLAK — ini taruhan harga komoditas, bukan kredit investasi.",
+        "Skenario 1 — Debitur komoditas mengajukan kredit investasi. → Uji DSCR pada harga konservatif/TTC, bukan spot. Contoh nyata: tambang BEP US$110/ton mengajukan ekspansi saat harga US$350 (DSCR 10×) — di harga normal US$100 ia rugi kas. Vonis: TOLAK — ini taruhan harga komoditas, bukan kredit investasi.",
         "Skenario 2 — Perusahaan berpendapatan rupiah, berutang dolar. → Baca dalam dua mata uang: depresiasi 20% = cicilan naik 20% dalam rupiah. Contoh nyata: PT Kabel Nusantara — bunga USD 3,5 jt = Rp 55,3 M di kurs 15.800 → Rp 59,5 M di kurs 17.000; pokok Rp 790 M → Rp 850 M. Wajib hedging atau natural hedge.",
         "Skenario 3 — Menetapkan rating debitur. → Tidak boleh melampaui rating sovereign negaranya (Indonesia: BBB) tanpa mitigasi kuat. Memberi rating A ke perusahaan domestik murni = mengklaim ia lebih aman dari negaranya sendiri — klaim yang jarang benar.",
         "Skenario 4 — Portofolio 15 nama lintas '5 sektor'. → Petakan klaster: kawasan operasi, pelanggan induk, pelabuhan yang sama. Contoh nyata: 13 dari 15 debitur bergantung pada satu smelter induk di dua kawasan — diversifikasi nama, konsentrasi risiko.",
         "Skenario 5 — Proyek berisiko transisi (batubara, tenor 10 tahun). → Tolak tenor panjang atau perpendek + covenant harga + cash sweep. Contoh nyata: DSCR TTC 1,15× (< 1,25× ambang aman) + phase-out 2035 + pajak karbon 2028 = aset berisiko stranded sebelum lunas.",
-        "Aturan praktis 10 detik: ikan paling sehat pun mati di kolam beracun — nilai industri (default rate tekstil 8,5% vs teknologi 1,2%) dan negara dulu, rasio perusahaan kemudian; harga harus mencerminkan risiko kolam.",
+        "Aturan praktis 10 detik: ikan paling sehat pun mati di kolam beracun — nilai industri (default rate tekstil 8,5% vs teknologi 1,2% \u2014 angka ilustratif lesson ini) dan negara dulu, rasio perusahaan kemudian; harga harus mencerminkan risiko kolam.",
       ],
       tasks: [],
       note: {

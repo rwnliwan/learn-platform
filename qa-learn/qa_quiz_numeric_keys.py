@@ -94,6 +94,21 @@ CHECKS = [
       ("dengan MCP 6+4", 6 + 4, 0, "")]),
 ]
 
+# (file, pertanyaan, [(nama, nilai, desimal, akhiran)]) — angka yang hidup
+# di WHY-TEXT opsi benar (bukan di teks opsinya). R8: b17 why-text sempat
+# menulis "tambah gagal ke b" (salah arah: gagal masuk parameter PERTAMA)
+# dan b14 why-text mengunci "puncak = arus masuk = arus keluar" untuk
+# kurva yang nyatanya naik monoton menuju stasioner.
+WHY_CHECKS = [
+    ("b17-bayesian-praktis.ts",
+     "Posterior Beta setelah prior Beta(50,950)",
+     [("mean posterior 53/1010", 53 / 1010 * 100, 2, "%")]),
+    ("b14-markov-chain.ts",
+     "jumlah Macet naik terus lalu mendatar",
+     # 5000 × π_macet; π dari iterasi P 60× (lihat qa_r8_recompute.py) = 255,81
+     [("Macet stasioner", 255.81395348837225, 1, "")]),
+]
+
 # (file, pertanyaan, [(nama, nilai, desimal, akhiran)], [string yang TIDAK
 # boleh ada di pertanyaan]) — angka yang hidup di TEKS PERTANYAAN itu sendiri.
 QUESTION_CHECKS = [
@@ -101,7 +116,25 @@ QUESTION_CHECKS = [
      "VaR 99,9% ≈ 17,6%",
      [("q99,9 PD=2% rho=15%", vasicek_q(0.02, 0.15, 0.999) * 100, 1, "%")],
      ["17,9%"]),
+    ("mk14-pricing.ts",
+     "Kanibalisasi 15% pada promo",
+     [("kanibalisasi 6/40", 6 / 40 * 100, 0, "%")],
+     ["62,5%"]),
 ]
+
+
+def correct_why(text: str, q_sub: str) -> str:
+    """Why-text opsi `correct: true` pada pertanyaan yang memuat q_sub."""
+    qi = text.find(q_sub)
+    if qi < 0:
+        raise AssertionError(f"pertanyaan tidak ditemukan: {q_sub!r}")
+    ci = text.find("correct: true", qi)
+    if ci < 0:
+        raise AssertionError(f"tidak ada opsi correct setelah pertanyaan: {q_sub!r}")
+    whys = list(re.finditer(r'why:\s*"((?:[^"\\]|\\.)*)"', text[qi:ci]))
+    if not whys:
+        raise AssertionError(f"tidak ada why sebelum correct: {q_sub!r}")
+    return _unescape(whys[-1].group(1))
 
 
 def main() -> int:
@@ -148,8 +181,34 @@ def main() -> int:
             fails.append(fname)
         else:
             print(f"OK   {fname} :: pertanyaan memuat {vals}")
+    for fname, q_sub, recomps in WHY_CHECKS:
+        text = decode_file(CONTENT / fname)
+        try:
+            why = correct_why(text, q_sub)
+        except AssertionError as e:
+            print(f"FAIL {fname} :: {e}")
+            fails.append(fname)
+            continue
+        missing, vals = [], []
+        for name, value, dec, suffix in recomps:
+            want = fmt_id(value, dec) + suffix
+            vals.append(f"{name}={want}")
+            if want not in why:
+                missing.append(want)
+        # arah update Beta: gagal masuk parameter PERTAMA (a), bukan b.
+        extra_bad = []
+        if fname.startswith("b17-") and "tambah gagal ke b" in why:
+            extra_bad.append("tambah gagal ke b")
+        if fname.startswith("b14-") and "puncak = saat arus masuk" in why:
+            extra_bad.append("puncak = saat arus masuk")
+        if missing or extra_bad:
+            print(f"FAIL {fname} :: why opsi benar '{why[:90]}' hilang {missing}, "
+                  f"mengandung yang salah {extra_bad} (hitung ulang: {', '.join(vals)})")
+            fails.append(fname)
+        else:
+            print(f"OK   {fname} :: why opsi benar memuat {vals}")
     print(f"QA QUIZ-NUMERIC-KEYS: {'ALL PASS' if not fails else f'{len(fails)} FAIL'}"
-          f" ({len(CHECKS) + len(QUESTION_CHECKS)} kunci dipindai)")
+          f" ({len(CHECKS) + len(QUESTION_CHECKS) + len(WHY_CHECKS)} kunci dipindai)")
     return 0 if not fails else 1
 
 

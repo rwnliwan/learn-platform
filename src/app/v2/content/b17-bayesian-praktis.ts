@@ -12,12 +12,12 @@ export const b17: V2Lesson = {
       eyebrow: "Langkah 1 · Aliran Bayesian",
       title: "Cabang baru dengan 10 nasabah",
       prose: [
-        "Bank buka cabang baru. Bulan pertama: 10 nasabah, 3 gagal (30%!). Manajer panik: \u201CPD cabang ini 30% \u2014 tutup saja!\u201D Analis Bayesian tenang: \u201CBank kita punya 100.000 nasabah historis dengan PD 5%. Dengan 10 data baru, estimasi terbaik bukan 30%, melainkan 5,3%.\u201D",
+        "Bank buka cabang baru. Bulan pertama: 10 nasabah, 3 gagal (30%!). Manajer panik: \u201CPD cabang ini 30% \u2014 tutup saja!\u201D Analis Bayesian tenang: \u201CBank kita punya 100.000 nasabah historis dengan PD 5% \u2014 tapi prior yang dipakai Beta(50,950) hanya sekuat 1.000 observasi (konsentrasi 1.000, bukan 100.000): analis sengaja memakai prior yang dilemahkan agar data baru bisa bersuara. Dengan 10 data baru, estimasi terbaik bukan 30%, melainkan 5,2%.\u201D",
         "Alirannya: posterior \u221D likelihood \u00D7 prior. Prior: pengetahuan sebelum data (historis bank: PD \u2248 5% \u2192 Beta(50,950)). Likelihood: data cabang (3 gagal dari 10). Posterior: pengetahuan setelah data \u2014 yang = prior untuk data berikutnya. Posterior hari ini = prior besok.",
-        "Setahun kemudian (2.000 nasabah, 140 gagal = 7%): estimasi Bayesian 6,4% \u2014 akurat. 30% dari 10 data \u201Ckalah\u201D dari 5% dari 100.000 data: 10 data berisik memang seharusnya hampir tidak menggerakkan keyakinan. Kebijaksanaan statistik = tahu kapan harus tidak terkesan oleh data.",
+        "Setahun kemudian (2.000 nasabah, 140 gagal = 7%): estimasi Bayesian 6,4% \u2014 akurat. 30% dari 10 data \u201Ckalah\u201D dari 5% prior sekuat 1.000 observasi: 10 data berisik memang seharusnya hampir tidak menggerakkan keyakinan. Kebijaksanaan statistik = tahu kapan harus tidak terkesan oleh data.",
       ],
       formula: String.raw`P(\theta \mid \text{data}) \propto P(\text{data} \mid \theta) \times P(\theta)`,
-      formulaNote: "θ (theta) = parameter yang diestimasi (misal PD cabang baru); P(θ) = prior: keyakinan SEBELUM data — pengalaman 100.000 nasabah bank; P(data|θ) = likelihood: seberapa mungkin data teramati jika θ benar; P(θ|data) = posterior: keyakinan SETELAH data; ∝ = proporsional: penyebut P(data) konstanta terhadap θ sehingga diabaikan untuk mencari bentuknya. Contoh angka: 10 nasabah, 3 gagal (rate mentah 30%) + prior bank 5% dari 100.000 nasabah → posterior ≈ (5.000+3)/(100.000+10) ≈ 5,00% — angka ini artinya 10 data hampir tidak menggerakkan keyakinan yang dibangun 100.000 data; 30% mentah adalah noise sampel kecil, 5,00% adalah kejujuran. Panik atas 30% berarti memberi 10 data hak veto atas 100.000 data.",
+      formulaNote: "θ (theta) = parameter yang diestimasi (misal PD cabang baru); P(θ) = prior: keyakinan SEBELUM data — pengalaman 100.000 nasabah bank; P(data|θ) = likelihood: seberapa mungkin data teramati jika θ benar; P(θ|data) = posterior: keyakinan SETELAH data; ∝ = proporsional: penyebut P(data) konstanta terhadap θ sehingga diabaikan untuk mencari bentuknya. Contoh angka: 10 nasabah, 3 gagal (rate mentah 30%) + prior bank 5% (Beta(50,950), sekuat 1.000 observasi) → posterior ≈ (50+3)/(1.000+10) ≈ 5,25% — angka ini artinya 10 data hampir tidak menggerakkan keyakinan yang dibangun 1.000 observasi; 30% mentah adalah noise sampel kecil, 5,25% adalah kejujuran. Panik atas 30% berarti memberi 10 data hak veto atas 1.000 observasi. (Prior Beta(50,950) BUKAN prior sekuat 100.000 nasabah historis \u2014 itu akan jadi Beta(5.000,95.000); lesson ini sengaja memakai prior yang dilemahkan.)",
       tasks: [
         { id: "t1", text: "Hitung `post1` = mean posterior setelah Beta(50,950) + 3 gagal/10" },
         { id: "t2", text: "Hitung `post2` = mean setelah +140 gagal/2000 lagi" },
@@ -128,7 +128,7 @@ export const b17: V2Lesson = {
       prose: [
         "Bayesian (credible interval): P(\u03B8 di interval | data) = 95% \u2014 yang ingin diketahui! Frekuentis (confidence interval): \u201Cjika diulang, 95% interval menutupi \u03B8\u201D \u2014 pernyataan tentang prosedur, bukan parameter. Posterior PD ~ Beta(8,102) memberi credible 95%: (2,9%; 12,3%).",
         "Untuk keputusan (\u201Cberapa peluang PD > 10%?\u201D), yang pertama langsung menjawab: P(PD > 10% | data) dari Beta(8,102) \u2248 12%. Yang kedua tidak bisa menjawab tanpa contortion. Credible interval menjawab pertanyaan yang sebenarnya ditanya pengambil keputusan.",
-        "Kapan Bayesian menang: data kecil, butuh interpretasi probabilistik langsung, model hierarkis, update sekuensial, menggabung expert judgment. Kapan frekuentis cukup: data besar (keduanya konvergen! \u2014 Bernstein\u2013von Mises), butuh cepat & standar, regulasi meminta. Pilih berdasarkan masalah, bukan ideologi.",
+        "Kapan Bayesian menang: data kecil, butuh interpretasi probabilistik langsung, model hierarkis, update sekuensial, menggabung expert judgment. Kapan frekuentis cukup: data besar (keduanya konvergen \u2014 Bernstein\u2013von Mises, di bawah kondisi regularitas (model benar, prior tak degenerat, n besar)!), butuh cepat & standar, regulasi meminta. Pilih berdasarkan masalah, bukan ideologi.",
       ],
       tasks: [],
       note: {
@@ -168,24 +168,24 @@ export const b17: V2Lesson = {
         { id: "t2", text: "Hitung `p10` = P(PD>10%) dan `p7` = P(PD>7%)" },
         { id: "t3", text: "Cetak keduanya sebagai persen" },
       ],
-      expected: "p10≈0.00%  p7≈1.48%",
+      expected: "p10≈0.00%  p7≈1.16%",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
         body: "P(\u03B8 > ambang | data) adalah bahasa limit setting dan risk appetite. Tanpa posterior, keputusan memakai titik estimasi yang menyembunyikan ketidakpastian.",
       },
       hints: [
-        "s = gammavariate(a,1)/(gammavariate(a,1)+gammavariate(b,1)).",
+        "s = x/(x+y) dengan x = gammavariate(a,1) dan y = gammavariate(b,1) \u2014 SATU draw tiap-tiap; dua draw Gamma(a) yang berbeda menghasilkan distribusi lain, bukan Beta(a,b).",
         "p10 = mean(s > 0.10).",
         "Seed 172 untuk reproduksibilitas.",
       ],
       code: {
-        starter: `import random\nrandom.seed(172)\na, b, N = 53, 957, 5000\n\n# TULIS KODEMU: sampel Beta lalu P(PD>10%) dan P(PD>7%)\nsamp = [random.gammavariate(a,1)/(random.gammavariate(a,1)+random.gammavariate(b,1)) for _ in range(N)]\np10 = \np7 = \n\nprint(f"p10={p10:.2%}  p7={p7:.2%}")`,
+        starter: `import random\nrandom.seed(172)\na, b, N = 53, 957, 5000\n\n# TULIS KODEMU: sampel Beta lalu P(PD>10%) dan P(PD>7%)\nsamp = []\nfor _ in range(N):\n    x = random.gammavariate(a,1)  # SATU draw Gamma(a,1)\n    y = random.gammavariate(b,1)  # SATU draw Gamma(b,1)\n    samp.append(x/(x+y))\np10 = \np7 = \n\nprint(f"p10={p10:.2%}  p7={p7:.2%}")`,
         lockLines: 3,
-        solution: `import random\nrandom.seed(172)\na, b, N = 53, 957, 5000\n\n# TULIS KODEMU: sampel Beta lalu P(PD>10%) dan P(PD>7%)\nsamp = [random.gammavariate(a,1)/(random.gammavariate(a,1)+random.gammavariate(b,1)) for _ in range(N)]\np10 = sum(1 for s in samp if s > 0.10) / N\np7 = sum(1 for s in samp if s > 0.07) / N\n\nprint(f"p10={p10:.2%}  p7={p7:.2%}")`,
+        solution: `import random\nrandom.seed(172)\na, b, N = 53, 957, 5000\n\n# TULIS KODEMU: sampel Beta lalu P(PD>10%) dan P(PD>7%)\nsamp = []\nfor _ in range(N):\n    x = random.gammavariate(a,1)  # SATU draw Gamma(a,1)\n    y = random.gammavariate(b,1)  # SATU draw Gamma(b,1)\n    samp.append(x/(x+y))\np10 = sum(1 for s in samp if s > 0.10) / N\np7 = sum(1 for s in samp if s > 0.07) / N\n\nprint(f"p10={p10:.2%}  p7={p7:.2%}")`,
         checks: [
           { kind: "equal", task: "t2", name: "p10", value: 0.0003, tol: 0.0015, label: "`p10` mendekati 0,03%", msg: "Ekor jauh Beta(53,957) \u2014 harus sangat kecil." },
-          { kind: "equal", task: "t2", name: "p7", value: 0.015, tol: 0.01, label: "`p7` mendekati ~1,5%", msg: "Mean posterior 5,25% < 7% — p7 hanya sekitar 1,5% (ekor Beta(53,957) tipis)." },
+          { kind: "equal", task: "t2", name: "p7", value: 0.0116, tol: 0.004, label: "`p7` mendekati ~1,2%", msg: "Mean posterior 5,25% < 7% — p7 hanya sekitar 1,2% (ekor Beta(53,957) tipis; simulasi seed 172 memberi 1,16%)." },
           { kind: "stdout_matches", task: "t3", pattern: "p10=\\d+\\.\\d\\d%\\s+p7=", label: "`print` menampilkan keduanya", msg: "Cetak dengan format p10=...  p7=... ." },
         ],
       },
@@ -198,7 +198,7 @@ export const b17: V2Lesson = {
       prose: [
         "Tim produk: setelah 200 pengunjung (100/varian), konversi A=8%, B=14%. \u201CB menang! Hentikan test, rollout!\u201D Apa kata analisis Bayesian (prior Beta(20,180) \u2248 10% historis)? Posterior A: Beta(28,272) \u2192 mean 9,3%. Posterior B: Beta(34,266) \u2192 mean 11,3%.",
         "P(B > A | data) via simulasi \u2248 78% \u2014 jauh dari \u201Cpasti\u201D! Interval kredibel keduanya tumpang tindih lebar. Jangan rollout: 78% bukan keyakinan cukup untuk keputusan mahal (butuh ~95%+ atau expected loss analysis).",
-        "Yang benar: lanjutkan test sampai P(B>A) > 95% atau hitung expected value of information. Frekuentis dengan n=200 pun akan bilang \u201Cbelum signifikan\u201D \u2014 tapi Bayesian memberi angka yang bisa ditindaklanjuti (78%) + bahasa yang dipahami bisnis (\u201Cpeluang B lebih baik\u201D). Ini Bayesian A/B testing \u2014 standar di tech company modern.",
+        "Yang benar: lanjutkan test sampai P(B>A) melewati ambang yang KAMU tetapkan dari biaya/manfaat/risiko keputusan \u2014 95% di contoh ini BUKAN aturan universal (keputusan murah: ambang 80% bisa cukup; keputusan mahal: hitung expected loss) \u2014 atau hitung expected value of information. Frekuentis dengan n=200 pun akan bilang \u201Cbelum signifikan\u201D \u2014 tapi Bayesian memberi angka yang bisa ditindaklanjuti (78%) + bahasa yang dipahami bisnis (\u201Cpeluang B lebih baik\u201D). Ini Bayesian A/B testing \u2014 standar di tech company modern.",
       ],
       tasks: [],
       note: {
@@ -235,7 +235,7 @@ export const b17: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: data kecil harus meminjam kekuatan — itulah shrinkage",
-        body: "Cabang baru dengan 3 gagal dari 10 nasabah terlihat seperti PD 30% — tetapi analis Bayesian tidak panik, karena 10 data tidak berhak mengalahkan 100.000 data bank. Bobot w = n/(n+n₀) mengkuantifikasi kerendahan hati ini: dengan n = 10 dan kekuatan prior n₀ = 1000, data hanya mendapat bobot 1%, dan estimasi 99% adalah prior. Inilah shrinkage — estimasi ditarik ke arah pengalaman populasi, proporsional dengan kelemahan data. Praktisi memakainya di mana-mana: PD cabang baru, conversion rate halaman yang baru launching, default rate vintage muda. Aturan keputusannya: selalu laporkan estimasi Bayesian berdampingan dengan rate mentah saat n kecil — selisihnya adalah ukuran ketidakpastianmu. Dan pakai credible interval untuk menjawab pertanyaan yang sebenarnya ditanya: bukan berapa PD-nya, melainkan berapa peluang PD melebihi 10%? Jebakan yang halus: prior yang diklaim tidak informatif. Tidak ada prior yang benar-benar netral — prior datar di satu parameterisasi bisa sangat informatif di parameterisasi lain. Uji sensitivitas: ubah priornya, lihat apakah keputusannya ikut berubah. Jika ya, kejujuranmu ada di prior, bukan di data.",
+        body: "Cabang baru dengan 3 gagal dari 10 nasabah terlihat seperti PD 30% — tetapi analis Bayesian tidak panik, karena 10 data tidak berhak mengalahkan 100.000 data bank. Bobot w = n/(n+n₀) mengkuantifikasi kerendahan hati ini: dengan n = 10 dan kekuatan prior n₀ = 1000, data hanya mendapat bobot 1%, dan estimasi 99% adalah prior. Inilah shrinkage — estimasi ditarik ke arah pengalaman populasi, proporsional dengan kelemahan data. Praktisi memakainya di mana-mana: PD cabang baru, conversion rate halaman yang baru launching, default rate vintage muda. Aturan keputusannya: selalu laporkan estimasi Bayesian berdampingan dengan rate mentah saat n kecil — selisihnya mengukur besar shrinkage, bukan ketidakpastianmu \u2014 ketidakpastian diukur dengan credible interval / posterior P(PD > ambang). Dan pakai credible interval untuk menjawab pertanyaan yang sebenarnya ditanya: bukan berapa PD-nya, melainkan berapa peluang PD melebihi 10%? Jebakan yang halus: prior yang diklaim tidak informatif. Tidak ada prior yang benar-benar netral — prior datar di satu parameterisasi bisa sangat informatif di parameterisasi lain. Uji sensitivitas: ubah priornya, lihat apakah keputusannya ikut berubah. Jika ya, kejujuranmu ada di prior, bukan di data.",
       },
       summary: [
         "Aliran: posterior \u221D likelihood \u00D7 prior; posterior hari ini = prior besok.",
@@ -249,7 +249,7 @@ export const b17: V2Lesson = {
         {
           q: "Posterior Beta setelah prior Beta(50,950) + 3 gagal dari 10\u2026",
           options: [
-            { text: "Beta(53, 957)", why: "Benar: tambah gagal ke b. Mean 5,25% \u2014 shrinkage dari 30% mentah.", correct: true },
+            { text: "Beta(53, 957)", why: "Benar: tambah gagal ke a (parameter pertama: 50+3=53) dan non-gagal ke b (950+7=957). Mean 5,25% \u2014 shrinkage dari 30% mentah.", correct: true },
             { text: "Beta(3, 7)", why: "Salah: itu prior diabaikan total." },
             { text: "Beta(53, 960)", why: "Salah: 950+7=957, bukan 960." },
           ],

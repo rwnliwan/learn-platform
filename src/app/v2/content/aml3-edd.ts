@@ -40,7 +40,7 @@ export const aml3: V2Lesson = {
       eyebrow: "Langkah 2 · Kapan CDD tidak cukup",
       title: "Empat pemicu EDD",
       prose: [
-        "Satu: PEP — politically exposed person: pejabat publik (domestik/asing), petinggi organisasi internasional, plus keluarga dan kolega dekatnya. Kenapa mereka spesial? Bukan karena pasti korup — melainkan karena posisinya memberi akses ke dana publik dan pengaruh yang bisa disalahgunakan. Risiko PEP = risiko korupsi, dan hasil korupsi butuh dicuci.",
+        "Satu: PEP — politically exposed person: pejabat publik (domestik/asing), petinggi organisasi internasional, plus keluarga dekat dan rekan dekat yang diketahui (definisi FATF: keluarga dekat + rekan dekat yang diketahui \u2014 bukan semua kolega). Kenapa mereka spesial? Bukan karena pasti korup — melainkan karena posisinya memberi akses ke dana publik dan pengaruh yang bisa disalahgunakan. Risiko PEP = risiko korupsi, dan hasil korupsi butuh dicuci.",
         "Dua: adverse media — berita negatif kredibel tentang kejahatan finansial, korupsi, atau sanksi yang menyeret nama nasabah/BO. Tiga: kompleksitas tanpa alasan bisnis — struktur berlapis, yurisdiksi aneh, transaksi yang \"terlalu pintar\" untuk profilnya. Empat: negara/yurisdiksi berisiko tinggi — daftar FATF grey/black list.",
         "Prinsip kunci: PEP dan adverse media memicu EDD, bukan penolakan otomatis. Menolak semua PEP = menolak gubernur bank sentral yang jujur dan kehilangan bisnis; menerima semua PEP = menunggu bom H. S. berikutnya. EDD = \"kita gali lebih dalam, lalu putuskan berbasis bukti.\"",
       ],
@@ -189,7 +189,7 @@ export const aml3: V2Lesson = {
         "Dua: adverse media terkonfirmasi — dua sumber independen memberitakan korupsi dengan identifier cocok → eskalasi ke komite: pertimbangkan exit + SAR. Di titik ini \"pantau\" sudah tidak cukup; setiap hari rekening berjalan = risiko reputasi berjalan.",
         "Tiga: name match lemah — satu blog, nama pasaran, tanpa foto/NIK/tanggal lahir yang cocok → catat + pantau: skor 4, bukan 78. Adjudikasi (penentuan true/false match) didokumentasikan agar analis berikutnya tidak mengulang kerja.",
         "Empat: PEP asing dari yurisdiksi grey-list FATF + struktur berlapis → EDD mendalam + persetujuan komite sebelum hubungan dilanjutkan: sumber dana diverifikasi ke dokumen, bukan sekadar klaim. Kombinasi dua trigger = bukan jumlah, melainkan perkalian risiko.",
-        "Aturan praktis 10 detik: dua sumber independen = EDD. Identifier cocok (NIK/foto/tgl lahir) = naik satu tangga. Satu sumber anonim = catat, jangan panik.",
+        "Aturan praktis 10 detik: dua sumber independen = SINYAL KUAT untuk EDD (bukan definisi EDD \u2014 EDD adalah pendalaman uji tuntas yang dipicu risiko, dan dua sumber independen adalah salah satu pemicunya). Identifier cocok (NIK/foto/tgl lahir) = naik satu tangga. Satu sumber anonim = catat, jangan panik.",
       ],
       tasks: [],
       note: {

@@ -13,7 +13,7 @@ export const a16: V2Lesson = {
       title: "Kampanye Rp 800 juta yang tidak menaikkan apa-apa",
       prose: [
         "Dimas, analis di sebuah bank, menemukan angka cantik: korelasi 0,92 antara frekuensi login mobile banking dan jumlah transaksi per nasabah. Ia presentasi ke direksi: naikkan login, transaksi ikut naik. Disetujui. Rp 800 juta digelontorkan untuk kampanye push notification. Login naik 34%. Transaksi? Flat. Nol koma nol.",
-        "Tiga minggu kemudian investigasi menemukan jawabannya: keduanya naik setiap tanggal gajian. Gajian — variabel ketiga yang tak pernah diukur — mendorong orang sekaligus login dan bertransaksi. Korelasinya nyata. Kausalitasnya nol. Setelah gajian dikontrol, korelasi murni login-transaksi tinggal ≈ 0,10.",
+        "Tiga minggu kemudian investigasi menemukan jawabannya: keduanya naik setiap tanggal gajian. Gajian — variabel ketiga yang tak pernah diukur — mendorong orang sekaligus login dan bertransaksi. Korelasinya nyata. Kausalitas langsung login\u2192transaksi praktis nol SETELAH gajian dikontrol (korelasi murni tinggal \u2248 0,10) \u2014 'nol' di sini berarti tidak ada bukti efek langsung, bukan bukti matematis ketiadaan kausalitas.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `selisih` = korelasi mentah − korelasi murni (yang dijelaskan gajian)" },
@@ -85,7 +85,7 @@ export const a16: V2Lesson = {
         "Pearson hanya ≈ 0,981 di sini — bagus tapi tidak sempurna, karena kurvanya tidak lurus. Spearman tidak peduli kelurusan, hanya urutan. Karena hanya melihat ranking, outlier tidak bisa menyuapnya: nilai 1 miliar tetap cuma ranking 1.",
       ],
       formula: String.raw`\rho = 1 - \frac{6\sum d_i^2}{n(n^2-1)} \qquad d_i = \text{selisih ranking}`,
-      formulaNote: "rho = korelasi Spearman; d_i = selisih ranking x dan y pada observasi ke-i; n = banyaknya data; rumus ini = Pearson yang dihitung dari ranking, sehingga mengukur hubungan monotonik apa pun bentuknya.",
+      formulaNote: "rho = korelasi Spearman; d_i = selisih ranking x dan y pada observasi ke-i; n = banyaknya data; rumus ini = Pearson yang dihitung dari ranking, sehingga mengukur hubungan monotonik apa pun bentuknya. BATAS: rumus selisih-ranking ini berlaku bila TIDAK ada nilai kembar (ties); bila ada ties, pakai Pearson atas ranking RATA-RATA (lihat rank() di lab) \u2014 rumus di atas memberi hasil salah pada ties.",
       tasks: [
         { id: "t1", text: "Hitung Spearman `rho` dari ranking `x` dan `y`" },
         { id: "t2", text: "Hitung Pearson `r` dari nilai aslinya (3 desimal)" },
@@ -102,9 +102,9 @@ export const a16: V2Lesson = {
         "rho = 1 - 6*d2/(n*(n**2-1))",
       ],
       code: {
-        starter: `x = [1, 2, 3, 4, 5]\ny = [v*v for v in x]\n\ndef rank(v):\n    s = sorted(v)\n    return [s.index(a)+1 for a in v]\n\nrx, ry = rank(x), rank(y)\nn = len(x)\n\n# TULIS KODEMU\nd2 = \nrho = \nmx, my = sum(x)/n, sum(y)/n\nnum = sum((a-mx)*(b-my) for a, b in zip(x, y))\nr = \n\nprint(f"rho={rho}  r={r:.3f}")`,
+        starter: `x = [1, 2, 3, 4, 5]\ny = [v*v for v in x]\n\ndef rank(v):\n    s = sorted(v)\n    return [sum(1 for b in s if b < a) + (sum(1 for b in s if b == a) + 1) / 2 for a in v]  # ranking RATA-RATA bila ada ties\n\nrx, ry = rank(x), rank(y)\nn = len(x)\n\n# TULIS KODEMU\nd2 = \nrho = \nmx, my = sum(x)/n, sum(y)/n\nnum = sum((a-mx)*(b-my) for a, b in zip(x, y))\nr = \n\nprint(f"rho={rho}  r={r:.3f}")`,
         lockLines: 11,
-        solution: `x = [1, 2, 3, 4, 5]\ny = [v*v for v in x]\n\ndef rank(v):\n    s = sorted(v)\n    return [s.index(a)+1 for a in v]\n\nrx, ry = rank(x), rank(y)\nn = len(x)\n\n# TULIS KODEMU\nd2 = sum((a-b)**2 for a, b in zip(rx, ry))\nrho = 1 - 6*d2/(n*(n**2-1))\nmx, my = sum(x)/n, sum(y)/n\nnum = sum((a-mx)*(b-my) for a, b in zip(x, y))\nr = num/((sum((a-mx)**2 for a in x)*sum((b-my)**2 for b in y))**0.5)\n\nprint(f"rho={rho}  r={r:.3f}")`,
+        solution: `x = [1, 2, 3, 4, 5]\ny = [v*v for v in x]\n\ndef rank(v):\n    s = sorted(v)\n    return [sum(1 for b in s if b < a) + (sum(1 for b in s if b == a) + 1) / 2 for a in v]  # ranking RATA-RATA bila ada ties\n\nrx, ry = rank(x), rank(y)\nn = len(x)\n\n# TULIS KODEMU\nd2 = sum((a-b)**2 for a, b in zip(rx, ry))\nrho = 1 - 6*d2/(n*(n**2-1))\nmx, my = sum(x)/n, sum(y)/n\nnum = sum((a-mx)*(b-my) for a, b in zip(x, y))\nr = num/((sum((a-mx)**2 for a in x)*sum((b-my)**2 for b in y))**0.5)\n\nprint(f"rho={rho}  r={r:.3f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "rho", value: 1.0, tol: 1e-9, label: "`rho` seharusnya 1.0", msg: "Ranking cocok sempurna → d² = 0 → ρ = 1." },
           { kind: "equal", task: "t2", name: "r", value: 0.981, tol: 0.002, label: "`r` sekitar 0.981", msg: "Pearson kecewa karena kurvanya tidak lurus: ≈ 0,981." },
@@ -118,8 +118,8 @@ export const a16: V2Lesson = {
       eyebrow: "Langkah 4 · Kendall",
       title: "Kendall: menghitung setiap pasangan",
       prose: [
-        "Korelasi Kendall (τ) memeriksa semua pasangan data: konkordan (x dan y bergerak searah) vs diskordan (berlawanan arah). τ = (konkordan − diskordan) / total pasangan. Data (1,2), (2,3), (3,1), (4,4): total 6 pasangan. Konkordan 4, diskordan 2 → τ = 2/6 ≈ 0,33.",
-        "Satu data bandel (3,1) merusak 2 pasangan — Kendall jujur soal itu. Ia paling sabar dan teliti: lambat (O(n²)) tapi paling bisa diandalkan untuk sampel kecil (n < 30) dan paling jujur menghadapi nilai kembar (ties). Catatan: nilai τ biasanya lebih kecil dari ρ untuk data yang sama — skalanya berbeda, jadi τ 0,5 ≠ ρ 0,5 dalam kekuatan.",
+        "Korelasi Kendall (τ) memeriksa semua pasangan data: konkordan (x dan y bergerak searah) vs diskordan (berlawanan arah). τ = (konkordan − diskordan) / total pasangan \u2014 ini \u03c4-a (Kendall tau-a), yang TIDAK mengoreksi ties: pada ties sempurna \u03c4-a tidak mencapai 1. Data (1,2), (2,3), (3,1), (4,4): total 6 pasangan. Konkordan 4, diskordan 2 → τ-a = 2/6 ≈ 0,33.",
+        "Satu data bandel (3,1) merusak 2 pasangan — Kendall jujur soal itu. Ia paling sabar dan teliti: lambat (O(n²)) tapi paling bisa diandalkan untuk sampel kecil (n < 30). Untuk data berties pakai \u03c4-b (penyebut dikoreksi ties) \u2014 \u03c4-a di atas BUKAN alat ties. Catatan: nilai τ biasanya lebih kecil dari ρ untuk data yang sama — skalanya berbeda, jadi τ 0,5 ≠ ρ 0,5 dalam kekuatan.",
       ],
       formula: String.raw`\tau = \frac{\text{konkordan} - \text{diskordan}}{n(n-1)/2}`,
       formulaNote: "tau = korelasi Kendall; konkordan = pasangan yang bergerak searah; diskordan = pasangan yang berlawanan arah; penyebut = total pasangan n(n-1)/2.",
@@ -148,7 +148,7 @@ export const a16: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "total=6\\s+tau=0\\.33", label: "`print` menampilkan keduanya", msg: "Format: total=6  tau=0.33." },
         ],
       },
-      reference: "Kendall untuk sampel kecil dan banyak ties; interpretasi peluangnya bersih.",
+      reference: "Kendall untuk sampel kecil dan banyak ties (pakai τ-b bila ada ties); interpretasi peluangnya bersih.",
     },
     {
       id: "jebakan",
@@ -173,7 +173,7 @@ export const a16: V2Lesson = {
       title: "Diversifikasi yang tidak mendiversifikasi",
       prose: [
         "Manajer investasi mengelola Dana A (obligasi korporat) dan Dana B (saham perbankan): korelasi Pearson −0,15 selama 2019–2024. Komite menyimpulkan hampir tidak berkorelasi → diversifikasi bagus → alokasi 50/50. Stress test skenario krisis likuiditas: Dana A −18%, Dana B −22% — jatuh bersamaan.",
-        "(a) Correlation breakdown: korelasi di masa tenang mengasumsikan hubungan stabil. Dalam krisis likuiditas semua aset berisiko dijual bersamaan — korelasi rendah melonjak mendekati +1 tepat saat diversifikasi paling dibutuhkan. Korelasi historis mengukur cuaca kemarin, bukan badai besok.",
+        "(a) Correlation breakdown: korelasi di masa tenang mengasumsikan hubungan stabil. Dalam krisis likuiditas semua aset berisiko dijual bersamaan \u2014 korelasi rendah BISA melonjak mendekati +1 (dalam contoh stres ini kedua dana jatuh bersamaan) \u2014 bukan hukum bahwa setiap krisis membuat korelasi +1; ukur korelasi kondisional/stressed, jangan asumsikan. Korelasi historis mengukur cuaca kemarin, bukan badai besok.",
         "(b) Yang seharusnya dipakai: korelasi kondisional (hitung r hanya pada hari pasar turun > 3%), tail dependence (probabilitas jatuh bersama di ekor), dan stress test skenario. (c) Tindakan: tetapkan batas korelasi stres (bukan korelasi normal) sebagai input alokasi; wajibkan stress test likuiditas tiap kuartal.",
       ],
       tasks: [],
@@ -195,7 +195,7 @@ export const a16: V2Lesson = {
       summary: [
         "Pearson = hubungan linear; butuh data interval/rasio, bersih, tanpa outlier.",
         "Spearman = hubungan monotonik via ranking; untuk ordinal dan kurva non-linear; kebal outlier.",
-        "Kendall = per pasangan; untuk sampel kecil dan banyak ties; nilainya tidak sebanding dengan Spearman.",
+        "Kendall = per pasangan; untuk sampel kecil dan banyak ties (τ-b bila ada ties); nilainya tidak sebanding dengan Spearman.",
         "r = 0 hanya berarti tidak ada hubungan linear — cek scatterplot untuk pola non-linear.",
         "Korelasi ≠ kausalitas; waspadai Anscombe, Simpson, spurious, dan breakdown saat krisis.",
       ],

@@ -14,7 +14,7 @@ export const mr6: V2Lesson = {
       prose: [
         "Sebuah bank dengan bangga melaporkan: backtest VaR kami hijau selama 2 tahun — hanya 4 pelanggaran dari 500 hari, sesuai ekspektasi 5. Validator puas, regulator puas. Model dinyatakan sehat. Lalu krisis mini datang: dalam 10 hari berurutan, VaR terlampaui 7 kali — kerugian Rp120 miliar. Bagaimana model sehat bisa gagal sebrutal itu?",
         "Twist-nya: backtest mereka hanya menghitung jumlah pelanggaran (uji Kupiec lolos), tetapi tidak pernah menguji polanya. Tujuh pelanggaran itu terjadi beruntun — pelanggaran yang berkelompok justru terjadi saat model paling dibutuhkan. Uji independensi (Christoffersen) akan menangkap ini, tetapi tidak ada yang menjalankannya.",
-        "Definisi: backtesting membandingkan prediksi VaR kemarin dengan hasil aktual hari ini. Jika kerugian aktual > VaR → pelanggaran (exception/breach). Untuk VaR 99% selama 250 hari, ekspektasi pelanggaran = 2,5 kali. Dua jenis P&L: hipotetis (HPL) — P&L jika posisi kemarin tidak berubah (frozen portfolio); menguji murni model VaR. Aktual (APL) — P&L sesungguhnya termasuk trading intraday, fee, komisi; menguji model + aktivitas trading. Jika HPL lolos tetapi APL gagal → modelnya benar, trading intraday yang bermasalah. Jika keduanya gagal → modelnya yang salah.",
+        "Definisi: backtesting membandingkan prediksi VaR kemarin dengan hasil aktual hari ini. Jika kerugian aktual > VaR → pelanggaran (exception/breach). Untuk VaR 99% selama 250 hari, ekspektasi pelanggaran = 2,5 kali. Dua jenis P&L: hipotetis (HPL) — P&L jika posisi kemarin tidak berubah (frozen portfolio); menguji murni model VaR. Aktual (APL) — P&L sesungguhnya termasuk trading intraday, fee, komisi; menguji model + aktivitas trading. Jika HPL lolos tetapi APL gagal → modelnya MUNGKIN benar dan masalahnya di trading intraday/fee \u2014 tapi jangan simpulkan begitu cepat: HPL yang lolos hanya berarti model tidak terbukti salah pada data itu; selidiki dulu (pola pelanggaran? fee? eksekusi?) sebelum memvonis trading. Jika keduanya gagal → modelnya yang salah.",
       ],
       tasks: [
         { id: "t1", text: "Jelaskan kenapa backtest harus memakai HPL dulu sebelum APL." },
@@ -109,7 +109,7 @@ export const mr6: V2Lesson = {
       eyebrow: "Langkah 4 · Basel & PLA",
       title: "Lampu lalu lintas dan atribusi P&L",
       prose: [
-        "Basel menerjemahkan jumlah pelanggaran 250-hari (VaR 99%) menjadi zona dengan konsekuensi modal langsung. Hijau (0–4 pelanggaran): model OK, multiplier modal 3,0×. Kuning (5–9): perlu perhatian, multiplier naik bertahap 3,4× → 3,85× — contoh: 7 pelanggaran → 3,65×. Merah (≥10): model ditolak, multiplier 4,0×, regulator bisa mencabut izin model internal (kembali ke pendekatan standar yang lebih mahal).",
+        "Basel menerjemahkan jumlah pelanggaran 250-hari (VaR 99%) menjadi zona dengan konsekuensi modal \u2014 dalam kerangka Basel (multiplier 3,0\u00d7\u20134,0\u00d7); rezim/yurisdiksi lain bisa berbeda, cek aturan yang berlaku untukmu. Hijau (0–4 pelanggaran): model OK, multiplier modal 3,0×. Kuning (5–9): perlu perhatian, multiplier naik bertahap 3,4× → 3,85× — contoh: 7 pelanggaran → 3,65×. Merah (≥10): model ditolak, multiplier 4,0×, regulator bisa mencabut izin model internal (kembali ke pendekatan standar yang lebih mahal).",
         "Kenapa zona kuning ada: 5–9 pelanggaran masih mungkin terjadi karena sial untuk model yang benar — jadi tidak langsung dihukum mati, tetapi didenda via multiplier. Ini insentif ekonomi: model yang akurat = modal lebih murah. Multiplier 3–4× diterapkan ke VaR rata-rata 60-hari — modal ≈ 3–4× VaR, jauh lebih besar dari VaR itu sendiri. Inilah harga ketidakpastian model.",
         "P&L attribution (PLA) menjelaskan perbedaan P&L prediksi model risiko (RTPL, dari sensitivitas ΣS_iΔf_i) vs P&L aktual: APL = RTPL + unexplained. FRTB memakai uji korelasi Spearman RTPL vs HPL (harus tinggi) dan uji Kolmogorov-Smirnov (distribusi tidak boleh beda jauh). Backtest bertanya apakah model salah; PLA bertanya di mana model salah — seperti dokter yang tidak cuma cek suhu tetapi juga pemeriksaan darah. Unexplained besar dan persisten = alarm dini sebelum backtest gagal.",
       ],
@@ -214,7 +214,7 @@ export const mr6: V2Lesson = {
           q: "Backtest HPL lolos tetapi APL gagal. Diagnosis?",
           options: [
             { text: "Model VaR salah total", why: "HPL lolos berarti modelnya baik-baik saja." },
-            { text: "Model benar, tetapi aktivitas trading intraday (atau fee/komisi) menyebabkan penyimpangan — investigasi desk, bukan model", why: "HPL mengisolasi model (posisi frozen); APL mencakup trading. Obatnya beda!", correct: true },
+            { text: "Model mungkin benar; aktivitas trading intraday (atau fee/komisi) menyebabkan penyimpangan — investigasi desk, bukan model", why: "HPL mengisolasi model (posisi frozen); APL mencakup trading \u2014 hipotesis pertama: masalah di aktivitas trading, TAPI verifikasi dulu, bukan vonis final. Obatnya beda!", correct: true },
             { text: "Data harga salah", why: "kemungkinan kecil — HPL memakai harga yang sama dan lolos." },
             { text: "VaR harus dinaikkan 2×", why: "menggemukkan VaR manual menyembunyikan akar masalah." },
           ],

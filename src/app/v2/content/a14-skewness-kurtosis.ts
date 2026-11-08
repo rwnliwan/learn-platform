@@ -13,7 +13,7 @@ export const a14: V2Lesson = {
       title: "VaR Rp 2 miliar yang jebol Rp 8 miliar",
       prose: [
         "Divisi treasury sebuah bank melaporkan ke direksi: Value at Risk 99% portofolio = Rp 2 miliar. Artinya kerugian harian di atas Rp 2 miliar seharusnya terjadi kurang dari 1% hari — kira-kira 2,5 hari dalam setahun perdagangan. Modelnya rapi: mean, SD, lalu VaR dengan rumus distribusi normal.",
-        "Saat guncangan pasar datang, portofolio rugi Rp 8 miliar dalam sehari — empat kali lipat VaR. Menurut model normal, kejadian itu berpeluang 0,0001%: sekali dalam 4.000 tahun. Nyatanya terjadi tahun ini juga. Audit menemukan return portofolio leptokurtik — ekornya tebal, crash kecil-menengah terjadi jauh lebih sering dari ramalan kurva normal. Model tidak salah hitung; model salah mengira bentuk dunia.",
+        "Saat guncangan pasar datang, portofolio rugi Rp 8 miliar dalam sehari — empat kali lipat VaR. VaR99 Rp2 miliar saja TIDAK menentukan peluang rugi Rp8 miliar \u2014 perlu seluruh bentuk distribusi (mean, SD, dan ekor). Bila dipaksa memakai Normal dengan mean 0 dan SD \u2248 Rp0,86 miliar (agar VaR99 = Rp2 miliar), rugi Rp8 miliar = 9,3\u03c3 \u2192 peluang \u2248 1e-20 \u2014 angka yang justru membuktikan Normal tidak bisa dipercaya di sini, bukan ramalan yang bisa dipakai. Nyatanya terjadi tahun ini juga. Audit menemukan return portofolio leptokurtik — ekornya tebal, crash kecil-menengah terjadi jauh lebih sering dari ramalan kurva normal. Model tidak salah hitung; model salah mengira bentuk dunia.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `kelipatan` = kerugian riil / VaR model" },
@@ -48,7 +48,7 @@ export const a14: V2Lesson = {
       title: "Skewness: nama ekor, bukan nama massa",
       prose: [
         "Skewness mengukur asimetri: ke arah mana ekor memanjang. Datanya dibakukan dulu (z-score), lalu dipangkatkan tiga — pangkat ganjil mempertahankan tanda, jadi suku positif menang kalau ekor kanan lebih berat. Data 4, 5, 6, 7, 18: mean 8, SD sampel ≈ 5,70. Z-score dipangkatkan tiga memberi −0,345; −0,146; −0,043; −0,005; +5,397. Rata-ratanya ≈ 0,97 → miring kanan.",
-        "Perhatikan: satu data 18 menyumbang +5,4 sendirian. Pangkat tiga membuat satu titik jauh mengalahkan empat titik dekat — itulah mengapa skewness sensitif outlier. Dan ingat: skew positif artinya ekornya di kanan, massanya menumpuk di kiri. Mean selalu tertarik ke arah ekor: right skew → mean > median.",
+        "Perhatikan: satu data 18 menyumbang +5,4 sendirian. Pangkat tiga membuat satu titik jauh mengalahkan empat titik dekat — itulah mengapa skewness sensitif outlier. Dan ingat: skew positif artinya ekornya di kanan, massanya menumpuk di kiri. Mean CENDERUNG tertarik ke arah ekor \u2014 tapi itu kecenderungan, bukan teorema: contoh [0,0,1,1,2,3,4,4,4,5,7,9] skew +0,6 tapi mean 3,33 < median 3,5. Right skew \u2192 mean > median adalah pola umum, bukan jaminan.",
       ],
       formula: String.raw`\gamma_1 = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{x_i - \bar{x}}{s}\right)^3`,
       formulaNote: "gamma_1 = skewness (koefisien kemiringan); x_i, x-bar, s = data, mean, SD; (x_i - x-bar)/s = data terstandarisasi; pangkat 3 mempertahankan tanda — ekor kanan panjang membuat gamma_1 positif.",
@@ -112,7 +112,7 @@ export const a14: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "kurt=3\\.44", label: "`print` menampilkan kurt", msg: "Format dua desimal: kurt=3.44." },
         ],
       },
-      reference: "γ₂ > 1 pada return/loss → jangan percaya VaR normal.",
+      reference: "γ₂ > 1 pada return/loss → curigai VaR normal: uji ekornya, bukan vonis otomatis.",
     },
     {
       id: "transformasi",
@@ -171,7 +171,7 @@ export const a14: V2Lesson = {
       },
       hints: [
         "selisih = mean − median; positif = curigai right skew.",
-        "Ambang ekor tebal: γ₂ > 1.",
+        "Ambang praktis ekor tebal: γ₂ > 1 (patokan awal, bukan hukum \u2014 gabungkan dengan plot ekor & uji).",
         "ekor = \"tebal\" if kurt > 1 else \"tipis\"",
       ],
       code: {
@@ -250,8 +250,8 @@ export const a14: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Skewness = arah ekor, bukan arah massa; mean selalu tertarik ke arah ekor.",
-        "Kurtosis = ketebalan ekor; γ₂ > 1 pada return/loss berarti VaR normal tidak bisa dipercaya.",
+        "Skewness = arah ekor, bukan arah massa; mean cenderung tertarik ke arah ekor (bukan teorema \u2014 ada counterexample).",
+        "Kurtosis = ketebalan ekor; γ₂ > 1 pada return/loss berarti VaR normal patut dicurigai \u2014 verifikasi dengan ekor empiris sebelum memakainya.",
         "Pangkat tiga membuat skewness sensitif outlier; pangkat empat membuat kurtosis radar ekstrem.",
         "Log transform menjinakkan right skew positif; tidak untuk left skew, model tree-based, atau laporan ke direksi tanpa terjemahan balik.",
         "Right-skewed + leptokurtik pada loss = kombinasi paling berbahaya.",
@@ -277,9 +277,9 @@ export const a14: V2Lesson = {
           ],
         },
         {
-          q: "Data pendapatan sangat right-skewed dipakai untuk regresi linear (asumsi normalitas). Langkah terbaik?",
+          q: "Data pendapatan sangat right-skewed dipakai untuk regresi linear (yang mengasumsikan RESIDUAL normal, bukan prediktornya). Langkah terbaik?",
           options: [
-            { text: "Langsung pakai — regresi tidak peduli distribusi", why: "Regresi linear mengasumsikan residual normal; prediktor sangat skewed merusaknya." },
+            { text: "Langsung pakai — regresi tidak peduli distribusi", why: "Regresi linear mengasumsikan RESIDUAL normal, bukan prediktor \u2014 prediktor miring tidak otomatis merusak; yang dicek adalah residual sesudah fitting." },
             { text: "Log transform, lalu cek apakah distribusi membaik", why: "Log menjinakkan ekor kanan; verifikasi dengan histogram sesudahnya.", correct: true },
             { text: "Hapus semua data di atas Rp 50 juta", why: "Menghapus data valid = memalsukan distribusi." },
             { text: "Ganti ke model tree-based tanpa cek apa pun", why: "Tree-based memang tidak peduli, tapi keputusan tanpa cek bukan analisis." },
