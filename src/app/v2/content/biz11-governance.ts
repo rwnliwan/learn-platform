@@ -41,7 +41,7 @@ export const biz11: V2Lesson = {
   track: "Business Intelligence",
   module: "Operasi & Governance",
   title: "BI11 — Governance: Satu Definisi Metrik",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -221,6 +221,35 @@ export const biz11: V2Lesson = {
         "💡 Intuisi kunci: \u201Cactive user\u201D adalah metrik paling sering diperangi di industri. Jika perusahaanmu belum punya kartu definisinya, itu PR minggu ini — bukan kuartal depan.",
       ],
       tasks: [],
+    },
+    {
+      id: "gap-g33-reproduksi-historis-snapshot",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G33)",
+      title: "Mereproduksi angka historis: snapshot definisi, bukan ingatan",
+      prose: [
+        "Angka historis yang tidak bisa direproduksi bukanlah angka — ia anekdot. Masalah klasik: laporan 2023 menyebut pendapatan Rp1.310 juta, tetapi saat dihitung ulang dari data yang sama hari ini, hasilnya Rp1.240 juta. Selisih Rp70 juta itu bukan kesalahan hitung — ia adalah dua definisi yang berubah diam-diam. Reproduksi historis berarti membekukan TIGA hal pada tanggal laporan: definisi metrik, data, dan parameter (kurs, tarif, ambang). Tanpa ketiganya, hitung ulang adalah hitungan atas definisi yang berbeda.",
+        "Contoh pembedahan selisih Rp70 juta. Satu, snapshot kurs: pendapatan USD 80.000 dikonversi dengan kurs tanggal laporan 15.500 = Rp1.240 juta; hitung ulang hari ini memakai kurs 15.200 = Rp1.216 juta — selisih Rp24 juta murni dari kurs. Dua, snapshot definisi: laporan 2023 memakai pendapatan BRUTO (sebelum retur), hitung ulang memakai definisi baru NETO (setelah retur Rp46 juta) — selisih Rp46 juta murni dari definisi. Total: 24 + 46 = 70 — selisih terjelaskan penuh. Tanpa snapshot, tim akan menghabiskan minggu mencari 70 juta yang tidak pernah hilang — ia hanya pindah definisi.",
+        "Prosedur snapshot-nya: satu, versioning definisi — tiap metrik punya nomor versi dan tanggal berlaku (pendapatan v1 bruto s.d. Des 2023; v2 neto sejak Jan 2024), disimpan di kamus metrik. Dua, simpan parameter sebagai data — kurs harian, tarif pajak, ambang — di tabel berversi, bukan di kepala analis atau di spreadsheet lokal. Tiga, reproduksi memakai AS OF: query dengan tanggal laporan, definisi versi itu, dan parameter tanggal itu — bukan definisi hari ini atas data hari ini. Empat, laporkan selisih sebagai rekonsiliasi berbaris (kurs 24 + definisi 46 = 70), bukan sebagai satu angka selisih. Selisih yang tidak bisa diuraikan = definisi yang tidak dibekukan.",
+      ],
+      formula: String.raw`\text{Selisih} = \Delta\text{kurs} + \Delta\text{definisi} + \Delta\text{data} \qquad \text{reproduksi memakai AS OF + versi definisi}`,
+      formulaNote: "Rp70 juta = kurs 24 (80.000 × 300) + definisi retur 46. Selisih terjelaskan penuh.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Menghitung ulang angka lama dengan definisi baru lalu menyebut selisihnya sebagai kesalahan. Definisi berubah adalah normal — yang tidak normal adalah tidak mencatat kapan ia berubah. Snapshot definisi adalah satu-satunya jembatan antara angka lama dan angka baru.",
+      },
+      quiz: [
+        {
+          q: "Laporan 2023 Rp1.310 juta, hitung ulang Rp1.240 juta. Ditemukan: kurs 15.500 vs 15.200 (selisih 24) dan definisi bruto vs neto (selisih 46). Kesimpulan?",
+          options: [
+            { text: "Selisih terjelaskan penuh (24 + 46 = 70) — bukan kesalahan, melainkan definisi dan parameter yang berubah", why: "Tepat: 1.310 − 1.240 = 70 = 24 + 46; rekonsiliasi berbaris menutup selisih.", correct: true },
+            { text: "Ada kesalahan Rp70 juta di laporan 2023 — harus dikoreksi", why: "Salah: laporan memakai definisi dan kurs yang benar pada tanggalnya; menghitung ulang dengan definisi baru bukan menemukan kesalahan." },
+            { text: "Hitung ulang salah — angka laporan selalu benar", why: "Salah: laporan bisa salah; tetapi di sini selisihnya terjelaskan penuh oleh dua perubahan yang terdokumentasi." },
+            { text: "Selisih 24 dari kurs cukup — 46 sisanya pembulatan", why: "Salah: 46 juta bukan pembulatan; ia retur yang dikeluarkan definisi neto — harus dilaporkan sebagai baris sendiri." },
+          ],
+        },
+      ],
+      reference: "Reproduksi historis = snapshot definisi (versi + tanggal berlaku) + snapshot parameter + query AS OF; selisih dilaporkan sebagai rekonsiliasi berbaris.",
     },
     {
       id: "checkpoint",

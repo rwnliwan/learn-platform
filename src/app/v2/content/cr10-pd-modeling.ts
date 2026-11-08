@@ -5,7 +5,7 @@ export const cr10: V2Lesson = {
   track: "Credit Risk",
   module: "Scorecard & Pemodelan PD",
   title: "CR10 — PD Modeling: TTC, PIT & Lifetime",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -216,6 +216,51 @@ export const cr10: V2Lesson = {
       ],
       tasks: [],
       reference: "Angka meleset + ranking sehat = rekalibrasi. Ranking rusak = rebuild.",
+    },
+    {
+      id: "gap-g8-scenario-ecl-discounting",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G8)",
+      title: "Dari skenario makro ke lifetime ECL: pembobotan dan discounting",
+      prose: [
+        "ECL bukan satu angka dari satu dunia — ia rata-rata tertimbang atas beberapa skenario makro, lalu didiskonto ke hari ini. Langkahnya empat: satu, tetapkan skenario dan bobot yang jumlahnya 100% — misal baseline 50%, upside 20%, downside 30%. Bobot bukan tebakan: ia mencerminkan pandangan ekonomi bank dan harus bisa dipertahankan di depan auditor. Dua, hitung PD 12-bulan per skenario dari model yang sama: baseline 1,00%, upside 0,60%, downside 2,40%.",
+        "Tiga, gabungkan: PD tertimbang = 0,50 × 1,00% + 0,20 × 0,60% + 0,30 × 2,40% = 0,50% + 0,12% + 0,72% = 1,34%. ECL 12-bulan = PD × LGD × EAD = 1,34% × 45% × Rp100.000.000 = Rp603.000. Empat, diskonto: ECL adalah nilai kini dari kerugian masa depan — bagi dengan (1 + r)^t memakai suku bunga efektif awal (EIR), di sini 5% untuk satu tahun: 603.000 / 1,05 = Rp574.286. Melewatkan discounting berarti melaporkan ECL terlalu besar.",
+        "Untuk lifetime ECL (Stage 2), ulangi per tahun dengan PD marginal tiap tahun dan faktor diskonto tiap tahun, lalu jumlahkan. Contoh tiga tahun: PD marginal tahun 1 = 1,34%, tahun 2 = 1,10%, tahun 3 = 0,90%; LGD 45%, EAD Rp100.000.000, EIR 5%. Tahun 1: 603.000 / 1,05 = 574.286. Tahun 2: 1,10% × 45% × 100.000.000 = 495.000, didiskonto 1,05^2 = 448.980. Tahun 3: 0,90% × 45% × 100.000.000 = 405.000, didiskonto 1,05^3 = 349.854. Lifetime ECL = 574.286 + 448.980 + 349.854 = Rp1.373.120. Perhatikan: PD marginal tahun 2 dan 3 adalah peluang gagal DI tahun itu setelah selamat sebelumnya — bukan PD kumulatif, dan bukan PD 12-bulan yang dipakai ulang tiga kali.",
+      ],
+      formula: String.raw`\text{ECL} = \sum_t \frac{PD_t \times LGD \times EAD}{(1 + EIR)^t} \qquad PD = \sum_s w_s \times PD_s`,
+      formulaNote: "PD tertimbang = 1,34%; ECL 12-bulan didiskonto = Rp574.286; lifetime 3 tahun = Rp1.373.120.",
+      tasks: [
+        { id: "t1", text: "Hitung `pd_tertimbang` (desimal) dari tiga skenario" },
+        { id: "t2", text: "Hitung `ecl_12bln` (belum didiskonto) dan `ecl_diskonto` (EIR 5%)" },
+      ],
+      expected: "pd_tertimbang=0.0134  ecl_12bln=603000.0  ecl_diskonto=574285.71",
+      hints: [
+        "PD tertimbang = 0,50×0,010 + 0,20×0,006 + 0,30×0,024.",
+        "ECL = PD × LGD × EAD; LGD 45%, EAD 100.000.000.",
+        "Diskonto satu tahun: bagi dengan 1,05.",
+      ],
+      code: {
+        starter: `# Skenario makro -> ECL 12-bulan (Stage 1).\nbobot = [0.50, 0.20, 0.30]\npd_skenario = [0.010, 0.006, 0.024]  # baseline, upside, downside\nlgd = 0.45\nead = 100_000_000\neir = 0.05\n\n# TULIS KODEMU: PD tertimbang, ECL, ECL didiskonto.\npd_tertimbang = \necl_12bln = \necl_diskonto = \n\nprint(f"pd_tertimbang={pd_tertimbang}  ecl_12bln={ecl_12bln}  ecl_diskonto={ecl_diskonto:.2f}")`,
+        lockLines: 6,
+        solution: `# Skenario makro -> ECL 12-bulan (Stage 1).\nbobot = [0.50, 0.20, 0.30]\npd_skenario = [0.010, 0.006, 0.024]  # baseline, upside, downside\nlgd = 0.45\nead = 100_000_000\neir = 0.05\n\n# TULIS KODEMU: PD tertimbang, ECL, ECL didiskonto.\npd_tertimbang = sum(w * p for w, p in zip(bobot, pd_skenario))\necl_12bln = round(pd_tertimbang * lgd * ead, 2)\necl_diskonto = ecl_12bln / (1 + eir)\n\nprint(f"pd_tertimbang={pd_tertimbang}  ecl_12bln={ecl_12bln}  ecl_diskonto={ecl_diskonto:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "pd_tertimbang", value: 0.0134, tol: 0.0001, label: "`pd_tertimbang` = 1,34%", msg: "0,50×1,00% + 0,20×0,60% + 0,30×2,40% = 1,34%." },
+          { kind: "equal", task: "t2", name: "ecl_12bln", value: 603000.0, tol: 1, label: "`ecl_12bln` = Rp603.000", msg: "1,34% × 45% × 100.000.000 = 603.000." },
+          { kind: "equal", task: "t2", name: "ecl_diskonto", value: 574285.71, tol: 1, label: "`ecl_diskonto` = Rp574.286", msg: "603.000 / 1,05 = 574.285,71 — ECL dilaporkan sebagai nilai kini." },
+          { kind: "stdout_matches", task: "t2", pattern: "pd_tertimbang=0.0134\\s+ecl_12bln=603000.0\\s+ecl_diskonto=574285.71", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Lifetime ECL tiga tahun memakai PD marginal 1,34% / 1,10% / 0,90%. Kesalahan mana yang PALING fatal?",
+          options: [
+            { text: "Memakai PD 12-bulan 1,34% untuk ketiga tahun — PD tahun 2–3 bukan PD 12-bulan", why: "Tepat: PD marginal tiap tahun berbeda; mengulang PD tahun 1 menggelembungkan ECL dan mengabaikan survival.", correct: true },
+            { text: "Mendiskonto dengan EIR — ECL seharusnya tidak didiskonto", why: "Salah: PSAK 109 mensyaratkan ECL sebagai nilai kini memakai EIR awal." },
+            { text: "Menjumlahkan ECL per tahun — seharusnya dirata-rata", why: "Salah: lifetime ECL adalah JUMLAH kerugian yang didiskonto tiap tahun, bukan rata-rata." },
+            { text: "Memakai bobot skenario yang sama tiap tahun", why: "Salah: bobot boleh sama tiap tahun; yang fatal adalah PD-nya." },
+          ],
+        },
+      ],
+      reference: "ECL = jumlah PD marginal × LGD × EAD yang didiskonto EIR, dengan PD tertimbang atas skenario makro (bobot jumlah 100%).",
     },
     {
       id: "checkpoint",

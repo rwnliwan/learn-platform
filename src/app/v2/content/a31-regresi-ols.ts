@@ -5,7 +5,7 @@ export const a31: V2Lesson = {
   track: "Statistika",
   module: "Modeling & ML Dasar",
   title: "A3.1 Regresi Linear OLS: Garis Lurus Paling Jujur",
-  estMinutes: 45,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita-lgd-negatif",
@@ -212,6 +212,89 @@ export const a31: V2Lesson = {
         body: "Membuang LTV karena tidak signifikan bisa menghilangkan sinyal risiko yang material. Keputusan buang variabel harus memakai interval dan pertimbangan bisnis, bukan ambang p-value semata.",
       },
       reference: "p > 0,05 bukan bukti efek nol. Intersep di luar rentang data bukan untuk dipakai.",
+    },
+    {
+      id: "gap-g9-asumsi-ols-cek",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G9)",
+      title: "Enam asumsi OLS — dan cara menguji masing-masing",
+      prose: [
+        "OLS memberi estimator BLUE hanya bila asumsi Gauss-Markov terpenuhi. Mengutip asumsi tanpa mengujinya sama dengan tidak berasumsi. Satu, linearitas: hubungan Y dan X linear dalam parameter. Uji: plot residual vs fitted — pola lengkung berarti bentuk fungsi salah; uji RESET Ramsey menambah pangkat fitted value dan melihat apakah ia signifikan. Dua, eksogenitas: error tidak berkorelasi dengan prediktor. Tidak ada uji langsung tanpa instrumen — bila dicurigai (misal simultanitas), pakai uji Durbin-Wu-Hausman dengan instrumental variable; tanpa IV, akui sebagai keterbatasan, jangan pura-pura teruji.",
+        "Tiga, homoskedastisitas: varians error konstan. Uji: Breusch-Pagan (regresi kuadrat residual pada X) atau White (lebih umum, termasuk interaksi dan kuadrat). Bila ditolak, pakai robust standard error (White) atau WLS — koefisien tetap unbiased, tapi standard error OLS bohong. Empat, tidak ada autokorelasi: error periode t tidak berkorelasi dengan t−1. Uji: Durbin-Watson (nilai dekat 2 = aman; di bawah 1,5 atau di atas 2,5 = waspada) atau Breusch-Godfrey untuk lag lebih jauh. Lima, tidak ada multikolinearitas sempurna: prediktor tidak boleh kombinasi linear satu sama lain. Ukur VIF tiap prediktor — VIF di atas 10 berarti ia hampir sepenuhnya dijelaskan prediktor lain; solusinya gabung, buang, atau regularisasi, bukan menambah data yang sama.",
+        "Enam, normalitas error: hanya dibutuhkan untuk inferensi sampel kecil (uji-t dan uji-F eksak). Uji: Jarque-Bera (skewness dan kurtosis) atau Q-Q plot. Dengan n besar, central limit theorem menyelamatkan inferensi — tapi prediksi interval tetap mengandalkan normalitas. Tabel ringkasnya: linearitas → residual plot + RESET; eksogenitas → Hausman + IV; homoskedastisitas → Breusch-Pagan/White; autokorelasi → Durbin-Watson; multikolinearitas → VIF; normalitas → Jarque-Bera. Uji yang gagal BUKAN vonis mati model — ia memberi tahu perbaikan mana yang dibutuhkan.",
+      ],
+      formula: String.raw`VIF_j = \frac{1}{1 - R^2_j} \qquad DW = \frac{\sum (e_t - e_{t-1})^2}{\sum e_t^2}`,
+      formulaNote: "VIF di atas 10 = multikolinearitas berat. Durbin-Watson dekat 2 = tidak ada autokorelasi orde-1.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Menjalankan semua uji lalu mengabaikan hasilnya karena R kuadrat tinggi. R kuadrat tidak menguji satu pun asumsi ini — model bisa punya R kuadrat 0,95 dengan residual berpola, error heteroskedastis, dan koefisien yang tidak bisa dipercaya intervalnya. Plot residual dulu, baca R kuadrat kemudian.",
+      },
+      quiz: [
+        {
+          q: "Uji Breusch-Pagan menolak homoskedastisitas. Tindakan yang benar?",
+          options: [
+            { text: "Koefisien tetap dipakai, tapi standard error diganti robust (White) — atau pakai WLS", why: "Tepat: heteroskedastisitas tidak membiaskan koefisien, ia merusak standard error OLS.", correct: true },
+            { text: "Buang model — OLS tidak bisa dipakai sama sekali", why: "Salah: OLS tetap unbiased; yang rusak hanya inferensinya, dan itu bisa diperbaiki." },
+            { text: "Tambah variabel sampai uji lolos", why: "Salah: menambah variabel untuk memuaskan uji = p-hacking diagnostik." },
+            { text: "Abaikan — R kuadrat masih tinggi", why: "Salah: R kuadrat tidak menguji asumsi; interval kepercayaanmu bohong." },
+          ],
+        },
+        {
+          q: "VIF sebuah prediktor = 12. Artinya?",
+          options: [
+            { text: "Prediktor itu hampir sepenuhnya dijelaskan prediktor lain — koefisiennya tidak stabil", why: "Tepat: VIF 12 berarti R kuadrat prediktor itu terhadap yang lain = 1 − 1/12 = 91,7%.", correct: true },
+            { text: "Prediktor itu paling penting — VIF tinggi = pengaruh besar", why: "Salah: VIF mengukur tumpang tindih, bukan pentingnya." },
+            { text: "Tidak ada masalah selama n besar", why: "Salah: n besar tidak menghilangkan kolinearitas antar prediktor." },
+            { text: "Error-nya tidak normal", why: "Salah: VIF soal prediktor, bukan soal distribusi error." },
+          ],
+        },
+      ],
+      reference: "Enam asumsi OLS: linearitas (RESET), eksogenitas (Hausman+IV), homoskedastisitas (Breusch-Pagan/White), autokorelasi (Durbin-Watson), multikolinearitas (VIF di atas 10), normalitas (Jarque-Bera).",
+    },
+    {
+      id: "gap-g11-validasi-out-of-sample",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G11)",
+      title: "Validasi out-of-sample: garis yang jujur di data baru",
+      prose: [
+        "R kuadrat in-sample adalah nilai rapor yang ditulis sendiri oleh model — ia selalu terlihat bagus karena model di-fit untuk meminimalkan error di data itu. Validasi out-of-sample memisahkan: latih di satu periode, uji di periode yang belum pernah dilihat. Protokolnya: bagi data secara kronologis (bukan acak, bila datanya deret waktu — acak membocorkan masa depan ke masa lalu), fit OLS di train, prediksi test, bandingkan RMSE train vs test.",
+        "Contoh: data x = 1 sampai 8, y mengikuti garis y ≈ 2x. Latih pada 6 titik pertama: intersep 0,047, slope 1,991, RMSE train 0,134. Uji pada 2 titik terakhir — yang sengaja dibuat menyimpang dari garis (rezim berubah): prediksi meleset, RMSE test 1,304, hampir 10 kali RMSE train. Kesenjangan sebesar itu bukan noise — itu sinyal: hubungan di data baru sudah berbeda (drift), atau model overfit pada train. Aturan praktis: RMSE test sampai 1,5 kali train masih wajar; di atas 2 kali, selidiki — cek drift, cek outlier berpengaruh di test, cek apakah variabel penting hilang.",
+        "Tiga kesalahan yang membatalkan validasi: satu, memilih model berdasarkan test lalu mengklaim test sebagai bukti (test yang dipakai memilih = train kedua). Dua, membagi deret waktu secara acak — kebocoran temporal. Tiga, hanya melaporkan satu split: ulangi dengan jendela bergeser (rolling origin) dan laporkan rata-rata serta sebaran RMSE test. Satu split bisa beruntung; lima split yang konsisten baru bukti.",
+      ],
+      formula: String.raw`RMSE = \sqrt{\frac{1}{n}\sum (y - \hat{y})^2} \qquad \text{bandingkan } RMSE_{test} \text{ vs } RMSE_{train}`,
+      formulaNote: "Contoh: RMSE train 0,134 vs RMSE test 1,304 — kesenjangan 10 kali = sinyal drift atau overfit.",
+      tasks: [
+        { id: "t1", text: "Hitung `rmse_train` (6 titik pertama) dan `rmse_test` (2 titik terakhir)" },
+        { id: "t2", text: "Hitung `rasio` = rmse_test / rmse_train dan tentukan `vonis` (\"sehat\" bila rasio di bawah 2, \"selidiki\" bila di atas 2)" },
+      ],
+      expected: "rmse_train=0.134  rmse_test=1.304  rasio=9.73  vonis=selidiki",
+      hints: [
+        "OLS satu prediktor: slope = cov(x,y)/var(x), intersep = mean(y) − slope×mean(x), dihitung dari TRAIN saja.",
+        "RMSE = akar rata-rata kuadrat residual.",
+        "Rasio dihitung dari nilai RMSE yang sudah dibulatkan ke 3 desimal di print.",
+      ],
+      code: {
+        starter: `import math\n\nxs = [1, 2, 3, 4, 5, 6, 7, 8]\nys = [2.1, 4.0, 5.9, 8.2, 9.8, 12.1, 13.5, 14.2]  # 2 titik terakhir menyimpang\n\n# TULIS KODEMU: OLS dari TRAIN (6 pertama), RMSE train vs test.\nxtr, ytr = xs[:6], ys[:6]\nxte, yte = xs[6:], ys[6:]\nmx = sum(xtr) / len(xtr)\nmy = sum(ytr) / len(ytr)\nslope = \nintersep = \nrmse_train = \nrmse_test = \nrasio = \nvonis = \n\nprint(f"rmse_train={rmse_train:.3f}  rmse_test={rmse_test:.3f}  rasio={rasio:.2f}  vonis={vonis}")`,
+        lockLines: 7,
+        solution: `import math\n\nxs = [1, 2, 3, 4, 5, 6, 7, 8]\nys = [2.1, 4.0, 5.9, 8.2, 9.8, 12.1, 13.5, 14.2]  # 2 titik terakhir menyimpang\n\n# TULIS KODEMU: OLS dari TRAIN (6 pertama), RMSE train vs test.\nxtr, ytr = xs[:6], ys[:6]\nxte, yte = xs[6:], ys[6:]\nmx = sum(xtr) / len(xtr)\nmy = sum(ytr) / len(ytr)\nslope = sum((x - mx) * (y - my) for x, y in zip(xtr, ytr)) / sum((x - mx) ** 2 for x in xtr)\nintersep = my - slope * mx\nrmse_train = math.sqrt(sum((y - (intersep + slope * x)) ** 2 for x, y in zip(xtr, ytr)) / len(xtr))\nrmse_test = math.sqrt(sum((y - (intersep + slope * x)) ** 2 for x, y in zip(xte, yte)) / len(xte))\nrasio = round(rmse_test, 3) / round(rmse_train, 3)\nvonis = "selidiki" if rasio > 2 else "sehat"\n\nprint(f"rmse_train={rmse_train:.3f}  rmse_test={rmse_test:.3f}  rasio={rasio:.2f}  vonis={vonis}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "rmse_train", value: 0.134, tol: 0.01, label: "`rmse_train` = 0,134", msg: "OLS train: intersep 0,047, slope 1,991; residual kecil di train." },
+          { kind: "equal", task: "t1", name: "rmse_test", value: 1.304, tol: 0.01, label: "`rmse_test` = 1,304", msg: "Dua titik terakhir menyimpang dari garis train — prediksi meleset jauh." },
+          { kind: "equal", task: "t2", name: "rasio", value: 9.73, tol: 0.05, label: "`rasio` = 9,73", msg: "1,304 / 0,134 = 9,73 — jauh di atas ambang 2." },
+          { kind: "stdout_matches", task: "t2", pattern: "rmse_train=0.134\\s+rmse_test=1.304\\s+rasio=9.73\\s+vonis=selidiki", label: "`print` menampilkan keempat nilai + vonis", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "RMSE test 10 kali RMSE train. Langkah pertama yang benar?",
+          options: [
+            { text: "Selidiki drift dan variabel hilang — jangan langsung menambah kompleksitas model", why: "Tepat: kesenjangan sebesar itu sinyal data berubah, bukan model kurang rumit.", correct: true },
+            { text: "Latih ulang memakai data test juga — biar RMSE test turun", why: "Salah: itu menghapus validasi; test yang dipakai melatih bukan lagi test." },
+            { text: "Bagi data secara acak agar test mirip train", why: "Salah: pada deret waktu, acak membocorkan masa depan; dan menyamakan test dengan train menutupi drift." },
+            { text: "Laporkan R kuadrat train saja — itu sudah cukup bagus", why: "Salah: R kuadrat in-sample tidak menjawab apakah model bekerja di data baru." },
+          ],
+        },
+      ],
+      reference: "Validasi out-of-sample: bagi kronologis, fit di train, RMSE test vs train; rasio di atas 2 = selidiki drift/overfit; rolling origin, bukan satu split.",
     },
     {
       id: "checkpoint",

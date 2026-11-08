@@ -28,7 +28,7 @@ export const llmops11: V2Lesson = {
   track: "LLMOps",
   module: "Safety & Skala",
   title: "LLMOps11 — Feedback Loop",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -200,6 +200,52 @@ export const llmops11: V2Lesson = {
         body: "Nol keluhan = tidak ada user (atau tidak ada yang peduli melapor). Target yang sehat: skor risiko total menurun tiap bulan + pola baru terungkap (tanda sistem pendengaran bekerja). Flywheel yang baik tidak menghabiskan masalah — ia memastikan masalah TERBERAT selalu dikerjakan duluan.",
       },
       reference: "KPI: skor risiko total bulanan. Tutup loop ke pelapor — response rate naik 12% → 19%.",
+    },
+    {
+      id: "gap-g30-partisipasi-denominator",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G30)",
+      title: "Siapa yang memberi feedback: bias partisipasi dan denominator yang benar",
+      prose: [
+        "Skor feedback LLM terlihat seperti suara pengguna — padahal ia suara dari 2% pengguna yang bersuara. Contoh: 10.000 pengguna terpapar fitur, hanya 200 yang memberi feedback (2%). Dari 200 itu, 160 berasal dari 500 power user (tingkat memberi feedback 32%) dan hanya 40 dari 9.500 pengguna kasual (0,42%). Power user memberi feedback 76 kali lebih sering — dan mereka bukan pengguna biasa: mereka lebih kritis, lebih paham, dan lebih sering menemui edge case.",
+        "Akibatnya pada angka: di antara pemberi feedback, 80% adalah power user. Bila power user memberi jempol ke bawah 40% dan kasual 10%, angka naif yang dilaporkan adalah 0,80 × 40% + 0,20 × 10% = 34% tidak puas. Tetapi populasi sebenarnya hanya 5% power user: estimasi yang benar = 0,05 × 40% + 0,95 × 10% = 11,5% tidak puas. Angka naif melebih-lebihkan ketidakpuasan hampir tiga kali lipat — dan keputusan produk yang diambil darinya (rollback fitur, misalnya) bisa salah arah total.",
+        "Aturan denominator: penyebut feedback rate adalah SEMUA pengguna yang terpapar, bukan pemberi feedback. Laporkan tiga angka bersama: feedback rate keseluruhan (200/10.000 = 2%), feedback rate per segmen (32% vs 0,42%), dan estimasi tertimbang populasi (11,5%). Bila segmen tidak diketahui, jangan pura-pura tahu — laporkan interval: ketidakpuasan populasi berada di antara 10% (bila semua yang diam adalah kasual yang puas) dan 34% (bila yang diam sama kritisnya dengan yang bersuara). Dan perbaiki partisipasi itu sendiri: minta feedback in-context dari sampel acak pengguna kasual, bukan hanya dari mereka yang mengklik tombol.",
+      ],
+      formula: String.raw`\text{Estimasi populasi} = \sum_s w_s \times r_s \qquad w_s = \text{proporsi segmen di populasi}`,
+      formulaNote: "Naif: 34% tidak puas. Tertimbang populasi: 0,05×40% + 0,95×10% = 11,5%.",
+      tasks: [
+        { id: "t1", text: "Hitung `naif` (rata-rata tertimbang pemberi feedback) dan `populasi` (rata-rata tertimbang populasi)" },
+        { id: "t2", text: "Hitung `rate_power` dan `rate_kasual` (tingkat memberi feedback per segmen)" },
+      ],
+      expected: "naif=0.34  populasi=0.115  rate_power=0.32  rate_kasual=0.0042",
+      hints: [
+        "Naif: 80% feedback dari power user (40% tidak puas) + 20% dari kasual (10%).",
+        "Populasi: power user hanya 5% dari 10.000 pengguna.",
+        "Rate: 160 dari 500 power user; 40 dari 9.500 kasual.",
+      ],
+      code: {
+        starter: `# Feedback LLM: 10.000 terpapar, 200 bersuara.\nfeedback_power, feedback_kasual = 160, 40\npop_power, pop_kasual = 500, 9500\ndown_power, down_kasual = 0.40, 0.10  # proporsi jempol ke bawah\n\n# TULIS KODEMU: estimasi naif vs populasi + rate per segmen.\nnaif = \npopulasi = \nrate_power = \nrate_kasual = \n\nprint(f"naif={naif}  populasi={populasi}  rate_power={rate_power}  rate_kasual={rate_kasual:.4f}")`,
+        lockLines: 4,
+        solution: `# Feedback LLM: 10.000 terpapar, 200 bersuara.\nfeedback_power, feedback_kasual = 160, 40\npop_power, pop_kasual = 500, 9500\ndown_power, down_kasual = 0.40, 0.10  # proporsi jempol ke bawah\n\n# TULIS KODEMU: estimasi naif vs populasi + rate per segmen.\nnaif = (feedback_power * down_power + feedback_kasual * down_kasual) / (feedback_power + feedback_kasual)\npopulasi = (pop_power * down_power + pop_kasual * down_kasual) / (pop_power + pop_kasual)\nrate_power = feedback_power / pop_power\nrate_kasual = feedback_kasual / pop_kasual\n\nprint(f"naif={naif}  populasi={populasi}  rate_power={rate_power}  rate_kasual={rate_kasual:.4f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "naif", value: 0.34, tol: 0.001, label: "`naif` = 34%", msg: "0,80×40% + 0,20×10% = 34% — suara pemberi feedback, bukan suara populasi." },
+          { kind: "equal", task: "t1", name: "populasi", value: 0.115, tol: 0.001, label: "`populasi` = 11,5%", msg: "0,05×40% + 0,95×10% = 11,5% — hampir tiga kali lebih kecil." },
+          { kind: "equal", task: "t2", name: "rate_power", value: 0.32, tol: 0.001, label: "`rate_power` = 32%", msg: "160 dari 500 power user memberi feedback." },
+          { kind: "equal", task: "t2", name: "rate_kasual", value: 0.0042, tol: 0.001, label: "`rate_kasual` = 0,42%", msg: "40 dari 9.500 kasual — 76 kali lebih jarang bersuara." },
+          { kind: "stdout_matches", task: "t2", pattern: "naif=0.34\\s+populasi=0.115\\s+rate_power=0.32\\s+rate_kasual=0.0042", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Tim produk melihat 34% jempol ke bawah dan mengusulkan rollback. Data: 2% memberi feedback, 80% feedback dari power user (5% populasi). Tindakan yang benar?",
+          options: [
+            { text: "Tahan rollback — estimasi populasi 11,5%; minta feedback sampel acak pengguna kasual dulu", why: "Tepat: 34% adalah suara segmen yang over-represented; keputusan rollback dari angka naif bisa salah arah.", correct: true },
+            { text: "Rollback sekarang — 34% sudah cukup besar apa pun denominatornya", why: "Salah: denominator mengubah kesimpulan dari 34% ke 11,5% — itu beda keputusan." },
+            { text: "Abaikan feedback — hanya 2% yang bersuara, jadi datanya tidak berguna", why: "Salah: 2% tetap informasi bila ditimbang dengan benar; membuangnya = membuang satu-satunya sinyal." },
+            { text: "Hitung ulang dengan penyebut 200 (pemberi feedback) — itu denominator yang benar", why: "Salah: penyebut yang benar adalah 10.000 yang terpapar; 200 adalah sampel yang bias." },
+          ],
+        },
+      ],
+      reference: "Feedback rate berpenyebut semua yang terpapar; laporkan rate per segmen + estimasi tertimbang populasi; 34% naif vs 11,5% populasi pada contoh ini.",
     },
     {
       id: "checkpoint",

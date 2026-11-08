@@ -31,7 +31,7 @@ export const bcd10: V2Lesson = {
   track: "Blockchain Data Scientist",
   module: "Investigasi & Risiko",
   title: "BCD10 — Graph Analysis Aliran Dana",
-  estMinutes: 70,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita",
@@ -263,6 +263,51 @@ export const bcd10: V2Lesson = {
         ],
       },
       reference: "Skor = antrean prioritas, bukan vonis. Evaluasi = precision@kapasitas-tim.",
+    },
+    {
+      id: "gap-g7-bfs-temporal-revisit",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G7)",
+      title: "BFS temporal: kenapa node yang sama harus boleh dikunjungi dua kali",
+      prose: [
+        "BFS klasik menandai node sebagai visited sekali — cukup untuk graf statis. Di graf temporal (blockchain, aliran dana), setiap edge punya WAKTU dan JUMLAH, dan node yang sama bisa menerima aliran berbeda di waktu berbeda. Menandai wallet B sebagai visited pada kedatangan pertama berarti aliran kedua yang masuk ke B — mungkin justru aliran kotornya — tidak pernah ditelusuri ke hilir. Dalam forensik, itu bukan optimasi: itu kehilangan bukti.",
+        "Contoh konkret. Wallet B menerima 5 ETH dari A di t=1 (bersih), lalu 50 ETH dari mixer X di t=4. Di t=5, B mengirim 50 ETH ke wallet D. Berapa yang bisa menjelaskan transfer ke D? Hanya inflow t=4 sebesar 50 — inflow t=1 hanya 5 ETH, tidak cukup. BFS yang menandai B visited di t=1 akan mencatat B sudah dikunjungi dan tidak pernah menghubungkan aliran 50 ETH itu ke D; jalur X menuju D hilang dari peta, dan D tampak tidak terkait mixer. Kesalahan ini persis searah dengan jebakan dusting: kesimpulan diambil dari kunjungan pertama, bukan dari aliran yang benar.",
+        "Perbaikannya: state BFS temporal bukan node, melainkan pasangan (node, waktu-kedatangan, aliran). Kunci visited harus memuat waktu dan identitas aliran — (B, t=1, aliran-A) dan (B, t=4, aliran-X) adalah dua state berbeda. Aturannya: kunjungan ulang diizinkan bila waktu kedatangan berbeda DAN aliran berbeda (jumlah atau sumber berbeda). Harganya: state membengkak — batasi dengan jendela waktu investigasi dan ambang jumlah minimum, dan potong cabang yang jumlahnya tidak bisa menjelaskan outflow berikutnya (pruning berbasis jumlah).",
+      ],
+      formula: String.raw`\text{state BFS temporal} = (\text{node},\, t_{\text{tiba}},\, \text{aliran}) \qquad \text{visited memakai ketiganya}`,
+      formulaNote: "B dikunjungi di t=1 (5 ETH, aliran A) dan t=4 (50 ETH, aliran X) — dua state, bukan satu.",
+      tasks: [
+        { id: "t1", text: "Tentukan `dana_d` (ETH yang dikirim B ke D) dan `sumber_t` (waktu inflow yang mendanainya)" },
+        { id: "t2", text: "Tentukan `tiba_d` (waktu aliran itu tiba di D)" },
+      ],
+      expected: "dana_d=50  sumber_t=4  tiba_d=5",
+      hints: [
+        "Cocokkan jumlah: outflow 50 ETH hanya bisa didanai inflow 50 ETH, bukan 5 ETH.",
+        "Inflow 50 ETH masuk B di t=4; transfer B ke D terjadi di t=5.",
+        "BFS visited-sekali akan berhenti di kunjungan t=1 dan kehilangan jejak ini.",
+      ],
+      code: {
+        starter: `# Aliran temporal: (sumber, tujuan, waktu, jumlah ETH).\nedge = [("A", "B", 1, 5), ("X", "B", 4, 50), ("B", "D", 5, 50)]\n\n# TULIS KODEMU: inflow mana yang mendanai transfer B -> D?\n# Aturan: outflow hanya bisa didanai inflow yang tiba SEBELUM transfer\n# dan jumlahnya SAMA DENGAN outflow.\n\ndana_d = \nsumber_t = \ntiba_d = \n\nprint(f"dana_d={dana_d}  sumber_t={sumber_t}  tiba_d={tiba_d}")`,
+        lockLines: 2,
+        solution: `# Aliran temporal: (sumber, tujuan, waktu, jumlah ETH).\nedge = [("A", "B", 1, 5), ("X", "B", 4, 50), ("B", "D", 5, 50)]\n\n# TULIS KODEMU: inflow mana yang mendanai transfer B -> D?\n# Aturan: outflow hanya bisa didanai inflow yang tiba SEBELUM transfer\n# dan jumlahnya SAMA DENGAN outflow.\n\nout = [e for e in edge if e[0] == "B" and e[1] == "D"][0]\ndana_d = out[3]\ntiba_d = out[2]\nmasuk = [e for e in edge if e[1] == "B" and e[2] < tiba_d and e[3] == dana_d][0]\nsumber_t = masuk[2]\n\nprint(f"dana_d={dana_d}  sumber_t={sumber_t}  tiba_d={tiba_d}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "dana_d", value: 50, tol: 1, label: "`dana_d` = 50 ETH", msg: "Transfer B ke D sebesar 50 ETH." },
+          { kind: "equal", task: "t1", name: "sumber_t", value: 4, tol: 1, label: "`sumber_t` = t=4", msg: "Hanya inflow 50 ETH di t=4 yang jumlahnya cocok; inflow 5 ETH di t=1 tidak cukup." },
+          { kind: "equal", task: "t2", name: "tiba_d", value: 5, tol: 1, label: "`tiba_d` = t=5", msg: "Aliran tiba di D pada t=5." },
+          { kind: "stdout_matches", task: "t2", pattern: "dana_d=50\\s+sumber_t=4\\s+tiba_d=5", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Wallet B menerima 5 ETH di t=1 lalu 50 ETH dari mixer di t=4, lalu mengirim 50 ETH ke D di t=5. Apa kesalahan BFS visited-sekali di sini?",
+          options: [
+            { text: "B ditandai visited di t=1, sehingga aliran mixer t=4 tidak pernah ditelusuri ke D", why: "Tepat: state harus (node, waktu, aliran) — kunjungan pertama bukan satu-satunya aliran.", correct: true },
+            { text: "BFS akan menemukan D dua kali dan menghitung ganda", why: "Salah: visited-sekali justru menghilangkan kunjungan kedua, bukan menggandakan." },
+            { text: "Tidak ada kesalahan — earliest arrival di B sudah cukup untuk semua analisis", why: "Salah: earliest arrival cukup untuk keterjangkauan, tidak untuk atribusi aliran berdasarkan jumlah." },
+            { text: "BFS harus diurutkan berdasarkan jumlah, bukan waktu", why: "Salah: waktu tetap porosnya; yang diperbaiki adalah kunci visited, bukan urutan." },
+          ],
+        },
+      ],
+      reference: "BFS temporal: state = (node, waktu tiba, aliran); kunjungan ulang diizinkan bila waktu atau aliran berbeda; pruning berbasis jumlah dan jendela waktu.",
     },
     {
       id: "checkpoint",

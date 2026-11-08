@@ -5,7 +5,7 @@ export const cr11: V2Lesson = {
   track: "Credit Risk",
   module: "Scorecard & Pemodelan PD",
   title: "CR11 — Forward-Looking: Satelit, Skenario & Overlay",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -206,6 +206,51 @@ export const cr11: V2Lesson = {
       ],
       tasks: [],
       reference: "Diskresi tanpa koridor = ECL yang rewel. Batasi dengan pemicu objektif.",
+    },
+    {
+      id: "gap-g19-overlay-contoh-penuh",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G19)",
+      title: "Overlay yang dikerjakan penuh: dari banjir ke angka Rp900 juta",
+      prose: [
+        "Lesson ini sudah menetapkan kapan overlay sah: spesifik, dihitung, disetujui komite, dan punya tanggal kedaluwarsa. Langkah ini mengerjakan satu overlay sampai tuntas dengan angka lengkap — supaya beda antara overlay dan angka cantik terlihat jelas. Skenario: banjir Kalimantan memukul 2.000 debitur KPR yang model belum mencakup. EAD rata-rata tiap debitur Rp50 juta, jadi total EAD terpapar = 2.000 × Rp50.000.000 = Rp100.000.000.000 (Rp100 miliar).",
+        "Langkah hitungnya bottom-up, bukan top-down. Satu, estimasi kenaikan PD: debitur di zona banjir diperkirakan PD-nya naik 2 poin persen (dari 1,2% menjadi 3,2%) selama setahun — didukung data banjir sebelumnya, bukan tebakan. Dua, kalikan: kerugian tambahan = EAD × kenaikan PD × LGD = Rp100 miliar × 2% × 45% = Rp900.000.000 (Rp900 juta). Tiga, letakkan dalam konteks: misal ECL model Rp12.400 juta, maka overlay Rp900 juta menaikkan ECL menjadi Rp13.300 juta — overlay 7,26% dari ECL model. Empat, governance: overlay dicatat dengan pemicu pelepasannya — dilepas setelah model satelit di-recalibrate dengan data banjir (target kuartal depan) — dan direview tiap bulan: bila banjir surut lebih cepat, overlay dikurangi, bukan dipertahankan.",
+        "Bandingkan dengan overlay yang TIDAK sah: Rp500 juta 'ketidakpastian global' tiap kuartal — tidak spesifik (risiko global sudah tercakup skenario pesimis = double counting), tidak dihitung dari eksposur mana pun, dan tidak pernah dilepas. Overlay yang dikerjakan penuh bisa diaudit baris per baris: 2.000 debitur, Rp50 juta, +2pp, 45% — ubah satu asumsi, angkanya berubah secara terlacak. Itulah bedanya penyesuaian dan manipulasi.",
+      ],
+      formula: String.raw`\text{Overlay} = EAD_{\text{terpapar}} \times \Delta PD \times LGD \qquad EAD = 2.000 \times Rp50jt = Rp100M`,
+      formulaNote: "Rp100 miliar × 2% × 45% = Rp900 juta; ECL 12.400 + 900 = 13.300 juta (overlay 7,26%).",
+      tasks: [
+        { id: "t1", text: "Hitung `overlay` (rupiah) dari EAD terpapar, kenaikan PD, dan LGD" },
+        { id: "t2", text: "Hitung `total` (ECL model + overlay) dan `share` (overlay sebagai persen ECL model)" },
+      ],
+      expected: "overlay=900000000  total=13300000000  share=7.26",
+      hints: [
+        "EAD terpapar = 2.000 × 50.000.000.",
+        "Overlay = EAD × 0,02 × 0,45.",
+        "ECL model Rp12.400 juta = 12.400.000.000; share = overlay / ECL model × 100.",
+      ],
+      code: {
+        starter: `# Overlay banjir Kalimantan: 2.000 debitur, EAD rata-rata Rp50 jt.\ndebitur = 2000\nead_per_debitur = 50_000_000\ndelta_pd = 0.02  # kenaikan PD 2 poin persen\nlgd = 0.45\necl_model = 12_400_000_000\n\n# TULIS KODEMU: overlay, total ECL, share overlay.\noverlay = \ntotal = \nshare = \n\nprint(f"overlay={overlay:.0f}  total={total:.0f}  share={share:.2f}")`,
+        lockLines: 6,
+        solution: `# Overlay banjir Kalimantan: 2.000 debitur, EAD rata-rata Rp50 jt.\ndebitur = 2000\nead_per_debitur = 50_000_000\ndelta_pd = 0.02  # kenaikan PD 2 poin persen\nlgd = 0.45\necl_model = 12_400_000_000\n\n# TULIS KODEMU: overlay, total ECL, share overlay.\nead_terpapar = debitur * ead_per_debitur\noverlay = ead_terpapar * delta_pd * lgd\ntotal = ecl_model + overlay\nshare = overlay / ecl_model * 100\n\nprint(f"overlay={overlay:.0f}  total={total:.0f}  share={share:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "overlay", value: 900000000, tol: 1, label: "`overlay` = Rp900 juta", msg: "Rp100 miliar × 2% × 45% = Rp900 juta — bottom-up, bukan angka cantik." },
+          { kind: "equal", task: "t2", name: "total", value: 13300000000, tol: 1, label: "`total` = Rp13.300 juta", msg: "12.400 + 900 = 13.300 juta." },
+          { kind: "equal", task: "t2", name: "share", value: 7.26, tol: 0.01, label: "`share` = 7,26%", msg: "900/12.400 = 7,26% — overlay material tapi bukan dominan." },
+          { kind: "stdout_matches", task: "t2", pattern: "overlay=900000000\\s+total=13300000000\\s+share=7.26", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Manajemen mengusulkan overlay Rp500 juta 'ketidakpastian global' tiap kuartal, tanpa hitungan eksposur. Penilaian yang benar?",
+          options: [
+            { text: "Tolak dalam bentuk itu — tidak spesifik, tidak dihitung, dan risiko global sudah tercakup skenario pesimis (double counting)", why: "Tepat: overlay sah harus spesifik + dihitung bottom-up + punya tanggal lepas; ini tidak satu pun.", correct: true },
+            { text: "Terima — Rp500 juta kecil dibanding ECL, jadi tidak material", why: "Salah: kecil bukan berarti sah; overlay tanpa metodologi yang dipasang tiap kuartal adalah pola earnings smoothing." },
+            { text: "Terima bila komite menyetujui — persetujuan komite menyembuhkan segalanya", why: "Salah: persetujuan adalah satu dari empat syarat; tanpa hitungan, komite menyetujui angka cantik." },
+            { text: "Tolak karena overlay tidak boleh melebihi 5% ECL model", why: "Salah: tidak ada batas 5% — overlay 7,26% pada contoh banjir sah karena dihitung; yang dinilai adalah metodologinya." },
+          ],
+        },
+      ],
+      reference: "Overlay sah = spesifik + bottom-up (EAD × ΔPD × LGD) + disetujui + bertanggal lepas. Contoh banjir: Rp900 juta, 7,26% dari ECL model.",
     },
     {
       id: "checkpoint",

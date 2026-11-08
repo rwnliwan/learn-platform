@@ -24,7 +24,7 @@ export const dba11: V2Lesson = {
   track: "Database Administrator",
   module: "Skala & Cloud",
   title: "DBA11 — Managed Database di Cloud",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-rds-down",
@@ -197,6 +197,35 @@ export const dba11: V2Lesson = {
         "Pembahasan: managed tidak mahal — managed yang TIDAK DIKELOLA yang mahal. Pelajaran: (1) auto-scale butuh batas & alert; (2) sumber daya sementara butuh tanggal kedaluwarsa (ingat temporary grant DBA7 — pola yang sama!); (3) review tagihan bulanan adalah pekerjaan DBA cloud, sama wajibnya dengan review GRANT.",
       ],
       tasks: [],
+    },
+    {
+      id: "gap-g26-tco-risiko-nonfinansial",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G26)",
+      title: "TCO yang jujur: biaya langsung, biaya risiko, dan biaya non-finansial",
+      prose: [
+        "Perbandingan cloud vs on-prem yang hanya membandingkan tagihan bulanan adalah perbandingan yang tidak jujur. Total cost of ownership punya tiga lapis. Lapis satu, biaya langsung: compute, storage, lisensi, dan egress — yang ini ada di invoice. Lapis dua, biaya risiko yang diharapkan (expected cost): peluang kejadian dikali dampaknya. Downtime: peluang 5% per tahun dikali dampak Rp200 juta = Rp10 juta per tahun. Insiden keamanan: peluang 1% dikali denda dan pemulihan Rp500 juta = Rp5 juta per tahun. Bukan ramalan — ini harga matematis dari risiko yang diambil.",
+        "Lapis tiga, biaya non-finansial yang dikonversi ke rupiah: toil (kerja manual berulang) dan opportunity cost. Toil 200 jam per tahun dikali tarif engineer Rp150 ribu per jam = Rp30 juta per tahun — waktu yang seharusnya dipakai membangun fitur. Contoh lengkap: cloud A — langsung Rp120 juta, risiko downtime Rp10 juta, toil Rp30 juta → TCO Rp160 juta per tahun. On-prem — langsung Rp95 juta (terlihat murah), risiko downtime dan keamanan Rp25 juta (SLA lebih lemah, patching manual), toil Rp45 juta (patching, backup, ganti disk) → TCO Rp165 juta. Pilihan yang tampak murah di invoice ternyata lebih mahal Rp5 juta per tahun — dan itu sebelum menghitung risiko reputasi bila downtime terjadi di jam sibuk.",
+        "Tiga disiplin agar TCO tidak jadi alat pembenaran: satu, tulis SEMUA asumsi (peluang, dampak, tarif jam) di samping angkanya — TCO tanpa asumsi tertulis adalah opini. Dua, uji sensitivitas: bila peluang downtime sebenarnya 10% bukan 5%, apakah keputusan berbalik? Tiga, pisahkan biaya yang sudah pasti (invoice) dari yang diharapkan (risiko) — jangan jumlahkan lalu lupa mana yang pasti. Keputusan yang diambil dari TCO yang jujur bisa dipertahankan saat realisasi berbeda dari rencana; keputusan dari invoice saja tidak.",
+      ],
+      formula: String.raw`\text{TCO} = \text{langsung} + \sum (P \times \text{dampak}) + \text{toil} \times \text{tarif jam} + \text{opportunity cost}`,
+      formulaNote: "Cloud A: 120 + 10 + 30 = 160. On-prem: 95 + 25 + 45 = 165 (Rp juta/tahun).",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Membandingkan harga sticker cloud dengan harga sticker on-prem lalu mengklaim penghematan. Yang dihemat di invoice sering dibayar kembali sebagai toil dan downtime — hanya saja pembayarannya tidak datang dalam bentuk invoice, melainkan lembur dan insiden.",
+      },
+      quiz: [
+        {
+          q: "Cloud A TCO Rp160 juta/tahun, on-prem Rp165 juta/tahun. Bila peluang downtime on-prem ternyata 10% (bukan 5%) dengan dampak yang sama, apa yang terjadi?",
+          options: [
+            { text: "TCO on-prem naik — kesenjangan melebar, cloud makin menang", why: "Tepat: biaya risiko naik dua kali lipat; keputusan makin jelas, bukan makin ragu.", correct: true },
+            { text: "Tidak ada yang berubah — peluang hanya asumsi", why: "Salah: TCO justru dibangun dari asumsi itu; mengubah asumsi mengubah TCO — itulah gunanya uji sensitivitas." },
+            { text: "Cloud A ikut naik sama besarnya", why: "Salah: peluang downtime cloud tidak berubah — hanya on-prem yang direvisi." },
+            { text: "Keputusan berbalik — on-prem menjadi lebih murah", why: "Salah: arahnya kebalik — risiko on-prem naik berarti on-prem makin MAHAL." },
+          ],
+        },
+      ],
+      reference: "TCO = biaya langsung + expected cost risiko (P × dampak) + toil × tarif jam + opportunity cost; tulis asumsi, uji sensitivitas.",
     },
     {
       id: "checkpoint",

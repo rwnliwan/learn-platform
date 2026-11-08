@@ -5,7 +5,7 @@ export const a11: V2Lesson = {
   track: "Statistika",
   module: "Deskriptif",
   title: "A1.1 Tipe Data: Salah Skala, Salah Semua",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita-kolektibilitas",
@@ -285,6 +285,50 @@ export const a11: V2Lesson = {
         },
       ],
       reference: "st.median(list). Dashboard ordinal = median + % bucket + top-2-box; tanpa mean.",
+    },
+    {
+      id: "gap-g10-npl-berbobot-eksposur",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G10)",
+      title: "NPL ratio yang benar: berbobot eksposur, bukan headcount",
+      prose: [
+        "Lesson ini sempat menulis NPL ratio dari proporsi headcount — jumlah debitur macet dibagi jumlah debitur. Itu proporsi, bukan NPL ratio. NPL ratio yang dipakai regulator dan manajemen adalah rasio eksposur: saldo pinjaman macet (non-performing) dibagi total saldo pinjaman. Bedanya bukan kosmetik — satu debitur korporat macet senilai Rp50 miliar mengubah kesehatan bank jauh lebih besar daripada seratus debitur mikro macet senilai Rp10 juta, dan headcount menyamakan keduanya.",
+        "Contoh tiga pinjaman: A Rp100 juta lancar, B Rp50 juta macet, C Rp10 juta macet. Hitungan headcount: 2 dari 3 debitur macet = 66,7% — angka yang mengerikan dan salah. Hitungan eksposur: saldo macet Rp60 juta dari total Rp160 juta = 37,5%. Keduanya benar sebagai statistiknya masing-masing — tetapi hanya 37,5% yang boleh disebut NPL ratio. Headcount 66,7% itu share of borrowers in default — metrik yang berbeda, dengan nama yang berbeda, dan tidak boleh dipertukarkan.",
+        "Aturan umumnya: setiap ratio atas portofolio kredit harus menyebutkan pembilang dan penyebutnya dalam satuan yang sama — rupiah dengan rupiah, atau kepala dengan kepala — dan labelnya mengikuti penyebutnya. Bila penyebutnya saldo, itu NPL ratio. Bila penyebutnya jumlah debitur, itu default rate by count. Mencampur keduanya dalam satu dashboard adalah cara paling rapi untuk menyesatkan komite kredit.",
+      ],
+      formula: String.raw`\text{NPL ratio} = \frac{\sum \text{saldo macet}}{\sum \text{saldo total}} \qquad \text{bukan } \frac{\text{jumlah debitur macet}}{\text{jumlah debitur}}`,
+      formulaNote: "Contoh: saldo macet 60 dari total 160 = 37,5%; headcount 2 dari 3 = 66,7% — dua metrik berbeda.",
+      tasks: [
+        { id: "t1", text: "Hitung `npl_headcount` (proporsi jumlah debitur macet)" },
+        { id: "t2", text: "Hitung `npl_eksposur` (saldo macet / total saldo)" },
+      ],
+      expected: "npl_headcount=0.6667  npl_eksposur=0.3750",
+      hints: [
+        "Headcount: 2 macet dari 3 debitur.",
+        "Eksposur: saldo macet 50 + 10 = 60; total 100 + 50 + 10 = 160.",
+        "Bulatkan ke 4 desimal di print.",
+      ],
+      code: {
+        starter: `# Portofolio 3 pinjaman: (saldo Rp juta, status).\npinjaman = [(100, "lancar"), (50, "macet"), (10, "macet")]\n\n# TULIS KODEMU: NPL headcount vs NPL berbobot eksposur.\nnpl_headcount = \nnpl_eksposur = \n\nprint(f"npl_headcount={npl_headcount:.4f}  npl_eksposur={npl_eksposur:.4f}")`,
+        lockLines: 2,
+        solution: `# Portofolio 3 pinjaman: (saldo Rp juta, status).\npinjaman = [(100, "lancar"), (50, "macet"), (10, "macet")]\n\n# TULIS KODEMU: NPL headcount vs NPL berbobot eksposur.\nnpl_headcount = sum(1 for _, s in pinjaman if s == "macet") / len(pinjaman)\nnpl_eksposur = sum(saldo for saldo, s in pinjaman if s == "macet") / sum(saldo for saldo, _ in pinjaman)\n\nprint(f"npl_headcount={npl_headcount:.4f}  npl_eksposur={npl_eksposur:.4f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "npl_headcount", value: 0.6667, tol: 0.001, label: "`npl_headcount` = 66,67%", msg: "2 dari 3 debitur macet — benar sebagai proporsi, salah bila dilabeli NPL ratio." },
+          { kind: "equal", task: "t2", name: "npl_eksposur", value: 0.375, tol: 0.001, label: "`npl_eksposur` = 37,5%", msg: "Saldo macet 60 dari total 160 = 37,5% — inilah NPL ratio." },
+          { kind: "stdout_matches", task: "t2", pattern: "npl_headcount=0.6667\\s+npl_eksposur=0.3750", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Satu debitur korporat Rp50 miliar macet; 100 debitur mikro Rp10 juta macet. Mana yang benar tentang NPL ratio?",
+          options: [
+            { text: "NPL ratio memakai saldo — korporat mendominasi angka, headcount menyesatkan", why: "Tepat: NPL ratio = saldo macet / total saldo; 100 kepala mikro tidak menandingi satu eksposur korporat.", correct: true },
+            { text: "Headcount lebih benar karena tiap debitur sama pentingnya", why: "Salah: kesehatan bank ditentukan rupiah yang hilang, bukan jumlah kepala." },
+            { text: "Keduanya sama — tinggal pilih yang angkanya lebih bagus", why: "Salah: dua metrik berbeda dengan nama berbeda; memilih berdasarkan angka = cherry-picking." },
+            { text: "NPL ratio tidak butuh penyebut — cukup laporkan saldo macetnya", why: "Salah: ratio tanpa penyebut bukan ratio; saldo saja tidak memberi tahu seberapa besar relatif terhadap portofolio." },
+          ],
+        },
+      ],
+      reference: "NPL ratio = saldo macet / total saldo (37,5% pada contoh); proporsi headcount (66,7%) adalah metrik lain — jangan tukar labelnya.",
     },
     {
       id: "checkpoint",

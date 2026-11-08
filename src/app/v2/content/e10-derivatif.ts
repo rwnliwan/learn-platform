@@ -5,7 +5,7 @@ export const e10: V2Lesson = {
   track: "Financial Markets",
   module: "Derivatif",
   title: "E10. Forward, Futures & Opsi",
-  estMinutes: 50,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita-pak-tani",
@@ -191,6 +191,94 @@ export const e10: V2Lesson = {
         body: "Tujuan hedging bukan memaksimalkan hasil — melainkan membuat hasil bisa direncanakan. Empat heuristik. Pertama: hedger yang menyesal (“andaikan tidak di-hedge, dapat lebih!”) tidak paham produknya — kamu membeli asuransi, bukan tiket lotre; asuransi yang tidak diklaim bukan pembelian yang bodoh. Kedua: lindungi arus kas, bukan laporan laba — eksportir butuh kepastian rupiah yang diterima untuk membayar gaji dan supplier, bukan kurs “terbaik”; kepastian = bisa tidur. Ketiga: basis dapat berubah dan tidak selalu nol selama masa hedge — tetapi mendekati jatuh tempo, harga futures berkonvergensi ke spot sehingga basis menuju nol; dan margin call tidak pernah sopan — hedge yang benar secara arah bisa mati karena kas margin habis di tengah jalan; siapkan likuiditas seperti menyiapkan premi, bukan sebagai sisa. Keempat: ukuran dulu, arah kemudian — N = eksposur ÷ ukuran kontrak; over-hedge 5% jauh lebih murah daripada salah tebak arah 100%; dan pilih tenor — sebagai heuristik — SETELAH tanggal kebutuhan untuk menghindari delivery squeeze (bukan aturan universal, lihat langkah 3). Aturan 10 detiknya: kalau kamu tidak bisa menjelaskan dalam satu kalimat risiko apa yang sedang kamu hilangkan, kamu bukan hedging — kamu berspekulasi dengan kostum hedging.",
       },
       reference: "Margin = leverage + borgol. Basis dapat berubah (menuju nol saat jatuh tempo). Hedge = beli kepastian.",
+    },
+    {
+      id: "gap-g1-payoff-vs-laba",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G1)",
+      title: "Payoff, laba bersih, dan arus kas: tiga angka yang berbeda",
+      prose: [
+        "Lesson ini sempat menulis rumus put sebagai Payoff put = max(K − S_T, 0) − premi. Itu bukan payoff — itu laba bersih. Tiga istilah ini berbeda dan tertukar adalah sumber klasik salah hitung di wawancara maupun di laporan. Payoff intrinsik (intrinsic payoff) = nilai opsi saat kedaluwarsa, sebelum premi: put = max(K − S_T, 0), call = max(S_T − K, 0). Laba bersih (net profit, P/L) = payoff intrinsik − premi yang dibayar (untuk pembeli). Arus kas (cash flow) = kapan uang benar-benar berpindah: premi keluar di t=0, payoff intrinsik masuk di t=T.",
+        "Contoh yang sama untuk put dan call, K = 100, premi 5. Put di S_T = 90: payoff intrinsik 10, laba bersih +5, arus kas −5 di t=0 lalu +10 di T. Put di S_T = 95: intrinsik 5, laba bersih 0 (breakeven), arus kas −5 lalu +5. Put di S_T = 100 atau 110: intrinsik 0, laba bersih −5 (rugi maksimal = premi), arus kas −5 lalu 0. Call di S_T = 110: intrinsik 10, laba bersih +5 — cermin put. Aturan hafalan: payoff tidak pernah negatif; laba bersih bisa negatif sampai sebesar premi; arus kas selalu punya dua tanggal.",
+        "Kenapa ini penting di praktik: penjual opsi (writer) membalik semua tanda — ia menerima premi di t=0 dan membayar payoff intrinsik di T, jadi laba bersihnya = premi − payoff intrinsik. Laporan risk yang menulis payoff padahal maksudnya laba bersih akan salah menilai breakeven dan salah mengukur eksposur. Setiap kali membaca rumus opsi, tanyakan dulu: ini payoff, laba, atau arus kas?",
+      ],
+      formula: String.raw`\text{Payoff intrinsik put} = \max(K - S_T, 0) \qquad \text{Laba bersih long put} = \max(K - S_T, 0) - \text{premi}`,
+      formulaNote: "Payoff intrinsik tidak pernah negatif. Laba bersih = payoff − premi (pembeli); penjual membalik tandanya.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Menyebut max(K − S_T, 0) − premi sebagai payoff. Kurangi premi = sudah masuk wilayah laba bersih. Breakeven put = K − premi (95 pada contoh ini) adalah titik laba nol, bukan titik payoff nol — payoff nol terjadi di semua S_T di atas K.",
+      },
+      quiz: [
+        {
+          q: "Put K = 100, premi 5, S_T = 90. Mana pernyataan yang BENAR?",
+          options: [
+            { text: "Payoff intrinsik 10, laba bersih +5", why: "Tepat: intrinsik = max(100 − 90, 0) = 10; laba = 10 − 5 = +5.", correct: true },
+            { text: "Payoff 5, laba bersih 10", why: "Salah: tertukar — 5 adalah laba bersih, 10 adalah payoff intrinsik." },
+            { text: "Payoff −5 karena premi sudah dibayar", why: "Salah: payoff intrinsik tidak pernah negatif; −5 adalah laba bersih saat opsi hangus." },
+            { text: "Arus kas hanya −5 di t=0, tidak ada arus kas di T", why: "Salah: payoff intrinsik 10 masuk sebagai arus kas di T." },
+          ],
+        },
+      ],
+      reference: "Payoff intrinsik = max(K − S_T, 0) untuk put; laba bersih = payoff − premi; arus kas = premi di t=0, payoff di T.",
+    },
+    {
+      id: "gap-g2-short-margin-funding",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G2)",
+      title: "Arbitrase put-call parity: short selling, margin, dan funding rate",
+      prose: [
+        "Langkah paritas menunjukkan arbitrase 7,82: jual sisi mahal (put + saham, terima 110), beli sisi murah (call + kas PV(K), bayar 102,18). Di atas kertas itu bebas risiko. Di pasar nyata, menjual saham yang tidak dimiliki berarti short selling — dan short selling punya tiga biaya yang tidak ada di rumus. Satu: pinjam saham dulu (securities lending). Broker meminjamkan saham dari rekening lain; kamu membayar borrow fee, dan pemilik asli bisa menarik kembali sahamnya kapan saja (recall) — posisi terpaksa ditutup di harga berapa pun saat itu.",
+        "Dua: margin. Short sale tidak gratis: selain hasil penjualan 100 yang ditahan broker sebagai jaminan, kamu wajib menyetor margin awal — misal 50% dari nilai short, yaitu 50. Akunmu memegang 150 sebagai kredit terhadap kewajiban membeli kembali saham. Tiga: funding rate. Dana margin dan biaya pinjam punya harga: borrow fee 2% per tahun atas 100 = 2,00 selama setahun. Laba arbitrase 7,82 dikurangi biaya pinjam 2,00 = 5,82 — sebelum bid-ask spread dan komisi. Arbitrase tetap ada, tapi lebih tipis dari yang ditulis rumus.",
+        "Risiko yang tidak bisa dihapus rumus: margin call. Harga saham naik ke 120: kewajibanmu 120, ekuitas akun = 150 − 120 = 30, sementara maintenance margin 30% dari 120 = 36 — kamu kekurangan 6,00 dan wajib setor tunai atau posisimu dilikuidasi. Di 130: ekuitas 20 lawan maintenance 39 — kekurangan 19,00. Short seller bisa bangkrut sebelum paritas kembali normal — inilah yang membuat arbitrase teori dan arbitrase yang bisa dijalankan adalah dua hal berbeda.",
+      ],
+      formula: String.raw`\text{Ekuitas short} = \text{hasil jual} + \text{margin awal} - S \qquad \text{Margin call bila ekuitas} < 30\% \times S`,
+      formulaNote: "Contoh: short 1 saham @100, margin awal 50. Di S=120 ekuitas 30 < maintenance 36 → margin call 6,00. Di S=130 kekurangan 19,00.",
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Paritas adalah hukum harga, bukan mesin uang gratis. Sebelum mengeksekusi arbitrase, hitung: borrow fee, margin awal, skenario margin call, dan risiko recall. Arbitrase yang tidak tahan terhadap kenaikan harga 30% bukan arbitrase — itu taruhan ber-leverage.",
+      },
+      quiz: [
+        {
+          q: "Short 1 saham @100 dengan margin awal 50. Harga naik ke 130, maintenance margin 30%. Apa yang terjadi?",
+          options: [
+            { text: "Margin call: ekuitas 20, maintenance 39, kekurangan 19,00", why: "Tepat: ekuitas = 100 + 50 − 130 = 20; 30% × 130 = 39; kurang 19,00.", correct: true },
+            { text: "Tidak ada apa-apa — hasil jual 100 masih menutup kewajiban 130", why: "Salah: 100 di bawah 130; ekuitas sudah negatif terhadap kewajiban tanpa margin awal." },
+            { text: "Untung 30 karena saham naik", why: "Salah: short UNTUNG saat harga TURUN; harga naik = rugi short seller." },
+            { text: "Margin call 6,00 — sama seperti di harga 120", why: "Salah: di 120 kekurangannya 6,00; di 130 naik menjadi 19,00." },
+          ],
+        },
+      ],
+      reference: "Short selling = pinjam + jual; margin awal + maintenance margin; borrow fee memakan laba arbitrase; recall dan margin call adalah risiko nyata.",
+    },
+    {
+      id: "gap-g3-basis-range",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G3)",
+      title: "Basis di luar rentang: peluang atau risiko? Prosedur lima langkah",
+      prose: [
+        "Basis = harga futures − harga spot. Dalam keadaan normal basis bergerak dalam rentang historis yang ditentukan cost of carry (biaya simpan + bunga − convenience yield). Pertanyaannya bukan apakah basis di luar rentang — tapi APA yang mendorongnya ke luar. Prosedur lima langkah: satu, ukur. Hitung basis hari ini dan z-score terhadap sejarah: z = (basis − rata-rata) / simpangan baku. Dua, tentukan ambang: di dalam ±2 simpangan baku = normal; di luar = sinyal untuk diselidiki, bukan perintah untuk berdagang.",
+        "Tiga, cari penyebabnya. Basis melebar karena carry naik (suku bunga atau biaya gudang naik), convenience yield runtuh (stok melimpah), atau stres pendanaan dan delivery squeeze (tidak ada barang untuk diserahkan). Empat, bedakan peluang vs risiko. Peluang: penyebabnya sementara dan berbalik arah — misal gangguan likuiditas sesaat sementara stok dan gudang normal — maka basis cenderung kembali ke rata-rata (mean-reversion). Risiko: penyebabnya struktural — gudang penuh, gagal panen, pembatasan ekspor — maka basis bisa bertahan di luar rentang berbulan-bulan, dan bertaruh melawannya adalah melawan fundamental.",
+        "Lima, putuskan posisi dengan batas. Contoh angka: rata-rata basis historis 30, simpangan baku 15, rentang normal 0 sampai 60. Basis 50 → z = 1,33, di dalam rentang: tidak ada perdagangan. Basis 90 → z = 4,00, di luar rentang: selidiki dulu — bila gudang dilaporkan penuh dan stok menipis, itu risiko, bukan peluang; jangan pasang taruhan mean-reversion tanpa batas rugi. Basis 0 → z = −2,00, tepat di batas bawah: waspada, tapi satu observasi bukan tren — tunggu konfirmasi hari berikutnya.",
+      ],
+      formula: String.raw`z = \frac{\text{basis} - \mu}{\sigma} \qquad \text{rentang normal} = \mu \pm 2\sigma`,
+      formulaNote: "Contoh: rata-rata 30, simpangan baku 15 → rentang normal 0 sampai 60. Basis 90 → z = 4,00 (di luar); basis 50 → z = 1,33 (di dalam).",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Menganggap setiap basis di luar rentang = peluang arbitrase gratis. Basis adalah harga dari carry, kenyamanan stok, dan stres pasar — ia bisa bertahan irasional lebih lama daripada modalmu bertahan. Prosedur ini memaksa penyebab diperiksa SEBELUM posisi dibuka.",
+      },
+      quiz: [
+        {
+          q: "Rata-rata basis 30, simpangan baku 15. Basis hari ini 90 dan gudang dilaporkan penuh. Keputusan yang benar menurut prosedur?",
+          options: [
+            { text: "Selidiki sebagai risiko struktural; jangan langsung bertaruh basis kembali ke rata-rata", why: "Tepat: z = 4,00 di luar rentang DAN penyebabnya struktural (gudang penuh) — itu risiko, bukan peluang.", correct: true },
+            { text: "Langsung short futures — basis pasti kembali ke 30", why: "Salah: mean-reversion hanya berlaku bila penyebabnya sementara; gudang penuh = fundamental." },
+            { text: "Abaikan — z-score hanya teori", why: "Salah: z = 4,00 adalah sinyal kuat; mengabaikannya berarti trading buta." },
+            { text: "Beli spot karena basis tinggi berarti spot murah", why: "Salah: basis tinggi tidak otomatis berarti spot murah — bisa berarti futures mahal karena stres delivery." },
+          ],
+        },
+      ],
+      reference: "Basis = futures − spot; z-score terhadap sejarah; di luar ±2 simpangan baku = selidiki penyebab; peluang bila sementara, risiko bila struktural.",
     },
     {
       id: "checkpoint",

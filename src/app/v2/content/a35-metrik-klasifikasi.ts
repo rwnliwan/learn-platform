@@ -5,7 +5,7 @@ export const a35: V2Lesson = {
   track: "Statistika",
   module: "Modeling & ML Dasar",
   title: "A3.5 Metrik Klasifikasi: Akurasi yang Menipu",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-fraud-97",
@@ -186,6 +186,52 @@ export const a35: V2Lesson = {
       formulaNote: "t* = threshold optimal; C_FP = biaya false positive (menolak nasabah bagus / investigasi sia-sia); C_FN = biaya false negative (default atau fraud lolos). Contoh: C_FN = 10xC_FP → t* = 1/11 ≈ 0,09. Syarat: probabilitas input harus terkalibrasi.",
       tasks: [],
       reference: "MCC untuk satu angka yang jujur. Threshold dari biaya, bukan dari 0,5. Kalibrasi dulu, baru putuskan.",
+    },
+    {
+      id: "gap-g15-metrik-prevalensi-biaya",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G15)",
+      title: "Metrik yang bergerak: prevalensi dan biaya mengubah segalanya kecuali ranking",
+      prose: [
+        "Model yang sama, metrik yang berbeda — hanya karena populasinya berubah. Ambil model dengan sensitivitas 80% dan spesifisitas 90%, diuji pada 1.000 orang. Pada prevalensi 5% (50 sakit, 950 sehat): TP 40, FN 10, FP 95, TN 855. Presisi = 40 / 135 = 29,6% — dari tiap 10 alarm, 7 salah. Akurasi = 89,5%. Sekarang prevalensi naik ke 20% (200 sakit, 800 sehat), model TIDAK berubah: TP 160, FN 40, FP 80, TN 720. Presisi melonjak ke 160 / 240 = 66,7%, akurasi turun tipis ke 88,0%. Sensitivitas dan spesifisitas tetap 80% dan 90% — mereka sifat model. Presisi dan akurasi sifat POPULASI.",
+        "Inilah jebakan deployment: model yang presisinya 66,7% di rumah sakit rujukan (prevalensi tinggi) bisa jatuh ke 29,6% saat dipakai skrining massal (prevalensi rendah) — tanpa satu baris kode pun berubah. AUC tidak bergerak karena ia hanya peduli ranking, bukan prevalensi. Karena itu laporan model wajib menulis prevalensi validasi di samping presisi — presisi tanpa prevalensi adalah angka tanpa konteks.",
+        "Sisi kedua: biaya. Threshold optimal bukan 0,5 — ia ditentukan rasio biaya: threshold naik bila false positive mahal, turun bila false negative mahal. Bila biaya FN sepuluh kali FP (misal kanker terlewat vs biopsi tambahan), threshold optimal bergeser jauh ke bawah dan presisi sengaja dikorbankan demi recall. Rumus keputusan: klasifikasikan positif bila P × biaya-FN lebih besar dari (1 − P) × biaya-FP. Dan ingat langkah sebelumnya: rumus ini hanya jujur bila probabilitasnya terkalibrasi — kalibrasi dulu, baru terapkan aturan biaya.",
+      ],
+      formula: String.raw`\text{Presisi} = \frac{TP}{TP+FP} \qquad \text{positif bila } P \times C_{FN} > (1-P) \times C_{FP}`,
+      formulaNote: "Prevalensi 5% → presisi 29,6%; prevalensi 20% → presisi 66,7%. Model sama, populasi beda.",
+      tasks: [
+        { id: "t1", text: "Hitung `presisi_5` (prevalensi 5%) dan `presisi_20` (prevalensi 20%)" },
+        { id: "t2", text: "Hitung `akurasi_5` dan `akurasi_20` pada 1.000 orang" },
+      ],
+      expected: "presisi_5=0.296  presisi_20=0.667  akurasi_5=0.895  akurasi_20=0.880",
+      hints: [
+        "Sensitivitas 80%: TP = 0,8 × jumlah sakit. Spesifisitas 90%: FP = 0,1 × jumlah sehat.",
+        "Prevalensi 5%: 50 sakit, 950 sehat. Prevalensi 20%: 200 sakit, 800 sehat.",
+        "Presisi = TP/(TP+FP); akurasi = (TP+TN)/1000. Bulatkan 3 desimal di print.",
+      ],
+      code: {
+        starter: `# Model sama (sens 80%, spes 90%), populasi berbeda. N = 1000.\n\ndef metrik(prev):\n    sakit = prev * 1000\n    sehat = 1000 - sakit\n    tp = 0.8 * sakit\n    fn = 0.2 * sakit\n    fp = 0.1 * sehat\n    tn = 0.9 * sehat\n    return tp / (tp + fp), (tp + tn) / 1000\n\n# TULIS KODEMU: presisi dan akurasi di dua prevalensi.\npresisi_5, akurasi_5 = \npresisi_20, akurasi_20 = \n\nprint(f"presisi_5={presisi_5:.3f}  presisi_20={presisi_20:.3f}  akurasi_5={akurasi_5:.3f}  akurasi_20={akurasi_20:.3f}")`,
+        lockLines: 9,
+        solution: `# Model sama (sens 80%, spes 90%), populasi berbeda. N = 1000.\n\ndef metrik(prev):\n    sakit = prev * 1000\n    sehat = 1000 - sakit\n    tp = 0.8 * sakit\n    fn = 0.2 * sakit\n    fp = 0.1 * sehat\n    tn = 0.9 * sehat\n    return tp / (tp + fp), (tp + tn) / 1000\n\n# TULIS KODEMU: presisi dan akurasi di dua prevalensi.\npresisi_5, akurasi_5 = metrik(0.05)\npresisi_20, akurasi_20 = metrik(0.20)\n\nprint(f"presisi_5={presisi_5:.3f}  presisi_20={presisi_20:.3f}  akurasi_5={akurasi_5:.3f}  akurasi_20={akurasi_20:.3f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "presisi_5", value: 0.296, tol: 0.001, label: "`presisi_5` = 29,6%", msg: "40/(40+95) = 29,6% — 7 dari 10 alarm salah pada prevalensi rendah." },
+          { kind: "equal", task: "t1", name: "presisi_20", value: 0.667, tol: 0.001, label: "`presisi_20` = 66,7%", msg: "160/(160+80) = 66,7% — model sama, populasi beda." },
+          { kind: "equal", task: "t2", name: "akurasi_5", value: 0.895, tol: 0.001, label: "`akurasi_5` = 89,5%", msg: "(40+855)/1000 = 89,5%." },
+          { kind: "equal", task: "t2", name: "akurasi_20", value: 0.88, tol: 0.001, label: "`akurasi_20` = 88,0%", msg: "(160+720)/1000 = 88,0% — akurasi TURUN walau presisi naik." },
+          { kind: "stdout_matches", task: "t2", pattern: "presisi_5=0.296\\s+presisi_20=0.667\\s+akurasi_5=0.895\\s+akurasi_20=0.880", label: "`print` menampilkan keempat metrik", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Model presisi 66,7% di rumah sakit rujukan dipakai untuk skrining massal (prevalensi jauh lebih rendah). Apa yang terjadi?",
+          options: [
+            { text: "Presisi jatuh tajam — presisi sifat populasi, bukan hanya sifat model", why: "Tepat: pada prevalensi 5%, presisi model yang sama hanya 29,6%.", correct: true },
+            { text: "Tidak ada yang berubah — presisi adalah sifat model", why: "Salah: sensitivitas/spesifisitas sifat model; presisi/akurasi ikut prevalensi." },
+            { text: "AUC ikut jatuh sama tajamnya", why: "Salah: AUC hanya peduli ranking dan tidak bergantung prevalensi." },
+            { text: "Threshold harus dinaikkan agar presisi kembali 66,7%", why: "Salah: menaikkan threshold menaikkan presisi dengan mengorbankan recall — itu keputusan biaya, bukan perbaikan model." },
+          ],
+        },
+      ],
+      reference: "Sensitivitas/spesifisitas/AUC = sifat model. Presisi/akurasi = sifat populasi (ikut prevalensi). Threshold optimal ikut rasio biaya FN vs FP.",
     },
     {
       id: "checkpoint",

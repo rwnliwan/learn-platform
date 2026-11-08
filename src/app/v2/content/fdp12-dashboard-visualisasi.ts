@@ -5,7 +5,7 @@ export const fdp12: V2Lesson = {
   track: "Financial Data Pipeline",
   module: "Visualisasi & Pelaporan",
   title: "FDP12 — Dashboard & Visualisasi Keuangan: Dari Pipeline ke Layar",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -119,6 +119,35 @@ export const fdp12: V2Lesson = {
         body: "Tiga hal yang membuat perbaikan ini benar. Pertama, stempel waktu dan status kesegaran di tiap panel — bukan di catatan kaki. Kedua, mode gagal yang jujur — 'data belum tersedia' lebih baik dari angka basi. Ketiga, budaya bertanya umur data sebelum membahas isinya.",
       },
       reference: "Margin 22 persen ternyata basi; sebenarnya 14 persen. Ekspansi Rp2 miliar terlanjur jalan.",
+    },
+    {
+      id: "gap-g25-kill-dashboard",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G25)",
+      title: "Kapan dashboard dimatikan: aturan kill, bukan hanya aturan perbaiki",
+      prose: [
+        "Setiap dashboard lahir dari permintaan yang masuk akal dan mati karena tidak ada yang berani mematikannya. Akibatnya organisasi memelihara ratusan dashboard yang tidak dibaca, dengan data yang setengah dipercaya, dan tiap perubahan skema memecahkan sepuluh hal yang tidak ada pemiliknya. Aturan kill memberi keputusan ini prosedur — bukan perasaan. Nilai dashboard dari empat sumbu, masing-masing 0 sampai 10: pemakaian (U), kegunaan keputusan (D), biaya pemeliharaan (C), dan kepercayaan data (T). Skor = U + D − C − T. Skor 0 atau lebih: pertahankan atau perbaiki. Skor negatif: kandidat kill.",
+        "Contoh tiga dashboard, dengan T = tingkat ketidakpercayaan data (0 = dipercaya penuh, 10 = tidak dipercaya sama sekali). Sales harian: U 9, D 9, C 2, T 1 → skor = 9 + 9 − 2 − 1 = 15 — jelas hidup. Churn v2 (duplikat dari Churn v1): U 2, D 3, C 8, T 4 → skor = 2 + 3 − 8 − 4 = −7 — kill. Stok gudang lama: U 1, D 1, C 7, T 3 → skor = 1 + 1 − 7 − 3 = −8 — kill. Dua dashboard mati, satu hidup — dan keputusan ini bisa dipertahankan di depan siapa pun karena angkanya tertulis.",
+        "Prosedur kill-nya: satu, umumkan sunset 30 hari dengan pemilik dan tanggal mati yang jelas. Dua, arsipkan definisi dan query-nya (bukan hanya screenshot) supaya angka historis masih bisa direproduksi. Tiga, arahkan pengguna ke dashboard pengganti — Churn v2 mati, penggunanya pindah ke Churn v1. Empat, pada hari-H, cabut akses dan hapus jadwal refresh-nya — dashboard yang masih me-refresh setelah dimatikan adalah zombie yang menghabiskan compute. Lima, catat di log: dashboard apa, skornya, siapa yang menyetujui. Dashboard yang tidak pernah di-kill bukanlah tanda dashboard yang bagus — itu tanda tidak ada yang mengukur.",
+      ],
+      formula: String.raw`\text{Skor} = U + D - C - T \qquad \text{Skor} < 0 \Rightarrow \text{kandidat kill}`,
+      formulaNote: "U = pemakaian, D = kegunaan keputusan, C = biaya pemeliharaan, T = ketidakpercayaan data (0–10).",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Mengira dashboard yang jarang dipakai cukup diperbaiki tampilannya. Bila U dan D rendah, perbaikan visual tidak mengubah apa pun — masalahnya bukan tampilan, melainkan tidak ada keputusan yang bergantung padanya. Perbaiki hanya yang skornya dekat nol; yang negatif dimatikan.",
+      },
+      quiz: [
+        {
+          q: "Dashboard X: pemakaian 2, kegunaan keputusan 3, biaya 8, ketidakpercayaan 4. Keputusan?",
+          options: [
+            { text: "Kill — skor −7, jauh di bawah nol", why: "Tepat: 2 + 3 − 8 − 4 = −7. Duplikat yang mahal dan tidak dipercaya.", correct: true },
+            { text: "Perbaiki tampilannya — skor negatif berarti desainnya buruk", why: "Salah: skor negatif berarti tidak ada yang memakai dan tidak ada keputusan yang bergantung — bukan soal desain." },
+            { text: "Pertahankan — biaya 8 berarti dashboardnya penting", why: "Salah: biaya tinggi adalah beban, bukan bukti pentingnya." },
+            { text: "Tunggu setahun lagi — mungkin pemakaiannya naik", why: "Salah: menunggu tanpa pemilik dan tanpa rencana = zombie permanen; sunset 30 hari adalah prosedurnya." },
+          ],
+        },
+      ],
+      reference: "Skor dashboard = U + D − C − T; negatif = kandidat kill; sunset 30 hari, arsipkan definisi, arahkan ke pengganti, cabut refresh.",
     },
     {
       id: "kuis",

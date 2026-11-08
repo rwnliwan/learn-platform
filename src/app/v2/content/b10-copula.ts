@@ -5,7 +5,7 @@ export const b10: V2Lesson = {
   track: "Probabilitas",
   module: "Dependensi",
   title: "B10. Copula: Memisahkan Marginal dari Ketergantungan",
-  estMinutes: 55,
+  estMinutes: 75,
   steps: [
     {
       id: "sklar",
@@ -241,6 +241,96 @@ export const b10: V2Lesson = {
         },
       ],
       reference: "λ = ukuran penularan ekstrem. Gaussian 0, Clayton 2^(−1/θ), t simetris.",
+    },
+    {
+      id: "gap-g16-estimasi-parameter-copula",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G16)",
+      title: "Mengestimasi parameter copula dari data: dua jalan yang jujur",
+      prose: [
+        "Copula tanpa parameter yang diestimasi dari data hanyalah kurva yang digambar tangan. Dua jalan standar: pertama, metode momen via korelasi rank. Untuk copula Gaussian, korelasi linear ρ dihubungkan dengan Kendall tau oleh ρ = sin(πτ/2). Contoh: tau sampel 0,4 → ρ = sin(0,2π) = sin(36°) = 0,5878. Untuk copula Clayton, tau = θ/(θ+2), dibalik menjadi θ = 2τ/(1−τ): tau 0,4 → θ = 0,8/0,6 = 1,333. Kelebihannya: cepat, robust terhadap outlier (rank, bukan nilai), dan tidak butuh asumsi marginal. Kelemahannya: hanya memakai satu angka ringkas — informasi bentuk distribusi bersama yang lain terbuang.",
+        "Kedua, maximum likelihood dua tahap (IFM — inference functions for margins). Tahap satu: fit marginal tiap variabel sendiri-sendiri, ubah data menjadi pseudo-observasi uniform lewat CDF empiris (rank dibagi n+1 — jangan pernah memakai CDF parametrik yang salah untuk tahap ini). Tahap dua: maksimalkan likelihood copula atas pseudo-observasi itu. IFM efisien dan menjadi standar industri, tetapi standard error-nya harus dikoreksi (tahap satu membawa ketidakpastian sendiri) — laporkan dengan bootstrap bila ragu. Full MLE satu tahap memang lebih efisien, tetapi bila marginal salah spesifikasi, kesalahan itu merembes ke parameter copula.",
+        "Aturan pemilihan: mulai dari momen-rank untuk nilai awal dan sanity check, lanjutkan ke IFM untuk estimasi akhir, dan selalu bandingkan copula yang di-fit dengan copula empiris (misal lewat uji goodness-of-fit Genest–Rémillard) sebelum dipakai untuk pricing atau risk. Copula yang parameternya cantik tetapi gagal uji kecocokan sama berbahayanya dengan copula yang tidak pernah diestimasi.",
+      ],
+      formula: String.raw`\rho = \sin\left(\frac{\pi \tau}{2}\right) \qquad \theta_{\text{Clayton}} = \frac{2\tau}{1-\tau}`,
+      formulaNote: "Tau 0,4 → ρ Gaussian 0,5878; θ Clayton 1,333. IFM: marginal dulu (rank), baru likelihood copula.",
+      tasks: [
+        { id: "t1", text: "Hitung `rho_gauss` dari tau 0,4 (rumus sin)" },
+        { id: "t2", text: "Hitung `theta_clayton` dari tau 0,4" },
+      ],
+      expected: "rho_gauss=0.5878  theta_clayton=1.3333",
+      hints: [
+        "rho = sin(pi × tau / 2); tau = 0,4.",
+        "theta Clayton = 2×tau / (1 − tau).",
+        "Bulatkan 4 desimal di print.",
+      ],
+      code: {
+        starter: `import math\n\ntau = 0.4  # Kendall tau sampel\n\n# TULIS KODEMU: parameter copula dari tau.\nrho_gauss = \ntheta_clayton = \n\nprint(f"rho_gauss={rho_gauss:.4f}  theta_clayton={theta_clayton:.4f}")`,
+        lockLines: 3,
+        solution: `import math\n\ntau = 0.4  # Kendall tau sampel\n\n# TULIS KODEMU: parameter copula dari tau.\nrho_gauss = math.sin(math.pi * tau / 2)\ntheta_clayton = 2 * tau / (1 - tau)\n\nprint(f"rho_gauss={rho_gauss:.4f}  theta_clayton={theta_clayton:.4f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "rho_gauss", value: 0.5878, tol: 0.001, label: "`rho_gauss` = 0,5878", msg: "sin(0,2π) = sin(36°) = 0,5878." },
+          { kind: "equal", task: "t2", name: "theta_clayton", value: 1.3333, tol: 0.001, label: "`theta_clayton` = 1,3333", msg: "2×0,4/(1−0,4) = 0,8/0,6 = 1,3333." },
+          { kind: "stdout_matches", task: "t2", pattern: "rho_gauss=0.5878\\s+theta_clayton=1.3333", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Kenapa IFM memakai CDF empiris (rank) untuk tahap marginal, bukan CDF parametrik?",
+          options: [
+            { text: "Supaya kesalahan spesifikasi marginal tidak merembes ke parameter copula", why: "Tepat: rank bebas asumsi distribusi; CDF parametrik yang salah mencemari tahap copula.", correct: true },
+            { text: "Karena CDF empiris selalu lebih akurat dari CDF parametrik", why: "Salah: bukan soal akurasi — soal isolasi kesalahan; CDF parametrik yang benar justru lebih efisien." },
+            { text: "Karena likelihood copula tidak bisa dihitung dari CDF parametrik", why: "Salah: bisa — full MLE memang begitu; hanya saja rapuh terhadap salah spesifikasi." },
+            { text: "Supaya standard error otomatis benar tanpa bootstrap", why: "Salah: IFM tetap butuh koreksi standard error karena tahap satu membawa ketidakpastian." },
+          ],
+        },
+      ],
+      reference: "Estimasi copula: momen-rank (rho = sin(πτ/2), theta Clayton = 2τ/(1−τ)) untuk awal; IFM dua tahap dengan pseudo-observasi rank untuk akhir; uji goodness-of-fit sebelum dipakai.",
+    },
+    {
+      id: "gap-g17-tail-dependence-q5",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G17)",
+      title: "Tail dependence pada q = 5%: kenapa estimasinya goyah",
+      prose: [
+        "Lesson ini sudah menegaskan Gaussian copula punya tail dependence asimtotik nol (λ = 0) tetapi co-exceedance pada kuantil berhingga tetap ada. Langkah ini menjawab pertanyaan lanjutannya: seberapa bisa dipercaya angka λ yang diestimasi pada q = 5%? Estimator empirisnya λ(q) = P(U lebih dari q dan V lebih dari q) / P(V lebih dari q) — proporsi kejadian bersama di antara kejadian ekstrem satu sisi. Masalahnya adalah penyebutnya: pada q = 5% dan n = 500, hanya ada 25 kejadian ekstrem untuk dihitung. Statistik dari 25 observasi itu rapuh.",
+        "Hitung simpangan bakunya. Bila λ sebenarnya 0,30, jumlah co-exceedance mengikuti Binomial(25; 0,30): simpangan baku λ topi = akar(0,30 × 0,70 / 25) = 0,092 — interval kepercayaan 95%-nya selebar ±0,18, dari 0,12 sampai 0,48. Angka itu praktis tidak memberi tahu apa-apa: ia konsisten dengan tail dependence lemah maupun kuat. Dengan n = 5.000 (250 kejadian ekstrem), simpangan baku menyusut ke 0,029 dan intervalnya ±0,057 — baru bisa dipakai untuk keputusan. Aturan kasarnya: butuh sedikitnya 100 kejadian ekstrem (n × q di atas 100) sebelum λ(q) layak dilaporkan sebagai angka, bukan sebagai anekdot.",
+        "Implikasi praktisnya tiga. Satu, jangan pernah membandingkan λ(q) antar copula pada sampel kecil — selisih 0,1 bisa murni noise. Dua, bila datamu kecil, laporkan interval kepercayaannya bersama titik estimasinya, atau turunkan ambang ke q = 10% (lebih banyak kejadian, lebih stabil — dengan catatan λ(10%) bukan λ(5%)). Tiga, untuk keputusan pricing CDO atau modal, pakai estimator yang meminjam kekuatan dari seluruh ekor (misal estimator berbasis extreme value theory atau model copula parametrik yang di-fit penuh) — bukan hitungan mentah dari 25 titik.",
+      ],
+      formula: String.raw`SE(\hat{\lambda}) = \sqrt{\frac{\lambda(1-\lambda)}{n \times q}} \qquad \text{butuh } n \times q \geq 100`,
+      formulaNote: "n=500, q=5%: SE 0,092, interval 95% ±0,18. n=5.000: SE 0,029, interval ±0,057.",
+      tasks: [
+        { id: "t1", text: "Hitung `se_500` dan `se_5000` (simpangan baku lambda topi, lambda benar 0,30)" },
+        { id: "t2", text: "Hitung `lebar_500` dan `lebar_5000` (setengah-lebar interval 95%)" },
+      ],
+      expected: "se_500=0.092  se_5000=0.029  lebar_500=0.180  lebar_5000=0.057",
+      hints: [
+        "Kejadian ekstrem = n × q; q = 0,05.",
+        "SE = akar(lambda×(1−lambda)/kejadian); lambda = 0,30.",
+        "Setengah-lebar 95% = 1,96 × SE. Bulatkan 3 desimal di print.",
+      ],
+      code: {
+        starter: `import math\n\nlam = 0.30  # tail dependence sebenarnya\nq = 0.05\n\n# TULIS KODEMU: SE lambda topi pada n=500 dan n=5000.\ndef se(n):\n    kejadian = n * q\n    return math.sqrt(lam * (1 - lam) / kejadian)\n\nse_500 = \nse_5000 = \nlebar_500 = \nlebar_5000 = \n\nprint(f"se_500={se_500:.3f}  se_5000={se_5000:.3f}  lebar_500={lebar_500:.3f}  lebar_5000={lebar_5000:.3f}")`,
+        lockLines: 7,
+        solution: `import math\n\nlam = 0.30  # tail dependence sebenarnya\nq = 0.05\n\n# TULIS KODEMU: SE lambda topi pada n=500 dan n=5000.\ndef se(n):\n    kejadian = n * q\n    return math.sqrt(lam * (1 - lam) / kejadian)\n\nse_500 = se(500)\nse_5000 = se(5000)\nlebar_500 = 1.96 * se_500\nlebar_5000 = 1.96 * se_5000\n\nprint(f"se_500={se_500:.3f}  se_5000={se_5000:.3f}  lebar_500={lebar_500:.3f}  lebar_5000={lebar_5000:.3f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "se_500", value: 0.092, tol: 0.001, label: "`se_500` = 0,092", msg: "akar(0,3×0,7/25) = 0,092 — dari hanya 25 kejadian ekstrem." },
+          { kind: "equal", task: "t1", name: "se_5000", value: 0.029, tol: 0.001, label: "`se_5000` = 0,029", msg: "akar(0,3×0,7/250) = 0,029 — sepuluh kali data, SE menyusut 3,16 kali." },
+          { kind: "equal", task: "t2", name: "lebar_500", value: 0.18, tol: 0.001, label: "`lebar_500` = 0,18", msg: "1,96×0,092 = 0,18 — interval 0,12 sampai 0,48, praktis tidak informatif." },
+          { kind: "equal", task: "t2", name: "lebar_5000", value: 0.057, tol: 0.001, label: "`lebar_5000` = 0,057", msg: "1,96×0,029 = 0,057 — baru layak dipakai untuk keputusan." },
+          { kind: "stdout_matches", task: "t2", pattern: "se_500=0.092\\s+se_5000=0.029\\s+lebar_500=0.180\\s+lebar_5000=0.057", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Dua copula dibandingkan pada n = 500, q = 5%: lambda topi 0,25 vs 0,35. Kesimpulan yang benar?",
+          options: [
+            { text: "Tidak ada kesimpulan — selisih 0,10 berada di dalam noise (SE sekitar 0,09)", why: "Tepat: interval keduanya tumpang tindih lebar; selisih itu konsisten dengan nol.", correct: true },
+            { text: "Copula kedua punya tail dependence lebih kuat 0,10 — pakai itu untuk pricing", why: "Salah: selisih 0,10 dengan SE 0,09 tidak signifikan; pricing dari noise = keputusan dari noise." },
+            { text: "Turunkan q ke 1% agar estimasi lebih akurat", why: "Salah: q lebih kecil = kejadian lebih sedikit = SE lebih BESAR, bukan lebih kecil." },
+            { text: "Naikkan q ke 10% agar lambda-nya sama dengan lambda 5%", why: "Salah: lambda(10%) bukan lambda(5%); q lebih besar memang lebih stabil, tapi mengukur hal berbeda." },
+          ],
+        },
+      ],
+      reference: "SE lambda(q) = akar(λ(1−λ)/(n×q)); n=500, q=5% → SE 0,092, interval ±0,18 — butuh n×q di atas 100 sebelum lambda layak dilaporkan.",
     },
     {
       id: "checkpoint",

@@ -32,7 +32,7 @@ export const mlops11: V2Lesson = {
   track: "MLOps",
   module: "Governance & Skala",
   title: "MLOps11 — Kubernetes untuk ML",
-  estMinutes: 65,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita",
@@ -253,6 +253,52 @@ export const mlops11: V2Lesson = {
         ],
       },
       reference: "Yang berubah = values. Secrets = referensi, bukan nilai. Rollback = save point.",
+    },
+    {
+      id: "gap-g29-gpu-scheduler-config",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G29)",
+      title: "Konfigurasi scheduler GPU yang nyata: bukan sekadar limits",
+      prose: [
+        "Menulis resources limits nvidia.com/gpu: 1 di PodSpec adalah langkah pertama — dan yang paling sering dikira sudah cukup. Scheduler default Kubernetes (kube-scheduler) memang menghitung GPU sebagai resource yang tidak bisa dibagi (integer, tidak bisa 0,5 GPU), tetapi ia tidak tahu apa-apa soal topologi (apakah dua GPU itu di NUMA node yang sama?), fragmentasi (GPU tersisa 1 di tiap node, pod butuh 2), atau antrean (siapa didahulukan saat GPU habis?). Konfigurasi nyata memakai tiga lapis: permintaan resource yang jujur, penjadwalan yang sadar GPU, dan antrean kerja.",
+        "Lapis satu — PodSpec yang benar: requests dan limits nvidia.com/gpu HARUS sama (GPU tidak bisa di-overcommit — tidak ada burstable untuk GPU), nodeSelector atau nodeAffinity ke node berlabel accelerator=nvidia, dan toleration bila node GPU di-taint khusus (umum: taint nvidia.com/gpu=present:NoSchedule supaya pod CPU tidak mendarat di node mahal). Tanpa toleration, pod GPU-mu pending selamanya di node yang di-taint — dan log-nya hanya berkata Unschedulable.",
+        "Lapis dua — penjadwalan sadar GPU. Untuk time-slicing (berbagi satu GPU fisik ke beberapa pod, cocok untuk inference ringan), device plugin NVIDIA dikonfigurasi lewat ConfigMap: nvidia.com/gpu dengan replicas (misal 4 potong per GPU) — tetapi ingat, time-slicing berbagi COMPUTE, bukan memori yang diisolasi keras: satu pod rakus memori tetap bisa membuat tetangganya OOM. Untuk training multi-GPU, pakai Volcano atau KAI Scheduler: gang scheduling (semua pod job jalan bersamaan atau tidak sama sekali — tanpa ini, 3 dari 4 worker jalan sementara 1 antre, dan 3 GPU menganggur menunggu), plus queue dengan prioritas dan kapasitas. Lapis tiga — observasi: DCGM exporter untuk utilisasi GPU nyata; pod yang meminta 1 GPU tetapi utilisasinya 12% adalah GPU yang dibayar mahal untuk menganggur.",
+        "Contoh hitung antrean: node dengan 4 GPU; pod fraud-a minta 1, fraud-b minta 1, nlp-c minta 2, vision-d minta 1, batch-e minta 2. Scheduler FIFO: fraud-a (1) + fraud-b (1) + nlp-c (2) = 4 GPU terpakai, utilisasi 100%; vision-d dan batch-e PENDING sampai ada yang selesai. Bila nlp-c sebenarnya hanya butuh 2 GPU selama 10 menit pertama lalu menganggur, penjadwalan yang baik memakai preemption berprioritas atau time-slicing — bukan FIFO buta. Validasi konfigurasi sebelum apply: kubectl describe node untuk melihat kapasitas yang dialokasikan, dan nvidia-smi di dalam pod untuk memastikan GPU yang terlihat memang yang diminta.",
+      ],
+      formula: String.raw`\text{requests} = \text{limits (GPU)} \qquad \text{gang: semua worker jalan, atau tidak sama sekali}`,
+      formulaNote: "GPU integer, tidak bisa overcommit. Time-slicing berbagi compute, bukan isolasi memori.",
+      tasks: [
+        { id: "t1", text: "Hitung `terjadwal` (nama pod yang dapat GPU, FIFO) dan `menunggu` (yang pending)" },
+        { id: "t2", text: "Hitung `utilisasi_pct` (persen GPU terpakai)" },
+      ],
+      expected: "terjadwal=fraud-a,fraud-b,nlp-c  menunggu=vision-d,batch-e  utilisasi_pct=100",
+      hints: [
+        "Node punya 4 GPU; proses pod berurutan (FIFO).",
+        "fraud-a 1, fraud-b 1, nlp-c 2 → total 4, penuh.",
+        "vision-d 1 dan batch-e 2 tidak kebagian — pending.",
+      ],
+      code: {
+        starter: `# Simulasi FIFO scheduler: node 4 GPU, pod datang berurutan.\nkapasitas = 4\npod = [("fraud-a", 1), ("fraud-b", 1), ("nlp-c", 2), ("vision-d", 1), ("batch-e", 2)]\n\n# TULIS KODEMU: siapa terjadwal, siapa menunggu, utilisasi.\nterpakai = 0\nterjadwal = []\nmenunggu = []\nfor nama, gpu in pod:\n    if terpakai + gpu <= kapasitas:\n        terpakai += gpu\n        terjadwal.append(nama)\n    else:\n        menunggu.append(nama)\nutilisasi_pct = \n\nprint(f"terjadwal={','.join(terjadwal)}  menunggu={','.join(menunggu)}  utilisasi_pct={utilisasi_pct}")`,
+        lockLines: 3,
+        solution: `# Simulasi FIFO scheduler: node 4 GPU, pod datang berurutan.\nkapasitas = 4\npod = [("fraud-a", 1), ("fraud-b", 1), ("nlp-c", 2), ("vision-d", 1), ("batch-e", 2)]\n\n# TULIS KODEMU: siapa terjadwal, siapa menunggu, utilisasi.\nterpakai = 0\nterjadwal = []\nmenunggu = []\nfor nama, gpu in pod:\n    if terpakai + gpu <= kapasitas:\n        terpakai += gpu\n        terjadwal.append(nama)\n    else:\n        menunggu.append(nama)\nutilisasi_pct = terpakai * 100 // kapasitas\n\nprint(f"terjadwal={','.join(terjadwal)}  menunggu={','.join(menunggu)}  utilisasi_pct={utilisasi_pct}")`,
+        checks: [
+          { kind: "stdout_matches", task: "t1", pattern: "terjadwal=fraud-a,fraud-b,nlp-c", label: "Terjadwal: fraud-a, fraud-b, nlp-c", msg: "1+1+2 = 4 GPU — node penuh." },
+          { kind: "stdout_matches", task: "t1", pattern: "menunggu=vision-d,batch-e", label: "Menunggu: vision-d, batch-e", msg: "Tidak ada GPU tersisa; tanpa gang scheduling atau preemption, mereka antre." },
+          { kind: "equal", task: "t2", name: "utilisasi_pct", value: 100, tol: 1, label: "`utilisasi_pct` = 100%", msg: "4 dari 4 GPU terpakai — tetapi utilisasi alokasi bukan utilisasi kerja; cek DCGM untuk pemakaian nyatanya." },
+          { kind: "stdout_matches", task: "t2", pattern: "terjadwal=fraud-a,fraud-b,nlp-c\\s+menunggu=vision-d,batch-e\\s+utilisasi_pct=100", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Job training 4-worker: 3 worker terjadwal, 1 pending karena GPU habis. Masalahnya dan solusinya?",
+          options: [
+            { text: "Tanpa gang scheduling, 3 GPU menganggur menunggu worker ke-4 — pakai Volcano/KAI gang scheduling", why: "Tepat: gang = semua atau tidak sama sekali; tanpa itu, penjadwalan parsial membuang GPU.", correct: true },
+            { text: "Naikkan limits GPU tiap worker jadi 2 — biar lebih cepat selesai", why: "Salah: menaikkan permintaan memperparah antrean, bukan mengatasinya." },
+            { text: "Hapus toleration — pod akan pindah ke node CPU", why: "Salah: pod GPU di node CPU tidak punya GPU; toleration bukan penyebab antrean." },
+            { text: "Ini normal — 3 worker bisa training sambil menunggu yang keempat", why: "Salah: distributed training sinkron butuh semua worker; 3 worker menunggu = 3 GPU menganggur." },
+          ],
+        },
+      ],
+      reference: "GPU: requests = limits, toleration + nodeAffinity, time-slicing berbagi compute (bukan memori), Volcano/KAI untuk gang scheduling + queue, DCGM untuk utilisasi nyata.",
     },
     {
       id: "checkpoint",

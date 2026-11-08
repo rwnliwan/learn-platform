@@ -5,7 +5,7 @@ export const fr11: V2Lesson = {
   track: "Fraud & AML Analytics",
   module: "Operasi Model",
   title: "FR11 — Threshold & Antrian",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -183,6 +183,52 @@ export const fr11: V2Lesson = {
         body: "Setiap threshold tetap adalah kunci jawaban yang dipublikasikan — penipu tidak mendobrak aturan, mereka mengoptimasi DI BAWAH aturan. Bila ambangmu tidak pernah bergerak, kamu tidak sedang memasang jebakan; kamu sedang memasang jadwal. Kedua, pertanyaan yang benar bukan 'berapa ambangnya?' melainkan 'ambang siapa?' — transfer Rp490 ribu adalah noise bagi pedagang dan teriakan bagi mahasiswa; threshold yang buta terhadap siapa adalah threshold yang salah untuk keduanya. Ketiga, ambang adaptif pun membusuk: perilaku bergeser, penyerang memanaskan rekening, segmen berubah — hitung ulang terjadwal atau threshold pintarmu menjadi threshold bodoh yang mahal. Dan terakhir: jangan pernah mengganti ambang hukum dengan ambang perilaku — yang satu untuk auditor, yang satu untuk penipu; keduanya harus ada, keduanya punya tuan yang berbeda. Kelima, ingat bahwa adaptif pun bisa diakali — penipu yang sabar memanaskan rekening selama 3 bulan untuk menggeser persentilmu. Maka ambang adaptif selalu dipasangkan dengan pemantau drift: persentil yang naik lebih dari 30% dalam sebulan tanpa penjelasan bisnis adalah serangan, bukan pertumbuhan. Keenam, jangan lupakan manusia di ujung ambang: setiap kali kamu menaikkan ambang adaptif, kamu memindahkan beban ke investigator atau ke nasabah — umumkan perubahannya, jelaskan alasannya, ukur dampaknya 2 minggu. Ambang yang berubah diam-diam mengkhianati kepercayaan tim yang memakainya.",
       },
       reference: "Ambang statis = kewajiban hukum. Ambang adaptif = senjata deteksi. Penipu menari di bawah yang statis — tangkap dengan yang adaptif.",
+    },
+    {
+      id: "gap-g32-fitur-frekuensi",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G32)",
+      title: "Mengimplementasikan fitur frekuensi yang dipakai rule",
+      prose: [
+        "Rule fraud sering berbunyi sederhana — misal blokir bila ada lebih dari 3 transaksi dalam 24 jam — tetapi implementasi fitur frekuensinya adalah tempat kebocoran dan salah hitung bersembunyi. Tiga keputusan harus ditulis eksplisit sebelum satu baris kode pun dibuat. Satu, jendela: sliding window 24 jam ke belakang dari transaksi saat ini (event time), bukan hari kalender dan bukan processing time — transaksi jam 23:00 dan 01:00 adalah 2 jam berselang, bukan dua hari berbeda. Dua, apakah transaksi saat ini ikut dihitung (inclusive) atau tidak (exclusive): rule lebih dari 3 dalam 24 jam dengan hitungan inclusive memblokir pada transaksi ke-4; dengan exclusive, pada transaksi ke-5. Pilih satu, tulis, dan uji — rule yang sama dengan konvensi berbeda memblokir orang yang berbeda.",
+        "Tiga, keterlambatan data (late-arriving events): transaksi yang masuk terlambat tetap mengubah hitungan historis — bila fitur dihitung sekali saat transaksi masuk dan tidak pernah dihitung ulang, backfill akan mengubah label masa lalu. Contoh hitungan dengan jendela 24 jam sliding, inclusive: transaksi pada jam 0, 3, 5, 20, 26, 30, 50. Pada jam 0: 1 transaksi (hanya dirinya). Jam 3: 2. Jam 5: 3. Jam 20: 4 — melewati ambang 3, rule memblokir di sini. Jam 26: transaksi jam 0 sudah keluar jendela (26 − 0 = 26 lebih dari 24), tersisa jam 3, 5, 20, 26 = 4. Jam 30: jam 3 dan 5 keluar (30 − 5 = 25), tersisa 20, 26, 30 = 3 — kembali di bawah ambang. Jam 50: hanya 30 dan 50 = 2. Perhatikan jam 30: rule yang memakai hari kalender akan menghitung 5 transaksi (semua di hari yang sama) dan memblokir — salah, karena jendelanya sliding 24 jam.",
+        "Implementasi yang benar: di SQL, pakai window function dengan RANGE BETWEEN INTERVAL 24 HOUR PRECEDING — bukan ROWS, karena ROWS menghitung baris tanpa peduli jarak waktu. Di Python streaming, pakai deque dengan timestamp dan buang elemen yang lebih tua dari 24 jam sebelum menghitung. Dan dua jebakan terakhir: fitur harus dihitung dari event time transaksi, bukan waktu sistem memprosesnya (bedanya bisa berjam-jam saat antrean macet); dan fitur training harus dihitung dengan point-in-time correctness — memakai transaksi masa depan untuk menghitung fitur masa lalu adalah leakage yang membuat metrik validasi terlihat jauh lebih bagus daripada kinerja produksi.",
+      ],
+      formula: String.raw`\text{count}_{24j}(t) = |\{ \text{transaksi } u : t - 24 < u \leq t \}| \qquad \text{sliding, event time}`,
+      formulaNote: "Inclusive: transaksi saat ini ikut dihitung. Jam 20 → 4 (blokir); jam 30 → 3 (lolos); jam 50 → 2.",
+      tasks: [
+        { id: "t1", text: "Hitung `hitung_20`, `hitung_30`, `hitung_50` (jumlah transaksi dalam 24 jam sliding, inclusive)" },
+        { id: "t2", text: "Tentukan `blokir_pertama` (jam saat hitungan pertama kali melewati 3)" },
+      ],
+      expected: "hitung_20=4  hitung_30=3  hitung_50=2  blokir_pertama=20",
+      hints: [
+        "Transaksi pada jam: 0, 3, 5, 20, 26, 30, 50.",
+        "Jendela: (t − 24, t] — lebih dari 24 jam yang lalu tidak dihitung; transaksi saat ini ikut.",
+        "Jam 26: jam 0 keluar (26 − 0 = 26). Jam 30: jam 3 dan 5 keluar.",
+      ],
+      code: {
+        starter: `# Fitur frekuensi: hitungan sliding 24 jam (inclusive, event time).\njam = [0, 3, 5, 20, 26, 30, 50]\n\n# TULIS KODEMU: hitungan pada jam 20, 30, 50 + jam blokir pertama.\ndef hitung(t):\n    return sum(1 for u in jam if t - 24 < u <= t)\n\nhitung_20 = \nhitung_30 = \nhitung_50 = \nblokir_pertama = \n\nprint(f"hitung_20={hitung_20}  hitung_30={hitung_30}  hitung_50={hitung_50}  blokir_pertama={blokir_pertama}")`,
+        lockLines: 4,
+        solution: `# Fitur frekuensi: hitungan sliding 24 jam (inclusive, event time).\njam = [0, 3, 5, 20, 26, 30, 50]\n\n# TULIS KODEMU: hitungan pada jam 20, 30, 50 + jam blokir pertama.\ndef hitung(t):\n    return sum(1 for u in jam if t - 24 < u <= t)\n\nhitung_20 = hitung(20)\nhitung_30 = hitung(30)\nhitung_50 = hitung(50)\nblokir_pertama = next(t for t in jam if hitung(t) > 3)\n\nprint(f"hitung_20={hitung_20}  hitung_30={hitung_30}  hitung_50={hitung_50}  blokir_pertama={blokir_pertama}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "hitung_20", value: 4, tol: 1, label: "`hitung_20` = 4", msg: "Jam 0, 3, 5, 20 — semuanya dalam 24 jam." },
+          { kind: "equal", task: "t1", name: "hitung_30", value: 3, tol: 1, label: "`hitung_30` = 3", msg: "Jam 3 dan 5 keluar jendela (30−5=25); tersisa 20, 26, 30." },
+          { kind: "equal", task: "t1", name: "hitung_50", value: 2, tol: 1, label: "`hitung_50` = 2", msg: "Hanya jam 30 dan 50 dalam jendela." },
+          { kind: "equal", task: "t2", name: "blokir_pertama", value: 20, tol: 1, label: "`blokir_pertama` = jam 20", msg: "Hitungan pertama kali melewati 3 pada jam 20 (4 transaksi)." },
+          { kind: "stdout_matches", task: "t2", pattern: "hitung_20=4\\s+hitung_30=3\\s+hitung_50=2\\s+blokir_pertama=20", label: "`print` menampilkan keempat nilai", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Rule memakai hari kalender, bukan sliding 24 jam. Transaksi jam 23:00 (hari 1) dan 01:00 (hari 2). Apa efeknya?",
+          options: [
+            { text: "Keduanya dihitung sebagai 1 per hari — pola lintas tengah malam lolos dari rule", why: "Tepat: hari kalender memotong jendela di tengah malam; sliding 24 jam menghitung keduanya (2 jam berselang).", correct: true },
+            { text: "Tidak ada efek — hari kalender dan sliding 24 jam selalu sama", why: "Salah: keduanya berbeda tepat di batas hari; penyerang yang tahu bisa menjadwalkan transaksi di sekitar tengah malam." },
+            { text: "Hari kalender lebih ketat — ia memblokir lebih banyak", why: "Salah: hari kalender lebih LONGGAR untuk pola lintas malam; ia memecah hitungan yang seharusnya satu." },
+            { text: "Efeknya hanya pada zona waktu — ubah ke UTC dan selesai", why: "Salah: zona waktu tidak memperbaiki pemotongan jendela; masalahnya adalah definisi jendela, bukan zonanya." },
+          ],
+        },
+      ],
+      reference: "Fitur frekuensi: sliding window 24 jam event time (RANGE, bukan ROWS), konvensi inclusive/exclusive tertulis, point-in-time correctness anti-leakage.",
     },
     {
       id: "checkpoint",

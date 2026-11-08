@@ -5,7 +5,7 @@ export const dba33: V2Lesson = {
   track: "Database Administrator",
   module: "Fondasi Operasi",
   title: "DBA33 — Data Pump, SQL*Loader, dan Flashback: Pindah dan Kembalikan Data Oracle",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -117,6 +117,35 @@ export const dba33: V2Lesson = {
         body: "Tiga hal yang membuat penyelamatan ini berhasil. Pertama, diagnosis dulu lewat flashback query — bukti sebelum tindakan. Kedua, undo retention yang cukup — flashback hanya sebagus jendela undo-nya. Ketiga, perbaikan permanen menyentuh hak akses dan prosedur, bukan sekadar mengembalikan data.",
       },
       reference: "Flashback query membuktikan data terlihat; flashback table mengembalikan 2,1 juta baris dalam 6 menit; undo retention naik ke 4 jam.",
+    },
+    {
+      id: "gap-g6-rescue-kedua-sisi-delete",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G6)",
+      title: "Prosedur rescue dan rekonsiliasi di kedua sisi DELETE",
+      prose: [
+        "Mini-case lesson ini sudah menunjukkan dua kelompok transaksi diselamatkan dengan cara berbeda — dan alasannya: nasib baris sebelum dan sesudah DELETE tidak sama. Langkah ini menulis prosedur lengkapnya sebagai runbook, supaya tidak ada yang menebak saat kejadian. Prinsip pertama: JANGAN menjalankan FLASHBACK TABLE dulu. Flashback table mengembalikan SELURUH tabel ke satu titik waktu — transaksi sah yang masuk setelah titik itu ikut hilang bila belum diselamatkan. Selamatkan dulu, kembalikan kemudian.",
+        "Sisi SEBELUM DELETE — baris 16:39–16:40 yang ikut terhapus. Satu-satunya jalan: flashback query AS OF TIMESTAMP tepat sebelum DELETE (16:39:59) ke tabel penampung, misal TAMPUNG Pra-DELETE. Syarat: undo retention masih mencakup 16:39, dan tidak ada DDL sejak itu. Verifikasi: hitung baris tampung — harus sama dengan jumlah baris yang masuk 16:39–16:40 menurut log aplikasi. Bila flashback query mengembalikan ORA-01555 (snapshot too old), jendela undo sudah tertutup — naik ke garis pertahanan terakhir: restore backup + apply archive log.",
+        "Sisi SESUDAH DELETE — baris yang masuk setelah 16:40. Baris ini tidak tersentuh DELETE dan masih ada di tabel saat ini: selamatkan dengan SELECT biasa dari tabel saat ini ke tabel penampung TAMPUNG Pasca-DELETE, dengan filter waktu masuk setelah 16:40. Jebakan: flashback query AS OF 16:39 TIDAK bisa dipakai untuk kelompok ini — ia menampilkan keadaan 16:39, sebelum baris-baris ini ada. Setelah kedua tampung terisi, jalankan FLASHBACK TABLE ke 16:39, lalu masukkan kembali kedua tampung, lalu rekonsiliasi: hitung baris per kelompok sebelum vs sesudah, bandingkan dengan log aplikasi, dan nyatakan selisih NOL secara tertulis sebelum membuka kembali akses tulis. Rekonsiliasi yang tidak tertulis = belum selesai.",
+      ],
+      formula: String.raw`\text{Total kembali} = \text{tampung pra-DELETE (AS OF 16:39:59)} + \text{tampung pasca-DELETE (SELECT kini)}`,
+      formulaNote: "Dua tampung, dua cara, satu rekonsiliasi akhir: selisih harus nol sebelum akses tulis dibuka.",
+      tasks: [],
+      note: {
+        title: "Runbook: urutan yang tidak boleh dibalik",
+        body: "Satu: flashback query AS OF 16:39:59 ke tampung pra-DELETE, hitung dan cocokkan dengan log. Dua: SELECT kini ke tampung pasca-DELETE untuk baris masuk setelah 16:40. Tiga: baru FLASHBACK TABLE. Empat: masukkan kembali kedua tampung. Lima: rekonsiliasi tertulis per kelompok, selisih nol. Membalik urutan — flashback dulu, selamatkan belakangan — berarti menghapus transaksi sah dengan tangan sendiri.",
+      },
+      quiz: [
+        {
+          q: "DELETE 16:40 menghapus baris 16:39–16:40. Transaksi masuk 16:45 masih ada di tabel. Cara menyelamatkan transaksi 16:45 yang BENAR?",
+          options: [
+            { text: "SELECT dari tabel saat ini ke tabel penampung — ia tidak tersentuh DELETE", why: "Tepat: baris pasca-DELETE masih hidup di tabel kini; flashback query AS OF 16:39 justru tidak menampilkannya.", correct: true },
+            { text: "Flashback query AS OF 16:39 — sama seperti baris 16:39", why: "Salah: AS OF 16:39 menampilkan keadaan sebelum baris 16:45 ada." },
+            { text: "Tunggu FLASHBACK TABLE selesai, baris 16:45 kembali sendiri", why: "Salah: flashback table ke 16:39 justru MENGHAPUS baris 16:45 bila belum diselamatkan." },
+            { text: "Restore backup semalam — paling aman", why: "Salah: restore kehilangan semua transaksi setelah backup; ini garis terakhir, bukan pertama." },
+          ],
+        },
+      ],
+      reference: "Rescue dua sisi: pra-DELETE via flashback query AS OF sebelum DELETE; pasca-DELETE via SELECT kini; rekonsiliasi tertulis selisih nol sebelum akses tulis dibuka.",
     },
     {
       id: "kuis",

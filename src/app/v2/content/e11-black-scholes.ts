@@ -5,7 +5,7 @@ export const e11: V2Lesson = {
   track: "Financial Markets",
   module: "Derivatif",
   title: "E11. Black-Scholes & Greeks",
-  estMinutes: 55,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita-1973",
@@ -189,6 +189,82 @@ export const e11: V2Lesson = {
         body: "Black-Scholes tidak memprediksi harga opsi yang “benar” — ia menyediakan bahasa umum agar trader bisa berkata “put ini mahal” dalam satuan volatilitas, bukan rupiah. Empat heuristik. Pertama: kalau model dan pasar beda, pasar yang benar — smile/skew adalah pasar yang memberi tahumu asumsi mana yang dilanggar; dengarkan, jangan berdebat dengan pasar. Kedua: harga proteksi crash (OTM put) mahal BUKAN karena penjualnya serakah, melainkan karena saat crash terjadi, semua pembeli proteksi menagih bersamaan sementara penjualnya bangkrut — premi itu membayar risiko korelasi, bukan sekadar volatilitas. Ketiga: 1987 mengajarkan bahwa model yang dipakai semua orang menjadi bagian dari pasar — portfolio insurance yang mengasumsikan likuiditas justru menghancurkannya; model bisa menjadi pemicu dari apa yang ia asumsikan tidak ada. Keempat: praktisi mengutip dalam IV, bukan rupiah — IV membuat opsi beda strike dan tenor bisa dibandingkan apel-ke-apel; harga rupiah tanpa konteks vol = angka buta. Aturan 10 detiknya: pakai model untuk mengukur dan membandingkan, jangan untuk meyakinkan diri bahwa ekor tidak ada.",
       },
       reference: "BS = penerjemah harga→IV. Smile = harga ketakutan. 1987 = model dimakan ekor.",
+    },
+    {
+      id: "gap-g23-bs-dividen",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G23)",
+      title: "Black-Scholes dengan dividen: input keenam q",
+      prose: [
+        "Rumus yang diajarkan di langkah 1 berlaku untuk saham TANPA dividen. Saham berdividen butuh input keenam: dividend yield q — dan mengabaikannya bukan pembulatan, melainkan salah harga. Logikanya: pemegang call tidak menerima dividen; dividen yang dibayarkan sebelum kedaluwarsa mengalir ke pemegang saham, bukan ke pemegang opsi — jadi harga saham yang relevan untuk opsi adalah harga saham dikurangi nilai kini dividen yang akan dibayarkan, S × e^(−qT). Rumus call menjadi C = S×e^(−qT)×N(d1) − K×e^(−rT)×N(d2), dengan d1 memakai (r − q + σ²/2) — q mengurangi drift risk-neutral, persis seperti r yang lebih kecil.",
+        "Contoh penuh: S = 100, K = 100, T = 1, r = 5%, q = 3%, σ = 20%. Hitung: d1 = (ln(100/100) + (0,05 − 0,03 + 0,5×0,04) × 1) / (0,20 × 1) = (0 + 0,04) / 0,20 = 0,20. d2 = 0,20 − 0,20 = 0,00. N(d1) = 0,57926, N(d2) = 0,50000. C = 100 × e^(−0,03) × 0,57926 − 100 × e^(−0,05) × 0,50 = 56,21 − 47,56 = 8,65. Bandingkan tanpa dividen (q = 0): d1 = 0,35, d2 = 0,15, C = 10,45. Dividen 3% memangkas harga call sebesar 1,80 (17%) — karena sebagian nilai saham akan bocor sebagai dividen sebelum opsi dieksekusi. Put-nya lewat paritas dengan dividen: P = C + K×e^(−rT) − S×e^(−qT) = 8,65 + 95,12 − 97,04 = 6,73.",
+        "Tiga catatan praktik. Satu, q di sini adalah dividend yield kontinu — dividen diskret (misal Rp2.000 per kuartal) harus dikonversi dulu (jumlahkan nilai kini dividen, kurangi dari S — model escrowed dividend). Dua, q yang dipakai adalah ekspektasi pasar, bukan dividen tahun lalu — memakai yield historis saat dividen baru dipotong salah harga dua arah. Tiga, untuk indeks (misal IDX Composite), q adalah yield agregat indeks — itulah sebabnya opsi indeks hampir selalu dihitung dengan q, sementara opsi saham tunggal sering dihitung tanpa q bila dividennya kecil.",
+      ],
+      formula: String.raw`C = S e^{-qT} N(d_1) - K e^{-rT} N(d_2) \qquad d_1 = \frac{\ln(S/K) + (r - q + \sigma^2/2)T}{\sigma\sqrt{T}}`,
+      formulaNote: "S=100, K=100, T=1, r=5%, q=3%, σ=20% → d1=0,20, d2=0,00, C=8,65 (tanpa dividen 10,45). Put = 6,73.",
+      tasks: [
+        { id: "t1", text: "Hitung `d1` dan `d2` dengan dividend yield q = 3%" },
+        { id: "t2", text: "Hitung harga call `call_q` dan put `put_q` (paritas dengan dividen)" },
+      ],
+      expected: "d1=0.2000  d2=0.0000  call_q=8.65  put_q=6.73",
+      hints: [
+        "d1 = (ln(S/K) + (r − q + 0,5σ²)×T) / (σ√T); d2 = d1 − σ√T.",
+        "N(x) = 0,5×(1 + erf(x/√2)) — pakai math.erf.",
+        "Put dari paritas: P = C + K×e^(−rT) − S×e^(−qT).",
+      ],
+      code: {
+        starter: `import math\n\ndef N(x):\n    return 0.5 * (1 + math.erf(x / math.sqrt(2)))\n\nS, K, T, r, q, sigma = 100, 100, 1.0, 0.05, 0.03, 0.20\n\n# TULIS KODEMU: Black-Scholes dengan dividend yield q.\nd1 = \nd2 = \ncall_q = \nput_q = \n\nprint(f"d1={d1:.4f}  d2={d2:.4f}  call_q={call_q:.2f}  put_q={put_q:.2f}")`,
+        lockLines: 5,
+        solution: `import math\n\ndef N(x):\n    return 0.5 * (1 + math.erf(x / math.sqrt(2)))\n\nS, K, T, r, q, sigma = 100, 100, 1.0, 0.05, 0.03, 0.20\n\n# TULIS KODEMU: Black-Scholes dengan dividend yield q.\nd1 = (math.log(S / K) + (r - q + 0.5 * sigma ** 2) * T) / (sigma * math.sqrt(T))\nd2 = d1 - sigma * math.sqrt(T)\ncall_q = S * math.exp(-q * T) * N(d1) - K * math.exp(-r * T) * N(d2)\nput_q = call_q + K * math.exp(-r * T) - S * math.exp(-q * T)\n\nprint(f"d1={d1:.4f}  d2={d2:.4f}  call_q={call_q:.2f}  put_q={put_q:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "d1", value: 0.2, tol: 0.001, label: "`d1` = 0,20", msg: "(0 + (0,05−0,03+0,02)×1)/0,20 = 0,20." },
+          { kind: "equal", task: "t1", name: "d2", value: 0.0, tol: 0.001, label: "`d2` = 0,00", msg: "0,20 − 0,20 = 0,00 — N(d2) tepat 0,50." },
+          { kind: "equal", task: "t2", name: "call_q", value: 8.65, tol: 0.01, label: "`call_q` = 8,65", msg: "56,21 − 47,56 = 8,65 — dividen memangkas 1,80 dari 10,45." },
+          { kind: "equal", task: "t2", name: "put_q", value: 6.73, tol: 0.01, label: "`put_q` = 6,73", msg: "Paritas dengan dividen: 8,65 + 95,12 − 97,04 = 6,73." },
+          { kind: "stdout_matches", task: "t2", pattern: "d1=0.2000\\s+d2=0.0000\\s+call_q=8.65\\s+put_q=6.73", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Call atas saham berdividen (q = 3%) dihargai dengan rumus tanpa dividen. Apa yang terjadi?",
+          options: [
+            { text: "Call dinilai terlalu mahal (10,45 vs 8,65) — dividen yang bocor tidak dihitung", why: "Tepat: pemegang call tidak menerima dividen; mengabaikan q melebih-lebihkan nilai call 1,80.", correct: true },
+            { text: "Call dinilai terlalu murah — dividen menambah nilai opsi", why: "Salah: dividen MENGURANGI nilai call (mengalir ke pemegang saham, bukan opsi); arahnya kebalik." },
+            { text: "Tidak ada efek — q hanya memengaruhi put", why: "Salah: q masuk d1 dan faktor S×e^(−qT) pada call; put ikut lewat paritas." },
+            { text: "Efeknya hilang bila T = 1 tahun — q hanya penting untuk tenor panjang", why: "Salah: pada T = 1 tahun efeknya sudah 1,80 (17%); makin panjang T, makin besar." },
+          ],
+        },
+      ],
+      reference: "Saham berdividen: C = S×e^(−qT)×N(d1) − K×e^(−rT)×N(d2), d1 memakai (r − q + σ²/2). Contoh: q=3% → call 8,65 (bukan 10,45), put 6,73.",
+    },
+    {
+      id: "gap-g24-iv-greeks-interpretasi",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G24)",
+      title: "IV dan Greeks: interpretasi yang benar (dan tiga salah kaprah)",
+      prose: [
+        "Lesson ini sudah menghitung Greeks-nya (delta 0,637, gamma 0,0125, theta −0,0235 per hari, vega 37,52 per 100% σ alias 0,38 per 1 poin persen). Langkah ini memastikan angkanya dibaca dengan benar — karena Greeks yang salah dibaca lebih berbahaya daripada Greeks yang tidak dihitung. Salah kaprah satu: delta = probabilitas. Delta call 0,637 sering dibaca 'peluang 63,7% opsi berakhir in-the-money'. Salah — delta adalah hedge ratio: harga opsi naik Rp0,64 bila saham naik Rp1. Probabilitas risk-neutral berakhir in-the-money adalah N(d2), bukan N(d1) — dan keduanya adalah probabilitas di dunia risk-neutral, bukan dunia nyata; pasar tidak berjanji apa pun soal frekuensi kejadian.",
+        "Salah kaprah dua: IV = ramalan. IV 20% pada langkah IV dibaca 'pasar meramal saham bergerak ±20% setahun dengan peluang 68%'. Yang benar: 68% dalam ±20% hanya berlaku BILA return lognormal DAN volatilitas konstan — dua asumsi yang tidak pernah benar persis. IV adalah HARGA ketidakpastian (biaya mengasuransikan gerakan), bukan ramalan gerakan: IV tinggi bisa berarti pasar takut, bisa berarti pasar bersiap — tetapi tidak pernah berarti pasar tahu arah. Buktinya: IV melonjak sebelum pengumuman lalu anjlok sesudahnya (volatility crush) — pembeli opsi yang benar arah tetap rugi karena premi menyusut.",
+        "Salah kaprah tiga: Greeks sebagai angka mati. Delta 0,637 berlaku SAAT INI, pada harga SAAT INI. Gamma 0,0125 berarti bila saham naik Rp1, delta menjadi 0,637 + 0,0125 = 0,6495 ≈ 0,65 — delta bergerak, dan makin dekat kedaluwarsa dan makin at-the-money, gamma makin besar sehingga delta berubah makin liar. Theta −0,0235 per hari berarti opsi kehilangan Rp0,0235 tiap hari — tetapi theta mempercepat mendekati kedaluwarsa: es batu meleleh makin cepat saat mengecil. Vega 0,38 per 1 poin persen IV berarti IV naik 1 poin (misal 30% ke 31%) menaikkan harga opsi Rp0,38 — dan saat IV crush 60% ke 25%, opsi kehilangan 35 × 0,38 = Rp13,30 hanya dari vega, sebelum arah harga dihitung. Membaca Greeks berarti membaca ketiganya sebagai turunan yang bergerak, bukan sebagai label tetap.",
+      ],
+      formula: String.raw`\Delta = \text{hedge ratio} \neq P(ITM) \qquad \text{Vega crush: } \Delta C = \text{vega} \times \Delta IV`,
+      formulaNote: "Delta 0,637 = Rp0,64 per Rp1 saham. IV crush 35 poin × vega 0,38 = Rp13,30 hilang dari premi.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        type: "pitfall",
+        body: "Membeli call karena 'delta 0,64 berarti peluang menang 64%'. Delta bukan probabilitas — ia hedge ratio. Dan IV bukan ramalan arah — ia harga ketakutan. Trader yang membeli narasi ini membeli premi mahal menjelang peristiwa, lalu kalah oleh theta dan vega crush walau arahnya benar.",
+      },
+      quiz: [
+        {
+          q: "Call delta 0,637, gamma 0,0125, theta −0,0235/hari, vega 0,38 per 1 poin IV. Saham naik Rp1 dan IV turun 10 poin di hari yang sama. Efek orde-pertama pada harga opsi?",
+          options: [
+            { text: "Naik ~Rp0,64 dari delta, turun ~Rp3,80 dari vega → net sekitar −Rp3,16 (belum termasuk theta dan gamma)", why: "Tepat: +0,64 − (10 × 0,38) = −3,16; arah benar pun kalah oleh IV crush.", correct: true },
+            { text: "Naik Rp0,64 — hanya delta yang penting", why: "Salah: vega 10 poin = −Rp3,80, jauh lebih besar dari delta; mengabaikannya berarti mengabaikan mesin terbesar hari itu." },
+            { text: "Naik 63,7% — delta adalah probabilitas menang", why: "Salah: delta = hedge ratio (Rp0,64 per Rp1), bukan probabilitas; N(d2) pun probabilitas risk-neutral, bukan dunia nyata." },
+            { text: "Turun Rp0,0235 — hanya theta yang bekerja harian", why: "Salah: theta hanya −Rp0,0235; vega crush −Rp3,80 mendominasi hari itu." },
+          ],
+        },
+      ],
+      reference: "Delta = hedge ratio (bukan probabilitas); IV = harga ketidakpastian (bukan ramalan arah); Greeks bergerak — gamma mengubah delta, theta mempercepat, vega menghukum IV crush.",
     },
     {
       id: "checkpoint",

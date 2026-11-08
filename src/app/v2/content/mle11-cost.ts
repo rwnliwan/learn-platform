@@ -5,7 +5,7 @@ export const mle11: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Skala & Tanggung Jawab",
   title: "MLE11 — Cost & Latency Optimization",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "mulai",
@@ -278,6 +278,52 @@ print(f"fp32={fp32_mb:.0f}MB  int8={int8_mb:.0f}MB  hemat={hemat:.0f}%")`,
       ],
       tasks: [
       ],
+    },
+    {
+      id: "gap-g28-latensi-persentil",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G28)",
+      title: "Latensi yang jujur: p50, p95, p99 — bukan rata-rata",
+      prose: [
+        "Rata-rata latensi adalah statistik yang paling sering dilaporkan dan paling sedikit memberi informasi. Dua puluh empat request dengan latensi (ms): 12, 14, 15, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 30, 33, 38, 45, 60, 90, 150, 380. Rata-ratanya 47,5 ms — angka yang tampak aman. Persentilnya bercerita lain: p50 = 23 ms (request tengah), p95 = 150 ms, p99 = 380 ms. Satu request 380 ms menarik rata-rata ke atas sampai dua kali lipat p50, dan tetap menyembunyikan bahwa 5% request menembus 150 ms. Pengguna tidak merasakan rata-rata — ia merasakan request-nya sendiri, dan request sial itu ada di ekor.",
+        "Metode hitungnya: nearest-rank. Urutkan data, lalu persentil ke-p adalah data urutan ke-ceil(p/100 × n). Dengan n = 24: p50 → urutan ke-12 = 23; p95 → urutan ke-23 = 150; p99 → urutan ke-24 = 380. Perhatikan: p99 pada sampel kecil praktis sama dengan maksimum — ia tidak stabil. Jangan laporkan p99 dari 24 sampel sebagai kebenaran; laporkan bersama ukuran sampelnya, atau kumpulkan minimal ratusan sampel sebelum p99 dianggap serius. Sebaliknya p95 dari 24 sampel sudah cukup memberi sinyal.",
+        "Aturan SLO: tulis batas pada persentil — misal p95 di bawah 100 ms dan p99 di bawah 250 ms — dan alarm pada persentil, bukan rata-rata. Deployment pada contoh ini gagal di keduanya (p95 150, p99 380) walau rata-ratanya 47,5 ms. Dan saat mengoptimalkan, kejar ekornya: cold start, GC pause, antrean saat burst, dan retry storm adalah penyebab ekor — bukan kecepatan rata-rata komputasi model. Mempercepat p50 dari 23 ke 20 ms tidak menolong pengguna yang terjebak 380 ms.",
+      ],
+      formula: String.raw`p_k = \text{data terurut ke-} \lceil k/100 \times n \rceil \qquad \text{SLO pada } p_{95}, p_{99}`,
+      formulaNote: "n = 24: rata-rata 47,5 ms, p50 23, p95 150, p99 380. Rata-rata menyembunyikan ekor.",
+      tasks: [
+        { id: "t1", text: "Hitung `p50`, `p95`, `p99` (nearest-rank) dari daftar latensi" },
+        { id: "t2", text: "Hitung `rata_rata` dan tentukan `lolos_slo` (\"ya\" bila p95 di bawah 100 dan p99 di bawah 250)" },
+      ],
+      expected: "p50=23  p95=150  p99=380  rata_rata=47.5  lolos_slo=tidak",
+      hints: [
+        "Urutkan dulu; p50 → urutan ke-12, p95 → ke-23, p99 → ke-24.",
+        "Rata-rata = jumlah seluruh latensi dibagi 24.",
+        "SLO: p95 di bawah 100 ms DAN p99 di bawah 250 ms.",
+      ],
+      code: {
+        starter: `import math\n\nlatensi = [12, 14, 15, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 33, 38, 45, 60, 90, 150, 380]\n\n# TULIS KODEMU: persentil nearest-rank, rata-rata, vonis SLO.\ndef persentil(data, p):\n    urut = sorted(data)\n    k = math.ceil(p / 100 * len(urut))\n    return urut[k - 1]\n\np50 = \np95 = \np99 = \nrata_rata = \nlolos_slo = \n\nprint(f"p50={p50}  p95={p95}  p99={p99}  rata_rata={rata_rata}  lolos_slo={lolos_slo}")`,
+        lockLines: 7,
+        solution: `import math\n\nlatensi = [12, 14, 15, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 33, 38, 45, 60, 90, 150, 380]\n\n# TULIS KODEMU: persentil nearest-rank, rata-rata, vonis SLO.\ndef persentil(data, p):\n    urut = sorted(data)\n    k = math.ceil(p / 100 * len(urut))\n    return urut[k - 1]\n\np50 = persentil(latensi, 50)\np95 = persentil(latensi, 95)\np99 = persentil(latensi, 99)\nrata_rata = sum(latensi) / len(latensi)\nlolos_slo = "ya" if p95 < 100 and p99 < 250 else "tidak"\n\nprint(f"p50={p50}  p95={p95}  p99={p99}  rata_rata={rata_rata}  lolos_slo={lolos_slo}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "p50", value: 23, tol: 1, label: "`p50` = 23 ms", msg: "Urutan ke-12 dari 24 data = 23." },
+          { kind: "equal", task: "t1", name: "p95", value: 150, tol: 1, label: "`p95` = 150 ms", msg: "Urutan ke-23 = 150 — di atas SLO 100 ms." },
+          { kind: "equal", task: "t1", name: "p99", value: 380, tol: 1, label: "`p99` = 380 ms", msg: "Urutan ke-24 = maksimum — ekor ekstrem." },
+          { kind: "equal", task: "t2", name: "rata_rata", value: 47.5, tol: 0.1, label: "`rata_rata` = 47,5 ms", msg: "Jumlah 1.140 / 24 = 47,5 — tampak aman, menipu." },
+          { kind: "stdout_matches", task: "t2", pattern: "p50=23\\s+p95=150\\s+p99=380\\s+rata_rata=47.5\\s+lolos_slo=tidak", label: "`print` menampilkan kelima nilai", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Rata-rata 47,5 ms tapi p99 380 ms dari 24 sampel. Pernyataan yang benar?",
+          options: [
+            { text: "SLO gagal — p95 150 dan p99 380 melewati batas; dan p99 dari 24 sampel belum stabil", why: "Tepat: dua kebenaran sekaligus — vonis gagal DAN catatan bahwa p99 sampel kecil = praktis maksimum.", correct: true },
+            { text: "SLO lolos — rata-rata di bawah 100 ms", why: "Salah: SLO ditulis pada persentil, bukan rata-rata." },
+            { text: "p99 380 ms adalah bukti akurat ekor populasi", why: "Salah: dari 24 sampel, p99 = maksimum; butuh ratusan sampel sebelum p99 stabil." },
+            { text: "Fokus optimalkan p50 — itulah yang dirasakan sebagian besar pengguna", why: "Salah: p50 sudah 23 ms; yang menyakitkan adalah ekor (cold start, antrean, GC pause)." },
+          ],
+        },
+      ],
+      reference: "Latensi dilaporkan sebagai p50/p95/p99 (nearest-rank) + ukuran sampel; SLO dan alarm pada persentil, bukan rata-rata.",
     },
     {
       id: "checkpoint",

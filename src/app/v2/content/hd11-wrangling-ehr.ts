@@ -5,7 +5,7 @@ export const hd11: V2Lesson = {
   track: "Health Data Science",
   module: "Data Science Klinis",
   title: "HD11 Fenotipe & OMOP: Menjinakkan Data EHR Mentah",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "tujuhbelas-definisi",
@@ -214,6 +214,35 @@ export const hd11: V2Lesson = {
         ],
       },
       reference: "Field langka yang cocok = bukti kuat; field penting yang tak cocok = penalti berat. Ambang dikalibrasi, bukan ditebak.",
+    },
+    {
+      id: "gap-g31-fenotip-sensitivitas",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G31)",
+      title: "Fenotip itu pilihan: sensitivitas terhadap definisi dan ketidakpastiannya",
+      prose: [
+        "Satu kohort, tiga definisi fenotip, tiga prevalensi — dan ketiganya bisa dipertahankan. Pada 10.000 pasien, definisi longgar (kode ICD saja) menemukan 820 kasus diabetes (8,2%). Definisi sedang (ICD + hasil lab HbA1c) menemukan 650 kasus (6,5%). Definisi ketat (ICD + lab + obat antidiabetik) menemukan 510 kasus (5,1%). Selisih 310 pasien (dari 8,2% ke 5,1%) bukan error — ia adalah ketidakpastian definisi, dan ia lebih besar daripada kebanyakan efek yang ingin kamu ukur. Studi yang melaporkan prevalensi tanpa melaporkan sensitivitas terhadap definisi menyembunyikan ketidakpastian terbesarnya.",
+        "Analisis sensitivitas fenotip punya tiga lapis. Lapis satu, definisi bertingkat seperti di atas: laporkan hasil utama pada definisi PRIMER yang ditetapkan sebelum analisis, dan laporkan hasil pada definisi longgar dan ketat sebagai sensitivitas. Bila kesimpulan (misal arah asosiasi) bertahan di ketiganya, ia robust; bila berbalik, kesimpulanmu bergantung pada definisi — dan itu temuan, bukan kegagalan. Lapis dua, validasi chart review: ambil sampel acak dari tiap definisi, baca rekam medisnya manual, hitung PPV. Misal definisi ketat punya PPV 0,91 (dari 100 kasus, 91 benar) sementara definisi longgar PPV-nya 0,78 — selisih itu mengukur harga yang dibayar untuk sensitivitas.",
+        "Lapis tiga, ketidakpastian kuantitatif: laporkan prevalensi sebagai rentang antar-definisi (5,1% sampai 8,2%) dan, bila memakai fenotip sebagai outcome atau prediktor dalam model, jalankan quantitative bias analysis — misal dengan PPV dan sensitivitas fenotip yang diketahui, koreksi estimasi asosiasi terhadap misklasifikasi. Aturan yang tidak boleh dilanggar: definisi primer ditetapkan SEBELUM melihat hasil (pre-registration atau protokol tertulis); memilih definisi setelah melihat mana yang memberi hasil signifikan adalah p-hacking dengan baju fenotip.",
+      ],
+      formula: String.raw`\text{Prevalensi} \in [5{,}1\%,\, 8{,}2\%] \qquad \text{PPV} = \frac{\text{benar}}{\text{teridentifikasi}}`,
+      formulaNote: "ICD saja 820 (8,2%); ICD+lab 650 (6,5%); ICD+lab+obat 510 (5,1%). PPV ketat 0,91 vs longgar 0,78.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Memakai definisi fenotip yang sama untuk semua tujuan. Fenotip untuk skrining butuh sensitivitas tinggi (definisi longgar, tangkap semua); fenotip untuk asosiasi genetik butuh PPV tinggi (definisi ketat, sedikit false positive). Definisi yang benar bergantung pada pertanyaan — dan harus ditulis sebelum analisis.",
+      },
+      quiz: [
+        {
+          q: "Prevalensi diabetes 8,2% (ICD saja) vs 5,1% (ICD+lab+obat). Asosiasi obat X dengan diabetes signifikan pada definisi longgar, hilang pada definisi ketat. Kesimpulan?",
+          options: [
+            { text: "Kesimpulan bergantung pada definisi — laporkan keduanya dan selidiki misklasifikasi, jangan pilih yang signifikan", why: "Tepat: hasil yang berbalik antar-definisi adalah temuan sensitivitas; memilih definisi pasca-hoc = p-hacking.", correct: true },
+            { text: "Pakai definisi longgar — sampel lebih besar berarti hasil lebih benar", why: "Salah: lebih besar belum tentu lebih benar; definisi longgar punya PPV lebih rendah (0,78) — false positive bisa menciptakan asosiasi palsu." },
+            { text: "Pakai definisi ketat — PPV tertinggi selalu yang benar", why: "Salah: ketat kehilangan kasus sejati (sensitivitas lebih rendah); yang benar adalah melaporkan rentang dan PPV keduanya." },
+            { text: "Rata-ratakan prevalensinya jadi 6,5% dan laporkan itu", why: "Salah: 6,5% adalah definisi sedang, bukan rata-rata; dan prevalensi bukan angka yang dirata-rata begitu saja." },
+          ],
+        },
+      ],
+      reference: "Fenotip = pilihan definisi: laporkan prevalensi per definisi (5,1–8,2%), validasi PPV via chart review, tetapkan definisi primer sebelum analisis.",
     },
     {
       id: "checkpoint",

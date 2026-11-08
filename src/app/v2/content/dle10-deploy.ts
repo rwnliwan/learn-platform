@@ -22,7 +22,7 @@ export const dle10: V2Lesson = {
   track: "Deep Learning Engineer",
   module: "Training & Produksi",
   title: "DLE10 — Deploy Model DL",
-  estMinutes: 65,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita-hp",
@@ -247,6 +247,52 @@ export const dle10: V2Lesson = {
         body: "Engine TensorRT dikompilasi UNTUK arsitektur GPU spesifik (T4 ≠ A10 ≠ L4). Pindah GPU = rebuild + revalidasi akurasi/latensi. Dokumentasikan pasangan (versi TensorRT, arsitektur GPU, opset ONNX) sebagai bagian artefak deploy — engine tanpa metadata = tidak bisa direproduksi saat insiden.",
       },
       reference: "TensorRT = optimasi mesin (fusion, kalibrasi, auto-tuning). KV cache = decode cepat dibayar VRAM ∝ batch × seq_len.",
+    },
+    {
+      id: "gap-g4-latency-memory-lab",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G4)",
+      title: "Lab end-to-end: latensi dan memori dari request sampai respons",
+      prose: [
+        "Rata-rata latensi menipu. Satu deployment bisa melaporkan rata-rata 54,4 ms sementara 5% request-nya di atas 120 ms dan satu request mencapai 310 ms — dan justru ekor itulah yang dirasakan pengguna saat antrean penuh. Lab ini mengukur ujung-ke-ujung dengan cara yang benar: kumpulkan 20 latensi request nyata (milisekon), hitung persentil dengan metode nearest-rank, dan pantau puncak memori (RSS) selama batch berjalan. Persentil p50 = nilai tengah; p95 = nilai yang dilampaui hanya 5% request; p99 = ekor ekstrem.",
+        "Data latensi (ms, sudah urut): 18, 21, 22, 24, 25, 26, 27, 29, 31, 33, 35, 38, 41, 44, 48, 55, 63, 78, 120, 310. Rata-ratanya 54,4 ms — tapi p50 = 33 ms, p95 = 120 ms, p99 = 310 ms. Rata-rata hampir dua kali lipat p50 karena satu outlier 310 ms menariknya ke atas. Sampel RSS (MB) selama 10 batch: 512, 518, 520, 524, 531, 540, 548, 560, 575, 590 — puncak 590 MB, naik 78 MB dari awal: ada pertumbuhan memori yang harus dijelaskan sebelum naik ke produksi (cache yang tidak dibatasi? tensor yang tidak dibebaskan?).",
+        "Aturan keputusan: SLO ditulis pada persentil, bukan rata-rata — misal p95 di bawah 100 ms dan p99 di bawah 250 ms. Deployment ini GAGAL di keduanya (p95 120, p99 310) walau rata-ratanya terlihat aman. Dan memori: puncak RSS dibandingkan dengan limit container — bila limit 512 MB, batch ini sudah OOM-killed sejak batch pertama; bila limit 1 GB, masih ada ruang 434 MB. Ukur dulu, baru klaim cepat.",
+      ],
+      formula: String.raw`p_k = \text{data terurut ke-} \lceil k/100 \times n \rceil \qquad \text{SLO pada } p_{95}, p_{99} \text{ — bukan rata-rata}`,
+      formulaNote: "Nearest-rank: n = 20, p95 → urutan ke-19 = 120 ms; p99 → urutan ke-20 = 310 ms.",
+      tasks: [
+        { id: "t1", text: "Hitung `p50`, `p95`, `p99` dari daftar latensi (nearest-rank)" },
+        { id: "t2", text: "Hitung `puncak_rss` dari sampel RSS" },
+      ],
+      expected: "p50=33  p95=120  p99=310  puncak_rss=590",
+      hints: [
+        "Urutkan dulu, lalu ambil indeks ceil(p/100 × n) − 1 (Python 0-based).",
+        "p50 → urutan ke-10; p95 → ke-19; p99 → ke-20.",
+        "Puncak RSS = nilai maksimum sampel.",
+      ],
+      code: {
+        starter: `import math\n\nlatensi = [18, 21, 22, 24, 25, 26, 27, 29, 31, 33, 35, 38, 41, 44, 48, 55, 63, 78, 120, 310]\nrss = [512, 518, 520, 524, 531, 540, 548, 560, 575, 590]  # MB per batch\n\n# TULIS KODEMU: persentil nearest-rank + puncak RSS\ndef persentil(data, p):\n    urut = sorted(data)\n    k = math.ceil(p / 100 * len(urut))\n    return urut[k - 1]\n\np50 = \np95 = \np99 = \npuncak_rss = \n\nprint(f"p50={p50}  p95={p95}  p99={p99}  puncak_rss={puncak_rss}")`,
+        lockLines: 4,
+        solution: `import math\n\nlatensi = [18, 21, 22, 24, 25, 26, 27, 29, 31, 33, 35, 38, 41, 44, 48, 55, 63, 78, 120, 310]\nrss = [512, 518, 520, 524, 531, 540, 548, 560, 575, 590]  # MB per batch\n\n# TULIS KODEMU: persentil nearest-rank + puncak RSS\ndef persentil(data, p):\n    urut = sorted(data)\n    k = math.ceil(p / 100 * len(urut))\n    return urut[k - 1]\n\np50 = persentil(latensi, 50)\np95 = persentil(latensi, 95)\np99 = persentil(latensi, 99)\npuncak_rss = max(rss)\n\nprint(f"p50={p50}  p95={p95}  p99={p99}  puncak_rss={puncak_rss}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "p50", value: 33, tol: 1, label: "`p50` = 33 ms", msg: "Urutan ke-10 dari 20 data = 33." },
+          { kind: "equal", task: "t1", name: "p95", value: 120, tol: 1, label: "`p95` = 120 ms", msg: "Urutan ke-19 = 120 — SLO p95 di bawah 100 ms GAGAL." },
+          { kind: "equal", task: "t1", name: "p99", value: 310, tol: 1, label: "`p99` = 310 ms", msg: "Urutan ke-20 = 310 — ekor ekstrem yang disembunyikan rata-rata." },
+          { kind: "equal", task: "t2", name: "puncak_rss", value: 590, tol: 1, label: "`puncak_rss` = 590 MB", msg: "Maksimum sampel RSS; naik 78 MB dari batch pertama." },
+          { kind: "stdout_matches", task: "t2", pattern: "p50=33\\s+p95=120\\s+p99=310\\s+puncak_rss=590", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Rata-rata latensi 54,4 ms, p50 33 ms, p95 120 ms, p99 310 ms. Kesimpulan yang benar?",
+          options: [
+            { text: "Deployment gagal SLO p95/p99 walau rata-rata terlihat aman — ekornya yang bermasalah", why: "Tepat: SLO ditulis pada persentil; p95 120 dan p99 310 melewati batas 100/250.", correct: true },
+            { text: "Aman — rata-rata 54,4 ms di bawah 100 ms", why: "Salah: rata-rata menyembunyikan ekor; 5% request di atas 120 ms." },
+            { text: "p50 33 ms berarti 50% request lebih lambat dari 33 ms — itu yang terpenting", why: "Salah: p50 hanya titik tengah; yang dirasakan pengguna saat macet adalah p95/p99." },
+            { text: "Hapus outlier 310 ms lalu laporkan rata-rata baru", why: "Salah: menghapus data agar angka cantik = menipu diri; outlier adalah sinyal, bukan sampah." },
+          ],
+        },
+      ],
+      reference: "Ukur latensi ujung-ke-ujung sebagai persentil (p50/p95/p99, nearest-rank) + puncak RSS; SLO pada persentil, bukan rata-rata.",
     },
     {
       id: "checkpoint",

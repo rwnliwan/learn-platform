@@ -5,7 +5,7 @@ export const cr14b: V2Lesson = {
   track: "Credit Risk",
   module: "LGD, EAD & ECL",
   title: "CR14B — ECL: Perhitungan, Jurnal & Backtest",
-  estMinutes: 45,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -175,6 +175,99 @@ export const cr14b: V2Lesson = {
         body: "Berhentilah memikirkan ECL sebagai \"tebakan kerugian masa depan\" — pikirkan sebagai harga premi asuransi yang wajar untuk portofolio ini, hari ini. Penjual asuransi tidak meramal siapa yang sakit; ia menghitung harga dari peluang, keparahan, dan nilai waktu uang. Begitu cara berpikirnya berubah, urutan operasi menjadi intuitif: harga dihitung per periode lalu dibawa ke nilai kini, dan ketidakpastian harga (skenario) dibobot paling akhir. Heuristik yang jarang diajarkan: ketika dua analis menghasilkan ECL berbeda 30% dari data yang sama, perbedaannya hampir pasti bukan di data — melainkan di tiga asumsi judgmental: bobot skenario, EIR yang dipakai, dan LGD. Data adalah 20% pekerjaan; 80%-nya adalah asumsi yang bisa dipertahankan di depan auditor. Maka alokasikan waktumu terbalik dari insting: sedikit untuk query, banyak untuk dokumentasi asumsi. Dan ingat sifat ECL yang paling sering dilupakan: ia asimetris. ECL yang terlalu rendah 20% bisa memicu temuan audit, restatement, dan sanksi; ECL yang terlalu tinggi 20% hanya membuat laba terlihat konservatif. Asimetri ini bukan alasan untuk melebih-lebihkan — melainkan alasan mengapa governance atas asumsi judgmental harus lebih ketat daripada governance atas kode.",
       },
       reference: "Yang paling sensitif = yang paling judgmental = yang paling butuh governance.",
+    },
+    {
+      id: "gap-g21-tabel-input-rekonsiliasi-ecl",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G21)",
+      title: "Tabel input ke output: setiap rupiah ECL bisa dilacak ke asalnya",
+      prose: [
+        "ECL final Rp11,31 juta dari lab sebelumnya terlihat seperti angka ajaib bila tidak ada tabel yang menghubungkannya ke input. Tabel rekonsiliasi memecahnya menjadi rantai yang bisa diaudit baris per baris. Input: EAD awal Rp500 juta, LGD 30%, EIR 8%, amortisasi 8% per tahun, PD flat per skenario (optimis 0,8%, baseline 1,2%, pesimis 2,5%), bobot skenario 20% / 50% / 30%. Perantara: ECL tiap skenario dari fungsi yang sama — optimis Rp6,0 juta, baseline Rp9,0 juta, pesimis Rp18,7 juta. Output: kontribusi tiap skenario ke final — optimis 0,20 × 6,0 = Rp1,20 juta; baseline 0,50 × 9,0 = Rp4,50 juta; pesimis 0,30 × 18,7 = Rp5,61 juta; final = 1,20 + 4,50 + 5,61 = Rp11,31 juta.",
+        "Tabel ini menjawab tiga pertanyaan audit dalam satu pandangan. Satu, dari mana angka final berasal — tiap rupiah punya induk (skenario) dan kakek (PD, LGD, EAD, diskonto). Dua, siapa penyumbang terbesar — skenario pesimis menyumbang Rp5,61 juta alias 49,6% dari final, walau bobotnya hanya 30%: ekornya yang mahal, bukan badannya. Tiga, apa yang berubah bila satu input berubah — naikkan PD pesimis 10%, ECL pesimis naik 10% (linear), final naik 0,56 juta. Tanpa tabel ini, ECL adalah kotak hitam; dengan tabel ini, direksi bisa bertanya dan analis bisa menjawab tanpa membuka kode.",
+        "Disiplin tabel: satu, tulis SEMUA input dengan satuan dan sumbernya (PD dari model mana? LGD dari workout tahun berapa? EIR dari kontrak?). Dua, tunjukkan perantara, bukan hanya input dan output — ECL per skenario adalah jembatan yang membuat lompatan ke final bisa diperiksa. Tiga, jumlahkan dengan pembulatan yang konsisten: 1,20 + 4,50 + 5,61 = 11,31 — bila tabelmu menjumlah ke 11,30 karena pembulatan, tulis selisih pembulatannya, jangan sembunyikan.",
+      ],
+      formula: String.raw`\text{ECL final} = \sum_s w_s \times ECL_s = 1{,}20 + 4{,}50 + 5{,}61 = 11{,}31`,
+      formulaNote: "Pesimis menyumbang 5,61 dari 11,31 (49,6%) walau bobotnya hanya 30%.",
+      tasks: [
+        { id: "t1", text: "Hitung `kontr_opt`, `kontr_base`, `kontr_pes` (kontribusi tiap skenario, juta Rp)" },
+        { id: "t2", text: "Hitung `final` dan `share_pes` (persen final dari skenario pesimis)" },
+      ],
+      expected: "kontr_opt=1.2  kontr_base=4.5  kontr_pes=5.61  final=11.31  share_pes=49.6",
+      hints: [
+        "Kontribusi = bobot × ECL skenario: 0,2×6,0; 0,5×9,0; 0,3×18,7.",
+        "Final = jumlah ketiga kontribusi.",
+        "Share pesimis = kontribusi pesimis / final × 100.",
+      ],
+      code: {
+        starter: `# Tabel rekonsiliasi ECL: ECL per skenario (juta Rp) + bobot.\necl_skenario = {"optimis": 6.0, "baseline": 9.0, "pesimis": 18.7}\nbobot = {"optimis": 0.20, "baseline": 0.50, "pesimis": 0.30}\n\n# TULIS KODEMU: kontribusi tiap skenario, final, share pesimis.\nkontr_opt = \nkontr_base = \nkontr_pes = \nfinal = \nshare_pes = \n\nprint(f"kontr_opt={kontr_opt}  kontr_base={kontr_base}  kontr_pes={kontr_pes}  final={final}  share_pes={share_pes:.1f}")`,
+        lockLines: 3,
+        solution: `# Tabel rekonsiliasi ECL: ECL per skenario (juta Rp) + bobot.\necl_skenario = {"optimis": 6.0, "baseline": 9.0, "pesimis": 18.7}\nbobot = {"optimis": 0.20, "baseline": 0.50, "pesimis": 0.30}\n\n# TULIS KODEMU: kontribusi tiap skenario, final, share pesimis.\nkontr_opt = round(bobot["optimis"] * ecl_skenario["optimis"], 2)\nkontr_base = round(bobot["baseline"] * ecl_skenario["baseline"], 2)\nkontr_pes = round(bobot["pesimis"] * ecl_skenario["pesimis"], 2)\nfinal = round(kontr_opt + kontr_base + kontr_pes, 2)\nshare_pes = kontr_pes / final * 100\n\nprint(f"kontr_opt={kontr_opt}  kontr_base={kontr_base}  kontr_pes={kontr_pes}  final={final}  share_pes={share_pes:.1f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "kontr_opt", value: 1.2, tol: 0.01, label: "`kontr_opt` = Rp1,20 juta", msg: "0,20 × 6,0 = 1,20." },
+          { kind: "equal", task: "t1", name: "kontr_base", value: 4.5, tol: 0.01, label: "`kontr_base` = Rp4,50 juta", msg: "0,50 × 9,0 = 4,50." },
+          { kind: "equal", task: "t1", name: "kontr_pes", value: 5.61, tol: 0.01, label: "`kontr_pes` = Rp5,61 juta", msg: "0,30 × 18,7 = 5,61 — penyumbang terbesar." },
+          { kind: "equal", task: "t2", name: "final", value: 11.31, tol: 0.01, label: "`final` = Rp11,31 juta", msg: "1,20 + 4,50 + 5,61 = 11,31 — sama dengan lab ECL." },
+          { kind: "equal", task: "t2", name: "share_pes", value: 49.6, tol: 0.1, label: "`share_pes` = 49,6%", msg: "5,61/11,31 = 49,6% — ekornya yang mahal." },
+          { kind: "stdout_matches", task: "t2", pattern: "kontr_opt=1.2\\s+kontr_base=4.5\\s+kontr_pes=5.61\\s+final=11.31\\s+share_pes=49.6", label: "`print` menampilkan kelima angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Auditor bertanya: 'Dari mana Rp11,31 juta ini?' Jawaban yang benar memakai tabel rekonsiliasi?",
+          options: [
+            { text: "Tunjukkan rantai: input (PD/LGD/EAD/EIR/bobot) → ECL per skenario → kontribusi → final 11,31", why: "Tepat: tiap rupiah bisa dilacak ke asalnya; pesimis menyumbang 49,6% walau bobotnya 30%.", correct: true },
+            { text: "Tunjukkan kode fungsi hitung_ecl saja — kode adalah dokumentasi", why: "Salah: kode menunjukkan CARA hitung, bukan dari mana tiap rupiah berasal; tabel rekonsiliasi yang menjawab." },
+            { text: "Jawab 'dari model' — model sudah divalidasi", why: "Salah: 'dari model' bukan jawaban audit; auditor butuh rantai input → perantara → output." },
+            { text: "Tunjukkan ECL final kuartal lalu untuk perbandingan", why: "Salah: perbandingan historis tidak menjelaskan komposisi angka kuartal ini." },
+          ],
+        },
+      ],
+      reference: "Tabel rekonsiliasi ECL: input (PD/LGD/EAD/EIR/bobot) → ECL per skenario (6,0/9,0/18,7) → kontribusi (1,20/4,50/5,61) → final 11,31.",
+    },
+    {
+      id: "gap-g22-lifetime-ecl-vs-pd",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G22)",
+      title: "Lifetime ECL vs definisi PD: marginal, kumulatif, dan 12-bulan bukan hal yang sama",
+      prose: [
+        "Tiga definisi PD yang tertukar adalah sumber paling umum ECL yang salah hitung. PD 12-bulan: peluang gagal dalam 12 bulan ke depan, dari hari ini. PD kumulatif: peluang gagal KAPAN SAJA sampai tahun ke-T. PD marginal: peluang gagal TEPAT di tahun ke-t, setelah selamat sampai tahun itu. Lifetime ECL memakai PD MARGINAL tiap tahun — bukan PD 12-bulan yang diulang, bukan PD kumulatif yang dipakai sekali.",
+        "Contoh tiga tahun, PD kondisional per tahun 1,2%, 1,1%, 1,0% (peluang gagal di tahun itu bila selamat sampai awal tahun itu). PD marginal: tahun 1 = 1,200%; tahun 2 = 98,8% selamat × 1,1% = 1,087%; tahun 3 = 98,8% × 98,9% × 1,0% = 0,977%. Jumlah ketiganya = 3,264% — dan itu SAMA dengan PD kumulatif 3 tahun: 1 − (0,988 × 0,989 × 0,990) = 3,264%. Identitas ini adalah cek konsistensi: bila jumlah marginalmu tidak sama dengan kumulatif, ada yang salah hitung. ECL lifetime (LGD 45%, EAD Rp100 juta, EIR 5%): tahun 1 Rp514.286, tahun 2 Rp443.592, tahun 3 Rp379.838 — total Rp1.337.715.",
+        "Kesalahan klasik: memakai PD 12-bulan 1,2% untuk ketiga tahun (flat). Totalnya menjadi Rp1.470.554 — lebih besar Rp132.839 (9,9%) dari yang benar — karena ia mengabaikan bahwa sebagian debitur sudah gagal di tahun sebelumnya dan tidak bisa gagal lagi. Kesalahan kedua: memakai PD kumulatif 3,264% sebagai PD satu tahun — ECL meledak tiga kali lipat. Aturan hafalan: lifetime ECL = jumlah atas tahun dari (PD marginal tahun itu × LGD × EAD tahun itu, didiskonto). PD 12-bulan hanya untuk Stage 1; begitu masuk Stage 2, ganti ke marginal.",
+      ],
+      formula: String.raw`PD^{marg}_t = S_{t-1} \times PD^{kond}_t \qquad \sum_t PD^{marg}_t = PD^{kum}_T \qquad ECL = \sum_t \frac{PD^{marg}_t \times LGD \times EAD}{(1+EIR)^t}`,
+      formulaNote: "Marginal 1,200% / 1,087% / 0,977% — jumlah 3,264% = kumulatif. ECL lifetime Rp1.337.715.",
+      tasks: [
+        { id: "t1", text: "Hitung `marg2` dan `marg3` (PD marginal tahun 2 dan 3, desimal)" },
+        { id: "t2", text: "Hitung `ecl_lifetime` (rupiah, didiskonto 5%) dan `kumulatif` (PD kumulatif 3 tahun)" },
+      ],
+      expected: "marg2=0.010868  marg3=0.009771  ecl_lifetime=1337715  kumulatif=0.03264",
+      hints: [
+        "Marginal tahun 2 = 0,988 × 0,011; tahun 3 = 0,988 × 0,989 × 0,010.",
+        "ECL per tahun = marginal × 0,45 × 100.000.000 / 1,05^t; jumlahkan.",
+        "Kumulatif = 1 − (0,988 × 0,989 × 0,990).",
+      ],
+      code: {
+        starter: `# Lifetime ECL 3 tahun: PD kondisional 1,2% / 1,1% / 1,0%.\npd_kond = [0.012, 0.011, 0.010]\nlgd = 0.45\nead = 100_000_000\neir = 0.05\n\n# TULIS KODEMU: PD marginal, ECL lifetime, PD kumulatif.\nselamat = 1.0\nmarg = []\nfor p in pd_kond:\n    marg.append(selamat * p)\n    selamat *= (1 - p)\nmarg2 = \nmarg3 = \necl_lifetime = \nkumulatif = \n\nprint(f"marg2={marg2:.6f}  marg3={marg3:.6f}  ecl_lifetime={ecl_lifetime:.0f}  kumulatif={kumulatif:.5f}")`,
+        lockLines: 8,
+        solution: `# Lifetime ECL 3 tahun: PD kondisional 1,2% / 1,1% / 1,0%.\npd_kond = [0.012, 0.011, 0.010]\nlgd = 0.45\nead = 100_000_000\neir = 0.05\n\n# TULIS KODEMU: PD marginal, ECL lifetime, PD kumulatif.\nselamat = 1.0\nmarg = []\nfor p in pd_kond:\n    marg.append(selamat * p)\n    selamat *= (1 - p)\nmarg2 = marg[1]\nmarg3 = marg[2]\necl_lifetime = sum(p * lgd * ead / (1 + eir) ** (t + 1) for t, p in enumerate(marg))\nkumulatif = 1 - selamat\n\nprint(f"marg2={marg2:.6f}  marg3={marg3:.6f}  ecl_lifetime={ecl_lifetime:.0f}  kumulatif={kumulatif:.5f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "marg2", value: 0.010868, tol: 0.000001, label: "`marg2` = 1,0868%", msg: "0,988 × 1,1% = 1,0868% — bukan 1,1% mentah." },
+          { kind: "equal", task: "t1", name: "marg3", value: 0.009771, tol: 0.000001, label: "`marg3` = 0,9771%", msg: "0,988 × 0,989 × 1,0% = 0,9771%." },
+          { kind: "equal", task: "t2", name: "ecl_lifetime", value: 1337715, tol: 1, label: "`ecl_lifetime` = Rp1.337.715", msg: "514.286 + 443.592 + 379.838 = 1.337.715." },
+          { kind: "equal", task: "t2", name: "kumulatif", value: 0.03264, tol: 0.00001, label: "`kumulatif` = 3,264%", msg: "Jumlah marginal = kumulatif — cek konsistensi lolos." },
+          { kind: "stdout_matches", task: "t2", pattern: "marg2=0.010868\\s+marg3=0.009771\\s+ecl_lifetime=1337715\\s+kumulatif=0.03264", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Analis menghitung lifetime ECL 3 tahun memakai PD 12-bulan 1,2% untuk tiap tahun. Apa yang terjadi?",
+          options: [
+            { text: "ECL kelebihan Rp132.839 (9,9%) — debitur yang sudah gagal dihitung gagal lagi", why: "Tepat: PD marginal tahun 2–3 lebih kecil dari 1,2% karena survival; flat mengabaikannya.", correct: true },
+            { text: "ECL benar — PD 12-bulan memang dipakai untuk tiap tahun lifetime", why: "Salah: PD 12-bulan hanya untuk Stage 1 (satu tahun); lifetime memakai marginal per tahun." },
+            { text: "ECL kekurangan — PD kumulatif lebih besar dari PD 12-bulan", why: "Salah: arahnya kebalik — flat 1,2% MELEBIHI marginal, jadi ECL kelebihan, bukan kekurangan." },
+            { text: "Tidak ada efek — LGD dan EAD yang menentukan ECL", why: "Salah: PD marginal vs flat mengubah total Rp132.839 — PD menentukan ECL sama besarnya." },
+          ],
+        },
+      ],
+      reference: "Lifetime ECL memakai PD marginal per tahun (1,200% / 1,087% / 0,977%); jumlah marginal = PD kumulatif (3,264%) — cek konsistensi wajib.",
     },
     {
       id: "checkpoint",

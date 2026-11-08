@@ -5,7 +5,7 @@ export const bi11: V2Lesson = {
   track: "Bioinformatika",
   module: "Omics Lanjutan",
   title: "BI11 · Single-Cell RNA-seq: Seurat, UMAP & Trajectory",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -173,6 +173,54 @@ export const bi11: V2Lesson = {
         { id: "t2", text: "Sebutkan tiga bukti yang dibutuhkan sebelum mengklaim tipe sel baru" },
       ],
       reference: "Resolution = titik awal 0,4–1,2 (bukan level biologis) · marker kanonis + anotasi otomatis · UMAP ≠ jarak · pseudotime ≠ waktu.",
+    },
+    {
+      id: "gap-g34-normalisasi-sebelum-hvg-pca",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G34)",
+      title: "Urutan yang benar: normalisasi dulu, baru HVG, baru PCA",
+      prose: [
+        "Pipeline single-cell punya urutan yang tidak bisa dibolak-balik: quality control, normalisasi, seleksi highly variable genes (HVG), scaling, PCA. Kesalahan paling umum adalah memilih HVG dari hitungan mentah — sebelum normalisasi. Hitungan mentah didominasi ukuran library (kedalaman sekuensing per sel) dan level ekspresi absolut: gen yang paling banyak terekspresi terlihat paling bervariasi, padahal variasinya hanya cerminan kedalaman, bukan biologi. HVG dari data mentah memilih gen yang keras suaranya, bukan gen yang berubah-ubah antar sel.",
+        "Contoh tiga gen pada 4 sel. GEN_A: 100, 120, 110, 105 — varians mentah 54,7. GEN_B: 5, 50, 8, 45 — varians mentah 424,5. GEN_C: 1000, 1010, 990, 1005 — varians mentah 54,7. Pada hitungan mentah, GEN_B menang telak dan GEN_A seri dengan GEN_C. Setelah log-normalisasi (log1p): varians GEN_A 0,0044, GEN_B 0,9109, GEN_C 0,0001. Urutannya tetap GEN_B pertama — tetapi GEN_A kini jelas di atas GEN_C (0,0044 vs 0,0001), padahal mentahnya seri. GEN_C yang terekspresi ribuan kopi tetapi hampir tidak berubah antar sel tersingkir dengan benar — ia housekeeping yang stabil, bukan penanda biologis. Tanpa normalisasi, GEN_C akan masuk daftar HVG hanya karena ia keras.",
+        "Urutan lengkap yang benar: satu, QC — buang sel dengan gen terdeteksi terlalu sedikit dan gen yang muncul di terlalu sedikit sel. Dua, normalisasi per sel (misal counts per 10 ribu + log1p) supaya sel dengan library berbeda bisa dibandingkan. Tiga, HVG pada data ternormalisasi (metode variance-stabilizing, misal Seurat vst atau scran) — pilih 2.000 gen teratas. Empat, scaling (z-score per gen) supaya PCA tidak didominasi gen berekspresi tinggi. Lima, PCA pada gen HVG yang sudah di-scale. Membalik langkah dua dan tiga — HVG dulu, normalisasi belakangan — berarti seleksi dilakukan atas angka yang masih mengandung artefak teknis; dan PCA tanpa scaling berarti komponen pertamamu adalah gen yang paling keras, bukan sumbu biologis yang paling informatif.",
+      ],
+      formula: String.raw`\text{QC} \rightarrow \text{normalisasi (CP10k + log1p)} \rightarrow \text{HVG} \rightarrow \text{scaling} \rightarrow \text{PCA}`,
+      formulaNote: "Mentah: GEN_A dan GEN_C seri (varians 54,7). Log-normalisasi: GEN_A 0,0044 vs GEN_C 0,0001 — GEN_C tersingkir dengan benar.",
+      tasks: [
+        { id: "t1", text: "Hitung `var_a_raw`, `var_b_raw`, `var_c_raw` (varians populasi hitungan mentah)" },
+        { id: "t2", text: "Hitung `var_a_log`, `var_b_log`, `var_c_log` (varians populasi setelah log1p)" },
+      ],
+      expected: "var_a_raw=54.6875  var_b_raw=424.5000  var_c_raw=54.6875  var_a_log=0.0044  var_b_log=0.9109  var_c_log=0.0001",
+      hints: [
+        "Varians populasi = rata-rata kuadrat selisih dari rata-rata (statistics.pvariance).",
+        "log1p(x) = ln(1 + x); hitung varians dari nilai log-nya.",
+        "Bulatkan mentah 4 desimal, log 4 desimal di print.",
+      ],
+      code: {
+        starter: `import math\nimport statistics\n\ngen_a = [100, 120, 110, 105]\ngen_b = [5, 50, 8, 45]\ngen_c = [1000, 1010, 990, 1005]\n\n# TULIS KODEMU: varians mentah vs varians setelah log1p.\nvar_a_raw = \nvar_b_raw = \nvar_c_raw = \nvar_a_log = \nvar_b_log = \nvar_c_log = \n\nprint(f"var_a_raw={var_a_raw:.4f}  var_b_raw={var_b_raw:.4f}  var_c_raw={var_c_raw:.4f}  var_a_log={var_a_log:.4f}  var_b_log={var_b_log:.4f}  var_c_log={var_c_log:.4f}")`,
+        lockLines: 5,
+        solution: `import math\nimport statistics\n\ngen_a = [100, 120, 110, 105]\ngen_b = [5, 50, 8, 45]\ngen_c = [1000, 1010, 990, 1005]\n\n# TULIS KODEMU: varians mentah vs varians setelah log1p.\nvar_a_raw = statistics.pvariance(gen_a)\nvar_b_raw = statistics.pvariance(gen_b)\nvar_c_raw = statistics.pvariance(gen_c)\nvar_a_log = statistics.pvariance([math.log1p(x) for x in gen_a])\nvar_b_log = statistics.pvariance([math.log1p(x) for x in gen_b])\nvar_c_log = statistics.pvariance([math.log1p(x) for x in gen_c])\n\nprint(f"var_a_raw={var_a_raw:.4f}  var_b_raw={var_b_raw:.4f}  var_c_raw={var_c_raw:.4f}  var_a_log={var_a_log:.4f}  var_b_log={var_b_log:.4f}  var_c_log={var_c_log:.4f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "var_a_raw", value: 54.6875, tol: 0.01, label: "`var_a_raw` = 54,6875", msg: "Varians populasi hitungan mentah GEN_A." },
+          { kind: "equal", task: "t1", name: "var_b_raw", value: 424.5, tol: 0.01, label: "`var_b_raw` = 424,5", msg: "GEN_B paling bervariasi mentah — dan tetap pertama setelah log." },
+          { kind: "equal", task: "t1", name: "var_c_raw", value: 54.6875, tol: 0.01, label: "`var_c_raw` = 54,6875", msg: "Mentahnya GEN_C seri dengan GEN_A — HVG mentah tidak bisa membedakan keduanya." },
+          { kind: "equal", task: "t2", name: "var_a_log", value: 0.0044, tol: 0.001, label: "`var_a_log` = 0,0044", msg: "Setelah log1p, GEN_A jelas di atas GEN_C." },
+          { kind: "equal", task: "t2", name: "var_b_log", value: 0.9109, tol: 0.001, label: "`var_b_log` = 0,9109", msg: "GEN_B tetap pertama — variasinya biologis, bukan artefak." },
+          { kind: "equal", task: "t2", name: "var_c_log", value: 0.0001, tol: 0.001, label: "`var_c_log` = 0,0001", msg: "GEN_C hampir tidak bervariasi setelah log — housekeeping stabil, tersingkir dengan benar." },
+          { kind: "stdout_matches", task: "t2", pattern: "var_a_raw=54.6875\\s+var_b_raw=424.5000\\s+var_c_raw=54.6875\\s+var_a_log=0.0044\\s+var_b_log=0.9109\\s+var_c_log=0.0001", label: "`print` menampilkan keenam varians", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "GEN_C terekspresi ~1.000 kopi di semua sel, hampir tidak berubah. Bila HVG dipilih dari hitungan mentah, apa yang terjadi?",
+          options: [
+            { text: "GEN_C bisa masuk HVG karena varians mentahnya seri dengan GEN_A — padahal ia housekeeping stabil", why: "Tepat: varians mentah 54,7 seri dengan GEN_A; setelah log, 0,0001 vs 0,0044 — HVG mentah tertipu level ekspresi.", correct: true },
+            { text: "GEN_C pasti tersingkir — varians mentahnya kecil", why: "Salah: varians mentahnya 54,7, sama dengan GEN_A; mentah tidak bisa membedakan." },
+            { text: "Tidak ada efek — PCA nanti akan menyaringnya sendiri", why: "Salah: PCA tanpa scaling justru didominasi gen berekspresi tinggi seperti GEN_C." },
+            { text: "GEN_C harus dinormalisasi dengan membaginya 1.000 — lalu ia aman", why: "Salah: membagi konstanta tidak mengubah varians relatif antar gen; yang dibutuhkan adalah normalisasi per sel + log." },
+          ],
+        },
+      ],
+      reference: "Urutan: QC → normalisasi (CP10k + log1p) → HVG → scaling → PCA. HVG dari hitungan mentah memilih gen yang keras, bukan yang bervariasi.",
     },
     {
       id: "checkpoint",

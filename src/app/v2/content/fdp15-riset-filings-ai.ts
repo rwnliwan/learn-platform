@@ -5,7 +5,7 @@ export const fdp15: V2Lesson = {
   track: "Financial Data Pipeline",
   module: "Riset & AI",
   title: "FDP15 — Riset Filings Berbantuan AI: RAG di Atas 10-K",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -119,6 +119,51 @@ export const fdp15: V2Lesson = {
         body: "Tiga hal yang membuat perbaikan ini benar. Pertama, kegagalan ditangkap oleh disiplin sitasi, bukan oleh keberuntungan. Kedua, prompt diperbaiki secara sistemik — satu kalimat yang mengikat semua jawaban sesudahnya. Ketiga, metrik klaim bersitasi dipantau terus, bukan sekali.",
       },
       reference: "Klaim tanpa sitasi turun dari 12 persen menjadi 1 persen setelah prompt diperbaiki.",
+    },
+    {
+      id: "gap-g5-recall-denominator",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G5)",
+      title: "Recall butuh denominator: mengestimasi item relevan yang tidak terambil",
+      prose: [
+        "Recall = item relevan yang terambil / SEMUA item relevan. Pembilangnya mudah dihitung — penyebutnya tidak, karena item yang tidak terambil memang tidak terlihat. Tanpa estimasi penyebut, recall yang dilaporkan hanyalah tebakan berwajah angka. Cara standar untuk mengestimasinya: capture-recapture (Lincoln–Petersen), dipinjam dari ekologi. Jalankan DUA penarik independen (dua query berbeda, atau dua reviewer berbeda) atas korpus yang sama, lalu lihat irisannya.",
+        "Contoh: penarik A menemukan 120 filing relevan, penarik B menemukan 100, irisannya 60. Estimasi total relevan N = (120 × 100) / 60 = 200. Gabungan keduanya mengambil 120 + 100 − 60 = 160 item unik, jadi recall gabungan = 160 / 200 = 80%. Sisa 40 item relevan (20%) masih bersembunyi di korpus. Ketidakpastian estimasi ini juga bisa dihitung — simpangan baku N sekitar 11,5 pada contoh ini — jadi laporkan N sebagai 200 ± 11,5, bukan 200 mutlak.",
+        "Syarat yang tidak boleh dilanggar: kedua penarik harus independen — bila B memakai query yang sama dengan A, irisan membesar palsu dan N jadi terlalu kecil (recall terlihat terlalu bagus). Uji independensi dengan cara praktis: ganti strategi penarikan B (misal sinonim berbeda, filter tanggal berbeda) dan lihat apakah N stabil. Bila N melonjak saat strategi diganti, penarikmu tidak independen. Alternatif lain: estimator Chao1 dari frekuensi kemunculan, dan Good–Turing untuk korpus yang penariknya banyak tapi masing-masing kecil.",
+      ],
+      formula: String.raw`\hat{N} = \frac{n_1 \times n_2}{m} \qquad \text{Recall} = \frac{n_1 + n_2 - m}{\hat{N}}`,
+      formulaNote: "n1, n2 = temuan tiap penarik; m = irisan. Contoh: (120 × 100)/60 = 200; recall = 160/200 = 80%.",
+      tasks: [
+        { id: "t1", text: "Hitung `n_topi` (estimasi total relevan) dan `gabungan` (item unik terambil)" },
+        { id: "t2", text: "Hitung `recall` gabungan kedua penarik" },
+      ],
+      expected: "n_topi=200.0  gabungan=160  recall=0.8",
+      hints: [
+        "N topi = n1 × n2 / irisan.",
+        "Gabungan = n1 + n2 − irisan (irisan jangan dihitung dua kali).",
+        "Recall = gabungan / N topi.",
+      ],
+      code: {
+        starter: `# Dua penarik independen atas korpus filing yang sama.\nn1 = 120  # penarik A\nn2 = 100  # penarik B\nirisan = 60\n\n# TULIS KODEMU: estimasi total relevan, gabungan unik, recall.\nn_topi = \ngabungan = \nrecall = \n\nprint(f"n_topi={n_topi}  gabungan={gabungan}  recall={recall}")`,
+        lockLines: 4,
+        solution: `# Dua penarik independen atas korpus filing yang sama.\nn1 = 120  # penarik A\nn2 = 100  # penarik B\nirisan = 60\n\n# TULIS KODEMU: estimasi total relevan, gabungan unik, recall.\nn_topi = n1 * n2 / irisan\ngabungan = n1 + n2 - irisan\nrecall = gabungan / n_topi\n\nprint(f"n_topi={n_topi}  gabungan={gabungan}  recall={recall}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "n_topi", value: 200.0, tol: 0.01, label: "`n_topi` = 200", msg: "120 × 100 / 60 = 200 item relevan di korpus." },
+          { kind: "equal", task: "t1", name: "gabungan", value: 160, tol: 1, label: "`gabungan` = 160", msg: "120 + 100 − 60 = 160 item unik." },
+          { kind: "equal", task: "t2", name: "recall", value: 0.8, tol: 0.01, label: "`recall` = 0,80", msg: "160 / 200 = 80% — 40 item relevan masih belum terambil." },
+          { kind: "stdout_matches", task: "t2", pattern: "n_topi=200.0\\s+gabungan=160\\s+recall=0.8", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Penarik A 120, B 100, irisan 60. Bila B ternyata memakai query yang sama dengan A, apa efeknya pada estimasi?",
+          options: [
+            { text: "Irisan membesar palsu, N jadi terlalu kecil, recall terlihat terlalu bagus", why: "Tepat: capture-recapture butuh independensi; query sama = penarik yang sama dua kali.", correct: true },
+            { text: "Tidak ada efek — rumus memakai angka apa adanya", why: "Salah: rumus mengasumsikan independensi; pelanggaran asumsi merusak estimasi." },
+            { text: "N jadi terlalu besar dan recall terlihat terlalu buruk", why: "Salah: arahnya kebalik — irisan besar menekan N ke bawah." },
+            { text: "Recall menjadi 100% karena semua item tertangkap dua kali", why: "Salah: recall gabungan tetap 160/N; yang berubah adalah N-nya." },
+          ],
+        },
+      ],
+      reference: "Recall butuh penyebut: estimasi total relevan via capture-recapture N = n1×n2/m; syaratnya dua penarik independen.",
     },
     {
       id: "kuis",

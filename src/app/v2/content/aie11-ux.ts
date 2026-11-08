@@ -17,7 +17,7 @@ export const aie11: V2Lesson = {
   track: "AI Engineering",
   module: "Produksi",
   title: "AIE11 — UX untuk AI",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-yakin",
@@ -180,6 +180,52 @@ export const aie11: V2Lesson = {
         body: "Saran finansial yang salah dari chatbot adalah risiko conduct: nasabah dirugikan oleh 'nasihat' yang tampil resmi. Abstention + disclaimer + eskalasi manusia adalah kontrol conduct risk untuk AI — sejajar dengan skrip kepatuhan di call center.",
       },
       reference: "Hitung biaya ketidakjujuran: error × biaya komplain. Abstention sering ROI positif terbesar.",
+    },
+    {
+      id: "gap-g18-feedback-loop",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G18)",
+      title: "Feedback loop end-to-end: keluhan menjadi perbaikan, perbaikan menjadi angka",
+      prose: [
+        "Feedback yang berhenti di kotak saran bukan feedback loop — itu kuburan keluhan. Loop yang lengkap punya lima tahap dan satu angka di tiap tahap: kumpulkan, triase, perbaiki, ukur, tutup. Contoh nyata: dalam 10.000 sesi, masuk 120 keluhan soal sitasi yang salah — tingkat keluhan 120/10.000 = 1,20%. Triase memilahnya: 80 sitasi salah, 25 data kedaluwarsa, 15 keluhan UX. Tanpa triase, tim memperbaiki yang paling berisik; dengan triase, tim memperbaiki yang paling banyak.",
+        "Perbaiki dengan pemilik dan tenggat: 80 sitasi salah ditangani dengan pengecekan cakupan sitasi otomatis sebelum jawaban terkirim; 25 data kedaluwarsa dengan jadwal refresh sumber; 15 UX dengan perbaikan tampilan. Lalu ukur — bukan dengan perasaan, melainkan dengan mengulang pengukuran yang sama: dua minggu setelah perbaikan, keluhan sitasi tinggal 35 dari 10.000 sesi = 0,35%, turun 70,8% dari 1,20%. Dan ukur juga yang sering dilupakan: reopen rate — dari 80 kasus sitasi yang diperbaiki, 5 dibuka kembali oleh pengguna (6,25%) karena perbaikannya tidak tuntas. Reopen di atas 10% berarti perbaikanmu tambal sulam; di bawah 5% berarti tuntas.",
+        "Tutup loop-nya: beri tahu pelapor bahwa keluhannya sudah diperbaiki dan bagaimana mengujinya — pengguna yang melihat keluhannya berbuah menjadi kontributor, bukan pengeluh. Dan satu disiplin: jangan ukur keberhasilan dari jumlah keluhan yang masuk (itu bisa turun karena pengguna menyerah), ukur dari tingkat keluhan per sesi DAN dari survei kepuasan sampel acak. Loop yang sehat bukan yang keluhannya nol — itu loop yang mati — melainkan yang tiap keluhan punya jejak: diterima, dipilah, diperbaiki, diukur, ditutup.",
+      ],
+      formula: String.raw`\text{Tingkat keluhan} = \frac{\text{keluhan}}{\text{sesi}} \qquad \text{Reopen rate} = \frac{\text{dibuka kembali}}{\text{diperbaiki}}`,
+      formulaNote: "120/10.000 = 1,20% sebelum perbaikan; 35/10.000 = 0,35% sesudahnya (−70,8%). Reopen 5/80 = 6,25%.",
+      tasks: [
+        { id: "t1", text: "Hitung `rate_awal` dan `rate_akhir` (keluhan per sesi)" },
+        { id: "t2", text: "Hitung `penurunan` (persen) dan `reopen` (persen kasus dibuka kembali)" },
+      ],
+      expected: "rate_awal=0.0120  rate_akhir=0.0035  penurunan=70.8  reopen=6.25",
+      hints: [
+        "Rate = keluhan / 10.000 sesi.",
+        "Penurunan persen = (120 − 35) / 120 × 100.",
+        "Reopen persen = 5 / 80 × 100.",
+      ],
+      code: {
+        starter: `# Feedback loop: keluhan sitasi sebelum vs sesudah perbaikan.\nsesi = 10000\nkeluhan_awal, keluhan_akhir = 120, 35\ndiperbaiki, dibuka_lagi = 80, 5\n\n# TULIS KODEMU: rate keluhan, penurunan, reopen rate.\nrate_awal = \nrate_akhir = \npenurunan = \nreopen = \n\nprint(f"rate_awal={rate_awal:.4f}  rate_akhir={rate_akhir:.4f}  penurunan={penurunan:.1f}  reopen={reopen:.2f}")`,
+        lockLines: 4,
+        solution: `# Feedback loop: keluhan sitasi sebelum vs sesudah perbaikan.\nsesi = 10000\nkeluhan_awal, keluhan_akhir = 120, 35\ndiperbaiki, dibuka_lagi = 80, 5\n\n# TULIS KODEMU: rate keluhan, penurunan, reopen rate.\nrate_awal = keluhan_awal / sesi\nrate_akhir = keluhan_akhir / sesi\npenurunan = (keluhan_awal - keluhan_akhir) / keluhan_awal * 100\nreopen = dibuka_lagi / diperbaiki * 100\n\nprint(f"rate_awal={rate_awal:.4f}  rate_akhir={rate_akhir:.4f}  penurunan={penurunan:.1f}  reopen={reopen:.2f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "rate_awal", value: 0.012, tol: 0.0001, label: "`rate_awal` = 1,20%", msg: "120/10.000 = 1,20% sesi berakhir dengan keluhan sitasi." },
+          { kind: "equal", task: "t1", name: "rate_akhir", value: 0.0035, tol: 0.0001, label: "`rate_akhir` = 0,35%", msg: "35/10.000 = 0,35% setelah perbaikan." },
+          { kind: "equal", task: "t2", name: "penurunan", value: 70.8, tol: 0.1, label: "`penurunan` = 70,8%", msg: "(120−35)/120 = 70,8% — ukur dengan denominator yang sama (per sesi)." },
+          { kind: "equal", task: "t2", name: "reopen", value: 6.25, tol: 0.01, label: "`reopen` = 6,25%", msg: "5 dari 80 perbaikan dibuka kembali — di bawah ambang 10%, perbaikan dinilai tuntas." },
+          { kind: "stdout_matches", task: "t2", pattern: "rate_awal=0.0120\\s+rate_akhir=0.0035\\s+penurunan=70.8\\s+reopen=6.25", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Keluhan turun dari 120 menjadi 35, tetapi jumlah sesi juga turun dari 10.000 menjadi 5.000. Apa yang benar?",
+          options: [
+            { text: "Tidak bisa klaim membaik — rate naik dari 1,20% ke 0,70%? Hitung dulu: 35/5.000 = 0,70%, tetap membaik tapi hanya 41,7%", why: "Tepat: bandingkan RATE per sesi, bukan jumlah mentah — penurunannya 41,7%, bukan 70,8%.", correct: true },
+            { text: "Membaik 70,8% — jumlah keluhan yang penting", why: "Salah: denominator berubah; jumlah mentah tanpa per sesi menyesatkan." },
+            { text: "Memburuk — 35 keluhan masih terlalu banyak", why: "Salah: 35 dari 5.000 sesi = 0,70%, lebih baik dari 1,20% — vonis butuh rate, bukan perasaan." },
+            { text: "Tidak bisa dinilai tanpa survei kepuasan", why: "Salah: survei itu pelengkap; rate per sesi sudah memberi jawaban pertama yang valid." },
+          ],
+        },
+      ],
+      reference: "Loop: kumpulkan → triase → perbaiki → ukur (rate per sesi + reopen rate) → tutup ke pelapor. Keluhan nol = loop mati.",
     },
     {
       id: "checkpoint",

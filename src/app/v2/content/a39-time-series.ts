@@ -5,7 +5,7 @@ export const a39: V2Lesson = {
   track: "Statistika",
   module: "Modeling & ML Dasar",
   title: "A3.9 Time Series: Meramal dari Gema Masa Lalu",
-  estMinutes: 50,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita-spurious",
@@ -186,6 +186,94 @@ export const a39: V2Lesson = {
       formulaNote: "rho_k = autokorelasi lag-k; phi = koefisien AR(1), |phi|<1 untuk stasioner. Contoh: phi=0,7 → rho_1=0,70, rho_2=0,49, rho_3=0,34 — luruh geometris, pola khas AR(1) di plot ACF. ACF yang nyaris datar di banyak lag = curigai unit root.",
       tasks: [],
       reference: "Sidik jari dibaca setelah stasioner. Kointegrasi = hubungan jangka panjang antar I(1). Break diketahui = jangan dirata-rata.",
+    },
+    {
+      id: "gap-g12-stasioner-lemah-ketat",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G12)",
+      title: "Stasioner lemah vs stasioner ketat: apa yang sebenarnya dijanjikan",
+      prose: [
+        "Dua definisi stasioneritas yang sering dicampur. Stasioner ketat (strict stationarity): SELURUH distribusi bersama tidak berubah saat digeser waktu — mean, varians, skewness, kurtosis, dan semua momen bersama, hari ini dan sepuluh tahun lagi, identik. Stasioner lemah (weak stationarity, covariance stationarity): hanya tiga janji — mean konstan, varians konstan, dan autokovarians hanya bergantung pada jarak lag, bukan pada waktu absolut. ARIMA, dan hampir semua alat deret waktu praktis, hanya butuh yang lemah.",
+        "Hubungannya satu arah: ketat berimplikasi lemah (asal momen kedua ada — distribusi Cauchy yang tidak punya varians adalah pengecualian yang mengingatkan bahwa implikasi ini butuh momen hingga). Lemah TIDAK berimplikasi ketat. Contoh yang membedakan: misalkan X_t = s_t × ε_t, dengan ε_t galat baku yang miring (skewness positif) dan s_t = +1 di t genap, −1 di t ganjil. Mean tetap 0, varians tetap 1, autokovarians tetap 0 — lemah terpenuhi sempurna. Tetapi skewness X_t berganti tanda tiap periode: +γ di t genap, −γ di t ganjil — distribusinya berubah, jadi TIDAK ketat. Proses yang lolos uji stasioneritas lemah masih bisa punya perilaku ekstrem yang berubah-ubah menurut waktu.",
+        "Kasus istimewa yang menyederhanakan hidup: bila prosesnya Gaussian, lemah = ketat — distribusi Gaussian sepenuhnya ditentukan mean dan kovarians, jadi tiga janji lemah sudah mengunci seluruh distribusi. Itulah alasan banyak teks terasa longgar memakai keduanya bergantian: mereka diam-diam mengasumsikan Gaussian. Di data keuangan — return saham yang berekor tebal dan miring — asumsi itu tidak berlaku, dan perbedaannya penting: interval prediksi ARIMA yang mengasumsikan Gaussian bisa meremehkan ekor bila prosesnya hanya lemah-stasioner.",
+      ],
+      formula: String.raw`\text{Lemah: } E[X_t] = \mu,\ Var(X_t) = \sigma^2,\ Cov(X_t, X_{t+h}) = \gamma_h \qquad \text{Ketat: } F_{t_1,\dots,t_k} = F_{t_1+\tau,\dots,t_k+\tau}`,
+      formulaNote: "Ketat mengunci seluruh distribusi bersama; lemah hanya mengunci mean, varians, dan autokovarians.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Mengira lolos uji ADF berarti deret stasioner ketat. ADF hanya menguji akar unit — soal mean dan varians jangka panjang — dan tidak menyentuh skewness atau perilaku ekor yang berubah menurut waktu. Untuk risk, yang berbahaya justru yang tidak diuji itu.",
+      },
+      quiz: [
+        {
+          q: "Proses punya mean, varians, dan autokovarians konstan, tapi skewness-nya berganti tanda tiap periode. Statusnya?",
+          options: [
+            { text: "Stasioner lemah, tetapi tidak stasioner ketat", why: "Tepat: tiga janji lemah terpenuhi; distribusi berubah karena skewness — ketat gagal.", correct: true },
+            { text: "Stasioner ketat, tetapi tidak stasioner lemah", why: "Salah: arah implikasinya kebalik — ketat berimplikasi lemah, bukan sebaliknya." },
+            { text: "Tidak stasioner sama sekali", why: "Salah: lemah terpenuhi; jangan buang istilah yang tepat." },
+            { text: "Stasioner ketat karena autokovarians konstan sudah cukup", why: "Salah: autokovarians hanya satu dari tiga janji lemah — ketat menuntut seluruh distribusi." },
+          ],
+        },
+      ],
+      reference: "Stasioner lemah = mean, varians, autokovarians konstan. Stasioner ketat = seluruh distribusi bersama invarian waktu. Ketat berimplikasi lemah; Gaussian menyamakan keduanya.",
+    },
+    {
+      id: "gap-g13-batas-adf-kpss-pp",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G13)",
+      title: "Batas ADF, KPSS, dan PP — dan apa alternatifnya",
+      prose: [
+        "Tiga uji akar unit paling populer, tiga kelemahan yang berbeda — dan kesalahan paling umum adalah membaca hasilnya seolah mereka menguji hal yang sama. ADF (Augmented Dickey-Fuller): hipotesis nol = ada akar unit (tidak stasioner). Kelemahan utamanya: power rendah — bila proses hampir punya akar unit (misal AR(1) dengan φ = 0,95), ADF sering gagal menolak nol walau deret sebenarnya stasioner; dan hasil peka terhadap jumlah lag yang dipilih. Dengan galat MA yang kuat, ukuran uji (size) juga terdistorsi — menolak nol lebih sering dari yang seharusnya.",
+        "KPSS: kebalikannya — hipotesis nol = stasioner. Itu justru kekuatannya bila dipakai BERPASANGAN dengan ADF (confirmatory analysis): ADF menolak + KPSS tidak menolak = stasioner (yakin). ADF tidak menolak + KPSS menolak = ada akar unit (yakin). Keduanya menolak atau keduanya tidak menolak = data tidak memberi jawaban — jangan paksa vonis. Kelemahan KPSS: sangat peka terhadap pilihan bandwidth dan mudah menolak stasioneritas bila ada patahan struktural yang tidak dimodelkan. PP (Phillips-Perron): seperti ADF tapi mengoreksi heteroskedastisitas dan autokorelasi secara nonparametrik — tanpa perlu memilih lag. Harganya: distorsi ukuran pada sampel kecil, terutama dengan galat MA negatif yang besar.",
+        "Alternatif bila ketiganya meragukan: DF-GLS (ADF dengan detrending GLS — power lebih tinggi, standar untuk sampel menengah); Zivot-Andrews bila dicurigai ada patahan struktural (menguji akar unit sambil mengizinkan satu break endogen — break yang diabaikan membuat ADF bias ke arah tidak menolak); dan variance ratio test bila yang diuji adalah random walk murni. Aturan praktis: jangan pernah vonis stasioneritas dari satu uji — laporkan ADF + KPSS + satu alternatif, dan bila ketiganya tidak sepakat, nyatakan ketidaksepakatan itu sebagai temuan, bukan sebagai kegagalan.",
+      ],
+      formula: String.raw`\text{ADF } H_0\text{: akar unit} \qquad \text{KPSS } H_0\text{: stasioner} \qquad \text{Keduanya = confirmatory analysis}`,
+      formulaNote: "ADF menolak + KPSS tidak menolak = stasioner. ADF tidak menolak + KPSS menolak = akar unit. Selain itu = tidak ada jawaban.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Membaca ADF tidak-menolak sebagai bukti ada akar unit. Gagal menolak nol bukan membuktikan nol — dengan power rendah, ADF yang tidak menolak sering berarti datanya terlalu pendek atau φ-nya terlalu dekat ke 1 untuk dibedakan. Itulah gunanya pasangan KPSS.",
+      },
+      quiz: [
+        {
+          q: "ADF tidak menolak akar unit, KPSS menolak stasioneritas. Kesimpulan?",
+          options: [
+            { text: "Ada akar unit — kedua uji sepakat dari arah yang berlawanan", why: "Tepat: ADF tidak menolak H0 akar unit DAN KPSS menolak H0 stasioner — confirmatory analysis menyimpulkan tidak stasioner.", correct: true },
+            { text: "Stasioner — ADF tidak menolak berarti aman", why: "Salah: gagal menolak bukan bukti; dan KPSS justru menolak stasioneritas." },
+            { text: "Tidak ada jawaban — uji-ujinya bertentangan", why: "Salah: mereka tidak bertentangan; keduanya menunjuk arah yang sama (tidak stasioner)." },
+            { text: "Perlu uji PP dulu sebelum vonis apa pun", why: "Salah: PP tidak menyelesaikan apa pun di sini — kedua uji sudah sepakat." },
+          ],
+        },
+      ],
+      reference: "ADF lemah power-nya dekat unit root; KPSS H0-nya stasioner (pasangan ADF); PP robust tapi terdistorsi di sampel kecil; alternatif: DF-GLS, Zivot-Andrews, variance ratio.",
+    },
+    {
+      id: "gap-g14-interval-arima-parameter",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G14)",
+      title: "Interval prediksi ARIMA vs ketidakpastian parameter",
+      prose: [
+        "Interval prediksi ARIMA yang keluar dari software hanya menghitung SATU sumber ketidakpastian: galat inovasi masa depan. Ia mengasumsikan parameter model (φ, θ, σ) diketahui persis — padahal semuanya diestimasi dari sampel berhingga, dengan standard error sendiri. Akibatnya interval yang dilaporkan terlalu sempit, dan semakin kecil sampel, semakin besar kebohongan itu. Interval nominal 95% bisa meliput nilai sebenarnya hanya 80-an persen pada sampel kecil.",
+        "Contoh AR(1) dengan φ = 0,7 dan σ = 1. Ramalan 1 langkah ke depan: varians galat ramalan = σ² = 1, setengah-lebar interval 95% = 1,96 × 1 = 1,96. Ramalan 2 langkah: varians = σ²(1 + φ²) = 1,49, setengah-lebar = 1,96 × 1,22 = 2,39 — interval melebar karena ketidakpastian menumpuk. Tetapi kedua angka itu mengasumsikan φ = 0,7 persis. Bila φ diestimasi dengan standard error 0,08, ketidakpastian parameter menambah varians ramalan — dan pelebarannya membesar dengan horizon: pada horizon panjang, sedikit kesalahan φ terakumulasi lewat pangkat φ^h.",
+        "Cara yang benar: bootstrap parametrik atau Bayesian. Bootstrap: simulasikan banyak deret dari parameter yang diestimasi, fit ulang model pada tiap simulasi, kumpulkan ramalannya — sebaran ramalan itu sudah memuat ketidakpastian parameter. Hasilnya interval yang lebih lebar dan jujur, terutama pada horizon jauh dan sampel pendek. Aturan praktis: bila n di bawah 100 atau horizon di atas 6, jangan laporkan interval software mentah-mentah — sebutkan bahwa ia mengabaikan ketidakpastian parameter, atau laporkan versi bootstrap-nya.",
+      ],
+      formula: String.raw`\text{Var}(e_{h}) = \sigma^2 \sum_{j=0}^{h-1} \psi_j^2 \quad (\psi_0 = 1) \qquad \text{+ ketidakpastian } \hat{\phi}, \hat{\theta} \text{ (diabaikan software)}`,
+      formulaNote: "AR(1) φ=0,7: h=1 setengah-lebar 1,96; h=2 setengah-lebar 2,39 — sebelum ketidakpastian parameter ditambahkan.",
+      tasks: [],
+      note: {
+        title: "Kaitan ke risk",
+        type: "risk",
+        body: "Keputusan modal yang memakai interval ARIMA mentah meremehkan risiko. Interval yang terlalu sempit membuat skenario buruk tampak mustahil — padahal ia hanya tidak dihitung. Untuk horizon panjang, laporkan interval bootstrap yang memuat ketidakpastian parameter.",
+      },
+      quiz: [
+        {
+          q: "Interval prediksi ARIMA 95% dari software meliput nilai sebenarnya hanya 82% pada sampel kecil. Penjelasan yang benar?",
+          options: [
+            { text: "Interval software hanya memuat ketidakpastian inovasi — ketidakpastian estimasi parameter diabaikan", why: "Tepat: φ, θ, σ diestimasi dengan error; interval yang mengabaikannya terlalu sempit.", correct: true },
+            { text: "Model ARIMA-nya salah orde — ganti orde dan liputan kembali 95%", why: "Salah: orde yang benar pun tetap punya ketidakpastian parameter; ini bukan soal orde." },
+            { text: "Galat inovasinya tidak normal — normalitas adalah satu-satunya penyebab", why: "Salah: non-normalitas bisa berkontribusi, tapi penyebab utamanya adalah parameter yang diestimasi." },
+            { text: "Interval 95% memang dirancang meliput 82% pada sampel kecil", why: "Salah: nominal 95% berarti dirancang meliput 95% bila semua asumsi terpenuhi — termasuk parameter diketahui." },
+          ],
+        },
+      ],
+      reference: "Interval ARIMA software = ketidakpastian inovasi saja; ketidakpastian parameter (φ, θ, σ) diabaikan — pakai bootstrap parametrik, terutama n kecil dan horizon jauh.",
     },
     {
       id: "checkpoint",

@@ -21,7 +21,7 @@ export const de11: V2Lesson = {
   track: "Data Engineer",
   module: "Operasi & Kualitas",
   title: "DE11 — Cost & Performance Tuning",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -195,6 +195,35 @@ export const de11: V2Lesson = {
         ],
       },
       reference: "Tuning = pos anggaran. Satu query hemat ~Rp1 jt/tahun.",
+    },
+    {
+      id: "gap-g27-batas-pruning-kompresi",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G27)",
+      title: "Kapan pruning dan kompresi berhenti membantu",
+      prose: [
+        "Pruning dan kompresi punya kurva hasil yang menurun — dan titik di mana mereka berhenti membantu bukan soal teori, melainkan soal di mana bottleneck-mu berada. Contoh kurva nyata sebuah model klasifikasi (akurasi dasar 92,0%): sparsity 50% → akurasi 91,7% (turun 0,3 poin, hampir gratis); 80% → 90,8% (turun 1,2 poin, masih bisa diterima); 90% → 87,5% (turun 4,5 poin, mahal); 95% → model runtuh (akurasi jatuh ke kisaran tebakan). Polanya: kerugian kecil lalu membesar tiba-tiba — bukan garis lurus. Titik berhentinya adalah saat turunan kurva menanjak: dari 80% ke 90% kamu membayar 3,3 poin akurasi untuk 10 poin sparsity tambahan, tiga kali lipat harga per poin dibanding langkah sebelumnya.",
+        "Alasan kedua: bottleneck. Pruning mengurangi ukuran model dan memory bandwidth — ia membantu bila workload-mu memory-bound (waktu dihabiskan memindahkan bobot). Bila workload-mu compute-bound (waktu dihabiskan menghitung), model yang lebih kecil tapi tidak lebih jarang komputasinya tidak menjadi lebih cepat — sparsity tanpa kernel sparse yang mendukung justru bisa LEBIH lambat karena overhead indeks. Aturan roofline: ukur dulu apakah kamu di bawah garis memory atau garis compute; pruning hanya memindahkanmu bila kamu memory-bound. Kuantisasi punya batas yang sama: INT8 hampir gratis pada banyak model, INT4 mulai memakan akurasi, di bawah 4-bit sebagian besar model butuh quantization-aware training — dan tanpa itu, kompresi menjadi penghancuran.",
+        "Prosedur keputusannya: satu, ukur kurva akurasi-vs-sparsity pada data validasi (bukan train) dengan langkah 10 poin. Dua, ukur latensi dan throughput nyata di hardware target — bukan ukuran file. Tiga, berhenti pada titik di mana harga akurasi per poin sparsity berlipat, atau saat bottleneck berpindah dari memory ke compute. Empat, dokumentasikan titik berhentinya bersama alasannya — supaya orang berikutnya tidak mengulang eksperimen yang sama dengan harapan berbeda.",
+      ],
+      formula: String.raw`\text{Berhenti bila } \frac{\Delta \text{akurasi}}{\Delta \text{sparsity}} \text{ melonjak, atau bottleneck berpindah ke compute}`,
+      formulaNote: "50% → −0,3 poin; 80% → −1,2; 90% → −4,5; 95% → runtuh. Harga per poin sparsity berlipat setelah 80%.",
+      tasks: [],
+      note: {
+        title: "Sering salah",
+        body: "Mengukur keberhasilan pruning dari ukuran file model. File kecil tidak sama dengan inference cepat — tanpa kernel sparse, sparsity 90% bisa sama lambatnya dengan model padat, hanya dengan akurasi yang lebih buruk. Ukur latensi di hardware target.",
+      },
+      quiz: [
+        {
+          q: "Model memory-bound: sparsity 80% akurasi −1,2 poin, 90% akurasi −4,5 poin. Latensi belum diukur. Keputusan yang benar?",
+          options: [
+            { text: "Berhenti di sekitar 80% dan ukur latensi nyata — harga akurasi per poin sparsity sudah berlipat", why: "Tepat: 80% ke 90% membayar 3,3 poin untuk 10 poin sparsity; tanpa ukuran latensi, lanjut membuta.", correct: true },
+            { text: "Lanjut ke 95% — semakin kecil semakin cepat, pasti", why: "Salah: di 95% model runtuh; dan kecil tidak otomatis cepat tanpa kernel sparse." },
+            { text: "Kembali ke 0% — pruning apa pun merusak akurasi", why: "Salah: 50–80% hampir gratis (−0,3 sampai −1,2 poin); membuang semuanya membuang keuntungan nyata." },
+            { text: "Pindah ke kuantisasi 2-bit — kompresi adalah kompresi", why: "Salah: di bawah 4-bit tanpa QAT, akurasi hancur; mengganti teknik tidak menghapus kurva hasil menurun." },
+          ],
+        },
+      ],
+      reference: "Pruning berhenti membantu saat harga akurasi per poin sparsity melonjak (di contoh ini setelah 80%) atau saat bottleneck berpindah dari memory ke compute.",
     },
     {
       id: "checkpoint",

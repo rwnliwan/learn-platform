@@ -5,7 +5,7 @@ export const cr12: V2Lesson = {
   track: "Credit Risk",
   module: "LGD, EAD & ECL",
   title: "CR12 — LGD: Dari Agunan ke Recovery",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -181,6 +181,52 @@ export const cr12: V2Lesson = {
         body: "Analis junior bertanya: \"agunannya apa dan nilainya berapa?\" Analis senior bertanya: \"SIAPA yang akan menjual agunan ini, KAPAN ia bisa dijual, dan BERAPA LAMA prosesnya?\" Heuristiknya: nilai agunan = harga × probabilitas terjual × kecepatan eksekusi. Rumah di Jakarta Selatan: harga tinggi, probabilitas terjual 90% dalam 6 bulan → LGD rendah. Ruko di kawasan sepi: harga \"Rp 1 M\" di brosur, probabilitas terjual 30% dalam 2 tahun → LGD tinggi. Pabrik khusus (mesin tekstil): hanya 3 pembeli potensial di Indonesia → harganya fiksi sampai ada pembeli. Maka aturan praktisnya: sebelum menerima agunan, tulis satu kalimat — \"jika debitur default besok, siapa pembelinya dan berapa lama lakunya?\" Jika tidak bisa menjawab dalam satu kalimat konkret, agunan itu dekorasi, bukan mitigasi. LGD yang jujur selalu dihitung dari skenario penjualan stres, bukan dari brosur appraisal. Satu kebiasaan yang membedakan senior: sebelum menyetujui kredit beragunan, telepon bagian remedial dan tanya \"eksekusi terakhir sejenis butuh berapa lama dan kembali berapa persen?\" — jawaban mereka adalah LGD-mu yang sebenarnya, bukan angka di model.",
       },
       reference: "Sebelum terima agunan, tulis satu kalimat: jika default besok, siapa pembelinya dan berapa lama lakunya?",
+    },
+    {
+      id: "gap-g20-rekonsiliasi-recovery-horizon",
+      eyebrow: "Langkah tambahan · Gap ronde 6 (G20)",
+      title: "Rekonsiliasi recovery lintas horizon: 57% kotor, 48,5% bersih didiskonto",
+      prose: [
+        "Satu portofolio, empat angka recovery yang semuanya benar — dan hanya satu yang boleh masuk LGD. Contoh: EAD Rp500 juta. Recovery kotor: tahun 1 Rp150 juta, tahun 2 Rp120 juta, tahun 3 Rp60 juta — total Rp330 juta. Biaya workout: tahun 1 Rp20 juta, tahun 2 Rp15 juta, tahun 3 Rp10 juta — total Rp45 juta. Recovery bersih (kotor dikurangi biaya): tahun 1 Rp130 juta, tahun 2 Rp105 juta, tahun 3 Rp50 juta — total Rp285 juta, alias 57,0% dari EAD. Itu angka yang paling sering dikutip — dan itu BUKAN recovery rate untuk LGD.",
+        "Rekonsiliasi lintas horizon menuntut dua kolom: kumulatif dan didiskonto. Kumulatif bersih tanpa diskonto: akhir tahun 1 Rp130 juta (26,0%), akhir tahun 2 Rp235 juta (47,0%), akhir tahun 3 Rp285 juta (57,0%). Didiskonto 10% ke nilai kini: tahun 1 Rp118,18 juta (23,6%), tahun 2 kumulatif Rp204,96 juta (41,0%), tahun 3 kumulatif Rp242,52 juta (48,5%). Selisih antara 57,0% dan 48,5% — 8,5 poin persen — adalah harga waktu: recovery yang datang tahun ke-3 bernilai lebih kecil hari ini, dan biaya yang dibayar di depan membebani lebih berat.",
+        "Tiga kesalahan yang ditangkap rekonsiliasi ini. Satu, memakai recovery kotor (330/500 = 66%) sebagai recovery rate — biaya Rp45 juta dihapus dari cerita. Dua, memakai angka tahun ke-1 (26%) sebagai LGD final — recovery workout butuh 3 tahun; horizon yang pendek menggelembungkan LGD. Tiga, mencampur horizon antar portofolio — membandingkan recovery 1-tahun portofolio A dengan recovery 3-tahun portofolio B. Aturan: laporkan recovery sebagai kurva kumulatif per horizon (1, 2, 3 tahun) dengan kolom kotor, bersih, dan didiskonto — dan LGD memakai titik akhir kurva yang didiskonto: di sini LGD = 1 − 48,5% = 51,5%.",
+      ],
+      formula: String.raw`\text{Recovery bersih didiskonto} = \sum_t \frac{\text{masuk}_t - \text{biaya}_t}{(1+r)^t} \qquad LGD = 1 - \frac{242{,}52}{500} = 51{,}5\%`,
+      formulaNote: "Kotor 330 (66%), bersih 285 (57,0%), bersih didiskonto 242,52 (48,5%) — LGD memakai 48,5%.",
+      tasks: [
+        { id: "t1", text: "Hitung `pv_bersih` (recovery bersih didiskonto 10%) dan `recovery_rate`" },
+        { id: "t2", text: "Hitung `lgd` dan `rate_kotor` (bersih tanpa diskonto, persen)" },
+      ],
+      expected: "pv_bersih=242.52  recovery_rate=48.5  lgd=51.5  rate_kotor=57.0",
+      hints: [
+        "Bersih per tahun: 130, 105, 50. Diskonto 10%: bagi (1,1)^t.",
+        "Recovery rate = pv_bersih / 500 × 100; LGD = 100 − recovery rate.",
+        "Rate kotor = 285 / 500 × 100 (tanpa diskonto).",
+      ],
+      code: {
+        starter: `# Rekonsiliasi recovery: EAD 500, horizon 3 tahun, diskonto 10%.\nead = 500\nmasuk = [150, 120, 60]\nbiaya = [20, 15, 10]\nr = 0.10\n\n# TULIS KODEMU: PV bersih, recovery rate, LGD, rate tanpa diskonto.\npv_bersih = \nrecovery_rate = \nlgd = \nrate_kotor = \n\nprint(f"pv_bersih={pv_bersih:.2f}  recovery_rate={recovery_rate:.1f}  lgd={lgd:.1f}  rate_kotor={rate_kotor:.1f}")`,
+        lockLines: 5,
+        solution: `# Rekonsiliasi recovery: EAD 500, horizon 3 tahun, diskonto 10%.\nead = 500\nmasuk = [150, 120, 60]\nbiaya = [20, 15, 10]\nr = 0.10\n\n# TULIS KODEMU: PV bersih, recovery rate, LGD, rate tanpa diskonto.\npv_bersih = sum((m - b) / (1 + r) ** (t + 1) for t, (m, b) in enumerate(zip(masuk, biaya)))\nrecovery_rate = pv_bersih / ead * 100\nlgd = 100 - recovery_rate\nrate_kotor = sum(m - b for m, b in zip(masuk, biaya)) / ead * 100\n\nprint(f"pv_bersih={pv_bersih:.2f}  recovery_rate={recovery_rate:.1f}  lgd={lgd:.1f}  rate_kotor={rate_kotor:.1f}")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "pv_bersih", value: 242.52, tol: 0.01, label: "`pv_bersih` = Rp242,52 juta", msg: "118,18 + 86,78 + 37,57 = 242,52." },
+          { kind: "equal", task: "t1", name: "recovery_rate", value: 48.5, tol: 0.1, label: "`recovery_rate` = 48,5%", msg: "242,52/500 = 48,5% — inilah yang masuk LGD." },
+          { kind: "equal", task: "t2", name: "lgd", value: 51.5, tol: 0.1, label: "`lgd` = 51,5%", msg: "1 − 48,5% = 51,5%." },
+          { kind: "equal", task: "t2", name: "rate_kotor", value: 57.0, tol: 0.1, label: "`rate_kotor` = 57,0%", msg: "285/500 tanpa diskonto — 8,5 poin di atas angka didiskonto; itulah harga waktu." },
+          { kind: "stdout_matches", task: "t2", pattern: "pv_bersih=242.52\\s+recovery_rate=48.5\\s+lgd=51.5\\s+rate_kotor=57.0", label: "`print` menampilkan keempat angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      quiz: [
+        {
+          q: "Portofolio A recovery 1-tahun 26%, portofolio B recovery 3-tahun 57%. Klaim 'B jauh lebih baik' — masalahnya?",
+          options: [
+            { text: "Horizon dicampur — 26% itu tahun ke-1, 57% itu kumulatif 3 tahun; bandingkan pada horizon dan perlakuan diskonto yang sama", why: "Tepat: rekonsiliasi menuntut kurva per horizon; angka 3-tahun B harus dibandingkan dengan angka 3-tahun A (57% vs 48,5% didiskonto).", correct: true },
+            { text: "Tidak ada masalah — 57% memang lebih besar dari 26%", why: "Salah: membandingkan horizon berbeda seperti membandingkan lari 100 meter dengan maraton." },
+            { text: "Masalahnya hanya pembulatan — angkanya sudah benar", why: "Salah: ini bukan soal pembulatan; ini soal horizon, biaya, dan diskonto." },
+            { text: "B lebih baik karena recovery kotornya lebih besar", why: "Salah: kotor belum dikurangi biaya dan belum didiskonto — tiga kesalahan sekaligus." },
+          ],
+        },
+      ],
+      reference: "Recovery dilaporkan sebagai kurva kumulatif per horizon (kotor, bersih, didiskonto); LGD memakai titik akhir yang didiskonto (48,5% → LGD 51,5%).",
     },
     {
       id: "checkpoint",
