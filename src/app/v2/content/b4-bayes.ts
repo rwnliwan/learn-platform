@@ -12,7 +12,7 @@ export const b4: V2Lesson = {
       eyebrow: "Langkah 1 · Tes 99% akurat",
       title: "Alarm berbunyi \u2014 berapa peluang benar fraud?",
       prose: [
-        "Sebuah tes fraud diklaim 99% akurat: jika transaksi fraud, 99% terdeteksi; jika bukan fraud, 99% dinyatakan bersih. Alarm berbunyi untuk transaksimu. \u201CBerapa peluang transaksi ini benar-benar fraud?\u201D Kebanyakan menjawab 99%. Jawaban yang benar: sekitar 9%.",
+        "Sebuah tes fraud diklaim 99% akurat (sensitivitas 99% dan spesifisitas 99%): jika transaksi fraud, 99% terdeteksi; jika bukan fraud, 99% dinyatakan bersih. Alarm berbunyi untuk transaksimu. \u201CBerapa peluang transaksi ini benar-benar fraud?\u201D Kebanyakan menjawab 99%. Jawaban yang benar: sekitar 9%.",
         "Kok bisa? Karena fraud itu langka \u2014 hanya 1 dari 1.000 transaksi. Dari 1.000 transaksi: 1 fraud (terdeteksi) + 999 bukan fraud (1% salah alarm \u2248 10 alarm palsu). Total 11 alarm, hanya 1 yang benar \u2192 1/11 \u2248 9%. Akurasi tes tidak sama dengan kepercayaan pada hasil positif \u2014 yang menentukan adalah base rate.",
         "Teorema Bayes adalah mesin matematika untuk hitungan seperti ini. Tesnya memang 99% akurat \u2014 dan jawaban 9% juga benar. Keduanya menjawab pertanyaan berbeda: \u201Cseberapa bagus tesnya\u201D vs \u201Cseberapa percaya aku pada alarm ini\u201D. Bayes adalah penerjemah di antara keduanya.",
       ],
@@ -25,7 +25,7 @@ export const b4: V2Lesson = {
       expected: "posterior=0.0902",
       note: {
         title: "Sering salah",
-        body: "\u201CTes 99% akurat \u2192 hasil positif berarti 99% benar.\u201D Akurasi menjawab \u201Cgiven sakit, berapa % terdeteksi\u201D \u2014 bukan \u201Cgiven positif, berapa % sakit\u201D. Yang kedua butuh base rate. Jangan pernah menafsirkan hasil tes tanpa prevalensi.",
+        body: "\u201CTes 99% akurat \u2192 hasil positif berarti 99% benar.\u201D Yang menjawab “given sakit, berapa % terdeteksi” adalah SENSITIVITAS (likelihood P(positif|sakit)) — bukan “akurasi”: akurasi keseluruhan adalah P(benar) yang mencampur sensitivitas, spesifisitas, dan prevalensi. Yang kedua (“given positif, berapa % sakit”) adalah posterior — dan butuh base rate. Jangan pernah menafsirkan hasil tes tanpa prevalensi.",
       },
       hints: [
         "pembilang = 0.99 * 0.001.",
@@ -86,7 +86,7 @@ export const b4: V2Lesson = {
       title: "\u201CGanti pintu\u201D menang 2/3",
       prose: [
         "Tiga pintu, satu mobil. Kamu pilih pintu 1. Pembawa acara (yang tahu di mana mobil) membuka pintu 3 \u2014 kosong \u2014 lalu bertanya: tetap atau ganti ke pintu 2? Intuisi bilang 50:50. Bayes bilang ganti menang 2/3.",
-        "Mengapa? Prior: mobil di pintu 1 = 1/3. Pembuka tidak membuka acak \u2014 jika mobil di pintu 2 (peluang 2/3), ia dipaksa membuka pintu 3. Jadi \u201Cia membuka pintu 3\u201D justru mengonfirmasi pintu 2. Posterior \u221D prior \u00D7 likelihood: pintu 1 \u221D (1/3)(1/2) = 1/6, pintu 2 \u221D (1/3)(1) = 1/3 \u2192 dinormalisasi jadi 2/3 untuk pintu 2.",
+        "Mengapa? Prior — SEBELUM pintu dibuka: mobil di pintu 1 = 1/3, di pintu 2 = 1/3. Pembuka tidak membuka acak — jika mobil di pintu 2, ia dipaksa membuka pintu 3. Jadi \u201Cia membuka pintu 3\u201D justru mengonfirmasi pintu 2. Posterior \u221D prior \u00D7 likelihood: pintu 1 \u221D (1/3)(1/2) = 1/6, pintu 2 \u221D (1/3)(1) = 1/3 → dinormalisasi jadi 2/3 untuk pintu 2. Awas: 2/3 adalah POSTERIOR — hasil setelah melihat pintu 3 dibuka — bukan prior; prior pintu 2 tetap 1/3.",
         "Simulasi 8.000 ronde membuktikannya: strategi ganti menang sekitar 66,7%, tetap sekitar 33,3%. Intuisimu akan kalah dari angka.",
       ],
       tasks: [
@@ -97,7 +97,7 @@ export const b4: V2Lesson = {
       expected: "tetap\u224833.33%  ganti\u224866.67%",
       note: {
         title: "Sering salah",
-        body: "\u201CSetelah satu pintu dibuka, peluangnya 50:50.\u201D Hanya benar jika pembuka tidak tahu dan membuka acak. Karena ia tahu dan menghindari mobil, buktinya informatif \u2014 posterior bergeser ke 2/3.",
+        body: "\u201CSetelah satu pintu dibuka, peluangnya 50:50.\u201D Hanya benar jika pembuka tidak tahu dan membuka acak. Karena ia tahu dan menghindari mobil, buktinya informatif — posterior bergeser ke 2/3. (Lengkapnya: hasil 2/3 juga bergantung pada ATURAN PILIHAN host bila ia punya dua pintu kosong — pada setup standar ia memilih acak di antara keduanya; bila aturannya berbeda, posteriornya pun berbeda.)",
       },
       hints: [
         "mobil = random.randrange(3); pilih = random.randrange(3).",
@@ -159,7 +159,7 @@ export const b4: V2Lesson = {
       title: "Blokir otomatis atau investigasi?",
       prose: [
         "Startup paylater memakai rule: \u201Cskor fraud > 0,8 \u2192 blokir otomatis\u201D. Vendor mengklaim sensitivitas 95%, false positive 5%. Base rate fraud aktual: 0,5%. Hitung: P(alarm) = 0,95\u00D70,005 + 0,05\u00D70,995 = 0,00475 + 0,04975 = 0,0545. P(fraud|alarm) = 0,00475/0,0545 \u2248 8,7%.",
-        "Blokir otomatis salah: 91% yang diblokir adalah pelanggan sah \u2014 bencana churn dan komplain. Alternatif Bayesian: pakai posterior 8,7% sebagai prior untuk investigasi bertingkat \u2014 verifikasi ringan (OTP/biometrik) dulu, eskalasi hanya jika bukti tambahan menaikkan posterior.",
+        "Blokir otomatis salah DALAM kasus ini: 91% yang diblokir adalah pelanggan sah — bencana churn dan komplain. (Bukan hukum umum: bila biaya fraud yang lolos jauh lebih besar daripada biaya memblokir pelanggan sah, blokir otomatis bisa jadi keputusan yang benar — putuskan dari perbandingan biaya FP vs FN, bukan dari posterior saja.) Alternatif Bayesian: pakai posterior 8,7% sebagai prior untuk investigasi bertingkat \u2014 verifikasi ringan (OTP/biometrik) dulu, eskalasi hanya jika bukti tambahan menaikkan posterior.",
         "Inilah pola step-up authentication di industri: keputusan proporsional dengan posterior, bukan biner dari alarm mentah.",
       ],
       tasks: [
@@ -204,7 +204,7 @@ export const b4: V2Lesson = {
           options: [
             { text: "Hasil akhir setelah bukti", why: "Salah: itu posterior." },
             { text: "Keyakinan sebelum melihat bukti (base rate)", why: "Benar: prior = P(A) sebelum bukti. Tanpa prior yang jujur, posterior ikut ngawur.", correct: true },
-            { text: "Akurasi tes", why: "Salah: akurasi tes adalah likelihood." },
+            { text: "Akurasi tes", why: "Salah: yang menjadi likelihood adalah sensitivitas P(positif|sakit); akurasi keseluruhan adalah angka lain." },
           ],
         },
         {
@@ -236,7 +236,7 @@ export const b4: V2Lesson = {
         "Base rate adalah raja: pada kondisi langka, mayoritas alarm positif adalah palsu.",
         "Frekuensi natural (\u201Cdari 1.000\u201D) mengalahkan persen untuk intuisi.",
         "Posterior hari ini = prior besok \u2014 belajar sekuensial (fondasi B17).",
-        "Jangan menafsirkan akurasi tes sebagai kepercayaan hasil \u2014 dan jangan blokir otomatis dari posterior 9%.",
+        "Jangan menafsirkan akurasi tes sebagai kepercayaan hasil \u2014 dan jangan blokir otomatis dari posterior 9% tanpa menghitung biaya FP vs FN.",
       ],
       next: { label: "B5 \u2014 Variabel Acak & Ekspektasi", href: "/v2/learn/b5-variabel-acak-ekspektasi" },
       quiz: [
@@ -263,7 +263,7 @@ export const b4: V2Lesson = {
             { text: "Blokir otomatis semua", why: "Salah: 91% yang diblokir pelanggan sah \u2014 bencana churn." },
             { text: "Abaikan alarm", why: "Salah: alarm menaikkan keyakinan 17x dari base rate \u2014 informasinya berharga." },
             { text: "Investigasi bertingkat proporsional dengan posterior", why: "Benar: eskalasi bertingkat = keputusan proporsional risiko.", correct: true },
-            { text: "Naikkan threshold sampai 99%", why: "Salah: threshold bukan solusi \u2014 masalahnya base rate, bukan sensitivitas." },
+            { text: "Naikkan threshold sampai 99%", why: "Salah: menaikkan threshold tanpa menghitung biaya FP vs FN bukan solusi — masalahnya base rate rendah membuat posterior tetap kecil; threshold yang benar diturunkan dari perbandingan biaya." },
           ],
         },
         {

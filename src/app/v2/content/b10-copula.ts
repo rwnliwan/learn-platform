@@ -50,15 +50,15 @@ export const b10: V2Lesson = {
       eyebrow: "Langkah 2 · Keluarga copula",
       title: "Pilih bentuk ekornya",
       prose: [
-        "Gaussian: dari bivariat normal, tail dependence \u03BB = 0 \u2014 kejadian ekstrem (hampir) independen. Inilah dosa 2008. Copula t: tail dependence simetris \u03BB > 0 \u2014 ekstrem atas & bawah cenderung bareng; makin kecil \u03BD, makin kuat.",
+        "Gaussian: dari bivariat normal, tail dependence \u03BB = 0 \u2014 kejadian ekstrem bersama → 0 saat kuantilnya → 0 (ASYMPTOTIC independence) — BUKAN independensi pada kuantil berhingga: pada q = 5% dua obligasi berkorelasi masih default bersama jauh lebih sering daripada bila independen (lihat contoh di bawah) — λ = 0 hanya berlaku di limit. Inilah dosa 2008. Copula t: tail dependence simetris \u03BB > 0 \u2014 ekstrem atas & bawah cenderung bareng; makin kecil \u03BD, makin kuat.",
         "Clayton: tail dependence bawah saja \u2014 cocok untuk default bersama / crash bersama (risiko kredit!). Gumbel: tail dependence atas saja \u2014 cocok untuk kejadian besar bersama (klaim bencana). \u03BB_bawah = limit P(V\u2264q | U\u2264q) saat q\u21920: \u201Cjika satu ekstrem bawah, berapa peluang yang lain ikut?\u201D Gaussian \u2192 0, Clayton > 0.",
-        "Contoh: dua obligasi, masing-masing P(default)=5%. Independen: 0,05\u00B2=0,25%. Gaussian \u03C1=0,5: \u22480,9%. Clayton \u03B8=2: \u22482,5% \u2014 10x independen! Tiga model dengan marginal & korelasi sama memberi jawaban beda 10x untuk kejadian bersama.",
+        "Contoh — peluang default BERSAMA pada kuantil berhingga q=5% (BUKAN λ): dua obligasi, masing-masing P(default)=5%. Independen: 0,05\u00B2=0,25%. Gaussian \u03C1=0,5: \u22481,2%. Clayton \u03B8=2: \u22483,5% \u2014 14x independen! Tiga model dengan marginal & korelasi sama memberi jawaban beda jauh untuk kejadian bersama — Clayton 3,5% vs Gaussian 1,2% (hampir 3x), dan Gaussian yang λ-nya 0 tetap default bersama hampir 5x lebih sering daripada independen (1,2% vs 0,25%).",
       ],
       formula: String.raw`\lambda_{\text{bawah}} = \lim_{q \to 0} P(V \le q \mid U \le q)`,
       formulaNote: "Gaussian: \u03BB=0. Clayton(\u03B8=2): \u03BB_bawah = 2^(-1/2) \u2248 0,707.",
       tasks: [
         { id: "t1", text: "Simulasikan copula Gaussian(\u03C1=0,7) dan Clayton(\u03B8=2), `N=5000`" },
-        { id: "t2", text: "Hitung `pg`, `pc` = P(ikut ekstrem bawah | ekstrem bawah), q=0,05" },
+        { id: "t2", text: "Hitung `pg`, `pc` = P(ikut ekstrem bawah | ekstrem bawah) pada kuantil berhingga q=0,05 — ini co-exceedance kuantil berhingga, BUKAN λ (λ adalah limit q→0)" },
         { id: "t3", text: "Cetak keduanya sebagai persen" },
       ],
       expected: "pc jauh > pg",
@@ -77,8 +77,8 @@ export const b10: V2Lesson = {
         lockLines: 21,
         solution: `import random, math\nrandom.seed(101)\nN, q = 5000, 0.05\n\ndef gauss_pts(rho, n):\n    pts = []\n    for _ in range(n):\n        z1, z2 = random.gauss(0,1), random.gauss(0,1)\n        x = z1; y = rho*z1 + math.sqrt(1-rho**2)*z2\n        pts.append((0.5*(1+math.erf(x/math.sqrt(2))), 0.5*(1+math.erf(y/math.sqrt(2)))))\n    return pts\n\ndef clayton_pts(theta, n):\n    pts = []\n    for _ in range(n):\n        u = random.random()\n        s = -math.log(random.random())\n        w = (1 + s)**(-1/theta)\n        v = (u**(-theta)*(w**(-theta)-1) + 1)**(-1/theta)\n        pts.append((u, min(v, 1.0)))\n    return pts\n\n# TULIS KODEMU: peluang bersyarat ikut ekstrem bawah\ng = gauss_pts(0.7, N)\nc = clayton_pts(2.0, N)\npg = sum(1 for u, v in g if u < q and v < q) / sum(1 for u, v in g if u < q)\npc = sum(1 for u, v in c if u < q and v < q) / sum(1 for u, v in c if u < q)\n\nprint(f"pg={pg:.1%}  pc={pc:.1%}")`,
         checks: [
-          { kind: "defined", task: "t2", name: "pg", label: "`pg` terdefinisi", msg: "Hitung P(ikut ekstrem | ekstrem) untuk Gaussian." },
-          { kind: "defined", task: "t2", name: "pc", label: "`pc` terdefinisi", msg: "Hitung P(ikut ekstrem | ekstrem) untuk Clayton." },
+          { kind: "defined", task: "t2", name: "pg", label: "`pg` terdefinisi", msg: "Hitung P(ikut ekstrem | ekstrem) pada q=5% untuk Gaussian — kuantil berhingga, bukan λ." },
+          { kind: "defined", task: "t2", name: "pc", label: "`pc` terdefinisi", msg: "Hitung P(ikut ekstrem | ekstrem) pada q=5% untuk Clayton — kuantil berhingga, bukan λ." },
           { kind: "stdout_matches", task: "t3", pattern: "pg=\\d+\\.\\d%\\s+pc=\\d+\\.\\d%", label: "`print` menampilkan keduanya", msg: "Cetak dengan format pg=...  pc=... ." },
         ],
       },
@@ -100,7 +100,7 @@ export const b10: V2Lesson = {
       expected: "rho_max=0.333",
       note: {
         title: "Sering salah",
-        body: "\u201CKorelasi 0,5 = dependensi 0,5, apa pun copulanya.\u201D Korelasi linear yang sama bisa berasal dari Gaussian (ekor independen), t (ekor bareng), atau Clayton (bawah bareng) \u2014 dengan implikasi risiko sangat beda.",
+        body: "\u201CKorelasi 0,5 = dependensi 0,5, apa pun copulanya.\u201D Korelasi linear yang sama bisa berasal dari Gaussian (tanpa tail dependence asimtotik), t (ekor bareng), atau Clayton (bawah bareng) \u2014 dengan implikasi risiko sangat beda.",
       },
       hints: [
         "Cov_max = 0.5 - 0.5*0.9 = 0.05.",
@@ -191,9 +191,9 @@ export const b10: V2Lesson = {
       eyebrow: "Langkah 6 · Tail dependence",
       title: "Seberapa menular ekstrem itu? Koefisien tail dependence",
       prose: [
-        "Langkah 2 membandingkan copula secara kualitatif — sekarang ukur dengan angka. Koefisien lower tail dependence: λ_bawah = limit P(V ≤ q | U ≤ q) saat q → 0. Artinya: kalau satu variabel sudah di ekor bawah ekstrem, berapa peluang yang lain ikut? λ = 0 berarti ekstrem (hampir) independen; λ = 0,7 berarti 70 persen kejadian ekstrem bawah datang berpasangan.",
-        "Angka tiap keluarga: Gaussian λ = 0 untuk korelasi berapa pun di bawah 1 — inilah dosa 2008 dalam satu angka. Copula t punya λ simetris atas dan bawah yang tumbuh saat derajat bebas ν kecil dan korelasi ρ besar. Clayton punya rumus tertutup: λ_bawah = 2^(−1/θ). Untuk θ = 2: λ_bawah = 2^(−0,5) ≈ 0,71 — 71 persen default ekstrem datang berpasangan, berbanding 0 persen versi Gaussian dengan korelasi yang sama.",
-        "Implikasi praktisnya: dua model dengan marginal sama dan korelasi sama bisa memberi peluang default bersama yang berbeda 10x lipat — bedanya hanya λ. Saat memilih copula, tanyakan dulu berapa λ yang dibutuhkan datamu: estimasi empirisnya dari frekuensi kejadian bersama di kuantil 5 persen terbawah, lalu pilih keluarga yang λ-nya paling dekat. Korelasi menjawab gerak sehari-hari; λ menjawab gerak di hari krisis — dan hari krisislah yang menentukan modal.",
+        "Langkah 2 membandingkan copula secara kualitatif — sekarang ukur dengan angka. Koefisien lower tail dependence: λ_bawah = limit P(V ≤ q | U ≤ q) saat q → 0. Artinya: kalau satu variabel sudah di ekor bawah ekstrem, berapa peluang yang lain ikut? λ = 0 berarti ekstrem ASIMTOTIK independen (di limit q→0); λ = 0,7 berarti 70 persen kejadian ekstrem bawah datang berpasangan.",
+        "Angka tiap keluarga: Gaussian λ = 0 untuk korelasi berapa pun di bawah 1 — inilah dosa 2008 dalam satu angka. Copula t punya λ simetris atas dan bawah yang tumbuh saat derajat bebas ν kecil dan korelasi ρ besar. Clayton punya rumus tertutup: λ_bawah = 2^(−1/θ). Untuk θ = 2: λ_bawah = 2^(−0,5) ≈ 0,71 — 71 persen default ekstrem datang berpasangan, berbanding 0 persen versi Gaussian dengan korelasi yang sama. (Ingat: λ = 0 tidak berarti peluang default bersama pada q = 5% sama dengan independen — contoh Langkah 2: Gaussian 1,2% vs independen 0,25%.)",
+        "Implikasi praktisnya: dua model dengan marginal sama dan korelasi sama bisa memberi peluang default bersama yang berbeda berkali-kali lipat — pada contoh Langkah 2, Gaussian 1,2% vs Clayton 3,5% (hampir 3x); terhadap independen, Clayton 14x. Bedanya hanya λ. Saat memilih copula, tanyakan dulu berapa λ yang dibutuhkan datamu: estimasi empirisnya dari frekuensi kejadian bersama di kuantil 5 persen terbawah — itu PROXY kuantil berhingga untuk λ, bukan λ itu sendiri (λ adalah limit q→0; estimasi pada q kecil tidak stabil) — lalu pilih keluarga yang λ-nya paling dekat. Korelasi menjawab gerak sehari-hari; λ menjawab gerak di hari krisis — dan hari krisislah yang menentukan modal.",
       ],
       formula: String.raw`\lambda_{\text{bawah}} = \lim_{q \to 0} P(V \le q \mid U \le q), \qquad \lambda_{\text{bawah}}^{\text{Clayton}} = 2^{-1/\theta}`,
       formulaNote: "λ_bawah = koefisien lower tail dependence; θ (theta) = parameter Clayton; θ = 2 → 2^(−1/2) ≈ 0,71 — 71 persen kejadian ekstrem bawah datang berpasangan; Gaussian: λ = 0.",
@@ -218,7 +218,7 @@ export const b10: V2Lesson = {
         solution: `# Clayton theta=2 vs Gaussian: siapa yang menularkan ekstrem bawah?\ntheta = 2\n\n# TULIS KODEMU\nlambda_clayton = round(2 ** (-1/theta), 2)\nlambda_gauss = 0\n\nprint(f"lambda_clayton={lambda_clayton}  lambda_gauss={lambda_gauss}")`,
         checks: [
           { kind: "equal", task: "t1", name: "lambda_clayton", value: 0.71, tol: 0.01, label: "`lambda_clayton` seharusnya 0.71", msg: "2^(−1/2) ≈ 0,707 → 0,71." },
-          { kind: "equal", task: "t2", name: "lambda_gauss", value: 0, tol: 1e-9, label: "`lambda_gauss` seharusnya 0", msg: "Gaussian: λ = 0 — ekstrem (hampir) independen." },
+          { kind: "equal", task: "t2", name: "lambda_gauss", value: 0, tol: 1e-9, label: "`lambda_gauss` seharusnya 0", msg: "Gaussian: λ = 0 — asymptotic independence (di limit); pada kuantil berhingga ekstrem masih bisa bergerak bareng." },
           { kind: "stdout_matches", task: "t2", pattern: "lambda_clayton=0\\.71\\s+lambda_gauss=0", label: "`print` menampilkan keduanya", msg: "Format: lambda_clayton=...  lambda_gauss=... ." },
         ],
       },
@@ -227,7 +227,7 @@ export const b10: V2Lesson = {
           q: "Clayton θ=2 memberi λ_bawah ≈ 0,71, Gaussian λ=0, korelasi sama. Artinya?",
           options: [
             { text: "Kedua model sama risikonya", why: "Salah: peluang default bersama ekstrem beda jauh — 71% vs 0%." },
-            { text: "Clayton: 71% kejadian ekstrem bawah datang berpasangan; Gaussian: ekstrem (hampir) independen", why: "Benar: λ mengukur penularan ekstrem — korelasi saja tidak menangkapnya.", correct: true },
+            { text: "Clayton: 71% kejadian ekstrem bawah datang berpasangan; Gaussian: λ = 0 (asymptotic independence — bukan independensi pada kuantil berhingga)", why: "Benar: λ mengukur penularan ekstrem — korelasi saja tidak menangkapnya.", correct: true },
             { text: "Gaussian lebih aman karena λ=0", why: "Salah: λ=0 bukan aman — ia meremehkan risiko krisis bersama." },
           ],
         },
@@ -271,7 +271,7 @@ export const b10: V2Lesson = {
           q: "Dosa fatal copula Gaussian untuk risiko kredit\u2026",
           options: [
             { text: "Terlalu rumit", why: "Salah: justru terlalu sederhana di ekor." },
-            { text: "Tidak punya tail dependence \u2014 ekstrem dianggap independen", why: "Benar: \u03BB=0. Default bersama saat krisis = kejadian ekstrem berekor \u2014 persis yang tidak ditangkap.", correct: true },
+            { text: "Tidak punya tail dependence asimtotik (λ=0) — default bersama saat krisis diremehkan", why: "Benar: λ=0 berarti peluang default bersama → 0 di limit — tetapi pada kuantil berhingga Gaussian masih punya co-exceedance (contoh Langkah 2: 1,2% vs 0,25% independen), jadi 'dianggap independen' hanya benar asimtotik; dosanya adalah meremehkan ekor, bukan mengklaim independensi penuh.", correct: true },
             { text: "Hanya untuk data normal", why: "Salah: copula Gaussian bisa dipasang marginal apa pun \u2014 masalahnya struktur ekornya." },
           ],
         },
@@ -286,7 +286,7 @@ export const b10: V2Lesson = {
         {
           q: "Dua hal yang TIDAK berubah saat ganti copula Gaussian \u2192 Clayton (marginal tetap)?",
           options: [
-            { text: "Distribusi marginal tiap variabel; korelasi rank relatif stabil", why: "Benar: copula tidak menyentuh marginal; yang berubah drastis perilaku ekor.", correct: true },
+            { text: "Distribusi marginal tiap variabel; korelasi rank relatif stabil", why: "Benar: copula tidak menyentuh marginal; korelasi rank (Spearman/Kendall) hanya bergantung pada copula — stabil terhadap transformasi monoton marginal, TETAPI berubah bila struktur dependensinya berubah, jadi 'relatif stabil' hanya terhadap marginal, bukan terhadap rezim.", correct: true },
             { text: "Peluang default bersama", why: "Salah: itu yang berubah paling dramatis." },
             { text: "Korelasi linear selalu sama", why: "Salah: korelasi linear bisa ikut berubah." },
           ],

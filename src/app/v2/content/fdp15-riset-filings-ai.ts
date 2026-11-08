@@ -111,7 +111,7 @@ export const fdp15: V2Lesson = {
       prose: [
         "Suatu hari, RAG menjawab pertanyaan tentang risiko emiten dengan jawaban yang rapi dan meyakinkan — tetapi satu klaim di dalamnya tidak punya sitasi. Analis yang memeriksanya menemukan bahwa klaim itu tidak ada di chunk mana pun: LLM telah mengarangnya dari 'ingatannya' tentang industri itu, bukan dari filing emiten tersebut. Jawaban itu hampir masuk ke memo investasi — dan satu-satunya yang menghentikannya adalah aturan sitasi: klaim tanpa sitasi tidak boleh dikutip.",
         "Penyelidikan menemukan penyebabnya: prompt sistem tidak cukup tegas melarang LLM memakai pengetahuan di luar chunk. Prompt diperbaiki dengan satu kalimat: 'Jawab HANYA dari chunk yang diberikan; bila tidak ada di chunk, katakan tidak ada.' Setelah itu, jawaban tanpa sitasi turun dari 12 persen menjadi 1 persen — dan 1 persen sisanya tetap ditandai untuk pemeriksaan manual.",
-        "Sejak itu, laporan RAG selalu membawa tiga angka di headernya: precision, recall, dan persentase klaim bersitasi. Tiga angka itu adalah pengakuan jujur tentang apa yang sistem tahu, apa yang ia lewatkan, dan apa yang ia klaim tanpa bukti. Analis yang membaca header itu sebelum membaca jawaban adalah analis yang tidak akan pernah mengutip karangan.",
+        "Sejak itu, laporan RAG selalu membawa tiga angka di headernya: precision, recall, dan persentase klaim bersitasi. Tiga angka itu adalah pengakuan jujur tentang apa yang sistem tahu, apa yang ia lewatkan, dan apa yang ia klaim tanpa bukti. Analis yang membaca header itu sebelum membaca jawaban adalah analis yang risikonya mengutip karangan jauh lebih kecil — bukan nol: tidak ada prosedur yang menjamin 'tidak akan pernah' mengutip karangan; sitasi tetap harus diperiksa ke chunk sumbernya.",
       ],
       tasks: [],
       note: {
@@ -167,8 +167,8 @@ export const fdp15: V2Lesson = {
         {
           q: "Recall retrieval 60,0 persen. Apa artinya untuk jawaban RAG?",
           options: [
-            { text: "Jawaban lengkap — 60 persen sudah cukup", why: "Salah: 40 persen bukti hilang berarti jawaban tidak lengkap." },
-            { text: "Jawaban tidak lengkap — 40 persen bukti tidak pernah sampai ke LLM; pakai sebagai draf awal saja", why: "Tepat: recall rendah berarti jawaban kehilangan bukti, berapa pun bagusnya tulisannya.", correct: true },
+            { text: "Jawaban lengkap — 60 persen sudah cukup", why: "Salah: recall 60% berarti 40% ITEM relevan tidak terambil — bukan 40% 'bukti' (item ≠ bobot bukti: satu item bisa jadi bukti kunci, seratus item bisa sepele); jawaban bisa tidak lengkap, tetapi '40% bukti hilang' salah ukur." },
+            { text: "Jawaban tidak lengkap — 40 persen item relevan tidak pernah sampai ke LLM; pakai sebagai draf awal saja", why: "Tepat: recall rendah berarti jawaban kehilangan bukti, berapa pun bagusnya tulisannya.", correct: true },
             { text: "Jawaban salah — precision pasti juga rendah", why: "Salah: precision dan recall independen — recall rendah tidak berarti precision rendah." },
             { text: "Tidak ada arti — recall hanya untuk mesin pencari", why: "Salah: recall retrieval adalah metrik kualitas jawaban RAG." },
           ],

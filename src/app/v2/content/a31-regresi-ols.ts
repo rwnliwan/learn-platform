@@ -12,8 +12,8 @@ export const a31: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita pembuka",
       title: "Model R kuadrat 0,92 yang meramalkan kerugian negatif",
       prose: [
-        "Tim risiko sebuah bank bangga: model mereka memprediksi LGD (loss given default) hanya dari satu variabel, DPD (days past due). R kuadrat = 0,92, hampir sempurna. Model langsung dipakai menentukan cadangan kerugian.",
-        "Sebulan kemudian, analis junior memasukkan DPD = 5 hari untuk segmen baru. Output: LGD = minus Rp2,1 juta. Kerugian negatif — nasabah gagal bayar justru memberi bank untung? Tentu absurd. Tidak ada yang salah dengan matematikanya: model dilatih di rentang DPD 30 sampai 180 hari, lalu dipakai di DPD 5 hari. Itu ekstrapolasi. Dan hubungan aslinya melengkung, bukan lurus.",
+        "Tim risiko sebuah bank bangga: model mereka memprediksi KERUGIAN saat default (loss amount, dalam ribu Rp) hanya dari satu variabel, DPD (days past due). R kuadrat = 0,92, hampir sempurna. Model langsung dipakai menentukan cadangan kerugian.",
+        "Sebulan kemudian, analis junior memasukkan DPD = 5 hari untuk segmen baru. Output: kerugian = minus Rp2,1 juta. Kerugian negatif — nasabah gagal bayar justru memberi bank untung? Tentu absurd. Tidak ada yang salah dengan matematikanya: model dilatih di rentang DPD 30 sampai 180 hari, lalu dipakai di DPD 5 hari. Itu ekstrapolasi. Dan hubungan aslinya melengkung, bukan lurus. Catatan istilah: LGD yang sebenarnya adalah rasio (kerugian ÷ EAD, dalam persen), bukan nominal rupiah — model ini memodelkan nominal kerugian.",
         "R kuadrat 0,92 hanya mengukur kecocokan di dalam sampel, bukan kebenaran di luar sampel. Lesson ini tentang kapan garis lurus bisa dipercaya — dan kapan ia berbohong dengan percaya diri.",
       ],
       tasks: [],
@@ -30,7 +30,7 @@ export const a31: V2Lesson = {
       title: "Anatomi satu persamaan",
       prose: [
         "Regresi linear memodelkan target y sebagai garis lurus plus noise. Intersep adalah nilai y saat semua x = 0 — sering tidak bermakna secara bisnis, tapi dibutuhkan matematikanya. Setiap koefisien adalah efek marjinal: rata-rata y berubah sebesar koefisien itu tiap x naik 1 satuan, dengan variabel lain dianggap tetap (ceteris paribus).",
-        "Contoh terestimasi: LGD = 5,2 + 2,77 x DPD (dalam ribu Rp). Slope 2,77 berarti tiap tambahan 1 hari keterlambatan, LGD naik rata-rata Rp2.770. Prediksi untuk DPD = 30: 5,2 + 2,77 x 30 = Rp88,3 ribu. Angka 2,77 adalah harga satu hari keterlambatan menurut data — bukan menurut teori.",
+        "Contoh terestimasi: Kerugian = 5,2 + 2,77 x DPD (dalam ribu Rp). Slope 2,77 berarti tiap tambahan 1 hari keterlambatan, kerugian naik rata-rata Rp2.770. Prediksi untuk DPD = 30: 5,2 + 2,77 x 30 = Rp88,3 ribu. Catatan istilah: ini nominal kerugian — LGD yang sebenarnya adalah rasio (kerugian ÷ EAD, dalam persen), jadi jangan baca 'Rp88,3 ribu' sebagai LGD. Angka 2,77 adalah harga satu hari keterlambatan menurut data — bukan menurut teori.",
         "Regresi itu linear dalam parameter, bukan dalam variabel. Kamu boleh memasukkan x kuadrat, log(x), atau interaksi x1*x2 sebagai variabel baru — modelnya tetap regresi linear.",
       ],
       formula: String.raw`y_i = \beta_0 + \beta_1 x_i + \varepsilon_i`,
@@ -42,7 +42,7 @@ export const a31: V2Lesson = {
       expected: "pred=88.3",
       note: {
         title: "Sering salah",
-        body: "Membaca koefisien sebagai efek kausal. DPD naik 1 hari lalu LGD naik Rp2.770 tidak berarti menunda pembayaran menyebabkan kerugian naik — keduanya bisa disebabkan faktor ketiga. Untuk klaim sebab-akibat butuh desain kausal, bukan regresi observasional.",
+        body: "Membaca koefisien sebagai efek kausal. DPD naik 1 hari lalu kerugian naik Rp2.770 tidak berarti menunda pembayaran menyebabkan kerugian naik — keduanya bisa disebabkan faktor ketiga. Untuk klaim sebab-akibat butuh desain kausal, bukan regresi observasional.",
       },
       hints: [
         "Prediksi = intersep + slope dikali x.",
@@ -50,9 +50,9 @@ export const a31: V2Lesson = {
         "pred = 5.2 + 2.77 * 30",
       ],
       code: {
-        starter: `# Model terestimasi: LGD = 5,2 + 2,77 x DPD (ribu Rp)\nbeta0, beta1 = 5.2, 2.77\n\n# TULIS KODEMU: prediksi LGD untuk DPD = 30\npred = \n\nprint(f"pred={pred}")`,
+        starter: `# Model terestimasi: Kerugian = 5,2 + 2,77 x DPD (ribu Rp)\nbeta0, beta1 = 5.2, 2.77\n\n# TULIS KODEMU: prediksi kerugian untuk DPD = 30\npred = \n\nprint(f"pred={pred}")`,
         lockLines: 2,
-        solution: `# Model terestimasi: LGD = 5,2 + 2,77 x DPD (ribu Rp)\nbeta0, beta1 = 5.2, 2.77\n\n# TULIS KODEMU: prediksi LGD untuk DPD = 30\npred = beta0 + beta1 * 30\n\nprint(f"pred={pred}")`,
+        solution: `# Model terestimasi: Kerugian = 5,2 + 2,77 x DPD (ribu Rp)\nbeta0, beta1 = 5.2, 2.77\n\n# TULIS KODEMU: prediksi kerugian untuk DPD = 30\npred = beta0 + beta1 * 30\n\nprint(f"pred={pred}")`,
         checks: [
           { kind: "equal", task: "t1", name: "pred", value: 88.3, tol: 0.05, label: "`pred` seharusnya 88.3", msg: "5,2 + 2,77 x 30 = 88,3. Cek urutan operasi perkaliannya." },
           { kind: "stdout_matches", task: "t2", pattern: "pred=88\\.3", label: "`print` menampilkan prediksi", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
@@ -72,7 +72,7 @@ export const a31: V2Lesson = {
       formula: String.raw`\hat{\beta}_1 = \frac{\mathrm{Cov}(x,y)}{\mathrm{Var}(x)}, \qquad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}`,
       formulaNote: "beta-hat_1 = slope OLS: kovariansi x dan y dibagi variansi x — seberapa jauh y bergerak per satu unit x; beta-hat_0 = intersep: prediksi y saat x = 0; x-bar dan y-bar = rata-rata sampel x dan y.",
       tasks: [
-        { id: "t1", text: "Hitung `b1` (slope) dari data `dpd` dan `lgd`" },
+        { id: "t1", text: "Hitung `b1` (slope) dari data `dpd` dan `rugi`" },
         { id: "t2", text: "Hitung `b0` (intersep) dan `r2`" },
         { id: "t3", text: "Cetak ketiganya dengan `print`" },
       ],
@@ -87,9 +87,9 @@ export const a31: V2Lesson = {
         "b0 = my - b1*mx",
       ],
       code: {
-        starter: `# Estimasi LGD (ribu Rp) dari DPD (hari) — pure Python\ndpd = [2, 5, 8, 12, 15, 18, 22, 25, 30, 35, 40, 45]\nlgd = [18, 26, 33, 45, 52, 60, 74, 80, 95, 108, 120, 133]\nn = len(dpd)\n\nmx = sum(dpd)/n; my = sum(lgd)/n\nsxy = sum((x-mx)*(y-my) for x, y in zip(dpd, lgd))\nsxx = sum((x-mx)**2 for x in dpd)\n\n# TULIS KODEMU: normal equations\nb1 = \nb0 = \n\npred = [b0 + b1*x for x in dpd]\nssr = sum((y-p)**2 for y, p in zip(lgd, pred))\nsst = sum((y-my)**2 for y in lgd)\nr2 = 1 - ssr/sst\n\nprint(f"beta0={b0:.2f} beta1={b1:.2f} r2={r2:.4f}")`,
+        starter: `# Estimasi kerugian (ribu Rp) dari DPD (hari) — pure Python\ndpd = [2, 5, 8, 12, 15, 18, 22, 25, 30, 35, 40, 45]\nrugi = [18, 26, 33, 45, 52, 60, 74, 80, 95, 108, 120, 133]\nn = len(dpd)\n\nmx = sum(dpd)/n; my = sum(rugi)/n\nsxy = sum((x-mx)*(y-my) for x, y in zip(dpd, rugi))\nsxx = sum((x-mx)**2 for x in dpd)\n\n# TULIS KODEMU: normal equations\nb1 = \nb0 = \n\npred = [b0 + b1*x for x in dpd]\nssr = sum((y-p)**2 for y, p in zip(rugi, pred))\nsst = sum((y-my)**2 for y in rugi)\nr2 = 1 - ssr/sst\n\nprint(f"beta0={b0:.2f} beta1={b1:.2f} r2={r2:.4f}")`,
         lockLines: 9,
-        solution: `# Estimasi LGD (ribu Rp) dari DPD (hari) — pure Python\ndpd = [2, 5, 8, 12, 15, 18, 22, 25, 30, 35, 40, 45]\nlgd = [18, 26, 33, 45, 52, 60, 74, 80, 95, 108, 120, 133]\nn = len(dpd)\n\nmx = sum(dpd)/n; my = sum(lgd)/n\nsxy = sum((x-mx)*(y-my) for x, y in zip(dpd, lgd))\nsxx = sum((x-mx)**2 for x in dpd)\n\n# TULIS KODEMU: normal equations\nb1 = sxy/sxx\nb0 = my - b1*mx\n\npred = [b0 + b1*x for x in dpd]\nssr = sum((y-p)**2 for y, p in zip(lgd, pred))\nsst = sum((y-my)**2 for y in lgd)\nr2 = 1 - ssr/sst\n\nprint(f"beta0={b0:.2f} beta1={b1:.2f} r2={r2:.4f}")`,
+        solution: `# Estimasi kerugian (ribu Rp) dari DPD (hari) — pure Python\ndpd = [2, 5, 8, 12, 15, 18, 22, 25, 30, 35, 40, 45]\nrugi = [18, 26, 33, 45, 52, 60, 74, 80, 95, 108, 120, 133]\nn = len(dpd)\n\nmx = sum(dpd)/n; my = sum(rugi)/n\nsxy = sum((x-mx)*(y-my) for x, y in zip(dpd, rugi))\nsxx = sum((x-mx)**2 for x in dpd)\n\n# TULIS KODEMU: normal equations\nb1 = sxy/sxx\nb0 = my - b1*mx\n\npred = [b0 + b1*x for x in dpd]\nssr = sum((y-p)**2 for y, p in zip(rugi, pred))\nsst = sum((y-my)**2 for y in rugi)\nr2 = 1 - ssr/sst\n\nprint(f"beta0={b0:.2f} beta1={b1:.2f} r2={r2:.4f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "b1", value: 2.7079, tol: 0.002, label: "`b1` sekitar 2.71", msg: "Slope = sxy/sxx. Cek pembilang dan penyebutnya." },
           { kind: "equal", task: "t2", name: "b0", value: 12.3397, tol: 0.02, label: "`b0` sekitar 12.34", msg: "Intersep = my - b1*mx. Pastikan memakai b1 yang benar." },
@@ -97,7 +97,7 @@ export const a31: V2Lesson = {
           { kind: "stdout_matches", task: "t3", pattern: "beta0=12\\.34\\s+beta1=2\\.71\\s+r2=0\\.9992", label: "`print` menampilkan tiga angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Coba: ubah satu lgd jadi outlier (misal 133 -> 300), jalankan ulang, lihat slope ikut lari.",
+      reference: "Coba: ubah satu rugi jadi outlier (misal 133 -> 300), jalankan ulang, lihat slope ikut lari.",
     },
     {
       id: "lab-detektif-residual",
@@ -141,7 +141,7 @@ export const a31: V2Lesson = {
       prose: [
         "R kuadrat adalah proporsi variansi y yang dijelaskan model di dalam sampel. Adjusted R kuadrat menghukum penambahan variabel tak berguna — selalu pakai ini saat membandingkan model dengan jumlah prediktor berbeda, karena R kuadrat biasa naik otomatis tiap tambah variabel, bahkan variabel acak.",
         "Untuk tiap koefisien: t-stat = estimasi dibagi standard error, dan p-value menjawab apakah data seperti ini jarang terjadi jika koefisien benar-benar nol. Confidence interval 95 persen memberi rentang nilai koefisien yang masih masuk akal menurut data.",
-        "Dua jebakan: p-value kecil berarti efeknya bukan nol — bukan berarti efeknya besar. Dengan 500 ribu observasi, efek Rp100 pun bisa sangat signifikan tapi tidak material bagi bisnis. Selalu baca besar koefisien dan intervalnya, bukan cuma bintangnya.",
+        "Dua jebakan: p-value kecil TIDAK membuktikan efeknya bukan nol — p-value hanya menjawab 'seberapa jarang data seperti ini bila koefisien benar-benar nol'; dengan bias, seleksi sampel, atau asumsi yang dilanggar, efek nol pun bisa tampak signifikan. Dan p-value kecil bukan berarti efeknya besar. Dengan 500 ribu observasi, efek Rp100 pun bisa sangat signifikan tapi tidak material bagi bisnis. Selalu baca besar koefisien dan intervalnya, bukan cuma bintangnya.",
       ],
       tasks: [],
       note: {
@@ -160,7 +160,7 @@ export const a31: V2Lesson = {
       tasks: [],
       quiz: [
         {
-          q: "Model LGD = 5,2 + 2,77 x DPD (dilatih di DPD 2-45 hari) dipakai memprediksi nasabah DPD 200 hari. Masalah utama?",
+          q: "Model kerugian = 5,2 + 2,77 x DPD (dilatih di DPD 2-45 hari) dipakai memprediksi nasabah DPD 200 hari. Masalah utama?",
           options: [
             { text: "R kuadrat pasti turun", why: "Salah. R kuadrat dihitung di data latih; masalahnya bukan angka itu." },
             { text: "Ekstrapolasi — model tidak punya bukti hubungan tetap linear di luar rentang data", why: "Benar. OLS hanya berhak bicara di rentang x tempat ia dilatih.", correct: true },
@@ -185,7 +185,7 @@ export const a31: V2Lesson = {
       eyebrow: "Langkah 7 · Peta keputusan",
       title: "Kapan OLS, kapan minggir",
       prose: [
-        "Satu, hubungan linear dan asumsi terpenuhi: pakai OLS biasa — ia BLUE, sederhana, interpretable. Dua, residual corong (heteroskedastisitas): koefisien tetap tak bias, tapi hitung ulang SE dengan robust SE atau pertimbangkan transformasi log. Tiga, hubungan melengkung: tambah suku kuadrat atau transformasi log — tetap regresi linear karena linear dalam parameter.",
+        "Satu, hubungan linear dan asumsi terpenuhi: pakai OLS biasa — ia BLUE, sederhana, interpretable. Dua, residual corong (heteroskedastisitas): koefisien tetap tak bias bila asumsi eksogenitas terpenuhi (E[ε|x] = 0) — heteroskedastisitas merusak SE, bukan ketakbiasan; 'tetap tak bias' bukan hadiah heteroskedastisitas, melainkan syarat eksogenitas yang harus dicek sendiri. Hitung ulang SE dengan robust SE atau pertimbangkan transformasi log. Tiga, hubungan melengkung: tambah suku kuadrat atau transformasi log — tetap regresi linear karena linear dalam parameter.",
         "Empat, outlier berpengaruh besar: pakai regresi robust (Huber) atau investigasi dulu — jangan asal hapus, outlier bisa jadi sinyal fraud. Lima, prediktor saling berkorelasi kuat (VIF di atas 10): buang satu variabel, gabungkan jadi indeks, atau pakai regularisasi.",
         "Aturan 10 detik: plot dulu, percaya kemudian. Residual acak berarti sehat; berpola berarti ada yang salah, dan bentuk polanya adalah petunjuk obatnya. Koefisien adalah asosiasi terkontrol, bukan bukti kausal.",
       ],
@@ -199,11 +199,11 @@ export const a31: V2Lesson = {
     {
       id: "mini-case-lgd",
       eyebrow: "Langkah 8 · Mini-case",
-      title: "Estimasi LGD untuk cadangan bank",
+      title: "Estimasi kerugian untuk cadangan bank",
       prose: [
-        "Kamu analis risiko. Regulator meminta estimasi LGD portofolio KPR macet untuk cadangan. Kamu meregresikan LGD (juta Rp) ke DPD dan LTV: LGD = -12,4 + 1,9 x DPD + 0,62 x LTV, R kuadrat 0,71, n = 2.400. Koefisien DPD: 1,9 (SE 0,15, p < 0,001), interval 95 persen [1,61; 2,19]. Koefisien LTV: 0,62 (SE 0,40, p = 0,12), interval [-0,16; 1,40].",
-        "Tiap tambah 1 hari DPD, LGD naik rata-rata Rp1,9 juta dengan LTV dianggap tetap — valid di rentang DPD data latih. Intervalnya cukup presisi, bukan sekadar signifikan. LTV dengan p = 0,12 bukan berarti tidak berpengaruh: intervalnya mencakup efek positif sampai Rp1,4 juta per poin LTV, dan itu material. Kemungkinan ada multikolinearitas yang menggembungkan SE — jangan buang variabel hanya karena p di atas 0,05.",
-        "Intersep -12,4 adalah ekstrapolasi ke titik (DPD=0, LTV=0) yang tidak ada di data — nasabah default dengan DPD 0 hari tidak masuk akal. Tidak perlu diperbaiki; cukup jangan dipakai untuk prediksi di titik itu. Jika prediksi butuh non-negatif, pertimbangkan model log(LGD).",
+        "Kamu analis risiko. Regulator meminta estimasi kerugian portofolio KPR macet untuk cadangan. Kamu meregresikan kerugian (juta Rp) ke DPD dan LTV: Kerugian = -12,4 + 1,9 x DPD + 0,62 x LTV, R kuadrat 0,71, n = 2.400. Koefisien DPD: 1,9 (SE 0,15, p < 0,001), interval 95 persen [1,61; 2,19]. Koefisien LTV: 0,62 (SE 0,40, p = 0,12), interval [-0,16; 1,40].",
+        "Tiap tambah 1 hari DPD, kerugian naik rata-rata Rp1,9 juta dengan LTV dianggap tetap — valid di rentang DPD data latih. Intervalnya cukup presisi, bukan sekadar signifikan. LTV dengan p = 0,12 bukan berarti tidak berpengaruh: intervalnya mencakup efek positif sampai Rp1,4 juta per poin LTV, dan itu material. Kemungkinan ada multikolinearitas yang menggembungkan SE — jangan buang variabel hanya karena p di atas 0,05.",
+        "Intersep -12,4 adalah ekstrapolasi ke titik (DPD=0, LTV=0) yang tidak ada di data — nasabah default dengan DPD 0 hari tidak masuk akal. Tidak perlu diperbaiki; cukup jangan dipakai untuk prediksi di titik itu. Jika prediksi butuh non-negatif, pertimbangkan model log(kerugian).",
       ],
       tasks: [],
       note: {
@@ -243,7 +243,7 @@ export const a31: V2Lesson = {
           q: "Residual plot menunjukkan pola corong (melebar ke kanan). Diagnosis dan langkah tepat?",
           options: [
             { text: "Linearitas rusak — tambah x kuadrat", why: "Salah. Pola lengkung yang butuh suku kuadrat; corong adalah masalah sebaran." },
-            { text: "Heteroskedastisitas — koefisien tetap tak bias, pakai robust SE atau pertimbangkan transformasi log", why: "Benar. Yang rusak hanya standard error dan p-value, bukan koefisiennya.", correct: true },
+            { text: "Heteroskedastisitas — koefisien tetap tak bias, pakai robust SE atau pertimbangkan transformasi log", why: "Benar — dengan catatan eksogenitas terpenuhi: heteroskedastisitas merusak standard error dan p-value, bukan ketakbiasan koefisiennya; bila ada variabel hilang yang berkorelasi dengan x, koefisien tetap bisa bias.", correct: true },
             { text: "Autokorelasi — pakai model ARIMA", why: "Salah. Itu untuk residual yang bergerombol menurut waktu." },
             { text: "Tidak ada masalah, abaikan saja", why: "Salah. SE dan p-value klasik tidak bisa dipercaya di bawah heteroskedastisitas." },
           ],
@@ -269,7 +269,7 @@ export const a31: V2Lesson = {
       ],
       note: {
         title: "Intuisi: OLS itu cermin yang jujur tapi rabun jauh",
-        body: "Lima heuristik. Satu: koefisien adalah asosiasi terkontrol, bukan bukti kausal — frasa “dengan variabel lain dianggap tetap” adalah klaim tentang dunia, bukan teorema matematika; jangan menjualnya sebagai kausalitas. Dua: R kuadrat tinggi plus residual berpola sama dengan model yang salah dengan percaya diri — plot residual dulu, baca R kuadrat kemudian. Tiga: ekstrapolasi adalah bunuh diri statistik — garis lurus tidak tahu kapan harus berhenti, dan ia dengan senang hati meramalkan LGD negatif di luar rentang data. Empat: bedakan outlier biasa dari outlier berpengaruh — satu titik dengan leverage tinggi bisa menyeret seluruh garis; Cook's distance adalah detektornya. Lima: hukuman kuadratik membuat OLS pendendam pada error besar — bila datamu berekor tebal atau terkontaminasi, pertimbangkan regresi robust sebelum percaya pada garisnya. Aturan tutup: plot dulu, percaya kemudian — selalu. Enam: waspadai multikolinearitas — dua prediktor yang hampir kembar membuat koefisiennya liar dan intervalnya melebar; VIF di atas 10 berarti mereka berebut menjelaskan hal yang sama.",
+        body: "Lima heuristik. Satu: koefisien adalah asosiasi terkontrol, bukan bukti kausal — frasa “dengan variabel lain dianggap tetap” adalah klaim tentang dunia, bukan teorema matematika; jangan menjualnya sebagai kausalitas. Dua: R kuadrat tinggi plus residual berpola sama dengan model yang salah dengan percaya diri — plot residual dulu, baca R kuadrat kemudian. Tiga: ekstrapolasi adalah bunuh diri statistik — garis lurus tidak tahu kapan harus berhenti, dan ia dengan senang hati meramalkan kerugian negatif di luar rentang data. Empat: bedakan outlier biasa dari outlier berpengaruh — satu titik dengan leverage tinggi bisa menyeret seluruh garis; Cook's distance adalah detektornya. Lima: hukuman kuadratik membuat OLS pendendam pada error besar — bila datamu berekor tebal atau terkontaminasi, pertimbangkan regresi robust sebelum percaya pada garisnya. Aturan tutup: plot dulu, percaya kemudian — selalu. Enam: waspadai multikolinearitas — dua prediktor yang hampir kembar membuat koefisiennya liar dan intervalnya melebar; VIF di atas 10 berarti mereka berebut menjelaskan hal yang sama.",
       },
     },
   ],

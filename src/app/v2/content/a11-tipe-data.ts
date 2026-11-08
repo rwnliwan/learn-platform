@@ -53,7 +53,7 @@ export const a11: V2Lesson = {
       title: "Nominal: label yang buta angka",
       prose: [
         "Data nominal hanyalah label untuk membedakan kategori. Tidak ada lebih besar atau lebih kecil — hanya sama atau beda. Contoh: jenis kelamin, kode cabang JKT-01, status perkawinan, jenis kartu.",
-        "Satu-satunya operasi yang valid adalah = dan ≠. Penjumlahan, pengurangan, perkalian, pembagian semuanya tidak bermakna. Satu-satunya ringkasan yang valid adalah frekuensi dan modus (kategori tersering): dari 10 laporan fraud — phising 6, skimming 3, social-engineering 1 — modusnya phising.",
+        "Satu-satunya operasi yang valid adalah = dan ≠. Penjumlahan, pengurangan, perkalian, pembagian semuanya tidak bermakna. Ringkasan yang valid: frekuensi, PROPORSI, dan modus (kategori tersering): dari 10 laporan fraud — phising 6, skimming 3, social-engineering 1 — modusnya phising (proporsi 60%).",
       ],
       tasks: [
         { id: "t1", text: "Hitung `modus` dari daftar `laporan`" },
@@ -87,34 +87,34 @@ export const a11: V2Lesson = {
       title: "Ordinal: urutan ada, jaraknya misterius",
       prose: [
         "Data ordinal punya urutan yang bermakna, tapi jarak antar level tidak diketahui sama. Rating kredit AAA > AA > A > BBB; tingkat kepuasan 1–5; kolektibilitas 1–5. Boleh dibandingkan urutannya, tidak boleh dijumlahkan. Yang sah: median, kuartil, dan proporsi kumulatif — mis. median skor, atau proporsi debitur skor ≥4 — bukan mean.",
-        "Portofolio 100 debitur: 70 rating A, 20 B, 8 C, 2 D. Kode buatan A=1, B=2, C=3, D=4 memberi rata-rata 1,42 — terbaca aman. Tapi PD riil tiap rating tidak berjarak sama: A=0,2%, B=1%, C=5%, D=20%. Expected loss sebenarnya 1,14%, dan 2 debitur rating D tenggelam di antara 70 debitur A.",
+        "Portofolio 100 debitur: 70 rating A, 20 B, 8 C, 2 D. Kode buatan A=1, B=2, C=3, D=4 memberi rata-rata 1,42 — terbaca aman. Tapi PD riil tiap rating tidak berjarak sama: A=0,2%, B=1%, C=5%, D=20%. Rata-rata PD berbobotnya 1,14% — BUKAN expected loss: expected loss = PD × LGD × EAD, dan lesson ini tidak punya LGD maupun EAD — dan 2 debitur rating D tenggelam di antara 70 debitur A.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `rata_rating` dari kode buatan (A=1, B=2, C=3, D=4)" },
-        { id: "t2", text: "Hitung `el_riil` (persen) dari PD sebenarnya tiap rating" },
+        { id: "t2", text: "Hitung `pd_rata2` (persen) — rata-rata PD berbobot, BUKAN expected loss — dari PD sebenarnya tiap rating" },
       ],
-      expected: "rata_rating=1.42  el_riil=1.14",
+      expected: "rata_rating=1.42  pd_rata2=1.14",
       note: {
         title: "Sering salah",
         type: "pitfall",
-        body: "Angka 1–4 itu buatanmu sendiri, bukan sifat datanya. Jarak A→B (PD naik 0,5%) jauh lebih kecil dari C→D (PD naik 15%). Kalau kesimpulanmu runtuh saat mapping diganti 1,2,3,4 menjadi 1,4,9,16 — analisismu memang tidak valid dari awal.",
+        body: "Angka 1–4 itu buatanmu sendiri, bukan sifat datanya. Jarak A→B (PD naik 0,8 poin persentase: 1% − 0,2%) jauh lebih kecil dari C→D (PD naik 15%). Kalau kesimpulanmu runtuh saat mapping diganti 1,2,3,4 menjadi 1,4,9,16 — analisismu memang tidak valid dari awal.",
       },
       hints: [
         "rata_rating = jumlah(kode × jumlah) / total debitur.",
-        "el_riil dihitung dari PD, bukan dari kode buatan.",
-        "el_riil = sum(komposisi[r]*pd[r] for r in komposisi)/n*100",
+        "pd_rata2 dihitung dari PD, bukan dari kode buatan.",
+        "pd_rata2 = sum(komposisi[r]*pd[r] for r in komposisi)/n*100",
       ],
       code: {
-        starter: `komposisi = {"A": 70, "B": 20, "C": 8, "D": 2}\nkode    = {"A": 1, "B": 2, "C": 3, "D": 4}        # angka BUATAN\npd_riil = {"A": 0.002, "B": 0.01, "C": 0.05, "D": 0.20}  # PD sebenarnya\n\nn = sum(komposisi.values())\n\n# TULIS KODEMU\nrata_rating = \nel_riil = \n\nprint(f"rata_rating={rata_rating:.2f}  el_riil={el_riil:.2f}")`,
+        starter: `komposisi = {"A": 70, "B": 20, "C": 8, "D": 2}\nkode    = {"A": 1, "B": 2, "C": 3, "D": 4}        # angka BUATAN\npd_riil = {"A": 0.002, "B": 0.01, "C": 0.05, "D": 0.20}  # PD sebenarnya\n\nn = sum(komposisi.values())\n\n# TULIS KODEMU\nrata_rating = \npd_rata2 = \n\nprint(f"rata_rating={rata_rating:.2f}  pd_rata2={pd_rata2:.2f}")`,
         lockLines: 5,
-        solution: `komposisi = {"A": 70, "B": 20, "C": 8, "D": 2}\nkode    = {"A": 1, "B": 2, "C": 3, "D": 4}        # angka BUATAN\npd_riil = {"A": 0.002, "B": 0.01, "C": 0.05, "D": 0.20}  # PD sebenarnya\n\nn = sum(komposisi.values())\n\n# TULIS KODEMU\nrata_rating = sum(komposisi[r]*kode[r] for r in komposisi) / n\nel_riil = sum(komposisi[r]*pd_riil[r] for r in komposisi) / n * 100\n\nprint(f"rata_rating={rata_rating:.2f}  el_riil={el_riil:.2f}")`,
+        solution: `komposisi = {"A": 70, "B": 20, "C": 8, "D": 2}\nkode    = {"A": 1, "B": 2, "C": 3, "D": 4}        # angka BUATAN\npd_riil = {"A": 0.002, "B": 0.01, "C": 0.05, "D": 0.20}  # PD sebenarnya\n\nn = sum(komposisi.values())\n\n# TULIS KODEMU\nrata_rating = sum(komposisi[r]*kode[r] for r in komposisi) / n\npd_rata2 = sum(komposisi[r]*pd_riil[r] for r in komposisi) / n * 100\n\nprint(f"rata_rating={rata_rating:.2f}  pd_rata2={pd_rata2:.2f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "rata_rating", value: 1.42, tol: 1e-9, label: "`rata_rating` seharusnya 1.42", msg: "(70×1 + 20×2 + 8×3 + 2×4)/100 = 1,42." },
-          { kind: "equal", task: "t2", name: "el_riil", value: 1.14, tol: 1e-9, label: "`el_riil` seharusnya 1.14", msg: "(70×0,002 + 20×0,01 + 8×0,05 + 2×0,20)/100 × 100 = 1,14." },
-          { kind: "stdout_matches", task: "t2", pattern: "rata_rating=1\\.42\\s+el_riil=1\\.14", label: "`print` menampilkan keduanya", msg: "Format dua desimal: rata_rating=1.42  el_riil=1.14." },
+          { kind: "equal", task: "t2", name: "pd_rata2", value: 1.14, tol: 1e-9, label: "`pd_rata2` seharusnya 1.14", msg: "(70×0,002 + 20×0,01 + 8×0,05 + 2×0,20)/100 × 100 = 1,14 — ini rata-rata PD berbobot, bukan expected loss (tanpa LGD × EAD)." },
+          { kind: "stdout_matches", task: "t2", pattern: "rata_rating=1\\.42\\s+pd_rata2=1\\.14", label: "`print` menampilkan keduanya", msg: "Format dua desimal: rata_rating=1.42  pd_rata2=1.14." },
         ],
       },
-      reference: "Rata-rata ordinal memberi rasa aman yang palsu; expected loss dihitung dari PD riil.",
+      reference: "Rata-rata ordinal memberi rasa aman yang palsu; rata-rata PD berbobot dihitung dari PD riil — expected loss butuh LGD × EAD dan tidak dihitung di sini.",
     },
     {
       id: "interval",
@@ -194,11 +194,11 @@ export const a11: V2Lesson = {
       prose: [
         "Kamu analis di Bank Maju Jaya. Dua cabang melaporkan rata-rata skor kolektibilitas (1 = lancar … 5 = macet): Surabaya 80% skor 1, 10% skor 2, 10% skor 5 → rata-rata 1,5. Medan 60% skor 1, 40% skor 2 → rata-rata 1,4.",
         "Direksi menyimpulkan Medan sedikit lebih baik, keduanya sangat sehat. Dua kesalahan: skornya ordinal sehingga rata-rata tidak bermakna, dan Surabaya menyembunyikan 10% debitur macet total di balik rata-rata yang cantik. Medan justru jauh lebih sehat — tidak ada satu pun debitur macet.",
-        "Metrik yang jujur: laporkan distribusi per bucket plus NPL ratio (skor 3–5). Surabaya NPL = 10%, Medan NPL = 0%.",
+        "Metrik yang jujur: laporkan distribusi per bucket plus proporsi debitur bermasalah (skor 3–5) — Surabaya 10%, Medan 0%. Ini proporsi HEADCOUNT, bukan NPL ratio: NPL ratio yang benar adalah eksposur-berbobot (saldo NPL / total saldo) dan butuh data saldo pinjaman yang tidak ada di sini.",
       ],
       tasks: [
         { id: "t1", text: "Hitung rata-rata skor kedua cabang (`sby`, `mdn`)" },
-        { id: "t2", text: "Hitung NPL ratio kedua cabang (`npl_sby`, `npl_mdn`) sebagai proporsi skor ≥ 3" },
+        { id: "t2", text: "Hitung proporsi debitur bermasalah kedua cabang (`npl_sby`, `npl_mdn`) sebagai proporsi skor ≥ 3 — ingat: ini proporsi headcount, BUKAN NPL ratio (yang butuh saldo)" },
       ],
       expected: "sby=1.5  mdn=1.4  npl_sby=0.1  npl_mdn=0.0",
       note: {
@@ -208,7 +208,7 @@ export const a11: V2Lesson = {
       },
       hints: [
         "sby = [1]*80 + [2]*10 + [5]*10; mdn = [1]*60 + [2]*40.",
-        "NPL = proporsi skor ≥ 3: sum(1 for x in s if x >= 3)/len(s).",
+        "Proporsi bermasalah (headcount) = proporsi skor ≥ 3: sum(1 for x in s if x >= 3)/len(s). Ini BUKAN NPL ratio — NPL ratio = saldo NPL / total saldo.",
         "Bandingkan angka mean-nya dengan angka NPL-nya.",
       ],
       code: {
@@ -218,9 +218,9 @@ export const a11: V2Lesson = {
         checks: [
           { kind: "equal", task: "t1", name: "sby", value: 1.5, tol: 1e-9, label: "`sby` seharusnya 1.5", msg: "Rata-rata Surabaya: (80×1 + 10×2 + 10×5)/100." },
           { kind: "equal", task: "t1", name: "mdn", value: 1.4, tol: 1e-9, label: "`mdn` seharusnya 1.4", msg: "Rata-rata Medan: (60×1 + 40×2)/100." },
-          { kind: "equal", task: "t2", name: "npl_sby", value: 0.1, tol: 1e-9, label: "`npl_sby` seharusnya 0.1", msg: "10 dari 100 debitur Surabaya berskor 5 (≥ 3)." },
+          { kind: "equal", task: "t2", name: "npl_sby", value: 0.1, tol: 1e-9, label: "`npl_sby` seharusnya 0.1", msg: "10 dari 100 debitur Surabaya berskor 5 (≥ 3) — proporsi headcount, bukan NPL ratio eksposur." },
           { kind: "equal", task: "t2", name: "npl_mdn", value: 0.0, tol: 1e-9, label: "`npl_mdn` seharusnya 0.0", msg: "Medan tidak punya skor ≥ 3." },
-          { kind: "stdout_matches", task: "t2", pattern: "npl_sby=0\\.1\\s+npl_mdn=0\\.0", label: "`print` menampilkan NPL keduanya", msg: "Format: sby=... mdn=... npl_sby=... npl_mdn=... ." },
+          { kind: "stdout_matches", task: "t2", pattern: "npl_sby=0\\.1\\s+npl_mdn=0\\.0", label: "`print` menampilkan proporsi bermasalah keduanya", msg: "Format: sby=... mdn=... npl_sby=... npl_mdn=... ." },
         ],
       },
       reference: "Proporsi bersyarat: sum(1 for x in data if x >= 3)/len(data).",
@@ -230,8 +230,8 @@ export const a11: V2Lesson = {
       eyebrow: "Langkah 7 · Dashboard ordinal",
       title: "Dashboard ordinal: tunjukkan distribusi, bukan mean",
       prose: [
-        "Cerita buruk di langkah 1 sudah selesai — sekarang bangun dashboard yang benar. Dashboard ordinal yang jujur menampilkan enam hal: median sebagai nilai tengah, kuartil bawah dan atas (Q1 dan Q3) sebagai rentang tengah data, persentase tiap bucket skor 1 sampai 5, top-2-box yaitu persentase skor 4 sampai 5, proporsi kumulatif, dan NPL ratio untuk skor kolektibilitas.",
-        "Contoh survei kepuasan nasabah, 100 responden (ilustratif): skor 1 sebanyak 10 orang, skor 2 sebanyak 15, skor 3 sebanyak 25, skor 4 sebanyak 30, skor 5 sebanyak 20. Mediannya 3,5 — nilai tengah antara skor 3 dan skor 4, karena 100 data genap: data ke-50 adalah 3 dan data ke-51 adalah 4, jadi (3 + 4) / 2 = 3,5. Top-2-box-nya 50 persen, yaitu 30 tambah 20 dibagi 100. Skor 1 sampai 2 sebanyak 25 persen — satu dari empat nasabah tidak puas, sinyal churn yang tidak pernah terlihat dari mean 3,35.",
+        "Cerita buruk di langkah 1 sudah selesai — sekarang bangun dashboard yang benar. Dashboard ordinal yang jujur menampilkan enam hal: median sebagai nilai tengah, kuartil bawah dan atas (Q1 dan Q3) sebagai rentang tengah data, persentase tiap bucket skor 1 sampai 5, top-2-box yaitu persentase skor 4 sampai 5, proporsi kumulatif, dan proporsi debitur bermasalah (skor 3–5) untuk skor kolektibilitas — ingat, ini proporsi headcount, bukan NPL ratio eksposur.",
+        "Contoh survei kepuasan nasabah, 100 responden (ilustratif): skor 1 sebanyak 10 orang, skor 2 sebanyak 15, skor 3 sebanyak 25, skor 4 sebanyak 30, skor 5 sebanyak 20. Mediannya jatuh DI ANTARA skor 3 dan skor 4, karena 100 data genap: data ke-50 adalah 3 dan data ke-51 adalah 4. Angka 3,5 yang dikeluarkan statistics.median hanyalah rata-rata aritmetika dua kode tengah — dan karena jarak 3→4 TIDAK diketahui (skornya ordinal), 3,5 BUKAN skor yang bermakna: tidak ada responden berskor 3,5. Laporkan sebagai 'median di antara 3 dan 4', bukan 'median 3,5'. Top-2-box-nya 50 persen, yaitu 30 tambah 20 dibagi 100. Skor 1 sampai 2 sebanyak 25 persen — satu dari empat nasabah tidak puas, sinyal churn yang tidak pernah terlihat dari mean 3,35.",
         "Chart yang dipakai: diverging stacked bar untuk skala Likert — satu batang 100 persen dengan skor negatif di kiri, netral di tengah, dan skor positif di kanan, sehingga mata langsung membaca keseimbangan sentimen. Bar chart biasa dipakai hanya untuk satu pertanyaan tanpa pembanding sentimen, dan histogram dipakai untuk melihat bentuk distribusi skor mentah. Yang dilarang: garis mean di chart, anotasi mean di sumbu, dan mean skor sebagai KPI — ketiganya memberi presisi palsu atas jarak antar level yang tidak pernah diukur.",
         "Aturan satu kalimatnya: dashboard ordinal menjawab tiga pertanyaan — berapa nilai tengahnya (median), berapa persen yang puas atau bermasalah (top-2-box dan bottom-2-box), dan bagaimana bentuk distribusinya (persentase per bucket). Kalau satu angka di dashboardmu adalah mean skor 1 sampai 5, dashboard itu berbohong dengan rapi.",
       ],
@@ -246,11 +246,11 @@ export const a11: V2Lesson = {
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "Top-2-box dan bottom-2-box adalah angka yang ditindaklanjuti: bottom-2-box 25 persen berarti satu dari empat nasabah tidak puas. Untuk kolektibilitas, padanannya adalah NPL ratio per bucket, bukan rata-rata skor.",
+        body: "Top-2-box dan bottom-2-box adalah angka yang ditindaklanjuti: bottom-2-box 25 persen berarti satu dari empat nasabah tidak puas. Untuk kolektibilitas, padanannya adalah proporsi debitur bermasalah per bucket (headcount) — NPL ratio sesungguhnya butuh saldo — bukan rata-rata skor.",
       },
       hints: [
         "Bangun list: [1]*10 + [2]*15 + [3]*25 + [4]*30 + [5]*20.",
-        "Median dari 100 data = rata-rata data ke-50 dan ke-51: statistics.median.",
+        "Median dari 100 data = rata-rata data ke-50 dan ke-51: statistics.median — ingat, 3,5 di sini bukan skor yang ada; median jatuh di antara 3 dan 4.",
         "top2 = sum(1 for x in skor if x >= 4) / len(skor) * 100",
       ],
       code: {
@@ -258,7 +258,7 @@ export const a11: V2Lesson = {
         lockLines: 4,
         solution: `import statistics as st\n\n# Survei kepuasan nasabah, 100 responden (ilustratif)\nskor = [1]*10 + [2]*15 + [3]*25 + [4]*30 + [5]*20\n\n# TULIS KODEMU\nmedian = st.median(skor)\ntop2 = sum(1 for x in skor if x >= 4) / len(skor) * 100\nbottom2 = sum(1 for x in skor if x <= 2) / len(skor) * 100\n\nprint(f"median={median}  top2={top2}  bottom2={bottom2}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "median", value: 3.5, tol: 1e-9, label: "`median` seharusnya 3.5", msg: "Data ke-50 = 3, data ke-51 = 4; (3 + 4)/2 = 3,5." },
+          { kind: "equal", task: "t1", name: "median", value: 3.5, tol: 1e-9, label: "`median` seharusnya 3.5", msg: "Data ke-50 = 3, data ke-51 = 4; (3 + 4)/2 = 3,5 — angka ini hanya rata-rata dua kode tengah; laporkan median sebagai 'di antara skor 3 dan 4', karena jarak antar skor ordinal tidak diketahui." },
           { kind: "equal", task: "t2", name: "top2", value: 50.0, tol: 1e-9, label: "`top2` seharusnya 50.0", msg: "(30 + 20)/100 × 100 = 50%." },
           { kind: "equal", task: "t3", name: "bottom2", value: 25.0, tol: 1e-9, label: "`bottom2` seharusnya 25.0", msg: "(10 + 15)/100 × 100 = 25%." },
           { kind: "stdout_matches", task: "t3", pattern: "median=3\\.5\\s+top2=50\\.0\\s+bottom2=25\\.0", label: "`print` menampilkan ketiganya", msg: "Format: median=...  top2=...  bottom2=... ." },
@@ -295,8 +295,8 @@ export const a11: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Nominal = label buta angka → hanya frekuensi/modus; mean/median/SD tidak bermakna.",
-        "Ordinal = urutan tanpa jarak pasti → median/modus; mean skor dilarang karena mapping angkanya buatanmu.",
+        "Nominal = label buta angka → hanya frekuensi/proporsi/modus; mean/median/SD tidak bermakna.",
+        "Ordinal = urutan tanpa jarak pasti → median/modus (median yang jatuh di antara dua skor dilaporkan posisinya, bukan angka desimalnya); mean skor dilarang karena mapping angkanya buatanmu.",
         "Interval = jarak sama, nol palsu → mean/SD valid, tapi dilarang klaim N kali lipat.",
         "Rasio = nol absolut → semua operasi valid; pastikan kolom angka bukan berkedok (kode, tahun, skor).",
         "Tulis grain dulu — satu baris = ___ — sebelum query agregasi apa pun.",

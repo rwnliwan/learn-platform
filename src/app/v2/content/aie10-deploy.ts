@@ -1,7 +1,7 @@
 import type { V2Lesson } from "../lib/types";
 
-// Batang sukses: tanpa retry 75% vs dengan retry 99,5% (HASIL EMPIRIS satu seed simulasi, 199/200) — nilai teoretisnya 98,4% (lihat caption).
-const FIG_RETRY = `<svg viewBox="0 0 480 240" role="img" aria-label="Success rate tanpa retry 75 persen vs dengan retry 99,5 persen pada satu seed simulasi (nilai teoretis 98,4 persen).">
+// Batang sukses: tanpa retry 75% vs dengan retry 99,5% (HASIL EMPIRIS satu seed simulasi, 199/200) — nilai teoretisnya 98,3% (lihat caption).
+const FIG_RETRY = `<svg viewBox="0 0 480 240" role="img" aria-label="Success rate tanpa retry 75 persen vs dengan retry 99,5 persen pada satu seed simulasi (nilai teoretis 98,3 persen).">
 <g stroke="var(--chart-grid)" stroke-width="1"><line x1="44" y1="200" x2="460" y2="200"/><line x1="44" y1="155" x2="460" y2="155"/><line x1="44" y1="110" x2="460" y2="110"/><line x1="44" y1="65" x2="460" y2="65"/><line x1="44" y1="20" x2="460" y2="20"/></g>
 <g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="38" y="204">0%</text><text x="38" y="159">25%</text><text x="38" y="114">50%</text><text x="38" y="69">75%</text><text x="38" y="24">100%</text></g>
 <rect x="120" y="65" width="100" height="135" fill="var(--c4)"/>
@@ -39,7 +39,7 @@ export const aie10: V2Lesson = {
         "Satu request lambat tanpa timeout menyumbat satu worker selama 30 detik — dalam waktu itu ratusan request lain antre. Timeout (mis. 1,5 detik untuk klasifikasi, lebih longgar untuk generasi panjang) memutus request yang macet agar worker bebas melayani yang lain. Retry kemudian mencoba lagi — maksimal 3 upaya, dengan backoff (tunggu makin lama tiap upaya: 1s, 2s, 4s) agar tidak menghantam provider yang sedang sekarat.",
         "Bahaya retry tanpa backoff: retry storm. Provider lambat → semua client retry serentak → beban berlipat → provider makin lambat → retry lagi. Lingkaran kematian yang dimulai dari niat baik. Backoff + jitter (acak sedikit) memecah keserentakan. Dan retry punya empat batas operasional yang wajib dirancang — bukan sekadar 'coba 3x'. (1) Idempotency key: tiap request membawa kunci unik yang sama di semua upaya retry, sehingga provider yang menerima retry tidak mengeksekusi efek samping dua kali (misal: menagih dua kali, mengirim dua notifikasi) — tanpa ini, retry atas request non-idempotent (POST pembayaran) adalah bug. (2) Klasifikasi error: retry HANYA untuk error retryable (timeout, 429, 5xx sementara); JANGAN retry error non-retryable (400 validasi, 401 auth, prompt rusak) — mengulang kesalahan yang pasti gagal hanya membuang token dan waktu. (3) Retry budget: batas total retry per periode (misal: retry ≤10% dari total request) — bila budget habis, gagalkan cepat (fail fast) daripada membanjiri provider yang sekarat. (4) Batas total waktu (deadline): total waktu semua upaya (misal: 10 detik) — retry yang masing-masing 30 detik tetapi deadline 10 detik tidak pernah mencapai upaya kedua. Empat batas ini yang membedakan retry yang menyelamatkan dari retry yang menumbangkan.",
         "Kepribadian timeout: ia seperti penjaga pintu klub — tegas mengeluarkan yang berlama-lama agar antrean tetap bergerak. Tanpa penjaga, satu orang bisa menyandera seluruh malam.",
-        "Matematika timeout — dari cerita. Tanpa timeout: 1 request macet 120 detik menahan 1 worker → 10 macet = 10 worker mati = antrean meledak. Timeout 30 detik: worker bebas dalam 30 detik; retry 2x dengan backoff. Ketersediaan: 75 persen → 98,4 persen secara teori (1 − 0,25³); simulasi satu seed di lab memberi 199/200 = 99,5 persen — hasil empiris itu, bukan teori. Rumus: timeout ≈ p99 latensi normal × 2 (30 detik untuk p99=15 detik). Terlalu pendek (5 detik): membunuh request sehat. Terlalu panjang (300 detik): mati pelan-pelan. p99 × 2 = belas kasihan yang terukur.",
+        "Matematika timeout — dari cerita. Tanpa timeout: 1 request macet 120 detik menahan 1 worker → 10 macet = 10 worker mati = antrean meledak. Timeout 30 detik: worker bebas dalam 30 detik; retry 2x dengan backoff. Ketersediaan: 75 persen → 98,3 persen secara teori (1 − 0,256³ — kegagalan efektif per upaya 25,6% karena timeout 1.500 ms juga menolak latensi lambat); simulasi satu seed di lab memberi 199/200 = 99,5 persen — hasil empiris itu, bukan teori. Rumus: timeout ≈ p99 latensi normal × 2 (30 detik untuk p99=15 detik). Terlalu pendek (5 detik): membunuh request sehat. Terlalu panjang (300 detik): mati pelan-pelan. p99 × 2 = belas kasihan yang terukur.",
       ],
       tasks: [],
       note: {
@@ -52,15 +52,15 @@ export const aie10: V2Lesson = {
     {
       id: "lab-retry",
       eyebrow: "Langkah 3 · Lab retry",
-      title: "Lab: dari 75 persen ke 98,4 persen (teori) — 99,5 persen pada satu seed",
+      title: "Lab: dari 75 persen ke 98,3 persen (teori) — 99,5 persen pada satu seed",
       prose: [
-        "Simulasi 200 request ke mock provider: 25 persen gagal total per upaya, sisanya berlatensi sekitar 900ms. Timeout 1.500ms memutus yang kelewat lambat. `req_dengan_retry` mencoba hingga 3 upaya. Bandingkan: tanpa retry, sukses = 75 persen; dengan retry, nilai teoretisnya 1 − 0,25³ = 98,44 persen — dan lab dengan seed 42 akan menunjukkan 199/200 = 99,5 persen (hasil empiris satu seed; simpan bedanya di kepala).",
+        "Simulasi 200 request ke mock provider: 25 persen gagal total per upaya, sisanya berlatensi sekitar 900ms. Timeout 1.500ms memutus yang kelewat lambat. `req_dengan_retry` mencoba hingga 3 upaya. Bandingkan: tanpa retry, sukses = 75 persen; dengan retry, nilai teoretisnya ≈ 98,3 persen — dan lab dengan seed 42 akan menunjukkan 199/200 = 99,5 persen (hasil empiris satu seed; simpan bedanya di kepala). Hitungnya: kegagalan per upaya bukan 25% — mock juga menolak latensi > 1.500 ms, dan P(latensi > 1.500 | sukses) = P(Z > 2,4) ≈ 0,82%, jadi kegagalan efektif per upaya = 25% + 75% × 0,82% ≈ 25,6%; sukses teoretis = 1 − 0,256³ ≈ 98,3% (bukan 1 − 0,25³ = 98,44% yang mengabaikan timeout).",
         "Coba ubah: naikkan TIMEOUT menjadi 3000, jalankan ulang, dan lihat p95 naik (request lambat ikut lolos) sementara sukses hampir sama. Timeout adalah kenop antara latensi dan keberhasilan — tidak ada nilai benar universal.",
       ],
       figure: {
         svg: FIG_RETRY,
-        alt: "Success rate tanpa retry 75 persen vs dengan retry 99,5 persen pada satu seed simulasi (nilai teoretis 98,4 persen).",
-        caption: "Cara membaca: tinggi batang = proporsi 200 request simulasi yang sukses; kiri = satu upaya, kanan = hingga 3 upaya dengan timeout 1.500ms; sumbu Y 0–100 persen. Interpretasi — bedakan DUA angka: nilai TEORETIS sukses dengan retry = 1 − 0,25³ = 1 − 0,015625 = 98,44 persen (kegagalan per upaya 25 persen dilipatgandakan menjadi 1,5625 persen, bukan 0,5 persen). Angka 99,5 persen (199/200) adalah hasil EMPIRIS satu seed simulasi di lab — masih mungkin secara statistik (peluang ≤1 gagal dari 200 request pada p=1,5625 persen adalah ≈18 persen), tetapi ia BUKAN hasil pelipatan matematis. Inilah matematika keandalan: kegagalan kecil yang independen bisa dilipatgandakan menjadi kecil sekali — dan hasil satu simulasi selalu dilaporkan bersama nilai teoretisnya.",
+        alt: "Success rate tanpa retry 75 persen vs dengan retry 99,5 persen pada satu seed simulasi (nilai teoretis 98,3 persen).",
+        caption: "Cara membaca: tinggi batang = proporsi 200 request simulasi yang sukses; kiri = satu upaya, kanan = hingga 3 upaya dengan timeout 1.500ms; sumbu Y 0–100 persen. Interpretasi — bedakan DUA angka: nilai TEORETIS sukses dengan retry ≈ 98,3 persen: kegagalan efektif per upaya ≈ 25,6% (25% gagal total + 0,82% dari yang sukses tertolak timeout 1.500 ms), dilipatgandakan tiga upaya menjadi 0,256³ ≈ 1,68% gagal — bukan 1 − 0,25³ = 98,44% yang mengabaikan timeout. Angka 99,5 persen (199/200) adalah hasil EMPIRIS satu seed simulasi di lab — masih mungkin secara statistik (peluang ≤1 gagal dari 200 request pada p=1,68 persen adalah ≈15 persen), tetapi ia BUKAN hasil pelipatan matematis. Inilah matematika keandalan: kegagalan kecil yang independen bisa dilipatgandakan menjadi kecil sekali — dan hasil satu simulasi selalu dilaporkan bersama nilai teoretisnya.",
       },
       tasks: [
         { id: "t1", text: "Jalankan 200 request (`N`), kumpulkan latensi sukses di `lats`" },
@@ -70,7 +70,7 @@ export const aie10: V2Lesson = {
       expected: "sukses=199/200  p95=1335ms",
       note: {
         title: "💡 Intuisi",
-        body: "Retry bekerja karena kegagalan independen: peluang 3 upaya gagal beruntun = 0,25³ ≈ 1,6 persen. Tetapi bila penyebabnya SISTEMATIS (prompt rusak, provider down total), retry hanya mengulang kegagalan — kenali bedanya dari pola error di log.",
+        body: "Retry bekerja karena kegagalan independen: peluang 3 upaya gagal beruntun ≈ 0,256³ ≈ 1,7 persen (0,25³ ≈ 1,6 persen bila timeout diabaikan — angka lengkapnya memakai kegagalan efektif 25,6% per upaya). Tetapi bila penyebabnya SISTEMATIS (prompt rusak, provider down total), retry hanya mengulang kegagalan — kenali bedanya dari pola error di log.",
       },
       hints: [
         "Loop N kali: t = req_dengan_retry(); bila tidak None, masukkan ke lats.",
@@ -95,7 +95,7 @@ export const aie10: V2Lesson = {
       title: "Hukum Little: fisika antrean yang tidak bisa ditawar",
       prose: [
         "Hukum Little: L = λ × W. L = jumlah request rata-rata DI DALAM SISTEM (menunggu di antrean DITAMBAH sedang diproses) — yaitu konkurensi, BUKAN otomatis jumlah worker fisik. 200 RPS × 1,2 detik = 240 request konkuren rata-rata di dalam sistem. Berapa WORKER yang dibutuhkan untuk menampung 240 request konkuren itu bergantung arsitektur: pada server sinkron satu-thread-per-request, 1 worker ≈ 1 request → 240 worker; pada server async, satu worker/proses bisa menampung puluhan request yang 'tidur' menunggu I/O (lihat Langkah 8) — jadi kebutuhan worker/proses ditentukan oleh model eksekusi, blocking/non-blocking I/O, kapasitas tiap worker, dan headroom, bukan oleh L semata. Bukan perkiraan — ini hukum kekekalan: request yang datang harus dilayani di suatu tempat.",
-        "Tiga tuas kapasitas: turunkan W (streaming, model lebih cepat, cache), naikkan L (autoscale worker), atau batasi λ (rate limit + antrean). Fallback berlapis adalah tuas keempat yang tersembunyi: saat provider down, layani dari cache atau jawaban degradasi — λ efektif ke provider turun ke nol tanpa pengguna sadar.",
+        "Tiga tuas kapasitas: turunkan W (model lebih cepat, cache, timeout agresif — BUKAN streaming: streaming hanya memangkas time-to-first-token, total waktunya sama), naikkan L (autoscale worker), atau batasi λ (rate limit + antrean). Fallback berlapis adalah tuas keempat yang tersembunyi: saat provider down, layani dari cache atau jawaban degradasi — λ efektif ke provider turun ke nol tanpa pengguna sadar.",
         "Kepribadian Hukum Little: ia seperti akuntansi — tidak peduli seberapa bagus arsitekturnya, debit harus sama dengan kredit. Setiap desain kapasitas yang melanggarnya akan ketahuan di hari pertama produksi.",
         "Hukum Little — contoh dihitung. L = λW: 100 request/detik × 2 detik = 200 request “di dalam sistem” rata-rata. Pada model sinkron, itu berarti 200 worker (atau 200 koneksi paralel); pada model async, jauh lebih sedikit proses — L-nya sama, worker-nya beda. Traffic naik 3x (300 rps): L menjadi 600 — atau W turun ke 0,67 detik (optimasi!). Little = fisika: tidak bisa ditawar, hanya bisa dipilih variabel mana yang diubah. Setiap “tambah mesin” vs “optimasi kode” = memilih λ, W, atau L. Tulis ketiganya sebelum belanja.",
         "Lab 240 worker — verifikasi. 120 rps × 2 detik = 240 request konkuren rata-rata di dalam sistem. Pada model sinkron (1 worker = 1 request): 240 worker; mesin 32 worker → 8 mesin (240/32 = 7,5 → 8). Mini-case: 8 → 5 mesin TANPA belanja: W 2 detik → 1,25 detik (cache + model kecil) → L = 120 × 1,25 = 150 → 5 mesin (150/32 = 4,7 → 5)! Optimasi W 37 persen = hemat 3 mesin = Rp45 juta/bulan. “Tanpa belanja” = belanja KECERDASAN, bukan mesin.",
@@ -107,7 +107,7 @@ export const aie10: V2Lesson = {
       note: {
         title: "🚨 Miskonsepsi",
         type: "pitfall",
-        body: "'Server kurang? Tambah mesin saja.' Kadang benar, tetapi Hukum Little menunjukkan tuas yang lebih murah: potong W separuh (streaming + cache) = separuh mesin. Arsitektur mengalahkan hardware — seperti mini-case akan tunjukkan: 8 mesin menjadi 5 tanpa membeli apa pun.",
+        body: "'Server kurang? Tambah mesin saja.' Kadang benar, tetapi Hukum Little menunjukkan tuas yang lebih murah: potong W separuh (cache + model lebih cepat) = separuh mesin. Arsitektur mengalahkan hardware — seperti mini-case akan tunjukkan: 8 mesin menjadi 5 tanpa membeli apa pun.",
       },
       reference: "L = λ × W. Tiga tuas: turunkan W, naikkan L, batasi λ. Fallback = tuas keempat.",
     },
@@ -117,7 +117,7 @@ export const aie10: V2Lesson = {
       title: "Lab: menghitung 240 worker",
       prose: [
         "Chatbot NusaBank: 200 request per detik, tiap request 1,2 detik. Hitung konkurensi di dalam sistem (L) dengan Hukum Little — dan, dengan asumsi model sinkron (1 worker = 1 request), worker yang dibutuhkan. Satu baris — tetapi baris ini menentukan belanja infrastruktur puluhan juta per bulan.",
-        "Coba ubah: turunkan LAT menjadi 0,7 (efek streaming + cache), jalankan ulang, dan lihat kebutuhan turun ke 140 worker. Setengah detik latensi = 100 worker = 3 mesin yang tidak perlu dibeli.",
+        "Coba ubah: turunkan LAT menjadi 0,7 (efek cache + timeout; streaming TIDAK memangkas total latensi — hanya time-to-first-token), jalankan ulang, dan lihat kebutuhan turun ke 140 worker. Setengah detik latensi = 100 worker = 3 mesin yang tidak perlu dibeli.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `worker` = RPS × LAT" },
@@ -168,7 +168,7 @@ export const aie10: V2Lesson = {
       title: "Mini-case: 8 mesin menjadi 5 tanpa belanja",
       prose: [
         "Chatbot NusaBank: 200 RPS × 1,2 detik = 240 request konkuren di dalam sistem (Hukum Little) — pada model sinkron = 240 worker. Tiap worker 2 GB RAM → 480 GB → 8 mesin 64 GB × Rp5 juta = Rp40 juta per bulan. Anggaran infrastruktur menjerit.",
-        "Redesain: streaming memangkas W efektif (user melihat jawaban sambil dihasilkan, timeout agresif untuk yang macet), cache memotong 25 persen request, fallback cache saat provider lambat. W turun ke 0,7 detik, λ efektif ke model turun ke 150 RPS → L = 105 worker → 5 mesin (dengan headroom). Hemat 3 mesin × Rp5 juta = Rp15 juta per bulan — selamanya.",
+        "Redesain: streaming memangkas time-to-first-token — user melihat jawaban sambil dihasilkan — TETAPI total waktu generasi sama, jadi streaming TIDAK memangkas W; yang memangkas W ke 0,7 detik adalah cache (memotong 25 persen request), timeout agresif untuk yang macet, dan fallback cache saat provider lambat. λ efektif ke model turun ke 150 RPS → L = 105 request konkuren → pada model sinkron 105 worker → 5 mesin (dengan headroom). Hemat 3 mesin × Rp5 juta = Rp15 juta per bulan — selamanya.",
         "Twist: tidak satu rupiah pun dibelanjakan untuk hardware baru. Arsitektur mengalahkan hardware — dan Hukum Little adalah kalkulator yang membuktikannya sebelum kamu presentasi ke direksi.",
       ],
       tasks: [],
@@ -370,7 +370,7 @@ print(f"r1 ok={ok1} hasil={n1} | r2 ok={ok2} hasil={n2} | r3 ok={ok3} | r4 ok={o
         {
           q: "Hukum Little L = λ × W digunakan untuk…",
           options: [
-            { text: "Menghitung worker konkuren dari RPS dan latensi", why: "Tepat: 200 × 1,2 = 240 worker — dasar belanja infrastruktur.", correct: true },
+            { text: "Menghitung worker konkuren dari RPS dan latensi", why: "Tepat: L = λ × W = 200 × 1,2 = 240 request konkuren DI DALAM SISTEM; pada model sinkron (1 worker = 1 request) itu berarti 240 worker — pada model async, worker-nya jauh lebih sedikit. L adalah konkurensi, bukan otomatis jumlah worker.", correct: true },
             { text: "Menghitung akurasi model", why: "Tidak ada hubungannya dengan akurasi.", correct: false },
             { text: "Menghitung biaya token", why: "Itu rumus ekonomi token, bukan Little.", correct: false },
             { text: "Memilih model terbaik", why: "Little soal kapasitas, bukan kualitas model.", correct: false },

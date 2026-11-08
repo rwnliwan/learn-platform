@@ -29,8 +29,8 @@ export const a39: V2Lesson = {
       eyebrow: "Langkah 2 · Lab: stasioneritas",
       title: "Syarat masuk dunia time series",
       prose: [
-        "Deret stasioner: mean, variansi, dan kovarians antar lag konstan sepanjang waktu — hubungan yang stabil, syarat regresi. Lawannya: unit root (random walk) — deret berjalan tanpa kembali; dan tren deterministik — mean-nya bergerak.",
-        "Uji ADF (disederhanakan): regresikan perubahan dy ke level lag-nya; jika koefisien b negatif signifikan (t < -2,86), tolak unit root = stasioner. Di bawah: AR(1) phi=0,7 vs random walk phi=1,0 vs tren. Hitung t-stat masing-masing dan putuskan.",
+        "Deret stasioner: mean, variansi, dan kovarians antar lag konstan sepanjang waktu — hubungan yang stabil, syarat regresi DERET WAKTU yang valid (bukan syarat regresi secara umum: regresi cross-section tidak butuh stasioneritas — yang butuh adalah inferensi pada data berurutan waktu). Lawannya: unit root (random walk) — deret berjalan tanpa kembali; dan tren deterministik — mean-nya bergerak.",
+        "Uji ADF (disederhanakan): regresikan perubahan dy ke level lag-nya; jika koefisien b negatif signifikan (t < −2,86), tolak unit root = stasioner. Angka −2,86 adalah nilai kritis 5% ASIMTOTIK untuk spesifikasi ADF dengan intersep TANPA tren (lab ini n=300, jadi −2,86 sudah cukup dekat; untuk sampel kecil nilai kritisnya sedikit lebih negatif — dan dengan tren, nilainya berubah total, sekitar −3,41). Di bawah: AR(1) phi=0,7 vs random walk phi=1,0 vs tren. Hitung t-stat masing-masing dan putuskan.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `t_ar` (AR(1) phi=0.7) via `adf_simple`" },
@@ -39,11 +39,11 @@ export const a39: V2Lesson = {
       expected: "t_ar=-6.46 t_rw=-2.30",
       note: {
         title: "Sering salah",
-        body: "Langsung fit ARMA tanpa uji stasioneritas. Gagal menolak unit root (t > -2,86) berarti differencing dulu — atau detrending jika trennya deterministik. Obatnya beda.",
+        body: "Langsung fit ARMA tanpa uji stasioneritas. Gagal menolak unit root (t > −2,86 pada spesifikasi ADF intersep-tanpa-tren ini) berarti differencing dulu — atau detrending jika trennya deterministik. Obatnya beda.",
       },
       hints: [
         "adf_simple(y) mengembalikan (b, t).",
-        "Kritis kasar ADF 5% = -2.86; t < -2.86 berarti stasioner.",
+        "Kritis kasar ADF 5% = -2.86 (asimtotik, intersep tanpa tren); t < -2.86 berarti stasioner.",
         "b_ar, t_ar = adf_simple(make_ar1(300, 0.7))",
       ],
       code: {
@@ -56,7 +56,7 @@ export const a39: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "t_ar=-6\\.46\\s+t_rw=-2\\.30", label: "`print` menampilkan kedua t-stat", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "ADF: t < -2.86 -> stasioner. Jika tidak: differencing (stokastik) / detrending (deterministik).",
+      reference: "ADF (intersep, tanpa tren; asimtotik 5%): t < -2.86 -> stasioner. Jika tidak: differencing (stokastik) / detrending (deterministik).",
     },
     {
       id: "arma",
@@ -209,7 +209,7 @@ export const a39: V2Lesson = {
       next: { label: "B1 — Aksioma Peluang", href: "/v2/learn/b1-aksioma-peluang" },
       quiz: [
         {
-          q: "ADF t-stat = -1,5 (nilai kritis -2,86). Tindakan?",
+          q: "ADF t-stat = -1,5 (nilai kritis -2,86, ADF intersep tanpa tren). Tindakan?",
           options: [
             { text: "Langsung fit ARMA — sudah stasioner", why: "Salah. -1,5 > -2,86 = gagal menolak unit root." },
             { text: "Gagal menolak unit root → differencing (atau detrending jika tren deterministik) dulu", why: "Benar. Tapi cek dulu jenis trennya — obatnya beda.", correct: true },
