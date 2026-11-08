@@ -12,7 +12,7 @@ export const aie26: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Model yang dilatih 2 juta dokumen — 27 persennya sampah",
       prose: [
-        "Tim NusaBank mengumpulkan 2 juta dokumen untuk SFT chatbot: dari web, manual, dan tiket lama. Training pertama menghasilkan model yang menjawab dengan bahasa campur aduk, kadang membocorkan nomor telepon nasabah dari data training, dan — yang paling memalukan — menghafal jawaban test set karena 42 dari 850 soal tes bocor ke dalam data training (kontaminasi 4,9 persen). Audit kurasi menemukan: 12 persen duplikat dekat, 3 persen mengandung PII, 15 persen berkualitas rendah. Setelah kurasi: 1.451.120 dokumen tersisa (72,6 persen) — dan model kedua mengalahkan yang pertama di semua metrik.",
+        "Tim NusaBank mengumpulkan 2 juta dokumen untuk SFT chatbot: dari web, manual, dan tiket lama. Training pertama menghasilkan model yang menjawab dengan bahasa campur aduk, kadang membocorkan nomor telepon nasabah dari data training, dan — yang paling memalukan — menghafal jawaban test set karena 42 dari 850 soal tes bocor ke dalam data training (kontaminasi 4,9 persen). Audit kurasi menemukan: 12 persen duplikat dekat, 3 persen mengandung PII, 15 persen berkualitas rendah. Setelah tiga tahap kurasi pertama: 1.451.120 dokumen tersisa (72,6 persen). Tahap keempat, decontaminasi, masih harus membuang dokumen yang mengandung 42 soal tes yang bocor — jumlah dokumennya belum dihitung di cerita ini (42 adalah jumlah SOAL tes yang terkontaminasi, bukan jumlah dokumen yang dibuang) — dan model kedua, setelah semua tahap, mengalahkan yang pertama di semua metrik.",
         "Kurasi dataset LLM adalah pekerjaan sebelum training: dedup, decontaminasi, filter PII, dan filter kualitas. Ia menentukan apakah model belajar dari pengetahuan atau dari sampah — dan apakah evaluasimu jujur atau bocor.",
         "Setelah lesson ini kamu bisa: (1) menghitung hasil tiap tahap kurasi; (2) menjelaskan dedup dekat dengan MinHash; (3) menghitung kontaminasi test set; (4) merancang filter PII dan kualitas; (5) memutuskan ambang kualitas yang sepadan.",
       ],
@@ -21,7 +21,7 @@ export const aie26: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "AIE15 mengajarkan data sintetis untuk EVALUASI dan MLE33 mengajarkan data-centric untuk ML klasik — tetapi tidak ada lesson kurasi dataset untuk LLM training (dedup, decontaminasi, PII, filter kualitas sebagai pipeline). Lesson ini membangunnya, dengan lab yang menghitung penyusutan korpus tahap demi tahap.",
       },
-      reference: "2.000.000 → dedup 1.760.000 → PII 1.707.200 → kualitas 1.451.120 (72,6 persen); kontaminasi 42/850 = 4,9 persen.",
+      reference: "2.000.000 → dedup 1.760.000 → PII 1.707.200 → kualitas 1.451.120 (72,6 persen, 3 tahap pertama); kontaminasi 42/850 = 4,9 persen; decontaminasi membuang dokumen tambahan — final sesungguhnya di bawah 1.451.120.",
     },
     {
       id: "tujuan",
@@ -44,21 +44,21 @@ export const aie26: V2Lesson = {
       prose: [
         "Tahap 1 — Dedup dekat: dokumen yang 90 persen sama (salinan web, template berulang) memberi bobot berlebih pada satu pola dan membuang komputasi. MinHash + LSH menemukan duplikat dekat tanpa membandingkan semua pasangan (2 juta dokumen = 2 triliun pasangan — mustahil). Hasil: 12 persen terbuang — 2.000.000 menjadi 1.760.000.",
         "Tahap 2 — Filter PII: nomor telepon, NIK, email, nomor rekening. Regex menangkap pola terstruktur; NER menangkap nama dan alamat; audit sampel manusia menangkap yang lolos keduanya. Hasil: 3 persen dari sisa terbuang — 1.760.000 menjadi 1.707.200. PII yang lolos bukan hanya masalah privasi — model yang menghafal PII akan MEMBOCORKANNYA saat ditanya dengan cara yang tepat.",
-        "Tahap 3 — Filter kualitas: buang 15 persen terbawah menurut skor kualitas (classifier kualitas, heuristik panjang, rasio bahasa, deteksi boilerplate). Hasil: 1.707.200 menjadi 1.451.120. Total terbuang: 548.880 dokumen, 27,4 persen korpus. Tahap 4 — Decontaminasi: bandingkan korpus dengan test set (n-gram overlap); 42 dari 850 soal tes ditemukan di korpus = kontaminasi 4,9 persen — di atas ambang 1 persen, WAJIB dibuang sebelum training, karena evaluasi atas test yang bocor adalah kebohongan.",
+        "Tahap 3 — Filter kualitas: buang 15 persen terbawah menurut skor kualitas (classifier kualitas, heuristik panjang, rasio bahasa, deteksi boilerplate). Hasil: 1.707.200 menjadi 1.451.120 — itu hasil TIGA tahap pertama; angka ini BELUM dikurangi decontaminasi. Total terbuang tiga tahap: 548.880 dokumen, 27,4 persen korpus. Tahap 4 — Decontaminasi: bandingkan korpus dengan test set (n-gram overlap); 42 dari 850 SOAL tes ditemukan di korpus = kontaminasi 4,9 persen — di atas ambang kerja lesson ini (1 persen), WAJIB dibuang sebelum training, karena evaluasi atas test yang bocor adalah kebohongan. Perhatian: 42 adalah jumlah SOAL yang bocor, BUKAN jumlah dokumen yang dibuang — satu soal bisa muncul di banyak dokumen, dan satu dokumen bisa mengandung banyak soal; jumlah dokumen yang dibuang tahap 4 harus dihitung terpisah, sehingga korpus final sesungguhnya sedikit di bawah 1.451.120.",
       ],
       tasks: [],
       note: {
         title: "Filter yang terlalu agresif juga merusak",
         body: "Membuang 15 persen terbawah berdasarkan 'kualitas' bisa membuang dialek, bahasa daerah, dan gaya informal — model menjadi fasih dalam bahasa formal dan bisu dalam bahasa pengguna. Filter kualitas harus diuji biasnya: bandingkan distribusi bahasa/dialek sebelum dan sesudah filter. Kurasi yang membersihkan keberagaman adalah kurasi yang merusak.",
       },
-      reference: "Terbuang 548.880 (27,4 persen); kontaminasi 4,9 persen di atas ambang 1 persen.",
+      reference: "Terbuang 548.880 (27,4 persen) pada 3 tahap pertama; kontaminasi 4,9 persen di atas ambang kerja 1 persen; final sesungguhnya < 1.451.120 setelah decontaminasi.",
     },
     {
       id: "decontaminasi",
       eyebrow: "Langkah 4 · Teori",
       title: "Decontaminasi: menjaga kejujuran evaluasi",
       prose: [
-        "Kontaminasi terjadi bila test set (atau soal yang mirip) ada di data training. Model tidak 'pintar' — ia menghafal jawaban. Kontaminasi 4,9 persen (42 dari 850) cukup untuk menggelembungkan skor beberapa poin dan membuat perbandingan model menjadi tidak valid. Ambang industri: di bawah 1 persen bisa diterima dengan catatan; di atas itu, buang dokumen yang terkontaminasi dan latih ulang.",
+        "Kontaminasi terjadi bila test set (atau soal yang mirip) ada di data training. Model tidak 'pintar' — ia menghafal jawaban. Kontaminasi 4,9 persen (42 dari 850) cukup untuk menggelembungkan skor beberapa poin dan membuat perbandingan model menjadi tidak valid. Ambang kerja yang dipakai lesson ini: di bawah 1 persen bisa diterima dengan catatan; di atas itu, buang dokumen yang terkontaminasi dan latih ulang. Ini BUKAN standar industri universal — tidak ada ambang tunggal yang disepakati semua pihak; tim lain memakai 0 persen untuk benchmark yang ketat, atau ambang berbasis jumlah soal, bukan persen. Tetapkan ambangmu SEBELUM melihat hasil, catat alasannya, dan pakai konsisten.",
         "Cara mendeteksi: n-gram overlap — bila 13-gram dari soal tes muncul di dokumen training, tandai sebagai kontaminasi. Batas 13-gram cukup panjang untuk menghindari positif palsu ('saya ingin membuka rekening' muncul di mana-mana), cukup pendek untuk menangkap soal yang disalin. Untuk soal yang diparafrasa, tambahkan deteksi embedding (kesamaan semantik di atas 0,9).",
         "Aturan keras: decontaminasi dilakukan SEBELUM training, terhadap test set yang DISEGEL (tidak pernah dilihat tim training). Test set yang pernah dibaca tim — apalagi dipakai untuk memilih model — bukan lagi test set; ia validation set yang sudah terkontaminasi secara manusiawi. Segel test set seperti segel soal ujian: yang memegang kunci bukan yang membuat soal.",
       ],
@@ -67,7 +67,7 @@ export const aie26: V2Lesson = {
         title: "Kontaminasi manusiawi",
         body: "Bentuk kontaminasi yang paling sulit dideteksi: engineer yang membaca test set lalu 'secara tidak sengaja' menulis data training yang mirip. Tidak ada n-gram yang menangkap ini. Obatnya prosedural: pemisahan tugas (tim training tidak memegang test set) dan audit berkala. Teknologi menangkap salinan; prosedur menangkap niat.",
       },
-      reference: "Kontaminasi 4,9 persen; ambang 1 persen; n-gram 13 sebagai detektor.",
+      reference: "Kontaminasi 4,9 persen; ambang kerja lesson 1 persen; n-gram 13 sebagai detektor.",
     },
     {
       id: "lab-kurasi",
@@ -75,7 +75,7 @@ export const aie26: V2Lesson = {
       title: "Lab: penyusutan korpus dan kontaminasi",
       prose: [
         "Lab ini menghitung pipeline kurasi dari angka mentah: jumlah dokumen setelah tiap tahap dan tingkat kontaminasi.",
-        "Hitung dulu di kepala. Setelah dedup (buang 12 persen): 2.000.000 x 0,88 = 1.760.000. Setelah PII (buang 3 persen): 1.760.000 x 0,97 = 1.707.200. Setelah kualitas (buang 15 persen): 1.707.200 x 0,85 = 1.451.120. Kontaminasi: 42 / 850 x 100 = 4,9 persen.",
+        "Hitung dulu di kepala. Setelah dedup (buang 12 persen): 2.000.000 x 0,88 = 1.760.000. Setelah PII (buang 3 persen): 1.760.000 x 0,97 = 1.707.200. Setelah kualitas (buang 15 persen): 1.707.200 x 0,85 = 1.451.120. Kontaminasi: 42 / 850 x 100 = 4,9 persen. Angka `final` 1.451.120 adalah hasil tiga tahap pertama — decontaminasi (tahap 4) membuang dokumen tambahan yang jumlahnya belum dihitung di lab ini; korpus yang benar-benar masuk training sedikit lebih kecil.",
         "Tugas lab: hitung lima angka dan cetak masing-masing di baris sendiri: dedup, pii, final, terbuang_persen, kontaminasi. Lima angka ini adalah laporan kurasi — lampirkan ke setiap training run, supaya 'modelnya bagus' bisa ditelusuri ke 'datanya bersih'.",
         "Setelah lolos, coba eksperimen: naikkan filter kualitas menjadi 25 persen dan lihat final menjadi 1.280.400 — lalu tanyakan: apakah 170 ribu dokumen tambahan yang dibuang sepadan dengan risiko membuang dialek pengguna?",
       ],
@@ -99,10 +99,10 @@ export const aie26: V2Lesson = {
           { kind: "equal", task: "t1", name: "pii", value: 1707200, tol: 1e-9, label: "`pii` seharusnya 1707200", msg: "1.760.000 x 0,97 = 1.707.200." },
           { kind: "equal", task: "t2", name: "final", value: 1451120, tol: 1e-9, label: "`final` seharusnya 1451120", msg: "1.707.200 x 0,85 = 1.451.120." },
           { kind: "equal", task: "t2", name: "terbuang_persen", value: 27.4, tol: 0.1, label: "`terbuang_persen` seharusnya 27.4", msg: "548.880/2.000.000 = 27,4 persen." },
-          { kind: "equal", task: "t3", name: "kontaminasi", value: 4.9, tol: 0.1, label: "`kontaminasi` seharusnya 4.9", msg: "42/850 = 4,9 persen — di atas ambang 1 persen." },
+          { kind: "equal", task: "t3", name: "kontaminasi", value: 4.9, tol: 0.1, label: "`kontaminasi` seharusnya 4.9", msg: "42/850 = 4,9 persen — di atas ambang kerja lesson (1 persen)." },
         ],
       },
-      reference: "1.760.000 → 1.707.200 → 1.451.120; terbuang 27,4 persen; kontaminasi 4,9 persen.",
+      reference: "1.760.000 → 1.707.200 → 1.451.120 (3 tahap pertama; final sesungguhnya < ini setelah decontaminasi); terbuang 27,4 persen; kontaminasi 4,9 persen.",
     },
     {
       id: "peta",
@@ -112,7 +112,7 @@ export const aie26: V2Lesson = {
         "Skenario 1 — Korpus web mentah untuk pretraining. → Dedup + PII + kualitas agresif. Alasan: web penuh duplikat dan sampah; volume besar memberi ruang membuang.",
         "Skenario 2 — Data SFT kecil (5.000 contoh) berkualitas. → Kurasi manual + audit, bukan filter otomatis agresif. Alasan: tiap contoh berharga; filter otomatis akan membuang yang sulit tetapi benar.",
         "Skenario 3 — Data mengandung PII nasabah. → Filter PII + audit sampel + enkripsi sisa. Alasan: PII yang lolos adalah kebocoran yang menunggu terjadi.",
-        "Skenario 4 — Kontaminasi di atas 1 persen. → Buang dokumen terkontaminasi, latih ulang. Alasan: evaluasi yang bocor lebih buruk dari tidak ada evaluasi.",
+        "Skenario 4 — Kontaminasi di atas ambang kerja 1 persen. → Buang dokumen terkontaminasi, latih ulang. Alasan: evaluasi yang bocor lebih buruk dari tidak ada evaluasi.",
         "Skenario 5 — Filter kualitas membuang dialek/bahasa daerah. → Longgarkan filter + tambah data dialek. Alasan: model yang hanya fasih bahasa formal adalah model yang bisu untuk sebagian pengguna.",
         "Aturan praktis: kurasi adalah pipeline dengan laporan — tiap tahap mencatat berapa yang dibuang dan mengapa. Korpus tanpa laporan kurasi adalah korpus yang tidak bisa dipercaya.",
       ],
@@ -121,7 +121,7 @@ export const aie26: V2Lesson = {
         title: "Kurasi adalah versi data dari code review",
         body: "Tidak ada engineer yang mengirim kode tanpa review; tidak ada tim yang boleh melatih model tanpa laporan kurasi. Keduanya punya fungsi yang sama: menangkap kesalahan sebelum menjadi mahal. Jadikan laporan kurasi sebagai gerbang pipeline (LLMOps24) — training tidak jalan tanpa laporan itu.",
       },
-      reference: "Web mentah = agresif; SFT kecil = manual; PII = filter + audit; kontaminasi di atas 1 persen = buang + latih ulang.",
+      reference: "Web mentah = agresif; SFT kecil = manual; PII = filter + audit; kontaminasi di atas ambang kerja 1 persen = buang + latih ulang.",
     },
     {
       id: "kuis",
@@ -132,8 +132,8 @@ export const aie26: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "2.000.000 → 1.760.000 → 1.707.200 → 1.451.120 (terbuang 27,4 persen).",
-        "Kontaminasi 42/850 = 4,9 persen — di atas ambang 1 persen, wajib buang.",
+        "2.000.000 → 1.760.000 → 1.707.200 → 1.451.120 (terbuang 27,4 persen pada 3 tahap pertama; final sesungguhnya sedikit lebih kecil setelah decontaminasi).",
+        "Kontaminasi 42/850 = 4,9 persen — di atas ambang kerja 1 persen (lesson ini), wajib buang.",
         "MinHash + LSH untuk dedup dekat tanpa pasangan kuadratik.",
         "PII: regex + NER + audit sampel manusia.",
         "Filter agresif bisa membuang dialek — uji bias filter.",
@@ -143,7 +143,7 @@ export const aie26: V2Lesson = {
         {
           q: "2.000.000 dokumen: buang 12 persen (dedup), lalu 3 persen (PII), lalu 15 persen (kualitas). Berapa final?",
           options: [
-            { text: "1.451.120", why: "Tepat: 2.000.000 x 0,88 x 0,97 x 0,85 = 1.451.120.", correct: true },
+            { text: "1.451.120", why: "Tepat: 2.000.000 x 0,88 x 0,97 x 0,85 = 1.451.120 — itu hasil tiga tahap pertama; decontaminasi membuang dokumen tambahan, jadi korpus final sesungguhnya sedikit di bawah ini.", correct: true },
             { text: "1.400.000 — 30 persen dari total awal", why: "Salah: persen tiap tahap mengalikan SISA, bukan total awal; 12+3+15 = 30 tidak berlaku." },
             { text: "1.760.000 — hanya dedup yang dihitung", why: "Salah: itu setelah tahap pertama saja; masih ada PII dan kualitas." },
             { text: "1.707.200 — setelah PII", why: "Salah: itu setelah tahap kedua; masih ada filter kualitas 15 persen." },
@@ -152,7 +152,7 @@ export const aie26: V2Lesson = {
         {
           q: "Kontaminasi 42 dari 850 soal (4,9 persen). Apa vonisnya?",
           options: [
-            { text: "Bisa diterima — di bawah 5 persen", why: "Salah: ambang industri 1 persen; 4,9 persen jauh di atasnya." },
+            { text: "Bisa diterima — di bawah 5 persen", why: "Salah: ambang kerja lesson ini 1 persen; 4,9 persen jauh di atasnya." },
             { text: "Wajib buang dokumen terkontaminasi dan latih ulang", why: "Tepat: evaluasi atas test yang bocor adalah kebohongan.", correct: true },
             { text: "Ganti test set saja — training tetap jalan", why: "Salah: mengganti test set setelah kontaminasi diketahui menyembunyikan masalah, bukan menyelesaikannya." },
             { text: "Tidak masalah — model menghafal itu bagus", why: "Salah: menghafal jawaban test bukan kecerdasan; skornya palsu." },

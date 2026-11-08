@@ -48,7 +48,7 @@ export const fr26: V2Lesson = {
       tasks: [],
       note: {
         title: "Anonimitas yang palsu lebih buruk daripada tidak ada",
-        body: "Saluran yang mengklaim anonim tetapi meminta login email kantor atau mencatat nomor telepon adalah jebakan: pelapor yang ketahuan identitasnya setelah dijanjikan anonim tidak akan pernah melapor lagi — dan akan memperingatkan semua orang. Uji anonimitas dari sisi pelapor: bisakah seseorang melapor tanpa meninggalkan jejak identitas apa pun?",
+        body: "Saluran yang mengklaim anonim tetapi meminta login email kantor atau mencatat nomor telepon adalah jebakan: pelapor yang ketahuan identitasnya setelah dijanjikan anonim tidak akan pernah melapor lagi — dan akan memperingatkan semua orang. Uji anonimitas dari sisi pelapor: bisakah seseorang melapor tanpa meninggalkan jejak identitas apa pun? Dan jujurlah tentang batasnya: anonimitas penuh tidak selalu mungkin — laporan lewat email kantor atau sistem yang mencatat IP tetap meninggalkan jejak. Yang dijanjikan haruslah apa yang benar-benar bisa dijamin (misalnya: identitas tidak dicatat, tidak dilacak, dan tidak dibuka ke atasan pelapor) — bukan anonimitas absolut yang tidak bisa ditepati.",
       },
       reference: "Empat elemen: saluran, triase (SLA 3 hari), perlindungan, tindak lanjut yang terlihat.",
     },
@@ -57,14 +57,14 @@ export const fr26: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Mengukur program: substantiation rate dan biaya per kasus",
       prose: [
-        "Tiga angka menilai kesehatan program. Substantiation rate: laporan terbukti dibagi total laporan — 96 dibagi 240 sama dengan 40,0 persen. Angka ini bukan nilai ujian: program yang sehat berada di kisaran 30 sampai 50 persen. Terlalu rendah (di bawah 15 persen) berarti saluran dipakai untuk pengaduan personal dan fitnah; terlalu tinggi (di atas 70 persen) berarti orang hanya melapor saat sudah yakin — dan banyak fraud kecil tidak pernah dilaporkan karena pelapor takut salah.",
+        "Tiga angka menilai kesehatan program. Substantiation rate: laporan terbukti dibagi total laporan — 96 dibagi 240 sama dengan 40,0 persen. Angka ini bukan nilai ujian: kisaran 30–50 persen adalah PATOKAN INTERNAL yang dipakai di lesson ini — bukan standar industri yang dikutip dari sumber tertentu. Bandingkan dengan program sejenis sebelum menjadikannya target; yang penting adalah tren dan tindak lanjutnya, bukan angkanya semata. Terlalu rendah (di bawah 15 persen) berarti saluran dipakai untuk pengaduan personal dan fitnah; terlalu tinggi (di atas 70 persen) berarti orang hanya melapor saat sudah yakin — dan banyak fraud kecil tidak pernah dilaporkan karena pelapor takut salah.",
         "Pangsa anonim: 168 dibagi 240 sama dengan 70,0 persen. Pangsa anonim yang tinggi bukan masalah — ia tanda kepercayaan pada jaminan anonimitas. Yang perlu diwaspadai adalah tren: bila pangsa anonim turun tajam sementara total laporan tetap, mungkin ada kebocoran identitas yang beredar sebagai gosip. Biaya per kasus terbukti: anggaran Rp480 juta dibagi 96 kasus terbukti sama dengan Rp5 juta per kasus. Bandingkan dengan satu kasus yang dicegah — rata-rata Rp150 juta menurut FR20 — dan program membayar dirinya 30 kali lipat.",
         "Satu metrik yang sering salah dibaca: jumlah laporan. Kenaikan laporan bukan kabar buruk — ia bisa berarti kepercayaan naik. Penurunan laporan bukan kabar baik — ia bisa berarti saluran sudah mati dan orang berhenti percaya. Baca jumlah laporan bersama substantiation rate dan waktu tindak lanjut: laporan naik + substantiation stabil + SLA terpenuhi berarti program sehat; laporan turun + keluhan pembalasan naik berarti program sekarat.",
       ],
       tasks: [],
       note: {
         title: "Enam keluhan pembalasan adalah enam terlalu banyak",
-        body: "Dalam cerita pembuka, 6 dari 240 pelapor mengeluh mendapat pembalasan — 2,5 persen. Angka kecil ini bukan toleransi: satu kasus pembalasan yang terbukti dan tidak dihukum menghancurkan kepercayaan lebih cepat daripada seratus laporan yang berhasil. Target program yang serius adalah nol kasus pembalasan yang tidak ditindak.",
+        body: "Dalam cerita pembuka, 6 dari 240 pelapor mengeluh mendapat pembalasan — 2,5 persen. Angka kecil ini bukan toleransi: satu kasus pembalasan yang terbukti dan tidak dihukum menghancurkan kepercayaan lebih cepat daripada seratus laporan yang berhasil. Target program yang serius adalah nol kasus pembalasan yang tidak ditindak.\n\nTata kelola investigasi (yang tidak terlihat di angka): Triase independen — laporan tidak ditriase oleh orang yang dilaporkan. Eskalasi — bila terlapor adalah atasan langsung atau pimpinan, laporan naik ke komite independen, bukan berhenti di jalurnya. Konflik kepentingan — investigator yang punya hubungan dengan terlapor wajib mundur dan diganti. Dan perlindungan pelapor — nasib pelapor dipantau pada bulan ke-3 dan ke-6, seperti di cerita pembuka. Tanpa tata kelola ini, saluran yang ramai pun hanya kotak saran yang tidak pernah ditindaklanjuti.",
       },
       reference: "Substantiation 40,0 persen; anonim 70,0 persen; biaya Rp5 jt per kasus terbukti.",
     },

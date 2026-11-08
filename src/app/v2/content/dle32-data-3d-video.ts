@@ -49,7 +49,7 @@ export const dle32: V2Lesson = {
       tasks: [],
       note: {
         title: "Sparsity adalah musuh voxel",
-        body: "Voxel grid 100x100x100 = 1 juta voxel; bila hanya 2 persen terisi, 98 persen komputasi konvolusi 3D terbuang pada ruang kosong. Solusinya sparse convolution (hanya hitung voxel terisi) — dipakai semua sistem LiDAR produksi. Jangan menjalankan konvolusi 3D dense pada grid besar tanpa memeriksa okupansinya dulu.",
+        body: "Voxel grid 100x100x100 = 1 juta voxel; bila hanya 2 persen terisi, 98 persen voxel-nya kosong. Proporsi kosong itu BUKAN sama dengan penghematan sparse convolution: sparse tetap punya overhead (indeks voxel, pengumpulan tetangga, kernel yang menyentuh voxel kosong di perbatasan) — hemat komputasi riil mendekati 98 persen pada grid sangat jarang, dan lebih kecil pada grid yang lebih padat. Solusinya sparse convolution (hanya hitung voxel terisi) — dipakai semua sistem LiDAR produksi. Jangan menjalankan konvolusi 3D dense pada grid besar tanpa memeriksa okupansinya dulu.",
       },
       reference: "Point cloud 12.000 byte; okupansi 51,2 persen dari 1.000 voxel.",
     },
@@ -58,7 +58,7 @@ export const dle32: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Video: aksi hidup di antara frame",
       prose: [
-        "Video 10 detik pada 30 fps = 300 frame. Memproses semuanya dengan CNN 2D berarti 300x biaya satu gambar — boros, dan model tetap tidak 'melihat' gerakan karena tiap frame diproses sendiri. Solusi pertama: sampling — ambil tiap frame ke-8: ceil(300/8) = 38 frame. Masih banyak, tetapi 8x lebih murah, dan untuk aksi lambat (berjalan, mengangkat) 38 frame cukup menangkap polanya.",
+        "Video 10 detik pada 30 fps = 300 frame. Memproses semuanya dengan CNN 2D berarti 300x biaya satu gambar — boros, dan model tetap tidak 'melihat' gerakan karena tiap frame diproses sendiri. Solusi pertama: sampling — ambil tiap frame ke-8: ceil(300/8) = 38 frame. Masih banyak, tetapi 8x lebih murah, dan untuk aksi LAMBAT (berjalan, mengangkat) 38 frame cukup menangkap polanya — tetapi aksi CEPAT (jatuh, melempar) bisa hilang di antara sampel: bila fase khas suatu aksi hanya 0,2 detik (6 frame), sampling tiap 8 frame bisa melewatkannya seluruhnya. Aturan: interval sampling harus lebih pendek dari fase terpendek yang membedakan aksi — atau pakai sampling adaptif yang lebih rapat di segmen yang bergerak.",
         "Solusi kedua: konvolusi 3D — kernel bergerak di ruang DAN waktu (misalnya 3x3x3: 3 piksel x 3 piksel x 3 frame). Ukuran output dihitung seperti konvolusi biasa per dimensi: input 32^3, kernel 3, stride 2, padding 1 — output = floor((32 + 2 - 3)/2) + 1 = 16 per dimensi, jadi 16^3 = 4.096 voxel fitur. Konvolusi 3D menangkap gerakan lokal (tangan naik dalam 3 frame) tetapi mahal: parameter dan komputasi naik pangkat tiga terhadap ukuran kernel.",
         "Solusi ketiga (standar modern): backbone 2D per frame + agregasi temporal (LSTM/Transformer). Tiap frame menjadi vektor fitur, lalu transformer video membaca urutan 38 vektor itu dan mengklasifikasikan aksinya. Keuntungannya: backbone 2D bisa memakai bobot pra-latih ImageNet; transformer hanya belajar pola temporal. Pipeline pengenalan aksi yang sehat: sampling (38 frame) → backbone 2D → agregasi temporal → klasifikasi — dengan DLE26 sebagai fondasi (lintasan objek yang benar sebelum aksi diklasifikasikan).",
       ],
@@ -111,7 +111,7 @@ export const dle32: V2Lesson = {
       prose: [
         "Skenario 1 — Klasifikasi objek 3D dari LiDAR, data titik mentah. → PointNet. Alasan: tidak butuh voxelisasi; invarian urutan titik bawaan.",
         "Skenario 2 — Deteksi 3D / segmentasi volumetrik (CT/MRI, LiDAR kota). → Voxel + 3D-CNN atau sparse convolution. Alasan: butuh konteks spasial tetangga; sparse bila okupansi rendah.",
-        "Skenario 3 — Aksi lambat, video pendek, budget kecil. → Sampling + CNN 2D + agregasi rata-rata. Alasan: 38 frame cukup; agregasi sederhana sering menang atas LSTM untuk aksi sederhana.",
+        "Skenario 3 — Aksi lambat, video pendek, budget kecil. → Sampling + CNN 2D + agregasi rata-rata. Alasan: 38 frame cukup untuk aksi lambat; agregasi sederhana sering menang atas LSTM untuk aksi sederhana.",
         "Skenario 4 — Aksi kompleks dengan urutan panjang (olahraga, perakitan). → Backbone 2D + transformer temporal. Alasan: attention menangkap dependensi jauh antar frame yang LSTM lupakan.",
         "Skenario 5 — Rekonstruksi permukaan / grafika. → Mesh + graph network. Alasan: permukaan kontinu tidak efisien ditulis sebagai voxel.",
         "Aturan praktis: ukur okupansi sebelum memilih voxel; ukur durasi aksi sebelum memilih sampling; dan jangan pernah melatih model aksi di atas lintasan yang salah — DLE26 dulu, aksi kemudian.",
@@ -180,7 +180,7 @@ export const dle32: V2Lesson = {
           q: "Voxel grid 100^3 dengan okupansi 2 persen. Apa keputusan yang benar?",
           options: [
             { text: "Konvolusi 3D dense — 1 juta voxel masih kecil", why: "Salah: 98 persen komputasi terbuang pada ruang kosong; sparse convolution yang benar." },
-            { text: "Sparse convolution — hanya hitung voxel terisi", why: "Tepat: 20.000 voxel terisi dari 1 juta; dense membuang 98 persen komputasi.", correct: true },
+            { text: "Sparse convolution — hanya hitung voxel terisi", why: "Tepat: 20.000 voxel terisi dari 1 juta; dense menghitung sejuta voxel padahal 98 persen kosong — penghematan sparse riil sedikit di bawah 98 persen karena overhead indeks, tetapi tetap jauh lebih hemat.", correct: true },
             { text: "Turunkan resolusi ke 10^3 agar dense muat", why: "Salah: menurunkan resolusi membuang detail yang mungkin justru dibutuhkan deteksi." },
             { text: "Pakai PointNet — voxel tidak pernah cocok", why: "Salah: voxel cocok untuk deteksi volumetrik; yang salah adalah DENSE pada okupansi rendah." },
           ],

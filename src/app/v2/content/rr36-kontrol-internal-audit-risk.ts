@@ -58,8 +58,8 @@ export const rr36: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Risiko residual dan klasifikasi temuan",
       prose: [
-        "Risiko residual adalah risiko yang tersisa setelah kontrol: risiko inheren dikali satu dikurangi efektivitas kontrol. Risiko inheren 4 (skala 1 sampai 5) dengan kontrol yang 70 persen efektif: 4 dikali 0,3 sama dengan 1,2. Angka itu yang dilaporkan ke direksi — bukan risiko inherennya saja, dan bukan pula klaim 'sudah ada kontrol' tanpa efektivitas.",
-        "Temuan diklasifikasikan tiga tingkat. Defisiensi: kontrol lemah tetapi dampak terbatas — diperbaiki dalam 90 hari oleh pemilik proses. Kelemahan signifikan: cukup penting untuk dilaporkan ke komite audit — diperbaiki dalam 30 hari dengan rencana tertulis. Kelemahan material: ada kemungkinan wajar salah saji material di laporan keuangan — dilaporkan ke direksi dan regulator, dengan rencana perbaikan yang dipantau komite.",
+        "Risiko residual adalah risiko yang tersisa setelah kontrol: risiko inheren dikali satu dikurangi efektivitas kontrol — RUMUS INI ADALAH ILUSTRASI, bukan hukum: ia mengasumsikan skala ordinal 1–5 bisa dikali seperti angka dan efektivitas kontrol bekerja merata di semua risiko. Dalam praktik, risiko residual dinilai lewat penilaian ahli dan matriks risiko, bukan perkalian semata; angka 1,2 di lesson ini adalah alat komunikasi ke direksi, bukan pengukuran presisi. Risiko inheren 4 (skala 1 sampai 5) dengan kontrol yang 70 persen efektif: 4 dikali 0,3 sama dengan 1,2. Angka itu yang dilaporkan ke direksi — bukan risiko inherennya saja, dan bukan pula klaim 'sudah ada kontrol' tanpa efektivitas.",
+        "Temuan diklasifikasikan tiga tingkat. Defisiensi: kontrol lemah tetapi dampak terbatas — diperbaiki dalam 90 hari oleh pemilik proses. Kelemahan signifikan: cukup penting untuk dilaporkan ke komite audit — diperbaiki dalam 30 hari dengan rencana tertulis. Tenggat 90/30 hari di lesson ini adalah KEBIJAKAN CONTOH bank ini — bukan standar universal; tiap bank menetapkan tenggatnya sendiri di kebijakan audit internalnya. Kelemahan material: ada kemungkinan wajar salah saji material di laporan keuangan — dilaporkan ke direksi dan regulator, dengan rencana perbaikan yang dipantau komite.",
         "Laporan temuan yang baik berisi lima hal: apa yang ditemukan (bukti), kenapa itu penting (dampak), apa akarnya, apa rekomendasinya, dan siapa pemilik perbaikannya dengan tenggat. Temuan tanpa pemilik dan tenggat adalah catatan yang akan dibaca lagi tahun depan — sebagai temuan berulang.",
       ],
       tasks: [],
@@ -87,7 +87,7 @@ export const rr36: V2Lesson = {
       code: {
         starter: `# Pengujian kontrol rekonsiliasi Bank Artha Dana.\nsampel = 60\nexception = 3\nrisiko_inheren = 4\nefektivitas = 0.7\n\n# TULIS KODEMU: hitung deviasi_persen dan risiko_residual.\n# Cetak, per baris: deviasi_persen, risiko_residual.\n\n\nmesin_kontrol(sampel, exception, risiko_inheren, efektivitas)`,
         lockLines: 5,
-        solution: `# Pengujian kontrol rekonsiliasi Bank Artha Dana.\nsampel = 60\nexception = 3\nrisiko_inheren = 4\nefektivitas = 0.7\n\n\ndef mesin_kontrol(sampel, exception, risiko_inheren, efektivitas):\n    deviasi_persen = exception / sampel * 100\n    risiko_residual = risiko_inheren * (1 - efektivitas)\n    print(f"deviasi_persen={deviasi_persen}")\n    print(f"risiko_residual={risiko_residual}")\n\n\nmesin_kontrol(sampel, exception, risiko_inheren, efektivitas)`,
+        solution: `# Pengujian kontrol rekonsiliasi Bank Artha Dana.\nsampel = 60\nexception = 3\nrisiko_inheren = 4\nefektivitas = 0.7\n\n\ndef mesin_kontrol(sampel, exception, risiko_inheren, efektivitas):\n    deviasi_persen = exception / sampel * 100\n    risiko_residual = risiko_inheren * (1 - efektivitas)\n    print(f"deviasi_persen={deviasi_persen}")\n    print(f"risiko_residual={round(risiko_residual, 1)}")\n\n\nmesin_kontrol(sampel, exception, risiko_inheren, efektivitas)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "deviasi_persen=5.0", label: "Deviasi 5,0 persen", msg: "3 / 60 x 100 = 5,0 persen. Di atas toleransi 4 persen — kontrol gagal." },
           { kind: "stdout_matches", task: "t2", pattern: "risiko_residual=1.2", label: "Risiko residual 1,2", msg: "4 x (1 - 0,7) = 4 x 0,3 = 1,2." },
@@ -123,7 +123,7 @@ export const rr36: V2Lesson = {
         "Lab: deviasi 5,0 persen (di atas toleransi 4 persen — kontrol gagal); risiko residual 1,2.",
         "Tiga lini: operasional, manajemen risiko, audit internal yang independen.",
         "Kontrol yang tidak dijalankan sama dengan tidak ada kontrol — dan lebih berat dari exception.",
-        "Temuan: defisiensi 90 hari, signifikan 30 hari, material ke direksi dan regulator.",
+        "Temuan: defisiensi 90 hari, signifikan 30 hari (tenggat kebijakan contoh), material ke direksi dan regulator.",
         "Laporan temuan: bukti, dampak, akar, rekomendasi, pemilik dan tenggat.",
       ],
       next: { label: "RR37 — Economic Capital dan RAROC: Modal yang Benar-Benar Dibutuhkan", href: "/v2/learn/rr37-economic-capital-raroc" },

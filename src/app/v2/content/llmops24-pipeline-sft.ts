@@ -21,7 +21,7 @@ export const llmops24: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "LLMOps8 membahas fine-tuning sebagai operasi adapter (kapan fine-tune, LoRA, registry, gerbang evaluasi, retrain) dan LLMOps22 membahas RLHF/DPO. Tidak ada lesson pipeline SFT end-to-end TERORKESTRASI — kurasi data, tokenisasi, packing, DAG training, checkpoint, dan deploy sebagai satu alur yang dijadwalkan. Lesson ini membangunnya, dengan lab yang menghitung token, waktu, dan penghematan packing.",
       },
-      reference: "5.000 contoh x 512 token = 2,56 juta token/epoch; 3 epoch = 7,68 juta token; 640 detik (10,67 menit); packing hemat 768 ribu token/epoch.",
+      reference: "5.000 contoh x 512 token = 2,56 juta token/epoch; 3 epoch = 7,68 juta token; 640 detik (10,67 menit); packing hemat 768 ribu token/epoch (23,1 persen dari total tanpa packing).",
     },
     {
       id: "tujuan",
@@ -43,7 +43,7 @@ export const llmops24: V2Lesson = {
       title: "Data & token: gerbang sebelum satu GPU menyala",
       prose: [
         "Hitung dulu anggarannya. Dataset 5.000 contoh, rata-rata 512 token per contoh = 2.560.000 token per epoch. Tiga epoch = 7.680.000 token. Pada throughput 12.000 token/detik, waktu training = 7.680.000 / 12.000 = 640 detik = 10,67 menit. Angka ini menentukan segalanya: biaya GPU, jadwal pipeline, dan apakah 3 epoch masuk akal — bila waktunya 10 jam bukan 10 menit, keputusan epoch-nya berubah.",
-        "Packing menghemat token yang terbuang. Tanpa packing, tiap contoh di-padding ke panjang maksimum: rata-rata 30 persen token adalah padding — 2.560.000 x 1,3 = 3.328.000 token per epoch, boros 768.000 token per epoch. Dengan packing (gabungkan contoh-contoh pendek menjadi satu sekuens penuh dengan attention mask yang benar), padding mendekati nol. Penghematan 768.000 token per epoch = 30 persen waktu dan biaya training — tanpa mengubah satu bobot pun.",
+        "Packing menghemat token yang terbuang. Tanpa packing, tiap contoh di-padding ke panjang maksimum: rata-rata 30 persen token adalah padding — 2.560.000 x 1,3 = 3.328.000 token per epoch, boros 768.000 token per epoch. Dengan packing (gabungkan contoh-contoh pendek menjadi satu sekuens penuh dengan attention mask yang benar), padding mendekati nol. Penghematan 768.000 token per epoch adalah 23,1 persen dari total 3.328.000 token tanpa packing — 30 persen adalah overhead padding terhadap 2.560.000 token BERGUNA, bukan bagian tagihan yang dihemat. Jangan tertukar: tagihan dihitung dari total tanpa packing, jadi yang dihemat dari tagihan adalah 23,1 persen — tanpa mengubah satu bobot pun.",
         "Gerbang data sebelum training (tiga pemeriksaan, semuanya otomatis): dedup (12 persen duplikat di cerita = 600 contoh yang memberi bobot 2x pada pola yang sama — hapus), format (300 contoh berformat salah — perbaiki atau buang), kontradiksi (40 contoh dengan jawaban bertentangan untuk pertanyaan sama — audit manusia, karena model yang dilatih pada kontradiksi belajar menjawab acak). Pipeline yang melewatkan gerbang data akan melatih model yang salah dengan sangat efisien.",
       ],
       tasks: [],
@@ -51,7 +51,7 @@ export const llmops24: V2Lesson = {
         title: "Kualitas mengalahkan kuantitas di SFT",
         body: "Untuk SFT, 1.000 contoh berkualitas mengalahkan 10.000 contoh berantakan — literatur dan praktik sepakat. Alasannya: SFT mengajarkan FORMAT dan perilaku, bukan pengetahuan baru; contoh yang salah format mengajarkan perilaku yang salah. Anggaran kurasi data SFT harus lebih besar dari anggaran komputasinya — kebalikan dari pretraining.",
       },
-      reference: "2,56 juta token/epoch; 7,68 juta total; 640 detik; packing hemat 768 ribu token/epoch.",
+      reference: "2,56 juta token/epoch; 7,68 juta total; 640 detik; packing hemat 768 ribu token/epoch (23,1 persen dari total tanpa packing).",
     },
     {
       id: "orkestrasi",
@@ -60,7 +60,7 @@ export const llmops24: V2Lesson = {
       prose: [
         "Pipeline SFT sebagai DAG (MLOps23): prepare_data (kurasi + dedup + tokenisasi) → train (dengan checkpoint tiap 500 langkah) → evaluate (golden set + forgetting check) → register (bila lolos gerbang) → deploy_canary (LLMOps10). Tiap task punya retry hanya untuk kegagalan sementara (OOM transient, network) — kegagalan gerbang data atau evaluasi TIDAK di-retry; ia butuh manusia.",
         "Checkpoint adalah asuransi training: simpan tiap 500 langkah + saat loss anomali. Bila training crash di langkah 2.400, lanjut dari checkpoint 2.000 — bukan dari nol. Biaya checkpoint: storage + waktu simpan; manfaatnya: jam GPU yang diselamatkan. Aturan: checkpoint lebih sering dari yang kamu kira perlu — crash selalu terjadi di langkah yang paling mahal.",
-        "Gerbang evaluasi pasca-training (LLMOps8): skor golden set agregat di atas 85 persen DAN penurunan kategori terburuk tidak lebih dari 5 poin (anti-forgetting). Bila gagal, adapter berstatus 'retired' dengan alasan — bukan dihapus, bukan di-deploy. Registry mencatat semuanya: hash dataset, hyperparameter, skor per kategori, status. Pipeline yang tidak punya gerbang ini adalah pipa yang mengalirkan apa saja ke produksi.",
+        "Gerbang evaluasi pasca-training (LLMOps8): skor golden set agregat di atas 85 persen DAN penurunan kategori terburuk tidak lebih dari 5 poin (anti-forgetting). Satu syarat yang membuat angka 85 persen itu berarti: golden set HARUS disjoin dari data training — bila satu contoh evaluasi bocor ke training, model menghafalnya dan skor 85 persen itu palsu. Periksa kebocoran SEBELUM training (dedup silang train vs golden set, termasuk parafrasa yang hampir sama) — gerbang yang bocor memberi lolos palsu. Bila gagal, adapter berstatus 'retired' dengan alasan — bukan dihapus, bukan di-deploy. Registry mencatat semuanya: hash dataset, hyperparameter, skor per kategori, status. Pipeline yang tidak punya gerbang ini adalah pipa yang mengalirkan apa saja ke produksi.",
       ],
       tasks: [],
       note: {
@@ -102,7 +102,7 @@ export const llmops24: V2Lesson = {
           { kind: "equal", task: "t3", name: "hemat_token", value: 768000, tol: 1e-9, label: "`hemat_token` seharusnya 768000", msg: "3.328.000 - 2.560.000 = 768.000 token/epoch." },
         ],
       },
-      reference: "2,56 juta/epoch; 7,68 juta total; 10,67 menit; packing hemat 768 ribu/epoch.",
+      reference: "2,56 juta/epoch; 7,68 juta total; 10,67 menit; packing hemat 768 ribu/epoch (23,1 persen dari total tanpa packing).",
     },
     {
       id: "peta",
@@ -133,7 +133,7 @@ export const llmops24: V2Lesson = {
       tasks: [],
       summary: [
         "5.000 x 512 = 2,56 juta token/epoch; 3 epoch = 7,68 juta; 10,67 menit.",
-        "Packing hemat 768 ribu token/epoch (30 persen).",
+        "Packing hemat 768 ribu token/epoch (23,1 persen dari total tanpa packing; 30 persen = overhead padding terhadap token berguna).",
         "Gerbang data: dedup, format, kontradiksi — sebelum GPU menyala.",
         "DAG: data → train → evaluate → register → canary; retry hanya untuk gagal sementara.",
         "Gerbang evaluasi: 85 persen + delta_min -5; gagal = retired.",
@@ -152,7 +152,7 @@ export const llmops24: V2Lesson = {
         {
           q: "Tanpa packing, token per epoch 3.328.000 vs 2.560.000 dengan packing. Berapa hematnya?",
           options: [
-            { text: "768.000 token/epoch (30 persen)", why: "Tepat: 3.328.000 - 2.560.000 = 768.000.", correct: true },
+            { text: "768.000 token/epoch (23,1 persen dari total tanpa packing)", why: "Tepat: 3.328.000 - 2.560.000 = 768.000; 768.000/3.328.000 = 23,1 persen. Angka 30 persen adalah overhead padding terhadap token berguna (768.000/2.560.000) — bukan bagian tagihan yang dihemat.", correct: true },
             { text: "768 token — salah satuan", why: "Salah: selisihnya 768 RIBU, bukan 768." },
             { text: "Tidak ada hemat — padding gratis", why: "Salah: padding menghabiskan komputasi GPU yang dibayar per detik." },
             { text: "3.328.000 — semua token tanpa packing terbuang", why: "Salah: hanya padding-nya yang terbuang (768 ribu); token asli tetap berguna." },

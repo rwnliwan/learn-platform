@@ -21,7 +21,7 @@ export const mr39: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "CR28 membahas climate risk dari sisi kredit (PD/LGD debitur yang terpapar iklim) dan PM-C15 membahas skenario iklim NGFS dari sisi portofolio investasi (WACI, greenium, Orderly vs Disorderly). Di track Market Risk, grep menyeluruh tidak menemukan satu pun penyebutan climate atau iklim. Lesson ini membangun sudut trading book: risiko transisi pada harga saham dan obligasi yang diperdagangkan harian, stranded assets, carbon beta, dan stress test intraday-to-tahunan untuk trading book.",
       },
-      reference: "Portofolio Rp800 juta; sleeve karbon Rp320 juta (40 persen). Skenario Orderly: turun 15 persen → rugi Rp48 juta (6 persen portofolio). Disorderly: turun 30 persen → rugi Rp96 juta (12 persen).",
+      reference: "Portofolio Rp800 miliar; sleeve karbon Rp320 miliar (40 persen). Skenario Orderly: turun 15 persen → rugi Rp48 miliar (6 persen portofolio). Disorderly: turun 30 persen → rugi Rp96 miliar (12 persen).",
     },
     {
       id: "tujuan",
@@ -60,14 +60,15 @@ export const mr39: V2Lesson = {
       title: "Skenario NGFS dan kerugian portofolio",
       prose: [
         "Skenario NGFS (Network for Greening the Financial System) adalah stress test standar untuk risiko iklim — dipakai PM-C15 dari sisi portofolio dan di sini dari sisi trading book. Tiga skenario utama. Orderly (transisi teratur): harga karbon naik bertahap dan terprediksi, teknologi beradaptasi — kerugian moderat. Disorderly (transisi terlambat lalu tiba-tiba): tidak ada kebijakan bertahun-tahun, lalu pajak karbon tinggi mendadak — kerugian besar di aset karbon. Hot House World (tidak ada transisi): emisi terus naik, suhu naik 3 derajat lebih — kerugian fisik besar dari banjir, panas, dan gagal panen.",
-        "Hitung kerugian skenario untuk trading book cerita pembuka. Portofolio Rp800 juta; sleeve karbon-intensif Rp320 juta (40 persen). Skenario Orderly: sleeve turun 15 persen → kerugian 320 × 0,15 = Rp48 juta — 6 persen dari portofolio. Skenario Disorderly: sleeve turun 30 persen → kerugian 320 × 0,30 = Rp96 juta — 12 persen dari portofolio. Skenario Hot House World: kerugian fisik memukul real estate dan infrastruktur di portofolio — ilustratif 10 persen dari portofolio (Rp80 juta) dalam jangka panjang, ditambah kerugian transisi yang tidak terjadi. Angka-angka ini ilustratif — tetapi ordonya benar: Disorderly adalah skenario terburuk untuk trading book jangka pendek, Hot House World terburuk untuk jangka panjang.",
+        "Hitung kerugian skenario untuk trading book cerita pembuka. Portofolio Rp800 miliar; sleeve karbon-intensif Rp320 miliar (40 persen). Skenario Orderly: sleeve turun 15 persen → kerugian 320 × 0,15 = Rp48 miliar — 6 persen dari portofolio. Skenario Disorderly: sleeve turun 30 persen → kerugian 320 × 0,30 = Rp96 miliar — 12 persen dari portofolio. Skenario Hot House World: kerugian fisik memukul real estate dan infrastruktur di portofolio — ilustratif 10 persen dari portofolio (Rp80 miliar) dalam jangka panjang, ditambah kerugian transisi yang tidak terjadi. Angka-angka ini ilustratif — tetapi ordonya benar: Disorderly adalah skenario terburuk untuk trading book jangka pendek, Hot House World terburuk untuk jangka panjang.",
         "Tiga hal yang membuat stress test iklim berbeda dari stress test biasa (MR7). Pertama, horizon: risiko iklim bekerja dalam 5–30 tahun — jauh lebih panjang dari horizon VaR 10 hari. Stress test iklim memakai horizon tahunan, bukan harian. Kedua, data: tidak ada data historis untuk pajak karbon 2027 — skenario dibangun dari model iklim dan kebijakan, bukan dari return masa lalu. Ketiga, transmisi: risiko iklim memukul lewat jalur yang tidak ada di model risiko biasa — kebijakan, teknologi, dan fisik — sehingga faktor risiko baru harus ditambahkan ke model.",
         "Keterbatasan yang jujur: data emisi perusahaan (Scope 1, 2, 3 — PM-C15) sering tidak diaudit, tidak lengkap, dan tidak sebanding antar perusahaan. Greenwashing merajalela: perusahaan mengklaim 'net zero 2050' tanpa rencana yang kredibel. Stress test yang memakai data emisi yang salah memberi rasa aman yang palsu. Aturan praktis: periksa sumber data emisi (diaudit atau self-reported?), periksa cakupan Scope 3 (70–90 persen emisi ada di sana), dan curigai klaim net zero tanpa target antara yang terukur.",
+        "Ketidakpastian model iklim — lapis ketidakpastian kedua yang wajib dilaporkan bersama hasil stress test. Angka shock 15 persen (Orderly) dan 30 persen (Disorderly) di lesson ini adalah ILUSTRASI, bukan prediksi: skenario NGFS bergantung pada asumsi jalur harga karbon, biaya teknologi, dan waktu kebijakan — dan model iklim yang berbeda memberi shock yang berbeda untuk skenario bernama sama. Tiga sumber ketidakpastian: (1) ketidakpastian skenario — NGFS memperbarui vintagenya berkala (fase dan asumsi berubah; skenario 'Disorderly' 2023 tidak sama dengan 'Disorderly' 2025); (2) ketidakpastian transmisi — seberapa besar pajak karbon menekan laba tiap sektor bergantung pada elastisitas dan daya pass-through yang diestimasi, bukan diukur; (3) ketidakpastian data — emisi Scope 3 yang tidak diaudit membuat WACI dan carbon beta goyah. Praktik yang benar: laporkan hasil sebagai RENTANG (misalnya Disorderly 20–40 persen, bukan titik 30 persen), uji sensitivitas terhadap asumsi utama, dan cantumkan vintage NGFS yang dipakai — stress test tanpa vintage dan tanpa rentang adalah presisi palsu.",
       ],
       tasks: [],
       formula: String.raw`\text{Rugi}_{skenario} = \text{Sleeve}_{karbon} \times \text{Shock}_{skenario}`,
       formulaNote: "Sleeve karbon = 320; shock Orderly 15 persen → rugi 48 (6 persen portofolio); shock Disorderly 30 persen → rugi 96 (12 persen portofolio). Portofolio total 800.",
-      reference: "Orderly: rugi Rp48 juta (6 persen). Disorderly: rugi Rp96 juta (12 persen). Hot House World: kerugian fisik jangka panjang.",
+      reference: "Orderly: rugi Rp48 miliar (6 persen). Disorderly: rugi Rp96 miliar (12 persen). Hot House World: kerugian fisik jangka panjang.",
     },
     {
       id: "lab-iklim",
@@ -75,9 +76,9 @@ export const mr39: V2Lesson = {
       title: "Lab: mesin stress test iklim trading book",
       prose: [
         "Lab ini membangun mesin stress test iklim: dari nilai portofolio, porsi sleeve karbon, dan shock skenario — hitung kerugian Orderly, Disorderly, dan dampaknya terhadap portofolio.",
-        "Hitung dulu di kepala. Sleeve karbon = 800 × 0,40 = Rp320 juta. Orderly: 320 × 0,15 = Rp48 juta; dampak portofolio = 48 dibagi 800 × 100 = 6,0 persen. Disorderly: 320 × 0,30 = Rp96 juta; dampak = 96 dibagi 800 × 100 = 12,0 persen.",
+        "Hitung dulu di kepala. Sleeve karbon = 800 × 0,40 = Rp320 miliar. Orderly: 320 × 0,15 = Rp48 miliar; dampak portofolio = 48 dibagi 800 × 100 = 6,0 persen. Disorderly: 320 × 0,30 = Rp96 miliar; dampak = 96 dibagi 800 × 100 = 12,0 persen.",
         "Tugas lab: tulis fungsi yang menerima nilai portofolio, porsi karbon, shock Orderly, dan shock Disorderly — lalu mencetak kerugian Orderly, kerugian Disorderly, dan dampak Disorderly terhadap portofolio dalam persen. Tiga angka ini adalah ringkasan stress test iklim dalam satu baris.",
-        "Setelah lolos, coba eksperimen: turunkan porsi karbon menjadi 10 persen dan lihat kerugian Disorderly jatuh ke Rp24 juta (3 persen portofolio) — lalu tanyakan: berapa porsi karbon maksimum yang masih bisa kamu tanggung bila Disorderly datang besok?",
+        "Setelah lolos, coba eksperimen: turunkan porsi karbon menjadi 10 persen dan lihat kerugian Disorderly jatuh ke Rp24 miliar (3 persen portofolio) — lalu tanyakan: berapa porsi karbon maksimum yang masih bisa kamu tanggung bila Disorderly datang besok?",
       ],
       tasks: [
         { id: "t1", text: "Hitung `rugi_orderly` (sleeve karbon dikali shock Orderly)" },
@@ -91,16 +92,16 @@ export const mr39: V2Lesson = {
         "Dampak persen = rugi Disorderly / portofolio x 100.",
       ],
       code: {
-        starter: `# Trading book Rp800 jt, sleeve karbon 40%, shock Orderly 15%, Disorderly 30%.\nportofolio = 800.0\nporsi_karbon = 0.40\nshock_orderly = 0.15\nshock_disorderly = 0.30\n\n# TULIS KODEMU: hitung rugi_orderly, rugi_disorderly, dampak_persen.\n# Cetak, per baris: rugi_orderly, rugi_disorderly, dampak_persen.\n\n`,
+        starter: `# Trading book Rp800 miliar, sleeve karbon 40%, shock Orderly 15%, Disorderly 30%.\nportofolio = 800.0\nporsi_karbon = 0.40\nshock_orderly = 0.15\nshock_disorderly = 0.30\n\n# TULIS KODEMU: hitung rugi_orderly, rugi_disorderly, dampak_persen.\n# Cetak, per baris: rugi_orderly, rugi_disorderly, dampak_persen.\n\n`,
         lockLines: 5,
-        solution: `# Trading book Rp800 jt, sleeve karbon 40%, shock Orderly 15%, Disorderly 30%.\nportofolio = 800.0\nporsi_karbon = 0.40\nshock_orderly = 0.15\nshock_disorderly = 0.30\n\n\nsleeve = portofolio * porsi_karbon\nrugi_orderly = sleeve * shock_orderly\nrugi_disorderly = sleeve * shock_disorderly\ndampak_persen = rugi_disorderly / portofolio * 100\nprint(f"rugi_orderly={rugi_orderly:.1f}")\nprint(f"rugi_disorderly={rugi_disorderly:.1f}")\nprint(f"dampak_persen={dampak_persen:.1f}")\n`,
+        solution: `# Trading book Rp800 miliar, sleeve karbon 40%, shock Orderly 15%, Disorderly 30%.\nportofolio = 800.0\nporsi_karbon = 0.40\nshock_orderly = 0.15\nshock_disorderly = 0.30\n\n\nsleeve = portofolio * porsi_karbon\nrugi_orderly = sleeve * shock_orderly\nrugi_disorderly = sleeve * shock_disorderly\ndampak_persen = rugi_disorderly / portofolio * 100\nprint(f"rugi_orderly={rugi_orderly:.1f}")\nprint(f"rugi_disorderly={rugi_disorderly:.1f}")\nprint(f"dampak_persen={dampak_persen:.1f}")\n`,
         checks: [
-          { kind: "equal", task: "t1", name: "rugi_orderly", value: 48.0, tol: 0.01, label: "Rugi Orderly Rp48 juta", msg: "320 x 0,15 = 48. Skenario teratur masih melukai — 6 persen portofolio." },
-          { kind: "equal", task: "t2", name: "rugi_disorderly", value: 96.0, tol: 0.01, label: "Rugi Disorderly Rp96 juta", msg: "320 x 0,30 = 96. Skenario terlambat lalu tiba-tiba menggandakan kerugian." },
+          { kind: "equal", task: "t1", name: "rugi_orderly", value: 48.0, tol: 0.01, label: "Rugi Orderly Rp48 miliar", msg: "320 x 0,15 = 48. Skenario teratur masih melukai — 6 persen portofolio." },
+          { kind: "equal", task: "t2", name: "rugi_disorderly", value: 96.0, tol: 0.01, label: "Rugi Disorderly Rp96 miliar", msg: "320 x 0,30 = 96. Skenario terlambat lalu tiba-tiba menggandakan kerugian." },
           { kind: "equal", task: "t3", name: "dampak_persen", value: 12.0, tol: 0.01, label: "Dampak Disorderly 12,0 persen portofolio", msg: "96 / 800 x 100 = 12,0. Satu pengumuman pajak bisa menghapus seperdelapan portofolio." },
         ],
       },
-      reference: "Rugi Orderly Rp48 juta; Disorderly Rp96 juta; dampak Disorderly 12,0 persen portofolio.",
+      reference: "Rugi Orderly Rp48 miliar; Disorderly Rp96 miliar; dampak Disorderly 12,0 persen portofolio.",
     },
     {
       id: "pengelolaan",
@@ -124,7 +125,7 @@ export const mr39: V2Lesson = {
       title: "Mini-case: desk yang menjual sebelum pengumuman",
       prose: [
         "Februari 2026, tim risiko Bank Nusantara menjalankan stress test NGFS pertama untuk trading book — dan menemukan sleeve karbon 40 persen dengan kerugian Disorderly 12 persen. Mereka tidak menunggu pengumuman pajak: mereka mengusulkan pengurangan sleeve menjadi 15 persen dalam 6 minggu — menjual bertahap agar tidak menggerakkan harga — dan membeli sleeve energi terbarukan 10 persen sebagai penyeimbang. Direksi bertanya: 'Kenapa menjual saham dividen 8 persen yang stabil?' Jawaban tim risiko: 'Karena stabilitasnya adalah stabilitas sebelum pajak karbon — dan pajak itu sedang dirancang sekarang.'",
-        "Maret 2026, pajak karbon diumumkan. Sleeve karbon yang tersisa (15 persen) jatuh 15 persen — kerugian Rp18 juta, bukan Rp48 juta. Sleeve terbarukan naik 10 persen — keuntungan Rp8 juta. Kerugian bersih Rp10 juta — seperempat dari yang akan terjadi tanpa tindakan. Tim risiko tidak memprediksi tanggal pengumuman — mereka hanya membaca arah kebijakan (Rancangan Undang-Undang sudah dibahas di DPR sejak 2025) dan bertindak sebelum pasar mencerminkannya.",
+        "Maret 2026, pajak karbon diumumkan. Sleeve karbon yang tersisa (15 persen) jatuh 15 persen — kerugian Rp18 miliar, bukan Rp48 miliar. Sleeve terbarukan naik 10 persen — keuntungan Rp8 miliar. Kerugian bersih Rp10 miliar — seperempat dari yang akan terjadi tanpa tindakan. Tim risiko tidak memprediksi tanggal pengumuman — mereka hanya membaca arah kebijakan (Rancangan Undang-Undang sudah dibahas di DPR sejak 2025) dan bertindak sebelum pasar mencerminkannya.",
         "Keputusan yang benar bukan 'jual semua saham batubara' — melainkan kurangi eksposur ke tingkat yang bisa ditanggung bila Disorderly datang, dan seimbangkan dengan aset yang untung dari transisi. Manajemen risiko iklim bukan tentang menjadi hijau — melainkan tentang tidak bangkrut karena perubahan yang sudah terlihat arahnya.",
       ],
       tasks: [],
@@ -132,7 +133,7 @@ export const mr39: V2Lesson = {
         title: "Pembahasan",
         body: "Tiga hal yang membuat keputusan ini benar. Pertama, stress test dijalankan SEBELUM pengumuman — bukan sesudahnya. Kedua, pengurangan bertahap menghindari fire sale. Ketiga, penyeimbang (energi terbarukan) dibeli bersamaan — bukan hanya menjual yang kotor.",
       },
-      reference: "Sleeve 40 persen → 15 persen + terbarukan 10 persen. Kerugian Rp10 juta vs Rp48 juta tanpa tindakan.",
+      reference: "Sleeve 40 persen → 15 persen + terbarukan 10 persen. Kerugian Rp10 miliar vs Rp48 miliar tanpa tindakan.",
     },
     {
       id: "kuis",
@@ -143,21 +144,22 @@ export const mr39: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Rugi Orderly Rp48 juta (6 persen); Disorderly Rp96 juta (12 persen portofolio).",
+        "Rugi Orderly Rp48 miliar (6 persen); Disorderly Rp96 miliar (12 persen portofolio).",
         "Risiko transisi: kebijakan, teknologi, pasar, reputasi — bekerja dalam minggu.",
         "Risiko fisik: akut (banjir) dan kronis (suhu naik) — bekerja dalam tahun.",
         "Stranded assets: aset yang kehilangan nilai sebelum umur ekonomisnya habis.",
         "Empat alat: limit karbon, lindung nilai, diversifikasi transisi, pengungkapan.",
+        "Shock skenario (15 persen/30 persen) adalah ilustrasi dengan ketidakpastian besar — laporkan sebagai rentang + sensitivitas + vintage NGFS.",
       ],
       next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
       quiz: [
         {
-          q: "Portofolio Rp800 juta, sleeve karbon 40 persen. Shock Orderly 15 persen, Disorderly 30 persen. Berapa kerugian tiap skenario?",
+          q: "Portofolio Rp800 miliar, sleeve karbon 40 persen. Shock Orderly 15 persen, Disorderly 30 persen. Berapa kerugian tiap skenario?",
           options: [
-            { text: "Orderly Rp48 juta; Disorderly Rp96 juta (12 persen portofolio)", why: "Tepat: sleeve 320; 320 × 0,15 = 48; 320 × 0,30 = 96; 96/800 = 12 persen.", correct: true },
-            { text: "Orderly Rp120 juta; Disorderly Rp240 juta", why: "Salah: itu 15 persen dan 30 persen dari SELURUH portofolio (800) — bukan dari sleeve karbon (320)." },
-            { text: "Orderly Rp48 juta; Disorderly Rp48 juta — skenario tidak berpengaruh", why: "Salah: Disorderly (transisi terlambat lalu tiba-tiba) memukul dua kali lipat Orderly." },
-            { text: "Orderly Rp32 juta; Disorderly Rp64 juta", why: "Salah: 32 dan 64 berasal dari 10 persen dan 20 persen — bukan shock 15 persen dan 30 persen." },
+            { text: "Orderly Rp48 miliar; Disorderly Rp96 miliar (12 persen portofolio)", why: "Tepat: sleeve 320; 320 × 0,15 = 48; 320 × 0,30 = 96; 96/800 = 12 persen.", correct: true },
+            { text: "Orderly Rp120 miliar; Disorderly Rp240 miliar", why: "Salah: itu 15 persen dan 30 persen dari SELURUH portofolio (800) — bukan dari sleeve karbon (320)." },
+            { text: "Orderly Rp48 miliar; Disorderly Rp48 miliar — skenario tidak berpengaruh", why: "Salah: Disorderly (transisi terlambat lalu tiba-tiba) memukul dua kali lipat Orderly." },
+            { text: "Orderly Rp32 miliar; Disorderly Rp64 miliar", why: "Salah: 32 dan 64 berasal dari 10 persen dan 20 persen — bukan shock 15 persen dan 30 persen." },
           ],
         },
         {

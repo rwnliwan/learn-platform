@@ -62,11 +62,11 @@ export const e35: V2Lesson = {
         "Taylor rule (1993) adalah rumus praktis untuk suku bunga acuan yang 'seharusnya': r = r* + inflasi + 0,5 × (inflasi − target inflasi) + 0,5 × (output gap). r* adalah suku bunga riil netral (biasanya sekitar 1,5 persen). Contoh cerita pembuka: inflasi 3,5 persen, target 2,5 persen, output gap minus 1 persen, r* 1,5 persen. Hitung: 1,5 + 3,5 + 0,5 × (3,5 − 2,5) + 0,5 × (−1) = 1,5 + 3,5 + 0,5 − 0,5 = 5,0 persen. Bila suku bunga aktual di bawah 5,0 persen, kebijakan itu longgar; di atasnya, ketat.",
         "Taylor rule bukan perintah — bank sentral tidak mengikutinya secara mekanis. Ia adalah benchmark: bila suku bunga aktual jauh dari Taylor rule, pasar bertanya kenapa. Selama 2021–2022, Taylor rule menyarankan suku bunga jauh lebih tinggi dari yang diterapkan The Fed — dan pasar memakai selisih itu untuk memprediksi pengetatan agresif yang akhirnya datang. Investor yang menghitung Taylor rule sendiri tidak pernah kaget oleh 'tiba-tiba' hawkish.",
         "Perangkat bank sentral ada empat. Suku bunga kebijakan (BI Rate, Fed Funds Rate): harga uang semalam antarbank — perangkat utama. Operasi pasar terbuka: bank sentral membeli atau menjual SBN untuk menambah atau mengurangi likuiditas — membeli SBN berarti mencetak likuiditas. Giro wajib minimum (GWM): persentase dana pihak ketiga yang wajib disimpan bank di bank sentral — menaikkan GWM mengunci likuiditas. Fasilitas simpanan dan pinjaman (standing facilities): lantai dan atap suku bunga — bank bisa menyimpan kelebihan dana di bank sentral (deposit facility) atau meminjam darurat (lending facility).",
-        "Dua perangkat luar biasa lahir dari krisis. Quantitative easing (QE): bank sentral membeli obligasi jangka panjang dalam jumlah besar untuk menekan yield panjang saat suku bunga pendek sudah nol. Quantitative tightening (QT): kebalikannya — membiarkan obligasi jatuh tempo tanpa dibeli lagi. Dan pengganda uang: dengan GWM 5 persen, setiap Rp100 miliar uang primer bisa menjadi Rp2.000 miliar uang beredar (pengganda 1 dibagi 0,05 = 20). Menurunkan GWM dari 5 persen ke 4 persen menaikkan pengganda dari 20 ke 25 — likuiditas bertambah tanpa mencetak uang baru.",
+        "Dua perangkat luar biasa lahir dari krisis. Quantitative easing (QE): bank sentral membeli obligasi jangka panjang dalam jumlah besar untuk menekan yield panjang saat suku bunga pendek sudah nol. Quantitative tightening (QT): kebalikannya — membiarkan obligasi jatuh tempo tanpa dibeli lagi. Dan pengganda uang: dengan GWM 5 persen, pengganda MAKSIMUM TEORETIS adalah 1 dibagi 0,05 = 20 — setiap Rp100 miliar uang primer BISA menjadi Rp2.000 miliar uang beredar, tetapi hanya bila tidak ada kebocoran: tidak ada uang tunai yang ditahan di luar bank, tidak ada cadangan berlebih, dan setiap pinjaman kembali masuk sebagai simpanan. Dalam praktik, kebocoran itu selalu ada — bank menahan cadangan berlebih saat takut, nasabah memegang tunai, sebagian kredit tidak kembali sebagai simpanan — sehingga uang beredar aktual selalu di bawah maksimum teoretis. Menurunkan GWM dari 5 persen ke 4 persen menaikkan pengganda maksimum dari 20 ke 25 — tetapi itu menaikkan BATAS, bukan menjamin uang beredar naik segitu. Kredit, permintaan, dan regulasi ikut menentukan.",
       ],
       tasks: [],
       formula: String.raw`r = r^{*} + \pi + 0{,}5(\pi - \pi^{*}) + 0{,}5(y - y^{*}) \qquad m = \frac{1}{GWM}`,
-      formulaNote: "r = suku bunga acuan; r* = suku bunga riil netral (1,5 persen); pi = inflasi (3,5 persen); pi* = target inflasi (2,5 persen); y − y* = output gap (minus 1 persen). Hasil: 5,0 persen. m = pengganda uang; GWM 5 persen → m = 20.",
+      formulaNote: "r = suku bunga acuan; r* = suku bunga riil netral (1,5 persen); pi = inflasi (3,5 persen); pi* = target inflasi (2,5 persen); y − y* = output gap (minus 1 persen). Hasil: 5,0 persen. m = pengganda uang MAKSIMUM TEORETIS; GWM 5 persen → m = 20 (dengan asumsi tanpa kebocoran tunai/cadangan berlebih).",
       reference: "Taylor rule: 5,0 persen. Pengganda uang 20x (GWM 5 persen).",
     },
     {
@@ -75,9 +75,9 @@ export const e35: V2Lesson = {
       title: "Lab: mesin Taylor rule dan pengganda uang",
       prose: [
         "Lab ini membangun mesin kebijakan moneter: dari inflasi, target, output gap, dan GWM — hitung suku bunga Taylor rule, pengganda uang, dan jumlah uang beredar.",
-        "Hitung dulu di kepala. Taylor: 1,5 + 3,5 + 0,5 × (3,5 − 2,5) + 0,5 × (−1) = 1,5 + 3,5 + 0,5 − 0,5 = 5,0 persen. Pengganda: 1 dibagi 0,05 = 20. Uang beredar: 100 × 20 = Rp2.000 triliun dari uang primer Rp100 triliun.",
+        "Hitung dulu di kepala. Taylor: 1,5 + 3,5 + 0,5 × (3,5 − 2,5) + 0,5 × (−1) = 1,5 + 3,5 + 0,5 − 0,5 = 5,0 persen. Pengganda maksimum: 1 dibagi 0,05 = 20. Uang beredar maksimum: 100 × 20 = Rp2.000 triliun dari uang primer Rp100 triliun — batas atas teoretis, bukan prediksi.",
         "Tugas lab: tulis fungsi yang menerima inflasi, target inflasi, output gap, suku bunga riil netral, GWM, dan uang primer — lalu mencetak suku bunga Taylor, pengganda, dan uang beredar. Tiga angka ini adalah bacaan pertama setiap kali bank sentral berbicara.",
-        "Setelah lolos, coba eksperimen: naikkan inflasi menjadi 5,5 persen dan lihat Taylor rule melonjak ke 6,5 persen — lalu tanyakan: bila suku bunga aktual masih 5,0 persen, berapa lama pasar akan percaya bank sentral 'di belakang kurva'?",
+        "Setelah lolos, coba eksperimen: naikkan inflasi menjadi 5,5 persen dan lihat Taylor rule melonjak ke 8,0 persen — hitung: 1,5 + 5,5 + 0,5 × (5,5 − 2,5) + 0,5 × (−1) = 1,5 + 5,5 + 1,5 − 0,5 = 8,0. Lalu tanyakan: bila suku bunga aktual masih 5,0 persen, berapa lama pasar akan percaya bank sentral 'di belakang kurva'?",
       ],
       tasks: [
         { id: "t1", text: "Hitung `taylor` (suku bunga acuan Taylor rule, persen)" },
@@ -96,8 +96,8 @@ export const e35: V2Lesson = {
         solution: `# Ekonomi: inflasi 3,5%, target 2,5%, output gap -1%, r* 1,5%, GWM 5%, uang primer Rp100 T.\ninflasi = 3.5\ntarget = 2.5\ngap = -1.0\nr_netral = 1.5\ngwm = 0.05\nprimer = 100.0  # triliun rupiah\n\n\ntaylor = r_netral + inflasi + 0.5 * (inflasi - target) + 0.5 * gap\npengganda = 1 / gwm\nuang_beredar = primer * pengganda\nprint(f"taylor={taylor:.1f}")\nprint(f"pengganda={pengganda:.1f}")\nprint(f"uang_beredar={uang_beredar:.1f}")\n`,
         checks: [
           { kind: "equal", task: "t1", name: "taylor", value: 5.0, tol: 0.01, label: "Taylor rule 5,0 persen", msg: "1,5 + 3,5 + 0,5 x 1,0 + 0,5 x (-1) = 5,0. Suku bunga aktual di bawah ini berarti kebijakan longgar." },
-          { kind: "equal", task: "t2", name: "pengganda", value: 20.0, tol: 0.01, label: "Pengganda 20x", msg: "1 / 0,05 = 20. Setiap rupiah primer menjadi 20 rupiah beredar." },
-          { kind: "equal", task: "t3", name: "uang_beredar", value: 2000.0, tol: 0.01, label: "Uang beredar Rp2.000 triliun", msg: "100 x 20 = 2.000. Turunkan GWM ke 4 persen dan pengganda menjadi 25." },
+          { kind: "equal", task: "t2", name: "pengganda", value: 20.0, tol: 0.01, label: "Pengganda maksimum 20x", msg: "1 / 0,05 = 20. Ini BATAS ATAS teoretis — tanpa kebocoran tunai dan cadangan berlebih. Uang beredar aktual selalu di bawah ini." },
+          { kind: "equal", task: "t3", name: "uang_beredar", value: 2000.0, tol: 0.01, label: "Uang beredar maksimum Rp2.000 triliun", msg: "100 x 20 = 2.000 — MAKSIMUM teoretis, bukan prediksi. Turunkan GWM ke 4 persen dan pengganda maksimum menjadi 25." },
         ],
       },
       reference: "Taylor rule 5,0 persen; pengganda 20x; uang beredar Rp2.000 triliun.",
@@ -108,7 +108,7 @@ export const e35: V2Lesson = {
       title: "Forward guidance dan dot plot: membaca pikiran bank sentral",
       prose: [
         "Forward guidance adalah janji bank sentral tentang suku bunga masa depan — dan janji itu sendiri adalah kebijakan. Bila The Fed berkata 'suku bunga akan tetap rendah sampai pengangguran di bawah 4 persen', pasar langsung menurunkan ekspektasi suku bunga 2 tahun ke depan, yield turun, saham naik — tanpa satu dolar pun dicetak. Guidance yang kredibel menggerakkan pasar lebih murah dari intervensi apa pun. Guidance yang tidak kredibel — janji yang dilanggar berulang kali — justru merusak: pasar berhenti mendengarkan, dan bank sentral kehilangan alat termurahnya.",
-        "Dot plot The Fed adalah peta pikiran 19 anggota FOMC: tiap titik adalah prediksi satu anggota untuk suku bunga akhir tahun. Median dot plot adalah perkiraan konsensus pasar tentang jalur suku bunga. Investor membandingkan dot plot dengan harga futures Fed Funds: bila futures mengimplikasikan pemotongan lebih agresif dari dot plot, salah satu pihak akan salah — dan selisihnya adalah peluang trading.",
+        "Dot plot The Fed adalah peta pikiran peserta FOMC: tiap titik adalah prediksi satu peserta untuk suku bunga akhir tahun (jumlah peserta tidak selalu tetap 19 — bergantung susunan FOMC saat itu). Median dot plot adalah perkiraan TENGAH dari proyeksi para peserta FOMC — BUKAN konsensus pasar: pasar punya ekspektasinya sendiri yang tercermin di harga futures Fed Funds, dan keduanya sering berbeda. Investor membandingkan dot plot dengan harga futures Fed Funds: bila futures mengimplikasikan pemotongan lebih agresif dari dot plot, salah satu pihak akan salah — dan selisihnya adalah peluang trading. Ingat juga: dot plot merangkum proyeksi SEMUA peserta, termasuk yang tidak punya hak suara tahun itu — bukan hanya para pemilih.",
         "Di Indonesia, Bank Indonesia memakai BI Rate plus komunikasi yang sama: pernyataan 'ruang pelonggaran' dalam konferensi pers adalah forward guidance versi lokal. Investor rupiah wajib membaca dua hal: angka BI Rate hari ini, dan kata-kata tentang besok. Sejarah membuktikan kata-kata tentang besok lebih sering menggerakkan rupiah daripada angka hari ini.",
         "Satu peringatan: bank sentral bisa salah, dan sering salah. Proyeksi inflasi The Fed 2021 ('transitory') menjadi contoh klasik — pasar yang percaya penuh pada guidance itu membeli obligasi panjang di yield rendah dan menanggung kerugiannya saat pengetatan agresif datang. Aturan praktis: dengarkan bank sentral, tetapi verifikasi dengan data. Guidance adalah pendapat, bukan jaminan.",
       ],
@@ -117,7 +117,7 @@ export const e35: V2Lesson = {
         title: "Sering salah",
         body: "Mengira keputusan suku bunga hari ini adalah berita utama. Berita utama adalah PERUBAHAN ekspektasi: bila pasar sudah mengharapkan kenaikan 25 bps dan bank sentral menaikkan 25 bps, pasar hampir tidak bergerak. Yang menggerakkan pasar adalah kejutan — dan kejutan hidup di kalimat tentang masa depan, bukan di angka hari ini.",
       },
-      reference: "Forward guidance menggerakkan pasar tanpa mencetak uang. Dot plot: median 19 anggota FOMC adalah konsensus jalur suku bunga.",
+      reference: "Forward guidance menggerakkan pasar tanpa mencetak uang. Dot plot: median proyeksi peserta FOMC — bukan konsensus pasar.",
     },
     {
       id: "mini-case",
@@ -147,7 +147,7 @@ export const e35: V2Lesson = {
         "Taylor rule 5,0 persen; pengganda 20x; uang beredar Rp2.000 triliun.",
         "Empat jalur transmisi: suku bunga, ekspektasi, nilai tukar, kredit. Lag 6–18 bulan.",
         "Perangkat: suku bunga kebijakan, operasi pasar terbuka, GWM, fasilitas simpanan dan pinjaman.",
-        "Forward guidance menggerakkan pasar tanpa mencetak uang; dot plot adalah median 19 anggota FOMC.",
+        "Forward guidance menggerakkan pasar tanpa mencetak uang; dot plot adalah median proyeksi peserta FOMC — bukan konsensus pasar.",
         "Yang menggerakkan pasar adalah perubahan ekspektasi, bukan angka hari ini.",
       ],
       next: { label: "E36 — Private Equity dan Venture Capital: Siklus Dana, J-Curve, dan Dilusi", href: "/v2/learn/e36-pe-vc" },
@@ -165,7 +165,7 @@ export const e35: V2Lesson = {
           q: "GWM 5 persen, uang primer Rp100 triliun. Berapa uang beredar maksimum menurut pengganda uang?",
           options: [
             { text: "Rp100 triliun — uang primer sama dengan uang beredar", why: "Salah: sistem perbankan melipatgandakan uang primer lewat pinjaman berantai. Pengganda 1 / 0,05 = 20." },
-            { text: "Rp2.000 triliun", why: "Tepat: 100 × 20 = 2.000. Menurunkan GWM ke 4 persen menaikkan pengganda menjadi 25.", correct: true },
+            { text: "Rp2.000 triliun — maksimum teoretis", why: "Tepat: 100 × 20 = 2.000 sebagai BATAS ATAS bila tanpa kebocoran. Menurunkan GWM ke 4 persen menaikkan pengganda maksimum menjadi 25.", correct: true },
             { text: "Rp105 triliun — hanya bunga yang bertambah", why: "Salah: pengganda bekerja lewat penciptaan kredit berantai, bukan lewat bunga." },
             { text: "Rp500 triliun — pengganda adalah 1 dibagi GWM dalam persen", why: "Salah: GWM dipakai sebagai desimal (0,05), bukan persen (5). 1 / 5 = 0,2 adalah kesalahan satuan." },
           ],

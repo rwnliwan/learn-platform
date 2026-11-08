@@ -63,6 +63,10 @@ export const biz30: V2Lesson = {
         "Hasil akhirnya satu halaman: tiap permintaan dengan keputusan yang dilayani, data dan grain, ritme refresh, pemilik, dan rasio prioritas. Halaman itu ditandatangani pengguna — bukan sebagai formalitas, melainkan sebagai bukti bahwa kebutuhan itu benar-benar milik mereka, bukan tebakan tim BI.",
       ],
       tasks: [],
+      note: {
+        title: "Contoh dokumen kebutuhan satu halaman",
+        body: "(1) Keputusan yang dilayani — apa yang diputuskan dari dashboard ini. (2) Pengguna — siapa yang membacanya dan seberapa sering. (3) Metrik — definisi tiap KPI, sumber data, dan grain-nya. (4) Ritme refresh dan SLA kesegaran. (5) Pemilik — siapa yang bertanggung jawab bila angkanya salah. (6) Rasio prioritas dan pengecualian yang disepakati. Satu halaman, ditandatangani pengguna — bila tidak muat satu halaman, kebutuhannya belum jelas.",
+      },
       reference: "Rasio nilai per usaha: C 7,0; A 4,5; B 2,0; D 2,0; E 1,0. Bangun C lalu A. Dokumen satu halaman ditandatangani pengguna.",
     },
     {
@@ -73,7 +77,7 @@ export const biz30: V2Lesson = {
         "Lab ini menghitung rasio nilai per usaha untuk lima permintaan dashboard.",
         "Hitung dulu di kepala. C: 7 dibagi 1 sama dengan 7,0. A: 9 dibagi 2 sama dengan 4,5. B: 8 dibagi 4 sama dengan 2,0. D: 6 dibagi 3 sama dengan 2,0. E: 5 dibagi 5 sama dengan 1,0. Prioritas tertinggi: C dengan 7,0.",
         "Tugas lab: tulis fungsi yang menerima daftar nilai dan usaha, lalu mencetak tiga angka: rasio_C, rasio_A, dan prioritas tertinggi sebagai teks 'C'.",
-        "Setelah lolos, coba eksperimen: naikkan usaha C menjadi 7 dan lihat rasionya jatuh menjadi 1,0 — permintaan yang sama bisa berubah dari prioritas pertama menjadi terakhir bila usahanya membengkak.",
+        "Setelah lolos, coba eksperimen: naikkan usaha C menjadi 7 dan lihat rasionya jatuh menjadi 1,0 — seri TERAKHIR bersama E (1,0), bukan sendirian di bawah. Permintaan yang sama bisa berubah dari prioritas pertama menjadi seri terakhir bila usahanya membengkak.",
       ],
       tasks: [
         { id: "t1", text: "Hitung rasio_C dari nilai 7 dan usaha 1" },

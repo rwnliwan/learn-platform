@@ -42,7 +42,7 @@ export const biz31: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Dependent vs independent: dari mana mart diisi",
       prose: [
-        "Dependent mart diisi dari warehouse pusat: data sudah dibersihkan dan dimodelkan sekali, lalu subset-nya disalin ke mart. Kelebihannya: satu definisi kebenaran — metrik di mart sama dengan di pusat karena berasal dari sumber yang sama. Kekurangannya: mart menunggu warehouse selesai; bila pusat terlambat, mart ikut terlambat.",
+        "Dependent mart diisi dari warehouse pusat: data sudah dibersihkan dan dimodelkan sekali, lalu subset-nya disalin ke mart. Kelebihannya: satu definisi kebenaran — DATANYA berasal dari warehouse yang sama, dan DEFINISINYA dibaca dari semantic layer pusat yang sama. Dua hal itu berbeda: warehouse memasok data, semantic layer memasok definisi — mart yang mengambil data dari warehouse tetapi mendefinisikan metrik sendiri tetap bisa menghasilkan dua kebenaran. Kekurangannya: mart menunggu warehouse selesai; bila pusat terlambat, mart ikut terlambat.",
         "Independent mart diisi langsung dari sumber operasional: cepat dibangun karena tidak menunggu pusat, tetapi tiap mart mendefinisikan metriknya sendiri — dan dua mart bisa memberi dua jawaban untuk pertanyaan yang sama. Itulah yang ditakutkan tim pusat di cerita pembuka, dan ketakutan itu beralasan: independent mart yang tumbuh liar adalah awal dari kekacauan definisi.",
         "Aturan: dependent sebagai default; independent hanya untuk data yang belum ada di warehouse dan dibutuhkan mendesak — dengan rencana migrasi ke dependent dan tanggalnya. Mart yang independent selamanya adalah warehouse bayangan yang tidak diakui.",
       ],
@@ -81,13 +81,13 @@ export const biz31: V2Lesson = {
       ],
       expected: "ukuran_mb=400\nmart_mb=120",
       hints: [
-        "Ukuran byte = baris dikali byte per baris; bagi 1.000.000 menjadi MB.",
+        "Ukuran byte = baris dikali byte per baris; bagi 1.000.000 menjadi MB — bulatkan di AKHIR, bukan di tengah (floor division di tengah membuang sisa sebelum dikali persen). Dan ingat: ini subset BARIS saja — mart yang juga membuang kolom (misalnya hanya 12 dari 40 kolom) lebih kecil lagi; hitung byte per baris mart-nya sendiri.",
         "Mart = ukuran dikali persen subset dibagi 100.",
       ],
       code: {
         starter: `# Fact penjualan KirimCepat dan mart marketing.\njumlah_baris = 2000000\nbyte_per_baris = 200\npersen_subset = 30\n\n# TULIS KODEMU: hitung ukuran_mb dan mart_mb.\n# Cetak, per baris: ukuran_mb, mart_mb.\n\n\nmesin_mart(jumlah_baris, byte_per_baris, persen_subset)`,
         lockLines: 4,
-        solution: `# Fact penjualan KirimCepat dan mart marketing.\njumlah_baris = 2000000\nbyte_per_baris = 200\npersen_subset = 30\n\n\ndef mesin_mart(jumlah_baris, byte_per_baris, persen_subset):\n    ukuran_mb = jumlah_baris * byte_per_baris // 1000000\n    mart_mb = ukuran_mb * persen_subset // 100\n    print(f"ukuran_mb={ukuran_mb}")\n    print(f"mart_mb={mart_mb}")\n\n\nmesin_mart(jumlah_baris, byte_per_baris, persen_subset)`,
+        solution: `# Fact penjualan KirimCepat dan mart marketing.\njumlah_baris = 2000000\nbyte_per_baris = 200\npersen_subset = 30\n\n\ndef mesin_mart(jumlah_baris, byte_per_baris, persen_subset):\n    ukuran_mb = round(jumlah_baris * byte_per_baris / 1000000)\n    mart_mb = round(ukuran_mb * persen_subset / 100)\n    print(f"ukuran_mb={ukuran_mb}")\n    print(f"mart_mb={mart_mb}")\n\n\nmesin_mart(jumlah_baris, byte_per_baris, persen_subset)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "ukuran_mb=400", label: "Fact 400 MB", msg: "2.000.000 x 200 byte = 400.000.000 byte = 400 MB." },
           { kind: "stdout_matches", task: "t2", pattern: "mart_mb=120", label: "Mart 120 MB", msg: "30 persen dari 400 MB = 120 MB." },

@@ -58,8 +58,9 @@ export const fr34: V2Lesson = {
       title: "Tiga risiko: nested, payable-through, dan downstream",
       prose: [
         "Risiko pertama: nested account. Bank responden A melayani bank B yang tidak punya hubungan dengan bank koresponden — sehingga bank B 'menumpang ganda' lewat A. Bank koresponden bahkan tidak tahu bank B ada. Bila B dipakai untuk pencucian, jejaknya masuk lewat A yang terlihat bersih. Uji tuntas yang baik wajib bertanya: apakah respondenmu sendiri melayani bank lain?",
-        "Risiko kedua: payable-through account. Bank responden memberi nasabahnya akses langsung ke rekening vostro — nasabah akhir bisa bertransaksi seolah-olah ia nasabah bank koresponden. Ini adalah risiko tertinggi: bank koresponden menanggung eksposur atas nasabah yang tidak pernah ia kenal, tanpa bisa menolak transaksinya satu per satu. Banyak bank besar melarang payable-through sama sekali, atau hanya mengizinkannya dengan daftar nasabah yang disetujui.",
+        "Risiko kedua: payable-through account. Bank responden memberi nasabahnya akses langsung ke rekening vostro — nasabah akhir bisa bertransaksi seolah-olah ia nasabah bank koresponden. Ini umumnya dianggap risiko tertinggi di antara ketiganya — tetapi itu penilaian, bukan hukum alam: bank yang mengenal baik respondennya dan memonitor transaksinya bisa menilai risiko ini lebih rendah daripada nested yang tidak terlihat. Praktiknya bervariasi: sebagian bank besar melarang payable-through, sebagian mengizinkannya hanya dengan daftar nasabah akhir yang disetujui sebelumnya, batas transaksi, monitoring, dan hak untuk memblokir sub-rekening tertentu. Yang benar dalam semua varian: bank koresponden tidak mengenal tiap nasabah akhir secara langsung, sehingga ia harus mengompensasi dengan kontrol atas respondennya — bukan dengan berpura-pura mengenal mereka.",
         "Risiko ketiga: downstream — nasabah akhir bank responden yang berisiko tinggi (politically exposed person, perusahaan cangkang, atau nasabah dari yurisdiksi berisiko) yang transaksinya mengalir tanpa filter tambahan. Pertahanan terhadap ketiganya adalah satu: due diligence atas responden yang mencakup pertanyaan tentang nasabah AKHIR mereka — dan hak untuk mengakhiri hubungan bila jawabannya tidak memuaskan.",
+        "Uji tuntas atas responden — enam langkah operasional. (1) Kumpulkan fakta dasar: lisensi dan regulator, struktur kepemilikan dan pemilik manfaat, yurisdiksi operasi, dan laporan keuangan. (2) Nilai program AML responden: kebijakan tertulis, penanggung jawab kepatuhan, pelatihan, audit independen, dan riwayat sanksi atau denda. (3) Tanyakan soal menumpang: apakah responden melayani bank lain (nested)? Apakah ia memberi akses payable-through, dan kepada siapa? (4) Nilai nasabah akhirnya: profil downstream — berapa PEP, berapa perusahaan cangkang, berapa dari yurisdiksi berisiko — dan apakah responden melakukan EDD atas mereka. (5) Tetapkan syarat hubungan: monitoring transaksi, batas volume, review tahunan, hak audit atas responden, dan hak mengakhiri bila syarat dilanggar. (6) Dokumentasikan semuanya dan laporkan penilaian ke komite — termasuk alasan mempertahankan responden yang berisiko tinggi, bukan hanya alasan mengakhirinya. Uji tuntas yang tidak didokumentasikan sama dengan tidak dilakukan: auditor dan regulator akan meminta buktinya.",
       ],
       tasks: [],
       note: {
@@ -74,13 +75,13 @@ export const fr34: V2Lesson = {
       title: "Lab: menghitung pangsa risiko dan ekonomi de-risking",
       prose: [
         "Lab ini menghitung dua angka dari data cerita pembuka: pangsa bank responden berisiko tinggi, dan penghematan bersih bila 12 hubungan itu diakhiri. Hitung dulu di kepala. Pangsa risiko tinggi: 12 dibagi 80 dikali 100 sama dengan 15,0 persen. Penghematan bersih: biaya monitoring 12 dikali Rp180 juta sama dengan Rp2.160 juta; pendapatan hilang 12 dikali Rp95 juta sama dengan Rp1.140 juta; selisihnya Rp1.020 juta.",
-        "Tugas lab: isi tiga variabel — pangsa_tinggi, hemat_bersih, dan keputusan ('PERTAHANKAN_DENGAN_EDD' bila pangsa di bawah 20 persen dan hemat bersih positif tetapi ada dampak inklusi — karena angka saja tidak cukup untuk memutus akses pembayaran) — lalu cetak ketiganya. Tiga output ini adalah memo keputusan ke komite: berapa besar risikonya, berapa hematnya, dan apa rekomendasinya.",
-        "Setelah lolos, coba eksperimen: naikkan bank berisiko tinggi menjadi 24 dan lihat pangsa menjadi 30,0 persen — lalu tanyakan: apakah keputusan berubah? Jawabannya: ya — di atas 20 persen, konsentrasi risiko itu sendiri menjadi temuan, dan de-risking sebagian menjadi sulit dihindari. Ambang 20 persen harus disepakati sebelum audit, bukan setelah melihat hasilnya.",
+        "Tugas lab: isi tiga variabel — pangsa_tinggi, hemat_bersih, dan keputusan ('PERTAHANKAN_DENGAN_EDD' bila pangsa di bawah 20 persen dan hemat bersih positif tetapi ada dampak inklusi — karena angka saja tidak cukup untuk memutus akses pembayaran) — lalu cetak ketiganya. Perhatian: 'keputusan' di lab ini adalah REKOMENDASI AWAL hasil penyaringan, BUKAN keputusan final. Aturan ambang tunggal tidak boleh memutuskan sendiri: responden dengan pangsa 15 persen tetapi EDD-nya gagal tetap harus diakhiri, dan responden 25 persen yang EDD-nya bersih bisa dipertahankan dengan syarat. Keputusan final dibuat komite manusia setelah membaca hasil uji tuntas tiap responden (enam langkah di Langkah 4), dampak inklusi, dan ekspektasi regulator. Tiga output ini adalah memo keputusan ke komite: berapa besar risikonya, berapa hematnya, dan apa rekomendasi awalnya.",
+        "Setelah lolos, coba eksperimen: naikkan bank berisiko tinggi menjadi 24 dan lihat pangsa menjadi 30,0 persen — lalu tanyakan: apakah rekomendasi awal berubah? Jawabannya: ya — di atas 20 persen, konsentrasi risiko itu sendiri menjadi temuan, dan de-risking sebagian menjadi kandidat kuat — tetapi tetap diputuskan per bank setelah uji tuntas, bukan otomatis. Ambang 20 persen harus disepakati sebelum audit, bukan setelah melihat hasilnya.",
       ],
       tasks: [
         { id: "t1", text: "Hitung pangsa bank responden berisiko tinggi dalam persen" },
         { id: "t2", text: "Hitung penghematan bersih de-risking (Rp juta)" },
-        { id: "t3", text: "Tentukan keputusan dari ambang pangsa 20 persen" },
+        { id: "t3", text: "Tentukan rekomendasi AWAL dari ambang pangsa 20 persen (bukan keputusan final — keputusan final dibuat komite setelah uji tuntas)" },
       ],
       expected: "pangsa_tinggi=15.0\nhemat_bersih=1020\nkeputusan=PERTAHANKAN_DENGAN_EDD",
       hints: [
@@ -95,7 +96,7 @@ export const fr34: V2Lesson = {
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "pangsa_tinggi=15.0", label: "Pangsa risiko tinggi 15,0 persen", msg: "12 / 80 x 100 = 15,0. Di bawah ambang 20 persen." },
           { kind: "stdout_matches", task: "t2", pattern: "hemat_bersih=1020", label: "Hemat bersih Rp1.020 juta", msg: "2.160 - 1.140 = 1.020. Hemat finansial saja tidak cukup untuk memutus akses pembayaran." },
-          { kind: "stdout_matches", task: "t3", pattern: "keputusan=PERTAHANKAN_DENGAN_EDD", label: "Keputusan: pertahankan dengan EDD", msg: "Pangsa di bawah ambang — pertahankan dengan pengawasan diperketat, bukan de-risking massal." },
+          { kind: "stdout_matches", task: "t3", pattern: "keputusan=PERTAHANKAN_DENGAN_EDD", label: "Rekomendasi awal: pertahankan dengan EDD", msg: "Pangsa di bawah ambang — rekomendasi awal pertahankan dengan pengawasan diperketat, bukan de-risking massal. Keputusan final tetap di komite setelah uji tuntas." },
         ],
       },
       reference: "Pangsa 15,0 persen; hemat bersih Rp1.020 juta; keputusan PERTAHANKAN_DENGAN_EDD.",
@@ -126,8 +127,9 @@ export const fr34: V2Lesson = {
       tasks: [],
       summary: [
         "Correspondent banking: bank kecil menumpang pada bank besar untuk akses pembayaran dolar dan euro.",
-        "Lab: pangsa risiko tinggi 15,0 persen; hemat bersih Rp1.020 juta; PERTAHANKAN_DENGAN_EDD.",
+        "Lab: pangsa risiko tinggi 15,0 persen; hemat bersih Rp1.020 juta; rekomendasi awal PERTAHANKAN_DENGAN_EDD (keputusan final di komite setelah uji tuntas).",
         "Tiga risiko: nested account, payable-through, downstream.",
+        "Uji tuntas responden: 6 langkah — fakta dasar, program AML, nested/payable-through, nasabah akhir, syarat hubungan, dokumentasi ke komite.",
         "FATF menolak de-risking massal — yang diminta adalah pendekatan berbasis risiko per responden.",
         "De-risking harus menghitung dampak inklusi: siapa yang kehilangan akses.",
       ],

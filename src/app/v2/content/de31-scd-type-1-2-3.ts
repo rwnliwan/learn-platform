@@ -49,8 +49,8 @@ export const de31: V2Lesson = {
       ],
       tasks: [],
       note: {
-        title: "Surrogate key itu wajib di Type 2",
-        body: "Kunci bisnis pelanggan (misalnya customer_id) sama di semua baris Type 2 — ia tidak lagi unik. Tambahkan surrogate key (sk_pelanggan) sebagai primary key, dan join fact ke dimensi lewat surrogate key yang berlaku pada tanggal transaksi. Join memakai customer_id saja akan menggandakan baris fact.",
+        title: "Surrogate key itu perlu — tetapi bukan solusi as-of",
+        body: "Kunci bisnis pelanggan (misalnya customer_id) sama di semua baris Type 2 — ia tidak lagi unik. Tambahkan surrogate key (sk_pelanggan) sebagai primary key tiap baris versi. Tetapi surrogate key SENDIRI tidak menyelesaikan masalah as-of: fact menyimpan customer_id dan tanggal transaksi, dan join as-of (business key + kondisi tanggal half-open) yang MENYELESAIKAN surrogate key mana yang berlaku saat itu. Surrogate key adalah identitas baris; kondisi tanggal adalah yang memilih barisnya. Join memakai customer_id saja — tanpa kondisi tanggal — akan menggandakan baris fact.",
       },
       reference: "Type 1: timpa, sejarah hilang. Type 2: baris baru per perubahan, sejarah penuh. Type 3: satu kolom nilai lama.",
     },
@@ -59,12 +59,12 @@ export const de31: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Query as-of: join dengan tanggal, bukan dengan pelanggan",
       prose: [
-        "Join Type 2 yang benar memakai dua kondisi: customer_id cocok DAN tanggal transaksi berada di dalam rentang valid_from sampai valid_to. Lupa kondisi tanggal berarti join ke semua baris sejarah pelanggan itu — dan revenue terhitung tiga kali lipat.",
-        "Pola yang aman: valid_to baris current diisi tanggal jauh di masa depan (misalnya 9999-12-31) supaya kondisi tanggal tetap sederhana, dan flag is_current sama dengan 1 menandai baris aktif. Saat perubahan datang, tutup baris lama (valid_to sama dengan tanggal perubahan, is_current sama dengan 0) lalu sisipkan baris baru (valid_from sama dengan tanggal perubahan, is_current sama dengan 1). Dua langkah itu harus dalam satu transaksi — baris lama tertutup tetapi baris baru gagal tersisip berarti pelanggan itu hilang dari laporan.",
+        "Join Type 2 yang benar memakai dua kondisi: customer_id cocok DAN tanggal transaksi berada di dalam rentang berlaku — dengan interval HALF-OPEN [valid_from, valid_to): valid_from <= tanggal transaksi < valid_to. Batas bawah inklusif, batas atas eksklusif. Ini penting: bila baris lama ditutup dengan valid_to = tanggal perubahan dan baris baru dibuka dengan valid_from = tanggal yang sama, interval yang kedua ujungnya inklusif membuat SATU tanggal cocok di DUA baris — revenue terhitung dua kali. Half-open menghilangkan ambiguitas itu: tiap tanggal hanya cocok di tepat satu baris.",
+        "Pola yang aman: valid_to baris current diisi tanggal jauh di masa depan (misalnya 9999-12-31) supaya kondisi tanggal tetap sederhana, dan flag is_current sama dengan 1 menandai baris aktif. Saat perubahan datang, tutup baris lama (valid_to sama dengan tanggal perubahan, is_current sama dengan 0) lalu sisipkan baris baru (valid_from sama dengan tanggal perubahan, is_current sama dengan 1). Dua langkah itu harus dalam satu transaksi — baris lama tertutup tetapi baris baru gagal tersisip berarti pelanggan itu hilang dari laporan. Contoh SQL as-of lengkap:\n\nSELECT f.*, d.kota\nFROM fact_penjualan f\nJOIN dim_pelanggan d\n  ON d.customer_id = f.customer_id\n AND f.tanggal_transaksi >= d.valid_from\n AND f.tanggal_transaksi < d.valid_to;\n\nPerhatikan operatornya: >= di bawah, < di atas — itulah half-open. Varian dengan valid_to = '9999-12-31' pada baris current membuat baris aktif selalu cocok tanpa perlakuan khusus.",
         "Validasi yang wajib ada: tidak ada dua baris current untuk satu pelanggan; tidak ada celah antar rentang (valid_to baris lama harus sama dengan valid_from baris baru); tidak ada tumpang tindih. Tiga cek ini murah dan menangkap hampir semua bug SCD sebelum sampai ke dashboard.",
       ],
       tasks: [],
-      reference: "Join as-of: customer_id cocok dan tanggal transaksi di dalam rentang berlaku. Validasi: satu current, tanpa celah, tanpa tumpang tindih.",
+      reference: "Join as-of: customer_id cocok dan valid_from <= tanggal transaksi < valid_to (half-open). Validasi: satu current, tanpa celah, tanpa tumpang tindih.",
     },
     {
       id: "lab-scd",
@@ -74,7 +74,7 @@ export const de31: V2Lesson = {
         "Lab ini menghitung berapa baris yang dihasilkan tiap tipe dari riwayat perubahan yang sama: 4 pelanggan dengan jumlah perubahan 2, 1, 0, dan 3.",
         "Hitung dulu di kepala. Type 1: satu baris per pelanggan, berapa pun perubahannya — 4 baris. Type 2: satu baris awal per pelanggan ditambah satu baris per perubahan — 4 ditambah 2 ditambah 1 ditambah 0 ditambah 3 sama dengan 10 baris. Baris aktif (current) selalu sama dengan jumlah pelanggan: 4.",
         "Tugas lab: tulis fungsi yang menerima jumlah pelanggan dan daftar jumlah perubahan, lalu mencetak tiga angka: rows_t1, rows_t2, dan baris_aktif.",
-        "Setelah lolos, coba eksperimen: tambah satu pelanggan dengan 5 perubahan dan lihat Type 2 tumbuh menjadi 15 baris sementara Type 1 tetap 4 — itulah harga sejarah penuh, dan alasan memilih tipe per atribut.",
+        "Setelah lolos, coba eksperimen: tambah satu pelanggan dengan 5 perubahan dan lihat Type 2 tumbuh menjadi 16 baris (10 + 1 baris awal + 5 perubahan) sementara Type 1 menjadi 5 baris (satu per pelanggan — bertambah satu karena pelanggannya bertambah satu) — itulah harga sejarah penuh, dan alasan memilih tipe per atribut.",
       ],
       tasks: [
         { id: "t1", text: "Hitung rows_t1: satu baris per pelanggan" },
@@ -126,7 +126,7 @@ export const de31: V2Lesson = {
       summary: [
         "Type 1 menimpa (sejarah hilang), Type 2 menambah baris (sejarah penuh), Type 3 menambah kolom (satu langkah ke belakang).",
         "Lab: 4 pelanggan, 6 perubahan — Type 1: 4 baris, Type 2: 10 baris, baris aktif: 4.",
-        "Join Type 2 wajib as-of: customer_id cocok dan tanggal transaksi di dalam rentang berlaku.",
+        "Join Type 2 wajib as-of: customer_id cocok dan valid_from <= tanggal transaksi < valid_to (half-open).",
         "Tipe dipilih per atribut, bukan per tabel.",
         "Validasi: satu current, tanpa celah, tanpa tumpang tindih.",
       ],
@@ -155,7 +155,7 @@ export const de31: V2Lesson = {
           options: [
             { text: "customer_id saja — surrogate key tidak diperlukan", why: "Salah: customer_id sama di semua baris sejarah; tanpa kondisi tanggal, revenue terhitung berkali-kali." },
             { text: "Surrogate key saja, tanpa tanggal transaksi", why: "Salah: fact tidak menyimpan surrogate key yang berlaku saat itu — ia harus dicari lewat tanggal." },
-            { text: "customer_id cocok dan tanggal transaksi di dalam rentang valid_from sampai valid_to", why: "Tepat: dua kondisi itu yang memilih tepat satu baris sejarah per transaksi.", correct: true },
+            { text: "customer_id cocok dan valid_from <= tanggal transaksi < valid_to (interval half-open)", why: "Tepat: dua kondisi itu yang memilih tepat satu baris sejarah per transaksi — batas atas eksklusif supaya tanggal perubahan tidak cocok di dua baris.", correct: true },
             { text: "Join ke baris current saja untuk semua transaksi", why: "Salah: baris current adalah alamat hari ini — transaksi lama akan memakai alamat yang salah." },
           ],
         },

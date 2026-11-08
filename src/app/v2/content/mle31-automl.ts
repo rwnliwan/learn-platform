@@ -43,7 +43,7 @@ export const mle31: V2Lesson = {
       title: "Random search: 59 trial mengalahkan 64 grid",
       prose: [
         "Hasil klasik yang mengejutkan banyak orang: random search biasanya mengalahkan grid search dengan anggaran yang sama. Alasannya: tidak semua hyperparameter sama pentingnya. Grid 4 x 4 x 4 menghabiskan 64 trial tetapi hanya mencoba 4 nilai berbeda untuk hyperparameter terpenting; random search dengan 64 trial mencoba 64 nilai berbeda untuk hyperparameter itu. Bila hanya 1 dari 3 hyperparameter yang benar-benar penting, grid membuang 75 persen anggarannya.",
-        "Berapa trial yang dibutuhkan? Bila 5 persen teratas ruang konfigurasi dianggap 'bagus', peluang satu trial acak TIDAK mengenai daerah bagus = 0,95. Peluang n trial semuanya meleset = 0,95^n. Untuk keyakinan 95 persen mengenai minimal satu konfigurasi bagus: 1 - 0,95^n = 0,95, sehingga n = ln(0,05) / ln(0,95) = 58,4 — dibulatkan 59 trial. Angka ini independen dari jumlah hyperparameter — itulah kekuatan random search: ia berskala ke ruang berdimensi tinggi tanpa biaya tambahan.",
+        "Berapa trial yang dibutuhkan? Bila 5 persen teratas ruang konfigurasi dianggap 'bagus', peluang satu trial acak TIDAK mengenai daerah bagus = 0,95. Peluang n trial semuanya meleset = 0,95^n. Untuk keyakinan 95 persen mengenai minimal satu konfigurasi bagus: 1 - 0,95^n = 0,95, sehingga n = ln(0,05) / ln(0,95) = 58,4 — dibulatkan 59 trial. Angka ini independen dari jumlah hyperparameter — tetapi hati-hati membaca 'tanpa biaya tambahan': yang tidak bertambah hanyalah JUMLAH trial untuk keyakinan yang sama. Biaya TIAP trial bisa membesar di ruang besar (model lebih kompleks, data lebih banyak), dan di ruang berdimensi sangat tinggi daerah '5 persen teratas' bisa berisi konfigurasi yang secara absolut tetap buruk — 59 trial menjamin kamu mengenai 5 persen teratas ruang, bukan menjamin 5 persen teratas itu bagus.",
         "Grid search tetap punya tempat: bila ruangnya kecil (2-3 hyperparameter, sedikit nilai) dan kamu butuh peta lengkap untuk laporan. Tetapi sebagai default, mulai dari random search 59 trial — murah, dan memberi baseline yang jujur sebelum metode yang lebih pintar.",
       ],
       tasks: [],
@@ -116,7 +116,7 @@ export const mle31: V2Lesson = {
         "Skenario 2 — Trial mahal (lebih dari 10 menit), dimensi di bawah 20. → Bayesian optimization. Alasan: tiap trial berharga; surrogate menghemat trial yang terbuang.",
         "Skenario 3 — Trial murah, dimensi tinggi (lebih dari 20). → Random search 59 trial + successive halving. Alasan: BO tidak berskala; random + halving memberi 80 persen manfaat dengan 20 persen kerumitan.",
         "Skenario 4 — Model harus bisa dijelaskan ke regulator (kredit, asuransi). → Tuning manual atas model yang bisa dijelaskan (regresi logistik, pohon dangkal). Alasan: AutoML yang mengembalikan ensemble 40 model tidak bisa dipertahankan di depan auditor — kemenangan skor bukan kemenangan.",
-        "Skenario 5 — Data kecil (di bawah 1.000 baris). → Jangan AutoML. Alasan: pencarian atas ruang besar dengan data kecil = overfitting pada validasi; model sederhana + validasi silang yang ketat menang.",
+        "Skenario 5 — Data kecil (di bawah 1.000 baris). → AutoML berisiko tinggi; bila tetap dipakai, batasi ruang pencarian seminimal mungkin, pakai validasi silang berulang, dan utamakan model sederhana. Alasan: pencarian atas ruang besar dengan data kecil mudah overfitting pada validasi — tetapi ini soal DERAJAT risiko, bukan larangan mutlak: AutoML dengan ruang kecil dan validasi yang ketat masih bisa memberi baseline yang jujur. Aturan praktisnya: makin kecil data, makin kecil ruang pencarian yang boleh dijelajahi.",
         "Aturan praktis: AutoML adalah alat baseline dan alat kehabisan waktu — bukan pengganti pemahaman. Terima hasilnya hanya bila: skor stabil di validasi kedua (bukan hanya leaderboard), fitur teratas masuk akal, dan preprocessing-nya bisa dijelaskan dalam satu paragraf.",
       ],
       tasks: [],
@@ -124,7 +124,7 @@ export const mle31: V2Lesson = {
         title: "Leaderboard bukan vonis",
         body: "Selisih AUC 0,903 vs 0,901 di leaderboard AutoML hampir selalu noise — bukan keunggulan model. Jangan memilih pemenang berdasarkan selisih 0,002; pilih berdasarkan stabilitas (varians antar lipatan), kesederhanaan, dan biaya inferensi. Model peringkat 3 yang stabil dan murah hampir selalu lebih baik di produksi daripada peringkat 1 yang rapuh dan mahal.",
       },
-      reference: "AutoML untuk baseline cepat; manual untuk model yang harus dijelaskan; data kecil jangan AutoML.",
+      reference: "AutoML untuk baseline cepat; manual untuk model yang harus dijelaskan; data kecil = ruang pencarian kecil + validasi ketat.",
     },
     {
       id: "kuis",
@@ -175,7 +175,7 @@ export const mle31: V2Lesson = {
           options: [
             { text: "Trial murah dan dimensi di atas 20", why: "Salah: itu wilayah random search — surrogate BO tidak berskala ke dimensi tinggi." },
             { text: "Trial mahal (lebih dari 10 menit) dan dimensi di bawah 20", why: "Tepat: tiap trial berharga, surrogate menghemat trial yang terbuang.", correct: true },
-            { text: "Data kecil di bawah 1.000 baris", why: "Salah: data kecil jangan AutoML sama sekali — pencarian besar = overfitting validasi." },
+            { text: "Data kecil di bawah 1.000 baris", why: "Salah: data kecil bukan larangan mutlak — risikonya tinggi dan ruang pencarian harus dibatasi, tetapi BO dengan ruang kecil dan validasi ketat masih bisa dipakai.", correct: false },
             { text: "Selalu — BO mengalahkan semua metode lain", why: "Salah: tidak ada metode universal; BO kalah di dimensi tinggi dan trial murah." },
           ],
         },

@@ -43,9 +43,10 @@ export const bcd34: V2Lesson = {
       title: "Tiga model arsitektur: siapa memegang ledger?",
       prose: [
         "Model LANGSUNG: bank sentral memegang ledger dan melayani pengguna akhir secara langsung — setiap warga punya akun di bank sentral. Keunggulannya: kontrol penuh dan tidak ada perantara. Kelemahannya: bank sentral harus membangun layanan pelanggan untuk puluhan juta orang — pekerjaan yang bukan keahliannya, plus risiko disintermediasi bank komersial bila semua orang memindahkan dananya ke bank sentral.",
-        "Model PERANTARA (two-tier): bank sentral menerbitkan CBDC ke bank komersial dan penyedia pembayaran, dan merekalah yang melayani pengguna — mirip uang tunai hari ini, di mana bank sentral mencetak tetapi bank mendistribusikan. Keunggulannya: memakai infrastruktur yang sudah ada dan menjaga peran bank. Kelemahannya: bank sentral hanya melihat data agregat perantara, bukan transaksi individu.",
+        "Model PERANTARA (two-tier): bank sentral menerbitkan CBDC ke bank komersial dan penyedia pembayaran, dan merekalah yang melayani pengguna — mirip uang tunai hari ini, di mana bank sentral mencetak tetapi bank mendistribusikan. Keunggulannya: memakai infrastruktur yang sudah ada dan menjaga peran bank. Kelemahannya: dalam model perantara MURNI, bank sentral hanya melihat data agregat perantara, bukan transaksi individu — kecuali desainnya memberi bank sentral salinan ledger, dan itu sudah masuk wilayah model hibrida.",
         "Model HIBRIDA: perantara melayani pengguna, tetapi bank sentral menyimpan salinan ledger dan bisa mengambil alih bila perantara gagal — cadangan yang membuat sistem tahan terhadap kegagalan satu perantara. Sebagian besar proyek percontohan di dunia memakai perantara atau hibrida, bukan langsung — karena pertanyaan 'siapa melayani pengguna' dijawab dengan 'yang sudah melayani mereka hari ini'.",
         "Satu dimensi yang sering luput: offline. Uang tunai bekerja tanpa listrik dan tanpa sinyal. CBDC ritel yang baik harus punya mode offline — kartu atau dompet yang menyimpan nilai dan bertransaksi lewat NFC, lalu sinkron saat kembali online. Tanpa mode offline, CBDC gagal di daerah tanpa sinyal dan saat bencana — persis saat uang tunai paling dibutuhkan. Desain offline berarti batas nilai dan risiko double-spend yang harus dikelola — bukan fitur gratis.",
+        "Ritel vs grosir vs stablecoin vs e-money — empat instrumen, empat klaim yang berbeda. CBDC ritel adalah kewajiban bank sentral untuk publik; CBDC grosir adalah kewajiban bank sentral antar-bank untuk setelmen; stablecoin adalah kewajiban penerbit SWASTA yang dijaminkan aset; e-money adalah klaim ke penerbit swasta (saldo dompet/uang elektronik). Yang membedakan bukan 'digital atau tidak' — semuanya digital — melainkan SIAPA yang berutang kepadamu bila penerbit gagal, dan seberapa besar risikonya.",
       ],
       tasks: [],
       note: {
@@ -77,9 +78,9 @@ export const bcd34: V2Lesson = {
       title: "Lab: mengukur adopsi, pangsa, dan velositas CBDC",
       prose: [
         "Lab ini membangun pengukur jejak CBDC: dari pengguna, populasi dewasa, saldo beredar, uang primer, dan nilai transaksi bulanan — hitung adopsi, pangsa terhadap uang primer, dan velositas.",
-        "Hitung dulu di kepala. Adopsi: 8,4 juta pengguna dibagi 70 juta penduduk dewasa dikali 100 sama dengan 12 persen. Pangsa terhadap uang primer: 60 triliun dibagi 1.500 triliun dikali 100 sama dengan 4 persen. Velositas: 240 triliun transaksi bulanan dibagi 60 triliun saldo sama dengan 4,0 kali per bulan — tiap rupiah digital berpindah tangan rata-rata 4 kali sebulan.",
-        "Tugas lab: tulis fungsi yang menerima pengguna, populasi_dewasa, saldo, uang_primer, dan transaksi_bulanan — lalu mencetak tiga angka: adopsi_persen, pangsa_persen, velositas. Tiga angka ini adalah dashboard minimal untuk menjawab 'apakah CBDC ini sudah berarti?' — adopsi di bawah 5 persen berarti percontohan; pangsa di atas 10 persen berarti pergeseran moneter; velositas di atas 1 berarti uangnya dipakai, bukan ditimbun.",
-        "Setelah lolos, coba eksperimen: naikkan pengguna menjadi 35 juta (adopsi 50 persen) dan lihat adopsi melonjak — lalu tanyakan: bila adopsi 50 persen tetapi velositas tetap 4,0, apa yang berubah bagi bank komersial yang kehilangan setengah dana murah nasabahnya?",
+        "Hitung dulu di kepala. Adopsi: 8,4 juta pengguna dibagi 70 juta penduduk dewasa dikali 100 sama dengan 12 persen. Pangsa terhadap uang primer: 60 triliun dibagi 1.500 triliun dikali 100 sama dengan 4 persen. Velositas: 240 triliun transaksi bulanan dibagi 60 triliun saldo sama dengan 4,0 kali per bulan — tiap rupiah digital berpindah tangan rata-rata 4 kali sebulan. Catatan: 60 triliun di sini dibaca sebagai saldo RATA-RATA selama sebulan — bila yang dipakai saldo akhir bulan, velositasnya bias bila saldo berfluktuasi dalam sebulan itu.",
+        "Tugas lab: tulis fungsi yang menerima pengguna, populasi_dewasa, saldo, uang_primer, dan transaksi_bulanan — lalu mencetak tiga angka: adopsi_persen, pangsa_persen, velositas. Tiga angka ini adalah dashboard minimal untuk menjawab 'apakah CBDC ini sudah berarti?' — adopsi di bawah 5 persen berarti percontohan awal; 5 sampai 50 persen berarti adopsi berjalan tetapi belum arus utama; di atas 50 persen berarti arus utama. Pangsa di atas 10 persen berarti pergeseran moneter; velositas di atas 1 berarti uangnya dipakai, bukan ditimbun.",
+        "Setelah lolos, coba eksperimen: naikkan pengguna menjadi 35 juta (adopsi 50 persen) dan lihat adopsi melonjak — lalu tanyakan: bila adopsi 50 persen tetapi velositas tetap 4,0, apa yang berubah bagi bank komersial? Hati-hati: adopsi 50 persen BUKAN berarti setengah dana nasabah pindah — berapa rupiah yang benar-benar pindah hanya bisa dijawab dari pangsa saldo, bukan dari adopsi.",
       ],
       tasks: [
         { id: "t1", text: "Hitung adopsi CBDC sebagai persen penduduk dewasa" },
@@ -88,7 +89,7 @@ export const bcd34: V2Lesson = {
       ],
       expected: "adopsi_persen=12.0\npangsa_persen=4.0\nvelositas=4.0",
       hints: [
-        "Adopsi persen = pengguna dibagi populasi_dewasa, dikali 100.",
+        "Adopsi persen = pengguna dibagi populasi_dewasa, dikali 100. Bulatkan ke 1 desimal agar 12,0 tampil bersih.",
         "Pangsa persen = saldo dibagi uang_primer, dikali 100.",
         "Velositas = transaksi_bulanan dibagi saldo — tanpa dikali 100.",
         "Satuan harus konsisten: semua dalam triliun rupiah, atau semua dalam juta jiwa.",
@@ -96,11 +97,11 @@ export const bcd34: V2Lesson = {
       code: {
         starter: `# Pengukur jejak CBDC: adopsi, pangsa, velositas (satuan triliun Rp / juta jiwa).\npengguna = 8.4  # juta\npopulasi_dewasa = 70.0  # juta\nsaldo = 60.0  # triliun Rp\nuang_primer = 1500.0  # triliun Rp\ntransaksi_bulanan = 240.0  # triliun Rp\n\n# TULIS KODEMU: hitung tiga angka jejak CBDC di bawah ini.\n# Cetak, per baris: adopsi_persen, pangsa_persen, velositas.\n\n\npengukur_cbdc(pengguna, populasi_dewasa, saldo, uang_primer, transaksi_bulanan)`,
         lockLines: 5,
-        solution: `# Pengukur jejak CBDC: adopsi, pangsa, velositas (satuan triliun Rp / juta jiwa).\npengguna = 8.4  # juta\npopulasi_dewasa = 70.0  # juta\nsaldo = 60.0  # triliun Rp\nuang_primer = 1500.0  # triliun Rp\ntransaksi_bulanan = 240.0  # triliun Rp\n\n\ndef pengukur_cbdc(pengguna, populasi_dewasa, saldo, uang_primer, transaksi_bulanan):\n    adopsi_persen = pengguna / populasi_dewasa * 100\n    pangsa_persen = saldo / uang_primer * 100\n    velositas = transaksi_bulanan / saldo\n    print(f"adopsi_persen={adopsi_persen}")\n    print(f"pangsa_persen={pangsa_persen}")\n    print(f"velositas={velositas}")\n\n\npengukur_cbdc(pengguna, populasi_dewasa, saldo, uang_primer, transaksi_bulanan)`,
+        solution: `# Pengukur jejak CBDC: adopsi, pangsa, velositas (satuan triliun Rp / juta jiwa).\npengguna = 8.4  # juta\npopulasi_dewasa = 70.0  # juta\nsaldo = 60.0  # triliun Rp\nuang_primer = 1500.0  # triliun Rp\ntransaksi_bulanan = 240.0  # triliun Rp\n\n\ndef pengukur_cbdc(pengguna, populasi_dewasa, saldo, uang_primer, transaksi_bulanan):\n    adopsi_persen = pengguna / populasi_dewasa * 100\n    pangsa_persen = saldo / uang_primer * 100\n    velositas = transaksi_bulanan / saldo\n    print(f"adopsi_persen={round(adopsi_persen, 1)}")\n    print(f"pangsa_persen={pangsa_persen}")\n    print(f"velositas={velositas}")\n\n\npengukur_cbdc(pengguna, populasi_dewasa, saldo, uang_primer, transaksi_bulanan)`,
         checks: [
-          { kind: "stdout_matches", task: "t1", pattern: "adopsi_persen=12.0", label: "Adopsi 12 persen", msg: "8,4 / 70 x 100 = 12 persen. Masih percontohan — di bawah ambang 50 persen." },
+          { kind: "stdout_matches", task: "t1", pattern: "adopsi_persen=12.0", label: "Adopsi 12 persen", msg: "8,4 / 70 x 100 = 12 persen. Adopsi berjalan (5–50 persen) — sudah lewat percontohan awal, belum arus utama (ambang 50 persen)." },
           { kind: "stdout_matches", task: "t2", pattern: "pangsa_persen=4.0", label: "Pangsa 4 persen", msg: "60 / 1.500 x 100 = 4 persen dari uang primer. Kecil — belum pergeseran moneter." },
-          { kind: "stdout_matches", task: "t3", pattern: "velositas=4.0", label: "Velositas 4,0", msg: "240 / 60 = 4,0 kali per bulan. Uangnya dipakai berputar, bukan ditimbun." },
+          { kind: "stdout_matches", task: "t3", pattern: "velositas=4.0", label: "Velositas 4,0", msg: "240 / 60 = 4,0 kali per bulan (saldo rata-rata sebulan). Uangnya dipakai berputar, bukan ditimbun." },
         ],
       },
       reference: "Adopsi 12 persen; pangsa 4 persen; velositas 4,0 kali per bulan.",
@@ -111,7 +112,7 @@ export const bcd34: V2Lesson = {
       title: "Peta data: apa yang hilang dan apa yang muncul",
       prose: [
         "Tiga hal hilang bila pembayaran pindah ke rel CBDC tertutup. Pertama, granularitas publik: aliran stablecoin hari ini bisa dilacak siapa pun sampai ke dompet; di rel tertutup, analis luar hanya mendapat agregat resmi. Kedua, komparabilitas: tiap bank sentral menerbitkan statistik dengan definisi sendiri — 'transaksi CBDC' di satu negara belum tentu sama dengan di negara lain. Ketiga, sinyal dini: pedagang dan analis yang hari ini membaca arus on-chain sebagai sinyal pasar kehilangan sumbernya.",
-        "Tiga hal muncul sebagai gantinya. Pertama, data resmi yang lebih lengkap: bank sentral melihat seluruh transaksi di relnya — distribusi, kecepatan, dan pola yang tidak pernah terlihat dari luar. Kedua, statistik baru: adopsi per wilayah, velositas per segmen, dan perpindahan dari tunai ke digital — ukuran yang berguna untuk kebijakan moneter. Ketiga, pertanyaan baru tentang akses: siapa boleh mengakses data transaksi individu, dengan perlindungan apa, dan untuk tujuan apa.",
+        "Tiga hal muncul sebagai gantinya. Pertama, data resmi yang lebih lengkap: bank sentral — dalam model langsung atau hibrida, di mana ia memegang ledger — melihat seluruh transaksi di relnya — distribusi, kecepatan, dan pola yang tidak pernah terlihat dari luar. Dalam model perantara murni, yang ia lihat hanyalah agregat dari perantara. Kedua, statistik baru: adopsi per wilayah, velositas per segmen, dan perpindahan dari tunai ke digital — ukuran yang berguna untuk kebijakan moneter. Ketiga, pertanyaan baru tentang akses: siapa boleh mengakses data transaksi individu, dengan perlindungan apa, dan untuk tujuan apa.",
         "Aturan kerja analis di era CBDC: catat SUMBER tiap angka — 'data rantai publik', 'statistik bank sentral', atau 'survei' — dan jangan membandingkan angka dari sumber berbeda seolah setara. Laporan yang menulis 'transaksi digital naik 40 persen' tanpa menyebut apakah itu rantai publik atau rel tertutup adalah laporan yang mencampur dua dunia.",
       ],
       tasks: [],
@@ -127,8 +128,8 @@ export const bcd34: V2Lesson = {
       title: "Mini-case: analis membaca laporan CBDC pertama",
       prose: [
         "Bank sentral menerbitkan laporan triwulan pertama rupiah digital: adopsi 12 persen, pangsa 4 persen, velositas 4,0. Media menulis 'rupiah digital meledak'. Analis di sebuah bank komersial membaca lebih dalam: 12 persen adopsi terkonsentrasi di dua kota besar; velositas 4,0 didorong transaksi antarbank, bukan ritel; dan pangsa 4 persen berarti 96 persen uang primer masih tunai dan giro.",
-        "Ia menulis memo tiga baris: (1) adopsi ritel masih percontohan — jangan alokasikan anggaran transformasi berdasarkan angka nasional; (2) velositas didorong grosir — pisahkan ritel dan grosir sebelum menyimpulkan 'masyarakat memakai'; (3) pantau per kuartal dengan tiga angka yang sama — adopsi, pangsa, velositas — dan waspadai lonjakan adopsi tanpa lonjakan velositas, tanda uangnya dipegang, bukan dipakai.",
-        "Memo itu menyelamatkan bank dari dua kesalahan: membangun produk ritel CBDC untuk pasar yang belum ada, dan mengabaikan pergeseran dana murah yang akan datang bila adopsi mencapai 50 persen. Analis yang membaca angka dengan sumbernya — bukan dengan headline-nya — adalah analis yang dibayar untuk berpikir.",
+        "Ia menulis memo tiga baris: (1) adopsi ritel masih berjalan dan terkonsentrasi di dua kota — belum arus utama; jangan alokasikan anggaran transformasi berdasarkan angka nasional; (2) velositas didorong grosir — pisahkan ritel dan grosir sebelum menyimpulkan 'masyarakat memakai'; (3) pantau per kuartal dengan tiga angka yang sama — adopsi, pangsa, velositas — dan waspadai lonjakan adopsi tanpa lonjakan velositas, tanda uangnya dipegang, bukan dipakai.",
+        "Memo itu menyelamatkan bank dari dua kesalahan: membangun produk ritel CBDC untuk pasar yang belum ada, dan mengabaikan pergeseran dana murah yang akan datang bila adopsi mencapai 50 persen dan pangsa saldo ikut naik — adopsi sendiri tidak membuktikan berapa rupiah yang pindah. Analis yang membaca angka dengan sumbernya — bukan dengan headline-nya — adalah analis yang dibayar untuk berpikir.",
       ],
       tasks: [],
       note: {
@@ -193,8 +194,8 @@ export const bcd34: V2Lesson = {
         {
           q: "Adopsi CBDC naik ke 50 persen tetapi velositas tetap 4,0. Apa kesimpulan yang benar untuk bank komersial?",
           options: [
-            { text: "Tidak ada dampak — velositas tidak berubah", why: "Salah: velositas mengukur perputaran, bukan kepemilikan. Adopsi 50 persen berarti setengah dana nasabah pindah ke bank sentral." },
-            { text: "Bank kehilangan dana murah dalam jumlah besar — pantau pergeseran dana, bukan hanya velositas", why: "Tepat: adopsi mengukur SIAPA memegang uang; velositas mengukur seberapa cepat ia berputar. Keduanya harus dibaca bersama.", correct: true },
+            { text: "Tidak ada dampak — velositas tidak berubah", why: "Salah: velositas mengukur perputaran, bukan kepemilikan — dan adopsi 50 persen BUKAN berarti setengah dana pindah: adopsi mengukur berapa ORANG memakai, bukan berapa RUPIAH yang pindah. Dana yang pindah diukur dari pangsa saldo, bukan adopsi." },
+            { text: "Bank kehilangan dana murah dalam jumlah besar — pantau pergeseran dana, bukan hanya velositas", why: "Tepat: adopsi mengukur berapa orang memakai; velositas mengukur seberapa cepat uang berputar; pangsa saldo mengukur berapa rupiah yang pindah. Ketiganya harus dibaca bersama — adopsi naik saja belum membuktikan berapa dana yang pindah.", correct: true },
             { text: "Bank mendapat untung karena transaksi lebih cepat", why: "Salah: kecepatan transaksi bukan keuntungan bank — dana yang pindah adalah kerugian pendanaan murah." },
             { text: "CBDC gagal karena velositas tidak naik", why: "Salah: velositas stabil 4,0 berarti uangnya dipakai normal — bukan gagal." },
           ],

@@ -43,13 +43,13 @@ export const mk35: V2Lesson = {
       title: "ROAS marginal dan diminishing returns",
       prose: [
         "ROAS marginal sama dengan tambahan revenue dibagi tambahan spend. Google: spend 100 ke 150 (tambah 50), revenue 140 ke 196 (tambah 56) — marginal 56 dibagi 50 sama dengan 1,12. Meta: spend 100 ke 150 (tambah 50), revenue 80 ke 95 (tambah 15) — marginal 15 dibagi 50 sama dengan 0,30. Rupiah berikutnya di Google menghasilkan Rp1,12; di Meta hanya Rp0,30. Alokasi yang benar memindahkan rupiah dari Meta ke Google sampai marginal keduanya setara.",
-        "Diminishing returns menjelaskan kenapa marginal turun: audiens terbaik sudah dijangkau, lelang makin mahal, frekuensi naik dan kejenuhan datang. Channel yang marginalnya 1,12 di spend 150 juta belum tentu 1,12 di spend 500 juta — itulah kenapa alokasi tidak boleh 'semua ke Google' sekaligus. Naikkan bertahap, ukur marginal tiap langkah, hentikan saat marginal mendekati 1,0 (atau di bawah hurdle yang disepakati).",
+        "Diminishing returns menjelaskan kenapa marginal turun: audiens terbaik sudah dijangkau, lelang makin mahal, frekuensi naik dan kejenuhan datang. Channel yang marginalnya 1,12 di spend 150 juta belum tentu 1,12 di spend 500 juta — itulah kenapa alokasi tidak boleh 'semua ke Google' sekaligus. Naikkan bertahap, ukur marginal tiap langkah, hentikan saat marginal mendekati titik impas — pada margin kontribusi 50 persen, titik impasnya adalah ROAS marginal 2,0 (1 dibagi 0,5): tiap Rp1 spend harus menghasilkan Rp2 revenue agar kontribusi menutup spend-nya. ROAS 1,0 hanya impas bila margin kontribusi 100 persen — yang tidak pernah terjadi.",
         "Tiga cara alokasi yang salah: bagi rata (mengabaikan efisiensi — Meta yang ROAS 0,8 tetap dapat jatah), proporsional ROAS rata-rata (mengabaikan diminishing returns — channel yang sudah jenuh tetap dipompa), dan semua ke satu channel (mengabaikan kejenuhan dan risiko). Cara yang benar: greedy marginal bertahap dengan validasi.",
       ],
       tasks: [],
       note: {
-        title: "Marginal 1,0 adalah titik berhenti, bukan target",
-        body: "Bila marginal di bawah 1,0, rupiah tambahan menghasilkan revenue lebih kecil dari biayanya — bakar uang. Tetapi berhenti tepat di 1,0 juga belum tentu optimal: bila ada channel lain dengan marginal 1,5, rupiah itu lebih baik pindah. Aturan berhenti: marginal setara antar channel, dan semuanya di atas hurdle yang disepakati.",
+        title: "Marginal 2,0 adalah titik berhenti (margin kontribusi 50 persen), bukan target",
+        body: "Bila marginal di bawah 2,0 (pada margin kontribusi 50 persen), rupiah tambahan menghasilkan kontribusi lebih kecil dari biayanya — bakar uang. Tetapi berhenti tepat di 2,0 juga belum tentu optimal: bila ada channel lain dengan marginal 2,5, rupiah itu lebih baik pindah. Aturan berhenti: marginal setara antar channel, dan semuanya di atas hurdle yang disepakati — hurdle itu sendiri harus dihitung dari margin kontribusi, bukan ditebak.",
       },
       reference: "Marginal Google 1,12; Meta 0,30. Pindahkan rupiah sampai marginal setara. Hentikan bila marginal di bawah hurdle.",
     },
@@ -58,12 +58,16 @@ export const mk35: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Alokasi greedy dan validasi bertahap",
       prose: [
-        "Algoritma greedy: bagi budget menjadi potongan (misalnya Rp50 juta), tiap potongan diberikan ke channel dengan ROAS marginal tertinggi saat itu, hitung ulang marginal setelah tiap potongan, ulangi sampai budget habis. Greedy bekerja karena marginal turun perlahan — potongan kecil membuat kesalahan kecil. Bila marginal diukur dengan benar, greedy mendekati optimal tanpa perlu menyelesaikan optimasi matematis penuh.",
-        "Validasi bertahap adalah pengaman greedy: naikkan spend 20 persen per 2 minggu, pantau ROAS marginal (bukan rata-rata), hentikan penambahan bila marginal turun di bawah 1,2. Eksperimen ini yang membedakan alokasi dari tebakan: tiap kenaikan adalah uji, bukan komitmen.",
+        "Algoritma greedy: bagi budget menjadi potongan (misalnya Rp50 juta), tiap potongan diberikan ke channel dengan ROAS marginal tertinggi saat itu, hitung ulang marginal setelah tiap potongan, ulangi sampai budget habis. Greedy bekerja karena marginal turun perlahan — potongan kecil membuat kesalahan kecil. Tetapi greedy adalah HEURISTIK, bukan jaminan optimal: ia mendekati optimal bila marginal menurun mulus (diminishing returns yang halus), tanpa minimum spend, tanpa interaksi antar channel, dan tanpa diskontinuitas. Bila ada minimum spend, interaksi (channel A memperkuat B), atau loncatan diskret, greedy bisa terjebak di optimum lokal — dan optimasi penuh tetap dibutuhkan.",
+        "Validasi bertahap adalah pengaman greedy: naikkan spend 20 persen per 2 minggu, pantau ROAS marginal (bukan rata-rata), hentikan penambahan bila marginal turun di bawah 2,2 (hurdle di atas titik impas 2,0 pada margin kontribusi 50 persen). Eksperimen ini yang membedakan alokasi dari tebakan: tiap kenaikan adalah uji, bukan komitmen.",
         "Satu peringatan: marginal yang diukur dari data observasional bisa bias — channel yang naik spend-nya bersamaan dengan musim ramai akan terlihat marginal tinggi padahal musimlah penyebabnya. Kalibrasi berkala dengan geo-experiment (naikkan spend di beberapa kota, tahan di kota lain) adalah satu-satunya cara memastikan marginal itu kausal — pelajaran yang sama seperti MK12 tentang validasi atribusi.",
       ],
       tasks: [],
-      reference: "Greedy: potongan 50 juta ke marginal tertinggi, hitung ulang, ulangi. Validasi: naik 20 persen per 2 minggu, hentikan bila marginal di bawah 1,2.",
+      note: {
+        title: "Contoh greedy selangkah demi selangkah (angka ilustrasi)",
+        body: "Potongan Rp50 juta pertama ke Google (marginal 1,12); potongan kedua ke Google lagi (marginal turun menjadi 1,05); potongan ketiga ke TikTok (marginal 1,00 — kini di atas Google yang sudah turun); potongan keempat kembali ke Google (0,98); Meta (0,30) tidak pernah mendapat potongan selama marginalnya paling rendah. Tiap potongan mengharuskan marginal dihitung ulang — greedy yang tidak menghitung ulang adalah alokasi proporsional yang menyamar.",
+      },
+      reference: "Greedy: potongan 50 juta ke marginal tertinggi, hitung ulang, ulangi. Validasi: naik 20 persen per 2 minggu, hentikan bila marginal di bawah 2,2 (hurdle di atas titik impas 2,0 pada margin kontribusi 50 persen).",
     },
     {
       id: "lab-marginal",
@@ -73,7 +77,7 @@ export const mk35: V2Lesson = {
         "Lab ini menghitung ROAS marginal Google dan Meta dari dua titik spend dan revenue.",
         "Hitung dulu di kepala. Google: revenue tambah 196 dikurangi 140 sama dengan 56; spend tambah 150 dikurangi 100 sama dengan 50; marginal 56 dibagi 50 sama dengan 1,12. Meta: revenue tambah 95 dikurangi 80 sama dengan 15; spend tambah 50; marginal 15 dibagi 50 sama dengan 0,30.",
         "Tugas lab: tulis fungsi yang menerima spend dan revenue awal dan akhir tiap channel — lalu mencetak dua angka: marginal_google dan marginal_meta.",
-        "Setelah lolos, coba eksperimen: ubah revenue akhir Meta menjadi 130 dan lihat marginalnya naik menjadi 1,0 — tepat di titik impas. Itulah sensitivitas keputusan alokasi terhadap satu angka.",
+        "Setelah lolos, coba eksperimen: ubah revenue akhir Meta menjadi 180 dan lihat marginalnya naik menjadi 2,0 — tepat di titik impas pada margin kontribusi 50 persen ((180 - 80) / 50 = 2,0). Itulah sensitivitas keputusan alokasi terhadap satu angka.",
       ],
       tasks: [
         { id: "t1", text: "Hitung marginal_google" },
@@ -100,7 +104,7 @@ export const mk35: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Mini-case: Rp500 juta yang berhenti dibagi rata",
       prose: [
-        "Kembali ke KirimCepat. Alokasi baru memakai greedy marginal: Google Rp250 juta, TikTok Rp175 juta, Meta Rp75 juta (hanya retargeting yang ROAS-nya lebih baik) — total tetap Rp500 juta. Kenaikan dilakukan bertahap per 2 minggu dengan pantauan marginal: bila ROAS Google turun di bawah 1,2, penambahan dihentikan.",
+        "Kembali ke KirimCepat. Alokasi baru memakai greedy marginal: Google Rp250 juta, TikTok Rp175 juta, Meta Rp75 juta (hanya retargeting yang ROAS-nya lebih baik) — total tetap Rp500 juta. Kenaikan dilakukan bertahap per 2 minggu dengan pantauan marginal: bila ROAS Google turun di bawah 2,2, penambahan dihentikan — hurdle 2,2 berada di atas titik impas 2,0 pada margin kontribusi 50 persen.",
         "Hasil kuartal: revenue naik 18 persen dengan spend yang sama. Meta yang dikurangi tidak protes — datanya sendiri menunjukkan marginal 0,30. Dan geo-experiment kuartal berikutnya mengonfirmasi marginal Google memang kausal, bukan musim.",
         "Keputusan rapat: alokasi budget memakai ROAS marginal, bukan rata-rata — dan setiap alokasi besar wajib disertai rencana validasi bertahap.",
       ],

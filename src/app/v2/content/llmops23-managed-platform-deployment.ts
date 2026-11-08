@@ -44,7 +44,7 @@ export const llmops23: V2Lesson = {
       prose: [
         "Total biaya bulanan = tarif per jam x 730 jam + tarif per request x volume. Hitung tiga cloud untuk 1 juta request. Cloud A: 0,90 x 730 = $657 + 1.000.000 x 0,00005 = $50 — total $707. Cloud B: 1,10 x 730 = $803 + $30 — total $833. Cloud C: 0,75 x 730 = $547,50 + $80 — total $627,50. Urutan di 1 juta: C termurah, lalu A, lalu B.",
         "Tetapi urutan berubah dengan volume. Titik impas A vs C: 657 + 0,00005V = 547,5 + 0,00008V — selisih tarif jam $109,50 dibagi selisih tarif request $0,00003 = 3.650.000 request. Di bawah 3,65 juta, C menang (tarif jam rendah); di atasnya, A menang (tarif request rendah). Bila volume NusaBank tumbuh ke 10 juta, C menjadi $1.347,50 sementara A $1.157 — keputusan yang benar di 1 juta menjadi salah di 10 juta. Itulah mengapa kontrak cloud harus di-review tiap kuartal, bukan sekali seumur hidup.",
-        "Tiga jenis endpoint managed. Real-time: selalu menyala, latensi rendah, bayar per jam — untuk trafik interaktif. Batch transform: jalan terjadwal atas file, mati setelah selesai — untuk 1 juta request yang tidak butuh jawaban instan, 40-60 persen lebih murah. Serverless inference: skala ke nol saat sepi, bayar per request + durasi — untuk trafik sporadis. Aturan: trafik stabil = real-time; batch = batch; sporadis = serverless. Memakai real-time untuk beban batch adalah membakar uang.",
+        "Tiga jenis endpoint managed. Real-time: selalu menyala, latensi rendah, bayar per jam — untuk trafik interaktif. Batch transform: jalan terjadwal atas file, mati setelah selesai — untuk 1 juta request yang tidak butuh jawaban instan, pada contoh tarif lesson ini 40–60 persen lebih murah dari real-time. Angka itu ILUSTRASI, bukan jaminan — selisih riil bergantung tarif batch vs real-time di cloud-mu, utilisasi, dan durasi job; hitung dengan tarif resmi sebelum memutuskan. Serverless inference: skala ke nol saat sepi, bayar per request + durasi — untuk trafik sporadis. Aturan: trafik stabil = real-time; batch = batch; sporadis = serverless. Memakai real-time untuk beban batch adalah membakar uang.",
       ],
       tasks: [],
       note: {
@@ -109,9 +109,9 @@ export const llmops23: V2Lesson = {
       prose: [
         "Skenario 1 — Volume stabil 1 juta/bulan, tim kecil, data boleh di cloud. → Managed real-time. Alasan: operasi minimal, biaya terprediksi.",
         "Skenario 2 — Volume sporadis (sepi di malam hari, ramai di siang hari). → Serverless inference. Alasan: skala ke nol menghemat jam idle.",
-        "Skenario 3 — Volume besar (di atas 10 juta/bulan), tim punya keahlian GPU. → Self-host vLLM (LLMOps13). Alasan: di atas titik impas, self-host jauh lebih murah.",
+        "Skenario 3 — Volume besar (di atas 10 juta/bulan), tim punya keahlian GPU. → Self-host vLLM (LLMOps13). Alasan: di atas titik impas self-host BISA jauh lebih murah — tetapi itu klaim yang harus dihitung, bukan diasumsikan: total self-host = sewa GPU + gaji tim operasi + biaya downtime; bandingkan dengan tarif managed pada volume aktualmu sebelum pindah.",
         "Skenario 4 — Data sensitif, regulasi melarang keluar (UU PDP, perbankan). → Managed di region lokal atau self-host on-prem. Alasan: bukan soal biaya — soal kepatuhan.",
-        "Skenario 5 — Beban batch (1 juta request, tidak butuh jawaban instan). → Batch transform. Alasan: 40-60 persen lebih murah dari real-time.",
+        "Skenario 5 — Beban batch (1 juta request, tidak butuh jawaban instan). → Batch transform. Alasan: batch bisa 40–60 persen lebih murah dari real-time pada contoh tarif lesson ini — ilustrasi; hitung dengan tarif resmi cloud-mu.",
         "Aturan praktis: hitung total biaya di tiga volume (saat ini, 3x, 10x) sebelum memilih. Cloud yang termurah hari ini bisa menjadi yang termahal tahun depan — dan pindah cloud selalu lebih mahal dari yang diperkirakan.",
       ],
       tasks: [],
@@ -159,8 +159,8 @@ export const llmops23: V2Lesson = {
         {
           q: "Beban 1 juta request terjadwal, tidak butuh jawaban instan. Apa yang benar?",
           options: [
-            { text: "Real-time endpoint — selalu menyala", why: "Salah: membayar jam idle untuk beban batch adalah pemborosan 40-60 persen." },
-            { text: "Batch transform — 40-60 persen lebih murah", why: "Tepat: batch mati setelah selesai; tidak ada jam idle.", correct: true },
+            { text: "Real-time endpoint — selalu menyala", why: "Salah: membayar jam idle untuk beban batch adalah pemborosan — selisihnya pada contoh tarif lesson ini 40–60 persen, tetapi angka riil bergantung tarif cloud-mu." },
+            { text: "Batch transform — bisa jauh lebih murah (40–60 persen pada contoh tarif lesson ini)", why: "Tepat: batch mati setelah selesai; tidak ada jam idle. Angka 40–60 persen adalah ilustrasi dari contoh tarif lesson — hitung ulang dengan tarif resmi.", correct: true },
             { text: "Serverless — skala ke nol", why: "Salah: serverless untuk sporadis interaktif; batch terjadwal lebih murah lagi." },
             { text: "Self-host — selalu termurah", why: "Salah: self-host butuh tim GPU dan volume besar; untuk batch terjadwal, managed batch menang." },
           ],

@@ -103,7 +103,7 @@ export const wqb37: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Mini-case: agen yang mengejar momentum tanpa biaya",
       prose: [
-        "Agen di cerita pembuka menghasilkan return 3,33 persen per episode di simulasi — tetapi saat biaya transaksi dimasukkan (0,1 persen per trade, dan agen itu trading 40 kali per episode), return-nya jatuh menjadi minus 0,67 persen. Empat puluh trade dikali 0,1 persen sama dengan 4,0 persen biaya — lebih besar dari return kotornya. Agen itu tidak belajar trading; ia belajar cara membayar biaya dengan sangat efisien.",
+        "Agen di cerita pembuka menghasilkan return 3,33 persen per episode di simulasi — tetapi saat biaya transaksi dimasukkan (0,1 persen per trade, dan agen itu trading 40 kali per episode), return-nya jatuh menjadi minus 0,67 persen. Empat puluh trade dikali 0,1 persen sama dengan 4,0 persen biaya — DENGAN ASUMSI tiap trade memakai seluruh nilai portofolio sebagai basis. Bila tiap trade hanya memutar sebagian portofolio, biaya sebenarnya lebih kecil — hitung biaya pada basis yang sama dengan return-nya, dan tulis asumsi basis itu di samping angkanya. Agen itu tidak belajar trading; ia belajar cara membayar biaya dengan sangat efisien.",
         "Perbaikannya: reward diubah menjadi return bersih setelah biaya, dan action space dibatasi — agen hanya boleh mengubah posisi bila sinyalnya kuat, bukan tiap tick. Setelah retraining, agen itu trading 6 kali per episode dengan return bersih 1,8 persen. Lebih kecil dari 3,33 persen yang palsu — tetapi positif dan nyata.",
         "Pelajaran yang dicatat: simulasi tanpa biaya adalah simulasi yang berbohong, dan reward tanpa biaya adalah undangan untuk overtrading. Setiap paper RL trading yang tidak menyebut biaya transaksi harus dibaca dengan curiga — dan setiap agen yang diuji tanpa biaya harus diuji ulang dengan biaya sebelum satu rupiah pun dipertaruhkan.",
       ],
@@ -112,7 +112,7 @@ export const wqb37: V2Lesson = {
         title: "Pembahasan",
         body: "Tiga hal yang membuat perbaikan ini benar. Pertama, biaya dimasukkan ke reward — bukan ke catatan kaki. Kedua, action space dibatasi agar agen tidak bisa overtrade. Ketiga, return yang lebih kecil tetapi bersih dipilih atas return besar yang palsu.",
       },
-      reference: "Return 3,33 persen kotor → minus 0,67 persen bersih (40 trade x 0,1 persen). Setelah perbaikan: 1,8 persen bersih.",
+      reference: "Return 3,33 persen kotor → minus 0,67 persen bersih (40 trade x 0,1 persen, asumsi tiap trade memakai seluruh portofolio). Setelah perbaikan: 1,8 persen bersih.",
     },
     {
       id: "kuis",
@@ -152,7 +152,7 @@ export const wqb37: V2Lesson = {
         {
           q: "Agen RL trading 40 kali per episode dengan biaya 0,1 persen per trade. Return kotor 3,33 persen. Berapa return bersihnya?",
           options: [
-            { text: "Minus 0,67 persen", why: "Tepat: 40 x 0,1 persen = 4,0 persen biaya; 3,33 - 4,0 = -0,67.", correct: true },
+            { text: "Minus 0,67 persen", why: "Tepat — dengan asumsi tiap trade memakai seluruh nilai portofolio: 40 x 0,1 persen = 4,0 persen biaya; 3,33 - 4,0 = -0,67.", correct: true },
             { text: "3,23 persen — biaya hanya sekali", why: "Salah: biaya dibayar per trade — 40 kali, bukan sekali." },
             { text: "3,33 persen — biaya tidak memengaruhi RL", why: "Salah: biaya memengaruhi semua strategi, termasuk RL." },
             { text: "7,33 persen — biaya menambah return", why: "Salah: biaya mengurangi return, bukan menambah." },

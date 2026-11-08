@@ -13,7 +13,7 @@ export const fdp14: V2Lesson = {
       title: "Tiga vendor, tiga harga, satu saham",
       prose: [
         "Sebuah tim riset membandingkan tiga penyedia market data untuk satu saham yang sama pada tanggal yang sama. Vendor A — terminal premium — Rp12 juta per bulan, cakupan 98 persen dari universe. Vendor B — API menengah — Rp8 juta per bulan, cakupan 92 persen. Vendor C — API publik plus engineering internal Rp3 juta — total Rp8 juta per bulan, cakupan 85 persen. Harga per poin cakupan: A Rp122.449, B Rp86.957, C Rp94.118. Vendor B ternyata paling murah per poin cakupan — dan tim itu hampir memilih A hanya karena namanya paling terkenal.",
-        "Tetapi harga per poin bukan satu-satunya ukuran. Vendor A menyesuaikan corporate action dalam semalam; vendor C butuh dua hari — dan dua hari itu berarti backtest yang memakai data C akan 'melihat' stock split sebagai crash 50 persen. Lesson ini mengajarkan cara memilih market data vendor dan API: cakupan, harga, penyesuaian corporate action, lisensi, dan satu pertanyaan yang paling sering dilupakan — apakah datanya boleh dipakai untuk apa yang akan kamu lakukan dengannya.",
+        "Tetapi harga per poin bukan satu-satunya ukuran. Vendor A menyesuaikan corporate action dalam semalam; vendor C butuh dua hari — dan dua hari itu berarti backtest yang memakai data C akan 'melihat' return −50 persen yang tidak pernah terjadi: harga pasca-split itu sendiri adalah harga perdagangan yang nyata; yang palsu adalah LOMPATAN −50 persen di deret harga yang tidak disesuaikan. Lesson ini mengajarkan cara memilih market data vendor dan API: cakupan, harga, penyesuaian corporate action, lisensi, dan satu pertanyaan yang paling sering dilupakan — apakah datanya boleh dipakai untuk apa yang akan kamu lakukan dengannya.",
       ],
       tasks: [],
       note: {
@@ -48,7 +48,7 @@ export const fdp14: V2Lesson = {
       tasks: [],
       note: {
         title: "Harga yang tidak disesuaikan adalah bom waktu",
-        body: "Stock split 2:1 tanpa penyesuaian terlihat sebagai harga jatuh 50 persen dalam sehari. Model yang membaca data itu akan 'membeli' saham yang sebenarnya tidak jatuh. Selalu verifikasi: apakah adjusted close tersedia, dan berapa lama jeda penyesuaiannya setelah corporate action terjadi.",
+        body: "Stock split 2:1 tanpa penyesuaian menampilkan return −50 persen dalam sehari yang tidak pernah terjadi — harga setelah split adalah harga perdagangan yang nyata, tetapi deret harga yang tidak disesuaikan menampilkan lompatan palsu. Model yang membaca data itu akan 'membeli' saham yang sebenarnya tidak jatuh. Selalu verifikasi: apakah adjusted close tersedia, dan berapa lama jeda penyesuaiannya setelah corporate action terjadi.",
       },
       reference: "Per poin cakupan: A Rp122.449, B Rp86.957, C Rp94.118. B termurah per poin.",
     },
@@ -105,7 +105,7 @@ export const fdp14: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Mini-case: backtest yang membeli crash palsu",
       prose: [
-        "Sebuah tim memakai vendor C untuk backtest sepuluh tahun. Hasilnya spektakuler: Sharpe 2,4 — jauh di atas tim lain. Penyelidikan menemukan penyebabnya: vendor C butuh dua hari untuk menyesuaikan stock split, dan dalam dua hari itu harga terlihat jatuh 50 persen — model 'membeli' di harga yang tidak pernah ada. Sharpe 2,4 itu adalah Sharpe dari crash palsu yang berulang puluhan kali dalam sepuluh tahun.",
+        "Sebuah tim memakai vendor C untuk backtest sepuluh tahun. Hasilnya spektakuler: Sharpe 2,4 — jauh di atas tim lain. Penyelidikan menemukan penyebabnya: vendor C butuh dua hari untuk menyesuaikan stock split, dan dalam dua hari itu deret harga menampilkan return −50 persen yang tidak pernah terjadi — model 'membeli' karena mengira harga jatuh, padahal harga pasca-split adalah harga perdagangan yang nyata. Sharpe 2,4 itu adalah Sharpe dari crash palsu yang berulang puluhan kali dalam sepuluh tahun.",
         "Perbaikannya: tim itu pindah ke vendor B sebagai primer — penyesuaian dalam semalam — dan memakai vendor C hanya sebagai cadangan untuk verifikasi. Backtest diulang: Sharpe jatuh ke 1,1. Mengecewakan, tetapi jujur. Dan satu aturan baru ditulis: setiap backtest wajib melewati cek corporate action — daftar split dan dividen dibandingkan dengan deret harga sebelum hasil apa pun dipercaya.",
         "Pelajaran yang dicatat: vendor termurah per poin bukan vendor termurah bila datanya menyesatkan. Harga data yang salah bukan harga langganannya — melainkan keputusan yang diambil dari data itu. Sharpe 2,4 yang palsu hampir membuat tim itu mengalokasikan modal nyata ke strategi yang tidak pernah ada.",
       ],
@@ -127,7 +127,7 @@ export const fdp14: V2Lesson = {
       summary: [
         "Empat kriteria: cakupan, harga per poin, kualitas penyesuaian, lisensi.",
         "Lab: B Rp86.957 per poin (termurah); selisih A-B Rp35.492.",
-        "Stock split tanpa penyesuaian terlihat sebagai crash 50 persen.",
+        "Stock split tanpa penyesuaian menampilkan return −50 persen yang palsu (harga pasca-split itu sendiri nyata).",
         "Strategi dua sumber: primer + cadangan yang independen.",
         "Provenance di setiap angka — harga tanpa asal tidak bisa dipertahankan.",
       ],
@@ -157,7 +157,7 @@ export const fdp14: V2Lesson = {
             { text: "Tidak ada — dua sumber tetap lebih baik dari satu", why: "Salah: dua sumber dari hulu yang sama adalah satu sumber dengan dua nama. Saat hulunya mati, keduanya mati." },
             { text: "Bukan dua sumber yang independen — cadangan gagal tepat saat dibutuhkan", why: "Tepat: independensi adalah syarat strategi dua sumber.", correct: true },
             { text: "Harganya menjadi dua kali lipat tanpa manfaat", why: "Salah: harga bukan masalah utamanya — masalahnya adalah kegagalan yang berkorelasi." },
-            { text: "Data keduanya pasti berbeda", why: "Salah: terbalik — data keduanya akan sama persis, termasuk kesalahannya." },
+            { text: "Data keduanya pasti berbeda", why: "Salah: terbalik — data keduanya akan SAMA, termasuk kesalahannya; tetapi 'sama persis' terlalu kuat — tiap vendor bisa berbeda dalam penyesuaian, pembulatan, dan jeda pemrosesan, jadi data dari hulu yang sama belum tentu identik baris demi baris." },
           ],
         },
         {

@@ -59,7 +59,7 @@ export const mk32: V2Lesson = {
       title: "KPI framework: CAC, LTV, dan rasio yang jujur",
       prose: [
         "CAC (Customer Acquisition Cost) sama dengan spend dibagi akuisisi baru: Rp150 juta dibagi 3.000 sama dengan Rp50.000 per pelanggan. LTV (Lifetime Value) adalah laba kotor yang diharapkan dari pelanggan selama hubungannya dengan perusahaan — di lesson ini Rp180.000. Rasio LTV banding CAC sama dengan 180.000 dibagi 50.000 sama dengan 3,6 — tiap Rp1 biaya akuisisi menghasilkan Rp3,6 nilai.",
-        "Aturan praktis: rasio di bawah 1 berarti bakar uang — tiap pelanggan baru merugikan. Rasio 1 sampai 3 berarti sehat tetapi rapuh — sedikit kenaikan CAC atau penurunan LTV membaliknya. Rasio di atas 3 berarti kuat — ada ruang untuk menaikkan spend. Tetapi rasio tanpa jendela adalah angka yang menipu: LTV 12 bulan melawan CAC bulan ini tidak sebanding — samakan jendelanya, dan tulis jendela itu di definisi.",
+        "Aturan praktis: rasio di bawah 1 berarti bakar uang — tiap pelanggan baru merugikan. Rasio 1 sampai 3 berarti sehat tetapi rapuh — sedikit kenaikan CAC atau penurunan LTV membaliknya. Rasio di atas 3 berarti kuat — ada ruang untuk menaikkan spend. Tetapi rasio tanpa jendela adalah angka yang menipu: LTV 12 bulan melawan CAC bulan ini tidak sebanding — samakan jendelanya, dan tulis jendela itu di definisi. Dan satu syarat lagi: bandingkan LTV dan CAC dari KOHORT yang sama — LTV pelanggan Januari melawan CAC Januari; LTV pelanggan lama melawan CAC pelanggan baru adalah perbandingan dua populasi yang berbeda.",
         "KPI framework menata KPI dalam tiga lapis: north star (satu metrik yang menentukan keberhasilan — misalnya revenue bersih per pelanggan), input (yang bisa dikendalikan — spend, CTR, conversion rate), dan guardrail (yang tidak boleh dikorbankan — refund rate, churn, keluhan). Tiap KPI punya rumus, sumber, jendela, pemilik, dan ambang — tanpa kelimanya, KPI itu opini.",
       ],
       tasks: [],
@@ -73,7 +73,7 @@ export const mk32: V2Lesson = {
         "Lab ini menghitung CAC dan rasio LTV banding CAC dari spend, akuisisi, dan LTV.",
         "Hitung dulu di kepala. CAC: 150.000.000 dibagi 3.000 sama dengan 50.000. Rasio: 180.000 dibagi 50.000 sama dengan 3,6.",
         "Tugas lab: tulis fungsi yang menerima spend, akuisisi, dan LTV — lalu mencetak dua angka: cac dan rasio_ltv_cac.",
-        "Setelah lolos, coba eksperimen: naikkan spend menjadi 180 juta dan lihat CAC naik menjadi 60.000 dan rasio turun menjadi 3,0 — masih kuat, tetapi ruangnya menyempit.",
+        "Setelah lolos, coba eksperimen: naikkan spend menjadi 180 juta dan lihat CAC naik menjadi 60.000 dan rasio turun menjadi 3,0 — tepat di batas: menurut aturan lesson ini, 3,0 masuk '1 sampai 3 = sehat tetapi rapuh', bukan 'kuat' (kuat adalah DI ATAS 3). Ruang menyempit — dan satu kenaikan CAC lagi membaliknya.",
       ],
       tasks: [
         { id: "t1", text: "Hitung cac dari spend dan akuisisi" },
@@ -81,13 +81,13 @@ export const mk32: V2Lesson = {
       ],
       expected: "cac=50000\nrasio_ltv_cac=3.6",
       hints: [
-        "CAC = spend dibagi akuisisi.",
+        "CAC = spend dibagi akuisisi — pembagian BIASA, bukan floor division: CAC Rp50.001 yang dibulatkan ke bawah menjadi Rp50.000 adalah kesalahan, bukan pembulatan.",
         "Rasio = LTV dibagi CAC.",
       ],
       code: {
         starter: `# Kampanye Google KirimCepat: spend, akuisisi, LTV.\nspend = 150000000\nakuisisi = 3000\nltv = 180000\n\n# TULIS KODEMU: hitung cac dan rasio_ltv_cac.\n# Cetak, per baris: cac, rasio_ltv_cac.\n\n\nmesin_kpi(spend, akuisisi, ltv)`,
         lockLines: 4,
-        solution: `# Kampanye Google KirimCepat: spend, akuisisi, LTV.\nspend = 150000000\nakuisisi = 3000\nltv = 180000\n\n\ndef mesin_kpi(spend, akuisisi, ltv):\n    cac = spend // akuisisi\n    rasio_ltv_cac = ltv / cac\n    print(f"cac={cac}")\n    print(f"rasio_ltv_cac={rasio_ltv_cac}")\n\n\nmesin_kpi(spend, akuisisi, ltv)`,
+        solution: `# Kampanye Google KirimCepat: spend, akuisisi, LTV.\nspend = 150000000\nakuisisi = 3000\nltv = 180000\n\n\ndef mesin_kpi(spend, akuisisi, ltv):\n    cac = spend / akuisisi\n    rasio_ltv_cac = ltv / cac\n    print(f"cac={cac:g}")\n    print(f"rasio_ltv_cac={rasio_ltv_cac}")\n\n\nmesin_kpi(spend, akuisisi, ltv)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "cac=50000", label: "CAC Rp50.000", msg: "150.000.000 / 3.000 = 50.000 per pelanggan." },
           { kind: "stdout_matches", task: "t2", pattern: "rasio_ltv_cac=3.6", label: "Rasio 3,6", msg: "180.000 / 50.000 = 3,6. Di atas 3 — kuat." },

@@ -12,7 +12,7 @@ export const mle33: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Model 87,2 persen yang naik 2,4 poin tanpa menyentuh arsitektur",
       prose: [
-        "Model deteksi fraud KirimCepat mentok di akurasi 87,2 persen. Tim menghabiskan sebulan mencoba arsitektur baru: transformer, ensemble lebih besar, tuning lebih dalam — naik 0,3 poin. Lalu seorang engineer berhenti menala model dan mulai memeriksa data: dari 10.000 label training, sekitar 8 persen — 800 label — diduga salah. Audit 200 label yang dicurigai mengonfirmasi 156 memang salah (presisi deteksi 78 persen). Setelah 800 label diperbaiki, akurasi naik menjadi 89,6 persen — naik 2,4 poin tanpa satu baris arsitektur pun berubah.",
+        "Model deteksi fraud KirimCepat mentok di akurasi 87,2 persen. Tim menghabiskan sebulan mencoba arsitektur baru: transformer, ensemble lebih besar, tuning lebih dalam — naik 0,3 poin. Lalu seorang engineer berhenti menala model dan mulai memeriksa data: dari 10.000 label training, sekitar 8 persen — 800 label — diduga salah. Audit 200 label yang dicurigai mengonfirmasi 156 memang salah (presisi deteksi 78 persen). Dari 800 yang diduga, sekitar 624 memang salah (800 x 0,78) dan diperbaiki — sisanya adalah contoh sulit yang benar dan dipertahankan. Setelah perbaikan itu, akurasi naik menjadi 89,6 persen — naik 2,4 poin tanpa satu baris arsitektur pun berubah.",
         "Itulah data-centric AI: pergeseran fokus dari 'model yang lebih baik' ke 'data yang lebih baik'. Model-centric bertanya 'arsitektur apa'; data-centric bertanya 'label mana yang salah, contoh mana yang membingungkan, kelas mana yang kurang terwakili'. Dalam banyak proyek matang, data adalah tuas yang lebih besar — dan lebih murah.",
         "Lesson ini mengajarkan data-centric AI sebagai sistem: deteksi label salah, kurasi contoh, penyeimbang kelas, dan penilaian data. Setelah lesson ini kamu bisa: (1) menghitung estimasi label salah dari audit sampel; (2) menjelaskan confident learning dalam satu paragraf; (3) menghitung dampak perbaikan label pada akurasi; (4) menilai contoh dengan data valuation; (5) memutuskan kapan memperbaiki data dan kapan mengganti model.",
       ],
@@ -21,7 +21,7 @@ export const mle33: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "MLE2 membahas pipeline data dan MLE7 testing model, tetapi tidak ada lesson yang menjadikan KUALITAS DATA sebagai tuas utama perbaikan model. Lesson ini mengisi kekosongan itu: deteksi label salah dengan confident learning, audit sampel dengan presisi terukur, dan data valuation — semuanya dengan angka yang dihitung, bukan slogan 'data is king'.",
       },
-      reference: "800 label diduga salah (8 persen dari 10.000); audit 200 mengonfirmasi 156 (78 persen); akurasi 87,2 menjadi 89,6 persen (+2,4 poin).",
+      reference: "800 label diduga salah (8 persen dari 10.000); audit 200 mengonfirmasi 156 (78 persen) — sekitar 624 dari 800 memang salah dan diperbaiki; akurasi 87,2 menjadi 89,6 persen (+2,4 poin).",
     },
     {
       id: "tujuan",
@@ -59,7 +59,7 @@ export const mle33: V2Lesson = {
       title: "Kurasi: seimbang, bersih, dan bernilai",
       prose: [
         "Tiga operasi kurasi setelah label diperbaiki. Pertama, penyeimbang kelas: bila kelas fraud hanya 2 persen dari data, model belajar 'selalu jawab bukan fraud' dan mendapat akurasi 98 persen yang menipu. Solusi: tambah contoh kelas minoritas (oversampling, data sintetis) atau beri bobot kelas — lalu ukur dengan metrik per kelas, bukan akurasi global. Kedua, deduplikasi: contoh yang sama muncul 50 kali memberi bobot 50x pada satu pola — model menghafal, bukan menggeneralisasi.",
-        "Ketiga, data valuation: tidak semua contoh sama berharganya. Metode sederhana: latih model tanpa 10 persen contoh bernilai terendah (misalnya contoh yang tidak pernah memengaruhi prediksi) — bila akurasi tetap 89,6 persen dengan 9.000 contoh dari 10.000, 1.000 contoh itu tidak menambah apa-apa dan boleh dibuang untuk training yang lebih cepat. Metode formal (Shapley value untuk data) menghitung kontribusi tiap contoh — mahal, tetapi memberi jawaban per contoh, bukan per kelompok.",
+        "Ketiga, data valuation: tidak semua contoh sama berharganya. Metode sederhana: latih model tanpa 10 persen contoh bernilai terendah (misalnya contoh yang tidak pernah memengaruhi prediksi) — bila akurasi tetap 89,6 persen dengan 9.000 contoh dari 10.000, itu BELUM membuktikan 1.000 contoh itu tidak menambah apa-apa. Akurasi global yang tetap tidak berkata apa-apa soal recall kelas minoritas (fraud), kalibrasi, dan performa per slice — 1.000 contoh itu bisa saja satu-satunya penopang recall fraud. Aturan: contoh baru boleh dibuang bila metrik PER SLICE dan kalibrasi JUGA tidak memburuk; bila recall fraud turun walau akurasi global tetap, contoh itu dipertahankan. Metode formal (Shapley value untuk data) menghitung kontribusi tiap contoh — mahal, tetapi memberi jawaban per contoh, bukan per kelompok.",
         "Siklus data-centric yang benar: ukur kualitas data (label error, duplikat, keseimbangan) → perbaiki seperlunya → latih → analisis kesalahan model per slice (kelas, wilayah, waktu) → kembali ke data dengan daftar perbaikan spesifik. Model yang mentok biasanya bukan kehabisan arsitektur — ia kehabisan data yang benar.",
       ],
       tasks: [],
@@ -67,7 +67,7 @@ export const mle33: V2Lesson = {
         title: "Kapan berhenti memperbaiki data",
         body: "Perbaikan data punya diminishing return: 800 label pertama memberi +2,4 poin; 800 berikutnya mungkin memberi +0,4 poin. Berhenti bila: audit berikutnya menemukan error di bawah 1 persen, atau kesalahan model terkonsentrasi pada contoh yang secara inheren ambigu (bahkan manusia tidak sepakat). Pada titik itu, tuasnya kembali ke model — atau ke definisi masalahnya.",
       },
-      reference: "9.000 contoh bernilai = akurasi tetap 89,6 persen; 1.000 contoh terbuang tanpa kerugian.",
+      reference: "9.000 contoh: akurasi global tetap 89,6 persen — keputusan membuang mensyaratkan metrik per slice dan kalibrasi juga tidak memburuk.",
     },
     {
       id: "lab-data-centric",
@@ -75,7 +75,7 @@ export const mle33: V2Lesson = {
       title: "Lab: audit label dan dampaknya pada akurasi",
       prose: [
         "Lab ini menghitung mesin data-centric dari angka mentah: estimasi label salah, presisi audit, kenaikan akurasi, dan penghematan dari pembuangan contoh tak bernilai.",
-        "Hitung dulu di kepala. Label diduga salah: 10.000 x 0,08 = 800. Presisi audit: 156 / 200 = 0,78 (78 persen). Kenaikan akurasi: 89,6 - 87,2 = 2,4 poin. Contoh dipertahankan: 10.000 - 1.000 = 9.000 dengan akurasi tetap 89,6 persen.",
+        "Hitung dulu di kepala. Label diduga salah: 10.000 x 0,08 = 800. Presisi audit: 156 / 200 = 0,78 (78 persen). Kenaikan akurasi: 89,6 - 87,2 = 2,4 poin. Contoh dipertahankan: 10.000 - 1.000 = 9.000 dengan akurasi global tetap 89,6 persen — angka 9.000 ini hitungan aritmetik; keputusan membuang tetap mensyaratkan metrik per slice dan kalibrasi tidak memburuk (lihat Langkah 4).",
         "Tugas lab: hitung empat angka dan cetak masing-masing di baris sendiri: diduga_salah, presisi_audit, kenaikan_poin, dipertahankan. Empat angka ini adalah laporan kualitas data — lampirkan ke setiap review model, supaya 'modelnya mentok' tidak pernah lagi dijawab dengan 'coba arsitektur baru' sebelum data diperiksa.",
         "Setelah lolos, coba eksperimen: ubah estimasi error menjadi 3 persen dan lihat diduga salah menjadi 300 — lalu tanyakan: pada estimasi berapa audit manual berhenti sepadan? Jawabannya menentukan anggaran kurasi tiap kuartal.",
       ],
@@ -99,7 +99,7 @@ export const mle33: V2Lesson = {
           { kind: "equal", task: "t1", name: "diduga_salah", value: 800, tol: 1e-9, label: "`diduga_salah` seharusnya 800", msg: "10.000 x 0,08 = 800." },
           { kind: "equal", task: "t2", name: "presisi_audit", value: 0.78, tol: 1e-9, label: "`presisi_audit` seharusnya 0.78", msg: "156 / 200 = 0,78." },
           { kind: "equal", task: "t3", name: "kenaikan_poin", value: 2.4, tol: 1e-9, label: "`kenaikan_poin` seharusnya 2.4", msg: "89,6 - 87,2 = 2,4 poin — tanpa mengubah arsitektur." },
-          { kind: "equal", task: "t3", name: "dipertahankan", value: 9000, tol: 1e-9, label: "`dipertahankan` seharusnya 9000", msg: "10.000 - 1.000 = 9.000 contoh bernilai." },
+          { kind: "equal", task: "t3", name: "dipertahankan", value: 9000, tol: 1e-9, label: "`dipertahankan` seharusnya 9000", msg: "10.000 - 1.000 = 9.000. Membuang 1.000 itu tetap mensyaratkan metrik per slice tidak memburuk." },
         ],
       },
       reference: "800 diduga salah; presisi audit 0,78; kenaikan 2,4 poin; 9.000 dipertahankan.",
@@ -131,10 +131,10 @@ export const mle33: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "800 label diduga salah (8 persen); audit 200 mengonfirmasi 156 (78 persen).",
+        "800 label diduga salah (8 persen); audit 200 mengonfirmasi 156 (78 persen) — sekitar 624 dari 800 memang salah.",
         "Perbaikan label: akurasi 87,2 menjadi 89,6 persen (+2,4 poin).",
         "Confident learning: prediksi silang + ambang per kelas.",
-        "9.000 contoh bernilai = akurasi tetap; 1.000 boleh dibuang.",
+        "9.000 contoh: akurasi global tetap — membuang 1.000 mensyaratkan metrik per slice dan kalibrasi juga tidak memburuk.",
         "Berhenti memperbaiki data bila error audit di bawah 1 persen.",
       ],
       next: { label: "MLE34 — Survival Analysis: Memprediksi Kapan, Bukan Hanya Apakah", href: "/v2/learn/mle34-survival-analysis" },
@@ -169,10 +169,10 @@ export const mle33: V2Lesson = {
         {
           q: "Model tanpa 10 persen contoh terendah tetap 89,6 persen dengan 9.000 contoh. Kesimpulannya?",
           options: [
-            { text: "1.000 contoh itu tidak menambah apa-apa — boleh dibuang untuk training lebih cepat", why: "Tepat: data valuation membuktikan 1.000 contoh itu tak bernilai.", correct: true },
+            { text: "Belum tentu boleh dibuang — akurasi global yang tetap belum membuktikan apa-apa soal recall fraud, kalibrasi, dan per slice; periksa ketiganya dulu", why: "Tepat: akurasi global tidak berkata apa-apa soal kelas minoritas — 1.000 contoh itu bisa saja satu-satunya penopang recall fraud.", correct: true },
             { text: "Model rusak — akurasi harus turun bila data dikurangi", why: "Salah: tidak semua data bernilai; data yang tak bernilai memang tidak memengaruhi skor." },
             { text: "10 persen adalah angka ajaib untuk semua dataset", why: "Salah: angka ini hasil ukur dataset ini; dataset lain bisa 2 persen atau 30 persen." },
-            { text: "Contoh yang dibuang pasti labelnya salah", why: "Salah: tak bernilai bukan berarti salah label — bisa jadi duplikat atau terlalu mudah." },
+            { text: "1.000 contoh itu tidak menambah apa-apa — boleh dibuang untuk training lebih cepat", why: "Salah: akurasi global yang tetap tidak membuktikan contoh itu tidak berharga — recall kelas minoritas, kalibrasi, dan metrik per slice bisa saja memburuk diam-diam." },
           ],
         },
         {

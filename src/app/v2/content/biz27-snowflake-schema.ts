@@ -43,7 +43,7 @@ export const biz27: V2Lesson = {
       title: "Struktur bertingkat: satu fakta disimpan sekali",
       prose: [
         "Snowflake memecah dimensi menjadi tabel-tabel kecil yang saling menunjuk. Tabel produk menyimpan kategori_id; tabel kategori menyimpan nama kategori dan departemen_id; tabel departemen menyimpan nama departemen. Nama kategori 'Minuman' tertulis sekali — di tabel kategori — bukan 1.200 kali di tabel produk. Ganti nama kategori berarti update satu baris.",
-        "Hitung penghematannya: nama kategori 50 byte dikali 1.200 produk sama dengan 60.000 byte di star; di snowflake hanya 40 kategori dikali 50 byte sama dengan 2.000 byte. Hemat 58.000 byte. Angka itu kecil untuk satu kolom — tetapi untuk dimensi jutaan baris dengan puluhan atribut berulang, penghematannya nyata, dan yang lebih penting: inkonsistensi tidak mungkin terjadi karena tidak ada duplikasi.",
+        "Hitung penghematannya: nama kategori 50 byte dikali 1.200 produk sama dengan 60.000 byte di star; di snowflake hanya 40 kategori dikali 50 byte sama dengan 2.000 byte. Hemat 58.000 byte — hanya untuk kolom nama kategori; kolom lain yang diduplikasi tidak dihitung di sini. Angka itu kecil untuk satu kolom — tetapi untuk dimensi jutaan baris dengan puluhan atribut berulang, penghematannya nyata, dan yang lebih penting: inkonsistensi NAMA itu menjadi jauh lebih sulit terjadi — satu sumber kebenaran untuk nama kategori. 'Tidak mungkin' terlalu kuat: inkonsistensi masih bisa muncul lewat data yang salah di tabel kategori itu sendiri, atau lewat duplikasi di tempat lain (misalnya cache atau laporan yang menyalin nama).",
         "Harganya adalah join: query revenue per departemen di star butuh 1 join (fact ke produk); di snowflake butuh 3 join (fact ke produk ke kategori ke departemen). Tiap join tambahan adalah biaya baca dan risiko kesalahan — analis yang lupa satu join mendapat angka yang salah, bukan error. Aturan: snowflake layak bila atribut dimensi sering berubah atau dimensinya sangat besar; star menang bila query didominasi analis bisnis yang butuh join sederhana.",
       ],
       tasks: [],
@@ -51,14 +51,14 @@ export const biz27: V2Lesson = {
         title: "Snowflake bukan normalisasi membabi buta",
         body: "Snowflake yang memecah sampai atribut atomik (misalnya tabel terpisah untuk tiap kota) menghasilkan join 7 lapis yang tidak dibaca siapa pun. Pecah hanya pada batas yang bermakna bisnis: kategori dan departemen adalah entitas yang dikelola sendiri; kota dan kode pos bukan — keduanya atribut produk yang jarang berubah sendiri.",
       },
-      reference: "Star: 60.000 byte untuk nama kategori. Snowflake: 2.000 byte. Hemat 58.000 byte. Harga: 3 join melawan 1 join.",
+      reference: "Star: 60.000 byte untuk nama kategori. Snowflake: 2.000 byte. Hemat 58.000 byte (kolom nama kategori saja). Harga: 3 join melawan 1 join.",
     },
     {
       id: "peta-keputusan",
       eyebrow: "Langkah 4 · Teori",
       title: "Peta keputusan: star, snowflake, atau wide table",
       prose: [
-        "Tiga skenario. Satu: dashboard dan laporan rutin dengan banyak analis bisnis — star schema. Join sederhana, SUM aman, dan analis baru paham dalam sehari. Dua: dimensi sangat besar dengan atribut yang sering berubah nama atau berpindah induk — snowflake. Satu update mengganti satu baris, dan inkonsistensi tidak mungkin. Tiga: satu tabel wide untuk machine learning atau export sekali jalan — wide table tercepat dibaca, tetapi boros dan rawan inkonsistensi, jadi jangan jadikan ia sumber kebenaran.",
+        "Tiga skenario. Satu: dashboard dan laporan rutin dengan banyak analis bisnis — star schema. Join sederhana, SUM aman, dan analis baru paham dalam sehari. Dua: dimensi sangat besar dengan atribut yang sering berubah nama atau berpindah induk — snowflake. Satu update mengganti satu baris, dan inkonsistensi nama praktis hilang. Tiga: satu tabel wide untuk machine learning atau export sekali jalan — wide table tercepat dibaca, tetapi boros dan rawan inkonsistensi, jadi jangan jadikan ia sumber kebenaran.",
         "Keputusan ini per dimensi, bukan per warehouse: satu warehouse boleh punya dimensi produk snowflake dan dimensi pelanggan star. Dan keputusan bisa berubah: dimensi yang dulu kecil dan stabil bisa tumbuh menjadi snowflake saat atributnya mulai dikelola tim lain.",
         "Jebakan yang paling umum: snowflake demi kerapian semata. Bila tidak ada yang pernah update nama kategori dan dimensi hanya 1.200 baris, 58.000 byte yang dihemat tidak sepadan dengan 2 join tambahan di tiap query. Kerapian yang dibayar analis tiap hari adalah kerapian yang mahal.",
       ],
@@ -94,6 +94,10 @@ export const biz27: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "hemat_byte=58000", label: "Hemat 58.000 byte", msg: "60.000 - 2.000 = 58.000 byte. Nama kategori hanya tertulis 40 kali." },
         ],
       },
+      note: {
+        title: "Query agregat snowflake lengkap (contoh)",
+        body: "SELECT d.nama_departemen, k.nama_kategori, SUM(f.revenue) AS revenue FROM fact_penjualan f JOIN dim_produk p ON f.produk_id = p.produk_id JOIN dim_kategori k ON p.kategori_id = k.kategori_id JOIN dim_departemen d ON k.departemen_id = d.departemen_id GROUP BY d.nama_departemen, k.nama_kategori ORDER BY revenue DESC; — tiga join itu harga yang dibayar untuk satu sumber kebenaran; view datar di atasnya mengembalikan query analis ke 1 join tanpa mengembalikan duplikasi.",
+      },
       reference: "Join snowflake 3; hemat 58.000 byte.",
     },
     {
@@ -122,7 +126,7 @@ export const biz27: V2Lesson = {
       tasks: [],
       summary: [
         "Lab: join snowflake 3; hemat 58.000 byte (60.000 vs 2.000).",
-        "Snowflake menyimpan tiap fakta sekali — update satu baris, inkonsistensi tidak mungkin.",
+        "Snowflake menyimpan tiap fakta sekali — update satu baris, inkonsistensi nama praktis hilang (bukan mustahil mutlak).",
         "Harga snowflake: join tambahan di tiap query.",
         "Star untuk banyak analis; snowflake untuk dimensi besar yang sering berubah.",
         "View datar bisa menyembunyikan join snowflake dari analis.",

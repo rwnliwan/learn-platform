@@ -41,7 +41,7 @@ export const fdp12: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Tiga metrik: lag, cakupan, kesegaran",
       prose: [
-        "Lag refresh: selisih antara waktu data terakhir masuk dan waktu dashboard dibaca. Di cerita pembuka, data masuk 06:00 dan dibaca 06:47 — lag 47 menit, di dalam SLA 60 menit. Lag bukan soal kecepatan absolut; ia soal janji: dashboard yang berjanji 'data per jam' tetapi lag-nya 47 menit masih jujur, sementara dashboard yang berjanji 'real-time' dengan lag 47 menit adalah kebohongan. Tulis SLA di layar, dan tampilkan lag aktual di sampingnya.",
+        "Lag refresh dan umur data adalah dua hal yang berbeda — lesson ini memakai angka 47 menit untuk keduanya, jadi bedakan: UMUR DATA adalah selisih antara waktu data terakhir masuk dan waktu dashboard dibaca — di cerita pembuka, data masuk 06:00 dan dibaca 06:47, umur 47 menit, di dalam SLA 60 menit. LAG REFRESH adalah selisih antara jadwal refresh dan refresh yang benar-benar selesai — refresh bisa tepat waktu tetapi datanya tetap basi bila sumbernya telat, dan sebaliknya. Dashboard yang jujur menampilkan keduanya: kapan refresh terakhir selesai, dan seberapa tua data yang ditampilkan. Lag bukan soal kecepatan absolut; ia soal janji: dashboard yang berjanji 'data per jam' tetapi umur datanya 47 menit masih jujur, sementara dashboard yang berjanji 'real-time' dengan umur data 47 menit adalah kebohongan. Tulis SLA di layar, dan tampilkan umur data aktual di sampingnya.",
         "Cakupan: proporsi entitas yang datanya lengkap. 48 dari 50 emiten berarti 96,0 persen — tetapi persen itu menipu bila dua yang hilang adalah yang terbesar. Cakupan harus dilaporkan dua kali: cakupan jumlah (48 dari 50) dan cakupan nilai (berapa persen kapitalisasi pasar yang terwakili). Bila dua emiten hilang itu mewakili 30 persen kapitalisasi, dashboard itu hanya bercerita tentang 70 persen pasar — dan harus mengatakannya.",
         "Kesegaran (freshness): apakah data di layar adalah data terbaru yang ADA, atau data terbaru yang SEHARUSNYA ada. Pipeline yang gagal mengambil data pukul 06:00 tetapi menampilkan data 05:00 tanpa tanda adalah dashboard yang berbohong dengan sopan. Aturannya: setiap panel menampilkan stempel waktu sumbernya, dan panel yang datanya lebih tua dari SLA diberi tanda basi yang tidak bisa diabaikan — bukan catatan kaki kecil.",
       ],
@@ -97,6 +97,10 @@ export const fdp12: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "cakupan_pct=96.0", label: "Cakupan 96,0 persen", msg: "48 / 50 x 100 = 96,0. Tetapi cek juga cakupan nilai — dua yang hilang bisa jadi yang terbesar." },
           { kind: "stdout_matches", task: "t3", pattern: "hilang=2", label: "2 emiten hilang", msg: "50 - 48 = 2. Dua yang hilang harus disebutkan namanya di dashboard, bukan disembunyikan." },
         ],
+      },
+      note: {
+        title: "Contoh kontrak dashboard (satu panel)",
+        body: "Sumber — pipeline filings harian. SLA — data tersedia paling lambat 07:00, umur data maksimal 60 menit. Status — stempel waktu sumber + lampu hijau/kuning/merah. Bila gagal — panel menampilkan 'data belum tersedia' dan alert ke pemilik pipeline. Cakupan — jumlah DAN nilai emiten yang hilang (2 emiten yang hilang di cerita pembuka adalah yang terbesar kedua dan ketiga — cakupan 96 persen berdasarkan jumlah menyembunyikan itu). Kontrak ini ditulis sebelum dashboard dibangun, bukan sesudahnya.",
       },
       reference: "Lag 47 menit; cakupan 96,0 persen; 2 emiten hilang.",
     },

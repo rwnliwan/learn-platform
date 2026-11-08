@@ -43,7 +43,7 @@ export const rr37: V2Lesson = {
       title: "Modal ekonomi: VaR dikurangi expected loss",
       prose: [
         "Expected loss (EL) adalah kerugian rata-rata yang diharapkan — ia ditanggung lewat pencadangan (ECL) dan harga, bukan lewat modal. Unexpected loss (UL) adalah kerugian di atas rata-rata pada tingkat keyakinan tertentu — inilah yang ditanggung modal ekonomi. Rumus pelaporannya: modal ekonomi sama dengan VaR pada 99,9 persen dikurangi expected loss.",
-        "Di cerita pembuka: VaR 99,9 persen sebesar 85, expected loss 9 — modal ekonomi sama dengan 85 dikurangi 9 sama dengan 76. Artinya: bank butuh Rp76 miliar modal untuk bisnis korporasi agar bertahan pada skenario 1-dalam-1.000 tahun. Modal regulator (Pilar 1) bisa lebih kecil atau lebih besar — ia memakai bobot standar, bukan risiko bank sendiri. Bila modal ekonomi lebih besar dari modal regulator, bank yang bijak memegang yang lebih besar.",
+        "Di cerita pembuka: VaR 99,9 persen sebesar 85, expected loss 9 — modal ekonomi sama dengan 85 dikurangi 9 sama dengan 76. Artinya: bank butuh Rp76 miliar modal untuk bisnis korporasi pada keyakinan 99,9 persen atas horizon SATU TAHUN — '1-dalam-1.000' berarti 1 dari 1.000 skenario setahun, bukan sekali dalam 1.000 tahun kalender; tanpa horizon yang dinyatakan, angka itu tidak berarti. Modal regulator (Pilar 1) bisa lebih kecil atau lebih besar — pada pendekatan standar ia memakai bobot standar, bukan risiko bank sendiri; tetapi bank yang disetujui regulator boleh memakai model internal (IRB) untuk modal regulatornya, jadi 'regulator = bobot standar' hanya benar untuk pendekatan standar. Bila modal ekonomi lebih besar dari modal regulator, bank yang bijak memegang yang lebih besar.",
         "Tingkat keyakinan 99,9 persen bukan angka sakral — ia adalah pilihan: seberapa jarang bank bersedia gagal. Bank dengan rating target AA memakai keyakinan lebih tinggi dari bank yang puas dengan BBB. Pilihan itu ditulis di laporan — karena modal ekonomi tanpa keyakinan yang dinyatakan adalah angka tanpa arti.",
       ],
       tasks: [],
@@ -152,7 +152,7 @@ export const rr37: V2Lesson = {
           options: [
             { text: "Tidak ada beda — keduanya dari regulator", why: "Salah: modal ekonomi dihitung dari risiko bank sendiri; regulator memakai bobot standar." },
             { text: "Modal ekonomi selalu lebih kecil", why: "Salah: bisa lebih besar atau lebih kecil — tergantung risiko bank vs bobot standar." },
-            { text: "Regulator memakai bobot standar Pilar 1; ekonomi memakai risiko bank sendiri pada keyakinan yang dinyatakan", why: "Tepat: bila ekonomi lebih besar dari regulator, bank bijak memegang yang lebih besar.", correct: true },
+            { text: "Regulator memakai bobot standar pada pendekatan standar Pilar 1 (bank IRB boleh memakai model internal yang disetujui); ekonomi memakai risiko bank sendiri pada keyakinan yang dinyatakan", why: "Tepat: bila ekonomi lebih besar dari regulator, bank bijak memegang yang lebih besar.", correct: true },
             { text: "Modal regulator untuk direksi, ekonomi untuk publik", why: "Salah: pembedanya cara hitung, bukan penerima." },
           ],
         },

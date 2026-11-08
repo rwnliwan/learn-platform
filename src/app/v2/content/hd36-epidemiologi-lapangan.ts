@@ -13,7 +13,7 @@ export const hd36: V2Lesson = {
       title: "48 dari 120 yang makan — dan 10 dari 200 yang tidak",
       prose: [
         "Jumat malam, puskesmas menerima 48 pasien diare dari satu desa — semua makan di hajatan yang sama. Tim investigasi lapangan berangkat Sabtu pagi dengan satu pertanyaan: makanan mana? Mereka mewawancarai 120 orang yang makan dan 200 yang tidak. Hasilnya: attack rate pada yang makan 40 persen (48 dari 120), pada yang tidak makan 5 persen (10 dari 200). Rasio risiko 8,0 — yang makan berisiko 8 kali lipat. Fraksi yang dapat diatribusikan 87,5 persen.",
-        "Tetapi 'yang makan' belum cukup spesifik. Tim memecah menurut menu: yang makan ayam goreng — attack rate 52 persen; yang makan nasi saja — 8 persen. Kurva epidemi menunjukkan puncak tunggal 36 jam setelah hajatan — median masa inkubasi 36 jam — pola point source, bukan penularan antar-orang. Ayam yang disimpan semalaman pada suhu ruang adalah sumbernya. Intervensi: sisa makanan dimusnahkan, dapur hajatan dibina — wabah berhenti tanpa satu pun kasus baru.",
+        "Tetapi 'yang makan' belum cukup spesifik. Tim memecah menurut menu: yang makan ayam goreng — attack rate 52 persen; yang makan nasi saja — 8 persen. Kurva epidemi menunjukkan puncak tunggal 36 jam setelah hajatan — pola point source, bukan penularan antar-orang. Median masa inkubasi — dihitung dari distribusi onset seluruh kasus — adalah 36 jam. Ayam yang disimpan semalaman pada suhu ruang adalah sumbernya. Intervensi: sisa makanan dimusnahkan, dapur hajatan dibina — wabah berhenti tanpa satu pun kasus baru.",
         "Lesson ini mengajarkan investigasi wabah lapangan: 10 langkah, definisi kasus, kurva epidemi, attack rate, dan rasio risiko. Setelah lesson ini kamu bisa: (1) menyebutkan 10 langkah investigasi wabah; (2) menulis definisi kasus yang tajam; (3) membaca kurva epidemi dan membedakan point source vs propagated; (4) menghitung attack rate, rasio risiko, dan fraksi atributabel; (5) memutuskan intervensi dari bukti lapangan.",
       ],
       tasks: [],
@@ -61,8 +61,8 @@ export const hd36: V2Lesson = {
       prose: [
         "Kurva epidemi adalah histogram kasus menurut waktu onset — dan bentuknya adalah diagnosis. POINT SOURCE: satu puncak tajam, semua kasus dalam satu masa inkubasi — satu paparan, satu waktu (hajatan kita: puncak 36 jam setelah makan). COMMON SOURCE BERKELANJUTAN: puncak lebar dan mendatar — paparan terus terjadi (air tercemar yang terus diminum). PROPAGATED: puncak-puncak yang makin tinggi dengan jarak satu masa inkubasi — penularan antar-orang, tiap generasi lebih besar dari sebelumnya.",
         "Attack rate adalah insidens dalam kelompok terpapar selama wabah: kasus dibagi populasi berisiko. Pada yang makan: 48 dibagi 120 sama dengan 40 persen. Pada yang tidak makan: 10 dibagi 200 sama dengan 5 persen. Rasio risiko sama dengan 40 dibagi 5 sama dengan 8,0 — yang makan berisiko 8 kali lipat. Perbedaan attack rate: 40 dikurangi 5 sama dengan 35 poin persentase — ukuran dampak absolut yang kadang lebih penting dari rasio.",
-        "Fraksi yang dapat diatribusikan pada kelompok terpapar sama dengan (RR dikurangi 1) dibagi RR: (8 dikurangi 1) dibagi 8 sama dengan 87,5 persen — dari kasus pada yang makan, 87,5 persen disebabkan paparan itu; sisanya 12,5 persen akan terjadi juga tanpa paparan (latar 5 persen). Angka ini menjawab pertanyaan intervensi: 'bila paparan ini dihilangkan, berapa kasus yang dicegah?' — 87,5 persen dari kasus terpapar.",
-        "Masa inkubasi dibaca dari kurva: jarak dari paparan ke puncak adalah perkiraan median inkubasi — 36 jam dalam kasus kita. Bila median inkubasi 36 jam dan rentang kasus 12 sampai 72 jam, patogen yang masa inkubasinya 6 jam atau 7 hari bisa disingkirkan dari daftar tersangka. Kurva epidemi mempersempit daftar patogen sebelum laboratorium bekerja.",
+        "Fraksi yang dapat diatribusikan pada kelompok terpapar sama dengan (RR dikurangi 1) dibagi RR: (8 dikurangi 1) dibagi 8 sama dengan 87,5 persen — DENGAN ASUMSI paparan itu kausal dan kedua kelompok sebanding (tidak ada perancu — misalnya yang makan dan yang tidak makan berbeda usia atau kondisi kesehatan — dan tidak ada bias pengukuran). Tanpa asumsi itu, 87,5 persen hanyalah fraksi yang secara statistik terkait paparan, bukan bukti sebab-akibat. Bila asumsinya benar, dari kasus pada yang makan, 87,5 persen disebabkan paparan itu; sisanya 12,5 persen akan terjadi juga tanpa paparan (latar 5 persen). Angka ini menjawab pertanyaan intervensi: 'bila paparan ini dihilangkan, berapa kasus yang dicegah?' — 87,5 persen dari kasus terpapar.",
+        "Masa inkubasi dibaca dari kurva: jarak dari paparan ke puncak memberi PERKIRAAN KASAR median inkubasi — puncak BUKAN median. Median yang sebenarnya dihitung dari distribusi onset seluruh kasus (nilai tengahnya). Dalam kasus kita median itu 36 jam — kebetulan dekat dengan puncak, tetapi keduanya tidak sama secara definisi. Bila median inkubasi 36 jam dan rentang kasus 12 sampai 72 jam, patogen yang masa inkubasinya 6 jam atau 7 hari bisa disingkirkan dari daftar tersangka. Kurva epidemi mempersempit daftar patogen sebelum laboratorium bekerja.",
       ],
       tasks: [],
       note: {
@@ -101,7 +101,7 @@ export const hd36: V2Lesson = {
           { kind: "stdout_matches", task: "t1", pattern: "ar_terpapar=40.0", label: "AR terpapar 40 persen", msg: "48 / 120 x 100 = 40 persen." },
           { kind: "stdout_matches", task: "t1", pattern: "ar_tidak_terpapar=5.0", label: "AR tidak terpapar 5 persen", msg: "10 / 200 x 100 = 5 persen. Ini latar — kasus yang terjadi tanpa paparan." },
           { kind: "stdout_matches", task: "t2", pattern: "rr=8.0", label: "RR 8,0", msg: "40 / 5 = 8,0. Yang makan berisiko 8 kali lipat." },
-          { kind: "stdout_matches", task: "t3", pattern: "fraksi_atributabel=87.5", label: "Fraksi atributabel 87,5 persen", msg: "(8-1)/8 x 100 = 87,5 persen kasus terpapar disebabkan paparan — dan bisa dicegah." },
+          { kind: "stdout_matches", task: "t3", pattern: "fraksi_atributabel=87.5", label: "Fraksi atributabel 87,5 persen", msg: "(8-1)/8 x 100 = 87,5 persen — DENGAN ASUMSI paparan kausal dan kelompok sebanding; tanpa asumsi itu, ini fraksi terkait paparan, bukan bukti sebab-akibat. Bila asumsinya benar, sebanyak itu bisa dicegah." },
         ],
       },
       reference: "AR terpapar 40 persen; AR tidak terpapar 5 persen; RR 8,0; fraksi atributabel 87,5 persen.",
@@ -150,7 +150,7 @@ export const hd36: V2Lesson = {
         "10 langkah CDC: siap → verifikasi → definisi kasus → deskripsi → hipotesis → uji → perbaiki → studi tambahan → intervensi → komunikasi.",
         "Kurva: point source satu puncak; propagated puncak berulang makin tinggi.",
         "Lab: AR terpapar 40 persen; AR tidak terpapar 5 persen; RR 8,0; fraksi atributabel 87,5 persen.",
-        "Median inkubasi dibaca dari jarak paparan ke puncak kurva.",
+        "Median inkubasi dihitung dari distribusi onset; puncak kurva hanya perkiraan kasarnya.",
         "Intervensi: sumber, jalur, pejamu — bertindak saat hipotesis cukup kuat.",
       ],
       next: { label: "HD37 — CDSS: Sistem Pendukung Keputusan Klinis", href: "/v2/learn/hd37-cdss" },

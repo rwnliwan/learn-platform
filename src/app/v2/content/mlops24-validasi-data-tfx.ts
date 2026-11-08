@@ -44,7 +44,7 @@ export const mlops24: V2Lesson = {
       prose: [
         "Skema TFX mendeskripsikan tiap fitur: nama, tipe (int, float, string, bytes), kehadiran (wajib/opsional), domain nilai (misalnya 'pekerjaan' hanya boleh dari 8 kategori), dan rentang (umur 17-70, gaji di atas 0). Skema pertama disimpulkan otomatis dari data referensi (TFDV menganalisis 100 ribu baris dan menulis skemanya), lalu DIKUNCI dan di-review manusia — inferensi otomatis adalah draf, bukan vonis.",
         "Tiga jenis anomali yang ditangkap. Pertama, anomali skema: kolom hilang (1 dari 12 kolom = 8,3 persen skema rusak), kolom baru yang tidak dikenal, tipe berubah (string menjadi int). Kedua, anomali nilai: nilai di luar domain (pekerjaan 'astronot'), di luar rentang (umur -5). Ketiga, anomali distribusi: proporsi nilai berubah drastis — di sinilah PSI masuk.",
-        "Gerbang validasi punya tiga vonis: BLOKIR (skema rusak — kolom hilang, tipe berubah — batch tidak boleh training), PERINGATKAN (distribusi bergeser sedang — training jalan tetapi alert ke manusia), LOLOS (semua dalam ambang). Aturan keras: anomali skema SELALU blokir; tidak ada 'training dulu, periksa belakangan'. Model yang dilatih di atas skema rusak adalah model yang skornya tidak bisa dipercaya — dan kamu tidak akan tahu sampai nasabah komplain.",
+        "Gerbang validasi punya tiga vonis: BLOKIR (skema rusak — kolom hilang, tipe berubah — batch tidak boleh training), PERINGATKAN (distribusi bergeser sedang — training jalan tetapi alert ke manusia), LOLOS (semua dalam ambang). Aturan defaultnya: anomali skema pada kolom WAJIB atau kolom yang dipakai model = blokir; tidak ada 'training dulu, periksa belakangan'. Tetapi 'anomali skema SELALU blokir' tanpa kualifikasi itu terlalu mutlak: kolom OPSIONAL baru yang tidak dipakai model, atau nilai kategori baru yang sah, bukan alasan blokir otomatis — mereka masuk jalur evolusi skema (Skenario 4) dengan review manusia. Yang selalu diblokir adalah kerusakan struktur yang membuat training tidak bisa dipercaya — kolom wajib hilang, tipe berubah pada fitur yang dipakai. Model yang dilatih di atas skema rusak adalah model yang skornya tidak bisa dipercaya — dan kamu tidak akan tahu sampai nasabah komplain.",
       ],
       tasks: [],
       note: {
@@ -61,6 +61,7 @@ export const mlops24: V2Lesson = {
         "Population Stability Index (PSI) mengukur pergeseran distribusi: PSI = jumlah atas semua bin dari (aktual - ekspektasi) x ln(aktual / ekspektasi). Ambang standar industri: di bawah 0,1 = stabil; 0,1-0,25 = bergeser, periksa; di atas 0,25 = drift signifikan, selidiki sebelum training.",
         "Hitung dua fitur. Fitur A (ekspektasi [0,5; 0,3; 0,2], aktual [0,4; 0,35; 0,25]): (0,4-0,5) x ln(0,8) = 0,0223; (0,35-0,3) x ln(1,1667) = 0,0077; (0,25-0,2) x ln(1,25) = 0,0112; total PSI = 0,0412 — di bawah 0,1, stabil. Fitur B (ekspektasi [0,6; 0,4], aktual [0,3; 0,7]): (0,3-0,6) x ln(0,5) = 0,2079; (0,7-0,4) x ln(1,75) = 0,1679; total PSI = 0,3758 — di atas 0,25, drift kritis. Fitur B inilah yang menjelaskan penurunan skor: distribusinya berubah total, bukan sedikit.",
         "Bedakan tiga hal: drift (distribusi berubah seiring waktu — populasi berubah), train-serve skew (training dan serving melihat distribusi berbeda — bug pipeline, misalnya fitur dihitung berbeda di kedua jalur), dan anomali skema (struktur berubah — kolom hilang). PSI mendeteksi dua yang pertama; skema mendeteksi yang ketiga. Ketiganya butuh respons berbeda: drift = retrain atau adaptasi; skew = perbaiki pipeline; anomali skema = blokir dan panggil upstream.",
+        "Satu jebakan hitung PSI: bin dengan proporsi NOL. Bila satu bin punya ekspektasi 0 atau aktual 0, rumus memuat ln(0) atau pembagian nol — PSI tidak terdefinisi. Praktik standarnya: smoothing — ganti 0 dengan nilai kecil (misalnya 0,0001) dan normalisasi ulang — atau gabungkan bin yang kosong dengan tetangganya. Tanpa penanganan ini, satu bin kosong membuat seluruh perhitungan PSI gagal tepat saat drift paling parah (bin yang dulu berisi kini kosong adalah sinyal drift yang paling kuat). TFDV menangani ini di balik layar; bila menghitung PSI sendiri, tangani nol secara eksplisit.",
       ],
       tasks: [],
       formula: "\\mathrm{PSI} = \\sum_i (A_i - E_i) \\cdot \\ln\\!\\left(\\frac{A_i}{E_i}\\right)",
@@ -79,7 +80,7 @@ export const mlops24: V2Lesson = {
         "Lab ini menghitung mesin validasi data dari angka mentah: PSI dua fitur dan vonis gerbang atas skema yang rusak.",
         "Hitung dulu di kepala. PSI fitur A: 0,0223 + 0,0077 + 0,0112 = 0,0412 — di bawah 0,1, stabil (vonis 0 = lolos). PSI fitur B: 0,2079 + 0,1679 = 0,3758 — di atas 0,25, drift kritis (vonis 2 = blokir). Kolom hilang: 1 dari 12 = 8,3 persen — anomali skema, blokir.",
         "Tugas lab: hitung empat angka dan cetak masing-masing di baris sendiri: psi_a, psi_b, kolom_hilang_persen, blokir (1 bila ada anomali skema ATAU PSI di atas 0,25; 0 bila tidak). Empat angka ini adalah vonis gerbang — dengan ini batch buruk tidak pernah mencapai training.",
-        "Setelah lolos, coba eksperimen: ubah aktual fitur B menjadi [0,5; 0,5] dan lihat PSI turun menjadi sekitar 0,13 — zona 'periksa'. Lalu tanyakan: siapa yang memeriksa, dan berapa lama ia boleh menunda training?",
+        "Setelah lolos, coba eksperimen: ubah aktual fitur B menjadi [0,5; 0,5] dan lihat PSI menjadi 0,0405 — kembali ke zona STABIL (di bawah 0,1), bukan zona periksa: (0,5−0,6)×ln(0,5/0,6) + (0,5−0,4)×ln(0,5/0,4) = 0,0182 + 0,0223 = 0,0405. Lalu tanyakan: siapa yang memeriksa, dan berapa lama ia boleh menunda training?",
       ],
       tasks: [
         { id: "t1", text: "Hitung `psi_a` dari ekspektasi [0,5; 0,3; 0,2] vs aktual [0,4; 0,35; 0,25]" },
@@ -154,7 +155,7 @@ export const mlops24: V2Lesson = {
           q: "Upstream menghapus 1 dari 12 kolom. Apa vonis gerbang?",
           options: [
             { text: "Lolos — 11 kolom masih cukup", why: "Salah: anomali skema selalu blokir; model yang dilatih tanpa kolom itu skornya tidak bisa dipercaya." },
-            { text: "BLOKIR — anomali skema", why: "Tepat: kolom hilang = struktur rusak = blokir, tanpa kecuali.", correct: true },
+            { text: "BLOKIR — anomali skema", why: "Tepat: kolom hilang = struktur rusak = blokir. (Kualifikasi: ini untuk kolom wajib/yang dipakai model — kolom opsional baru masuk jalur evolusi skema.)", correct: true },
             { text: "Peringatkan saja — training bisa jalan dengan imputasi", why: "Salah: imputasi kolom yang hilang total adalah fabrikasi; gerbang tidak boleh menebak." },
             { text: "Tunggu batch berikutnya — mungkin kolomnya kembali", why: "Salah: menunggu berarti training jalan di atas data rusak sementara itu." },
           ],

@@ -43,7 +43,7 @@ export const de35: V2Lesson = {
       title: "Polling, cursor, dan webhook: tiga kepribadian ingest",
       prose: [
         "Polling adalah si penanya yang sopan: ia menelepon API tiap interval dan bertanya ada data baru. Sederhana dan jadwal di tangan kita — tetapi data selalu basi di antara dua panggilan, dan tiap panggilan membayar kuota. Hitung bebannya sebelum menjanjikan kesegaran: 12.000 record dengan page size 100 berarti 120 halaman; retry 10 persen berarti sekitar 132 request per sync; sync tiap 15 menit berarti 528 request per jam — aman di kuota 1.000 per jam; tetapi sync tiap menit berarti 7.920 per jam, dan API itu mati kena 429.",
-        "Pagination offset rapuh untuk data yang berubah: bila baris baru tersisip di halaman awal saat kamu membaca halaman 5, satu baris terlewat tanpa jejak. Cursor pagination memakai penanda stabil (misalnya updated_at plus id) sehingga tiap baris tepat dibaca sekali. Aturannya: offset boleh untuk snapshot kecil yang statis; cursor wajib untuk sinkronisasi berkelanjutan.",
+        "Pagination offset rapuh untuk data yang berubah: bila baris baru tersisip di halaman awal saat kamu membaca halaman 5, satu baris terlewat tanpa jejak. Cursor pagination memakai penanda stabil (misalnya updated_at plus id) sehingga tiap baris tepat dibaca sekali tanpa terlewat karena pergeseran. Tetapi hati-hati: cursor TIDAK menjamin exactly-once. Bila request timeout lalu di-retry, atau sumber mengirim ulang halaman yang sama, baris yang sama bisa masuk dua kali — cursor mencegah baris TERLEWAT karena pergeseran, bukan mencegah baris GANDA karena retry. Exactly-once butuh kunci dedup/idempotensi di sisi consumer (id sumber plus updated_at, atau event_id unik) — tanpa itu, 'tepat sekali' hanya berlaku bila tidak ada retry sama sekali.",
         "Webhook adalah si pendengar yang setia: sumber mengirim event saat sesuatu terjadi — latensi detik tanpa polling. Harganya: endpoint kita harus selalu hidup, idempoten (webhook yang timeout dikirim ulang oleh sumber), dan memverifikasi signature. Dan 429 ditangani dengan backoff eksponensial plus jitter — retry langsung setelah 429 adalah cara tercepat menghabiskan kuota yang tersisa.",
       ],
       tasks: [],
@@ -51,7 +51,7 @@ export const de35: V2Lesson = {
         title: "Idempotensi ingest itu kontrak",
         body: "Ingest yang baik bisa di-rerun tanpa ganda: kunci dedup adalah id sumber plus updated_at, atau event_id yang unik. Tanpa kunci dedup, satu retry mengubah 132 request menjadi 132 baris ganda — dan dashboard revenue naik tanpa ada order baru.",
       },
-      reference: "120 halaman, 132 request per sync, 528 per jam aman; 7.920 per jam mati kena 429. Cursor untuk sinkronisasi, offset hanya untuk snapshot statis.",
+      reference: "120 halaman, 132 request per sync, 528 per jam aman; 7.920 per jam mati kena 429. Cursor untuk sinkronisasi, offset hanya untuk snapshot statis. Cursor bukan exactly-once — butuh kunci dedup.",
     },
     {
       id: "elt-vs-etl",
@@ -71,7 +71,7 @@ export const de35: V2Lesson = {
       title: "Lab: hitung beban request polling API",
       prose: [
         "Lab ini menghitung beban request polling dari jumlah record, page size, fraksi retry, dan interval sync.",
-        "Hitung dulu di kepala. Halaman: 12.000 dibagi 100 sama dengan 120. Request per sync: 120 dikali 1,1 sama dengan 132 (retry 10 persen). Request per jam untuk sync tiap 15 menit: 132 dikali 4 sama dengan 528.",
+        "Hitung dulu di kepala. Halaman: 12.000 dibagi 100 sama dengan 120 — dibulatkan ke ATAS (ceil): 12.050 record dengan page 100 butuh 121 halaman, bukan 120 — floor division (//) akan menghilangkan halaman terakhir yang terisi sebagian. Request per sync: 120 dikali 1,1 sama dengan 132 (retry 10 persen). Request per jam untuk sync tiap 15 menit: 132 dikali 4 sama dengan 528.",
         "Tugas lab: tulis fungsi yang menerima total record, page size, persen retry, dan sync per jam — lalu mencetak tiga angka: halaman, request, per_jam.",
         "Setelah lolos, coba eksperimen: ubah sync menjadi tiap menit (60 sync per jam) dan lihat per_jam menjadi 7.920 — jauh di atas kuota 1.000. Itulah bukti bahwa janji real-time harus dihitung dulu.",
       ],
@@ -82,14 +82,14 @@ export const de35: V2Lesson = {
       ],
       expected: "halaman=120\nrequest=132\nper_jam=528",
       hints: [
-        "Halaman = total record dibagi page size.",
+        "Halaman = total record dibagi page size, dibulatkan ke ATAS (ceil) — jangan floor division.",
         "Request = halaman dikali 1 ditambah fraksi retry.",
         "Per jam = request dikali sync per jam.",
       ],
       code: {
         starter: `# Ingest order dari API mitra: polling tiap 15 menit.\ntotal_record = 12000\npage_size = 100\nretry_persen = 10\nsync_per_jam = 4\n\n# TULIS KODEMU: hitung halaman, request, per_jam.\n# Cetak, per baris: halaman, request, per_jam.\n\n\nmesin_kuota(total_record, page_size, retry_persen, sync_per_jam)`,
         lockLines: 5,
-        solution: `# Ingest order dari API mitra: polling tiap 15 menit.\ntotal_record = 12000\npage_size = 100\nretry_persen = 10\nsync_per_jam = 4\n\n\ndef mesin_kuota(total_record, page_size, retry_persen, sync_per_jam):\n    halaman = total_record // page_size\n    request = int(halaman * (1 + retry_persen / 100))\n    per_jam = request * sync_per_jam\n    print(f"halaman={halaman}")\n    print(f"request={request}")\n    print(f"per_jam={per_jam}")\n\n\nmesin_kuota(total_record, page_size, retry_persen, sync_per_jam)`,
+        solution: `# Ingest order dari API mitra: polling tiap 15 menit.\ntotal_record = 12000\npage_size = 100\nretry_persen = 10\nsync_per_jam = 4\n\n\ndef mesin_kuota(total_record, page_size, retry_persen, sync_per_jam):\n    halaman = -(-total_record // page_size)  # ceil: halaman terakhir yang terisi sebagian tetap dihitung\n    request = int(halaman * (1 + retry_persen / 100))\n    per_jam = request * sync_per_jam\n    print(f"halaman={halaman}")\n    print(f"request={request}")\n    print(f"per_jam={per_jam}")\n\n\nmesin_kuota(total_record, page_size, retry_persen, sync_per_jam)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "halaman=120", label: "120 halaman", msg: "12.000 / 100 = 120 halaman." },
           { kind: "stdout_matches", task: "t2", pattern: "request=132", label: "132 request per sync", msg: "120 x 1,1 = 132. Retry 10 persen menambah 12 request." },
@@ -144,7 +144,7 @@ export const de35: V2Lesson = {
           q: "Kenapa cursor pagination lebih aman dari offset untuk sinkronisasi berkelanjutan?",
           options: [
             { text: "Cursor lebih cepat karena halamannya lebih besar", why: "Salah: ukuran halaman bukan pembedanya — stabilitas penanda yang membedakan." },
-            { text: "Baris baru yang tersisip tidak menggeser cursor, sehingga tidak ada baris terlewat", why: "Tepat: offset menggeser saat baris tersisip; cursor memakai penanda stabil.", correct: true },
+            { text: "Baris baru yang tersisip tidak menggeser cursor, sehingga tidak ada baris terlewat karena pergeseran", why: "Tepat: offset menggeser saat baris tersisip; cursor memakai penanda stabil. Catatan: ini mencegah TERLEWAT — bukan jaminan exactly-once; retry tetap butuh kunci dedup.", correct: true },
             { text: "Cursor tidak butuh autentikasi API", why: "Salah: autentikasi tidak ada hubungannya dengan jenis pagination." },
             { text: "Offset tidak bisa dipakai untuk data lebih dari 1.000 baris", why: "Salah: offset bisa dipakai untuk data besar — hanya saja rapuh saat data berubah." },
           ],

@@ -42,13 +42,13 @@ export const mlops27: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Hukum Little: tiga angka yang mengikat semuanya",
       prose: [
-        "Hukum Little: L = lambda x W. L = jumlah request yang sedang diproses (konkurensi); lambda = throughput (request/detik); W = waktu tiap request di sistem (detik). Contoh: target 500 RPS dengan latensi 100 ms (0,1 detik) — konkurensi yang dibutuhkan L = 500 x 0,1 = 50. Artinya sistem harus bisa memproses 50 request secara bersamaan. Bila serving-mu hanya punya 20 worker, antrean tumbuh — dan latensi meledak seperti di cerita pembuka.",
+        "Hukum Little: L = lambda x W. L = jumlah request yang sedang berada DI DALAM sistem — menunggu di antrean DITAMBAH sedang diproses (konkurensi total), bukan hanya yang sedang diproses; lambda = throughput (request/detik); W = waktu tiap request di sistem (detik). Contoh: target 500 RPS dengan latensi 100 ms (0,1 detik) — konkurensi yang dibutuhkan L = 500 x 0,1 = 50. Artinya sistem harus bisa menampung 50 request bersamaan (di antrean + diproses). Bila serving-mu hanya punya 20 worker, antrean tumbuh — dan latensi meledak seperti di cerita pembuka.",
         "Dari konkurensi ke virtual user Locust: tiap virtual user mengirim 1 request tiap 2 detik (think time 2 detik + latensi 0,1 detik diabaikan dalam hitungan kasar ini — pola Locust standar memakai laju per user). Untuk 500 RPS: butuh 500 x 2 = 1.000 virtual user. Bila tiap user lebih agresif (1 request/detik), cukup 500 user — tetapi pola itu tidak realistis: pengguna nyata berpikir di antara klik.",
         "Hukum Little juga bekerja terbalik: bila kamu mengukur konkurensi 50 dan latensi 0,2 detik, throughput maksimum = 50 / 0,2 = 250 RPS — bukan 500. Inilah cara mendiagnosis 'kenapa mentok di 250': bukan trafiknya, melainkan konkurensi atau latensinya. Perbaiki salah satu: tambah worker (naikkan L) atau percepat model (turunkan W).",
       ],
       tasks: [],
       formula: "L = \\lambda \\times W",
-      formulaNote: "L = konkurensi (request bersamaan); lambda = throughput (request/detik); W = latensi per request (detik).",
+      formulaNote: "L = jumlah request di dalam sistem (antrean + sedang diproses); lambda = throughput (request/detik); W = waktu tiap request di sistem, termasuk antrean (detik).",
       note: {
         title: "Latensi yang dipakai adalah latensi SISTEM",
         body: "W mencakup antrean + pemrosesan + network — bukan hanya waktu inferensi model. Model yang inferensinya 20 ms tetapi antre 180 ms karena worker penuh punya W = 200 ms. Load test yang hanya mengukur inferensi akan mengklaim 'kuat 500 RPS' sementara sistemnya runtuh di 250.",
@@ -60,7 +60,7 @@ export const mlops27: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Persentil & SLO: rata-rata menipu, p95 yang jujur",
       prose: [
-        "Daftar 20 latensi terurut (ms): 42, 45, 48, 51, 55, 58, 61, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 95, 110, 240. Median (p50) = rata-rata nilai ke-10 dan ke-11 = (69 + 72) / 2 = 70,5 ms. p95 = nilai pada posisi ceil(0,95 x 20) = posisi ke-19 = 110 ms. Rata-ratanya 75,9 ms — terlihat bagus. Tetapi p95 110 ms berarti 5 persen pengguna menunggu lebih dari 110 ms, dan satu pengguna menunggu 240 ms. SLA 'p95 di bawah 100 ms' GAGAL: 110 lebih besar dari 100.",
+        "Daftar 20 latensi terurut (ms): 42, 45, 48, 51, 55, 58, 61, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 95, 110, 240. Median (p50) = rata-rata nilai ke-10 dan ke-11 = (69 + 72) / 2 = 70,5 ms. p95 = nilai pada posisi ceil(0,95 x 20) = posisi ke-19 = 110 ms. Rata-ratanya 78,5 ms (jumlah 1.570 / 20) — terlihat bagus. Tetapi p95 110 ms berarti 5 persen pengguna menunggu lebih dari 110 ms, dan satu pengguna menunggu 240 ms. SLA 'p95 di bawah 100 ms' GAGAL: 110 lebih besar dari 100.",
         "SLO di lesson ini: p95 di bawah 100 ms DAN error rate di bawah 1 persen. Uji beban mengukur keduanya: error 8 dari 1.000 request = 0,8 persen — lolos SLO error. Tetapi p95 110 ms — gagal SLO latensi. Vonis keseluruhan: GAGAL. Satu SLO gagal berarti sistem gagal; tidak ada 'rata-rata lolos'.",
         "Tiga jenis uji yang berbeda. Load test: beban yang diharapkan (500 RPS) selama 30 menit — apakah SLO terpenuhi? Stress test: naikkan beban sampai patah (600, 800, 1.000 RPS) — di mana titik patahnya, dan apakah ia patah dengan anggun (menolak dengan 503) atau berantakan (timeout acak)? Soak test: beban normal selama 8-24 jam — apakah ada kebocoran memori atau degradasi lambat? Ketiganya dibutuhkan; load test saja tidak menemukan kebocoran memori, stress test saja tidak menemukan degradasi lambat.",
       ],
@@ -121,8 +121,8 @@ export const mlops27: V2Lesson = {
       ],
       tasks: [],
       note: {
-        title: "Locust: beban yang realistis",
-        body: "Locust menulis skenario sebagai kode Python: tiap virtual user berperilaku seperti pengguna (login, berpikir 2 detik, request, berpikir lagi). Bedakan dari 'penembak request mentah' (misalnya ab/wrk) yang mengukur throughput maksimum server — Locust mengukur pengalaman pengguna di bawah beban realistis. Keduanya berguna; jangan tertukar tujuannya.",
+        title: "Locust: beban yang realistis — contoh skenario",
+        body: "Locust menulis skenario sebagai kode Python: tiap virtual user berperilaku seperti pengguna (login, berpikir 2 detik, request, berpikir lagi). Bedakan dari 'penembak request mentah' (misalnya ab/wrk) yang mengukur throughput maksimum server — Locust mengukur pengalaman pengguna di bawah beban realistis. Keduanya berguna; jangan tertukar tujuannya. Contoh skenario untuk lesson ini:\n\nfrom locust import HttpUser, task, between\n\nclass Pembeli(HttpUser):\n    wait_time = between(1, 3)  # think time ~2 detik\n    @task\n    def rekomendasi(self):\n        self.client.post('/rekomendasi', json={'user_id': 123})\n\nJalankan: locust -f skenario.py --users 1000 --spawn-rate 50 --host https://staging.tokokilat.id — 1.000 virtual user, naik 50 user/detik. Pantau p95 dan error rate selama 30 menit, bukan hanya di menit pertama.",
       },
       reference: "Load untuk SLO; stress untuk titik patah; soak untuk kebocoran.",
     },
@@ -157,17 +157,17 @@ export const mlops27: V2Lesson = {
           options: [
             { text: "Lolos — error di bawah SLO", why: "Salah: SLO butuh KEDUANYA; p95 gagal berarti sistem gagal." },
             { text: "GAGAL — p95 110 ms di atas 100 ms", why: "Tepat: satu SLO gagal = sistem gagal.", correct: true },
-            { text: "Lolos — rata-rata hanya 75,9 ms", why: "Salah: rata-rata bukan SLO; p95 yang dinilai." },
+            { text: "Lolos — rata-rata hanya 78,5 ms", why: "Salah: rata-rata bukan SLO; p95 yang dinilai." },
             { text: "Tidak bisa diputuskan tanpa p99", why: "Salah: SLO yang disepakati memakai p95; p99 adalah informasi tambahan." },
           ],
         },
         {
-          q: "Mengapa rata-rata latensi 75,9 ms menipu di sini?",
+          q: "Mengapa rata-rata latensi 78,5 ms menipu di sini?",
           options: [
             { text: "Karena rata-rata tidak pernah berguna", why: "Salah: rata-rata berguna untuk tren; yang menipu adalah memakainya sebagai pengganti persentil." },
             { text: "Karena 5 persen pengguna menunggu di atas 110 ms dan satu menunggu 240 ms — rata-rata menyembunyikan ekor", why: "Tepat: ekor distribusi adalah pengalaman pengguna yang sial.", correct: true },
             { text: "Karena rata-rata dihitung dari sampel yang salah", why: "Salah: sampelnya benar; yang salah adalah metrik yang dipilih untuk vonis." },
-            { text: "Karena 75,9 lebih besar dari p50 70,5", why: "Salah: itu normal — rata-rata di atas median bila ada ekor kanan." },
+            { text: "Karena 78,5 lebih besar dari p50 70,5", why: "Salah: itu normal — rata-rata di atas median bila ada ekor kanan." },
           ],
         },
         {

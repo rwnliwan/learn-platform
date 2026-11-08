@@ -42,7 +42,7 @@ export const dba30: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Batch dan transaksi: kecil, ter-commit, bisa di-rerun",
       prose: [
-        "Satu transaksi raksasa untuk 5.000 baris memegang lock selama 40 menit dan menahan semua tulis lain. Pecah menjadi batch 500 baris: 10 batch, masing-masing commit sendiri. Batch yang gagal hanya mengulang 500 baris, bukan 5.000 — dan lock terlama yang dipegang hanya selama satu batch.",
+        "Satu transaksi raksasa untuk 5.000 baris memegang lock selama 40 menit dan menahan semua tulis lain. Pecah menjadi batch 500 baris: 10 batch, masing-masing commit sendiri. Batch yang gagal hanya mengulang 500 baris, bukan 5.000 — dan lock terlama yang dipegang hanya selama satu batch. Harga yang dibayar: commit per batch berarti pembatalan TIDAK me-rollback batch yang sudah commit — bila run dibatalkan di tengah, batch awal tetap tersimpan dan rerun harus idempotent (melewati baris yang sudah dipindah, bukan menduplikasinya). Dan tabel log error harus ditulis di transaksi terpisah — atau di-commit sendiri — agar tidak ikut ter-rollback saat batch-nya gagal.",
         "Hitungannya: 10 batch dikali 3 detik sama dengan 30 detik. Dua batch gagal dan di-retry: tambah 2 dikali 3 sama dengan 6 detik, total 36 detik. Bandingkan dengan 40 menit prosedur lama — dan dengan risiko lock yang hilang. Ukuran batch dipilih dari pengukuran: terlalu kecil berarti overhead commit mendominasi; terlalu besar berarti lock kembali panjang. Mulai dari 500 sampai 1.000, ukur, lalu sesuaikan.",
         "Idempotensi adalah syarat rerun: prosedur yang di-rerun tidak boleh menggandakan data. Polanya: tandai baris yang sudah diproses (kolom status atau tabel watermark), atau tulis dengan kunci yang membuat tulis kedua menjadi no-op. Prosedur tanpa idempotensi adalah prosedur yang hanya boleh jalan sekali — dan di produksi, semua hal akhirnya jalan dua kali.",
       ],
@@ -63,6 +63,10 @@ export const dba30: V2Lesson = {
         "Versioning: prosedur adalah kode — ia tinggal di version control, di-deploy lewat migrasi bernomor, dan perubahannya bisa di-rollback. Prosedur yang diubah langsung di produksi lewat klien SQL adalah prosedur yang tidak bisa dilacak siapa mengubah apa dan kapan. Aturan: tidak ada perubahan prosedur tanpa migrasi.",
       ],
       tasks: [],
+      note: {
+        title: "Contoh pola error handling + hak akses (Postgres)",
+        body: "BEGIN ... EXCEPTION WHEN OTHERS THEN INSERT INTO error_log (batch_no, pesan) VALUES (v_batch, SQLERRM); — log ditulis di blok exception agar tidak hilang saat transaksi batch di-rollback; putuskan di prosedur: lanjut ke batch berikut atau RAISE untuk membatalkan run. Contoh hak akses: GRANT EXECUTE ON PROCEDURE tutup_buku() TO role_akuntansi; REVOKE DELETE ON transaksi FROM role_akuntansi; — prosedur DEFINER yang menulis arsip tetap jalan, tetapi pemanggil tidak bisa menghapus langsung.",
+      },
       reference: "Tangkap error per batch, catat ke tabel log, putuskan lanjut atau batal. DEFINER: hak pemilik; validasi input wajib. Prosedur di-deploy lewat migrasi bernomor.",
     },
     {
@@ -82,14 +86,14 @@ export const dba30: V2Lesson = {
       ],
       expected: "batch=10\nwaktu_detik=30\ntotal_detik=36",
       hints: [
-        "Batch = total baris dibagi ukuran batch.",
+        "Batch = total baris dibagi ukuran batch, dibulatkan KE ATAS (ceiling) — 5.001 baris dengan batch 500 berarti 11 batch, bukan 10.",
         "Waktu normal = batch dikali detik per batch.",
         "Total = waktu normal ditambah batch gagal dikali detik per batch.",
       ],
       code: {
         starter: `# Prosedur migrasi tutup-buku: 5.000 baris, batch 500.\ntotal_baris = 5000\nukuran_batch = 500\ndetik_per_batch = 3\nbatch_gagal = 2\n\n# TULIS KODEMU: hitung batch, waktu_detik, total_detik.\n# Cetak, per baris: batch, waktu_detik, total_detik.\n\n\nmesin_batch(total_baris, ukuran_batch, detik_per_batch, batch_gagal)`,
         lockLines: 5,
-        solution: `# Prosedur migrasi tutup-buku: 5.000 baris, batch 500.\ntotal_baris = 5000\nukuran_batch = 500\ndetik_per_batch = 3\nbatch_gagal = 2\n\n\ndef mesin_batch(total_baris, ukuran_batch, detik_per_batch, batch_gagal):\n    batch = total_baris // ukuran_batch\n    waktu_detik = batch * detik_per_batch\n    total_detik = waktu_detik + batch_gagal * detik_per_batch\n    print(f"batch={batch}")\n    print(f"waktu_detik={waktu_detik}")\n    print(f"total_detik={total_detik}")\n\n\nmesin_batch(total_baris, ukuran_batch, detik_per_batch, batch_gagal)`,
+        solution: `# Prosedur migrasi tutup-buku: 5.000 baris, batch 500.\ntotal_baris = 5000\nukuran_batch = 500\ndetik_per_batch = 3\nbatch_gagal = 2\n\n\ndef mesin_batch(total_baris, ukuran_batch, detik_per_batch, batch_gagal):\n    batch = -(-total_baris // ukuran_batch)  # pembulatan ke atas: sisa baris tetap butuh satu batch\n    waktu_detik = batch * detik_per_batch\n    total_detik = waktu_detik + batch_gagal * detik_per_batch\n    print(f"batch={batch}")\n    print(f"waktu_detik={waktu_detik}")\n    print(f"total_detik={total_detik}")\n\n\nmesin_batch(total_baris, ukuran_batch, detik_per_batch, batch_gagal)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "batch=10", label: "10 batch", msg: "5.000 / 500 = 10 batch." },
           { kind: "stdout_matches", task: "t2", pattern: "waktu_detik=30", label: "30 detik normal", msg: "10 batch x 3 detik = 30 detik." },

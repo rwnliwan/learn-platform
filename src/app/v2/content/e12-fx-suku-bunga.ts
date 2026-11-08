@@ -84,9 +84,9 @@ export const e12: V2Lesson = {
         "SBN 2024: nom = 0,064, inflasi = 0,016.",
       ],
       code: {
-        starter: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil\nriil = {}\n\nprint(f"riil_2022={riil['Deposito 2022']:.4f}  riil_sbn={riil['SBN ritel 2024']:.4f}")`,
+        starter: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil,\n# lalu salin ke variabel standalone riil_2022 dan riil_sbn (sekali saja).\nriil = {}\n\nprint(f"riil_2022={riil_2022:.4f}  riil_sbn={riil_sbn:.4f}")`,
         lockLines: 6,
-        solution: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil\nriil = {}\nfor nama, nom, inf in data:\n    riil[nama] = (1 + nom) / (1 + inf) - 1\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\n\nprint(f"riil_2022={riil['Deposito 2022']:.4f}  riil_sbn={riil['SBN ritel 2024']:.4f}")`,
+        solution: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil,\n# lalu salin ke variabel standalone riil_2022 dan riil_sbn (sekali saja).\nriil = {}\nfor nama, nom, inf in data:\n    riil[nama] = (1 + nom) / (1 + inf) - 1\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\n\nprint(f"riil_2022={riil_2022:.4f}  riil_sbn={riil_sbn:.4f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "riil_2022", value: -0.0142, tol: 0.0001, label: "`riil_2022` sekitar −0,0142", msg: "(1,04/1,055) − 1 = −1,42%. Daya beli TURUN meski nominal naik." },
           { kind: "equal", task: "t2", name: "riil_sbn", value: 0.0472, tol: 0.0001, label: "`riil_sbn` sekitar 0,0472", msg: "(1,064/1,016) − 1 = 4,72%. Bandingkan ini, bukan angka brosur." },
@@ -146,7 +146,7 @@ export const e12: V2Lesson = {
       title: "Membaca sinyal BI & kurs: empat skenario",
       prose: [
         "BI menaikkan BI-Rate → siap-siap: bunga kredit dan deposito ikut naik (rantai transmisi moneter). Rupiah melemah tajam dan cepat → cek: dolar global menguat atau rupiah bermasalah? Bandingkan dengan THB, MYR, PHP di periode sama — pelemahan merata = sentimen global.",
-        "Punya utang/kewajiban USD → hedge dengan forward (kontrak mengunci kurs beli/jual di tanggal depan): biayanya = forward premium; hitung apakah “sepadan”. Membandingkan produk investasi → pakai bunga riil (nominal − inflasi), bukan nominal, lalu sesuaikan dengan risikonya.",
+        "Punya utang/kewajiban USD → hedge dengan forward (kontrak mengunci kurs beli/jual di tanggal depan): premi forward (selisih forward terhadap spot) adalah HARGA KEPASTIAN relatif terhadap spot hari ini — bukan 'biaya' dalam arti kerugian yang pasti. Biaya ekonomi hedging yang sebenarnya baru terlihat setelah tanggal jatuh tempo: bila kurs akhirnya di bawah forward, kamu 'membayar lebih' dari harga pasar; bila di atas forward, hedging justru menghematmu. Yang dihitung sebelum memutuskan adalah premi forward itu — apakah kepastian itu sepadan. Membandingkan produk investasi → pakai bunga riil (nominal − inflasi), bukan nominal, lalu sesuaikan dengan risikonya.",
         "Aturan 10 detik: USD/IDR naik = rupiah melemah, jangan terbalik. Forward = arbitrase bunga, bukan ramalan. PPP = kompas jangka panjang. Baca RDG seperti prakiraan cuaca.",
       ],
       tasks: [],
@@ -176,7 +176,7 @@ export const e12: V2Lesson = {
         lockLines: 5,
         solution: `pinjam_usd = 100_000\nbunga_usd = 0.05\nkurs_awal = 16_000\nbunga_idr = 0.068\nkurs_akhir = 16_500   # rupiah melemah saat unwind\n\n# TULIS KODEMU\nhasil_idr = pinjam_usd * kurs_awal * (1 + bunga_idr)\nbayar_idr = pinjam_usd * (1 + bunga_usd) * kurs_akhir\nrugi = bayar_idr - hasil_idr\n\nprint(f"hasil_idr={hasil_idr:.0f}  rugi={rugi:.0f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "hasil_idr", value: 1708800000, tol: 1, label: "`hasil_idr` seharusnya 1708800000", msg: "100.000 × 16.000 × 1,068 = Rp1.708,8 miliar." },
+          { kind: "equal", task: "t1", name: "hasil_idr", value: 1708800000, tol: 1, label: "`hasil_idr` seharusnya 1708800000", msg: "100.000 × 16.000 × 1,068 = Rp1.708.800.000 = Rp1.708,8 juta (Rp1,7088 miliar)." },
           { kind: "equal", task: "t2", name: "rugi", value: 23700000, tol: 1, label: "`rugi` seharusnya 23700000", msg: "Bayar 105.000×16.500 = 1.732,5M > hasil 1.708,8M. Unwind memakan selisih bunga setahun." },
           { kind: "stdout_matches", task: "t2", pattern: "hasil_idr=1708800000\\s+rugi=23700000", label: "`print` menampilkan dua angka", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],

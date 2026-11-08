@@ -58,12 +58,12 @@ export const biz29: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Fan chart dan tata kelola: ramalan yang mengaku tidak pasti",
       prose: [
-        "Fan chart menampilkan forecast sebagai kipas: garis tengah 165 untuk bulan ke-4, dengan interval 155 sampai 175 yang melebar makin jauh ke depan. Kipas yang melebar adalah kejujuran visual: makin jauh ramalan, makin besar ketidakpastiannya. Dashboard yang menampilkan garis lurus tanpa kipas sedang berbohong dengan grafik.",
+        "Fan chart menampilkan forecast sebagai kipas: garis tengah 165 untuk bulan ke-4, dengan interval 155 sampai 175 (interval prediksi 80 persen dalam contoh ini) yang melebar makin jauh ke depan. Tanpa tingkat cakupan yang dinyatakan, interval tidak berarti apa-apa — tulis selalu 'interval 80%' atau 'interval 95%' di samping angkanya. Kipas yang melebar adalah kejujuran visual: makin jauh ramalan, makin besar ketidakpastiannya. Dashboard yang menampilkan garis lurus tanpa kipas sedang berbohong dengan grafik.",
         "Catatan forecast wajib menempel di dashboard: model apa, tanggal refresh terakhir, MAE dan MAPE terakhir, dan asumsi terbesar (misalnya tidak ada promo besar). Bila asumsi berubah — promo Lebaran dimajukan — catatan itu yang pertama diperbarui, bukan angkanya.",
         "Tata kelola refresh: model di-refresh tiap ada data baru yang cukup (bulanan untuk revenue bulanan), dan akurasi dimonitor terhadap ambang: MAPE di atas 10 persen selama 2 bulan berturut-turut memicu review model — bukan diam-diam mengganti model tanpa catatan. Forecast yang tidak dimonitor akan memburuk diam-diam, seperti di cerita pembuka.",
       ],
       tasks: [],
-      reference: "Fan chart: 165 dengan interval 155 sampai 175, melebar ke depan. Ambang review: MAPE di atas 10 persen selama 2 bulan.",
+      reference: "Fan chart: 165 dengan interval 80 persen 155 sampai 175, melebar ke depan. Ambang review: MAPE di atas 10 persen selama 2 bulan.",
     },
     {
       id: "lab-forecast",
@@ -82,13 +82,13 @@ export const biz29: V2Lesson = {
       expected: "mae=5.0\nmape=3.73",
       hints: [
         "MAE = rata-rata nilai absolut aktual dikurangi forecast.",
-        "MAPE = rata-rata selisih absolut dibagi aktual, dikali 100.",
+        "MAPE = rata-rata selisih absolut dibagi aktual, dikali 100 — dan tidak terdefinisi bila aktual 0: lewati bulan itu atau pakai WAPE.",
         "Bulatkan MAPE ke 2 desimal.",
       ],
       code: {
         starter: `# Forecast revenue Kopi Nusantara: 3 bulan.\naktual = [120, 135, 150]\nforecast = [125, 130, 145]\n\n# TULIS KODEMU: hitung mae dan mape.\n# Cetak, per baris: mae, mape.\n\n\nmesin_forecast(aktual, forecast)`,
         lockLines: 3,
-        solution: `# Forecast revenue Kopi Nusantara: 3 bulan.\naktual = [120, 135, 150]\nforecast = [125, 130, 145]\n\n\ndef mesin_forecast(aktual, forecast):\n    selisih = []\n    persen = []\n    for a, f in zip(aktual, forecast):\n        selisih.append(abs(a - f))\n        persen.append(abs(a - f) / a * 100)\n    mae = sum(selisih) / len(selisih)\n    mape = round(sum(persen) / len(persen), 2)\n    print(f"mae={mae}")\n    print(f"mape={mape}")\n\n\nmesin_forecast(aktual, forecast)`,
+        solution: `# Forecast revenue Kopi Nusantara: 3 bulan.\naktual = [120, 135, 150]\nforecast = [125, 130, 145]\n\n\ndef mesin_forecast(aktual, forecast):\n    selisih = []\n    persen = []\n    for a, f in zip(aktual, forecast):\n        selisih.append(abs(a - f))\n        if a != 0:  # aktual 0: MAPE tidak terdefinisi — lewati bulan itu (atau pakai WAPE)\n            persen.append(abs(a - f) / a * 100)\n    mae = sum(selisih) / len(selisih)\n    mape = round(sum(persen) / len(persen), 2)\n    print(f"mae={mae}")\n    print(f"mape={mape}")\n\n\nmesin_forecast(aktual, forecast)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "mae=5.0", label: "MAE 5,0", msg: "Selisih 5, 5, 5 — rata-rata 5,0 unit per bulan." },
           { kind: "stdout_matches", task: "t2", pattern: "mape=3.73", label: "MAPE 3,73 persen", msg: "(4,17 + 3,70 + 3,33) / 3 = 3,73 persen." },

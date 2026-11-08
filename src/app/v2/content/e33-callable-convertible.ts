@@ -43,14 +43,15 @@ export const e33: V2Lesson = {
       title: "Callable: emiten memegang opsi atas uangmu",
       prose: [
         "Obligasi callable memberi emiten hak — bukan kewajiban — untuk membeli kembali obligasi sebelum jatuh tempo di harga call yang sudah ditentukan. Bagi emiten, ini asuransi suku bunga: bila suku bunga turun, ia memanggil obligasi kupon tinggi dan menerbitkan yang baru dengan kupon lebih rendah. Bagi investor, ini risiko reinvestasi yang dipaksakan: uangmu kembali tepat saat tidak ada tempat bagus untuk menginvestasikannya.",
-        "Karena itu yield to maturity (YTM) untuk callable adalah skenario terbaik EMITEN, bukan kamu. Ukuran yang jujur adalah yield-to-worst (YTW): yang terendah dari YTM dan semua yield-to-call (YTC) di tiap tanggal call. Contoh: obligasi 10 tahun kupon 7 persen, harga 102, YTM 6,2 persen, tetapi callable dalam 3 tahun di harga 105 dengan YTC 5,1 persen. YTW = 5,1 persen — bukan 6,2 persen. Investor yang membeli dengan ekspektasi 6,2 persen sedang membeli skenario yang emitennya akan batalkan begitu menguntungkan.",
-        "Valuasi yang benar memisahkan harga obligasi callable menjadi dua bagian: harga obligasi polos DIKURANGI nilai opsi call yang dijual investor ke emiten. Opsi itu dinilai dengan pohon binomial suku bunga: di tiap node, emiten memanggil bila harga obligasi melebihi harga call. Selisih antara spread obligasi callable dan spread obligasi polos yang setara — setelah mengeluarkan nilai opsi — disebut option-adjusted spread (OAS). OAS adalah spread yang tersisa setelah opsi dikeluarkan: ia mengukur kompensasi risiko kredit murni, bukan campuran kredit dan opsi.",
+        "Karena itu yield to maturity (YTM) untuk callable adalah skenario terbaik EMITEN, bukan kamu. Ukuran yang jujur adalah yield-to-worst (YTW): yang terendah dari YTM dan semua yield-to-call (YTC) di tiap tanggal call. Contoh yang dihitung penuh: obligasi 10 tahun kupon 7 persen, harga 102. YTM-nya ≈ 6,7 persen — yaitu y yang memenuhi 102 = 7 × anuitas 10 tahun + 100 yang didiskonto 10 tahun. Tetapi obligasi ini callable dalam 2 tahun di harga 100 (par): YTC-nya adalah y yang memenuhi 102 = 7/(1+y) + 107/(1+y)² — persamaan kuadrat yang memberi y ≈ 5,9 persen. YTW = min(6,7 persen; 5,9 persen) = 5,9 persen — bukan 6,7 persen. Investor yang membeli dengan ekspektasi 6,7 persen sedang membeli skenario yang emitennya akan batalkan begitu menguntungkan.",
+        "Valuasi yang benar memisahkan harga obligasi callable menjadi dua bagian: harga obligasi polos DIKURANGI nilai opsi call yang dijual investor ke emiten. Opsi itu dinilai dengan pohon binomial suku bunga: di tiap node, emiten memanggil bila harga obligasi melebihi harga call. Selisih antara spread obligasi callable dan spread obligasi polos yang setara — setelah mengeluarkan nilai opsi — disebut option-adjusted spread (OAS). OAS adalah spread yang tersisa setelah opsi dikeluarkan: ia terutama mengukur kompensasi risiko kredit — tetapi OAS juga memuat premi likuiditas dan faktor pasar lain, jadi ia bukan 'kredit murni'.",
+        "Contoh pohon binomial satu langkah (per Rp100 nominal) — cara OAS benar-benar dihitung. Obligasi 2 tahun, kupon 7, callable di harga 100 pada akhir tahun 1. Suku bunga tahun 1: 5 persen. Tahun 2: naik ke 8 persen atau turun ke 4 persen, masing-masing peluang risk-neutral 50 persen. Di akhir tahun 1, nilai ex-kupon: bila suku bunga naik, (7+100)/1,08 = 99,07; bila turun, (7+100)/1,04 = 102,88. Emiten memanggil bila nilai melebihi harga call 100 — hanya di skenario turun, nilainya dipangkas ke 100. Nilai callable hari ini = [0,5×(7+99,07) + 0,5×(7+100)]/1,05 = 101,46. Nilai obligasi polos yang sama = [0,5×(7+99,07) + 0,5×(7+102,88)]/1,05 = 102,84. Nilai opsi call = 102,84 − 101,46 = 1,37 per Rp100 nominal. OAS adalah spread konstan yang ditambahkan ke tiap suku bunga diskonto di pohon ini agar harga model sama dengan harga pasar callable — ia dihitung secara numerik, bukan dari rumus tertutup, dan ia berubah bila volatilitas suku bunga berubah.",
         "Aturan praktis: bandingkan OAS, bukan YTM, antar obligasi callable. Dua obligasi dengan YTM sama bisa punya OAS yang sangat berbeda — yang satu murah karena risiko kreditnya tinggi, yang lain murah karena opsinya mahal. Dan ingat negative convexity (PM-A7B): saat yield turun, harga callable tertahan di harga call — untungmu dipangkas tepat saat obligasi polos sedang berpesta.",
       ],
       tasks: [],
       formula: String.raw`\text{YTW} = \min(\text{YTM}, \text{YTC}_1, \text{YTC}_2, \dots) \qquad P_{callable} = P_{polos} - V_{opsi}`,
-      formulaNote: "YTW = yield terendah dari semua skenario (jatuh tempo dan tiap tanggal call). Harga callable = harga obligasi polos dikurangi nilai opsi call milik emiten. Contoh: YTM 6,2 persen, YTC 5,1 persen → YTW 5,1 persen.",
-      reference: "YTM 6,2 persen, YTC 5,1 persen → YTW 5,1 persen. OAS = spread setelah nilai opsi dikeluarkan.",
+      formulaNote: "YTW = yield terendah dari semua skenario (jatuh tempo dan tiap tanggal call). Harga callable = harga obligasi polos dikurangi nilai opsi call milik emiten. Contoh: YTM 6,7 persen, YTC 5,9 persen → YTW 5,9 persen.",
+      reference: "YTM 6,7 persen, YTC 5,9 persen → YTW 5,9 persen. OAS = spread setelah nilai opsi dikeluarkan. Pohon binomial 1 langkah: opsi call 1,37 per Rp100 nominal.",
     },
     {
       id: "convertible",
@@ -121,8 +122,8 @@ export const e33: V2Lesson = {
       eyebrow: "Langkah 7 · Mini-case",
       title: "Mini-case: Budi, dua tahun kemudian",
       prose: [
-        "Kembali ke Budi. Obligasinya dipanggil di Rp1.050.000 dan ia harus menginvestasikan ulang di suku bunga 5 persen. Kerugian nyatanya: ia kehilangan kupon 9 persen selama 8 tahun tersisa — selisih 4 poin per tahun atas Rp1.000.000 nominal, atau sekitar Rp320.000 nilai kini. Itulah harga opsi call yang ia jual tanpa sadar — dan ia tidak pernah menerima premi yang sepadan, karena kupon 9 persen itu sebagian adalah kompensasi risiko kredit, bukan premi opsi.",
-        "Seandainya Budi membaca lesson ini sebelum membeli, ia akan menghitung YTW 5,1 persen — bukan YTM 8,2 persen — dan membandingkannya dengan obligasi polos 5,1 persen. Ia akan melihat bahwa obligasi itu tidak murah sama sekali; ia hanya terlihat murah bagi yang tidak menghitung opsi. Atau ia akan membeli convertible sebagai gantinya: opsi di tangannya, bukan di tangan emiten.",
+        "Kembali ke Budi. Obligasinya dipanggil di Rp1.050.000 dan ia harus menginvestasikan ulang di suku bunga 5 persen. Kerugian nyatanya: ia kehilangan kupon 9 persen selama 8 tahun tersisa — selisih 4 poin per tahun atas Rp1.000.000 nominal, atau Rp40.000 per tahun; nilai kini selisih itu (didiskonto 5 persen selama 8 tahun) sekitar Rp259.000. Itulah harga opsi call yang ia jual tanpa sadar — dan ia tidak pernah menerima premi yang sepadan, karena kupon 9 persen itu sebagian adalah kompensasi risiko kredit, bukan premi opsi.",
+        "Seandainya Budi membaca lesson ini sebelum membeli, ia akan menghitung yield-to-worst — bukan yield-to-maturity — dan membandingkannya dengan obligasi polos yang setara. Ia akan melihat bahwa obligasi itu tidak murah sama sekali; ia hanya terlihat murah bagi yang tidak menghitung opsi. Atau ia akan membeli convertible sebagai gantinya: opsi di tangannya, bukan di tangan emiten.",
         "Pelajaran Budi adalah pelajaran seluruh lesson ini: obligasi dengan opsi tersembunyi harus dinilai dengan opsinya dikeluarkan. Harga yang mengabaikan opsi adalah harga yang salah — dan pasar akan menagih selisihnya tepat saat kamu paling tidak siap.",
       ],
       tasks: [],
@@ -130,7 +131,7 @@ export const e33: V2Lesson = {
         title: "Pembahasan",
         body: "Tiga hal yang membuat analisis ini benar. Pertama, YTW dipakai sebagai ukuran, bukan YTM. Kedua, nilai opsi dihitung sebagai bagian dari harga — bukan diabaikan. Ketiga, keputusan dibandingkan dengan alternatif yang setara (obligasi polos atau convertible), bukan dengan angan-angan.",
       },
-      reference: "Kerugian Budi sekitar Rp320.000 nilai kini — harga opsi call yang ia jual tanpa sadar.",
+      reference: "Kerugian Budi sekitar Rp259.000 nilai kini (Rp40.000/tahun × 8 tahun didiskonto 5 persen) — harga opsi call yang ia jual tanpa sadar.",
     },
     {
       id: "kuis",
@@ -141,7 +142,7 @@ export const e33: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "YTW = yang terendah dari YTM dan semua YTC. Contoh: YTM 6,2 persen, YTC 5,1 persen → YTW 5,1 persen.",
+        "YTW = yang terendah dari YTM dan semua YTC. Contoh: YTM 6,7 persen, YTC 5,9 persen → YTW 5,9 persen.",
         "Harga callable = harga obligasi polos dikurangi nilai opsi call milik emiten.",
         "Paritas Rp1.000.000; premi 10 persen; harga impas Rp27.500.",
         "Convertible: di bawah impas berperilaku seperti obligasi; di atas impas seperti saham.",
@@ -150,11 +151,11 @@ export const e33: V2Lesson = {
       next: { label: "E34 — Swap sebagai Instrumen: Valuasi, Kurva, dan Swap Spread", href: "/v2/learn/e34-swap-valuasi" },
       quiz: [
         {
-          q: "Obligasi 10 tahun kupon 7 persen, harga 102, YTM 6,2 persen, callable dalam 3 tahun di harga 105 dengan YTC 5,1 persen. Berapa yield-to-worst?",
+          q: "Obligasi 10 tahun kupon 7 persen, harga 102, YTM 6,7 persen, callable dalam 2 tahun di harga 100 dengan YTC 5,9 persen. Berapa yield-to-worst?",
           options: [
-            { text: "6,2 persen — YTM selalu dipakai", why: "Salah: YTM adalah skenario terbaik emiten. Bila suku bunga turun, emiten memanggil dan kamu hanya mendapat YTC." },
-            { text: "5,1 persen — yang terendah dari YTM dan YTC", why: "Tepat: YTW = min(6,2 persen; 5,1 persen) = 5,1 persen. Itulah return yang bisa kamu harapkan dengan jujur.", correct: true },
-            { text: "5,65 persen — rata-rata YTM dan YTC", why: "Salah: YTW bukan rata-rata. Ia skenario terburuk — yang terendah — karena emiten memilih skenario yang menguntungkannya." },
+            { text: "6,7 persen — YTM selalu dipakai", why: "Salah: YTM adalah skenario terbaik emiten. Bila suku bunga turun, emiten memanggil dan kamu hanya mendapat YTC." },
+            { text: "5,9 persen — yang terendah dari YTM dan YTC", why: "Tepat: YTW = min(6,7 persen; 5,9 persen) = 5,9 persen. Itulah return yang bisa kamu harapkan dengan jujur.", correct: true },
+            { text: "6,3 persen — rata-rata YTM dan YTC", why: "Salah: YTW bukan rata-rata. Ia skenario terburuk — yang terendah — karena emiten memilih skenario yang menguntungkannya." },
             { text: "7,0 persen — kupon adalah yield-nya", why: "Salah: kupon bukan yield bila harga bukan par. Yield dihitung dari harga, kupon, dan skenario call." },
           ],
         },

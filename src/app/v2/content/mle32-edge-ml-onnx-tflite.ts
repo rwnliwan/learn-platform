@@ -21,7 +21,7 @@ export const mle32: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "MLE5 mengajarkan ONNX sebagai format aman (jangan unpickle dari luar) dan DLE10 mengajarkan kuantisasi, distilasi, dan pruning dari sudut deploy DL. Lesson ini TIDAK mengulang keduanya: ia membangun jalur edge end-to-end dari sudut MLE — model tabular/klasik ke ONNX ke TFLite, uji paritas, anggaran latensi dan baterai, serta strategi update model di perangkat yang tidak selalu online.",
       },
-      reference: "FP32 9,6 MB; INT8 2,4 MB; paket TFLite 2,7 MB; latensi 120 ms menjadi 18 ms (6,67x); ambang paritas 0,01.",
+      reference: "FP32 9,6 MB; INT8 2,4 MB; paket TFLite 2,7 MB; latensi 120 ms menjadi 18 ms (6,67x); ambang paritas maks 0,01 dan rata-rata 0,002.",
     },
     {
       id: "tujuan",
@@ -42,9 +42,10 @@ export const mle32: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Rantai konversi: training ke ONNX ke TFLite",
       prose: [
-        "Tiga format, tiga peran. Model training (misalnya scikit-learn atau PyTorch) adalah sumber kebenaran — tetapi terikat framework dan bahasa. ONNX adalah format perantara: graph operator matematika standar yang bisa dibaca runtime mana pun (ONNX Runtime, TensorRT, CoreML) tanpa mengeksekusi kode arbitrer — inilah yang membuatnya aman (MLE5). TFLite adalah format akhir untuk perangkat mobile/embedded: dioptimasi untuk CPU ARM, dengan delegasi GPU/NNAPI bila tersedia.",
+        "Tiga format, tiga peran. Model training (misalnya scikit-learn atau PyTorch) adalah sumber kebenaran — tetapi terikat framework dan bahasa. ONNX adalah format perantara: graph operator matematika standar yang bisa dibaca BANYAK runtime (ONNX Runtime, TensorRT, CoreML) tanpa mengeksekusi kode arbitrer — inilah yang membuatnya lebih aman dari pickle (MLE5). Tetapi 'runtime mana pun' adalah klaim yang berlebihan: dukungan operator dan opset BERBEDA antar-runtime dan antar-versi — operator yang didukung ONNX Runtime belum tentu ada di TensorRT atau CoreML — jadi uji konversi di runtime TARGET, bukan di sembarang runtime. Format ini juga tidak menjamin keamanan absolut: graph ONNX tidak mengeksekusi kode arbitrer, tetapi tetap bisa berisi operator yang menyalahgunakan sumber daya — verifikasi sumber model sebelum dipakai. TFLite adalah format akhir untuk perangkat mobile/embedded: dioptimasi untuk CPU ARM, dengan delegasi GPU/NNAPI bila tersedia.",
         "Hitung ukuran di tiap tahap. Model 2,4 juta parameter: FP32 (4 byte) = 2.400.000 x 4 / 1.000.000 = 9,6 MB. Kuantisasi INT8 (1 byte) = 2,4 MB — seperempatnya. Paket TFLite akhir = 2,4 MB bobot + 0,3 MB metadata (nama fitur, rentang normalisasi, versi model) = 2,7 MB. Metadata bukan hiasan: tanpa rentang normalisasi yang ikut terkirim, aplikasi akan memberi input yang salah skala dan skornya diam-diam salah.",
         "Tiga jebakan konversi yang paling umum. Pertama, operator tidak didukung: operasi khusus di training tidak ada padanannya di TFLite — sederhanakan model atau tulis operator kustom sebelum konversi, bukan setelah deploy. Kedua, bentuk input dinamis yang lupa dideklarasikan: batch size terkunci 1 dan throughput hancur. Ketiga, kuantisasi tanpa kalibrasi dari data produksi: rentang aktivasi salah = akurasi jatuh 5 persen (DLE10). Aturan: konversi selalu diikuti uji paritas.",
+        "Jalur yang bisa direproduksi: kunci versi di tiap langkah (versi framework training, opset ONNX, dan konverter TFLite — catat ketiganya di repo), ekspor dengan opset yang tetap, beri hash pada artefak ONNX hasil ekspor, jalankan uji paritas di CI pada runtime TARGET (bukan di laptop), dan verifikasi hash itu lagi saat deploy ke perangkat. Bila satu versi berubah tanpa dicatat, hasil konversi bisa berubah diam-diam — dan paritas yang dulu lolos belum tentu lolos lagi. Reproduksibilitas bukan dokumentasi tambahan; ia adalah cara memastikan model yang diuji adalah model yang dikirim.",
       ],
       tasks: [],
       note: {
@@ -58,7 +59,7 @@ export const mle32: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Uji paritas: bukti model HP sama dengan model server",
       prose: [
-        "Konversi yang tidak diverifikasi adalah keyakinan, bukan engineering. Uji paritas membandingkan output model asli vs model hasil konversi pada sampel yang sama: 1.000 sampel produksi, hitung selisih absolut maksimum dan rata-rata. Ambang yang dipakai di lesson ini: selisih maksimum 0,01 dan rata-rata di bawah 0,002. Contoh: selisih maksimum terukur 0,004 — di bawah 0,01, lolos. Bila selisih maksimum 0,03 — gagal, kembali ke kalibrasi kuantisasi atau periksa operator yang tidak didukung.",
+        "Konversi yang tidak diverifikasi adalah keyakinan, bukan engineering. Uji paritas membandingkan output model asli vs model hasil konversi pada sampel yang sama: 1.000 sampel produksi, hitung selisih absolut maksimum dan rata-rata. Ambang yang dipakai di lesson ini: selisih maksimum 0,01 dan rata-rata di bawah 0,002. Contoh: selisih maksimum terukur 0,004 dan rata-rata 0,001 — keduanya di bawah ambang, lolos. Vonis memakai KEDUA kriteria: maksimum yang lolos tetapi rata-rata di atas 0,002 tetap gagal — rata-rata yang tinggi menandakan penyimpangan sistematis di banyak sampel, bukan satu outlier. Bila selisih maksimum 0,03 — gagal, kembali ke kalibrasi kuantisasi atau periksa operator yang tidak didukung.",
         "Latensi juga diukur, bukan diasumsikan. Server: 120 ms per prediksi (termasuk network). HP target: 18 ms — 6,67x lebih cepat (120 / 18 = 6,67). Tetapi ukur p99, bukan rata-rata: HP yang panas melakukan throttling dan p99 bisa 3x rata-rata. Aturan DLE10 berlaku: benchmark di HP kentang, bukan flagship.",
         "Update model di edge adalah masalah operasi, bukan masalah ML. Perangkat tidak selalu online; update harus delta (hanya bobot yang berubah), terverifikasi (hash + uji paritas pasca-update di perangkat), dan bisa rollback (simpan model lama sampai model baru lolos uji di perangkat). Model edge tanpa jalur rollback = model yang tidak bisa diperbaiki saat salah.",
       ],
@@ -67,7 +68,7 @@ export const mle32: V2Lesson = {
         title: "Kapan edge SALAH",
         body: "Model yang berubah tiap hari (retrain harian) tidak cocok untuk edge — biaya distribusi update melebihi manfaat latensi. Model yang butuh data segar dari server (fitur real-time) juga tidak cocok — edge hanya melihat data lokal. Dan model raksasa (LLM 7B) tidak muat di HP 2 jutaan berapa pun kuantisasinya. Edge menang bila: model stabil, input tersedia lokal, dan latensi/privasi/offline benar-benar menuntut.",
       },
-      reference: "Paritas lolos bila selisih maks 0,004 di bawah ambang 0,01. Latensi 18 ms vs 120 ms.",
+      reference: "Paritas lolos bila selisih maks 0,004 di bawah ambang 0,01 DAN rata-rata 0,001 di bawah 0,002.",
     },
     {
       id: "lab-edge",
@@ -75,31 +76,31 @@ export const mle32: V2Lesson = {
       title: "Lab: ukuran, paritas, dan speedup edge",
       prose: [
         "Lab ini menghitung anggaran edge dari angka mentah: ukuran model di tiap format, total paket, selisih paritas, dan speedup latensi.",
-        "Hitung dulu di kepala. FP32: 2.400.000 x 4 / 1.000.000 = 9,6 MB. INT8: 2.400.000 x 1 / 1.000.000 = 2,4 MB. Paket TFLite: 2,4 + 0,3 = 2,7 MB. Selisih paritas maksimum 0,004 di bawah ambang 0,01 — lolos (1 = lolos). Speedup: 120 / 18 = 6,67x.",
+        "Hitung dulu di kepala. FP32: 2.400.000 x 4 / 1.000.000 = 9,6 MB. INT8: 2.400.000 x 1 / 1.000.000 = 2,4 MB. Paket TFLite: 2,4 + 0,3 = 2,7 MB. Selisih paritas maksimum 0,004 di bawah ambang 0,01 DAN rata-rata 0,001 di bawah ambang 0,002 — lolos (1 = lolos). Speedup: 120 / 18 = 6,67x.",
         "Tugas lab: hitung lima angka dan cetak masing-masing di baris sendiri: fp32_mb, int8_mb, paket_mb, paritas_lolos (1 bila selisih maks di bawah ambang, 0 bila tidak), speedup. Lima angka ini adalah lembar spesifikasi edge — dengan ini kamu bisa menjawab 'apakah model ini muat dan cukup cepat' sebelum satu baris kode Android ditulis.",
         "Setelah lolos, coba eksperimen: naikkan parameter menjadi 10 juta dan lihat FP32 menjadi 40 MB — masih bisakah masuk batas aplikasi 50 MB setelah INT8 (10 MB)? Lalu tanyakan: pada ukuran berapa kamu berhenti memaksa edge dan kembali ke server?",
       ],
       tasks: [
         { id: "t1", text: "Hitung `fp32_mb` dan `int8_mb` dari 2,4 juta parameter" },
         { id: "t2", text: "Hitung `paket_mb` TFLite termasuk metadata 0,3 MB" },
-        { id: "t3", text: "Tentukan `paritas_lolos` dan hitung `speedup` latensi" },
+        { id: "t3", text: "Tentukan `paritas_lolos` (kedua ambang harus lolos) dan hitung `speedup` latensi" },
       ],
       expected: "fp32_mb=9.6\nint8_mb=2.4\npaket_mb=2.7\nparitas_lolos=1\nspeedup=6.67",
       hints: [
         "MB = parameter x byte per parameter / 1.000.000.",
         "Paket = bobot INT8 + metadata.",
-        "Paritas lolos = 1 bila selisih maks 0,004 di bawah ambang 0,01.",
+        "Paritas lolos = 1 bila selisih maks di bawah ambang 0,01 DAN selisih rata-rata di bawah ambang 0,002.",
         "Speedup = latensi server / latensi HP; bulatkan 2 desimal.",
       ],
       code: {
-        starter: `# Anggaran edge: ukuran model, paket TFLite, paritas, speedup.\nparams = 2_400_000\nmetadata_mb = 0.3\nselisih_maks = 0.004\nambang_paritas = 0.01\nlatensi_server = 120\nlatensi_hp = 18\n\n# TULIS KODEMU: hitung lima angka di bawah ini.\nfp32_mb = \nint8_mb = \npaket_mb = \nparitas_lolos = \nspeedup = \n\nprint(f"fp32_mb={fp32_mb}")\nprint(f"int8_mb={int8_mb}")\nprint(f"paket_mb={paket_mb}")\nprint(f"paritas_lolos={paritas_lolos}")\nprint(f"speedup={round(speedup, 2)}")`,
-        lockLines: 7,
-        solution: `# Anggaran edge: ukuran model, paket TFLite, paritas, speedup.\nparams = 2_400_000\nmetadata_mb = 0.3\nselisih_maks = 0.004\nambang_paritas = 0.01\nlatensi_server = 120\nlatensi_hp = 18\n\n# TULIS KODEMU: hitung lima angka di bawah ini.\nfp32_mb = params * 4 / 1e6\nint8_mb = params * 1 / 1e6\npaket_mb = int8_mb + metadata_mb\nparitas_lolos = 1 if selisih_maks < ambang_paritas else 0\nspeedup = latensi_server / latensi_hp\n\nprint(f"fp32_mb={fp32_mb}")\nprint(f"int8_mb={int8_mb}")\nprint(f"paket_mb={paket_mb}")\nprint(f"paritas_lolos={paritas_lolos}")\nprint(f"speedup={round(speedup, 2)}")`,
+        starter: `# Anggaran edge: ukuran model, paket TFLite, paritas, speedup.\nparams = 2_400_000\nmetadata_mb = 0.3\nselisih_maks = 0.004\nselisih_rata = 0.001\nambang_paritas = 0.01\nambang_rata = 0.002\nlatensi_server = 120\nlatensi_hp = 18\n\n# TULIS KODEMU: hitung lima angka di bawah ini.\nfp32_mb = \nint8_mb = \npaket_mb = \nparitas_lolos = \nspeedup = \n\nprint(f"fp32_mb={fp32_mb}")\nprint(f"int8_mb={int8_mb}")\nprint(f"paket_mb={paket_mb}")\nprint(f"paritas_lolos={paritas_lolos}")\nprint(f"speedup={round(speedup, 2)}")`,
+        lockLines: 9,
+        solution: `# Anggaran edge: ukuran model, paket TFLite, paritas, speedup.\nparams = 2_400_000\nmetadata_mb = 0.3\nselisih_maks = 0.004\nselisih_rata = 0.001\nambang_paritas = 0.01\nambang_rata = 0.002\nlatensi_server = 120\nlatensi_hp = 18\n\n\nfp32_mb = params * 4 / 1e6\nint8_mb = params * 1 / 1e6\npaket_mb = int8_mb + metadata_mb\nparitas_lolos = 1 if selisih_maks < ambang_paritas and selisih_rata < ambang_rata else 0\nspeedup = latensi_server / latensi_hp\n\nprint(f"fp32_mb={fp32_mb}")\nprint(f"int8_mb={int8_mb}")\nprint(f"paket_mb={paket_mb}")\nprint(f"paritas_lolos={paritas_lolos}")\nprint(f"speedup={round(speedup, 2)}")`,
         checks: [
           { kind: "equal", task: "t1", name: "fp32_mb", value: 9.6, tol: 1e-9, label: "`fp32_mb` seharusnya 9.6", msg: "2,4 juta x 4 byte = 9,6 MB." },
           { kind: "equal", task: "t1", name: "int8_mb", value: 2.4, tol: 1e-9, label: "`int8_mb` seharusnya 2.4", msg: "2,4 juta x 1 byte = 2,4 MB." },
           { kind: "equal", task: "t2", name: "paket_mb", value: 2.7, tol: 1e-9, label: "`paket_mb` seharusnya 2.7", msg: "2,4 + 0,3 metadata = 2,7 MB." },
-          { kind: "equal", task: "t3", name: "paritas_lolos", value: 1, tol: 1e-9, label: "`paritas_lolos` seharusnya 1", msg: "0,004 di bawah ambang 0,01 — lolos." },
+          { kind: "equal", task: "t3", name: "paritas_lolos", value: 1, tol: 1e-9, label: "`paritas_lolos` seharusnya 1", msg: "0,004 < 0,01 dan 0,001 < 0,002 — kedua kriteria lolos." },
           { kind: "equal", task: "t3", name: "speedup", value: 6.67, tol: 0.01, label: "`speedup` seharusnya 6.67", msg: "120 / 18 = 6,67x." },
         ],
       },
@@ -134,7 +135,7 @@ export const mle32: V2Lesson = {
       summary: [
         "Rantai: training ke ONNX (format) ke TFLite (mobile).",
         "2,4 juta parameter: FP32 9,6 MB; INT8 2,4 MB; paket 2,7 MB.",
-        "Paritas: selisih maks 0,004 di bawah ambang 0,01 — lolos.",
+        "Paritas: selisih maks 0,004 < 0,01 dan rata-rata 0,001 < 0,002 — lolos (kedua ambang).",
         "Latensi 120 ms menjadi 18 ms = 6,67x; ukur p99 di HP kentang.",
         "Update edge: delta + hash + rollback; model lama disimpan sampai baru lolos.",
       ],
@@ -150,11 +151,11 @@ export const mle32: V2Lesson = {
           ],
         },
         {
-          q: "Selisih paritas maksimum 0,004 dengan ambang 0,01. Apa vonisnya?",
+          q: "Selisih paritas maksimum 0,004 dengan ambang 0,01, dan rata-rata 0,001 dengan ambang 0,002. Apa vonisnya?",
           options: [
-            { text: "Gagal — selisih apa pun berarti konversi rusak", why: "Salah: ambang ada karena selisih kecil tak terhindarkan; 0,004 di bawah 0,01." },
-            { text: "Lolos — 0,004 di bawah ambang 0,01", why: "Tepat: uji paritas memakai ambang, bukan nol mutlak.", correct: true },
-            { text: "Lolos hanya bila selisih rata-rata juga 0,004", why: "Salah: vonis memakai selisih maksimum; rata-rata adalah metrik tambahan." },
+            { text: "Gagal — selisih apa pun berarti konversi rusak", why: "Salah: ambang ada karena selisih kecil tak terhindarkan; 0,004 di bawah 0,01 dan 0,001 di bawah 0,002." },
+            { text: "Lolos — 0,004 di bawah ambang 0,01 dan 0,001 di bawah ambang 0,002", why: "Tepat: vonis memakai KEDUA ambang — maksimum dan rata-rata harus lolos.", correct: true },
+            { text: "Lolos — rata-rata tidak perlu diperiksa", why: "Salah: vonis memakai kedua kriteria; maksimum yang lolos tetapi rata-rata di atas ambang tetap gagal." },
             { text: "Tidak bisa diputuskan tanpa melihat akurasi", why: "Salah: paritas mengukur kesetiaan konversi; akurasi diukur terpisah di test set." },
           ],
         },
@@ -181,7 +182,7 @@ export const mle32: V2Lesson = {
           options: [
             { text: "Edge penuh — latensi selalu menang", why: "Salah: edge tidak bisa mengikuti update harian dan tidak melihat fitur server." },
             { text: "Server — edge tidak cocok untuk model yang berubah cepat dan butuh data server", why: "Tepat: ritme update dan ketergantungan data menentukan arsitektur.", correct: true },
-            { text: "Hybrid — separuh model di HP, separuh di server", why: "Salah: membelah model tidak menyelesaikan update harian; hybrid yang benar adalah fallback per request, bukan per lapisan." },
+            { text: "Hybrid — separuh model di HP, separuh di server", why: "Salah untuk kasus ini: membelah model per lapisan adalah bentuk hybrid yang sah (split computing — lapisan awal di HP, sisanya di server), tetapi ia tidak menyelesaikan update harian maupun kebutuhan fitur real-time dari server; hybrid yang tepat di sini adalah fallback per request — dan itu pun tetap butuh data server." },
             { text: "Edge dengan update delta tiap jam", why: "Salah: update tiap jam ke ribuan perangkat yang tidak selalu online = biaya distribusi melebihi manfaat." },
           ],
         },

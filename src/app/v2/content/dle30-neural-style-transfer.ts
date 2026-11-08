@@ -61,7 +61,8 @@ export const dle30: V2Lesson = {
       title: "Content loss + style loss: dua tuan yang harus dilayani",
       prose: [
         "Total loss = alpha x content loss + beta x style loss. Content loss = MSE antara aktivasi citra hasil dan aktivasi foto asli di satu lapisan dalam (biasanya conv4_2 VGG): ia menjaga komposisi. Contoh: aktivasi foto [[1,2],[3,4]] vs hasil [[1,2],[3,5]] — selisih hanya satu piksel sebesar 1: MSE = 1/4 = 0,25. Style loss dari langkah sebelumnya = 0,0625. Dengan alpha = 1 dan beta = 100: total = 1 x 0,25 + 100 x 0,0625 = 0,25 + 6,25 = 6,5.",
-        "Rasio beta/alpha menentukan hasil: beta terlalu kecil, gaya tidak terlihat; beta terlalu besar, foto hancur menjadi tekstur tanpa bentuk. Praktik standar: beta/alpha 100 sampai 1.000 untuk gaya kuat, 10 sampai 100 untuk gaya halus. Aturan: mulai dari 100, lihat hasilnya, sesuaikan — dan catat rasio yang dipakai, karena 'gaya yang sama' tanpa rasio yang sama tidak bisa direproduksi.",
+        "Rasio beta/alpha menentukan hasil: beta terlalu kecil, gaya tidak terlihat; beta terlalu besar, foto hancur menjadi tekstur tanpa bentuk. Titik awal yang umum dipakai — BUKAN standar universal: beta/alpha 100 sampai 1.000 untuk gaya kuat, 10 sampai 100 untuk gaya halus. Angka 'benar' bergantung pada normalisasi Gram (apakah style loss dibagi 4N²M² seperti di lesson ini atau tidak), resolusi citra, dan lapisan VGG yang dipakai — dua implementasi dengan normalisasi berbeda butuh rasio yang berbeda untuk hasil yang sama. Aturan: mulai dari 100, lihat hasilnya, sesuaikan — dan catat rasio BERSAMA normalisasi, resolusi, dan lapisan yang dipakai, karena 'gaya yang sama' tanpa ketiganya tidak bisa direproduksi.",
+        "Kapan optimasi berhenti? Tiga kriteria konvergensi yang dipakai bersama: (1) total loss mendatar — perubahan di bawah 1 persen selama 50 iterasi berturut-turut; (2) pemeriksaan visual tiap 50 iterasi — produk masih dikenali sebagai produk, gaya sudah terlihat; (3) batas iterasi maksimum (200–500) supaya satu citra tidak memakan waktu tanpa batas. Praktik per citra sebelum tayang: uji keterkenalan (bisakah orang yang belum melihat menyebut produknya?), uji kekuatan gaya (jarak Gram ke target di bawah ambang yang disepakati), dan uji artefak (pola papan catur atau noise dari optimasi piksel). Citra yang lolos ketiganya boleh tayang; yang gagal satu pun kembali ke rasio beta/alpha atau iterasi — bukan ke 'tambah iterasi terus'.",
         "Optimasi dilakukan pada PIKSEL citra hasil, bukan pada bobot network — network VGG dibekukan sebagai pengukur. 200 sampai 500 iterasi gradient descent (L-BFGS atau Adam) cukup untuk satu citra. Inilah bedanya dengan GAN/difusi: tidak ada training, tidak ada dataset — satu citra, satu optimasi, satu hasil. Kelemahannya: lambat per citra (menit, bukan milidetik) — untuk 5.000 produk, butuh feed-forward style transfer (network yang dilatih sekali untuk satu gaya) atau difusi dengan kontrol gaya.",
       ],
       tasks: [],
@@ -69,7 +70,7 @@ export const dle30: V2Lesson = {
         title: "Kapan pindah ke difusi",
         body: "Style transfer optimasi menang bila: satu gaya, sedikit citra, kontrol presisi atas content. Difusi (Stable Diffusion, ControlNet) menang bila: banyak citra, butuh variasi, atau gaya harus digabung dengan prompt teks ('foto produk, gaya lukisan cat minyak, latar krem'). Jangan memaksa optimasi per citra untuk 5.000 produk — hitung dulu: 5.000 x 3 menit = 250 jam.",
       },
-      reference: "Total loss 6,5 (alpha=1, beta=100). Rasio standar beta/alpha 100-1.000.",
+      reference: "Total loss 6,5 (alpha=1, beta=100). Rasio titik awal beta/alpha 100-1.000 (tergantung normalisasi Gram, resolusi, dan lapisan).",
     },
     {
       id: "lab-style",
@@ -182,7 +183,7 @@ export const dle30: V2Lesson = {
           q: "5.000 foto produk butuh gaya yang sama. Apa pendekatan yang benar?",
           options: [
             { text: "Optimasi per citra — kualitas tertinggi", why: "Salah: 5.000 x 3 menit = 250 jam. Volume ini butuh feed-forward atau difusi." },
-            { text: "Feed-forward style transfer atau difusi dengan LoRA gaya", why: "Tepat: milidetik per citra setelah satu kali training; konsisten dan cepat.", correct: true },
+            { text: "Feed-forward style transfer atau difusi dengan LoRA gaya", why: "Tepat: feed-forward milidetik per citra setelah satu kali training; difusi lebih lambat (detik per citra karena denoising iteratif) tetapi masih jauh lebih cepat dari optimasi per citra (menit) untuk 5.000 citra — dan satu model difusi melayani banyak gaya.", correct: true },
             { text: "Latih GAN baru dari nol untuk tiap produk", why: "Salah: itu 5.000 training — jauh lebih mahal dari optimasi per citra." },
             { text: "Pakai filter Instagram — sama saja", why: "Salah: filter adalah transformasi piksel tetap, bukan transfer gaya dari referensi." },
           ],

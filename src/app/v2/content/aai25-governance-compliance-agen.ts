@@ -43,8 +43,8 @@ export const aai25: V2Lesson = {
       title: "Klasifikasi risiko: agenmu di kelas apa",
       prose: [
         "EU AI Act mengklasifikasikan sistem AI dalam empat tingkat. Minimal (chatbot FAQ): hampir tanpa kewajiban. Terbatas (agen yang berinteraksi dengan manusia): kewajiban transparansi — pengguna harus tahu ia berbicara dengan agen. Tinggi (agen yang memutuskan kredit, rekrutmen, akses layanan): kewajiban berat — penilaian risiko, data governance, pengawasan manusia, pencatatan, dan akurasi yang teruji. Tak diterima (manipulasi subliminal, scoring sosial oleh pemerintah): dilarang.",
-        "Agen marketing NusaBank yang mengirim penawaran: minimal bila hanya menjawab pertanyaan; TINGGI bila keputusannya memengaruhi akses ke layanan finansial (siapa mendapat penawaran kredit). Klasifikasi ditentukan oleh DAMPAK keputusan, bukan oleh kecanggihan teknologinya. Agen sederhana yang menolak 10.000 pengajuan kredit adalah risiko tinggi; agen canggih yang merangkum dokumen internal adalah risiko minimal.",
-        "UU PDP (Indonesia) menambah lapis kedua: data pribadi hanya boleh dipakai untuk tujuan yang disetujui. Agen yang memakai data transaksi untuk marketing tanpa persetujuan melanggar — walau modelnya akurat. Daftar larangan data (do-not-use list) harus dimuat ke konteks agen SEBELUM ia bertindak, bukan diperiksa setelah ia mengirim 10.000 email.",
+        "Agen marketing NusaBank yang mengirim penawaran: menargetkan penawaran (siapa MENERIMA penawaran) BUKAN sama dengan menilai kelayakan kredit (siapa DISETUJUI kreditnya). Yang pertama umumnya bukan risiko tinggi; yang kedua adalah risiko tinggi (EU AI Act: penilaian kelayakan kredit / credit scoring termasuk high-risk). Klasifikasi ditentukan oleh DAMPAK keputusan, bukan oleh kecanggihan teknologinya. Agen sederhana yang menolak 10.000 pengajuan kredit adalah risiko tinggi; agen canggih yang merangkum dokumen internal adalah risiko minimal.",
+        "UU PDP (Indonesia) menambah lapis kedua: pemrosesan data pribadi butuh DASAR HUKUM — persetujuan adalah salah satunya, di samping pelaksanaan kontrak, kewajiban hukum, kepentingan yang sah, dan dasar lain yang diatur undang-undang. Persetujuan BUKAN satu-satunya dasar yang sah: agen yang memakai data transaksi untuk marketing tanpa persetujuan bisa saja melanggar bila tidak ada dasar hukum lain yang berlaku — dan tetap wajib mematuhi prinsip pembatasan tujuan (data dipakai sesuai tujuan pengumpulannya) serta hak subjek data. Daftar larangan data (do-not-use list) harus dimuat ke konteks agen SEBELUM ia bertindak — tetapi instruksi di prompt TIDAK menjamin agen tidak akan mengakses atau memakai data terlarang: model bisa mengabaikan instruksi, salah tafsir, atau dijailbreak untuk memakainya. Penegakan harus di LAPISAN AKSES DATA/TOOL: filter data di sumber, izin tool yang membatasi dataset yang bisa dibaca agen, dan audit trail pemakaian data. Prompt adalah lapisan pengingat, bukan pengunci.",
       ],
       tasks: [],
       note: {
@@ -58,8 +58,8 @@ export const aai25: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Risiko residu & cakupan kontrol: angka yang menjawab regulator",
       prose: [
-        "Risiko inheren dihitung seperti LLMOps9: likelihood x impact (1-5). Aksi 'kirim email massal': L=4, I=5 — risiko inheren 20 (kritis). Kontrol: approval gate manusia (efektivitas 70 persen — manusia menangkap 70 persen kesalahan) → risiko residu = 20 x (1 - 0,70) = 6,0. Residu 6,0 masuk zona sedang (6-11) — bisa diterima dengan pemantauan. Tanpa kontrol, 20 berarti 'perbaiki dalam 48 jam atau jangan jalankan'.",
-        "Kontrol kedua untuk aksi yang sama: daftar larangan otomatis (efektivitas 60 persen terhadap risiko yang tersisa) — residu menjadi 15 x (1 - 0,6) = 6,0? Perhatikan: kontrol kedua diterapkan pada risiko SETELAH kontrol pertama bila independen — 6,0 x (1 - 0,6) = 2,4. Dua kontrol berlapis (manusia + otomatis) menurunkan 20 menjadi 2,4. Inilah defense in depth: tidak ada satu kontrol yang sempurna; lapisan yang menutupi kelemahan satu sama lain.",
+        "Risiko inheren dihitung seperti LLMOps9: likelihood x impact (1-5). Aksi 'kirim email massal': L=4, I=5 — risiko inheren 20 (kritis). Kontrol: approval gate manusia (efektivitas 70 persen — manusia menangkap 70 persen kesalahan) → risiko residu = 20 x (1 - 0,70) = 6,0. Residu 6,0 masuk zona sedang (6-11) — bisa diterima dengan pemantauan. Tanpa kontrol, 20 berarti 'perbaiki dalam 48 jam atau jangan jalankan'. Satu peringatan: perkalian skala ordinal (1–5) ini adalah ILUSTRASI kerja, bukan bukti keamanan — angka 6,0 bukan pengukuran risiko yang sebenarnya, melainkan ringkasan penilaian manusia. Yang bisa dibuktikan ke regulator adalah PROSES-nya: kontrol yang terdaftar, efektivitas yang DIUJI (bukan diasumsikan), dan audit trail — bukan angka 6,0 itu sendiri.",
+        "Kontrol kedua untuk aksi yang sama: daftar larangan otomatis (efektivitas 60 persen terhadap risiko yang TERSISA) — bila kedua kontrol independen, kontrol kedua diterapkan pada residu pertama: 6,0 x (1 - 0,6) = 2,4. Dua kontrol berlapis (manusia + otomatis) menurunkan 20 menjadi 2,4 — dengan asumsi independensi; bila kedua kontrol gagal karena sebab yang sama (misalnya keduanya membaca daftar larangan yang sama dan daftar itu salah), pengurangan berlapis ini terlalu optimistis. Inilah defense in depth: tidak ada satu kontrol yang sempurna; lapisan yang menutupi kelemahan satu sama lain.",
         "Cakupan kontrol: dari 14 kontrol yang diwajibkan (EU AI Act + UU PDP + kebijakan internal), 11 sudah diimplementasikan — cakupan 11/14 = 78,6 persen. Tiga yang hilang: (1) pencatatan keputusan otomatis yang bisa di-replay; (2) review klasifikasi tiap perubahan kapabilitas; (3) pelatihan pemilik agen tentang akuntabilitas. Regulator tidak bertanya 'apakah kamu punya kontrol' — ia bertanya 'kontrol mana yang belum ada, dan kapan dipasang'. Cakupan 78,6 persen dengan rencana untuk 3 sisanya lebih baik dari klaim 100 persen yang tidak bisa dibuktikan.",
       ],
       tasks: [],
@@ -76,7 +76,7 @@ export const aai25: V2Lesson = {
       prose: [
         "Lab ini menghitung mesin governance agen dari angka mentah: risiko residu setelah kontrol dan cakupan kontrol kepatuhan.",
         "Hitung dulu di kepala. Risiko inheren: L=4 x I=5 = 20. Residu setelah kontrol 70 persen: 20 x (1 - 0,70) = 6,0. Residu setelah kontrol kedua 60 persen: 6,0 x (1 - 0,6) = 2,4. Cakupan kontrol: 11/14 x 100 = 78,6 persen.",
-        "Tugas lab: hitung empat angka dan cetak masing-masing di baris sendiri: inheren, residu1, residu2, cakupan. Empat angka ini adalah jawaban untuk regulator — dengan ini 'apakah agen ini aman' menjadi klaim yang bisa dibuktikan.",
+        "Tugas lab: hitung empat angka dan cetak masing-masing di baris sendiri: inheren, residu1, residu2, cakupan. Empat angka ini adalah RINGKASAN kerja untuk regulator — 'apakah agen ini aman' dibuktikan oleh kontrol yang terdaftar, efektivitas yang diuji, dan audit trail; angka residu sendiri adalah ilustrasi ordinal (skala 1–5 yang dikalikan), bukan bukti keamanan.",
         "Setelah lolos, coba eksperimen: turunkan efektivitas kontrol pertama menjadi 40 persen dan lihat residu1 menjadi 12,0 (zona tinggi) — lalu tanyakan: kontrol apa yang harus ditambah agar residu kembali ke zona sedang?",
       ],
       tasks: [
@@ -109,7 +109,7 @@ export const aai25: V2Lesson = {
       prose: [
         "Skenario 1 — Agen risiko minimal (FAQ internal). → Transparansi + log dasar. Alasan: kewajiban ringan; jangan bebani dengan komite.",
         "Skenario 2 — Agen risiko tinggi (keputusan kredit). → Penilaian risiko + data governance + pengawasan manusia + pencatatan replay + pemilik bernama. Alasan: kewajiban EU AI Act penuh.",
-        "Skenario 3 — Agen memakai data pribadi. → Daftar larangan data + persetujuan tujuan + audit pemakaian data. Alasan: UU PDP; pelanggaran = denda miliaran.",
+        "Skenario 3 — Agen memakai data pribadi. → Daftar larangan data (ditegakkan di lapisan akses, bukan hanya prompt) + dasar hukum pemrosesan (persetujuan atau dasar lain yang sah) + audit pemakaian data. Alasan: UU PDP; pelanggaran = denda miliaran.",
         "Skenario 4 — Agen diberi tool baru (kirim email massal). → RE-klasifikasi + approval gate baru + uji coba terbatas. Alasan: kapabilitas baru = risiko baru.",
         "Skenario 5 — Insiden: agen melanggar kebijakan. → Hentikan agen (kill switch AAI9) + investigasi dari audit trail + laporkan ke pemilik + perbaiki kontrol. Alasan: insiden yang tidak dilaporkan adalah insiden yang akan terulang.",
         "Aturan praktis: governance proporsional dengan risiko (AAI9) — tetapi akuntabilitas tidak pernah proporsional: selalu ada nama manusia di setiap keputusan agen.",
@@ -133,7 +133,7 @@ export const aai25: V2Lesson = {
         "Klasifikasi dari dampak: minimal, terbatas, tinggi, tak diterima.",
         "Inheren 20 → residu 6,0 → 2,4 (dua lapis kontrol).",
         "Cakupan kontrol 11/14 = 78,6 persen.",
-        "Daftar larangan data dimuat SEBELUM agen bertindak.",
+        "Daftar larangan data dimuat SEBELUM agen bertindak — DAN ditegakkan di lapisan akses data/tool, bukan hanya di prompt.",
         "Akuntabilitas: selalu ada nama manusia; 'agen yang memutuskan' bukan jawaban.",
       ],
       next: { label: "AAI26 — Penalaran Agen: CoT, ToT & Self-Consistency", href: "/v2/learn/aai26-penalaran-agen" },
@@ -160,7 +160,7 @@ export const aai25: V2Lesson = {
           q: "Kapan daftar larangan data (do-not-use) harus dimuat ke agen?",
           options: [
             { text: "Setelah agen mengirim 10.000 email — untuk audit", why: "Salah: setelah bertindak, kerusakannya sudah terjadi." },
-            { text: "Sebelum agen bertindak — sebagai bagian konteksnya", why: "Tepat: larangan yang datang setelah tindakan adalah penyesalan, bukan kontrol.", correct: true },
+            { text: "Sebelum agen bertindak — sebagai bagian konteksnya", why: "Tepat: larangan yang datang setelah tindakan adalah penyesalan, bukan kontrol — tetapi ingat: prompt saja tidak cukup; penegakan harus di lapisan akses data/tool.", correct: true },
             { text: "Tidak perlu — agen tahu sendiri data mana yang dilarang", why: "Salah: agen tidak tahu; ia memakai apa yang diberi." },
             { text: "Hanya bila regulator meminta", why: "Salah: kepatuhan bukan reaksi terhadap permintaan; ia desain." },
           ],

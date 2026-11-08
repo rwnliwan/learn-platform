@@ -12,7 +12,7 @@ export const rr34: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Budget yang disetujui, lalu laba meleset 15 persen",
       prose: [
-        "Bank Artha Dana menyetujui budget 2026: pendapatan tumbuh 8 persen, biaya tumbuh 5 persen, laba naik 15 persen menjadi Rp345 miliar. Realisasi kuartal pertama: pendapatan hanya tumbuh 5 persen — laba Rp315 miliar, bukan Rp345 miliar. Direksi bertanya: apakah budget itu salah, atau realisasinya yang salah?",
+        "Bank Artha Dana menyetujui budget 2026: pendapatan tumbuh 8 persen, biaya tumbuh 5 persen, laba naik 15 persen menjadi Rp345 miliar. Realisasi kuartal pertama: pendapatan hanya tumbuh 5 persen. Bila laju itu bertahan setahun penuh, laba setahun menjadi Rp315 miliar (sensitivitas setahun penuh pada tumbuh 5 persen) — bukan Rp345 miliar. Perbandingan yang jujur adalah tahunan-ke-tahunan: jangan membandingkan laba satu kuartal dengan target setahun; yang dibandingkan adalah proyeksi setahun pada laju kuartal itu. Direksi bertanya: apakah budget itu salah, atau realisasinya yang salah?",
         "Jawabannya: tidak ada yang salah — tetapi tidak ada yang menguji sensitivitas. Laporan proyeksi hanya menampilkan satu skenario (tumbuh 8 persen) tanpa menunjukkan apa yang terjadi bila tumbuh 5 persen. Direksi menyetujui angka tanpa tahu seberapa rapuh angka itu terhadap asumsinya.",
         "Lesson ini mengajarkan pelaporan proyeksi, budget, dan pro forma beserta sensitivitasnya. Setelah lesson ini kamu bisa: (1) membangun laporan pro forma dari asumsi; (2) menghitung laba pro forma; (3) menguji sensitivitas terhadap asumsi kunci; (4) membedakan budget, forecast, dan pro forma; (5) menulis laporan proyeksi yang jujur tentang asumsinya.",
       ],

@@ -13,7 +13,7 @@ export const mk37: V2Lesson = {
       title: "Spreadsheet 40 MB yang crash tiap Senin pagi",
       prose: [
         "Analis marketing KirimCepat membuka spreadsheet 40 MB tiap Senin pagi: 12 sheet, rumus yang saling merujuk, dan satu VLOOKUP yang salah baris sejak 3 minggu lalu tanpa ada yang sadar. Senin ini spreadsheet itu crash — dan laporan mingguan terlambat 4 jam.",
-        "Python menggantikan spreadsheet itu dengan skrip 30 baris: baca tiga file CSV, hitung ROAS per channel, tulis satu tabel ringkas. Skrip itu bisa diulang, diuji, dan dijadwalkan — tiga hal yang tidak bisa dilakukan spreadsheet 40 MB.",
+        "Python menggantikan spreadsheet itu dengan skrip 30 baris: baca tiga file CSV, hitung ROAS per channel, tulis satu tabel ringkas. Skrip itu bisa diulang, diuji, dan dijadwalkan — tiga hal yang SULIT dilakukan spreadsheet 40 MB itu dengan andal: pengujian dan penjadwalan butuh makro dan add-in yang rapuh, dan version control-nya manual (salin file, beri nama v2_final_FINAL).",
         "Lesson ini mengajarkan Python untuk marketing: pola kerja analis tanpa spreadsheet. Setelah lesson ini kamu bisa: (1) membaca dan menggabungkan data channel; (2) menghitung ROAS, CTR, dan conversion rate dengan Python; (3) mengelompokkan dan mengurutkan hasil; (4) menulis output yang bisa dibaca manusia; (5) menyusun skrip yang bisa diulang dan dijadwalkan.",
       ],
       tasks: [],
@@ -44,7 +44,7 @@ export const mk37: V2Lesson = {
       prose: [
         "Pola kerja analis Python ada empat langkah. Baca: data channel masuk sebagai list of dict — tiap baris satu channel dengan spend, revenue, impresi, klik, dan konversi. Hitung: ROAS sama dengan revenue dibagi spend; CTR sama dengan klik dibagi impresi; conversion rate sama dengan konversi dibagi klik. Kelompokkan: hasil dikelompokkan per channel dan diurutkan dari yang terbaik. Tulis: satu tabel ringkas ke layar atau file — bukan 12 sheet.",
         "Contoh hitungan: Google spend 150, revenue 420 — ROAS 420 dibagi 150 sama dengan 2,8. Meta spend 100, revenue 180 — ROAS 1,8. TikTok spend 80, revenue 240 — ROAS 3,0. TikTok tertinggi — tetapi ingat MK32: revenue harus bersih setelah refund sebelum ROAS dipercaya.",
-        "Keunggulan skrip atas spreadsheet: skrip bisa diuji (beri input kecil yang jawabannya diketahui, periksa outputnya), bisa dijadwalkan (cron tiap Senin jam 6), dan bisa di-version control (perubahan tercatat, bisa di-rollback). Spreadsheet 40 MB tidak bisa ketiganya — dan VLOOKUP yang salah baris adalah buktinya.",
+        "Keunggulan skrip atas spreadsheet: skrip bisa diuji (beri input kecil yang jawabannya diketahui, periksa outputnya), bisa dijadwalkan (cron tiap Senin jam 6), dan bisa di-version control (perubahan tercatat, bisa di-rollback). Spreadsheet SECARA TEKNIS bisa ketiganya — makro bisa menguji dan menjadwalkan, file bisa masuk version control — tetapi mekanismenya rapuh: makro sulit diuji otomatis, penjadwalan bergantung pada mesin yang menyala, dan diff file biner tidak terbaca. VLOOKUP yang salah baris adalah bukti kerapuhannya, bukan bukti ketidakmungkinannya.",
       ],
       tasks: [],
       note: {
@@ -63,6 +63,10 @@ export const mk37: V2Lesson = {
         "Dan satu aturan: skrip tidak pernah menimpa input. Input dibaca, output ditulis ke file baru dengan tanggal. Bila output salah, input masih ada untuk dihitung ulang — pelajaran yang sama seperti bronze di ELT (DE35): data mentah tidak pernah diubah.",
       ],
       tasks: [],
+      note: {
+        title: "Implementasi pola kerja analis (sketsa)",
+        body: "Baca tiga CSV dengan csv.DictReader, gabungkan per channel, hitung ROAS = revenue/spend, CTR = klik/impresi, conversion rate = konversi/klik, urutkan dari ROAS tertinggi, tulis satu tabel ke file baru bertanggal. Jadwalkan dengan cron — 0 6 * * 1 python3 laporan_mingguan.py — Senin jam 6; skrip berhenti dengan pesan jelas bila file input hilang, dan tidak pernah menimpa input.",
+      },
       reference: "Deterministik, transparan, gagal dengan cara yang ketahuan. Cron Senin jam 6. Input tidak pernah ditimpa.",
     },
     {
@@ -142,7 +146,7 @@ export const mk37: V2Lesson = {
         {
           q: "Kenapa spreadsheet 40 MB dengan VLOOKUP bermasalah untuk laporan rutin?",
           options: [
-            { text: "Tidak bisa diuji, dijadwalkan, atau di-version control — dan satu VLOOKUP salah merusak laporan diam-diam", why: "Tepat: itulah tiga hal yang bisa dilakukan skrip dan tidak bisa dilakukan spreadsheet raksasa.", correct: true },
+            { text: "Pengujian, penjadwalan, dan version control-nya rapuh dan manual — dan satu VLOOKUP salah merusak laporan diam-diam", why: "Tepat: spreadsheet secara teknis bisa ketiganya, tetapi mekanismenya rapuh — makro sulit diuji otomatis, penjadwalan bergantung mesin yang menyala, diff biner tidak terbaca.", correct: true },
             { text: "Karena spreadsheet tidak bisa menghitung ROAS", why: "Salah: spreadsheet bisa menghitung — masalahnya keandalan dan keterulangan." },
             { text: "Karena spreadsheet selalu crash", why: "Salah: tidak selalu — tetapi rapuh saat membesar, dan crash Senin pagi adalah buktinya." },
             { text: "Karena analis tidak bisa memakai spreadsheet", why: "Salah: analis bisa — masalahnya di alat, bukan orangnya." },

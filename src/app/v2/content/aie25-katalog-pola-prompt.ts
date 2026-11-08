@@ -4,7 +4,7 @@ export const aie25: V2Lesson = {
   slug: "aie25-katalog-pola-prompt",
   track: "AI Engineering",
   module: "Produksi",
-  title: "AIE25 — Katalog Pola Prompt: 21 Pola Vanderbilt",
+  title: "AIE25 — Katalog Pola Prompt: 16 Pola Vanderbilt",
   estMinutes: 55,
   steps: [
     {
@@ -12,14 +12,14 @@ export const aie25: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Satu tim, 40 gaya prompt — dan tidak ada yang tahu mana yang bekerja",
       prose: [
-        "Tim AI NusaBank punya 40 prompt yang ditulis 6 orang berbeda: ada yang memberi contoh, ada yang memberi peran, ada yang memberi format output, ada yang mengulang instruksi tiga kali 'agar model paham'. Tidak ada yang tahu pola mana yang bekerja untuk tugas apa — tiap prompt baru ditulis dari nol, tiap kegagalan diperbaiki dengan menebak. Lalu tim mengadopsi katalog pola prompt Vanderbilt (21 pola): tiap pola punya nama, tujuan, dan contoh. Prompt baru disusun dari pola yang sudah terbukti — bukan dari intuisi tiap penulis.",
-        "Hasilnya terukur: tugas ekstraksi dari 72 persen (zero-shot) menjadi 91 persen (few-shot dengan pola yang tepat) — naik 19 poin. Harganya: prompt few-shot 680 token vs zero-shot 80 token; untuk 1.000 query, $1,36 vs $0,16 pada tarif $0,002 per 1.000 token. Pola yang tepat membeli akurasi dengan token — dan katalog membuat keputusan itu eksplisit.",
-        "Lesson ini mengajarkan 21 pola Vanderbilt sebagai sistem: lima keluarga pola, kapan tiap pola dipakai, dan berapa biayanya. Setelah lesson ini kamu bisa: (1) menyebutkan lima keluarga pola; (2) memilih pola per tugas; (3) menghitung biaya token pola; (4) menjelaskan kapan few-shot sepadan; (5) menulis prompt dari katalog, bukan dari nol.",
+        "Tim AI NusaBank punya 40 prompt yang ditulis 6 orang berbeda: ada yang memberi contoh, ada yang memberi peran, ada yang memberi format output, ada yang mengulang instruksi tiga kali 'agar model paham'. Tidak ada yang tahu pola mana yang bekerja untuk tugas apa — tiap prompt baru ditulis dari nol, tiap kegagalan diperbaiki dengan menebak. Lalu tim mengadopsi katalog pola prompt Vanderbilt (16 pola): tiap pola punya nama, tujuan, dan contoh. Prompt baru disusun dari pola yang sudah terbukti — bukan dari intuisi tiap penulis.",
+        "Hasilnya terukur: tugas ekstraksi dari 72 persen (zero-shot) menjadi 91 persen (few-shot dengan contoh yang tepat) — naik 19 poin. Harganya: prompt few-shot 680 token vs zero-shot 80 token; untuk 1.000 query, $1,36 vs $0,16 pada tarif $0,002 per 1.000 token. Pola yang tepat membeli akurasi dengan token — dan katalog membuat keputusan itu eksplisit.",
+        "Lesson ini mengajarkan 16 pola Vanderbilt sebagai sistem: enam kategori pola, kapan tiap pola dipakai, dan berapa biayanya. Setelah lesson ini kamu bisa: (1) menyebutkan enam kategori pola; (2) memilih pola per tugas; (3) menghitung biaya token pola; (4) menjelaskan kapan few-shot sepadan; (5) menulis prompt dari katalog, bukan dari nol.",
       ],
       tasks: [],
       note: {
         title: "Yang sudah ada vs yang baru di sini",
-        body: "AIE2 mengajarkan prompt engineering dasar (zero-shot, few-shot, struktur) — tetapi tidak ada katalog pola sistematis (0 hit 'Vanderbilt/pola prompt' di track). Lesson ini membangun katalognya: 21 pola Vanderbilt dalam lima keluarga, dengan panduan pemilihan dan hitungan biaya per pola.",
+        body: "AIE2 mengajarkan prompt engineering dasar (zero-shot, few-shot, struktur) — tetapi tidak ada katalog pola sistematis (0 hit 'Vanderbilt/pola prompt' di track). Lesson ini membangun katalognya: 16 pola Vanderbilt dalam enam kategori, dengan panduan pemilihan dan hitungan biaya per pola.",
       },
       reference: "Zero-shot 72 persen @ 80 token ($0,16/1.000 query); few-shot 91 persen @ 680 token ($1,36/1.000 query); naik 19 poin.",
     },
@@ -29,7 +29,7 @@ export const aie25: V2Lesson = {
       title: "Tujuan pembelajaran",
       prose: [
         "Setelah lesson ini, kamu menulis prompt dari katalog — seperti engineer memakai design pattern.",
-        "(1) Menyebutkan lima keluarga pola Vanderbilt;",
+        "(1) Menyebutkan enam kategori pola Vanderbilt;",
         "(2) Memilih pola yang tepat untuk 5 jenis tugas;",
         "(3) Menghitung biaya token zero-shot vs few-shot;",
         "(4) Menjelaskan kapan contoh tambahan sepadan dengan biayanya;",
@@ -40,18 +40,18 @@ export const aie25: V2Lesson = {
     {
       id: "keluarga",
       eyebrow: "Langkah 3 · Teori",
-      title: "Lima keluarga: dari persona sampai output",
+      title: "Enam kategori: dari persona sampai output",
       prose: [
-        "Keluarga 1 — Persona: beri model peran ('Bertindaklah sebagai auditor senior...'). Gunanya: nada, kedalaman, dan sudut pandang yang konsisten. Risiko: persona yang terlalu spesifik membuat model menolak tugas di luar peran. Keluarga 2 — Resep (Recipe): minta langkah berurutan ('Berikan langkah 1-5...'). Gunanya: tugas prosedural yang harus lengkap dan berurutan.",
-        "Keluarga 3 — Template: kunci format output ('Jawab dalam tabel dengan kolom X, Y, Z'). Gunanya: output yang bisa di-parse mesin — pola terpenting untuk produksi (AIE6 structured output). Keluarga 4 — Contoh (Few-shot): beri 2-5 contoh input-output sebelum pertanyaan. Gunanya: format dan nuansa yang sulit dijelaskan dengan kata-kata — contoh adalah spesifikasi yang bisa dieksekusi (AIE2).",
-        "Keluarga 5 — Meta dan refleksi: minta model memeriksa dirinya ('Periksa jawabanmu sebelum mengirim; sebutkan asumsi yang kamu pakai'). Gunanya: menangkap kesalahan dan asumsi tersembunyi. Ditambah keluarga pendukung: konteks (beri latar yang cukup), permainan (reframing kreatif), dan output kustom. Total 21 pola — tetapi lima keluarga ini menutupi 90 persen kebutuhan produksi.",
+        "Katalog Vanderbilt (White et al. 2023, 'A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT', arXiv:2302.11382) berisi 16 pola dalam 6 kategori. Kategori 1 — Input Semantics: Meta Language Creation (minta model menciptakan bahasa/aturan baru untuk dipakai dalam percakapan itu). Kategori 2 — Output Customization (5 pola): Output Automater (minta model menghasilkan langkah/skrip yang bisa dieksekusi), Persona (beri model peran — nada dan kedalaman yang konsisten), Visualization Generator (minta visualisasi dari data/teks), Recipe (minta langkah berurutan), Template (kunci format output — pola terpenting untuk produksi, AIE6 structured output).",
+        "Kategori 3 — Error Identification: Fact Check List (minta daftar fakta yang harus dicek kebenarannya), Reflection (minta model memeriksa dan menjelaskan penalarannya sendiri). Kategori 4 — Prompt Improvement: Question Refinement (minta model memperbaiki pertanyaanmu sebelum menjawab), Alternative Approaches (minta pendekatan lain untuk tugas yang sama), Cognitive Verifier (minta model memecah pertanyaan besar menjadi sub-pertanyaan lalu menjawab satu per satu), Refusal Breaker (minta penjelasan atau alternatif saat model menolak).",
+        "Kategori 5 — Interaction: Flipped Interaction (model yang bertanya padamu), Game Play (bungkus tugas sebagai permainan), Infinite Generation (minta model terus menghasilkan sampai kamu berhenti). Kategori 6 — Context Control: Context Manager (atur konteks apa yang dipakai dan diingat model). Angka '21 pola' yang beredar di sebagian kursus berasal dari kompilasi/handbook yang lebih baru, bukan dari paper aslinya — lesson ini memakai 16 pola paper 2023 agar tiap pola bisa dilacak ke sumbernya. Few-shot (memberi contoh) BUKAN salah satu dari 16 pola — ia teknik umum (AIE2) yang dipakai lesson ini hanya untuk contoh hitungan biaya di Langkah 4.",
       ],
       tasks: [],
       note: {
         title: "Pola bukan mantra",
         body: "Pola bekerja karena ia memberi model informasi yang bisa dipakai — bukan karena kata-katanya ajaib. 'Bertindaklah sebagai ahli' tanpa konteks dan contoh tidak akan menyelamatkan prompt yang tugasnya tidak jelas. Bila pola tidak membantu, masalahnya biasanya definisi tugas — bukan pilihan pola.",
       },
-      reference: "21 pola dalam 5 keluarga utama + pendukung.",
+      reference: "16 pola dalam 6 kategori (White et al. 2023, arXiv:2302.11382).",
     },
     {
       id: "biaya",
@@ -132,7 +132,7 @@ export const aie25: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "21 pola Vanderbilt dalam 5 keluarga utama + pendukung.",
+        "16 pola Vanderbilt dalam 6 kategori (White et al. 2023).",
         "Zero-shot 80 token ($0,16); few-shot 680 token ($1,36) per 1.000 query.",
         "Kenaikan akurasi 72 menjadi 91 persen (+19 poin).",
         "Template untuk output mesin; few-shot untuk tugas baru.",
@@ -180,7 +180,7 @@ export const aie25: V2Lesson = {
           q: "Apa kombinasi prompt produksi yang paling umum?",
           options: [
             { text: "Persona + Template + Few-shot", why: "Tepat: nada + format + contoh — tiga pola yang saling melengkapi.", correct: true },
-            { text: "21 pola sekaligus", why: "Salah: memakai semua pola berarti prompt yang kacau dan mahal." },
+            { text: "16 pola sekaligus", why: "Salah: memakai semua pola berarti prompt yang kacau dan mahal." },
             { text: "Zero-shot saja — pola hanya teori", why: "Salah: zero-shot 72 persen vs few-shot 91 persen di kasus ini." },
             { text: "Recipe saja untuk semua tugas", why: "Salah: recipe untuk prosedur; tugas lain butuh pola lain." },
           ],

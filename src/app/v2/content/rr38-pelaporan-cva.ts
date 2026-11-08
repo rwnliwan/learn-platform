@@ -103,7 +103,7 @@ export const rr38: V2Lesson = {
       prose: [
         "Kembali ke Bank Artha Dana. Laporan CVA bulanan dibangun: CVA per counterparty, atribusi perubahan (exposure, spread, waktu), dan CVA capital charge. Saat spread counterparty melebar lagi kuartal berikut, direksi tidak bertanya 'kenapa rugi' — mereka membaca atribusi: Rp30 miliar dari spread, Rp15 miliar dari exposure, Rp10 miliar dari waktu. Tindakan diputuskan per penyebab: lindung nilai spread untuk yang pertama, pengurangan limit untuk yang kedua.",
         "Keputusan rapat: CVA dilaporkan terpisah dari nilai wajar di semua laporan derivatif, dengan atribusi bulanan dan capital charge. Tidak ada lagi kerugian yang 'tiba-tiba' — hanya pergerakan yang dijelaskan atau tidak.",
-        "Tiga bulan kemudian, satu counterparty benar-benar default. Kerugiannya sudah dicadangkan lewat CVA — dan laporan menunjukkan cadangan itu cukup. Itulah fungsi CVA yang sebenarnya: bukan menghindari kerugian, melainkan membuatnya terlihat sebelum terjadi.",
+        "Tiga bulan kemudian, satu counterparty benar-benar default. Kerugiannya sudah TERCERMIN dalam CVA — tetapi CVA bukan cadangan yang menjamin kerugian tertutup: CVA adalah penyesuaian valuasi, ekspektasi kerugian yang didiskonto, bukan dana yang disisihkan. Laporan menunjukkan CVA bergerak dan modal untuk risiko CVA tersedia — bukan bahwa kerugian pasti tertutup. Itulah fungsi CVA yang sebenarnya: bukan menghindari kerugian, melainkan membuatnya terlihat sebelum terjadi.",
       ],
       tasks: [],
       note: {

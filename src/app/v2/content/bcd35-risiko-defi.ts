@@ -43,7 +43,7 @@ export const bcd35: V2Lesson = {
       title: "Enam keluarga risiko — dan contohnya",
       prose: [
         "KELUARGA 1 — Smart contract: bug di kode. Reentrancy, aritmetika, kontrol akses (BCD30). Penilaian: berapa audit independen, apakah ada bug bounty berjalan, apakah kode upgradeable dan siapa memegang kunci upgrade. Satu audit bukan jaminan — tiga audit pun bukan, bila ketiganya memeriksa kode yang sama dengan asumsi yang sama.",
-        "KELUARGA 2 — Oracle: harga yang salah. Manipulasi spot di DEX dangkal, TWAP yang kalah dari serangan 25 menit (BCD15). Penilaian: berapa sumber harga, apakah ada circuit breaker, berapa biaya menyerang vs nilai yang dilindungi. Aturan BCD15 tetap berlaku: keamanan sama dengan ekonomi — bila biaya serang lebih kecil dari hadiah, serangan hanya soal waktu.",
+        "KELUARGA 2 — Oracle: harga yang salah. Manipulasi spot di DEX dangkal, TWAP yang kalah dari serangan 25 menit (BCD15). Penilaian: berapa sumber harga, apakah ada circuit breaker, berapa biaya menyerang vs nilai yang dilindungi. Aturan BCD15 tetap berlaku: keamanan sama dengan ekonomi — bila biaya serang lebih kecil dari hadiah, serangan menjadi RASIONAL dan insentifnya ada. Tetapi 'hanya soal waktu' terlalu pasti: serangan juga butuh kemampuan, peluang, dan keberanian menanggung risiko (kegagalan teknis, hadiah yang ternyata tidak bisa dicairkan, atau jejak yang terlacak). Insentif besar menaikkan probabilitas, bukan menjamin kejadian.",
         "KELUARGA 3 — Governance: kekuasaan yang dipinjam. Flash loan membeli voting mayoritas sesaat (Beanstalk, BCD27). Penilaian: distribusi voting, quorum, timelock, dan apakah voting power bisa dipinjam. Proposal yang bisa lolos dalam satu blok adalah proposal yang tidak pernah di-review manusia.",
         "KELUARGA 4 — Likuiditas dan DEX: pasar yang mengering. Penarikan besar menggerakkan harga, pool dangkal, bank run pada stablecoin. KELUARGA 5 — Kustodi: siapa memegang kunci. Admin key tunggal, multisig 2 dari 3 yang anggotanya satu orang, jembatan yang menyimpan dana di satu dompet (BCD30). KELUARGA 6 — Pasar: risiko yang bukan salah siapa-siapa — harga agunan jatuh 40 persen dalam sehari, likuidasi berantai, dan korelasi yang naik ke 1 saat panik.",
       ],
@@ -158,7 +158,7 @@ export const bcd35: V2Lesson = {
         {
           q: "Protokol B dinilai (4,4,5,3,2,4) untuk (SC, oracle, gov, likuiditas, kustodi, pasar) dengan bobot (0,25; 0,20; 0,15; 0,15; 0,15; 0,10). Berapa skornya dan apa vonisnya?",
           options: [
-            { text: "3,70 — tinggi, melewati ambang 3,5", why: "Tepat: 1,00+0,80+0,75+0,45+0,30+0,40 = 3,70. Governance 5 adalah penyumbang terbesar.", correct: true },
+            { text: "3,70 — tinggi, melewati ambang 3,5", why: "Tepat: 1,00+0,80+0,75+0,45+0,30+0,40 = 3,70. Penyumbang terbesar justru smart contract (1,00), bukan governance (0,75) — nilai 5 tidak otomatis berarti kontribusi terbesar; bobotlah yang menentukan.", correct: true },
             { text: "3,50 — tepat di ambang, masih sedang", why: "Salah: hitung ulang — 0,25x4=1,00 dan 0,15x5=0,75; totalnya 3,70, bukan 3,50." },
             { text: "2,70 — sedang", why: "Salah: 2,70 adalah skor protokol C, bukan B. Jangan tertukar barisnya." },
             { text: "4,00 — rata-rata sederhana penilaiannya", why: "Salah: rata-rata sederhana (4+4+5+3+2+4)/6 = 3,67, bukan 4,00 — dan kerangka ini memakai bobot, bukan rata-rata." },

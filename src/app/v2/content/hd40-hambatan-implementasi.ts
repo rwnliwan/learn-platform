@@ -10,10 +10,10 @@ export const hd40: V2Lesson = {
     {
       id: "cerita",
       eyebrow: "Langkah 1 · Cerita",
-      title: "Pilot yang sempurna, go-live yang sepi",
+      title: "Pilot yang 'sempurna', go-live yang sepi",
       prose: [
-        "Sebuah sistem pencatatan elektronik baru lolos pilot dengan gemilang di 3 klinik: kelengkapan data naik dari 62 persen menjadi 88 persen. Lalu go-live di 45 klinik: hanya 32 yang benar-benar jalan — 71,1 persen. Dari 1.800 pengguna yang dilatih, hanya 1.240 yang aktif memakai — 68,9 persen. Pilot yang sempurna menjadi implementasi yang sepi.",
-        "Penyebabnya bukan teknologi — sistemnya sama. Penyebabnya adalah yang tidak diukur pilot: alur kerja klinik yang berbeda-beda, dokter yang harus mengklik 14 kali untuk satu resep, server yang lambat pada jam sibuk, dan perawat yang kembali ke kertas karena 'lebih cepat'. Pilot menguji sistem; go-live menguji ORGANISASI.",
+        "Sebuah sistem pencatatan elektronik baru lolos pilot dengan gemilang di 3 klinik: kelengkapan data naik dari 62 persen menjadi 88 persen. Lalu go-live di 45 klinik: hanya 32 yang benar-benar jalan — 71,1 persen. Dari 1.800 pengguna yang dilatih, hanya 1.240 yang aktif memakai — 68,9 persen. Pilot yang 'sempurna' — menurut metrik pilotnya, di 3 klinik terpilih — menjadi implementasi yang sepi.",
+        "Penyebabnya bukan teknologi — sistemnya sama. Penyebabnya adalah yang tidak diukur pilot: alur kerja klinik yang berbeda-beda, dokter yang harus mengklik 14 kali untuk satu resep, server yang lambat pada jam sibuk, dan perawat yang kembali ke kertas karena 'lebih cepat' — yang bisa berarti alur sistem yang lambat, infrastruktur yang tersendat, atau kebiasaan, dan ketiganya harus dibedakan sebelum disimpulkan. Pilot menguji sistem; go-live menguji ORGANISASI.",
         "Lesson ini mengajarkan hambatan implementasi informatika klinis: kerangka CFIR dan NASSS, jenis hambatan, dan strategi mengatasinya. Setelah lesson ini kamu bisa: (1) menjelaskan mengapa pilot yang berhasil bisa gagal saat skala; (2) memakai kerangka CFIR untuk memetakan hambatan; (3) menghitung metrik implementasi: go-live rate, adopsi, dan kelengkapan data; (4) membedakan hambatan teknologi, alur kerja, manusia, dan organisasi; (5) merancang rencana implementasi dengan pemilik dan tenggat.",
       ],
       tasks: [],
@@ -30,7 +30,7 @@ export const hd40: V2Lesson = {
       prose: [
         "Setelah lesson ini, kamu bisa mendiagnosis mengapa sistem klinis tidak dipakai — dan apa yang memperbaikinya.",
         "(1) Menjelaskan jurang pilot-ke-praktik: apa yang berubah saat skala;",
-        "(2) Memakai kerangka CFIR: lima domain hambatan implementasi;",
+        "(2) Memakai kerangka CFIR klasik: lima domain hambatan implementasi;",
         "(3) Menghitung go-live rate, adopsi pengguna, dan perubahan kelengkapan data;",
         "(4) Membedakan hambatan teknologi, alur kerja, manusia, organisasi, dan kebijakan;",
         "(5) Merancang rencana implementasi: pemilik, tenggat, dan metrik keberhasilan.",
@@ -58,18 +58,18 @@ export const hd40: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "CFIR: lima domain untuk memetakan hambatan",
       prose: [
-        "CFIR (Consolidated Framework for Implementation Research) memetakan hambatan ke lima domain. Domain 1 — INTERVENSI: sistemnya sendiri — apakah ia lebih baik dari cara lama, seberapa kompleks, apakah bisa diuji coba dan disesuaikan. Sistem yang 14 klik untuk satu resep kalah dari kertas pada domain ini — berapa pun canggihnya.",
+        "CFIR (Consolidated Framework for Implementation Research, versi klasik) memetakan hambatan ke lima domain. Versi yang lebih baru (CFIR 2.0) mempertahankan lima domain ini tetapi merinci konstruk di dalamnya — lesson ini memakai lima domain klasik. Domain 1 — INTERVENSI: sistemnya sendiri — apakah ia lebih baik dari cara lama, seberapa kompleks, apakah bisa diuji coba dan disesuaikan. Sistem yang 14 klik untuk satu resep kalah dari kertas pada domain ini — berapa pun canggihnya.",
         "Domain 2 — KONTEKS LUAR: kebijakan, insentif, dan tekanan dari luar organisasi — regulasi yang mewajibkan pencatatan elektronik, pembiayaan yang menanggung atau tidak menanggung, dan standar interoperabilitas. Domain 3 — KONTEKS DALAM: organisasi itu sendiri — budaya, kepemimpinan, sumber daya, dan iklim implementasi. Klinik yang pimpinannya tidak memakai sistem tidak akan membuat stafnya memakai.",
         "Domain 4 — INDIVIDU: pengetahuan, keyakinan, dan kesiapan pengguna — dokter yang percaya sistem memperlambatnya akan memperlambat sistem itu (dengan menggunakannya setengah hati). Domain 5 — PROSES: perencanaan, keterlibatan, pelaksanaan, dan refleksi — apakah pengguna dilibatkan sejak desain, apakah ada champion di tiap klinik, apakah umpan balik ditindaklanjuti.",
         "NASSS adalah kerangka pelengkap untuk teknologi yang kompleks: ia menambah pertanyaan 'apakah teknologi ini akan bertahan dalam 5 tahun?' — dengan tujuh domain termasuk nilai, adopsi, dan adaptasi jangka panjang. Aturan praktis: CFIR untuk mendiagnosis 'mengapa macet sekarang', NASSS untuk menilai 'apakah ini akan hidup lama'.",
-        "Contoh pemetaan kasus kita: 14 klik (domain intervensi — kompleksitas); server lambat jam sibuk (domain intervensi — kualitas teknis); perawat kembali ke kertas (domain individu — keyakinan bahwa kertas lebih cepat); pimpinan tidak memakai (domain konteks dalam — kepemimpinan); tidak ada champion di 13 klinik yang gagal go-live (domain proses — keterlibatan). Satu masalah, lima domain — dan tiap domain punya pemilik perbaikan yang berbeda.",
+        "Contoh pemetaan kasus kita: 14 klik (domain intervensi — kompleksitas); server lambat jam sibuk (domain intervensi — kualitas teknis; sebagian analis memetakannya ke konteks dalam — sumber daya organisasi — karena kapasitas server adalah keputusan anggaran infrastruktur; yang penting, pemiliknya jelas: tim infra); perawat kembali ke kertas (domain individu — keyakinan bahwa kertas lebih cepat); pimpinan tidak memakai (domain konteks dalam — kepemimpinan); tidak ada champion di 13 klinik yang gagal go-live (domain proses — keterlibatan). Satu masalah, lima domain — dan tiap domain punya pemilik perbaikan yang berbeda.",
       ],
       tasks: [],
       note: {
         title: "Hambatan bukan alasan — ia adalah diagnosis",
         body: "Memetakan hambatan ke CFIR bukan untuk menyalahkan — melainkan untuk menetapkan pemilik. 'Server lambat' adalah tugas tim infrastruktur; 'dokter tidak percaya' adalah tugas tim perubahan; 'tidak ada champion' adalah tugas manajemen. Hambatan tanpa pemilik adalah keluhan; hambatan dengan pemilik dan tenggat adalah rencana.",
       },
-      reference: "CFIR lima domain: intervensi, konteks luar, konteks dalam, individu, proses. NASSS menambah pertanyaan keberlanjutan.",
+      reference: "CFIR klasik lima domain: intervensi, konteks luar, konteks dalam, individu, proses. NASSS menambah pertanyaan keberlanjutan.",
     },
     {
       id: "lab-implementasi",
@@ -114,6 +114,7 @@ export const hd40: V2Lesson = {
         "PROSES: libatkan pengguna sejak desain — bukan saat pelatihan; tunjuk champion di tiap klinik SEBELUM go-live, bukan sesudahnya; dan tindaklanjuti umpan balik dalam 2 minggu — umpan balik yang tidak ditindaklanjuti adalah undangan untuk berhenti memberi umpan balik. KONTEKS LUAR: selaraskan dengan regulasi dan insentif — bila pencatatan elektronik adalah syarat akreditasi, sampaikan sebagai syarat, bukan sebagai beban tambahan.",
         "Rencana implementasi yang baik punya tiga hal: PEMILIK per hambatan (nama, bukan unit), TENGGAT (tanggal, bukan 'segera'), dan METRIK (angka, bukan 'lebih baik'). 'Server lambat — pemilik: tim infra — tenggat: 2 minggu — metrik: waktu respons di bawah 2 detik pada jam sibuk.' Tanpa ketiganya, strategi adalah harapan.",
         "Satu metrik yang sering dilupakan: WAKTU KEMBALI KE KERTAS. Bila perawat kembali ke kertas, itu bukan pembangkangan — ia adalah data bahwa sistem lebih lambat dari kertas untuk tugas itu. Ukur berapa persen tugas yang kembali ke kertas, dan perbaiki tugas itu dulu — bukan penggunanya.",
+        "Tiga metrik lanjutan yang tidak ada di lab ini: FIDELITY (seberapa setia sistem dipakai sesuai desain — misalnya berapa persen resep yang ditulis lewat alur standar vs jalan pintas), REACH (berapa persen populasi sasaran yang terjangkau — bukan hanya pengguna aktif), dan USABILITY (waktu per tugas, jumlah klik, dan skor kepuasan — 14 klik vs 4 klik adalah angka usability). Dan satu disiplin: diagnosis hambatan BUKAN vonis — 'server lambat' adalah hipotesis sampai waktu respons jam sibuk diukur; 'dokter tidak percaya' adalah hipotesis sampai diwawancarai. Jangan mengubah diagnosis menjadi tuduhan sebelum buktinya ada.",
       ],
       tasks: [],
       note: {
@@ -128,7 +129,7 @@ export const hd40: V2Lesson = {
       title: "Mini-case: 13 klinik yang tertinggal",
       prose: [
         "Kembali ke 45 klinik. Tim memetakan 13 klinik yang gagal go-live ke CFIR: 5 klinik karena server lambat (intervensi), 4 karena tidak ada champion (proses), 3 karena pimpinan tidak memakai (konteks dalam), 1 karena alur resep 14 klik (intervensi). Tiap hambatan diberi pemilik dan tenggat 2 sampai 6 minggu.",
-        "Enam minggu kemudian: 11 dari 13 klinik go-live — go-live rate naik dari 71,1 persen menjadi 95,6 persen (43 dari 45). Adopsi naik dari 68,9 persen menjadi 81,4 persen. Kelengkapan data di klinik yang baru go-live mencapai 84 persen dalam sebulan. Dua klinik yang tersisa butuh renovasi jaringan — masalah infrastruktur, bukan penolakan.",
+        "Enam minggu kemudian: 11 dari 13 klinik go-live — go-live rate naik dari 71,1 persen menjadi 95,6 persen (43 dari 45). Adopsi naik dari 68,9 persen (1.240 dari 1.800) menjadi 81,4 persen (1.465 dari 1.800). Kelengkapan data di klinik yang baru go-live mencapai 84 persen dalam sebulan. Dua klinik yang tersisa butuh renovasi jaringan — masalah infrastruktur, bukan penolakan.",
         "Tiga hal yang membuat pemulihan ini berhasil. Pertama, diagnosis memakai kerangka — bukan tebakan. Kedua, tiap hambatan punya pemilik dan tenggat — bukan sekadar daftar. Ketiga, metrik dibaca tiap bulan — sehingga keberhasilan bisa dibuktikan dan kegagalan bisa dilokalisasi ke 2 klinik, bukan digeneralisasi ke 'implementasi gagal'.",
       ],
       tasks: [],
@@ -136,7 +137,7 @@ export const hd40: V2Lesson = {
         title: "Pembahasan",
         body: "Pelajaran umumnya: implementasi bukan peristiwa — ia adalah proses dengan metrik. Go-live 71,1 persen bukan vonis akhir; ia adalah titik berangkat diagnosis. Organisasi yang mengukur, memetakan, dan menindaklanjuti akan mencapai 95,6 persen. Organisasi yang hanya mengumumkan go-live akan tetap di 71,1 persen — dan menyalahkan pengguna.",
       },
-      reference: "Sesudah pemulihan: go-live 95,6 persen (43/45); adopsi 81,4 persen; kelengkapan 84 persen di klinik baru.",
+      reference: "Sesudah pemulihan: go-live 95,6 persen (43/45); adopsi 81,4 persen (1.465/1.800); kelengkapan 84 persen di klinik baru.",
     },
     {
       id: "kuis",
@@ -148,7 +149,7 @@ export const hd40: V2Lesson = {
       tasks: [],
       summary: [
         "Jurang pilot-ke-praktik: keragaman, dukungan, motivasi, infrastruktur.",
-        "CFIR lima domain: intervensi, konteks luar, konteks dalam, individu, proses.",
+        "CFIR klasik lima domain: intervensi, konteks luar, konteks dalam, individu, proses.",
         "Lab: go-live 71,1 persen; adopsi 68,9 persen; kelengkapan +26 poin.",
         "Strategi: pemilik + tenggat + metrik per hambatan.",
         "Kembali ke kertas adalah data — bukan pembangkangan.",
@@ -197,7 +198,7 @@ export const hd40: V2Lesson = {
             { text: "Implementasi gagal — 100 persen adalah syarat", why: "Salah: 95,6 persen dengan 2 klinik yang tertunda karena infrastruktur yang diketahui adalah keberhasilan — bukan kegagalan." },
             { text: "Berhasil — 95,6 persen dengan alasan 2 klinik yang teridentifikasi dan berencana; metrik dilokalisasi, bukan digeneralisasi", why: "Tepat: keberhasilan diukur dengan metrik dan diagnosis, bukan dengan angka 100 persen.", correct: true },
             { text: "Berhasil — karena go-live di atas 90 persen selalu cukup", why: "Salah: tidak ada ambang universal — yang penting adalah alasan 2 klinik itu diketahui dan ditangani, bukan angkanya." },
-            { text: "Tidak bisa dinilai — adopsi tidak dilaporkan", why: "Salah: adopsi dilaporkan — naik menjadi 81,4 persen. Vonis memakai metrik lengkap." },
+            { text: "Tidak bisa dinilai — adopsi tidak dilaporkan", why: "Salah: adopsi dilaporkan — naik menjadi 81,4 persen (1.465 dari 1.800). Vonis memakai metrik lengkap." },
           ],
         },
       ],

@@ -42,7 +42,7 @@ export const fdp17: V2Lesson = {
       title: "Batch vs streaming: menunggu vs memutuskan",
       prose: [
         "Batch menunggu: pipeline FDP1 sampai FDP8 bekerja dengan cara mengambil data yang sudah lengkap — filing kuartal yang sudah terbit, harga penutupan yang sudah final — lalu memprosesnya. Kelebihannya: data lengkap, hasil bisa dihitung ulang persis, dan kesalahan bisa diperbaiki dengan menjalankan ulang. Kekurangannya: ia selalu terlambat — keputusan hari ini memakai data kemarin.",
-        "Streaming memutuskan: pesan harga diproses saat ia tiba, dalam milidetik. Kelebihannya: keputusan memakai harga yang sedang berjalan — penting untuk trading, monitoring risiko, dan alert. Kekurangannya: data tidak pernah lengkap — pesan bisa terlambat, duplikat, atau tidak datang sama sekali — dan hasil tidak bisa dihitung ulang persis, karena urutan kedatangan tidak bisa diputar ulang dengan sempurna.",
+        "Streaming memutuskan: pesan harga diproses saat ia tiba, dalam milidetik. Kelebihannya: keputusan memakai harga yang sedang berjalan — penting untuk trading, monitoring risiko, dan alert. Kekurangannya: data tidak pernah lengkap — pesan bisa terlambat, duplikat, atau tidak datang sama sekali — dan hasil dari kedatangan live-nya tidak bisa dihitung ulang persis, karena urutan kedatangan tidak bisa diputar ulang dengan sempurna. Replay tetap mungkin BILA semua pesan direkam ke log kejadian (event log): putar ulang log itu dengan urutan yang terekam — tetapi itu replay dari rekaman, bukan dari kedatangan asli, dan urutan yang terekam belum tentu urutan kedatangan yang sebenarnya.",
         "Aturan pemilihannya sederhana: bila keputusanmu bisa menunggu sampai data lengkap — laporan bulanan, backtest, rekonsiliasi — pakai batch. Bila keputusanmu harus diambil sekarang — alert harga, monitoring eksposur, eksekusi — pakai streaming. Dan bila keduanya dibutuhkan, pakai keduanya: streaming untuk keputusan cepat, batch untuk koreksi dan rekonsiliasi. Arsitektur ini disebut lambda — dua jalur yang saling mengoreksi.",
       ],
       tasks: [],
@@ -50,14 +50,14 @@ export const fdp17: V2Lesson = {
         title: "Streaming bukan batch yang lebih cepat",
         body: "Kesalahan klasik adalah menganggap streaming sebagai batch yang dijalankan tiap detik. Bukan — streaming punya masalah yang tidak ada di batch: urutan yang tidak terjamin, pesan yang terlambat, dan keadaan (state) yang harus dijaga di memori. Merancang streaming dengan pola pikir batch menghasilkan pipeline yang rapuh dan sulit di-debug.",
       },
-      reference: "Batch: lengkap, bisa dihitung ulang, terlambat. Streaming: cepat, tidak lengkap, tidak bisa dihitung ulang persis.",
+      reference: "Batch: lengkap, bisa dihitung ulang, terlambat. Streaming: cepat, tidak lengkap; hitung ulang persis hanya lewat replay event log yang direkam.",
     },
     {
       id: "watermark-duplikat",
       eyebrow: "Langkah 4 · Teori",
       title: "Watermark, keterlambatan, dan duplikat",
       prose: [
-        "Watermark adalah jam yang berkata 'data sampai titik ini sudah lengkap'. Bila watermark berada di pukul 10:00:00, pipeline boleh menutup jendela perhitungan sampai 10:00:00 dan mengeluarkan hasilnya. Pesan yang tiba setelah watermark — seperti harga pembukaan yang terlambat tiga detik — ditangani secara eksplisit: diterima dan mengoreksi hasil (late update), atau ditolak dan dicatat. Yang tidak boleh terjadi adalah pesan terlambat yang masuk diam-diam dan mengubah hasil tanpa jejak.",
+        "Watermark adalah jam yang berkata 'data sampai titik ini sudah lengkap MENURUT KEBIJAKAN keterlambatan yang kita pilih' — bukan jaminan tidak ada lagi data yang datang. Watermark biasanya dihitung dari waktu kejadian maksimum yang terlihat dikurangi keterlambatan yang diizinkan: ia adalah heuristik dan kebijakan, bukan fakta tentang dunia. Bila watermark berada di pukul 10:00:00, pipeline boleh menutup jendela perhitungan sampai 10:00:00 dan mengeluarkan hasilnya — dengan risiko ada pesan yang masih dalam perjalanan. Pesan yang tiba setelah watermark — seperti harga pembukaan yang terlambat tiga detik — ditangani secara eksplisit: diterima dan mengoreksi hasil (late update), atau ditolak dan dicatat. Yang tidak boleh terjadi adalah pesan terlambat yang masuk diam-diam dan mengubah hasil tanpa jejak.",
         "Dalam data cerita pembuka, 120 dari 240.000 pesan tiba terlambat — 0,05 persen. Angka kecil ini bukan alasan untuk mengabaikannya: bila 120 itu terkonsentrasi di pembukaan pasar — saat volatilitas tertinggi — dampaknya jauh lebih besar daripada 0,05 persen. Selalu ukur keterlambatan per jendela waktu, bukan hanya total: terlambat yang merata adalah noise, terlambat yang berkelompok adalah insiden.",
         "Duplikat ditangani dengan idempotency: setiap pesan punya ID unik, dan pipeline menyimpan ID yang sudah diproses — pesan dengan ID yang sama diproses sekali, sisanya dibuang. Dalam cerita pembuka, 480 dari 240.000 pesan adalah duplikat — 0,2 persen. Tanpa idempotency, 480 duplikat itu akan menggandakan volume perdagangan yang tercatat dan merusak setiap perhitungan yang memakai volume.",
       ],
@@ -66,7 +66,7 @@ export const fdp17: V2Lesson = {
         title: "Latensi p95, bukan rata-rata",
         body: "Latensi rata-rata menyembunyikan ekor yang buruk: rata-rata 50 ms bisa menyembunyikan 5 persen pesan yang tiba setelah 1 detik. p95 — latensi yang hanya dilampaui 5 persen pesan — adalah ukuran yang jujur. Di cerita pembuka, p95 180 ms di dalam SLA 250 ms berarti 95 persen pesan tiba tepat waktu — dan 5 persen sisanya harus dipantau, bukan diabaikan.",
       },
-      reference: "Terlambat 0,05 persen; duplikat 0,2 persen; latensi p95 180 ms (SLA 250 ms). Watermark menutup jendela.",
+      reference: "Terlambat 0,05 persen; duplikat 0,2 persen; latensi p95 180 ms (SLA 250 ms). Watermark adalah heuristik/kebijakan — bukan jaminan kelengkapan.",
     },
     {
       id: "lab-streaming",
@@ -98,6 +98,10 @@ export const fdp17: V2Lesson = {
           { kind: "stdout_matches", task: "t3", pattern: "sla=LOLOS", label: "SLA: LOLOS", msg: "p95 180 ms di bawah SLA 250 ms. Pantau 5 persen ekornya, jangan abaikan." },
         ],
       },
+      note: {
+        title: "Menghitung p95 dari daftar latensi (contoh)",
+        body: "p95 bukan rata-rata dan bukan nilai maksimum: urutkan latensi, lalu ambil nilai pada peringkat ceil(0,95 x n). Contoh 20 latensi (ms): 120, 135, 140, 145, 150, 152, 155, 158, 160, 162, 165, 168, 170, 172, 175, 178, 180, 185, 210, 320 — peringkat p95 adalah ceil(0,95 x 20) = 19, nilainya 210 ms. Rata-rata daftar itu hanya sekitar 172 ms dan menyembunyikan ekor 320 ms; p95 210 ms jujur tentang ekor itu.",
+      },
       reference: "Terlambat 0,05 persen; duplikat 0,2 persen; SLA LOLOS (180 ms di bawah 250 ms).",
     },
     {
@@ -125,8 +129,8 @@ export const fdp17: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Batch: lengkap, bisa dihitung ulang, terlambat. Streaming: cepat, tidak lengkap.",
-        "Lab: terlambat 0,05 persen; duplikat 0,2 persen; SLA LOLOS.",
+        "Batch: lengkap, bisa dihitung ulang, terlambat. Streaming: cepat, tidak lengkap; replay hanya dari event log yang direkam.",
+        "Lab: terlambat 0,05 persen; duplikat 0,2 persen; SLA LOLOS. Watermark: kebijakan keterlambatan, bukan jaminan lengkap.",
         "Watermark: jam yang berkata data sampai titik ini sudah lengkap.",
         "Idempotency: pesan dengan ID yang sama diproses sekali.",
         "Mode gagal yang jujur: 'feed terputus', bukan harga terakhir yang membeku.",
@@ -155,7 +159,7 @@ export const fdp17: V2Lesson = {
           q: "Apa fungsi watermark dalam pipeline streaming?",
           options: [
             { text: "Menandai pesan duplikat", why: "Salah: itu fungsi idempotency, bukan watermark." },
-            { text: "Menandai titik waktu di mana data sampai titik itu sudah lengkap", why: "Tepat: watermark membuat 'lengkap' menjadi definisi eksplisit.", correct: true },
+            { text: "Menandai titik waktu di mana data sampai titik itu dianggap lengkap menurut kebijakan keterlambatan — bukan jaminan tidak ada lagi data yang datang", why: "Tepat: watermark adalah heuristik/kebijakan (waktu kejadian maksimum dikurangi keterlambatan yang diizinkan); pesan yang sangat terlambat masih bisa datang sesudahnya.", correct: true },
             { text: "Mengukur latensi rata-rata", why: "Salah: latensi diukur dengan p95, bukan watermark." },
             { text: "Menyimpan pesan yang terlambat", why: "Salah: watermark tidak menyimpan — ia memutuskan kapan jendela boleh ditutup dan bagaimana pesan terlambat ditangani." },
           ],

@@ -49,7 +49,7 @@ export const biz33: V2Lesson = {
       tasks: [],
       note: {
         title: "Demo vendor selalu memukau — uji dengan datamu",
-        body: "Tiap vendor mendemokan data yang sudah dibersihkan dan pertanyaan yang sudah disiapkan. Proof-of-concept yang jujur memakai data kotor milikmu, pertanyaan direksi yang sebenarnya, dan 10 pengguna nyata selama 2 minggu. Suite yang menang di demo belum tentu menang di PoC.",
+        body: "Tiap vendor mendemokan data yang sudah dibersihkan dan pertanyaan yang sudah disiapkan. Proof-of-concept yang jujur memakai data kotor milikmu, pertanyaan direksi yang sebenarnya, dan 10 pengguna nyata selama 2 minggu. Suite yang menang di demo belum tentu menang di PoC.\n\nModel asosiatif vs model semantik (jangan tertukar): Model ASOSIATIF Qlik memuat data ke memori dan menghitung ulang semua pilihan saat pengguna mengklik — nilai yang tidak terkait langsung berubah abu-abu, memperlihatkan hubungan yang tidak terlihat di query biasa. Model SEMANTIK adalah lapisan definisi yang dikelola pusat — metrik didefinisikan sekali dan dipakai semua tool. Qlik asosiatif menjawab 'apa yang berhubungan'; semantic layer menjawab 'apa arti angka ini'. Keduanya bisa hidup bersama: Qlik untuk eksplorasi, semantic layer untuk definisi yang disepakati.",
       },
       reference: "Cognos: pelaporan terjadwal. Qlik: asosiatif di memori. MicroStrategy: distribusi mobile ribuan pengguna.",
     },
@@ -103,7 +103,7 @@ export const biz33: V2Lesson = {
       title: "Mini-case: keputusan yang akhirnya diambil dalam 6 minggu",
       prose: [
         "Kembali ke Bank Artha Dana. Evaluasi diulang dengan kerangka: PoC 2 minggu per suite dengan data kotor bank dan pertanyaan direksi yang sebenarnya, skor kecocokan dari kebutuhan, lalu TCO sebagai kendala. Hasilnya: Cognos menang kecocokan untuk laporan regulator — kebutuhan inti bank — meski TCO-nya 300 juta, termahal.",
-        "Keputusan rapat: Cognos dipilih untuk pelaporan regulator dan distribusi terjadwal; Qlik dipakai tim analis untuk eksplorasi ad-hoc dengan lisensi terbatas. Dua tool untuk dua kebutuhan — bukan satu tool yang dipaksa melayani semua.",
+        "Keputusan rapat: Cognos dipilih untuk pelaporan regulator dan distribusi terjadwal; Qlik dipakai tim analis untuk eksplorasi ad-hoc dengan lisensi terbatas. Dua tool untuk dua kebutuhan — dan biayanya DUA-DUANYA: TCO gabungan bukan Rp300 juta (itu Cognos saja), melainkan 300 juta ditambah lisensi Qlik terbatas dan biaya integrasi antar-tool — yang tidak dihitung di TCO lesson ini dan wajib dihitung sebelum anggaran disetujui.",
         "Keputusan itu ditulis dengan alasan dan angka — supaya tahun depan, saat seseorang bertanya kenapa bank membayar 300 juta, jawabannya ada di dokumen, bukan di ingatan.",
       ],
       tasks: [],

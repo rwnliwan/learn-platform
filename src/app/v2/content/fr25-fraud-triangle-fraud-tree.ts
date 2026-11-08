@@ -12,7 +12,7 @@ export const fr25: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Tiga karyawan, tiga alasan, satu kerugian Rp31 miliar",
       prose: [
-        "Dalam satu tahun, sebuah perusahaan menemukan 120 kasus fraud internal. Delapan puluh enam kasus adalah penyalahgunaan aset — kas kecil yang dicuri, stok yang hilang, klaim fiktif. Dua puluh enam kasus adalah korupsi — suap ke vendor, kickback pengadaan. Delapan kasus adalah kecurangan laporan keuangan — angka yang dipoles agar target tercapai. Total kerugian Rp31.250 juta — dan yang paling mengejutkan: delapan kasus laporan keuangan yang hanya 6,7 persen dari jumlah kasus menyumbang 44,8 persen dari total kerugian.",
+        "Dalam satu tahun, sebuah perusahaan menemukan 120 kasus fraud internal. Delapan puluh enam kasus adalah penyalahgunaan aset — kas kecil yang dicuri, stok yang hilang, klaim fiktif. Dua puluh enam kasus adalah korupsi — suap ke vendor, kickback pengadaan. Delapan kasus adalah kecurangan laporan keuangan — angka yang dipoles agar target tercapai. Total kerugian (estimasi kasar: median per cabang dikali jumlah kasus) Rp31.250 juta — dan yang paling mengejutkan: delapan kasus laporan keuangan yang hanya 6,7 persen dari jumlah kasus menyumbang 44,8 persen dari total estimasi kerugian.",
         "Tanpa kerangka, 120 kasus itu hanya daftar panjang yang melelahkan. Dengan dua kerangka ACFE — fraud triangle dan fraud tree — daftar itu berubah menjadi peta: triangle menjelaskan MENGAPA seseorang berbuat curang, tree menjelaskan APA yang ia lakukan. Lesson ini mengajarkan keduanya, plus cara menghitung dari mana kerugian terbesar benar-benar datang — supaya sumber daya investigasi diarahkan ke tempat yang paling mahal, bukan yang paling ramai.",
       ],
       tasks: [],
@@ -20,7 +20,7 @@ export const fr25: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "FR1 menyebut sembilan tipe fraud dan FR2 membedakan fraud dari AML, tetapi tidak satu pun lesson yang mengajarkan fraud triangle (pressure, opportunity, rationalization) atau fraud tree ACFE (asset misappropriation, corruption, financial statement fraud) sebagai kerangka kerja. Lesson ini membangun keduanya dari nol, dengan lab yang menghitung distribusi kerugian per cabang tree.",
       },
-      reference: "120 kasus: 86 penyalahgunaan aset, 26 korupsi, 8 kecurangan laporan keuangan. Total rugi Rp31.250 juta; FSF 44,8 persen.",
+      reference: "120 kasus: 86 penyalahgunaan aset, 26 korupsi, 8 kecurangan laporan keuangan. Total rugi (estimasi median × jumlah kasus) Rp31.250 juta; FSF 44,8 persen.",
     },
     {
       id: "tujuan",
@@ -58,27 +58,27 @@ export const fr25: V2Lesson = {
       title: "Fraud tree: tiga cabang, tiga harga",
       prose: [
         "Fraud tree ACFE membagi occupational fraud menjadi tiga cabang. Asset misappropriation: mencuri aset perusahaan — kas, stok, klaim palsu. Ini cabang tersering: dalam data cerita pembuka, 86 dari 120 kasus (71,7 persen). Corruption: penyalahgunaan jabatan untuk keuntungan — suap, kickback, konflik kepentingan. Financial statement fraud: memalsukan laporan — mengakui revenue lebih awal, menyembunyikan kewajiban.",
-        "Pola harga ketiga cabang itu berlawanan dengan polanya frekuensi. Median kerugian per kasus: penyalahgunaan aset Rp125 juta, korupsi Rp250 juta, kecurangan laporan keuangan Rp1.750 juta — empat belas kali lipat cabang pertama. Totalnya: aset 86 dikali 125 sama dengan Rp10.750 juta; korupsi 26 dikali 250 sama dengan Rp6.500 juta; laporan keuangan 8 dikali 1.750 sama dengan Rp14.000 juta. Total Rp31.250 juta, dan cabang yang paling jarang justru paling mahal: 44,8 persen dari total kerugian.",
+        "Pola harga ketiga cabang itu berlawanan dengan polanya frekuensi. Median kerugian per kasus: penyalahgunaan aset Rp125 juta, korupsi Rp250 juta, kecurangan laporan keuangan Rp1.750 juta — empat belas kali lipat cabang pertama. Sebagai ESTIMASI kasar, total per cabang dihitung dari median dikali jumlah kasus: aset 86 dikali 125 sama dengan Rp10.750 juta; korupsi 26 dikali 250 sama dengan Rp6.500 juta; laporan keuangan 8 dikali 1.750 sama dengan Rp14.000 juta. Total estimasi Rp31.250 juta, dan cabang yang paling jarang justru paling mahal: 44,8 persen dari total estimasi kerugian. Ingat batasnya: median dikali jumlah kasus BUKAN total kerugian yang sebenarnya — total sebenarnya adalah jumlah kerugian aktual tiap kasus. Median hanya memberi perkiraan kasar bila kerugian aktual tiap kasus tidak tersedia; bila satu kasus FSF ternyata rugi Rp14 miliar sendirian, estimasi median akan jauh meleset. Pakai angka ini untuk memprioritaskan, bukan sebagai angka audit.",
         "Kesalahan klasik manajemen adalah mengukur bahaya dari frekuensi: 86 kasus aset terasa paling mendesak karena paling sering muncul di antrean. Tetapi anggaran investigasi yang mengikuti frekuensi akan menghabiskan 70 persen waktunya untuk 34 persen kerugiannya. Aturan alokasi yang benar: urutkan dari nilai yang dipertaruhkan, bukan dari jumlah baris antrean — dan pastikan delapan kasus laporan keuangan mendapat investigator paling senior, bukan yang tersisa.",
       ],
       tasks: [],
       note: {
         title: "Median, bukan rata-rata",
-        body: "Kerugian fraud berdistribusi sangat miring — satu kasus Rp14 miliar bisa menenggelamkan seratus kasus Rp100 juta. Rata-rata akan menyesatkan; median per cabang adalah angka yang jujur untuk perbandingan, dan total per cabang adalah angka untuk alokasi anggaran.",
+        body: "Kerugian fraud berdistribusi sangat miring — satu kasus Rp14 miliar bisa menenggelamkan seratus kasus Rp100 juta. Rata-rata akan menyesatkan; median per cabang adalah angka yang jujur untuk perbandingan, dan total per cabang adalah angka untuk alokasi anggaran. Tetapi ingat: median dikali jumlah kasus hanyalah ESTIMASI total — total sebenarnya adalah penjumlahan kerugian aktual tiap kasus. Jangan sajikan hasil kali median sebagai total audit.",
       },
-      reference: "Median per kasus: aset Rp125 jt, korupsi Rp250 jt, FSF Rp1.750 jt. Total: 10.750, 6.500, 14.000 — total Rp31.250 jt.",
+      reference: "Median per kasus: aset Rp125 jt, korupsi Rp250 jt, FSF Rp1.750 jt. Total estimasi (median × jumlah kasus): 10.750, 6.500, 14.000 — total Rp31.250 jt.",
     },
     {
       id: "lab-tree",
       eyebrow: "Langkah 5 · Lab",
       title: "Lab: menghitung kerugian per cabang fraud tree",
       prose: [
-        "Lab ini menghitung dari data 120 kasus: total kerugian, pangsa cabang laporan keuangan, dan cabang tersering. Hitung dulu di kepala. Total: 86 dikali 125 sama dengan 10.750; 26 dikali 250 sama dengan 6.500; 8 dikali 1.750 sama dengan 14.000; jumlahnya 31.250 juta. Pangsa FSF: 14.000 dibagi 31.250 dikali 100 sama dengan 44,8 persen. Cabang tersering: asset, 86 kasus.",
+        "Lab ini menghitung ESTIMASI kerugian dari data 120 kasus: total estimasi kerugian, pangsa cabang laporan keuangan, dan cabang tersering. Hitung dulu di kepala. Total estimasi: 86 dikali 125 sama dengan 10.750; 26 dikali 250 sama dengan 6.500; 8 dikali 1.750 sama dengan 14.000; jumlahnya 31.250 juta. Pangsa FSF: 14.000 dibagi 31.250 dikali 100 sama dengan 44,8 persen. Cabang tersering: asset, 86 kasus. Sekali lagi: ini estimasi dari median — bukan total audit; total sebenarnya butuh penjumlahan kerugian aktual tiap kasus.",
         "Tugas lab: isi tiga variabel — total_rugi, pangsa_fsf, tersering — lalu cetak ketiganya. Tiga angka ini adalah satu baris pertama laporan triwulanan ke komite audit: dari mana kerugiannya datang, dan cabang mana yang paling mahal.",
-        "Setelah lolos, coba eksperimen: ubah median FSF menjadi 2.000 dan lihat pangsa FSF naik menjadi 47,1 persen — lalu tanyakan: pada pangsa berapa komite audit harus memindahkan satu investigator senior dari kasus aset ke kasus laporan keuangan? Jawabannya bukan angka, melainkan kebijakan: cabang termahal selalu mendapat investigator terbaik, berapa pun frekuensinya.",
+        "Setelah lolos, coba eksperimen: ubah median FSF menjadi 2.000 dan lihat pangsa FSF naik menjadi 48,1 persen — lalu tanyakan: pada pangsa berapa komite audit harus memindahkan satu investigator senior dari kasus aset ke kasus laporan keuangan? Jawabannya bukan angka, melainkan kebijakan: cabang termahal biasanya mendapat investigator terbaik — tetapi bila kasusnya sudah tertutup kontrol atau sudah selesai ditangani, prioritas bergeser ke cabang berikutnya.",
       ],
       tasks: [
-        { id: "t1", text: "Hitung total kerugian ketiga cabang (Rp juta)" },
+        { id: "t1", text: "Hitung total ESTIMASI kerugian ketiga cabang (Rp juta) — median × jumlah kasus" },
         { id: "t2", text: "Hitung pangsa kerugian cabang laporan keuangan dalam persen" },
         { id: "t3", text: "Tentukan cabang dengan kasus tersering" },
       ],
@@ -93,12 +93,12 @@ export const fr25: V2Lesson = {
         lockLines: 5,
         solution: "# 120 kasus fraud internal menurut fraud tree ACFE (Rp juta). JANGAN UBAH.\njml = {\"asset\": 86, \"corruption\": 26, \"fsf\": 8}\nrugi_median = {\"asset\": 125, \"corruption\": 250, \"fsf\": 1750}\n\n# TULIS KODEMU: total rugi, pangsa FSF, kategori tersering\ntotal_rugi = jml[\"asset\"] * rugi_median[\"asset\"] + jml[\"corruption\"] * rugi_median[\"corruption\"] + jml[\"fsf\"] * rugi_median[\"fsf\"]\npangsa_fsf = jml[\"fsf\"] * rugi_median[\"fsf\"] / total_rugi * 100\ntersering = max(jml, key=lambda k: jml[k])\nprint(f\"total_rugi_jt={total_rugi}\")\nprint(f\"pangsa_fsf_pct={round(pangsa_fsf, 1)}\")\nprint(f\"tersering={tersering}\")",
         checks: [
-          { kind: "stdout_matches", task: "t1", pattern: "total_rugi_jt=31250", label: "Total rugi Rp31.250 juta", msg: "10.750 + 6.500 + 14.000 = 31.250. Jumlahkan per cabang, jangan rata-rata." },
+          { kind: "stdout_matches", task: "t1", pattern: "total_rugi_jt=31250", label: "Total estimasi rugi Rp31.250 juta", msg: "10.750 + 6.500 + 14.000 = 31.250. Jumlahkan per cabang, jangan rata-rata. Ingat: ini estimasi median × jumlah kasus, bukan total audit." },
           { kind: "stdout_matches", task: "t2", pattern: "pangsa_fsf_pct=44.8", label: "Pangsa FSF 44,8 persen", msg: "14.000 / 31.250 x 100 = 44,8. Cabang paling jarang adalah yang paling mahal." },
           { kind: "stdout_matches", task: "t3", pattern: "tersering=asset", label: "Cabang tersering: asset", msg: "86 kasus — tersering, tetapi bukan termahal. Frekuensi bukan ukuran bahaya." },
         ],
       },
-      reference: "Total Rp31.250 jt; FSF 44,8 persen; tersering asset (86 kasus).",
+      reference: "Total estimasi Rp31.250 jt; FSF 44,8 persen; tersering asset (86 kasus).",
     },
     {
       id: "mini-case",
@@ -127,14 +127,14 @@ export const fr25: V2Lesson = {
       summary: [
         "Fraud triangle: pressure, opportunity, rationalization — ketiganya harus bertemu.",
         "Fraud tree: asset misappropriation, corruption, financial statement fraud.",
-        "Lab: total Rp31.250 jt; FSF 44,8 persen dari total; tersering asset (86 kasus).",
+        "Lab: total estimasi Rp31.250 jt; FSF 44,8 persen dari total estimasi; tersering asset (86 kasus).",
         "Median per kasus: aset Rp125 jt, korupsi Rp250 jt, FSF Rp1.750 jt — 14 kali lipat.",
         "Alokasi investigasi mengikuti nilai, bukan frekuensi; kontrol memotong opportunity.",
       ],
       next: { label: "FR26 — Whistleblowing Program: Saluran yang Berani Dipakai", href: "/v2/learn/fr26-whistleblowing-program" },
       quiz: [
         {
-          q: "86 kasus aset (median Rp125 jt), 26 korupsi (Rp250 jt), 8 FSF (Rp1.750 jt). Berapa total kerugian?",
+          q: "86 kasus aset (median Rp125 jt), 26 korupsi (Rp250 jt), 8 FSF (Rp1.750 jt). Berapa total ESTIMASI kerugian (median × jumlah kasus)?",
           options: [
             { text: "Rp31.250 juta", why: "Tepat: 10.750 + 6.500 + 14.000 = 31.250.", correct: true },
             { text: "Rp21.000 juta — hanya dari cabang tersering dan termahal", why: "Salah: korupsi 6.500 ikut dihitung. Total adalah jumlah ketiga cabang." },

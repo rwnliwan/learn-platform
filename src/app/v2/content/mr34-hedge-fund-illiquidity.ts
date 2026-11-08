@@ -42,7 +42,7 @@ export const mr34: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Leverage: pengali yang sama dengan 2008",
       prose: [
-        "Matematika leverage hedge fund sama dengan matematika bank 2008 (E37): ekuitas = aset dibagi leverage; kerugian bangkrut = 1 dibagi leverage. Leverage 25:1 berarti ekuitas 4 persen dari aset — kerugian aset 4 persen menghapus seluruh ekuitas. Meridian: aset Rp125 miliar, ekuitas Rp5 miliar, kerugian 4 persen = Rp5 miliar — nol. LTCM 1998: aset 125 miliar dolar, ekuitas 5 miliar dolar, leverage 25:1 — kerugian 4 persen memicu penyelamatan sistemik.",
+        "Matematika leverage hedge fund sama dengan matematika bank 2008 (E37): ekuitas = aset dibagi leverage; kerugian bangkrut = 1 dibagi leverage. Leverage 25:1 berarti ekuitas 4 persen dari aset — kerugian aset 4 persen menghapus seluruh ekuitas. Meridian: aset Rp125 miliar, ekuitas Rp5 miliar, kerugian 4 persen = Rp5 miliar — nol. LTCM 1998: aset sekitar 125 miliar dolar, ekuitas sekitar 5 miliar dolar, leverage sekitar 25:1 — kerugian 4 persen memicu penyelamatan sistemik.",
         "Yang membuat leverage hedge fund lebih berbahaya dari leverage bank: hedge fund tidak punya lender of last resort, tidak punya asuransi deposito, dan tidak wajib lapor posisi ke publik. Bank yang goyang bisa diselamatkan bank sentral; hedge fund yang goyang hanya bisa diselamatkan oleh investornya — yang sedang mengantre keluar. Dan leverage hedge fund sering tersembunyi: derivatif (MR11) memberi eksposur besar dengan modal kecil — leverage ekonomi bisa jauh lebih besar dari leverage akuntansi yang terlihat di neraca.",
         "Tiga ukuran leverage yang wajib ditanyakan sebelum berinvestasi. Gross leverage: total aset (long + short) dibagi ekuitas — mengukur ukuran taruhan. Net leverage: (long − short) dibagi ekuitas — mengukur arah taruhan. Leverage derivatif: notional derivatif dibagi ekuitas — mengukur eksposur yang tidak terlihat di neraca. Dana dengan gross leverage 5:1 dan net leverage 0,5:1 bisa terlihat aman — sampai pasar bergerak dan kedua sisinya rugi bersamaan (basis risk, korelasi naik saat stres).",
         "Aturan praktis: tanyakan leverage DALAM skenario stres, bukan leverage hari ini. Leverage 25:1 di masa tenang dengan volatilitas 10 persen berarti VaR harian 2,5 persen dari ekuitas — sudah besar. Saat volatilitas naik ke 30 persen (krisis), VaR harian menjadi 7,5 persen dari ekuitas — dan 4 hari buruk berturut-turut menghapus sepertiga dana. Leverage yang 'aman' di masa tenang adalah leverage yang mematikan di masa stres.",
@@ -59,13 +59,14 @@ export const mr34: V2Lesson = {
       prose: [
         "Hedge fund mengelola likuiditas dengan tiga alat. Lock-up: investor tidak bisa menarik dana selama periode awal (biasanya 1–2 tahun) — memberi manajer waktu untuk strategi illiquid. Gate: bila permintaan penarikan dalam satu periode melebihi batas (biasanya 10–20 persen dari NAV), hanya sebagian yang dibayar — sisanya ditunda ke periode berikutnya. Contoh cerita pembuka: dana Rp1.000 miliar, permintaan Rp300 miliar, gate 10 persen → dibayar Rp100 miliar, ditunda Rp200 miliar. Side pocket: aset illiquid dipisahkan ke kantong terpisah — investor lama mendapat bagiannya saat aset itu akhirnya terjual (bisa bertahun-tahun), investor baru tidak mendapatkannya.",
         "Ketiga alat ini rasional dari sisi manajer: mereka mencegah fire sale — menjual aset illiquid dengan diskon 30 persen untuk memenuhi penarikan akan merugikan investor yang bertahan. Tetapi dari sisi investor, mereka mengubah 'investasi' menjadi 'penjara': uangmu ada, return-nya tercatat, tetapi kamu tidak bisa mengambilnya. Dan gate punya efek pervers: begitu investor tahu gate akan diberlakukan, mereka mengajukan penarikan LEBIH BESAR dari yang dibutuhkan — 'minta 30 persen, berharap dapat 10 persen' — yang memperburuk antrean (bank run versi hedge fund).",
+        "Urutan pembayaran saat penarikan melebihi gate — redemption waterfall. Pertama: kas yang tersedia dibayar dulu. Kedua: aset likuid dijual secukupnya untuk memenuhi gate. Ketiga: pembayaran gate dibagi PRO-RATA ke semua pemohon penarikan periode itu — bukan first-come-first-served; yang mengajukan duluan tidak didahulukan. Keempat: sisa permintaan yang tidak terbayar masuk antrean periode berikutnya — ia tidak hilang, tetapi juga tidak dijamin dibayar periode depan bila gate diberlakukan lagi. Dan aset side pocket TIDAK masuk waterfall sama sekali: ia dibayar hanya saat aset itu akhirnya terjual, yang bisa bertahun-tahun — investor yang masuk setelah side pocket dibentuk tidak mendapat bagiannya. Waterfall ini harus tertulis di dokumen dana SEBELUM berinvestasi; dana yang tidak menjelaskan urutannya sedang menyembunyikan antrean.",
         "Prime brokerage menambah satu lapis risiko: hedge fund meminjam uang dan saham dari prime broker (bank investasi) untuk leverage dan short selling. Broker itu memegang collateral hedge fund — dan bisa MENAIKKAN margin atau MENARIK pendanaan saat pasar stres. Inilah yang membunuh LTCM: bukan hanya kerugian, melainkan prime broker yang menaikkan margin secara bersamaan, memaksa LTCM menjual di titik terendah. Rehypothecation memperparahnya: broker boleh memakai collateral hedge fund untuk keperluannya sendiri — bila broker itu gagal (Lehman 2008), collateral hedge fund ikut tersangkut dalam kebangkrutan broker.",
         "Aturan praktis bagi investor: baca dokumen dana SEBELUM berinvestasi — lock-up berapa lama, gate berapa persen, side pocket untuk aset apa, siapa prime broker-nya, dan apakah collateral di-rehypothecate. Investor yang menemukan gate-nya saat sudah mengantre keluar sedang membaca kontrak di tengah kebakaran.",
       ],
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "Mengira return hedge fund yang tinggi berarti manajernya hebat. Return 20 persen dengan leverage 25:1 berarti return aset hanya 0,8 persen — manajer itu tidak hebat, ia hanya berleverage. Selalu tanyakan return PER UNIT LEVERAGE, bukan return mentahnya.",
+        body: "Mengira return hedge fund yang tinggi berarti manajernya hebat. Return 20 persen dengan leverage 25:1 berarti return aset hanya 0,8 persen SEBELUM biaya pendanaan — manajer itu tidak hebat, ia hanya berleverage. Setelah bunga pinjaman, return aset yang dibutuhkan untuk menghasilkan return ekuitas 20 persen lebih besar dari 0,8 persen. Selalu tanyakan return PER UNIT LEVERAGE, bukan return mentahnya.",
       },
       reference: "Gate 10 persen: permintaan Rp300 miliar → dibayar Rp100 miliar, ditunda Rp200 miliar. Rehypothecation: collateral bisa tersangkut bila broker gagal.",
     },
@@ -107,7 +108,7 @@ export const mr34: V2Lesson = {
       eyebrow: "Langkah 6 · Teori",
       title: "Hedge fund sebagai counterparty: risiko bagi bank",
       prose: [
-        "Bagi bank, hedge fund adalah counterparty — dan counterparty yang berbahaya. Bank memberi leverage lewat prime brokerage, menjual derivatif, dan menjadi lawan transaksi. Risiko bank bukan return hedge fund — melainkan apakah hedge fund bisa membayar margin call saat pasar bergerak. Archegos 2021 adalah contoh modern: family office dengan leverage tersembunyi lewat total return swap, gagal membayar margin call Rp200 triliun lebih, dan dua bank besar (Credit Suisse, Nomura) menanggung kerugian miliaran dolar. Archegos bukan hedge fund terdaftar — tetapi mekanismenya identik: leverage tersembunyi + margin call + fire sale.",
+        "Bagi bank, hedge fund adalah counterparty — dan counterparty yang berbahaya. Bank memberi leverage lewat prime brokerage, menjual derivatif, dan menjadi lawan transaksi. Risiko bank bukan return hedge fund — melainkan apakah hedge fund bisa membayar margin call saat pasar bergerak. Archegos 2021 adalah contoh modern: family office dengan leverage tersembunyi lewat total return swap, gagal membayar margin call, dan bank-bank yang terlibat menanggung kerugian total sekitar USD 10 miliar — Credit Suisse sekitar USD 5,5 miliar dan Nomura sekitar USD 2,9 miliar. Archegos bukan hedge fund terdaftar — tetapi mekanismenya identik: leverage tersembunyi + margin call + fire sale.",
         "Tiga pengaman bank terhadap hedge fund. Pertama, margin dan haircut yang naik saat volatilitas naik — tetapi menaikkan margin di tengah krisis mempercepat fire sale (procyclical). Kedua, limit eksposur per counterparty dan per strategi — agar satu Archegos tidak menenggelamkan bank. Ketiga, stress test counterparty: apa yang terjadi bila hedge fund terbesar gagal BERSAMAAN dengan pasar jatuh 20 persen? Bila jawabannya 'bank kehilangan modal signifikan', limit-nya terlalu besar.",
         "Bagi investor yang mempertimbangkan hedge fund, due diligence-nya ada lima pertanyaan: berapa leverage gross, net, dan derivatif — dalam skenario stres? Berapa persen aset yang illiquid (level 3) dan berapa lama lock-up dan gate-nya? Siapa prime broker-nya dan apakah collateral di-rehypothecate? Apakah auditornya bereputasi dan apakah ada administrator independen yang menghitung NAV? Dan yang terpenting: apakah return-nya berasal dari skill atau dari leverage — hitung return per unit leverage sebelum mengagumi return mentahnya.",
       ],
@@ -116,7 +117,7 @@ export const mr34: V2Lesson = {
         title: "Sering salah",
         body: "Mengira diversifikasi antar hedge fund melindungi dari risiko hedge fund. Bila semua dana memakai leverage dari prime broker yang sama dan strategi yang berkorelasi, mereka jatuh bersamaan — seperti 2008. Diversifikasi manajer bukan diversifikasi risiko bila sumber risikonya sama.",
       },
-      reference: "Archegos 2021: leverage tersembunyi lewat total return swap, margin call gagal, kerugian bank miliaran dolar.",
+      reference: "Archegos 2021: leverage tersembunyi lewat total return swap, margin call gagal, kerugian bank total sekitar USD 10 miliar (Credit Suisse ~USD 5,5 miliar, Nomura ~USD 2,9 miliar).",
     },
     {
       id: "mini-case",
@@ -132,7 +133,7 @@ export const mr34: V2Lesson = {
         title: "Pembahasan",
         body: "Tiga hal yang membuat keputusan ini benar. Pertama, return dibagi leverage sebelum dikagumi (0,8 persen, bukan 20 persen). Kedua, struktur likuiditas diperiksa (gate, lock-up, side pocket) sebelum return. Ketiga, keputusan didokumentasikan dengan alasan — sehingga penolakan yang tidak populer bisa dipertahankan.",
       },
-      reference: "Return 20 persen dengan leverage 25:1 berarti return aset 0,8 persen. Komite menolak; 6 bulan kemudian dana mengunci pintu.",
+      reference: "Return 20 persen dengan leverage 25:1 berarti return aset 0,8 persen SEBELUM biaya pendanaan. Komite menolak; 6 bulan kemudian dana mengunci pintu.",
     },
     {
       id: "kuis",
@@ -144,10 +145,10 @@ export const mr34: V2Lesson = {
       tasks: [],
       summary: [
         "Leverage 25:1 — kerugian 4 persen menghapus seluruh ekuitas Rp5 miliar.",
-        "Gate 10 persen: permintaan Rp300 miliar → dibayar Rp100 miliar, ditunda Rp200 miliar.",
+        "Gate 10 persen: permintaan Rp300 miliar → dibayar Rp100 miliar (pro-rata), ditunda Rp200 miliar ke antrean periode berikut; side pocket di luar waterfall.",
         "Lock-up, gate, side pocket mencegah fire sale — tetapi mengubah investasi menjadi antrean.",
         "Prime brokerage + rehypothecation: collateral bisa tersangkut bila broker gagal.",
-        "Return per unit leverage — bukan return mentah — yang mengukur skill manajer.",
+        "Return per unit leverage — bukan return mentah — yang mengukur skill manajer (dan itu pun sebelum biaya pendanaan).",
       ],
       next: { label: "MR35 — VaR dan Expected Shortfall dengan R: Dari Kuantil ke Laporan", href: "/v2/learn/mr35-var-es-dengan-r" },
       quiz: [
@@ -173,7 +174,7 @@ export const mr34: V2Lesson = {
           q: "Hedge fund melaporkan return 20 persen dengan leverage 25:1. Berapa return asetnya — dan apa artinya?",
           options: [
             { text: "20 persen — leverage tidak memengaruhi return", why: "Salah: return ekuitas = return aset × leverage. Return aset = 20 persen / 25 = 0,8 persen." },
-            { text: "0,8 persen — manajer itu tidak hebat, ia hanya berleverage", why: "Tepat: 20/25 = 0,8. Return yang dikagumi pasar sebagian besar adalah leverage, bukan skill.", correct: true },
+            { text: "0,8 persen — manajer itu tidak hebat, ia hanya berleverage", why: "Tepat: 20/25 = 0,8 SEBELUM biaya pendanaan — setelah bunga pinjaman, return aset yang dibutuhkan lebih besar lagi. Return yang dikagumi pasar sebagian besar adalah leverage, bukan skill.", correct: true },
             { text: "500 persen — leverage melipatgandakan return aset", why: "Salah: terbalik. Return ekuitas SUDAH mengandung leverage; return aset didapat dengan MEMBAGI, bukan mengalikan." },
             { text: "Tidak bisa dihitung — return aset tidak berhubungan dengan leverage", why: "Salah: hubungannya langsung — return ekuitas ≈ return aset × leverage (sebelum biaya pendanaan)." },
           ],

@@ -12,7 +12,7 @@ export const aai23: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Tiga agen, tiga framework — dan satu yang 2,12x lebih cepat karena paralel",
       prose: [
-        "Tim NusaBank membangun agen riset dokumen dengan tiga agen: pencari, peringkas, dan pemeriksa. Di LangChain, ketiganya jalan berurutan: 1.200 + 900 + 1.500 ms = 3.600 ms per tugas. Di CrewAI dengan eksekusi paralel, pencari dan peringkas jalan bersamaan: maks(1.200, 900, 1.500) + overhead 200 ms = 1.700 ms — 2,12x lebih cepat. Bukan karena CrewAI 'lebih baik' — melainkan karena tugasnya paralel dan framework-nya mendukungnya secara native. Framework yang tepat adalah yang cocok dengan BENTUK tugasmu.",
+        "Tim NusaBank membangun agen riset dokumen dengan tiga agen PENCARI yang independen: pencari-dokumen (1.200 ms), pencari-regulasi (900 ms), dan pencari-pasar (1.500 ms) — ketiganya mencari dari sumber berbeda tanpa saling menunggu. Berurutan: 1.200 + 900 + 1.500 = 3.600 ms per tugas. Paralel (CrewAI): ketiganya jalan bersamaan: maks(1.200, 900, 1.500) + overhead 200 ms = 1.700 ms — 2,12x lebih cepat. Bukan karena CrewAI 'lebih baik' — melainkan karena tugasnya independen dan framework-nya mendukung paralel secara native. Framework yang tepat adalah yang cocok dengan BENTUK tugasmu.",
         "Lesson ini mengajarkan framework multi-agent di luar LangChain secara hands-on: CrewAI (peran + delegasi), AG2/AutoGen (percakapan antar agen), dan BeeAI (orkestrasi ringan + standar). AAI10 membandingkan framework dari sudut konsep (loop, state, checkpoint) — lesson ini turun ke praktik: kapan tiap framework menang, berapa biayanya, dan bagaimana mereka dieksekusi.",
         "Setelah lesson ini kamu bisa: (1) membedakan model eksekusi CrewAI, AG2, dan BeeAI; (2) menghitung latensi sekuensial vs paralel; (3) menghitung biaya token multi-agent per tugas; (4) memilih framework dari bentuk tugas; (5) menjelaskan kapan kode polos mengalahkan semua framework.",
       ],
@@ -45,6 +45,7 @@ export const aai23: V2Lesson = {
         "CrewAI berpikir dalam PERAN: tiap agen punya role, goal, dan backstory ('Kamu peneliti senior yang...'), dan tugas didelegasikan manajer ke agen yang tepat. Kekuatannya: delegasi yang mudah dibaca manusia dan eksekusi paralel bawaan untuk tugas independen. Kelemahannya: overhead peran (tiap agen membawa prompt peran yang panjang = token) dan delegasi yang kaku bila tugas berubah di tengah jalan.",
         "AG2 (dulu AutoGen) berpikir dalam PERCAKAPAN: agen-agen berbicara satu sama lain dalam putaran (turn) sampai konsensus atau batas putaran tercapai. Kekuatannya: debat dan kritik silang — agen pemeriksa bisa menantang agen penulis sampai 3 putaran. Kelemahannya: percakapan bisa berputar tanpa ujung (butuh batas putaran + kriteria berhenti yang tegas) dan biaya token membengkak tiap putaran (tiap agen membaca seluruh riwayat).",
         "BeeAI berpikir dalam ORKESTRASI RINGAN: agen sebagai servis dengan protokol standar (A2A), bisa digabung tanpa framework berat. Kekuatannya: interoperabilitas — agen dari vendor berbeda bisa bekerja sama lewat protokol yang sama. Kelemahannya: ekosistem lebih muda, tooling lebih sedikit. Aturan AAI10 tetap berlaku: 80 persen waktu belajar ke konsep (loop, state, checkpoint), 20 persen ke API — framework berganti tiap 2 tahun, konsepnya abadi.",
+        "Contoh implementasi (pseudo-code, bukan kode produksi): CrewAI — researcher = Agent(role='Pencari dokumen', goal='kumpulkan sumber', tools=[search]); analyst = Agent(role='Pencari regulasi', ...); market = Agent(role='Pencari pasar', ...); crew = Crew(agents=[researcher, analyst, market], process=Process.parallel) — tiga agen, satu crew, proses paralel. AG2 — assistant = ConversableAgent(...); checker = ConversableAgent(...); assistant.initiate_chat(checker, message='tulis draf', max_turns=3) — percakapan yang dibatasi 3 putaran. BeeAI — agen sebagai servis A2A: agent = BeeAgent(...); agent.serve() — lalu crew lain memanggilnya lewat protokol standar, tanpa peduli framework pembuatnya. Tiga cuplikan ini adalah peta: peran + delegasi (CrewAI), percakapan terbatas (AG2), servis standar (BeeAI).",
       ],
       tasks: [],
       note: {
@@ -58,7 +59,7 @@ export const aai23: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Angka yang memutuskan: latensi dan biaya",
       prose: [
-        "Latensi: tiga agen dengan waktu 1.200, 900, dan 1.500 ms. Sekuensial = 1.200 + 900 + 1.500 = 3.600 ms. Paralel = maks(1.200, 900, 1.500) + overhead koordinasi 200 ms = 1.700 ms. Speedup = 3.600 / 1.700 = 2,12x. Paralel hanya menang bila tugas independen — bila peringkas butuh hasil pencari, tidak ada paralelisme yang bisa menyelamatkanmu; rantai tetap sekuensial.",
+        "Latensi: tiga agen pencari independen dengan waktu 1.200, 900, dan 1.500 ms. Sekuensial = 1.200 + 900 + 1.500 = 3.600 ms. Paralel = maks(1.200, 900, 1.500) + overhead koordinasi 200 ms = 1.700 ms. Speedup = 3.600 / 1.700 = 2,12x. Paralel hanya menang bila tugas independen — bila peringkas butuh hasil pencari, tidak ada paralelisme yang bisa menyelamatkanmu; rantai tetap sekuensial. Contoh rantai dependen: pencari (1.200) dan peringkas (900) independen, tetapi pemeriksa (1.500) menunggu keduanya — waktunya maks(1.200, 900) + 1.500 + 200 = 2.900 ms, speedup hanya 3.600/2.900 = 1,24x. Jadi sebelum mengklaim 2,12x, periksa dulu: apakah ketiga agen benar-benar independen?",
         "Biaya: tiap agen memakai 2.500 token masuk ($0,003/1.000) + 800 token keluar ($0,012/1.000). Per agen = 2,5 x 0,003 + 0,8 x 0,012 = 0,0075 + 0,0096 = $0,0171. Tiga agen = $0,0513 per tugas. Untuk 10.000 tugas/bulan = $513. Bandingkan agen tunggal yang mengerjakan semuanya: 1 agen x $0,0171 = $0,0171 per tugas — 3x lebih murah. Multi-agent HARUS membenarkan biayanya dengan kualitas: bila 3 agen hanya 2 poin lebih baik dari 1 agen, $342/bulan ekstra itu membeli apa?",
         "Aturan pemilihan: tugas independen + butuh kecepatan → CrewAI paralel. Tugas butuh debat/kritik → AG2 dengan batas 3 putaran. Tugas lintas vendor/protokol → BeeAI/A2A. Tugas sederhana (1-2 langkah) → kode polos — framework adalah overhead yang tidak dibayar kembali. Dan selalu ukur: multi-agent yang tidak diukur biayanya akan ditagih di akhir bulan.",
       ],
@@ -74,7 +75,7 @@ export const aai23: V2Lesson = {
       eyebrow: "Langkah 5 · Lab",
       title: "Lab: speedup paralel dan biaya multi-agent",
       prose: [
-        "Lab ini menghitung ekonomi framework multi-agent dari angka mentah: latensi sekuensial vs paralel, speedup, dan biaya per tugas.",
+        "Lab ini menghitung ekonomi framework multi-agent dari angka mentah: latensi sekuensial vs paralel untuk tiga agen pencari yang independen, speedup, dan biaya per tugas.",
         "Hitung dulu di kepala. Sekuensial: 1.200 + 900 + 1.500 = 3.600 ms. Paralel: 1.500 + 200 = 1.700 ms. Speedup: 3.600 / 1.700 = 2,12x. Per agen: 2,5 x 0,003 + 0,8 x 0,012 = $0,0171. Per tugas (3 agen): $0,0513. Per 10.000 tugas: $513.",
         "Tugas lab: hitung lima angka dan cetak masing-masing di baris sendiri: sekuensial, paralel, speedup, per_tugas, per_10k. Lima angka ini adalah neraca framework — dengan ini 'framework X lebih cepat' menjadi klaim yang bisa dihitung.",
         "Setelah lolos, coba eksperimen: ubah overhead paralel menjadi 800 ms dan lihat speedup turun menjadi 1,57x — lalu tanyakan: pada overhead berapa paralel berhenti sepadan?",
@@ -141,7 +142,7 @@ export const aai23: V2Lesson = {
       next: { label: "AAI24 — Evaluasi Agen: Benchmark & Taksonomi Kegagalan", href: "/v2/learn/aai24-evaluasi-agen-benchmark" },
       quiz: [
         {
-          q: "Tiga agen 1.200, 900, 1.500 ms + overhead paralel 200 ms. Berapa speedup paralel?",
+          q: "Tiga agen pencari INDEPENDEN 1.200, 900, 1.500 ms + overhead paralel 200 ms. Berapa speedup paralel?",
           options: [
             { text: "2,12x", why: "Tepat: sekuensial 3.600; paralel 1.700; 3.600/1.700 = 2,12.", correct: true },
             { text: "3x — tiga agen berarti 3x lebih cepat", why: "Salah: speedup dibatasi agen terlambat (1.500) + overhead; tidak pernah 3x penuh." },

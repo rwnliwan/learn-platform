@@ -12,7 +12,7 @@ export const bi30: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "50 sampel, 4 tool, 65 menit — dan nol baris perintah",
       prose: [
-        "Seorang peneliti biologi punya 50 sampel RNA-seq dan tidak bisa menulis skrip. Rekannya memberi alur kerja Galaxy: unggah FASTQ, jalankan FastQC (5 menit), Trimmomatic (12 menit), BWA (40 menit), featureCounts (8 menit) — total serial 65 menit per sampel. Biayanya 0,12 dolar per menit komputasi: 7,80 dolar per sampel, 390 dolar untuk 50 sampel. Penyimpanan: 8 GB per sampel, 400 GB total.",
+        "Seorang peneliti biologi punya 50 sampel RNA-seq dan tidak bisa menulis skrip. Rekannya memberi alur kerja Galaxy: unggah FASTQ, jalankan FastQC (5 menit), Trimmomatic (12 menit), HISAT2 (40 menit), featureCounts (8 menit) — total serial 65 menit per sampel. Biayanya 0,12 dolar per menit komputasi: 7,80 dolar per sampel, 390 dolar untuk 50 sampel. Penyimpanan: 8 GB per sampel, 400 GB total.",
         "Yang membuat Galaxy berbeda bukan tool-nya — tool yang sama tersedia di baris perintah — melainkan JEJAKNYA. Tiap langkah tercatat: tool apa, versi berapa, parameter apa, data apa yang masuk dan keluar. Enam bulan kemudian, reviewer meminta analisis diulang dengan parameter trimming yang berbeda. Peneliti itu tidak membuka catatan lab yang hilang — ia membuka history Galaxy dan menekan tombol rerun.",
         "Lesson ini mengajarkan platform Galaxy: history, workflow, ToolShed, dan reprodusibilitas. Setelah lesson ini kamu bisa: (1) menjelaskan tiga konsep inti Galaxy — history, workflow, dan ToolShed; (2) membangun alur kerja RNA-seq standar di Galaxy; (3) menghitung waktu serial, biaya, dan penyimpanan sebuah proyek; (4) menjelaskan mengapa Galaxy membuat analisis reprodusibel; (5) memutuskan kapan Galaxy cukup dan kapan baris perintah dibutuhkan.",
       ],
@@ -21,7 +21,7 @@ export const bi30: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "Tidak ada lesson BI yang membahas Galaxy — grep Galaxy di seluruh track menghasilkan nol. BI17 mengajarkan reprodusibilitas (workflow manager, container, version control) dan BI4 mengajarkan baris perintah, tetapi platform analisis berbasis web yang dipakai kursus JHU Genomic Data Science with Galaxy ini belum pernah diajarkan. Lesson ini mengisi celah itu sebagai pelengkap BI17 — Galaxy adalah salah satu cara mewujudkan reprodusibilitas yang diajarkan di sana.",
       },
-      reference: "Alur: FastQC 5 + Trimmomatic 12 + BWA 40 + featureCounts 8 = 65 menit; 7,80 dolar/sampel; 50 sampel = 390 dolar; 400 GB.",
+      reference: "Alur: FastQC 5 + Trimmomatic 12 + HISAT2 40 + featureCounts 8 = 65 menit; 7,80 dolar/sampel; 50 sampel = 390 dolar; 400 GB.",
     },
     {
       id: "tujuan",
@@ -43,14 +43,14 @@ export const bi30: V2Lesson = {
       title: "History, workflow, ToolShed: tiga konsep inti",
       prose: [
         "HISTORY adalah buku lab otomatis. Setiap dataset yang diunggah dan setiap hasil tool tercatat berurutan, lengkap dengan parameter dan versi tool. History bisa dibagikan (link), disalin, dan diekspor — reviewer yang mendapat link history bisa melihat persis apa yang dilakukan, bukan membaca deskripsi methods yang ditulis dari ingatan. History yang baik diberi nama dan anotasi; history bernama 'untitled history 47' adalah buku lab yang tidak pernah ditulis.",
-        "WORKFLOW adalah alur kerja yang bisa diulang: rantai tool yang didefinisikan sekali, dijalankan berkali-kali pada dataset berbeda. Workflow RNA-seq standar: FastQC (QC) → Trimmomatic (trimming) → BWA atau HISAT2 (alignment) → featureCounts (counting) → DESeq2 (differential expression, BI26). Sekali workflow diuji pada satu sampel, 49 sampel sisanya dijalankan dengan tombol yang sama — tanpa risiko salah ketik parameter di sampel ke-37.",
+        "WORKFLOW adalah alur kerja yang bisa diulang: rantai tool yang didefinisikan sekali, dijalankan berkali-kali pada dataset berbeda. Workflow RNA-seq standar: FastQC (QC) → Trimmomatic (trimming) → HISAT2 atau STAR (alignment) → featureCounts (counting) → DESeq2 (differential expression, BI26). Sekali workflow diuji pada satu sampel, 49 sampel sisanya dijalankan dengan tombol yang sama — tanpa risiko salah ketik parameter di sampel ke-37.",
         "TOOLSHED adalah toko tool komunitas: ribuan tool bioinformatika yang sudah dibungkus agar jalan di Galaxy — dari FastQC sampai tool niche untuk organisme langka. Tiap tool punya versi yang tercatat; workflow yang memakai Trimmomatic 0,39 akan tetap memakai 0,39 bila diulang tahun depan — bukan versi terbaru yang mengubah hasilnya diam-diam. Inilah yang membedakan Galaxy dari 'menjalankan tool di laptop': versi adalah bagian dari metode, dan metode tercatat.",
         "Tiga hal yang Galaxy lakukan untukmu tanpa diminta: (1) menyimpan parameter tiap langkah; (2) menyimpan versi tiap tool; (3) menyimpan hubungan input-output (provenance) — dataset mana menghasilkan dataset mana. Tiga hal ini adalah definisi reprodusibilitas komputasional menurut BI17 — dan di Galaxy, ketiganya otomatis.",
       ],
       tasks: [],
       note: {
         title: "Galaxy bukan pengganti pemahaman",
-        body: "Galaxy menghilangkan baris perintah — bukan menghilangkan kebutuhan memahami. Memilih Trimmomatic tanpa tahu apa itu adapter trimming, atau memakai BWA tanpa tahu apa itu alignment, menghasilkan alur kerja yang jalan tetapi salah. Galaxy menurunkan hambatan TEKNIS, bukan hambatan KONSEPTUAL. Lesson ini mengajarkan keduanya: tool-nya dan alasan di balik tiap langkahnya.",
+        body: "Galaxy menghilangkan baris perintah — bukan menghilangkan kebutuhan memahami. Memilih Trimmomatic tanpa tahu apa itu adapter trimming, atau memakai HISAT2 tanpa tahu apa itu alignment, menghasilkan alur kerja yang jalan tetapi salah. Galaxy menurunkan hambatan TEKNIS, bukan hambatan KONSEPTUAL. Lesson ini mengajarkan keduanya: tool-nya dan alasan di balik tiap langkahnya.",
       },
       reference: "History = buku lab otomatis. Workflow = alur yang bisa diulang. ToolShed = toko tool berversi.",
     },
@@ -61,15 +61,15 @@ export const bi30: V2Lesson = {
       prose: [
         "Langkah pertama: unggah dan QC. FASTQ diunggah ke history (atau diambil dari SRA lewat tool pengunduh). FastQC berjalan 5 menit dan memberi laporan: kualitas per basa, kandungan adapter, duplikasi. Keputusan pertama ada di sini: bila kualitas ujung read jatuh, trimming dibutuhkan; bila adapter terdeteksi, adapter harus dipotong.",
         "Langkah kedua: trimming dengan Trimmomatic (12 menit). Parameter yang dicatat: jendela geser, ambang kualitas, panjang minimum. Trimmomatic memotong adapter dan basa berkualitas rendah — dan Galaxy mencatat persis berapa persen read yang selamat. Bila 40 persen read hilang di trimming, itu temuan — bukan sekadar langkah yang dilewati.",
-        "Langkah ketiga: alignment dengan BWA atau HISAT2 (40 menit — langkah terberat). Reference genome dipilih dari daftar bawaan Galaxy; indeks sudah tersedia — tidak perlu membangun sendiri. Langkah keempat: counting dengan featureCounts (8 menit) — menghitung read per gen dari alignment. Total serial 65 menit per sampel; dengan 50 sampel, total komputasi 3.250 menit — tetapi Galaxy menjalankan sampel secara paralel bila sumber daya tersedia, sehingga waktu dinding jauh lebih pendek dari total serial.",
+        "Langkah ketiga: alignment dengan HISAT2 (40 menit — langkah terberat). HISAT2 dan STAR adalah aligner standar RNA-seq karena keduanya menangani splice junction — read RNA-seq melompati intron, dan aligner yang tidak memodelkan splicing akan memetakan read itu dengan salah atau membuangnya. BWA dirancang untuk DNA dan bukan pilihan standar untuk RNA-seq. Reference genome dipilih dari daftar bawaan Galaxy; indeks bawaan tersedia untuk genom dan tool yang umum — tetapi untuk organisme atau versi genom yang tidak ada di daftar, indeks harus dibangun atau diunggah sendiri, jadi periksa ketersediaannya sebelum merencanakan jadwal. Angka 65 menit adalah ilustrasi dari satu konfigurasi contoh — waktu nyata tiap tool bergantung pada ukuran FASTQ, kedalaman sekuensing, dan beban server. Langkah keempat: counting dengan featureCounts (8 menit) — menghitung read per gen dari alignment. Total serial 65 menit per sampel; dengan 50 sampel, total komputasi 3.250 menit — tetapi Galaxy menjalankan sampel secara paralel bila sumber daya tersedia, sehingga waktu dinding jauh lebih pendek dari total serial.",
         "Setelah counting, alur berlanjut ke DESeq2 (BI26) untuk differential expression — tetapi itu lesson lain. Yang penting di sini: tiap langkah menghasilkan dataset baru di history, dan tiap dataset bisa diperiksa — buka alignment di viewer, periksa distribusi count — sebelum lanjut. Galaxy yang dipakai dengan benar adalah Galaxy yang DIPERIKSA tiap langkahnya, bukan yang dijalankan buta sampai akhir.",
       ],
       tasks: [],
       note: {
         title: "Paralel bukan gratis",
-        body: "Total serial 65 menit per sampel berarti 50 sampel memakai 3.250 menit komputasi — biaya 390 dolar pada 0,12 dolar per menit, berapa pun paralelisasinya. Paralel mempersingkat WAKTU TUNGGU, bukan total biaya. Bila anggaran terbatas, kurangi sampel atau tool — bukan berharap paralel menghemat uang.",
+        body: "Total serial 65 menit per sampel berarti 50 sampel memakai 3.250 menit komputasi — biaya 390 dolar pada 0,12 dolar per menit, berapa pun paralelisasinya. Paralel mempersingkat WAKTU TUNGGU, bukan total biaya. Bila anggaran terbatas, kurangi sampel atau tool — bukan berharap paralel menghemat uang.\n\nWalkthrough antarmuka Galaxy (tanpa baris perintah): (1) Unggah FASTQ lewat Upload Data di panel kiri. (2) Cari FastQC di panel Tools, klik, pilih file input, klik Execute — ulangi untuk Trimmomatic, HISAT2, dan featureCounts, tiap kali memilih output langkah sebelumnya sebagai input. (3) Simpan rantai sebagai workflow lewat menu Workflow → Extract workflow from history, supaya 49 sampel sisanya dijalankan dengan tombol yang sama. Yang tidak dihilangkan Galaxy: keputusan tiap langkah — parameter trimming, pilihan genom referensi, dan interpretasi QC — tetap butuh pemahaman analis.",
       },
-      reference: "FastQC 5 + Trimmomatic 12 + BWA 40 + featureCounts 8 = 65 menit serial per sampel; 50 sampel = 3.250 menit komputasi.",
+      reference: "FastQC 5 + Trimmomatic 12 + HISAT2 40 + featureCounts 8 = 65 menit serial per sampel; 50 sampel = 3.250 menit komputasi.",
     },
     {
       id: "lab-galaxy",
@@ -94,9 +94,9 @@ export const bi30: V2Lesson = {
         "Penyimpanan = ukuran per sampel dikali jumlah sampel.",
       ],
       code: {
-        starter: `# Kalkulator proyek Galaxy: waktu, biaya, penyimpanan.\nfastqc = 5  # menit\ntrimmomatic = 12  # menit\nbwa = 40  # menit\nfeaturecounts = 8  # menit\ntarif = 0.12  # dolar per menit\njumlah_sampel = 50\nukuran_per_sampel = 8  # GB FASTQ\n\n# TULIS KODEMU: hitung empat angka proyek di bawah ini.\n# Cetak, per baris: waktu_serial, biaya_per_sampel,\n# biaya_total, penyimpanan_gb.\n\n\nkalkulator_galaxy(fastqc, trimmomatic, bwa, featurecounts, tarif, jumlah_sampel, ukuran_per_sampel)`,
+        starter: `# Kalkulator proyek Galaxy: waktu, biaya, penyimpanan.\nfastqc = 5  # menit\ntrimmomatic = 12  # menit\nhisat2 = 40  # menit\nfeaturecounts = 8  # menit\ntarif = 0.12  # dolar per menit\njumlah_sampel = 50\nukuran_per_sampel = 8  # GB FASTQ\n\n# TULIS KODEMU: hitung empat angka proyek di bawah ini.\n# Cetak, per baris: waktu_serial, biaya_per_sampel,\n# biaya_total, penyimpanan_gb.\n\n\nkalkulator_galaxy(fastqc, trimmomatic, hisat2, featurecounts, tarif, jumlah_sampel, ukuran_per_sampel)`,
         lockLines: 7,
-        solution: `# Kalkulator proyek Galaxy: waktu, biaya, penyimpanan.\nfastqc = 5  # menit\ntrimmomatic = 12  # menit\nbwa = 40  # menit\nfeaturecounts = 8  # menit\ntarif = 0.12  # dolar per menit\njumlah_sampel = 50\nukuran_per_sampel = 8  # GB FASTQ\n\n\ndef kalkulator_galaxy(fastqc, trimmomatic, bwa, featurecounts, tarif, jumlah_sampel, ukuran_per_sampel):\n    waktu_serial = fastqc + trimmomatic + bwa + featurecounts\n    biaya_per_sampel = waktu_serial * tarif\n    biaya_total = biaya_per_sampel * jumlah_sampel\n    penyimpanan_gb = ukuran_per_sampel * jumlah_sampel\n    print(f"waktu_serial={waktu_serial}")\n    print(f"biaya_per_sampel={biaya_per_sampel}")\n    print(f"biaya_total={biaya_total}")\n    print(f"penyimpanan_gb={penyimpanan_gb}")\n\n\nkalkulator_galaxy(fastqc, trimmomatic, bwa, featurecounts, tarif, jumlah_sampel, ukuran_per_sampel)`,
+        solution: `# Kalkulator proyek Galaxy: waktu, biaya, penyimpanan.\nfastqc = 5  # menit\ntrimmomatic = 12  # menit\nhisat2 = 40  # menit\nfeaturecounts = 8  # menit\ntarif = 0.12  # dolar per menit\njumlah_sampel = 50\nukuran_per_sampel = 8  # GB FASTQ\n\n\ndef kalkulator_galaxy(fastqc, trimmomatic, hisat2, featurecounts, tarif, jumlah_sampel, ukuran_per_sampel):\n    waktu_serial = fastqc + trimmomatic + hisat2 + featurecounts\n    biaya_per_sampel = waktu_serial * tarif\n    biaya_total = biaya_per_sampel * jumlah_sampel\n    penyimpanan_gb = ukuran_per_sampel * jumlah_sampel\n    print(f"waktu_serial={waktu_serial}")\n    print(f"biaya_per_sampel={biaya_per_sampel}")\n    print(f"biaya_total={biaya_total}")\n    print(f"penyimpanan_gb={penyimpanan_gb}")\n\n\nkalkulator_galaxy(fastqc, trimmomatic, hisat2, featurecounts, tarif, jumlah_sampel, ukuran_per_sampel)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "waktu_serial=65", label: "Waktu serial 65 menit", msg: "5 + 12 + 40 + 8 = 65 menit per sampel." },
           { kind: "stdout_matches", task: "t2", pattern: "biaya_per_sampel=7.8", label: "Biaya 7,80 dolar/sampel", msg: "65 x 0,12 = 7,80 dolar per sampel." },
@@ -149,7 +149,7 @@ export const bi30: V2Lesson = {
       tasks: [],
       summary: [
         "History = buku lab otomatis; workflow = alur yang bisa diulang; ToolShed = toko tool berversi.",
-        "Alur RNA-seq: FastQC 5 + Trimmomatic 12 + BWA 40 + featureCounts 8 = 65 menit.",
+        "Alur RNA-seq: FastQC 5 + Trimmomatic 12 + HISAT2 40 + featureCounts 8 = 65 menit.",
         "Lab: 65 menit; 7,80 dolar/sampel; 390 dolar total; 400 GB.",
         "Galaxy cukup untuk tool standar; baris perintah untuk tool baru dan skala konsorsium.",
         "Reprodusibilitas = parameter + versi + provenance tercatat.",
@@ -157,7 +157,7 @@ export const bi30: V2Lesson = {
       next: { label: "BI31 — Data Konsorsium Skala Cloud: TCGA dan ENCODE", href: "/v2/learn/bi31-konsorsium-cloud" },
       quiz: [
         {
-          q: "Alur Galaxy: FastQC 5, Trimmomatic 12, BWA 40, featureCounts 8 menit; tarif 0,12 dolar/menit; 50 sampel @ 8 GB. Berapa waktu serial, biaya total, dan penyimpanan?",
+          q: "Alur Galaxy: FastQC 5, Trimmomatic 12, HISAT2 40, featureCounts 8 menit; tarif 0,12 dolar/menit; 50 sampel @ 8 GB. Berapa waktu serial, biaya total, dan penyimpanan?",
           options: [
             { text: "65 menit; 390 dolar; 400 GB", why: "Tepat: 5+12+40+8 = 65 menit; 65 x 0,12 x 50 = 390 dolar; 8 x 50 = 400 GB.", correct: true },
             { text: "65 menit; 7,80 dolar; 400 GB", why: "Salah: 7,80 dolar adalah biaya PER SAMPEL — total 50 sampel adalah 390 dolar." },

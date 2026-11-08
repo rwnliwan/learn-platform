@@ -12,7 +12,7 @@ export const aie27: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Model termahal yang kalah — dan model termurah yang menang",
       prose: [
-        "NusaBank memilih model untuk chatbot CS dari leaderboard: Model C (kualitas 91, $5,00 per 1.000 token) terlihat 'terbaik'. Setelah sebulan, tagihannya $25.000 untuk 10.000 query/hari — dan evaluasi internal menunjukkan Model B (kualitas 88, $2,00) hanya kalah 3 poin tetapi berharga $10.000. Lebih mengejutkan: Model A (kualitas 82, $0,50) dengan prompt yang baik mencapai 86 di tugas spesifik NusaBank — mengalahkan B di domain itu dengan biaya $2.500. Leaderboard umum tidak mengukur tugasmu; hanya evaluasimu sendiri yang bisa.",
+        "NusaBank memilih model untuk chatbot CS dari leaderboard: Model C (kualitas 91, $5,00 per 1.000 token) terlihat 'terbaik'. Setelah sebulan, tagihannya $25.000 per bulan untuk 10.000 query/bulan — dan evaluasi internal menunjukkan Model B (kualitas 88, $2,00) hanya kalah 3 poin tetapi berharga $10.000/bulan. Lebih mengejutkan: Model A (kualitas 82, $0,50) dengan prompt yang baik mencapai 86 di tugas spesifik NusaBank — mendekati B di domain itu (86 vs 88), tidak mengalahkannya, dengan selisih 2 poin untuk penghematan $7.500/bulan dan biaya $2.500/bulan. Leaderboard umum tidak mengukur tugasmu; hanya evaluasimu sendiri yang bisa.",
         "Pemilihan model adalah keputusan frontier biaya-kualitas: tiap model punya harga dan kualitas — dan yang termurah per poin kualitas belum tentu yang tepat bila syaratmu adalah kualitas minimum. Lesson ini mengajarkan benchmarking metodis: evaluasi sendiri, frontier, dan biaya per poin kualitas.",
         "Setelah lesson ini kamu bisa: (1) menghitung biaya bulanan tiap model; (2) menghitung biaya per poin kualitas; (3) menggambar frontier dan menemukan model yang didominasi; (4) merancang evaluasi sendiri (golden set + blind test); (5) memutuskan kapan model kecil + prompt menang atas model besar.",
       ],
@@ -21,7 +21,7 @@ export const aie27: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "AIE4 mengajarkan evaluasi LLM (golden set, judge) dan AIE16 mengajarkan pemilihan embedding — tetapi tidak ada lesson pemilihan MODEL & benchmarking metodis (0 hit 'leaderboard/frontier/pemilihan model' di track). Lesson ini membangunnya: frontier biaya-kualitas, biaya per poin, dan evaluasi domain-sendiri, dengan lab yang menghitung ketiganya.",
       },
-      reference: "10.000 query x 500 token: A $2.500 (82); B $10.000 (88); C $25.000 (91). B vs A: $1.250 per poin.",
+      reference: "10.000 query/bulan x 500 token: A $2.500 (82); B $10.000 (88); C $25.000 (91). B vs A: $1.250 per poin.",
     },
     {
       id: "tujuan",
@@ -108,7 +108,7 @@ export const aie27: V2Lesson = {
       eyebrow: "Langkah 6 · Teori",
       title: "Peta keputusan: model apa, kapan",
       prose: [
-        "Skenario 1 — Syarat kualitas 85, volume besar. → Model A + prompt yang dioptimasi. Alasan: 86 di tugasmu dengan biaya $2.500 mengalahkan 88 dengan $10.000.",
+        "Skenario 1 — Syarat kualitas 85, volume besar. → Model A + prompt yang dioptimasi. Alasan: 86 di tugasmu dengan biaya $2.500/bulan hampir menyamai 88 dengan $10.000/bulan — selisih 2 poin untuk penghematan $7.500/bulan; bila syaratmu 85, A memenuhi syarat lebih murah.",
         "Skenario 2 — Syarat kualitas 90, kesalahan berbiaya besar. → Model C. Alasan: 3 poin terakhir mahal, tetapi kesalahan lebih mahal lagi.",
         "Skenario 3 — Tugas baru, belum ada golden set. → Jangan pilih model dulu; bangun golden set 200 contoh. Alasan: memilih tanpa evaluasi sendiri adalah menebak dengan tagihan.",
         "Skenario 4 — Model baru muncul dengan kualitas 89 dan harga $1,50. → Evaluasi dan ganti B bila lolos blind test. Alasan: frontier bergerak; model yang didominasi harus keluar.",

@@ -42,15 +42,15 @@ export const wqb38: V2Lesson = {
       title: "Kenapa deret waktu finansial sulit",
       prose: [
         "Tiga sifat membuat deret waktu finansial berbeda dari teks atau gambar. Pertama, signal-to-noise ratio yang sangat rendah: sebagian besar gerakan harga adalah noise, dan sinyal yang dicari hanyalah sebagian kecil darinya. Model yang kuat — seperti transformer — sangat pandai menghafal noise dan menyebutnya pola. Kedua, non-stationarity: distribusi return berubah antar rezim, sehingga pola yang dipelajari di 2020 belum tentu berlaku di 2024. Ketiga, data yang sedikit secara efektif: sepuluh tahun data harian hanya 2.520 titik — kecil untuk model dengan jutaan parameter.",
-        "RNN dan LSTM menangani sekuensial dengan memori yang dibawa dari langkah ke langkah — tetapi memori itu memudar untuk dependensi jauh, dan pelatihannya lambat karena harus berurutan. 1D ConvNet dan WaveNet memakai konvolusi dengan dilasi — melihat jauh ke belakang tanpa urutan — tetapi jendela pandangnya tetap terbatas oleh arsitektur. Transformer menghilangkan urutan: attention membiarkan tiap titik melihat SEMUA titik sebelumnya sekaligus dan memilih mana yang relevan — tetapi kebebasan itu berarti lebih banyak parameter dan lebih besar risiko menghafal noise.",
-        "Implikasinya untuk peneliti alpha: model yang lebih kuat bukan model yang lebih baik — melainkan model yang lebih berbahaya bila tidak divalidasi dengan benar. Validasi walk-forward (latih di masa lalu, uji di masa depan, geser jendela, ulangi) adalah satu-satunya validasi yang jujur untuk deret waktu. Validasi acak — membagi data secara random — adalah look-ahead bias yang menyamar sebagai metodologi (lihat WQB36).",
+        "RNN dan LSTM menangani sekuensial dengan memori yang dibawa dari langkah ke langkah — tetapi memori itu memudar untuk dependensi jauh, dan pelatihannya lambat karena harus berurutan. 1D ConvNet dan WaveNet memakai konvolusi dengan dilasi — melihat jauh ke belakang tanpa urutan — tetapi jendela pandangnya tetap terbatas oleh arsitektur. Transformer menghilangkan PEMROSESAN BERURUTAN — bukan urutannya: attention membiarkan tiap titik melihat SEMUA titik sebelumnya sekaligus dan memilih mana yang relevan, dan urutan itu sendiri dikodekan lewat positional encoding. Tanpa positional encoding, transformer tidak tahu mana titik yang lebih dulu — attention saja tidak membawa informasi urutan.",
+        "Implikasinya untuk peneliti alpha: model yang lebih kuat bukan model yang lebih baik — melainkan model yang lebih berbahaya bila tidak divalidasi dengan benar. Validasi walk-forward (latih di masa lalu, uji di masa depan, geser jendela, ulangi) adalah validasi standar yang jujur untuk deret waktu — bukan satu-satunya: blocked cross-validation (lipatan berurutan tanpa acak) dan purged/embargoed split adalah alternatif yang sah bila dipakai dengan benar. Validasi acak — membagi data secara random — adalah look-ahead bias yang menyamar sebagai metodologi (lihat WQB36).",
       ],
       tasks: [],
       note: {
         title: "Attention bukan penjelasan",
         body: "Bobot attention yang tinggi pada satu titik masa lalu tidak berarti titik itu 'menyebabkan' prediksi — ia hanya berarti model itu memperhatikannya. Menafsirkan attention sebagai penjelasan kausal adalah kesalahan yang umum dan mahal. Attention adalah petunjuk untuk investigasi, bukan vonis.",
       },
-      reference: "Signal-to-noise rendah, non-stationary, 2.520 titik dalam 10 tahun. Walk-forward adalah satu-satunya validasi yang jujur.",
+      reference: "Signal-to-noise rendah, non-stationary, 2.520 titik dalam 10 tahun. Walk-forward adalah validasi standar yang jujur; blocked CV dan embargo adalah alternatif yang sah.",
     },
     {
       id: "menilai",
@@ -75,7 +75,7 @@ export const wqb38: V2Lesson = {
       prose: [
         "Lab ini menghitung tiga angka dari validasi walk-forward: MAE rata-rata transformer, MAE rata-rata AR, dan perbaikan relatif transformer. Hitung dulu di kepala. MAE transformer: (1,40 ditambah 1,30 ditambah 1,35 ditambah 1,40 ditambah 1,30) dibagi 5 sama dengan 6,75 dibagi 5 sama dengan 1,35. MAE AR: (1,90 ditambah 1,70 ditambah 1,80 ditambah 1,90 ditambah 1,70) dibagi 5 sama dengan 9,0 dibagi 5 sama dengan 1,80. Perbaikan: (1,80 dikurangi 1,35) dibagi 1,80 dikali 100 sama dengan 25,0 persen.",
         "Tugas lab: isi tiga variabel — mae_trans, mae_ar, perbaikan — lalu cetak ketiganya. Tiga angka ini adalah kartu skor walk-forward: seberapa baik tiap model, dan seberapa besar keunggulan yang baru.",
-        "Setelah lolos, coba eksperimen: ubah satu lipatan transformer menjadi 1,80 dan lihat rata-ratanya naik menjadi 1,44 dengan perbaikan turun ke 20,0 persen. Lalu tanyakan: apakah transformer masih menang? Jawabannya: ya secara rata-rata — tetapi satu lipatan yang buruk adalah peringatan stabilitas yang harus diselidiki, bukan diabaikan.",
+        "Setelah lolos, coba eksperimen: ubah lipatan KETIGA transformer (1,35) menjadi 1,80 dan lihat rata-ratanya naik menjadi 1,44 dengan perbaikan turun ke 20,0 persen — (1,40 + 1,30 + 1,80 + 1,40 + 1,30) / 5 = 7,20 / 5 = 1,44; (1,80 − 1,44) / 1,80 = 20,0 persen. Lalu tanyakan: apakah transformer masih menang? Jawabannya: ya secara rata-rata — tetapi satu lipatan yang buruk adalah peringatan stabilitas yang harus diselidiki, bukan diabaikan.",
       ],
       tasks: [
         { id: "t1", text: "Hitung MAE rata-rata transformer (persen)" },
@@ -127,7 +127,7 @@ export const wqb38: V2Lesson = {
       summary: [
         "Deret waktu finansial: signal-to-noise rendah, non-stationary, data efektif sedikit.",
         "Lab: MAE transformer 1,35 persen; AR 1,80 persen; perbaikan 25,0 persen.",
-        "Walk-forward adalah satu-satunya validasi yang jujur; validasi acak adalah look-ahead.",
+        "Walk-forward adalah validasi standar yang jujur (blocked CV dan embargo adalah alternatif sah); validasi acak adalah look-ahead.",
         "Attention bukan penjelasan kausal — ia petunjuk investigasi.",
         "MAE bukan profit — ukur juga profit setelah biaya dan turnover.",
       ],

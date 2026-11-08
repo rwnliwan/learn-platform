@@ -44,7 +44,7 @@ export const mk38: V2Lesson = {
       prose: [
         "SWOT membagi empat kuadran: kekuatan dan kelemahan adalah internal — yang bisa dikendalikan perusahaan (layanan cepat, biaya tinggi). Peluang dan ancaman adalah eksternal — yang tidak bisa dikendalikan tetapi bisa diantisipasi (pasar tumbuh, pesaing baru). Kesalahan paling umum: menulis peluang sebagai kekuatan ('kami bisa tumbuh' bukan kekuatan — itu harapan) dan ancaman sebagai kelemahan ('pesaing kuat' bukan kelemahanmu — itu ancaman).",
         "SWOT yang baik berakhir dengan strategi: SO (pakai kekuatan untuk merebut peluang), WO (atasi kelemahan untuk merebut peluang), ST (pakai kekuatan untuk menahan ancaman), WT (kurangi kelemahan dan hindari ancaman). SWOT tanpa strategi adalah daftar — bukan analisis.",
-        "4Ps adalah bauran pemasaran: product (apa yang dijual dan kenapa berbeda), price (berapa dan kenapa segitu), place (di mana pelanggan menemukannya), promotion (bagaimana mereka tahu). Keempatnya saling terkait: produk premium dengan harga murah dan promosi massal adalah pesan yang bertentangan. Keputusan satu P mengubah tiga P lainnya — harga naik berarti promosi harus menjelaskan nilainya, dan tempat harus mendukung kesan premium.",
+        "4Ps adalah bauran pemasaran: product (apa yang dijual dan kenapa berbeda), price (berapa dan kenapa segitu), place (di mana pelanggan menemukannya), promotion (bagaimana mereka tahu). Keempatnya saling terkait: produk premium dengan harga murah dan promosi massal BIASANYA pesan yang bertentangan — tetapi bisa menjadi strategi yang disengaja (misalnya penetrasi pasar atau clearance): yang salah bukan kombinasinya, melainkan kombinasi TANPA alasan yang disadari. Tanyakan dulu strateginya sebelum memvonis inkonsisten. Keputusan satu P mengubah tiga P lainnya — harga naik berarti promosi harus menjelaskan nilainya, dan tempat harus mendukung kesan premium.",
       ],
       tasks: [],
       note: {
@@ -58,7 +58,7 @@ export const mk38: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "SMART goals: target yang bisa dinilai",
       prose: [
-        "'Tingkatkan penjualan' bukan SMART. SMART-nya: 'Naikkan revenue bersih 15 persen menjadi Rp550 juta pada akhir Q4 2026 dari Rp478 juta di Q4 2025, lewat penambahan 2 channel baru.' Spesifik: revenue bersih, bukan 'penjualan'. Terukur: 15 persen ke 550 juta. Achievable: 15 persen melawan pertumbuhan historis 12 persen — menantang tetapi masuk akal. Relevan: revenue adalah north star perusahaan. Time-bound: akhir Q4 2026.",
+        "'Tingkatkan penjualan' bukan SMART. SMART-nya: 'Naikkan revenue bersih 15 persen menjadi Rp550 juta selama Q4 2026 dari Rp478 juta di Q4 2025, lewat penambahan 2 channel baru.' (478 dikali 1,15 sama dengan 549,7 — dibulatkan menjadi 550 juta; dan revenue adalah ALIRAN selama kuartal, bukan nilai 'pada akhir' kuartal — targetnya adalah total selama Q4, bukan angka di tanggal 31 Desember.) Spesifik: revenue bersih, bukan 'penjualan'. Terukur: 15 persen ke 550 juta. Achievable: 15 persen melawan pertumbuhan historis 12 persen — menantang tetapi masuk akal. Relevan: revenue adalah north star perusahaan. Time-bound: akhir Q4 2026.",
         "Nilai target contoh di lesson ini: spesifik 9, terukur 8, achievable 7, relevan 9, time-bound 6 — rata-rata 7,8. Sisi terlemah: time-bound 6 — tenggatnya ada tetapi tanpa milestone bulanan, sehingga keterlambatan baru ketahuan di akhir kuartal. Perbaikannya: pecah menjadi target bulanan dengan checkpoint.",
         "Aturan: tiap target marketing wajib lolos SMART sebelum masuk rencana — dan dinilai tiap kuartal dengan skor yang sama. Target yang skornya di bawah 7 di satu sisi harus diperbaiki dulu, bukan dijalankan dulu.",
       ],
@@ -149,9 +149,9 @@ export const mk38: V2Lesson = {
         {
           q: "Produk premium dijual murah dengan promosi massal. Apa masalahnya?",
           options: [
-            { text: "Tidak ada — murah selalu bagus", why: "Salah: 4Ps harus konsisten — harga murah dan promosi massal bertentangan dengan kesan premium." },
+            { text: "Tidak ada — murah selalu bagus", why: "Salah: harga murah + promosi massal biasanya bertentangan dengan kesan premium — kecuali itu strategi penetrasi yang disengaja dan diakui." },
             { text: "Produknya yang salah", why: "Salah: produk premium bisa benar — baurannyalah yang tidak konsisten." },
-            { text: "4Ps bertentangan — harga, promosi, dan tempat harus mendukung kesan produk", why: "Tepat: keputusan satu P mengubah tiga P lainnya.", correct: true },
+            { text: "4Ps bertentangan — harga, promosi, dan tempat harus mendukung kesan produk", why: "Tepat — bila tidak ada strategi yang disengaja di baliknya: keputusan satu P mengubah tiga P lainnya.", correct: true },
             { text: "Promosi massal selalu salah", why: "Salah: promosi massal cocok untuk produk massal — hanya saja tidak untuk premium." },
           ],
         },
@@ -161,7 +161,7 @@ export const mk38: V2Lesson = {
             { text: "'Tingkatkan penjualan'", why: "Salah: tanpa angka, pembanding, dan tenggat — itu harapan." },
             { text: "'Jadilah yang terbaik di pasar'", why: "Salah: 'terbaik' tidak terukur dan tidak ada tenggat." },
             { text: "'Naikkan penjualan sebanyak-banyaknya secepatnya'", why: "Salah: 'sebanyak-banyaknya' dan 'secepatnya' bukan angka dan tenggat." },
-            { text: "'Naikkan revenue bersih 15 persen menjadi Rp550 juta pada akhir Q4 2026 dari Rp478 juta di Q4 2025'", why: "Tepat: spesifik, terukur, ada pembanding, ada tenggat.", correct: true },
+            { text: "'Naikkan revenue bersih 15 persen menjadi Rp550 juta selama Q4 2026 dari Rp478 juta di Q4 2025'", why: "Tepat: spesifik, terukur, ada pembanding, ada tenggat.", correct: true },
           ],
         },
         {

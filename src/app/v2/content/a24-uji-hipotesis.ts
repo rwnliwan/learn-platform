@@ -12,7 +12,7 @@ export const a24: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita pembuka",
       title: "Obat yang terbukti manjur — ternyata ESP",
       prose: [
-        "Tahun 2011, sebuah studi mengklaim menemukan ESP — kemampuan melihat masa depan — dengan hasil signifikan (p < 0,05), diterbitkan di jurnal bereputasi. Para psikolog mencoba mereplikasi: gagal, gagal, gagal. Penelusuran menemukan: peneliti menguji banyak sekali analisis dan hanya melaporkan yang berhasil. Dengan cukup banyak percobaan, sesuatu pasti terlihat signifikan — murni karena kebetulan.",
+        "Tahun 2011, psikolog Daryl Bem menerbitkan 'Feeling the Future' di Journal of Personality and Social Psychology — sembilan eksperimen yang mengklaim menemukan ESP (precognition, kemampuan melihat masa depan) dengan hasil signifikan (p < 0,05). Para psikolog mencoba mereplikasi — di antaranya Ritchie, Wiseman & French (2012) — dan gagal. Penelusuran menemukan: peneliti menguji banyak sekali analisis dan hanya melaporkan yang berhasil. Dengan 20 uji pada α = 5%, peluang setidaknya satu tampak signifikan murni karena kebetulan sudah 64% — sesuatu pasti terlihat signifikan bila cukup banyak dicoba.",
         "p < 0,05 tidak berarti 95% peluang klaim ini benar. Ia berarti sesuatu yang jauh lebih sempit — dan memahami perbedaannya adalah garis antara analis yang tajam dan analis yang tertipu oleh angkanya sendiri.",
       ],
       tasks: [
@@ -22,7 +22,7 @@ export const a24: V2Lesson = {
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "Satu temuan signifikan dari 20 uji sangat mungkin palsu (64%). Inilah mekanisme di balik krisis replikasi. Jangan rayakan temuan sebelum koreksi multiple testing (A2.8) atau replikasi independen.",
+        body: "Dari 20 uji dengan semua H0 benar, peluang MUNCULNYA setidaknya satu false positive adalah 64% — tetapi itu BUKAN peluang bahwa satu temuan signifikan tertentu adalah palsu. Peluang temuan tertentu palsu (false discovery rate) bergantung pada berapa banyak efek yang benar-benar ada (base rate) dan power studinya: bila sebagian besar hipotesis yang diuji memang benar, sebagian besar temuan signifikan bisa benar meski peluang ≥1 false positive tinggi. Jangan rayakan temuan sebelum koreksi multiple testing (A2.8) atau replikasi independen.",
       },
       hints: [
         "peluang = 1 - 0.95**20.",
@@ -34,7 +34,7 @@ export const a24: V2Lesson = {
         lockLines: 1,
         solution: `# 20 uji pada alpha=5%, semua H0 benar\n\n# TULIS KODEMU\npeluang = round(1 - 0.95**20, 2)\n\nprint(f"peluang={peluang}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "peluang", value: 0.64, tol: 0.01, label: "`peluang` seharusnya 0.64", msg: "1 − 0,95²⁰ ≈ 64% — false positive hampir pasti muncul." },
+          { kind: "equal", task: "t1", name: "peluang", value: 0.64, tol: 0.01, label: "`peluang` seharusnya 0.64", msg: "1 − 0,95²⁰ ≈ 64% — peluang setidaknya satu false positive dari 20 uji (bukan peluang satu temuan tertentu palsu)." },
           { kind: "stdout_matches", task: "t1", pattern: "peluang=0\\.64", label: "`print` menampilkan peluang", msg: "Format: peluang=... ." },
         ],
       },
@@ -228,8 +228,8 @@ export const a24: V2Lesson = {
         {
           q: "Analis menguji 20 segmen pelanggan dan menemukan 1 segmen 'signifikan' (p = 0,04). Reaksi tepat?",
           options: [
-            { text: "Langsung umumkan temuan ke direksi", why: "Peluang false positive dari 20 uji ≈ 64% — jangan rayakan dulu." },
-            { text: "Curiga: peluang ≥1 false positive ≈ 64% — butuh koreksi multiple testing atau replikasi", why: "Inilah mekanisme di balik studi ESP di cerita pembuka.", correct: true },
+            { text: "Langsung umumkan temuan ke direksi", why: "Peluang setidaknya satu false positive dari 20 uji ≈ 64% — jangan rayakan dulu." },
+            { text: "Curiga: peluang ≥1 false positive dari 20 uji ≈ 64% — butuh koreksi multiple testing atau replikasi", why: "Inilah mekanisme di balik studi ESP di cerita pembuka — tetapi ingat: 64% adalah peluang munculnya ≥1 false positive, bukan peluang temuan ini palsu.", correct: true },
             { text: "Naikkan α jadi 10% agar lebih banyak temuan", why: "Itu memperparah masalah false positive." },
             { text: "Buang 19 segmen lain dari laporan", why: "Menyembunyikan uji yang gagal = cherry-picking." },
           ],

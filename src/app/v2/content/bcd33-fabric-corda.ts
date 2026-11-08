@@ -60,7 +60,7 @@ export const bcd33: V2Lesson = {
       title: "Hyperledger Fabric: channel, chaincode, endorsement policy",
       prose: [
         "Fabric memisahkan tiga peran yang di rantai publik tercampur. Peer menyimpan ledger dan menjalankan chaincode (smart contract Fabric). Orderer mengurutkan transaksi ke dalam blok — ia tidak memeriksa isi bisnis, hanya urutan. Certificate Authority menerbitkan identitas. Pemisahan ini memungkinkan Fabric memproses transaksi secara paralel di channel yang berbeda.",
-        "Alur satu transaksi punya empat langkah. Pertama, klien mengirim proposal ke peer endorser yang ditentukan endorsement policy. Kedua, peer mengeksekusi chaincode dan mengembalikan hasil plus tanda tangan — belum commit, baru simulasi. Ketiga, klien mengirim transaksi yang sudah di-endorse ke orderer, yang mengurutkannya ke dalam blok. Keempat, semua peer memvalidasi: apakah endorsement memenuhi policy, apakah tidak ada konflik baca-tulis — lalu commit ke ledger. Langkah keempat inilah yang membuat 'sudah di-endorse' belum berarti 'sudah tercatat'.",
+        "Alur satu transaksi punya empat langkah. Pertama, klien mengirim proposal ke peer endorser yang ditentukan endorsement policy. Kedua, peer mengeksekusi chaincode dan mengembalikan hasil plus tanda tangan — belum commit, baru simulasi. Ketiga, klien mengirim transaksi yang sudah di-endorse ke orderer, yang mengurutkannya ke dalam blok. Keempat, semua peer memvalidasi: apakah endorsement memenuhi policy, apakah tidak ada konflik baca-tulis. Transaksi yang lolos validasi commit ke ledger; yang gagal tetap masuk ke dalam blok — ditandai tidak valid dan tidak mengubah world state — jadi 'masuk blok' belum berarti 'tercatat sebagai perubahan yang sah'. Langkah keempat inilah yang membuat 'sudah di-endorse' belum berarti 'sudah tercatat'.",
         "Endorsement policy adalah jantung tata kelolanya: aturan seperti '3 dari 5 org' atau 'Bank A DAN (Bank B ATAU Bank C)'. Policy ditulis saat chaincode di-deploy dan bisa diubah. Channel adalah unit privasi: tiap channel punya ledger sendiri; dua bank bisa bertransaksi di channel yang tidak dilihat tiga bank lainnya. Private data collection melangkah lebih jauh: hash data masuk ledger, data aslinya hanya dibagikan peer-to-peer ke anggota yang berhak.",
         "Contoh hitungan yang dipakai lab: konsorsium 5 bank dengan policy '3 dari 5'. Kombinasi endorsement yang sah: pilih 3 dari 5 (10 cara), pilih 4 dari 5 (5 cara), pilih 5 dari 5 (1 cara) — total 16 kombinasi. Bila satu bank down, yang tersisa 4 bank: pilih 3 dari 4 (4 cara) dan 4 dari 4 (1 cara) — total 5 kombinasi. Sistem tetap jalan dengan 1 bank down, tetapi marginnya menipis dari 16 menjadi 5 — angka yang harus diketahui SEBELUM insiden, bukan saat insiden.",
       ],
@@ -76,17 +76,17 @@ export const bcd33: V2Lesson = {
       eyebrow: "Langkah 5 · Teori",
       title: "R3 Corda: tidak ada ledger global — dan itu disengaja",
       prose: [
-        "Corda membalik asumsi Fabric: tidak ada ledger global, tidak ada blok yang dibagikan ke semua node. Tiap transaksi hanya disimpan oleh pihak yang terlibat — plus notaris yang mencatat bahwa output-nya belum dipakai. Model datanya adalah UTXO seperti Bitcoin: state adalah fakta (misalnya 'Bank A berutang 10 juta ke Bank B') yang dikonsumsi oleh transaksi dan diganti state baru. Contract adalah kode yang memvalidasi transisi state: 'transaksi ini sah hanya bila jumlahnya cocok dan kedua pihak menandatangani'.",
-        "Flow adalah koreografi antar pihak: node A mengusulkan transaksi, node B memeriksa dan menandatangani, lalu keduanya mencatat hasilnya. Notaris adalah satu-satunya pihak ketiga: ia menandatangani bahwa input state belum pernah dipakai sebelumnya — mencegah double-spend tanpa melihat isi transaksi (notaris hanya melihat hash). Karena tidak ada yang melihat transaksi orang lain, privasi adalah sifat bawaan arsitektur, bukan fitur tambahan.",
+        "Corda membalik asumsi Fabric: tidak ada ledger global, tidak ada blok yang dibagikan ke semua node. Tiap transaksi hanya disimpan oleh pihak yang terlibat — plus notaris yang mencatat bahwa input state yang dikonsumsi belum pernah dipakai sebelumnya. Model datanya adalah UTXO seperti Bitcoin: state adalah fakta (misalnya 'Bank A berutang 10 juta ke Bank B') yang dikonsumsi oleh transaksi dan diganti state baru. Contract adalah kode yang memvalidasi transisi state: 'transaksi ini sah hanya bila jumlahnya cocok dan kedua pihak menandatangani'.",
+        "Flow adalah koreografi antar pihak: node A mengusulkan transaksi, node B memeriksa dan menandatangani, lalu keduanya mencatat hasilnya. Notaris adalah satu-satunya pihak ketiga: ia menandatangani bahwa input state yang dikonsumsi belum pernah dipakai sebelumnya — mencegah double-spend. Seberapa banyak yang dilihat notaris tergantung jenisnya: notaris non-validating hanya melihat hash dan referensi state, bukan isi transaksi; notaris validating menjalankan contract atas transaksi penuh, jadi ia MELIHAT isinya. Privasi penuh hanya berlaku dengan notaris non-validating. Karena tidak ada yang melihat transaksi orang lain, privasi adalah sifat bawaan arsitektur, bukan fitur tambahan.",
         "Perbandingan yang jujur. Fabric cocok bila konsorsium butuh ledger bersama yang bisa diaudit banyak pihak — misalnya pelacakan rantai pasok dengan puluhan peserta yang perlu melihat status yang sama. Corda cocok bila transaksi bersifat bilateral dan rahasia — misalnya perjanjian antar dua bank yang tidak boleh diketahui bank ketiga. Fabric berpikir 'ledger bersama dengan privasi seperlunya'; Corda berpikir 'tidak ada ledger bersama, hanya fakta antar pihak'.",
         "Untuk analis data, implikasinya besar: di Fabric kamu bisa mengaudit satu ledger channel; di Corda tidak ada satu tempat untuk mengaudit — audit berarti mengumpulkan jejak dari tiap node yang terlibat plus notaris. Pilihan platform menentukan BENTUK data yang tersedia untuk analisis — keputusan arsitektur adalah keputusan analitik.",
       ],
       tasks: [],
       note: {
         title: "Notaris bukan bank sentral",
-        body: "Notaris Corda sering disalahartikan sebagai otoritas pusat yang mengendalikan jaringan. Yang sebenarnya: notaris hanya menjawab satu pertanyaan ya/tidak — 'apakah state ini sudah dipakai?' — dan ia tidak melihat isi transaksi, tidak menyetujui bisnisnya, dan bisa diganti oleh notaris lain. Ia adalah penjaga keunikan, bukan penjaga kebenaran.",
+        body: "Notaris Corda sering disalahartikan sebagai otoritas pusat yang mengendalikan jaringan. Yang sebenarnya: notaris hanya menjawab satu pertanyaan ya/tidak — 'apakah input state ini sudah dipakai?' — dan ia tidak menyetujui bisnisnya, dan bisa diganti oleh notaris lain. Seberapa banyak ia melihat tergantung jenisnya: notaris non-validating hanya melihat hash dan referensi state; notaris validating melihat isi transaksi penuh karena ia menjalankan contract. Notaris juga bisa tunggal atau terdistribusi — beberapa node notaris yang mencapai kesepakatan dengan Raft/BFT — jadi 'satu pihak ketiga' pun bisa tanpa titik kegagalan tunggal. Ia adalah penjaga keunikan, bukan penjaga kebenaran.",
       },
-      reference: "Corda: state UTXO + contract + flow + notaris (cek double-spend dari hash). Tanpa ledger global.",
+      reference: "Corda: state UTXO + contract + flow + notaris (cek keunikan input state; non-validating hanya lihat hash, validating lihat isi penuh). Tanpa ledger global.",
     },
     {
       id: "lab-endorsement",
@@ -95,8 +95,8 @@ export const bcd33: V2Lesson = {
       prose: [
         "Lab ini menghitung ketahanan sebuah endorsement policy: dari 5 organisasi dengan policy '3 dari 5', berapa kombinasi endorsement yang sah — dan berapa yang tersisa bila satu organisasi down.",
         "Hitung dulu di kepala. Kombinasi memilih 3 dari 5: 5 faktorial dibagi (3 faktorial dikali 2 faktorial) sama dengan 10. Memilih 4 dari 5 sama dengan 5. Memilih 5 dari 5 sama dengan 1. Total kombinasi sah: 10 ditambah 5 ditambah 1 sama dengan 16. Bila satu organisasi down, tersisa 4 organisasi: memilih 3 dari 4 sama dengan 4, memilih 4 dari 4 sama dengan 1 — total 5 kombinasi. Penurunan ketahanan: dari 16 menjadi 5, atau 68,75 persen kombinasi hilang — tetapi sistem tetap jalan karena 5 masih lebih besar dari nol.",
-        "Tugas lab: tulis fungsi yang menerima jumlah organisasi dan ambang minimum — lalu mencetak empat angka: kombinasi_3, kombinasi_4, kombinasi_5, total_sah, plus total_sah_down untuk satu organisasi down. Lima angka ini adalah jawaban atas pertanyaan konsorsium: seberapa rapuh policy kita saat satu anggota tumbang?",
-        "Setelah lolos, coba eksperimen: ubah policy menjadi '4 dari 5' dan lihat total sah menjadi 6, dan dengan satu org down menjadi 1 — satu-satunya kombinasi yang tersisa adalah keempatnya bersama. Lalu tanyakan: policy mana yang kamu pilih untuk konsorsium yang anggotanya sering maintenance?",
+        "Tugas lab: tulis fungsi yang menerima jumlah organisasi dan ambang minimum — lalu mencetak lima angka: kombinasi_3, kombinasi_4, kombinasi_5, total_sah, plus total_sah_down untuk satu organisasi down. Kombinasi_3/4/5 adalah komponen C(5,k) untuk contoh policy 3 dari 5; total_sah dan total_sah_down WAJIB dihitung dari ambang: jumlahkan C(n,k) untuk k dari ambang sampai n — dan, bila satu org down, untuk k dari ambang sampai n−1. Lima angka ini adalah jawaban atas pertanyaan konsorsium: seberapa rapuh policy kita saat satu anggota tumbang?",
+        "Setelah lolos, coba eksperimen: ubah `ambang` menjadi 4 (tanpa mengubah baris lain) dan jalankan lagi — total sah menjadi 6 (C(5,4)+C(5,5)) dan dengan satu org down menjadi 1 (hanya C(4,4)) — satu-satunya kombinasi yang tersisa adalah keempatnya bersama. Lalu tanyakan: policy mana yang kamu pilih untuk konsorsium yang anggotanya sering maintenance?",
       ],
       tasks: [
         { id: "t1", text: "Hitung kombinasi memilih 3, 4, dan 5 dari 5 organisasi" },
@@ -108,16 +108,17 @@ export const bcd33: V2Lesson = {
         "Kombinasi C(n,k) = n! / (k! x (n-k)!). Python punya math.comb.",
         "Total sah = C(5,3) + C(5,4) + C(5,5).",
         "Satu org down berarti n menjadi 4, ambang tetap 3: C(4,3) + C(4,4).",
+        "Total sah = jumlah C(n,k) untuk k dari ambang sampai n: sum(math.comb(n_org, k) for k in range(ambang, n_org + 1)).",
       ],
       code: {
-        starter: `# Endorsement policy: 5 organisasi, ambang minimum 3 dari 5.\nimport math\n\nn_org = 5\nambang = 3\n\n# TULIS KODEMU: hitung kombinasi endorsement yang sah.\n# Cetak, per baris: kombinasi_3, kombinasi_4, kombinasi_5,\n# total_sah, total_sah_down (satu organisasi down).\n\n\nkebijakan_endorsement(n_org, ambang)`,
+        starter: `# Endorsement policy: 5 organisasi, ambang minimum 3 dari 5.\nimport math\n\nn_org = 5\nambang = 3\n\n# TULIS KODEMU: hitung kombinasi endorsement yang sah.\n# Cetak, per baris: kombinasi_3, kombinasi_4, kombinasi_5,\n# total_sah, total_sah_down (satu organisasi down) — WAJIB memakai ambang, bukan hard-code 3.\n\n\nkebijakan_endorsement(n_org, ambang)`,
         lockLines: 4,
-        solution: `# Endorsement policy: 5 organisasi, ambang minimum 3 dari 5.\nimport math\n\nn_org = 5\nambang = 3\n\n\ndef kebijakan_endorsement(n_org, ambang):\n    kombinasi_3 = math.comb(n_org, 3)\n    kombinasi_4 = math.comb(n_org, 4)\n    kombinasi_5 = math.comb(n_org, 5)\n    total_sah = kombinasi_3 + kombinasi_4 + kombinasi_5\n    total_sah_down = math.comb(n_org - 1, 3) + math.comb(n_org - 1, 4)\n    print(f"kombinasi_3={kombinasi_3}")\n    print(f"kombinasi_4={kombinasi_4}")\n    print(f"kombinasi_5={kombinasi_5}")\n    print(f"total_sah={total_sah}")\n    print(f"total_sah_down={total_sah_down}")\n\n\nkebijakan_endorsement(n_org, ambang)`,
+        solution: `# Endorsement policy: 5 organisasi, ambang minimum 3 dari 5.\nimport math\n\nn_org = 5\nambang = 3\n\n\ndef kebijakan_endorsement(n_org, ambang):\n    kombinasi_3 = math.comb(n_org, 3)\n    kombinasi_4 = math.comb(n_org, 4)\n    kombinasi_5 = math.comb(n_org, 5)\n    total_sah = sum(math.comb(n_org, k) for k in range(ambang, n_org + 1))\n    total_sah_down = sum(math.comb(n_org - 1, k) for k in range(ambang, n_org))\n    print(f"kombinasi_3={kombinasi_3}")\n    print(f"kombinasi_4={kombinasi_4}")\n    print(f"kombinasi_5={kombinasi_5}")\n    print(f"total_sah={total_sah}")\n    print(f"total_sah_down={total_sah_down}")\n\n\nkebijakan_endorsement(n_org, ambang)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "kombinasi_3=10", label: "C(5,3) = 10", msg: "5! / (3! x 2!) = 10 cara memilih 3 endorser dari 5." },
           { kind: "stdout_matches", task: "t1", pattern: "kombinasi_4=5", label: "C(5,4) = 5", msg: "Memilih 4 dari 5 sama dengan memilih 1 yang tidak ikut: 5 cara." },
           { kind: "stdout_matches", task: "t1", pattern: "kombinasi_5=1", label: "C(5,5) = 1", msg: "Kelima organisasi bersama: hanya 1 cara." },
-          { kind: "stdout_matches", task: "t2", pattern: "total_sah=16", label: "Total sah 16", msg: "10 + 5 + 1 = 16 kombinasi endorsement memenuhi policy 3 dari 5." },
+          { kind: "stdout_matches", task: "t2", pattern: "total_sah=16", label: "Total sah 16", msg: "10 + 5 + 1 = 16 kombinasi endorsement memenuhi policy 3 dari 5 — jumlah C(5,k) untuk k dari ambang 3 sampai 5." },
           { kind: "stdout_matches", task: "t3", pattern: "total_sah_down=5", label: "Satu org down: 5", msg: "C(4,3) + C(4,4) = 4 + 1 = 5. Sistem tetap jalan, margin menipis." },
         ],
       },
@@ -195,16 +196,16 @@ export const bcd33: V2Lesson = {
           options: [
             { text: "Saat peer endorser menandatangani hasil eksekusi", why: "Salah: endorsement adalah simulasi yang ditandatangani — belum commit." },
             { text: "Saat orderer memasukkan transaksi ke blok", why: "Salah: ordering hanya mengurutkan. Validasi dan commit terjadi sesudahnya di tiap peer." },
-            { text: "Setelah semua peer memvalidasi endorsement dan konflik baca-tulis, lalu commit", why: "Tepat: langkah validasi + commit adalah yang membuat transaksi resmi tercatat.", correct: true },
+            { text: "Setelah semua peer memvalidasi endorsement dan konflik baca-tulis, lalu commit", why: "Tepat: hanya transaksi yang lolos validasi yang commit dan mengubah world state; yang gagal validasi tetap masuk blok sebagai tidak valid. Langkah validasi + commit inilah yang membuat transaksi resmi tercatat.", correct: true },
             { text: "Saat klien mengirim proposal pertama", why: "Salah: proposal baru langkah pertama — belum ada eksekusi, endorsement, atau ordering." },
           ],
         },
         {
           q: "Apa peran notaris di Corda?",
           options: [
-            { text: "Menyetujui isi bisnis tiap transaksi", why: "Salah: notaris tidak melihat isi transaksi — hanya hash-nya." },
-            { text: "Menandatangani bahwa input state belum pernah dipakai — mencegah double-spend — tanpa melihat isi transaksi", why: "Tepat: notaris adalah penjaga keunikan, bukan penjaga kebenaran bisnis.", correct: true },
-            { text: "Menyimpan salinan seluruh ledger untuk auditor", why: "Salah: tidak ada ledger global di Corda; notaris hanya mencatat state yang sudah dipakai." },
+            { text: "Menyetujui isi bisnis tiap transaksi", why: "Salah: yang tidak dilihat notaris non-validating adalah isi transaksi (hanya hash-nya) — dan tidak ada notaris yang 'menyetujui' bisnis; keputusan bisnis tetap di tangan pihak terlibat." },
+            { text: "Menandatangani bahwa input state belum pernah dipakai — mencegah double-spend — dan, bila notarisnya non-validating, tanpa melihat isi transaksi", why: "Tepat: notaris adalah penjaga keunikan, bukan penjaga kebenaran bisnis. Catatan: notaris validating justru melihat isi penuh — privasi penuh hanya berlaku untuk non-validating.", correct: true },
+            { text: "Menyimpan salinan seluruh ledger untuk auditor", why: "Salah: tidak ada ledger global di Corda; notaris hanya mencatat input state mana yang sudah dikonsumsi." },
             { text: "Menentukan harga transaksi antar bank", why: "Salah: harga adalah isi bisnis yang disepakati pihak terlibat, bukan oleh notaris." },
           ],
         },

@@ -21,7 +21,7 @@ export const dle31: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "DLE19 (NLP) menyinggung word2vec hanya sebagai kontras — 'embedding statis gagal' — tanpa menghitungnya, dan tidak ada Viterbi atau POS tagging di track (0 hit). Lesson ini membangun NLP klasik sebagai sistem: HMM + Viterbi dengan angka yang dihitung penuh, Word2Vec dengan cosine similarity, dan peta kapan klasik menang atas neural.",
       },
-      reference: "Viterbi terbaik N-V-N, probabilitas 0,0988. Cosine raja-ratu 0,9928; raja-mobil 0,2195.",
+      reference: "Viterbi terbaik N-V-N, probabilitas 0,0350. Cosine raja-ratu 0,9928; raja-mobil 0,2195.",
     },
     {
       id: "tujuan",
@@ -43,7 +43,8 @@ export const dle31: V2Lesson = {
       title: "Viterbi: jalur tag terbaik dicari, bukan ditebak",
       prose: [
         "POS tagging dengan HMM: tiap kata punya tag tersembunyi (nomina, verba, ...), dan kita mencari urutan tag dengan probabilitas tertinggi. Probabilitas satu jalur = probabilitas awal tag pertama x emisi kata pertama x transisi x emisi kata kedua x transisi x emisi kata ketiga. Viterbi menghitung ini dengan pemrograman dinamis: di tiap posisi, simpan probabilitas terbaik untuk tiap tag — 2 tag x 3 kata = 6 sel, bukan 2^3 = 8 jalur yang dihitung satu per satu.",
-        "Contoh kalimat 'saya makan nasi', tag N (nomina) dan V (verba). Probabilitas awal: N 0,7, V 0,3. Transisi: N ke N 0,4, N ke V 0,6, V ke N 0,7, V ke V 0,3. Emisi: 'saya' sebagai N 0,8 / V 0,05; 'makan' sebagai N 0,1 / V 0,7; 'nasi' sebagai N 0,6 / V 0,1. Jalur terbaik adalah N-V-N: 0,7 x 0,8 x 0,6 x 0,7 x 0,7 x 0,6 = 0,0988. Jalur N-N-N hanya 0,7 x 0,8 x 0,4 x 0,1 x 0,4 x 0,6 = 0,0054 — 18x lebih kecil, karena 'makan' hampir tidak pernah nomina. Viterbi menemukan 0,0988 tanpa menghitung semua jalur secara naif.",
+        "Contoh kalimat 'saya makan nasi', tag N (nomina) dan V (verba). Probabilitas awal: N 0,7, V 0,3. Transisi: N ke N 0,4, N ke V 0,6, V ke N 0,7, V ke V 0,3. Emisi — tiap baris HARUS berjumlah 1, karena tiap tag mendistribusikan probabilitasnya ke seluruh kosakata: 'saya' sebagai N 0,7 / V 0,05; 'makan' sebagai N 0,1 / V 0,85; 'nasi' sebagai N 0,2 / V 0,1. Cek: baris N 0,7 + 0,1 + 0,2 = 1,0; baris V 0,05 + 0,85 + 0,1 = 1,0. Tabel emisi yang barisnya tidak berjumlah 1 bukan distribusi probabilitas — dan angka apa pun yang dihitung darinya tidak berarti.",
+        "Tabel Viterbi (delta = probabilitas jalur terbaik sampai posisi itu, 2 tag x 3 kata = 6 sel): posisi 'saya': N 0,49 (0,7 x 0,7), V 0,015 (0,3 x 0,05). Posisi 'makan': N 0,0196 (terbaik dari N: 0,49 x 0,4 x 0,1), V 0,2499 (terbaik dari N: 0,49 x 0,6 x 0,85). Posisi 'nasi': N 0,0350 (terbaik dari V: 0,2499 x 0,7 x 0,2), V 0,0075 (terbaik dari V: 0,2499 x 0,3 x 0,1). Backtracking dari tag terbaik di posisi terakhir: 'nasi' sebagai N datang dari V di 'makan'; 'makan' sebagai V datang dari N di 'saya'; 'saya' sebagai N adalah awal. Telusuri mundur: N-V-N — jalur terbaik 0,0350. Jalur N-N-N hanya 0,0016 (0,7 x 0,7 x 0,4 x 0,1 x 0,4 x 0,2) — 22x lebih kecil, karena 'makan' hampir tidak pernah nomina. Viterbi menemukan 0,0350 tanpa menghitung semua jalur secara naif: 6 sel delta + backpointer, bukan enumerasi 8 jalur.",
         "Kelemahan HMM: asumsi Markov (tag hanya bergantung pada tag sebelumnya) dan emisi hanya bergantung pada kata saat itu — konteks panjang hilang. CRF (conditional random field) memperbaikinya dengan fitur arbitrer (kata sebelumnya, akhiran, kapitalisasi) tanpa asumsi independensi yang kaku. Aturan: data kecil + butuh penjelasan = HMM/Viterbi; butuh fitur kaya + tetap terstruktur = CRF; data besar + konteks panjang = transformer.",
       ],
       tasks: [],
@@ -53,7 +54,7 @@ export const dle31: V2Lesson = {
         title: "Viterbi di luar NLP",
         body: "Algoritma yang sama dipakai di mana-mana: dekoding sinyal komunikasi, pengenalan suara (DLE29), dan bioinformatika (penyelarasan sekuens). Sekali kamu memahami pemrograman dinamis Viterbi, kamu membawanya ke tiga domain. Itulah nilai belajar klasik: algoritmanya abadi, aplikasinya berganti.",
       },
-      reference: "Jalur terbaik N-V-N = 0,0988.",
+      reference: "Jalur terbaik N-V-N = 0,0350 (delta: saya N 0,49/V 0,015; makan N 0,0196/V 0,2499; nasi N 0,0350/V 0,0075; backpointer N-V-N).",
     },
     {
       id: "word2vec",
@@ -77,31 +78,32 @@ export const dle31: V2Lesson = {
       title: "Lab: Viterbi dan cosine similarity",
       prose: [
         "Lab ini menghitung dua mesin NLP klasik dari angka mentah: probabilitas jalur Viterbi terbaik dan cosine similarity Word2Vec.",
-        "Hitung dulu di kepala. Jalur N-V-N: 0,7 x 0,8 = 0,56; x 0,6 = 0,336; x 0,7 = 0,2352; x 0,7 = 0,16464; x 0,6 = 0,098784 — dibulatkan 0,0988. Cosine raja-ratu: dot 0,785 dibagi (0,9055 x 0,8732 = 0,7907) = 0,9928. Cosine raja-mobil: dot 0,18 dibagi 0,82 = 0,2195.",
-        "Tugas lab: hitung tiga angka dan cetak masing-masing di baris sendiri: viterbi (probabilitas jalur N-V-N, 4 desimal), cos_ratu, cos_mobil. Tiga angka ini adalah bukti kamu bisa membaca fondasi NLP — bukan hanya mengimpor library dan berharap.",
-        "Setelah lolos, coba eksperimen: ubah emisi 'makan' sebagai nomina dari 0,1 menjadi 0,5 dan lihat apakah jalur terbaik berubah. Lalu tanyakan: seberapa sensitif taggermu terhadap satu angka emisi? Itulah kerapuhan HMM — dan alasan CRF diciptakan.",
+        "Hitung dulu di kepala. Tabel delta: 'saya' N 0,49 (0,7 x 0,7), V 0,015 (0,3 x 0,05); 'makan' N 0,0196 (0,49 x 0,4 x 0,1), V 0,2499 (0,49 x 0,6 x 0,85); 'nasi' N 0,0350 (0,2499 x 0,7 x 0,2), V 0,0075 (0,2499 x 0,3 x 0,1). Backtracking dari N di 'nasi' — lewat V di 'makan', N di 'saya' — memberi jalur N-V-N = 0,0350. Cosine raja-ratu: dot 0,785 dibagi (0,9055 x 0,8732 = 0,7907) = 0,9928. Cosine raja-mobil: dot 0,18 dibagi 0,82 = 0,2195.",
+        "Tugas lab: jalankan Viterbi sungguhan — pemrograman dinamis dengan delta dan backpointer, bukan menghitung satu jalur yang sudah ditebak — lalu hitung tiga angka dan cetak masing-masing di baris sendiri: viterbi (probabilitas jalur terbaik, 4 desimal), cos_ratu, cos_mobil. Tiga angka ini adalah bukti kamu bisa membaca fondasi NLP — bukan hanya mengimpor library dan berharap.",
+        "Setelah lolos, coba eksperimen: geser massa emisi nomina dari 'nasi' ke 'makan' (em 'makan' sebagai N 0,1 menjadi 0,2, em 'nasi' sebagai N 0,2 menjadi 0,1 — baris N tetap berjumlah 1,0) dan lihat jalur terbaik tetap N-V-N tetapi probabilitasnya turun menjadi 0,0175. Lalu tanyakan: seberapa sensitif taggermu terhadap satu angka emisi? Itulah kerapuhan HMM — dan alasan CRF diciptakan.",
       ],
       tasks: [
-        { id: "t1", text: "Hitung `viterbi` = probabilitas jalur N-V-N untuk 'saya makan nasi'" },
+        { id: "t1", text: "Jalankan Viterbi (DP delta + backpointer) dan hitung `viterbi` = probabilitas jalur terbaik untuk 'saya makan nasi'" },
         { id: "t2", text: "Hitung `cos_ratu` dan `cos_mobil` dari vektor 2D" },
       ],
-      expected: "viterbi=0.0988\ncos_ratu=0.9928\ncos_mobil=0.2195",
+      expected: "viterbi=0.035\ncos_ratu=0.9928\ncos_mobil=0.2195",
       hints: [
-        "Kalikan berurutan: awal x emisi x transisi x emisi x transisi x emisi.",
+        "Delta per posisi: delta[t][tag] = nilai MAKSIMUM atas tag sebelumnya dari delta[t-1][prev] x transisi x emisi; simpan backpointer-nya.",
+        "Telusuri mundur dari tag terbaik di posisi terakhir untuk mendapat jalur terbaik; viterbi = delta terakhir pada tag itu.",
         "Cosine = dot / (norma a x norma b); norma = akar jumlah kuadrat.",
         "Bulatkan ke 4 desimal.",
       ],
       code: {
-        starter: `# NLP klasik: Viterbi + cosine similarity.\nimport math\n\n# HMM: awal, transisi, emisi untuk 'saya makan nasi'\npi_N = 0.7\nem_saya_N, em_makan_V, em_nasi_N = 0.8, 0.7, 0.6\ntr_N_V, tr_V_N = 0.6, 0.7\n# Word2Vec 2D\nraja = [0.9, 0.1]\nratu = [0.85, 0.2]\nmobil = [0.1, 0.9]\n\n# TULIS KODEMU: hitung tiga angka di bawah ini.\nviterbi = \ncos_ratu = \ncos_mobil = \n\nprint(f"viterbi={round(viterbi, 4)}")\nprint(f"cos_ratu={round(cos_ratu, 4)}")\nprint(f"cos_mobil={round(cos_mobil, 4)}")`,
-        lockLines: 10,
-        solution: `# NLP klasik: Viterbi + cosine similarity.\nimport math\n\n# HMM: awal, transisi, emisi untuk 'saya makan nasi'\npi_N = 0.7\nem_saya_N, em_makan_V, em_nasi_N = 0.8, 0.7, 0.6\ntr_N_V, tr_V_N = 0.6, 0.7\n# Word2Vec 2D\nraja = [0.9, 0.1]\nratu = [0.85, 0.2]\nmobil = [0.1, 0.9]\n\n\ndef norma(v):\n    return math.sqrt(v[0] ** 2 + v[1] ** 2)\n\n\ndef cos(a, b):\n    return (a[0] * b[0] + a[1] * b[1]) / (norma(a) * norma(b))\n\n\n# TULIS KODEMU: hitung tiga angka di bawah ini.\nviterbi = pi_N * em_saya_N * tr_N_V * em_makan_V * tr_V_N * em_nasi_N\ncos_ratu = cos(raja, ratu)\ncos_mobil = cos(raja, mobil)\n\nprint(f"viterbi={round(viterbi, 4)}")\nprint(f"cos_ratu={round(cos_ratu, 4)}")\nprint(f"cos_mobil={round(cos_mobil, 4)}")`,
+        starter: `# NLP klasik: Viterbi + cosine similarity.\nimport math\n\n# HMM: awal, transisi, emisi untuk 'saya makan nasi'\npi = {"N": 0.7, "V": 0.3}\ntr = {("N", "N"): 0.4, ("N", "V"): 0.6, ("V", "N"): 0.7, ("V", "V"): 0.3}\nem = {"N": {"saya": 0.7, "makan": 0.1, "nasi": 0.2},\n      "V": {"saya": 0.05, "makan": 0.85, "nasi": 0.1}}\nwords = ["saya", "makan", "nasi"]\n# Word2Vec 2D\nraja = [0.9, 0.1]\nratu = [0.85, 0.2]\nmobil = [0.1, 0.9]\n\n# TULIS KODEMU: jalankan Viterbi (delta + backpointer) dan\n# hitung tiga angka di bawah ini.\nviterbi = \ncos_ratu = \ncos_mobil = \n\nprint(f"viterbi={round(viterbi, 4)}")\nprint(f"cos_ratu={round(cos_ratu, 4)}")\nprint(f"cos_mobil={round(cos_mobil, 4)}")`,
+        lockLines: 13,
+        solution: `# NLP klasik: Viterbi + cosine similarity.\nimport math\n\n# HMM: awal, transisi, emisi untuk 'saya makan nasi'\npi = {"N": 0.7, "V": 0.3}\ntr = {("N", "N"): 0.4, ("N", "V"): 0.6, ("V", "N"): 0.7, ("V", "V"): 0.3}\nem = {"N": {"saya": 0.7, "makan": 0.1, "nasi": 0.2},\n      "V": {"saya": 0.05, "makan": 0.85, "nasi": 0.1}}\nwords = ["saya", "makan", "nasi"]\n# Word2Vec 2D\nraja = [0.9, 0.1]\nratu = [0.85, 0.2]\nmobil = [0.1, 0.9]\n\n\ndef norma(v):\n    return math.sqrt(v[0] ** 2 + v[1] ** 2)\n\n\ndef cos(a, b):\n    return (a[0] * b[0] + a[1] * b[1]) / (norma(a) * norma(b))\n\n\n# Viterbi sungguhan: delta per posisi + backpointer, top-level.\ndelta = []\npsi = []\ndelta.append({tag: pi[tag] * em[tag][words[0]] for tag in ("N", "V")})\npsi.append({tag: None for tag in ("N", "V")})\nfor t in range(1, len(words)):\n    dt = {}\n    pt = {}\n    for tag in ("N", "V"):\n        best_prev = None\n        best_val = -1.0\n        for prev in ("N", "V"):\n            cand = delta[t - 1][prev] * tr[(prev, tag)] * em[tag][words[t]]\n            if cand > best_val:\n                best_val = cand\n                best_prev = prev\n        dt[tag] = best_val\n        pt[tag] = best_prev\n    delta.append(dt)\n    psi.append(pt)\n# Backtracking dari tag terbaik di posisi terakhir.\ntags = [None] * len(words)\ntags[-1] = "N" if delta[-1]["N"] >= delta[-1]["V"] else "V"\nfor t in range(len(words) - 1, 0, -1):\n    tags[t - 1] = psi[t][tags[t]]\nviterbi = delta[-1][tags[-1]]\ncos_ratu = cos(raja, ratu)\ncos_mobil = cos(raja, mobil)\n\nprint(f"viterbi={round(viterbi, 4)}")\nprint(f"cos_ratu={round(cos_ratu, 4)}")\nprint(f"cos_mobil={round(cos_mobil, 4)}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "viterbi", value: 0.0988, tol: 0.0001, label: "`viterbi` seharusnya 0.0988", msg: "0,7 x 0,8 x 0,6 x 0,7 x 0,7 x 0,6 = 0,0988." },
+          { kind: "equal", task: "t1", name: "viterbi", value: 0.035, tol: 0.0001, label: "`viterbi` seharusnya 0.035", msg: "N-V-N = 0,7x0,7x0,6x0,85x0,7x0,2 = 0,0350 — jalur terbaik dari DP + backpointer, bukan satu jalur yang ditebak." },
           { kind: "equal", task: "t2", name: "cos_ratu", value: 0.9928, tol: 0.0001, label: "`cos_ratu` seharusnya 0.9928", msg: "0,785 / 0,7907 = 0,9928." },
           { kind: "equal", task: "t2", name: "cos_mobil", value: 0.2195, tol: 0.0001, label: "`cos_mobil` seharusnya 0.2195", msg: "0,18 / 0,82 = 0,2195." },
         ],
       },
-      reference: "Viterbi 0,0988; cosine ratu 0,9928; mobil 0,2195.",
+      reference: "Viterbi 0,0350 (N-V-N); cosine ratu 0,9928; mobil 0,2195.",
     },
     {
       id: "peta",
@@ -131,7 +133,7 @@ export const dle31: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Viterbi: jalur terbaik N-V-N = 0,0988 (pemrograman dinamis).",
+        "Viterbi: jalur terbaik N-V-N = 0,0350 (DP 6 sel + backtracking).",
         "Cosine raja-ratu 0,9928; raja-mobil 0,2195.",
         "Word2Vec: analogi vektor menangkap relasi semantik.",
         "Batas statis: satu vektor per kata gagal pada polisemi.",
@@ -140,10 +142,10 @@ export const dle31: V2Lesson = {
       next: { label: "DLE32 — Data 3D & Video: dari Point Cloud ke Aksi", href: "/v2/learn/dle32-data-3d-video" },
       quiz: [
         {
-          q: "Jalur N-V-N 'saya makan nasi' berprobabilitas 0,0988. Mengapa N-N-N jauh lebih kecil (0,0054)?",
+          q: "Jalur N-V-N 'saya makan nasi' berprobabilitas 0,0350. Mengapa N-N-N jauh lebih kecil (0,0016)?",
           options: [
             { text: "Karena 'makan' hampir tidak pernah nomina (emisi 0,1)", why: "Tepat: emisi rendah menghukum jalur itu; Viterbi menghitung, bukan menebak.", correct: true },
-            { text: "Karena 'saya' tidak bisa nomina", why: "Salah: 'saya' sebagai nomina emisinya 0,8 — justru tinggi." },
+            { text: "Karena 'saya' tidak bisa nomina", why: "Salah: 'saya' sebagai nomina emisinya 0,7 — justru tinggi." },
             { text: "Karena transisi N ke N mustahil", why: "Salah: transisi N ke N 0,4 — mungkin, hanya kurang disukai." },
             { text: "Karena Viterbi selalu memilih jalur terpendek", why: "Salah: Viterbi memilih jalur probabilitas TERTINGGI, bukan terpendek." },
           ],

@@ -21,7 +21,7 @@ export const mle34: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "Tidak ada lesson survival analysis di track MLE maupun track lain — grep 'survival', 'Kaplan', dan 'Cox' menghasilkan 0 hit di seluruh konten. Lesson ini baru sepenuhnya: dari sensor kanan sampai hazard ratio, dengan lab Kaplan-Meier yang dihitung dari angka mentah.",
       },
-      reference: "S(30)=0,90; S(60)=0,7875; S(90)=0,63; S(120)=0,4128; median antara hari 90 dan 120; HR=2,0.",
+      reference: "S(30)=0,90; S(60)=0,7875; S(90)=0,63; S(120)=0,4128; median TEPAT hari ke-120; HR=2,0.",
     },
     {
       id: "tujuan",
@@ -44,7 +44,8 @@ export const mle34: V2Lesson = {
       prose: [
         "Kurva Kaplan-Meier dihitung selangkah demi selangkah: di tiap waktu kejadian, peluang bertahan = peluang bertahan sebelumnya dikali (1 - kejadian / berisiko). Contoh kohort 100 nasabah. Hari ke-30: 10 churn dari 100 berisiko — S(30) = 1 - 10/100 = 0,90. Hari ke-60: 11 churn dari 88 yang masih berisiko (100 - 10 churn - 2 tersensor) — S(60) = 0,90 x (1 - 11/88) = 0,90 x 0,875 = 0,7875. Hari ke-90: 15 churn dari 75 berisiko — S(90) = 0,7875 x (1 - 15/75) = 0,7875 x 0,8 = 0,63. Hari ke-120: 20 churn dari 58 berisiko — S(120) = 0,63 x (1 - 20/58) = 0,63 x 0,6552 = 0,4128.",
         "Sensor kanan adalah kuncinya: nasabah yang berhenti diamati (misalnya pengamatan berakhir, atau ia pindah) TIDAK dihitung sebagai churn dan TIDAK dihitung sebagai bertahan — ia keluar dari penyebut 'berisiko' setelah waktu sensornya. Itulah mengapa penyebut hari ke-60 adalah 88, bukan 90: 100 - 10 churn - 2 tersensor. Menganggap tersensor sebagai 'tidak churn' akan menggelembungkan survival; membuang mereka akan mengecilkan sampel dan membiaskan kurva ke arah yang bertahan paling lama.",
-        "Median survival adalah waktu ketika kurva melewati 0,5: separuh kohort sudah mengalami kejadian. Di contoh ini S(90) = 0,63 dan S(120) = 0,4128 — median terletak antara hari ke-90 dan ke-120. Median lebih jujur daripada rata-rata: rata-rata waktu churn tidak bisa dihitung bila separuh kohort belum churn saat pengamatan berakhir.",
+        "Median survival adalah waktu ketika kurva melewati 0,5: separuh kohort sudah mengalami kejadian. Di contoh ini S(90) = 0,63 dan S(120) = 0,4128 — dan karena kurva Kaplan-Meier adalah fungsi TANGGA (nilainya tetap 0,63 dari hari ke-90 sampai sebelum hari ke-120, lalu melompat ke 0,4128 tepat di hari ke-120), median adalah TEPAT hari ke-120 — bukan 'antara 90 dan 120'. Definisi formalnya: median adalah waktu t terkecil dengan S(t) ≤ 0,5, dan di sini t itu adalah 120. Median lebih jujur daripada rata-rata: rata-rata waktu churn tidak bisa dihitung bila separuh kohort belum churn saat pengamatan berakhir.",
+        "Satu asumsi yang diam-diam dipakai seluruh perhitungan di atas: SENSOR NONINFORMATIF. Kaplan-Meier dan Cox mengasumsikan bahwa tersensornya seseorang TIDAK mengandung informasi tentang kapan ia akan mengalami kejadian (diberikan kovariatnya) — sensor terjadi karena pengamatan berakhir atau alasan yang tidak terkait dengan risiko churn-nya. Bila asumsi ini dilanggar — misalnya nasabah yang paling mungkin churn justru yang paling sering berhenti diamati (pindah tanpa kabar, akun ditutup sepihak) — kurva survival menjadi BIAS: ia menggambarkan nasabah yang 'tetap teramati', bukan seluruh kohort. Tidak ada tes yang membuktikan sensor noninformatif dari data itu sendiri; yang bisa dilakukan adalah memeriksa pola sensor (apakah sensor berkorelasi dengan fitur risiko) dan melakukan analisis sensitivitas. Kerabat dekat masalah ini: competing risks — bila nasabah bisa 'pergi' lewat dua cara yang saling meniadakan (churn vs tutup akun karena pindah kota), satu kurva KM per kejadian tidak cukup; pakai cumulative incidence function.",
       ],
       tasks: [],
       formula: "S(t) = \\prod_{t_i \\leq t} \\left(1 - \\frac{d_i}{n_i}\\right)",
@@ -61,8 +62,8 @@ export const mle34: V2Lesson = {
       title: "Model Cox: hazard ratio sebagai bahasa perbandingan risiko",
       prose: [
         "Model Cox (proportional hazards) memodelkan hazard — laju kejadian sesaat — sebagai h(t|x) = h0(t) x exp(beta1 x1 + beta2 x2 + ...). Bagian h0(t) adalah baseline hazard (bentuk kurva waktu, tidak dimodelkan); bagian exp(...) adalah pengali risiko dari fitur. Keindahannya: kamu tidak perlu tahu bentuk h0(t) untuk membandingkan dua nasabah — rasio hazard mereka hanya bergantung pada fitur.",
-        "Hazard ratio (HR) = exp(beta). Contoh: koefisien untuk 'nasabah baru' beta = 0,693 — HR = exp(0,693) = 2,0. Artinya nasabah baru memiliki laju churn 2x lipat nasabah lama pada tiap waktu, dengan asumsi semua fitur lain sama. Koefisien negatif memberi HR di bawah 1: beta = -0,405 untuk 'memakai autopay' — HR = exp(-0,405) = 0,67, artinya autopay menurunkan laju churn 33 persen. HR = 1 berarti tidak ada efek.",
-        "Asumsi proportional hazards harus diperiksa: rasio hazard antar kelompok harus konstan sepanjang waktu. Bila kurva survival dua kelompok bersilangan, asumsi dilanggar — solusinya stratifikasi (baseline hazard terpisah per kelompok) atau model dengan efek yang bergantung waktu. Jangan laporkan HR tanpa memeriksa asumsi ini; HR dari model yang asumsinya dilanggar adalah angka yang rapi tetapi salah.",
+        "Hazard ratio (HR) = exp(beta). Contoh: koefisien untuk 'nasabah baru' beta = 0,693 — HR = exp(0,693) = 2,0. Artinya nasabah baru memiliki laju churn 2x lipat nasabah lama pada tiap waktu, dengan asumsi semua fitur lain sama — sebagai ASOSIASI, bukan efek kausal: data observasional tidak membuktikan 'menjadi nasabah baru MENYEBABKAN churn 2x lipat'; nasabah baru bisa berbeda dalam hal lain yang tidak teramati (misalnya mereka yang baru bergabung lewat promo). Koefisien negatif memberi HR di bawah 1: beta = -0,405 untuk 'memakai autopay' — HR = exp(-0,405) = 0,67, artinya pemakai autopay TERKAIT DENGAN laju churn 33 persen lebih rendah — lagi-lagi asosiasi: mungkin autopay yang menahan mereka, mungkin nasabah yang memasang autopay memang yang paling setia sejak awal. Klaim kausal butuh desain kausal (eksperimen, atau penyesuaian confounding yang eksplisit) — HR Cox saja tidak memberikannya. HR = 1 berarti tidak ada efek.",
+        "Asumsi proportional hazards harus diperiksa: rasio hazard antar kelompok harus konstan sepanjang waktu. Bila kurva survival dua kelompok bersilangan, asumsi dilanggar — karena di bawah proportional hazards satu kelompok harus selalu di atas yang lain (S1(t) = S0(t)^HR tidak bisa bersilangan bila HR ≠ 1). Tetapi hati-hati dengan solusinya: stratifikasi (baseline hazard terpisah per kelompok) HANYA tepat bila kelompok itu adalah pengganggu (confounder) yang ingin dikendalikan, bukan perbandingan yang ingin diukur — menstratifikasi variabel yang sedang dibandingkan berarti menghapus perbandingan itu sendiri dari model (tidak ada lagi HR untuknya). Bila kelompok yang bersilangan ADALAH perbandingan utamamu, yang benar adalah model dengan koefisien yang bergantung waktu (time-varying coefficient), HR per periode waktu, atau selisih restricted mean survival time (RMST) — bukan stratifikasi. Dan satu HR tunggal dari model yang asumsinya dilanggar masih bisa dilaporkan sebagai HR RATA-RATA tertimbang sepanjang follow-up, tetapi ia menyembunyikan pembalikan arah — laporkan beserta kurvanya, jangan sendirian. Jangan laporkan HR tanpa memeriksa asumsi ini; HR dari model yang asumsinya dilanggar adalah angka yang rapi tetapi salah.",
       ],
       tasks: [],
       note: {
@@ -78,7 +79,7 @@ export const mle34: V2Lesson = {
       prose: [
         "Lab ini menghitung kurva survival dan hazard ratio dari angka mentah kohort 100 nasabah.",
         "Hitung dulu di kepala. S(30) = 1 - 10/100 = 0,90. S(60) = 0,90 x (1 - 11/88) = 0,90 x 0,875 = 0,7875. S(90) = 0,7875 x (1 - 15/75) = 0,7875 x 0,8 = 0,63. HR nasabah baru = exp(0,693) = 2,0; HR autopay = exp(-0,405) = 0,67.",
-        "Tugas lab: hitung lima angka dan cetak masing-masing di baris sendiri: s30, s60, s90, hr_baru, hr_autopay. Lima angka ini adalah inti laporan retention — dengan ini tim bisa berkata 'separuh nasabah pergi antara hari ke-90 dan ke-120, dan nasabah baru berisiko 2x lipat' alih-alih 'akurasi churn 91 persen'.",
+        "Tugas lab: hitung lima angka dan cetak masing-masing di baris sendiri: s30, s60, s90, hr_baru, hr_autopay. Lima angka ini adalah inti laporan retention — dengan ini tim bisa berkata 'separuh nasabah pergi tepat di hari ke-120, dan nasabah baru berisiko 2x lipat' alih-alih 'akurasi churn 91 persen'.",
         "Setelah lolos, coba eksperimen: ubah kejadian hari ke-60 menjadi 22 dari 88 dan lihat S(60) turun menjadi 0,675 — lalu tanyakan: intervensi retention apa yang paling masuk akal di hari ke-45, sebelum penurunan itu terjadi?",
       ],
       tasks: [
@@ -100,7 +101,7 @@ export const mle34: V2Lesson = {
           { kind: "equal", task: "t1", name: "s60", value: 0.7875, tol: 1e-9, label: "`s60` seharusnya 0.7875", msg: "0,90 x (1 - 11/88) = 0,7875." },
           { kind: "equal", task: "t1", name: "s90", value: 0.63, tol: 1e-9, label: "`s90` seharusnya 0.63", msg: "0,7875 x (1 - 15/75) = 0,63." },
           { kind: "equal", task: "t2", name: "hr_baru", value: 2.0, tol: 0.01, label: "`hr_baru` seharusnya 2.0", msg: "exp(0,693) = 2,0 — laju churn 2x lipat." },
-          { kind: "equal", task: "t2", name: "hr_autopay", value: 0.67, tol: 0.01, label: "`hr_autopay` seharusnya 0.67", msg: "exp(-0,405) = 0,67 — laju churn turun 33 persen." },
+          { kind: "equal", task: "t2", name: "hr_autopay", value: 0.67, tol: 0.01, label: "`hr_autopay` seharusnya 0.67", msg: "exp(-0,405) = 0,67 — laju churn 33 persen lebih rendah (asosiasi, bukan efek kausal)." },
         ],
       },
       reference: "S(30)=0,90; S(60)=0,7875; S(90)=0,63; HR baru 2,0; HR autopay 0,67.",
@@ -113,7 +114,7 @@ export const mle34: V2Lesson = {
         "Skenario 1 — Butuh tahu KAPAN kejadian terjadi + ada data tersensor. → Survival (Kaplan-Meier/Cox). Alasan: satu-satunya keluarga yang menangani sensor dengan benar.",
         "Skenario 2 — Hanya butuh ya/tidak dalam jendela tetap (90 hari), semua nasabah teramati penuh. → Klasifikasi. Alasan: lebih sederhana; sensor tidak ada sehingga survival tidak memberi nilai tambah.",
         "Skenario 3 — Butuh waktu kejadian untuk semua orang, tanpa sensor. → Regresi waktu. Alasan: bila tidak ada sensor, regresi langsung pada waktu lebih efisien.",
-        "Skenario 4 — Kurva survival dua kelompok bersilangan. → Jangan laporkan satu HR; stratifikasi atau model time-varying. Alasan: asumsi proportional hazards dilanggar; HR tunggal menyesatkan.",
+        "Skenario 4 — Kurva survival dua kelompok bersilangan. → Jangan laporkan satu HR sendirian; pakai koefisien time-varying, HR per periode, atau selisih RMST. Stratifikasi hanya bila kelompok itu confounder, bukan perbandingan utama. Alasan: asumsi proportional hazards dilanggar; HR tunggal menyembunyikan pembalikan arah.",
         "Skenario 5 — Perlu prediksi survival per individu dengan fitur kompleks (gambar, teks). → Deep survival (DeepSurv, random survival forest). Alasan: Cox linear tidak menangkap interaksi kompleks; tetapi mulai dari Cox sebagai baseline — bila Cox sudah 90 persen sebaik DeepSurv, pilih Cox yang bisa dijelaskan.",
       ],
       tasks: [],
@@ -133,7 +134,7 @@ export const mle34: V2Lesson = {
       tasks: [],
       summary: [
         "S(30)=0,90; S(60)=0,7875; S(90)=0,63; S(120)=0,4128.",
-        "Median survival antara hari ke-90 dan ke-120.",
+        "Median survival tepat hari ke-120 (kurva tangga melintasi 0,5 di lompatan hari ke-120).",
         "Sensor kanan keluar dari penyebut berisiko — bukan churn, bukan bertahan.",
         "HR = exp(beta): baru 2,0; autopay 0,67.",
         "HR adalah laju, bukan probabilitas; periksa asumsi proportional hazards.",
@@ -170,17 +171,17 @@ export const mle34: V2Lesson = {
         {
           q: "S(90) = 0,63 dan S(120) = 0,4128. Di mana median survival?",
           options: [
-            { text: "Antara hari ke-90 dan ke-120", why: "Tepat: kurva melewati 0,5 di antara kedua titik itu.", correct: true },
+            { text: "Tepat hari ke-120 — kurva tangga melintasi 0,5 saat lompatan di hari ke-120", why: "Tepat: S tetap 0,63 sampai hari ke-120, lalu melompat ke 0,4128. Median adalah t terkecil dengan S(t) ≤ 0,5, yaitu hari ke-120.", correct: true },
             { text: "Tepat hari ke-105 (rata-rata 90 dan 120)", why: "Salah: median tidak harus titik tengah aritmetik; tanpa bentuk kurva antar titik, hanya intervalnya yang diketahui." },
             { text: "Hari ke-90 — S terdekat dengan 0,5", why: "Salah: S(90)=0,63 masih di atas 0,5; median adalah saat kurva MEMOTONG 0,5." },
-            { text: "Tidak bisa ditentukan — butuh rata-rata waktu churn", why: "Salah: median justru bisa dibaca dari kurva; rata-rata yang tidak bisa dihitung bila banyak tersensor." },
+            { text: "Antara hari ke-90 dan ke-120 — kurva melewati 0,5 di antara kedua titik itu", why: "Salah: kurva Kaplan-Meier adalah fungsi tangga — tidak ada 'antara': S tetap 0,63 sampai lompatan tepat di hari ke-120." },
           ],
         },
         {
           q: "Kurva survival dua kelompok bersilangan. Apa yang harus dilakukan?",
           options: [
-            { text: "Laporkan HR tunggal saja — rata-rata selalu benar", why: "Salah: kurva bersilangan berarti asumsi proportional hazards dilanggar; HR tunggal menyesatkan." },
-            { text: "Stratifikasi atau model time-varying; jangan laporkan satu HR", why: "Tepat: rasio hazard tidak konstan sepanjang waktu bila kurva bersilangan.", correct: true },
+            { text: "Laporkan HR tunggal saja — rata-rata selalu benar", why: "Salah: kurva bersilangan berarti asumsi proportional hazards dilanggar; HR tunggal menyembunyikan pembalikan arah." },
+            { text: "Model time-varying / HR per periode / selisih RMST; stratifikasi hanya bila kelompok itu confounder, bukan perbandingan utama", why: "Tepat: rasio hazard tidak konstan sepanjang waktu bila kurva bersilangan — dan menstratifikasi variabel yang dibandingkan justru menghapus perbandingannya.", correct: true },
             { text: "Buang kelompok yang lebih kecil", why: "Salah: membuang data tidak memperbaiki pelanggaran asumsi." },
             { text: "Ganti ke klasifikasi — survival tidak cocok", why: "Salah: masalahnya asumsi model, bukan keluarga survival; stratifikasi menyelesaikannya." },
           ],

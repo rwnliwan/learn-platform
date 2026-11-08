@@ -12,7 +12,7 @@ export const fdp15: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Enam jam membaca, dua puluh lima menit bertanya",
       prose: [
-        "Seorang analis harus menjawab satu pertanyaan sebelum rapat: 'Apa saja risiko utama yang diungkapkan emiten ini di 10-K terbarunya, dan bagaimana ia berubah dari tahun lalu?' Cara lama: membaca 200 halaman filing — enam jam kerja. Cara baru: sistem RAG (retrieval-augmented generation) yang memotong filing menjadi 200 chunk, mengambil 200 chunk yang paling relevan, dan membiarkan LLM menjawab dari chunk itu. Hasilnya: 150 dari 200 chunk yang diambil ternyata relevan — precision 75,0 persen — dan dari 200 chunk relevan yang ada di seluruh filing, 150 tertangkap — recall 75,0 persen. Waktunya: 25 menit, bukan 360 — hemat 93,1 persen.",
+        "Seorang analis harus menjawab satu pertanyaan sebelum rapat: 'Apa saja risiko utama yang diungkapkan emiten ini di 10-K terbarunya, dan bagaimana ia berubah dari tahun lalu?' Cara lama: membaca 200 halaman filing — enam jam kerja. Cara baru: sistem RAG (retrieval-augmented generation) yang memotong filing menjadi 400 chunk, mengambil 200 chunk yang paling relevan, dan membiarkan LLM menjawab dari chunk itu. Hasilnya: 150 dari 200 chunk yang diambil ternyata relevan — precision 75,0 persen — dan dari 200 chunk relevan yang ada di seluruh filing, 150 tertangkap — recall 75,0 persen. Waktunya: 25 menit, bukan 360 — hemat 93,1 persen. (Korpusnya 400 chunk, bukan 200: bila korpus hanya 200 chunk dan semuanya diambil, recall akan 100 persen secara trivial — dan angka 75 persen tidak mungkin. Selalu periksa apakah angka retrieval-mu konsisten dengan ukuran korpusnya.)",
         "Tetapi jawaban LLM itu tidak langsung dipercaya. Setiap klaim jawaban harus bisa dilacak ke chunk sumbernya — halaman dan paragraf — karena LLM yang menjawab tanpa sumber adalah LLM yang bisa mengarang dengan percaya diri. Lesson ini mengajarkan riset filings berbantuan AI: cara kerja RAG, cara mengukur precision dan recall-nya, dan disiplin sitasi yang membuat jawabannya bisa diaudit.",
       ],
       tasks: [],
@@ -20,7 +20,7 @@ export const fdp15: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "FDP2 mengajarkan mengambil filing dari EDGAR dan FDP3 mengajarkan parsing strukturnya — tetapi keduanya berhenti di data terstruktur. Tidak ada lesson tentang riset berbantuan AI atas TEKS filing: chunking, retrieval, dan jawaban LLM yang tersitasi. Lesson ini membangun lapis itu di atas FDP2 dan FDP3.",
       },
-      reference: "200 chunk diambil, 150 relevan (precision 75,0 persen); 200 relevan di korpus, 150 tertangkap (recall 75,0 persen); 25 menit vs 360 menit (hemat 93,1 persen).",
+      reference: "Korpus 400 chunk; 200 chunk diambil, 150 relevan (precision 75,0 persen); 200 relevan di korpus, 150 tertangkap (recall 75,0 persen); 25 menit vs 360 menit (hemat 93,1 persen).",
     },
     {
       id: "tujuan",
@@ -41,16 +41,16 @@ export const fdp15: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Cara kerja RAG: potong, cari, jawab",
       prose: [
-        "Langkah pertama: chunking — filing 200 halaman dipotong menjadi potongan-potongan kecil, misalnya 500 kata per chunk dengan tumpang tindih 50 kata. Tumpang tindih itu penting: kalimat yang terpotong di batas chunk kehilangan konteksnya, dan jawaban yang dibangun dari kalimat yang terpotong adalah jawaban yang cacat. Chunking yang buruk — memotong di tengah tabel atau di tengah definisi risiko — merusak semua langkah sesudahnya.",
-        "Langkah kedua: embedding dan retrieval. Setiap chunk diubah menjadi vektor angka (embedding) yang menangkap maknanya, dan pertanyaan analis juga diubah menjadi vektor yang sama. Sistem mengambil chunk yang vektornya paling dekat dengan vektor pertanyaan — 200 chunk teratas dalam cerita pembuka. Langkah ketiga: generasi. LLM menerima pertanyaan plus 200 chunk itu dan menulis jawaban — tetapi HANYA dari chunk yang diberikan, bukan dari ingatannya sendiri.",
-        "Pemisahan ini adalah inti disiplinnya: LLM yang menjawab dari ingatannya (tanpa retrieval) adalah LLM yang mengarang; LLM yang menjawab dari chunk yang diberikan adalah LLM yang merangkum. Perbedaannya terlihat di sitasi: jawaban RAG yang baik mencantumkan nomor chunk dan halaman untuk tiap klaim — sehingga analis bisa mengklik dan memeriksa sendiri.",
+        "Langkah pertama: chunking — filing 200 halaman dipotong menjadi potongan-potongan kecil, misalnya 250 kata per chunk dengan tumpang tindih 50 kata (200 halaman x sekitar 500 kata per halaman sama dengan 100.000 kata, menjadi 400 chunk). Tumpang tindih itu penting: kalimat yang terpotong di batas chunk kehilangan konteksnya, dan jawaban yang dibangun dari kalimat yang terpotong adalah jawaban yang cacat. Chunking yang buruk — memotong di tengah tabel atau di tengah definisi risiko — merusak semua langkah sesudahnya.",
+        "Langkah kedua: embedding dan retrieval. Setiap chunk diubah menjadi vektor angka (embedding) yang menangkap maknanya, dan pertanyaan analis juga diubah menjadi vektor yang sama. Sistem mengambil chunk yang vektornya paling dekat dengan vektor pertanyaan — 200 chunk teratas dari 400 chunk dalam cerita pembuka. Langkah ketiga: generasi. LLM menerima pertanyaan plus 200 chunk itu dan menulis jawaban — sedapat mungkin HANYA dari chunk yang diberikan, bukan dari ingatannya sendiri. Grounding MENGURANGI halusinasi, bukan menghilangkannya: LLM masih bisa salah membaca chunk, menggabungkan dua chunk secara keliru, atau menyelipkan pengetahuan di luar chunk — itulah kenapa sitasi wajib diperiksa, bukan sekadar ada.",
+        "Pemisahan ini adalah inti disiplinnya: LLM yang menjawab dari ingatannya (tanpa retrieval) adalah LLM yang mengarang; LLM yang menjawab dari chunk yang diberikan adalah LLM yang merangkum — dengan risiko salah rangkum yang tetap ada. Perbedaannya terlihat di sitasi: jawaban RAG yang baik mencantumkan nomor chunk dan halaman untuk tiap klaim — sehingga analis bisa mengklik dan memeriksa sendiri. Sitasi yang bisa diklik adalah alat verifikasi, bukan jaminan kebenaran: sitasi palsu (nomor chunk yang tidak berisi klaim itu) tetap mungkin, dan hanya pemeriksaan chunk yang membuktikannya.",
       ],
       tasks: [],
       note: {
         title: "RAG bukan mesin pencari yang pintar",
         body: "RAG tidak 'memahami' filing — ia mencocokkan vektor dan merangkum teks yang cocok. Bila chunk yang relevan tidak tertangkap retrieval (recall 75 persen berarti 50 chunk relevan terlewat), jawaban akan kehilangan seperempat buktinya — dan LLM tidak akan pernah berkata 'saya kehilangan 50 chunk'. Selalu laporkan recall bersama jawabannya.",
       },
-      reference: "Chunk 500 kata + tumpang tindih 50 kata; retrieval 200 chunk teratas; jawaban hanya dari chunk yang diberikan.",
+      reference: "Chunk 250 kata + tumpang tindih 50 kata; korpus 400 chunk; retrieval 200 chunk teratas; grounding mengurangi — bukan menjamin hilangnya — halusinasi.",
     },
     {
       id: "evaluasi-sitasi",
@@ -59,7 +59,7 @@ export const fdp15: V2Lesson = {
       prose: [
         "Precision retrieval: dari 200 chunk yang diambil, 150 relevan — 150 dibagi 200 dikali 100 sama dengan 75,0 persen. Artinya seperempat konteks yang diberikan ke LLM adalah noise — dan noise itu bisa masuk ke jawaban sebagai klaim yang salah. Recall retrieval: dari 200 chunk relevan yang ada di seluruh filing, 150 tertangkap — 150 dibagi 200 dikali 100 sama dengan 75,0 persen. Artinya seperempat bukti tidak pernah sampai ke LLM.",
         "Kedua angka 75,0 persen itu bukan kebetulan — keduanya dihitung dari angka 150 yang sama, tetapi dari pembagi yang berbeda: precision membagi dengan yang diambil, recall membagi dengan yang ada. Keduanya harus dilaporkan berdampingan: precision tanpa recall menyembunyikan bukti yang hilang; recall tanpa precision menyembunyikan noise yang masuk.",
-        "Disiplin sitasi menegakkan kejujuran jawaban. Aturannya: setiap klaim faktual dalam jawaban wajib punya sitasi ke chunk — nomor chunk dan halaman filing. Klaim tanpa sitasi ditandai dan tidak boleh dikutip ke rapat. Dan satu aturan terakhir: jawaban RAG tidak pernah menjadi satu-satunya sumber untuk keputusan investasi — ia adalah titik awal riset, dan analis wajib membaca chunk sumbernya sebelum mengutip jawabannya.",
+        "Disiplin sitasi membantu menegakkan kejujuran jawaban — tetapi ia bukan jaminan: RAG tidak menjamin tidak ada halusinasi, grounding hanya menurunkan peluangnya. Aturannya: setiap klaim faktual dalam jawaban wajib punya sitasi ke chunk — nomor chunk dan halaman filing — DAN sitasi itu wajib diperiksa (buka chunk-nya, cocokkan isinya). Klaim tanpa sitasi ditandai dan tidak boleh dikutip ke rapat. Dan satu aturan terakhir: jawaban RAG tidak pernah menjadi satu-satunya sumber untuk keputusan investasi — ia adalah titik awal riset, dan analis wajib membaca chunk sumbernya sebelum mengutip jawabannya.",
       ],
       tasks: [],
       note: {
@@ -75,7 +75,7 @@ export const fdp15: V2Lesson = {
       prose: [
         "Lab ini menghitung tiga angka riset berbantuan AI: precision retrieval, recall retrieval, dan persentase waktu yang dihemat. Hitung dulu di kepala. Precision: 150 dibagi 200 dikali 100 sama dengan 75,0 persen. Recall: 150 dibagi 200 dikali 100 sama dengan 75,0 persen. Hemat waktu: 360 dikurangi 25 sama dengan 335 menit; 335 dibagi 360 dikali 100 sama dengan 93,1 persen (pembulatan satu desimal).",
         "Tugas lab: isi tiga variabel — precision, recall, hemat_pct — lalu cetak ketiganya. Tiga angka ini adalah laporan kualitas sistem RAG: seberapa tepat pengambilannya, seberapa lengkap, dan seberapa besar ia menghemat waktu.",
-        "Setelah lolos, coba eksperimen: turunkan chunk relevan yang tertangkap menjadi 120 dan lihat recall jatuh ke 60,0 persen — lalu tanyakan: apakah jawaban RAG itu masih boleh dipakai? Jawabannya: hanya sebagai draf awal yang wajib dilengkapi pembacaan manual — 40 persen bukti hilang berarti jawaban itu tidak lengkap, berapa pun bagusnya tulisannya.",
+        "Setelah lolos, coba eksperimen: turunkan chunk relevan yang tertangkap menjadi 120 dan lihat recall jatuh ke 60,0 persen (120 dari 200 relevan di korpus) — lalu tanyakan: apakah jawaban RAG itu masih boleh dipakai? Jawabannya: hanya sebagai draf awal yang wajib dilengkapi pembacaan manual — 40 persen bukti hilang berarti jawaban itu tidak lengkap, berapa pun bagusnya tulisannya.",
       ],
       tasks: [
         { id: "t1", text: "Hitung precision retrieval dalam persen" },
@@ -97,6 +97,10 @@ export const fdp15: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "recall=75.0", label: "Recall 75,0 persen", msg: "150 / 200 x 100 = 75,0. Seperempat bukti tidak pernah sampai ke LLM." },
           { kind: "stdout_matches", task: "t3", pattern: "hemat_pct=93.1", label: "Hemat 93,1 persen", msg: "(360 - 25) / 360 x 100 = 93,06, dibulatkan 93,1. Waktu yang dihemat dipakai untuk memeriksa chunk sumber." },
         ],
+      },
+      note: {
+        title: "Pelabelan relevansi + batas konteks (cara mengukur yang jujur)",
+        body: "Precision dan recall di lesson ini memakai label relevansi yang diasumsikan sudah ada — dalam praktik, label itu harus dibuat: ambil sampel chunk yang diambil (misalnya 50 chunk), beri label relevan/tidak oleh analis manusia, dan laporkan precision dari sampel itu beserta ukuran sampelnya. Tanpa pelabelan, precision/recall adalah angka tanpa dasar. Batas kedua: konteks. 200 chunk x 250 kata jauh melampaui context window kebanyakan model — sistem nyata memakai top-k yang lebih kecil atau reranking sesudah retrieval, dan membandingkan dua filing berarti retrieval terpisah per filing (chunk filing A tidak boleh menjawab pertanyaan tentang filing B).",
       },
       reference: "Precision 75,0 persen; recall 75,0 persen; hemat 93,1 persen.",
     },
@@ -155,7 +159,7 @@ export const fdp15: V2Lesson = {
           q: "Jawaban RAG berisi klaim tanpa sitasi ke chunk. Apa yang harus dilakukan?",
           options: [
             { text: "Kutip saja — tulisannya rapi dan meyakinkan", why: "Salah: klaim tanpa sitasi bisa jadi karangan LLM dari ingatannya, bukan dari filing." },
-            { text: "Jangan kutip — periksa chunk sumbernya dulu, atau buang klaim itu", why: "Tepat: disiplin sitasi adalah satu-satunya yang memisahkan ringkasan dari karangan.", correct: true },
+            { text: "Jangan kutip — periksa chunk sumbernya dulu, atau buang klaim itu", why: "Tepat: sitasi yang diperiksa adalah yang memisahkan ringkasan dari karangan — tetapi sitasi saja bukan jaminan; chunk-nya sendiri harus dibaca.", correct: true },
             { text: "Minta LLM membuatkan sitasi", why: "Salah: sitasi yang dibuat LLM tanpa chunk adalah karangan kedua yang menyamar sebagai bukti." },
             { text: "Abaikan — satu klaim tidak memengaruhi jawaban", why: "Salah: satu klaim yang salah di memo investasi bisa mengubah keputusan." },
           ],

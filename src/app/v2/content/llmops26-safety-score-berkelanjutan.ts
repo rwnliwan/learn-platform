@@ -43,12 +43,13 @@ export const llmops26: V2Lesson = {
       title: "Skor komposit: satu angka, empat kategori, bobot yang jujur",
       prose: [
         "Safety score = jumlah (bobot x pass rate) per kategori. Bobot mencerminkan dampak: jailbreak 30 persen, PII 30 persen, toksisitas 20 persen, halusinasi 20 persen. Pass rate kuartal ini: jailbreak 97, PII 99, toksisitas 94, halusinasi 88. Skor = 0,3 x 97 + 0,3 x 99 + 0,2 x 94 + 0,2 x 88 = 29,1 + 29,7 + 18,8 + 17,6 = 95,2. Kuartal lalu 93,8 — tren +1,4 poin. Ambang rilis 95: 95,2 lolos — tipis.",
-        "Satu angka tidak cukup: ia harus disertai skor minimum per kategori. Halusinasi 88 adalah yang terendah — bila ambang per kategori adalah 85, ia lolos; bila ambang 90, ia gagal walau skor komposit 95,2. Inilah jebakan rata-rata: kategori yang runtuh bisa disembunyikan oleh kategori yang kuat. Aturan: rilis butuh komposit di atas 95 DAN tiap kategori di atas ambangnya. Dua gerbang, bukan satu.",
+        "Satu angka tidak cukup: ia harus disertai skor minimum per kategori. Halusinasi 88 adalah yang terendah — bila ambang per kategori adalah 85, ia lolos; bila ambang 90, ia gagal walau skor komposit 95,2. Inilah jebakan rata-rata: kategori yang runtuh bisa disembunyikan oleh kategori yang kuat. Aturan: rilis butuh komposit MENCAPAI 95 (≥95) DAN tiap kategori MENCAPAI ambangnya (≥85). Dua gerbang, bukan satu.",
+        "Satu peringatan tentang ketelitian: pass rate tiap kategori diukur dari 100–200 prompt, jadi 1–2 poin perubahan bisa jadi noise sampling, bukan sinyal. Untuk n=200, simpangan baku pass rate sekitar 1,5–2,5 poin per kategori (tergantung p) — skor kompositnya lebih stabil karena merata-rata empat kategori. Jangan bereaksi pada perubahan 1 poin dalam satu kuartal; baca tren 2 kuartal. Bila skor turun 1 poin tetapi masih dalam noise, catat dan pantau; bila turun 3 poin atau lebih dua kuartal berturut-turut, itu sinyal — selidiki.",
         "Bobot bukan tebakan: ia diputuskan bersama security (likelihood) dan product (impact) — sama seperti skor risiko LLMOps9. PII berbobot 30 persen karena dendanya miliaran (UU PDP); halusinasi 20 persen karena dampaknya reputasi, bukan denda. Bobot di-review tiap tahun — bila regulasi berubah, bobot berubah, dan skor historis dihitung ulang agar tren tetap bisa dibandingkan.",
       ],
       tasks: [],
       formula: "\\mathrm{Score} = \\sum_c w_c \\cdot \\mathrm{pass}_c, \\qquad \\sum_c w_c = 1",
-      formulaNote: "w = bobot kategori; pass = pass rate kategori (0-100). Rilis butuh Score di atas ambang DAN tiap pass_c di atas ambang kategorinya.",
+      formulaNote: "w = bobot kategori; pass = pass rate kategori (0-100). Rilis butuh Score ≥ ambang DAN tiap pass_c ≥ ambang kategorinya.",
       note: {
         title: "Pass rate diukur dari apa",
         body: "Tiap kategori punya suite serangan standar yang TETAP antar kuartal (dataset emas keamanan): 200 prompt jailbreak, 150 upaya ekstraksi PII, 100 prompt toksik, 100 pertanyaan halusinasi. Suite yang berubah tiap kuartal membuat tren tidak bisa dibandingkan — sama seperti benchmark yang berubah (AAI8). Tambah serangan baru BOLEH, tetapi suite inti harus tetap.",
@@ -60,14 +61,14 @@ export const llmops26: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Loop berkelanjutan: uji, skor, perbaiki, uji ulang",
       prose: [
-        "Loop-nya empat langkah. (1) Uji: tiap rilis menjalankan suite keamanan otomatis (10 menit); tiap kuartal red team manusia + otomatis dengan teknik terbaru. (2) Skor: hitung komposit + per kategori; bandingkan dengan kuartal lalu. (3) Vonis: di atas 95 dan semua kategori di atas ambang = rilis; komposit di bawah 95 ATAU satu kategori di bawah ambang = tahan, perbaiki. (4) Perbaiki: guardrail baru, data training tambahan, atau eskalasi — lalu uji ulang HANYA kategori yang gagal (cepat) + uji penuh sebelum rilis (lengkap).",
+        "Loop-nya empat langkah. (1) Uji: tiap rilis menjalankan suite keamanan otomatis (10 menit); tiap kuartal red team manusia + otomatis dengan teknik terbaru. (2) Skor: hitung komposit + per kategori; bandingkan dengan kuartal lalu. (3) Vonis: mencapai 95 (≥95) dan semua kategori mencapai ambang (≥85) = rilis; komposit di bawah 95 ATAU satu kategori di bawah ambang = tahan, perbaiki. (4) Perbaiki: guardrail baru, data training tambahan, atau eskalasi — lalu uji ulang HANYA kategori yang gagal (cepat) + uji penuh sebelum rilis (lengkap).",
         "Kecepatan loop menentukan keamanan: bila suite otomatis 10 menit, tiap rilis bisa diuji. Bila suite butuh 3 hari manual, tim akan 'melewatkan sekali ini' — dan sekali itu menjadi kebiasaan. Investasi terbesar safety berkelanjutan bukan red team-nya, melainkan OTOMASI suite-nya: red team manusia menemukan serangan baru; otomatisasi memastikan serangan lama tidak pernah kembali lolos (regression).",
-        "Darurat: bila satu kategori jatuh di bawah 70 (misalnya PII 65 setelah update model), rilis DITAHAN dan model lama dipertahankan — walau komposit masih di atas 95. Ambang darurat per kategori adalah rem yang tidak bisa dinegosiasi. Tulis ambang ini sebelum insiden; menegosiasikannya saat insiden berarti sudah kalah.",
+        "Darurat: bila satu kategori jatuh di bawah 70 (misalnya PII 65 setelah update model), rilis DITAHAN dan model lama dipertahankan. Kompositnya pun ikut jatuh — dengan PII 65, komposit paling tinggi 89,5 (0,3 x 65 + 0,7 x 100), sudah di bawah ambang 95 — tetapi yang memicu penahanan DARURAT adalah gerbang kategori itu sendiri, bukan kompositnya: eskalasi dan perbaikan dimulai segera, tanpa menunggu tren kuartal. Tulis ambang ini sebelum insiden; menegosiasikannya saat insiden berarti sudah kalah.",
       ],
       tasks: [],
       note: {
         title: "Keamanan meluruh — skor harus naik, bukan stagnan",
-        body: "Penyerang belajar tiap minggu; suite yang sama yang memberi 95,2 hari ini akan memberi 93 tahun depan bila tidak ada perbaikan — karena teknik baru tidak ada di suite lama. Tren yang DATAR sebenarnya adalah penurunan yang tertunda. Target yang sehat: skor naik 1-2 poin per kuartal, didorong perbaikan berkelanjutan — bukan stagnan di 95,2 sambil merasa aman.",
+        body: "Penyerang belajar tiap minggu; suite yang BEKU tidak bisa menangkap teknik baru — skornya akan tetap DATAR (95,2 hari ini, 95,2 tahun depan) sementara keamanan SEBENARNYA meluruh, karena serangan baru tidak ada di suite lama. Itulah mengapa suite inti tetap (agar tren sebanding) TETAPI serangan baru DITAMBAHKAN tiap kuartal (agar suite tidak buta): tren yang datar pada suite yang diperbarui adalah penurunan yang tertunda. Target yang sehat: skor naik 1-2 poin per kuartal pada suite yang diperbarui, didorong perbaikan berkelanjutan — bukan stagnan di 95,2 sambil merasa aman.",
       },
       reference: "Loop: uji tiap rilis (10 menit) + red team kuartalan; darurat bila kategori di bawah 70.",
     },
@@ -77,14 +78,14 @@ export const llmops26: V2Lesson = {
       title: "Lab: skor komposit, tren, dan vonis rilis",
       prose: [
         "Lab ini menghitung safety score berkelanjutan dari angka mentah: skor komposit berbobot, tren kuartal, dan vonis rilis.",
-        "Hitung dulu di kepala. Skor: 0,3 x 97 = 29,1; 0,3 x 99 = 29,7; 0,2 x 94 = 18,8; 0,2 x 88 = 17,6; total 95,2. Tren: 95,2 - 93,8 = +1,4. Vonis: skor 95,2 di atas ambang 95 DAN kategori terendah 88 di atas ambang kategori 85 — lolos (1).",
-        "Tugas lab: hitung empat angka dan cetak masing-masing di baris sendiri: skor, tren, kategori_min, lolos (1 bila skor di atas 95 DAN kategori_min di atas 85; 0 bila tidak). Empat angka ini adalah vonis rilis — dengan ini 'aman' menjadi klaim yang terukur, bukan perasaan.",
+        "Hitung dulu di kepala. Skor: 0,3 x 97 = 29,1; 0,3 x 99 = 29,7; 0,2 x 94 = 18,8; 0,2 x 88 = 17,6; total 95,2. Tren: 95,2 - 93,8 = +1,4. Vonis: skor 95,2 mencapai ambang 95 (≥95) DAN kategori terendah 88 mencapai ambang kategori 85 (≥85) — lolos (1).",
+        "Tugas lab: hitung empat angka dan cetak masing-masing di baris sendiri: skor, tren, kategori_min, lolos (1 bila skor ≥95 DAN kategori_min ≥85; 0 bila tidak). Empat angka ini adalah vonis rilis — dengan ini 'aman' menjadi klaim yang terukur, bukan perasaan.",
         "Setelah lolos, coba eksperimen: turunkan halusinasi menjadi 84 dan lihat vonis berubah menjadi 0 walau skor komposit masih 94,4 — lalu tanyakan: apakah timmu berani menahan rilis karena satu kategori?",
       ],
       tasks: [
         { id: "t1", text: "Hitung `skor` komposit dari empat kategori berbobot" },
         { id: "t2", text: "Hitung `tren` vs kuartal lalu (93,8) dan `kategori_min`" },
-        { id: "t3", text: "Tentukan `lolos` (skor di atas 95 DAN kategori_min di atas 85)" },
+        { id: "t3", text: "Tentukan `lolos` (skor ≥95 DAN kategori_min ≥85)" },
       ],
       expected: "skor=95.2\ntren=1.4\nkategori_min=88\nlolos=1",
       hints: [
@@ -100,7 +101,7 @@ export const llmops26: V2Lesson = {
           { kind: "equal", task: "t1", name: "skor", value: 95.2, tol: 0.1, label: "`skor` seharusnya 95.2", msg: "29,1+29,7+18,8+17,6 = 95,2." },
           { kind: "equal", task: "t2", name: "tren", value: 1.4, tol: 0.1, label: "`tren` seharusnya 1.4", msg: "95,2-93,8 = +1,4." },
           { kind: "equal", task: "t2", name: "kategori_min", value: 88, tol: 1e-9, label: "`kategori_min` seharusnya 88", msg: "Halusinasi 88 adalah yang terendah." },
-          { kind: "equal", task: "t3", name: "lolos", value: 1, tol: 1e-9, label: "`lolos` seharusnya 1", msg: "95,2 di atas 95 DAN 88 di atas 85 — lolos tipis." },
+          { kind: "equal", task: "t3", name: "lolos", value: 1, tol: 1e-9, label: "`lolos` seharusnya 1", msg: "95,2 ≥ 95 DAN 88 ≥ 85 — lolos tipis." },
         ],
       },
       reference: "Skor 95,2; tren +1,4; min 88; LOLOS.",
@@ -111,9 +112,9 @@ export const llmops26: V2Lesson = {
       title: "Peta keputusan: kapan rilis, kapan tahan",
       prose: [
         "Skenario 1 — Skor 95,2, semua kategori di atas ambang. → Rilis. Alasan: dua gerbang lolos; catat halusinasi 88 sebagai perbaikan kuartal depan.",
-        "Skenario 2 — Skor 96 tetapi PII 82 (di bawah ambang 85). → TAHAN. Alasan: rata-rata menyembunyikan kategori yang runtuh; PII adalah denda miliaran.",
+        "Skenario 2 — Skor 95,2 tetapi PII 84 (di bawah ambang 85). → TAHAN. Alasan: rata-rata menyembunyikan kategori yang runtuh; PII adalah denda miliaran.",
         "Skenario 3 — Satu kategori di bawah 70 (darurat). → TAHAN + pertahankan model lama + eskalasi. Alasan: rem darurat tidak bisa dinegosiasi.",
-        "Skenario 4 — Skor turun 2 kuartal berturut-turut walau masih di atas 95. → Investigasi: penyerang belajar lebih cepat dari perbaikanmu. Alasan: tren turun adalah peringatan dini; menunggu di bawah ambang berarti terlambat.",
+        "Skenario 4 — Skor turun 2 kuartal berturut-turut walau masih ≥95. → Investigasi: penyerang belajar lebih cepat dari perbaikanmu. Alasan: tren turun adalah peringatan dini; menunggu di bawah ambang berarti terlambat.",
         "Skenario 5 — Suite otomatis 10 menit, red team kuartalan menemukan teknik baru. → Masukkan teknik baru ke suite otomatis (regression). Alasan: serangan yang ditemukan manusia harus tidak pernah lolos lagi secara otomatis.",
         "Aturan praktis: skor dibaca tiap rilis, tren dibaca tiap kuartal, bobot di-review tiap tahun. Keamanan yang tidak dibaca adalah keamanan yang tidak ada.",
       ],
@@ -135,7 +136,7 @@ export const llmops26: V2Lesson = {
       summary: [
         "Skor komposit 95,2 (bobot 30/30/20/20); tren +1,4.",
         "Kategori terendah 88 (halusinasi) — di atas ambang 85, lolos tipis.",
-        "Rilis butuh komposit di atas 95 DAN tiap kategori di atas ambang.",
+        "Rilis butuh komposit ≥95 DAN tiap kategori ≥ ambangnya.",
         "Suite inti tetap antar kuartal agar tren bisa dibandingkan.",
         "Darurat: kategori di bawah 70 = tahan + pertahankan model lama.",
       ],
@@ -144,16 +145,16 @@ export const llmops26: V2Lesson = {
         {
           q: "Skor komposit 95,2, ambang 95, kategori terendah 88 (ambang 85). Apa vonisnya?",
           options: [
-            { text: "Lolos — dua gerbang terpenuhi", why: "Tepat: 95,2 di atas 95 DAN 88 di atas 85.", correct: true },
+            { text: "Lolos — dua gerbang terpenuhi", why: "Tepat: 95,2 ≥ 95 DAN 88 ≥ 85.", correct: true },
             { text: "Tahan — 95,2 terlalu tipis", why: "Salah: tipis bukan gagal; ambang adalah ambang. Catat sebagai perbaikan, tetapi rilis." },
             { text: "Lolos — skor komposit saja yang dinilai", why: "Salah: vonis butuh DUA gerbang; kategori bisa runtuh di balik rata-rata." },
-            { text: "Tahan — halusinasi 88 terlalu rendah", why: "Salah: 88 di atas ambang kategori 85; yang gagal adalah di bawah 85." },
+            { text: "Tahan — halusinasi 88 terlalu rendah", why: "Salah: 88 mencapai ambang kategori 85 (≥85); yang gagal adalah di bawah 85." },
           ],
         },
         {
-          q: "Skor komposit 96 tetapi PII 82 (ambang 85). Apa vonisnya?",
+          q: "Skor komposit 95,2 tetapi PII 84 (ambang 85). Apa vonisnya?",
           options: [
-            { text: "Lolos — komposit di atas 95", why: "Salah: rata-rata menyembunyikan kategori yang runtuh; PII adalah denda miliaran." },
+            { text: "Lolos — komposit mencapai 95", why: "Salah: rata-rata menyembunyikan kategori yang runtuh; PII adalah denda miliaran." },
             { text: "TAHAN — satu kategori di bawah ambang membatalkan komposit", why: "Tepat: dua gerbang, bukan satu.", correct: true },
             { text: "Lolos dengan catatan", why: "Salah: 'catatan' tidak melindungi dari denda UU PDP; tahan dan perbaiki." },
             { text: "Turunkan ambang PII menjadi 80 agar lolos", why: "Salah: mengubah ambang untuk meloloskan angka adalah manipulasi." },
@@ -180,7 +181,7 @@ export const llmops26: V2Lesson = {
         {
           q: "Kategori PII jatuh ke 65 setelah update model. Apa yang benar?",
           options: [
-            { text: "Rilis saja — komposit masih di atas 95", why: "Salah: di bawah 70 adalah darurat; komposit tidak bisa menutupi." },
+            { text: "Rilis saja — komposit masih di atas 95", why: "Salah: dengan PII 65, komposit paling tinggi 89,5 — sudah di bawah 95; dan di bawah 70 adalah darurat yang tidak bisa ditutupi komposit apa pun." },
             { text: "TAHAN + pertahankan model lama + eskalasi", why: "Tepat: rem darurat tidak bisa dinegosiasi.", correct: true },
             { text: "Tunggu kuartal depan — mungkin membaik sendiri", why: "Salah: keamanan tidak membaik sendiri; penyerang justru memanfaatkan celah yang diketahui." },
             { text: "Hapus kategori PII dari skor agar komposit naik", why: "Salah: menghapus metrik yang buruk adalah manipulasi, bukan perbaikan." },

@@ -12,7 +12,7 @@ export const mk33: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Influencer dengan 1 juta follower yang tidak menjual apa-apa",
       prose: [
-        "KirimCepat membayar influencer dengan 1 juta follower untuk kampanye — hasilnya 12 order. Di saat yang sama, seorang pelanggan biasa dengan 800 follower merekomendasikan produk di grup chat — hasilnya 340 order. Follower bukan pengaruh; pengaruh adalah posisi di jaringan.",
+        "KirimCepat membayar influencer dengan 1 juta follower untuk kampanye — hasilnya 12 order. Di saat yang sama, seorang pelanggan biasa dengan 800 follower merekomendasikan produk di grup chat — hasilnya 340 order. Follower bukan pengaruh; posisi di jaringan adalah SALAH SATU penjelas pengaruh — bukan satu-satunya: konten, kredibilitas, dan waktu juga menentukan apakah orang mendengar. Lesson ini mengukur posisi; jangan membaca 'posisi tinggi = pasti berpengaruh'.",
         "Social network analysis (SNA) mengukur posisi itu: siapa terhubung ke siapa, siapa jembatan antar kelompok, dan siapa yang bila berbicara didengar banyak kelompok sekaligus. Influencer sejuta follower itu berada di pinggir jaringan — banyak follower, sedikit koneksi yang saling mengenal. Pelanggan biasa itu berada di tengah — jembatan tiga komunitas.",
         "Lesson ini mengajarkan SNA untuk marketing: graf, sentralitas, komunitas, dan difusi. Setelah lesson ini kamu bisa: (1) membangun graf dari interaksi pelanggan; (2) menghitung degree centrality dan densitas; (3) menemukan jembatan antar komunitas; (4) menjelaskan difusi dan threshold adopsi; (5) memilih seed untuk kampanye referral.",
       ],
@@ -59,7 +59,7 @@ export const mk33: V2Lesson = {
       title: "Komunitas dan difusi: bagaimana ide menyebar",
       prose: [
         "Komunitas adalah kelompok node yang saling terhubung rapat di dalam dan jarang ke luar. Menemukannya berarti kampanye bisa disesuaikan per komunitas — pesan yang bekerja di komunitas ibu muda belum tentu bekerja di komunitas gamer. Dan jembatan antar komunitas adalah orang yang paling berharga: satu jembatan bisa membawa pesan ke komunitas yang tidak terjangkau iklan.",
-        "Difusi mengikuti threshold: seseorang mengadopsi bila cukup banyak tetangganya sudah mengadopsi. Threshold rendah (1 tetangga cukup) berarti kaskade cepat — satu seed bisa menyalakan seluruh jaringan. Threshold tinggi berarti butuh banyak seed di banyak komunitas sekaligus. Kampanye referral yang gagal biasanya salah membaca threshold: satu seed di jaringan ber-threshold tinggi hanya menyalakan tetangganya, lalu padam.",
+        "Difusi mengikuti threshold: seseorang mengadopsi bila cukup banyak tetangganya sudah mengadopsi. Threshold rendah (1 tetangga cukup) berarti kaskade cepat — satu seed bisa menyalakan seluruh jaringan. Threshold tinggi berarti butuh banyak seed di banyak komunitas sekaligus. Kampanye referral yang gagal biasanya salah membaca threshold: satu seed di jaringan ber-threshold 2 tidak menyalakan SIAPA PUN — tiap tetangga baru punya 1 tetangga yang mengadopsi, di bawah ambang 2 — dan pada threshold yang lebih tinggi lagi, satu seed bahkan tidak pernah memulai apa-apa.",
         "Aturan seed: pilih sedikit seed dengan betweenness tinggi di banyak komunitas — bukan banyak seed di satu komunitas. Dan ukur difusi per komunitas, bukan total: total 340 order yang 320-nya dari satu komunitas berarti dua komunitas lain belum tersentuh.",
       ],
       tasks: [],
@@ -93,6 +93,10 @@ export const mk33: V2Lesson = {
           { kind: "stdout_matches", task: "t1", pattern: "sentralitas_a=0.8", label: "Sentralitas A 0,8", msg: "4 / 5 = 0,8. Node A terhubung ke 4 dari 5 node lain." },
           { kind: "stdout_matches", task: "t2", pattern: "densitas=0.53", label: "Densitas 0,53", msg: "16 / 30 = 0,53. Separuh lebih pasangan yang mungkin saling terhubung." },
         ],
+      },
+      note: {
+        title: "Membangun graf dari edge list (demo)",
+        body: "Interaksi pelanggan ditulis sebagai daftar pasangan — [('A','B'), ('A','C'), ('B','C'), ('A','D'), ('D','E'), ('E','F')] — lalu diubah menjadi adjacency dict: tiap node memetakan ke himpunan tetangganya. Derajat node = panjang himpunan tetangganya; jumlah edge = panjang daftar pasangan. Intinya: graf dimulai dari daftar interaksi mentah, bukan dari angka jadi — dan pilihan 'apa yang dihitung sebagai edge' (balasan? share? grup yang sama?) menentukan seluruh hasil analisis.",
       },
       reference: "Sentralitas A 0,8; densitas 0,53.",
     },
@@ -141,7 +145,7 @@ export const mk33: V2Lesson = {
         {
           q: "Influencer sejuta follower hanya menjual 12 order, pelanggan 800 follower menjual 340. Apa penjelasannya?",
           options: [
-            { text: "Pengaruh adalah posisi di graf interaksi — pelanggan itu jembatan tiga komunitas", why: "Tepat: follower mengukur jangkauan potensial; posisi di jaringan mengukur pengaruh.", correct: true },
+            { text: "Pengaruh adalah posisi di graf interaksi — pelanggan itu jembatan tiga komunitas", why: "Tepat: follower mengukur jangkauan potensial; posisi di graf interaksi adalah ukuran pengaruh yang dipakai lesson ini — bukan satu-satunya penentu pengaruh di dunia nyata.", correct: true },
             { text: "Follower influencer pasti bot", why: "Salah: tidak ada bukti bot — posisinya di jaringan yang menjelaskan." },
             { text: "Produknya tidak cocok untuk follower influencer", why: "Salah: tidak ada bukti ketidakcocokan produk — jaringanlah pembedanya." },
             { text: "Kampanye influencer selalu gagal", why: "Salah: generalisasi tanpa dasar — influencer bisa berhasil bila posisinya di tengah jaringan." },
@@ -157,11 +161,11 @@ export const mk33: V2Lesson = {
           ],
         },
         {
-          q: "Jaringan ber-threshold tinggi diberi satu seed. Apa yang terjadi?",
+          q: "Jaringan dengan threshold 2 (tiap orang butuh 2 tetangga yang sudah mengadopsi) diberi satu seed. Apa yang terjadi?",
           options: [
             { text: "Kaskade menyalakan seluruh jaringan", why: "Salah: itu yang terjadi pada threshold rendah — satu tetangga cukup." },
-            { text: "Tidak ada yang terjadi sama sekali", why: "Salah: tetangga langsung seed tetap bisa terpengaruh — hanya saja kaskade tidak berlanjut." },
-            { text: "Seed menyalakan tetangganya lalu padam — butuh banyak seed tersebar", why: "Tepat: threshold tinggi berarti tiap orang butuh banyak tetangga yang sudah mengadopsi.", correct: true },
+            { text: "Tidak ada tetangga yang teraktivasi — tiap tetangga hanya punya 1 tetangga yang mengadopsi", why: "Tepat: pada threshold 2, tetangga seed hanya punya 1 tetangga yang mengadopsi (seed itu sendiri) — di bawah ambang 2 — jadi kaskade tidak pernah mulai.", correct: true },
+            { text: "Seed menyalakan tetangganya lalu padam", why: "Salah: pada threshold 2, tetangga seed tidak menyala sama sekali — mereka butuh 2 tetangga yang mengadopsi dan baru punya 1. 'Menyala lalu padam' terjadi pada threshold yang lebih rendah dengan jangkauan terbatas.", correct: false },
             { text: "Seed berpindah komunitas sendiri", why: "Salah: seed tidak berpindah — difusi yang menyebar atau padam." },
           ],
         },

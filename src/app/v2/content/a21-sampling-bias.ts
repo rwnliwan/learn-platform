@@ -51,6 +51,7 @@ export const a21: V2Lesson = {
       prose: [
         "Bias adalah kesalahan sistematis — sampel konsisten menyimpang ke satu arah. 1. Bias seleksi: cara pengambilan membuat kelompok terlewat. Survei kepuasan lewat aplikasi hanya menangkap yang masih install — yang kecewa dan uninstall tidak bersuara. 2. Survivorship bias: hanya yang selamat yang teramati. Abraham Wald: lapisi bagian pesawat yang bersih dari lubang — pesawat tertembak di mesin/kokpit tidak pernah kembali.",
         "3. Nonresponse bias: yang tidak menjawab berbeda sistematis — survei gaji: yang gajinya kecil cenderung tidak mengisi, hasil terlihat lebih tinggi dari kenyataan. 4. Convenience sampling: ambil yang gampang — survei di mal, polling di media sosial sendiri. Cepat, murah, hampir selalu bias. Ingat: memperbesar n hanya mengecilkan variansi, bukan bias. 2,4 juta × bias = estimasi bias yang sangat presisi.",
+        "Nonresponse bisa DIKOREKSI — sebagian — dengan weighting (pembobotan). Prinsipnya: kelompok yang kurang terwakili diberi bobot lebih besar agar sampel kembali menyerupai populasi. Contoh hitung: survei gaji 1.000 responden — 700 bergaji di atas Rp10 juta (rata-rata Rp18 juta) dan 300 di bawahnya (rata-rata Rp5 juta); rata-rata mentah = (700×18 + 300×5)/1.000 = Rp14,1 juta. Padahal populasi sebenarnya 50/50. Bobot pasca-stratifikasi = pangsa populasi dibagi pangsa sampel: kelompok atas 0,5/0,7 ≈ 0,71; kelompok bawah 0,5/0,3 ≈ 1,67. Rata-rata tertimbang = (700×0,71×18 + 300×1,67×5)/(700×0,71 + 300×1,67) = (500×18 + 500×5)/1.000 = Rp11,5 juta — jauh lebih dekat ke kenyataan. Tiga metode baku: post-stratifikasi (bobot dari pangsa populasi per strata, seperti di atas); raking (penyesuaian iteratif bila ada beberapa variabel sekaligus — misalnya usia DAN wilayah); inverse-probability weighting (bobot = 1/peluang merespons, peluangnya dimodelkan dari variabel yang teramati — misal regresi logistik respons vs usia, wilayah, segmen). Batasnya — dan ini yang paling penting: weighting hanya memperbaiki perbedaan pada variabel yang TERAMATI. Bila nonresponden berbeda pada hal yang tidak kamu ukur (misalnya motivasi, tingkat literasi) di dalam strata yang sama, biasnya tetap ada. Bobot ekstrem juga berbahaya: satu strata dengan 2 responden yang mewakili 40 persen populasi akan meledakkan variansi — potong bobotnya (weight trimming) atau gabungkan stratanya. Praktik jujur: laporkan SELALU rata-rata tertimbang DAN mentah, response rate per strata, dan variabel apa yang dipakai membobot — supaya pembaca bisa menilai sendiri seberapa jauh koreksinya bisa dipercaya. Dan ingat: Rp11,5 juta yang tertimbang masih di atas median pajak Rp7 juta — karena mean tidak sama dengan median pada data miring kanan; weighting memperbaiki mean, bukan menyamakannya dengan median.",
       ],
       tasks: [],
       note: {
@@ -65,7 +66,7 @@ export const a21: V2Lesson = {
       eyebrow: "Langkah 3 · Distribusi sampling & CLT",
       title: "CLT: mesin pembuat normalitas",
       prose: [
-        "Distribusi sampling adalah distribusi dari suatu statistik (misal mean) jika kita mengulang pengambilan sampel berkali-kali — bukan distribusi datanya. Teorema Limit Pusat: untuk sampel acak berukuran cukup besar, distribusi sampling dari mean mendekati normal — tidak peduli seperti apa bentuk populasinya. Populasi boleh miring parah; rata-rata sampel-sampelnya tetap membentuk lonceng.",
+        "Distribusi sampling adalah distribusi dari suatu statistik (misal mean) jika kita mengulang pengambilan sampel berkali-kali — bukan distribusi datanya. Teorema Limit Pusat: untuk sampel acak berukuran cukup besar, distribusi sampling dari mean mendekati normal — tetapi 'tidak peduli bentuk populasi' punya dua syarat yang sering dilupakan. Pertama, populasi harus punya variansi HINGGA — distribusi Cauchy, yang tidak punya mean maupun variansi, tidak memenuhi CLT sama sekali: rata-rata sampelnya tidak pernah menjadi normal, sebesar apa pun n. Kedua, 'cukup besar' itu BERGANTUNG pada bentuk populasi: populasi simetris dan berekor ringan bisa cukup dengan n = 30; populasi miring berat atau berekor tebal (pendapatan, ukuran klaim asuransi) bisa butuh n ratusan hingga ribuan sebelum distribusi sampling mean terlihat normal. Aturan 'n ≥ 30' adalah jalan pintas untuk populasi yang TIDAK TERLALU miring — bukan jaminan universal. Bila ragu, simulasikan: ambil sampel berulang dari populasimu dan lihat bentuk distribusi mean-nya — atau pakai bootstrap (A29), yang tidak mengandalkan CLT.",
         "Populasi waktu tunggu layanan: mean 15 menit, sigma 8, distribusi miring kanan. Ambil sampel n = 100. Menurut CLT, mean sampel kurang-lebih normal dengan mean 15 dan SE 8/√100 = 0,8. Artinya 95% mean-mean sampel jatuh dalam 15 ± 2×0,8 = antara 13,4 dan 16,6 menit. Kita tidak pernah berasumsi datanya normal — yang normal adalah distribusi dari mean-nya.",
       ],
       formula: String.raw`\bar{X} \;\dot\sim\; N\left(\mu, \frac{\sigma^2}{n}\right)`,
@@ -96,7 +97,7 @@ export const a21: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "se=0\\.8\\s+bawah=13\\.4\\s+atas=16\\.6", label: "`print` menampilkan ketiganya", msg: "Format: se=...  bawah=...  atas=... ." },
         ],
       },
-      reference: "CLT: rata-rata meredam keanehan individu; n ≥ 30 biasanya cukup.",
+      reference: "CLT: rata-rata meredam keanehan individu; n ≥ 30 hanya jalan pintas untuk populasi yang tidak terlalu miring — populasi miring berat butuh n jauh lebih besar; dan CLT butuh variansi hingga.",
     },
     {
       id: "se-akar-kuadrat",
@@ -246,7 +247,7 @@ export const a21: V2Lesson = {
           q: "Manakah pernyataan yang benar tentang CLT?",
           options: [
             { text: "CLT mengatakan data populasi menjadi normal jika n besar", why: "Yang menjadi normal adalah distribusi dari mean-mean sampel, bukan datanya." },
-            { text: "CLT mengatakan distribusi sampling dari mean mendekati normal saat n besar, apapun bentuk populasinya", why: "Itulah keajaiban CLT — populasi boleh miring parah.", correct: true },
+            { text: "CLT mengatakan distribusi sampling dari mean mendekati normal saat n besar, apapun bentuk populasinya", why: "Itulah keajaiban CLT — populasi boleh miring parah — tetapi 'n besar' yang dibutuhkan bergantung pada seberapa miring populasinya, dan populasinya harus punya variansi hingga.", correct: true },
             { text: "CLT hanya berlaku jika populasi sudah normal", why: "Justru tidak perlu — itu poinnya." },
             { text: "CLT menghilangkan bias sampling", why: "CLT tidak memperbaiki bias — sampel bias dengan n besar tetap bias." },
           ],

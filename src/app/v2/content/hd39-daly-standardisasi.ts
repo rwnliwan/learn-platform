@@ -30,7 +30,7 @@ export const hd39: V2Lesson = {
       prose: [
         "Setelah lesson ini, kamu bisa mengukur beban penyakit — bukan hanya menghitung kematian.",
         "(1) Menjelaskan DALY = YLL + YLD dan arti tiap komponen;",
-        "(2) Menghitung YLL dari kematian dan harapan hidup, YLD dari insidens, bobot, dan durasi;",
+        "(2) Menghitung YLL dari kematian dan harapan hidup, YLD dari insidens (atau prevalensi), bobot, dan durasi;",
         "(3) Menghitung DALY total dan DALY per 100.000 penduduk;",
         "(4) Menjelaskan standardisasi umur langsung dan membaca pembalikan peringkat;",
         "(5) Memutuskan kapan memakai angka kasar, terstandardisasi, atau DALY.",
@@ -43,7 +43,7 @@ export const hd39: V2Lesson = {
       title: "DALY: satu angka untuk kematian dan penderitaan",
       prose: [
         "DALY — Disability-Adjusted Life Years — mengukur tahun hidup sehat yang hilang: DALY sama dengan YLL ditambah YLD. YLL (Years of Life Lost) mengukur kematian dini: jumlah kematian dikali harapan hidup yang tersisa pada usia kematian. Contoh kita: 120 kematian pada usia rata-rata 55 tahun, harapan hidup 75 — tiap kematian kehilangan 20 tahun: YLL sama dengan 120 dikali 20 sama dengan 2.400 tahun.",
-        "YLD (Years Lived with Disability) mengukur hidup dengan penyakit: insidens dikali bobot disabilitas dikali durasi. Bobot disabilitas (DW) bernilai 0 (sehat sempurna) sampai 1 (kematian): 0,25 berarti hidup dengan kondisi itu setara dengan kehilangan 25 persen kesehatan. Contoh kita: 800 kasus baru dikali 0,25 dikali 2 tahun sama dengan 400 tahun. DALY total: 2.400 ditambah 400 sama dengan 2.800 tahun. Per 100.000 penduduk (populasi 500.000): 2.800 dibagi 500.000 dikali 100.000 sama dengan 560.",
+        "YLD (Years Lived with Disability) mengukur hidup dengan penyakit — SATU caranya: insidens dikali bobot disabilitas dikali durasi (pendekatan insidens). Cara lain: prevalensi dikali bobot (pendekatan prevalensi) — keduanya dipakai dalam Global Burden of Disease, dan hasilnya bisa berbeda; sebutkan mana yang kamu pakai. Bobot disabilitas (DW) bernilai 0 (sehat sempurna) sampai 1 (kematian): 0,25 berarti hidup dengan kondisi itu setara dengan kehilangan 25 persen kesehatan. Contoh kita: 800 kasus baru dikali 0,25 dikali 2 tahun sama dengan 400 tahun. DALY total: 2.400 ditambah 400 sama dengan 2.800 tahun. Per 100.000 penduduk (populasi 500.000): 2.800 dibagi 500.000 dikali 100.000 sama dengan 560.",
         "Yang membuat DALY berguna: ia membandingkan penyakit yang berbeda dalam satu satuan. Penyakit yang membunuh sedikit tetapi melumpuhkan banyak (misalnya depresi, nyeri punggung) bisa punya DALY lebih besar dari penyakit yang membunuh banyak tetapi cepat (misalnya kecelakaan fatal pada usia tua). Tanpa DALY, anggaran mengalir ke penyakit yang membunuh — dengan DALY, anggaran bisa mengalir ke penyakit yang membebani.",
         "Tiga batas DALY yang harus diakui. Pertama, bobot disabilitas adalah PENILAIAN — ditentukan lewat survei preferensi masyarakat, dan nilainya diperdebatkan (apakah kebutaan 'bernilai' 0,19 atau 0,6?). Kedua, DALY menghitung tahun — bukan kualitas hidup yang tidak tertangkap bobot, dan bukan beban keluarga dan pengasuh. Ketiga, DALY memakai harapan hidup standar global — yang mungkin tidak cocok untuk konteks lokal. DALY adalah alat perbandingan, bukan kebenaran absolut — dan alat yang jujur menunjukkan batasnya.",
       ],
@@ -60,16 +60,16 @@ export const hd39: V2Lesson = {
       title: "Standardisasi umur: trek yang sama untuk semua",
       prose: [
         "Standardisasi langsung menghitung 'berapa angka kematian populasi ini BILA struktur umurnya sama dengan populasi standar'. Caranya: kalikan angka per kelompok umur dengan proporsi kelompok itu di populasi standar, lalu jumlahkan. Populasi standar bisa WHO World Standard, populasi nasional, atau gabungan kedua populasi yang dibandingkan — yang penting SAMA untuk semua yang dibandingkan.",
-        "Contoh HD3 yang dipakai di sini: A kasar 20,0 per 1.000 vs B kasar 12,0 — A terlihat lebih buruk. Setelah standardisasi: A 15,6 vs B 16,3 — B sedikit lebih buruk. Pembalikan terjadi karena A punya lebih banyak penduduk tua (yang angka kematiannya memang tinggi di semua tempat) dan B lebih muda. Angka kasar menghukum daerah tua; angka terstandardisasi menghukum penyakitnya.",
-        "Kapan memakai yang mana? Angka KASAR untuk perencanaan layanan — berapa bed dan obat yang dibutuhkan populasi INI, dengan struktur umur INI. Angka TERSTANDARDISASI untuk perbandingan — apakah program kesehatan A lebih baik dari B, atau apakah kematian naik dari tahun ke tahun. DALY untuk prioritas — penyakit mana yang paling membebani, dan ke mana anggaran harus mengalir. Tiga ukuran, tiga pertanyaan — dan memakai yang salah berarti menjawab pertanyaan yang salah.",
+        "Contoh HD3 yang dipakai di sini — kini dengan angka per kelompok umur yang lengkap, sehingga kamu bisa menghitung ulang sendiri. Dua kelompok umur: muda dan tua. Populasi standar: 60 persen muda, 40 persen tua. Kabupaten A: 40 persen muda (angka kematian 6,8 per 1.000) dan 60 persen tua (28,8) — kasar: 0,4x6,8 + 0,6x28,8 = 2,72 + 17,28 = 20,0. Kabupaten B: 80 persen muda (7,7) dan 20 persen tua (29,2) — kasar: 0,8x7,7 + 0,2x29,2 = 6,16 + 5,84 = 12,0. A terlihat lebih buruk. Standardisasi — kalikan angka tiap kelompok dengan proporsi STANDAR (0,6 muda, 0,4 tua): A = 0,6x6,8 + 0,4x28,8 = 4,08 + 11,52 = 15,6; B = 0,6x7,7 + 0,4x29,2 = 4,62 + 11,68 = 16,3 — B sedikit lebih buruk. Pembalikan terjadi karena A punya lebih banyak penduduk tua (yang angka kematiannya memang tinggi di semua tempat) dan B lebih muda. Angka kasar mencerminkan campuran struktur umur dan risiko penyakit; angka terstandardisasi memisahkan keduanya — ia menunjukkan bahwa di TIAP kelompok umur, angka B lebih tinggi (muda 7,7 vs 6,8; tua 29,2 vs 28,8), tetapi A terlihat lebih buruk secara kasar karena penduduk tuanya jauh lebih banyak.",
+        "Kapan memakai yang mana? Angka KASAR untuk perencanaan layanan — berapa bed dan obat yang dibutuhkan populasi INI, dengan struktur umur INI. Angka TERSTANDARDISASI untuk perbandingan — apakah program kesehatan A lebih baik dari B, atau apakah kematian naik dari tahun ke tahun. DALY untuk prioritas — penyakit mana yang paling membebani, sebagai TITIK BERANGKAT anggaran, bukan satu-satunya penentu (biaya intervensi, kemudahan pencegahan, dan nilai masyarakat ikut memutuskan). Tiga ukuran, tiga pertanyaan — dan memakai yang salah berarti menjawab pertanyaan yang salah.",
         "Satu jebakan: standardisasi tidak memperbaiki data yang buruk. Bila pencatatan kematian di kabupaten A hanya menangkap 60 persen kematian, angka terstandardisasinya tetap 40 persen terlalu rendah — hanya dengan cara yang lebih rapi. Standardisasi memperbaiki PERBANDINGAN, bukan KUALITAS data.",
       ],
       tasks: [],
       note: {
         title: "Simpson's paradox dalam kesehatan",
-        body: "Pembalikan peringkat A vs B adalah contoh Simpson's paradox: agregat berkata A lebih buruk, tiap kelompok umur berkata B lebih buruk. Paradoks ini muncul setiap kali pembagi (struktur umur) berbeda antar-kelompok. Aturan: bila membandingkan dua populasi dengan struktur umur berbeda, JANGAN pernah memakai angka kasar — selalu standardisasi dulu, atau laporkan per kelompok umur.",
+        body: "Pembalikan peringkat A vs B adalah contoh Simpson's paradox: agregat berkata A lebih buruk, tiap kelompok umur berkata B lebih buruk (muda 7,7 vs 6,8; tua 29,2 vs 28,8 — lihat tabel di langkah ini). Paradoks ini muncul setiap kali pembagi (struktur umur) berbeda antar-kelompok. Aturan: bila membandingkan dua populasi dengan struktur umur berbeda, JANGAN pernah memakai angka kasar — selalu standardisasi dulu, atau laporkan per kelompok umur.",
       },
-      reference: "Standardisasi langsung: angka per kelompok umur x proporsi standar, dijumlahkan. Kasar untuk layanan; terstandardisasi untuk perbandingan; DALY untuk prioritas.",
+      reference: "Standardisasi langsung: angka per kelompok umur x proporsi standar, dijumlahkan. Kasar untuk layanan; terstandardisasi untuk perbandingan; DALY untuk prioritas (titik berangkat, bukan satu-satunya penentu).",
     },
     {
       id: "lab-daly",
@@ -77,7 +77,7 @@ export const hd39: V2Lesson = {
       title: "Lab: menghitung YLL, YLD, dan DALY",
       prose: [
         "Lab ini membangun kalkulator beban penyakit: dari kematian, usia kematian, harapan hidup, insidens, bobot disabilitas, durasi, dan populasi — hitung YLL, YLD, DALY, dan DALY per 100.000.",
-        "Hitung dulu di kepala. YLL: 120 kematian dikali (75 dikurangi 55) sama dengan 120 dikali 20 sama dengan 2.400 tahun. YLD: 800 kasus dikali 0,25 dikali 2 tahun sama dengan 400 tahun. DALY: 2.400 ditambah 400 sama dengan 2.800 tahun. DALY per 100.000: 2.800 dibagi 500.000 dikali 100.000 sama dengan 560.",
+        "Hitung dulu di kepala. YLL: 120 kematian dikali (75 dikurangi 55) sama dengan 120 dikali 20 sama dengan 2.400 tahun. YLD: 800 kasus dikali 0,25 dikali 2 tahun sama dengan 400 tahun — ini pendekatan insidens; pendekatan prevalensi memakai prevalensi dikali bobot. DALY: 2.400 ditambah 400 sama dengan 2.800 tahun. DALY per 100.000: 2.800 dibagi 500.000 dikali 100.000 sama dengan 560.",
         "Tugas lab: tulis fungsi yang menerima kematian, usia kematian, harapan hidup, insidens, bobot, durasi, dan populasi — lalu mencetak empat angka: yll, yld, daly, daly_per_100k. Empat angka ini adalah satu baris profil beban penyakit yang dibaca perencana kesehatan sebelum mengalokasikan anggaran.",
         "Setelah lolos, coba eksperimen: naikkan bobot disabilitas menjadi 0,5 dan lihat YLD menjadi 800 dan DALY 3.200 — lalu tanyakan: seberapa yakin kamu pada bobot 0,25, dan apa yang terjadi pada prioritas anggaran bila bobot yang benar adalah 0,5?",
       ],
@@ -151,7 +151,7 @@ export const hd39: V2Lesson = {
         "Lab: YLL 2.400; YLD 400; DALY 2.800; 560 per 100.000.",
         "Standardisasi: A 20,0 vs B 12,0 kasar menjadi 15,6 vs 16,3 — peringkat berbalik.",
         "Bobot disabilitas adalah penilaian — 0 sehat, 1 kematian — dan diperdebatkan.",
-        "Kasar untuk layanan; terstandardisasi untuk perbandingan; DALY untuk prioritas.",
+        "Kasar untuk layanan; terstandardisasi untuk perbandingan; DALY untuk prioritas (titik berangkat, bukan satu-satunya penentu).",
       ],
       next: { label: "HD40 — Hambatan Implementasi Informatika Klinis: dari Pilot ke Praktik", href: "/v2/learn/hd40-hambatan-implementasi" },
       quiz: [
@@ -168,7 +168,7 @@ export const hd39: V2Lesson = {
           q: "Kabupaten A kasar 20,0 vs B 12,0; terstandardisasi A 15,6 vs B 16,3. Apa kesimpulan yang benar?",
           options: [
             { text: "A lebih buruk — angka kasar yang menentukan", why: "Salah: angka kasar menghukum daerah tua. Setelah struktur umur disetarakan, B sedikit lebih buruk." },
-            { text: "B sedikit lebih buruk setelah struktur umur disetarakan — peringkat berbalik karena A lebih tua", why: "Tepat: inilah Simpson's paradox — agregat dan per-kelompok umur bercerita berbeda.", correct: true },
+            { text: "B sedikit lebih buruk setelah struktur umur disetarakan — peringkat berbalik karena A lebih tua", why: "Tepat: inilah Simpson's paradox — agregat berkata A lebih buruk, tetapi di tiap kelompok umur B lebih tinggi (muda 7,7 vs 6,8; tua 29,2 vs 28,8).", correct: true },
             { text: "Keduanya sama — selisih 0,7 terlalu kecil", why: "Salah: 0,7 per 1.000 pada populasi 500.000 berarti 350 kematian per tahun — bukan selisih kecil." },
             { text: "Standardisasi salah — angka kasar tidak pernah berbalik", why: "Salah: pembalikan adalah hasil yang sah dan umum bila struktur umur berbeda jauh." },
           ],

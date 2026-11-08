@@ -43,8 +43,9 @@ export const aai24: V2Lesson = {
       title: "Benchmark: pembanding eksternal yang tidak bisa dinegosiasi",
       prose: [
         "Tiga benchmark yang penting. tau-bench: agen melayani pelanggan dalam simulasi (maskapai, retail) dengan tool nyata dan aturan kebijakan — mengukur apakah agen menyelesaikan tugas TANPA melanggar kebijakan. Skor pass@1 0,42 berarti 42 persen tugas selesai benar pada percobaan pertama. AgentBench: 8 lingkungan (web, OS, database, kartu) — mengukur generalisasi lintas domain. SWE-bench: agen memperbaiki bug nyata dari repositori GitHub — mengukur kemampuan coding agentic.",
-        "Benchmark memberi dua hal yang evaluasi internal tidak bisa: pembanding eksternal (agenmu vs agen orang lain, di tugas yang sama) dan anti-gaming (tugasnya tetap, tidak bisa dipilih yang mudah). Tetapi benchmark juga punya batas: ia mengukur tugas UMUM, bukan tugasmu. Agen yang 0,51 di tau-bench bisa 0,30 di tugas CS NusaBank — karena tugas NusaBank punya kebijakan dan tool yang berbeda. Aturan: benchmark untuk pembanding, golden set sendiri (AAI8) untuk vonis.",
+        "Benchmark memberi dua hal yang evaluasi internal tidak bisa: pembanding eksternal (agenmu vs agen orang lain, di tugas yang sama) dan ketahanan terhadap gaming SEBAGIAN — tugas yang tetap mencegah memilih tugas yang mudah. Tetapi tugas tetap bukan jaminan anti-gaming: benchmark bisa di-overfit (tuning berulang pada benchmark yang sama sampai skor naik tanpa kemampuan umum yang naik) dan terkontaminasi (soal benchmark bocor ke data training — lihat AIE26). Tugas tetap adalah pertahanan pertama, bukan jaminan. Aturan: benchmark untuk pembanding, golden set sendiri (AAI8) untuk vonis. Dan laporkan interval kepercayaan untuk skor benchmark juga — 0,51 dari 200 tugas punya interval sekitar ±7 poin (95 persen); selisih kecil antar model bisa jadi noise.",
         "Jangan pernah mengubah benchmark untuk membuat skor naik — itulah gaming. Tugas yang berubah = benchmark yang bergeser = klaim perbaikan yang tak terbukti (AAI8). Bila benchmark terlalu mudah, buat yang lebih sulit; jangan buat yang lebih mudah.",
+        "Melindungi holdout dari overfitting: segel golden set (hanya tim evaluasi yang memegangnya — tim training tidak boleh membacanya), rotasi sebagian tugas tiap kuartal (agar tuning tidak menghafal satu set tetap), dan JANGAN pernah tuning prompt atau hiperparameter pada benchmark yang sama berulang kali — sekali dipakai untuk memilih model, ia bukan lagi pengukur yang bersih. Untuk vonis akhir, pakai holdout KEDUA yang belum pernah dipakai untuk keputusan apa pun. Holdout yang dipakai untuk tuning adalah validation set — bukan lagi test set.",
       ],
       tasks: [],
       note: {
@@ -153,8 +154,8 @@ export const aai24: V2Lesson = {
           options: [
             { text: "Karena benchmark mengukur tugas umum, bukan tugasmu", why: "Tepat: 0,51 di tau-bench bisa 0,30 di tugas NusaBank.", correct: true },
             { text: "Karena benchmark terlalu sulit", why: "Salah: kesulitan bukan masalahnya; relevansi yang masalah." },
-            { text: "Karena benchmark bisa dicurangi", why: "Salah: benchmark justru anti-gaming karena tugasnya tetap." },
-            { text: "Karena benchmark tidak punya interval kepercayaan", why: "Salah: interval kepercayaan adalah lapisan evaluasi internal (AAI8), bukan kelemahan benchmark." },
+            { text: "Karena benchmark bisa dicurangi", why: "Salah sebagai jawaban UTAMA: benchmark memang bisa di-overfit dan terkontaminasi — tetapi alasan ia tidak cukup untuk vonis adalah relevansi (tugas umum vs tugasmu), bukan karena ia bisa dicurangi." },
+            { text: "Karena benchmark tidak punya interval kepercayaan", why: "Salah: interval kepercayaan BISA dan SEHARUSNYA juga dilaporkan untuk skor benchmark publik — 0,51 dari 200 tugas punya interval sekitar ±7 poin (95 persen); tanpa interval, selisih kecil antar model bisa jadi noise." },
           ],
         },
         {

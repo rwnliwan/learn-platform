@@ -21,7 +21,7 @@ export const rr35: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "RR21 mengajarkan ISSB S1/S2 dan konteks OJK secara mendalam — tetapi GRI dan CSRD tidak pernah disebut di track RR. Lesson ini adalah pelengkap yang dinyatakan di gaps: GRI dan CSRD sebagai pasangan ISSB, dengan sudut materialitas ganda dan kesiapan pelaporan Eropa.",
       },
-      reference: "Emisi scope 1: 5.000 ke 4.200 tCO2e — turun 16,0 persen. 12 topik dinilai, 7 material pada ambang skor 12.",
+      reference: "Emisi scope 1: 5.000 ke 4.200 tCO2e — turun 16,0 persen. 12 topik dinilai, 7 material pada aturan ATAU (lensa dampak atau keuangan ≥ 4).",
     },
     {
       id: "tujuan",
@@ -58,12 +58,16 @@ export const rr35: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Menilai topik material dan penurunan emisi",
       prose: [
-        "Penilaian topik memakai dua skor 1 sampai 5: skor dampak (seberapa besar dampak bagi dunia) dan skor keuangan (seberapa besar pengaruh pada nilai perusahaan). Skor topik adalah perkalian keduanya — maksimal 25. Ambang material di lesson ini: 12. Dari 12 topik yang dinilai — skor 18, 15, 12, 9, 20, 11, 14, 8, 16, 10, 13, 7 — yang lolos ambang 12 adalah 7 topik: 18, 15, 12, 20, 14, 16, dan 13.",
+        "Penilaian topik memakai dua skor 1 sampai 5: skor dampak (seberapa besar dampak bagi dunia) dan skor keuangan (seberapa besar pengaruh pada nilai perusahaan). Aturan material di lesson ini mengikuti CSRD: topik material bila SALAH SATU lensa mencapai 4 atau lebih — dampak ≥ 4 ATAU keuangan ≥ 4. Perkalian kedua skor (maksimal 25) dengan ambang 12 adalah aturan LAMA lesson ini dan sudah diganti: perkalian menyembunyikan topik yang ekstrem di satu lensa tetapi rendah di lensa lain — misalnya dampak 5 dan keuangan 1 (produk 5) lolos dari radar padahal dampaknya besar. Pasangan (dampak, keuangan) 12 topik: (5,3), (4,3), (3,3), (5,1), (5,4), (3,2), (4,2), (2,3), (4,4), (2,2), (4,3), (2,1) — yang material: (5,3), (4,3), (5,1), (5,4), (4,2), (4,4), (4,3) — 7 topik. Topik (5,1) adalah buktinya: produknya hanya 5, tetapi dampak 5 saja sudah cukup untuk wajib diungkap.",
         "Emisi dihitung seperti metrik keuangan: scope 1 turun dari 5.000 ke 4.200 tCO2e — turun 800, sama dengan 16,0 persen. Angka itu saja tidak cukup: bandingkan dengan target (misalnya turun 20 persen pada 2026) dan dengan baseline. Laporan yang menulis 'turun 16 persen' tanpa target adalah laporan yang memilih angka yang menyenangkan — pelajaran yang sama seperti MK31 tentang memilih angka.",
-        "Kesiapan CSRD dinilai tiga lapis: data (apakah scope 3 sudah diukur, bukan diperkirakan), assurance (apakah auditor sudah dilibatkan sejak awal, bukan di akhir), dan tata kelola (apakah dewan sudah menyetujui topik material). Perusahaan yang gagal biasanya gagal di lapis pertama: data scope 3 tidak ada, dan laporan ditulis dari perkiraan.",
+        "Kesiapan CSRD dinilai tiga lapis: data (apakah scope 3 sudah dihitung dengan metode yang terdokumentasi — scope 3 pada umumnya MEMANG melibatkan estimasi berbasis data primer dan faktor emisi; yang membedakan data baik dari tebakan adalah metode yang tertulis, sumber data yang jelas, dan jejak auditnya, bukan ada-tidaknya estimasi), assurance (apakah auditor sudah dilibatkan sejak awal, bukan di akhir), dan tata kelola (apakah dewan sudah menyetujui topik material). Perusahaan yang gagal biasanya gagal di lapis pertama: data scope 3 tidak ada, dan laporan ditulis dari perkiraan.",
       ],
       tasks: [],
-      reference: "7 dari 12 topik material pada ambang 12. Emisi turun 16,0 persen (5.000 ke 4.200). Kesiapan CSRD: data, assurance, tata kelola.",
+      note: {
+        title: "Memetakan topik ke nomor GRI (contoh)",
+        body: "Emisi gas rumah kaca → GRI 305; energi → GRI 302; air → GRI 303; keanekaragaman hayati → GRI 304; pekerja dan keselamatan kerja → GRI 401/403; anti-korupsi → GRI 205; pajak → GRI 207. Pemetaan ini yang membuat laporan bisa diaudit: tiap topik material menunjuk ke standar yang pengungkapannya bisa diperiksa, bukan sekadar tema.",
+      },
+      reference: "7 dari 12 topik material pada aturan ATAU (lensa ≥ 4). Emisi turun 16,0 persen (5.000 ke 4.200). Kesiapan CSRD: data, assurance, tata kelola.",
     },
     {
       id: "lab-gri",
@@ -71,25 +75,25 @@ export const rr35: V2Lesson = {
       title: "Lab: hitung topik material dan penurunan emisi",
       prose: [
         "Lab ini menghitung penilaian materialitas ganda dan penurunan emisi dari angka mentah.",
-        "Hitung dulu di kepala. Topik material: dari skor 18, 15, 12, 9, 20, 11, 14, 8, 16, 10, 13, 7 — yang sama dengan atau di atas 12 adalah 18, 15, 12, 20, 14, 16, 13 — sebanyak 7 topik. Penurunan emisi: 5.000 dikurangi 4.200 sama dengan 800; 800 dibagi 5.000 dikali 100 sama dengan 16,0 persen.",
+        "Hitung dulu di kepala. Topik material: pasangan (dampak, keuangan) — (5,3), (4,3), (3,3), (5,1), (5,4), (3,2), (4,2), (2,3), (4,4), (2,2), (4,3), (2,1) — yang material adalah yang dampaknya ≥ 4 ATAU keuangannya ≥ 4: (5,3), (4,3), (5,1), (5,4), (4,2), (4,4), (4,3) — sebanyak 7 topik. Bandingkan dengan aturan lama (perkalian ≥ 12): hanya 5 topik, dan (5,1) yang dampaknya ekstrem justru hilang. Penurunan emisi: 5.000 dikurangi 4.200 sama dengan 800; 800 dibagi 5.000 dikali 100 sama dengan 16,0 persen.",
         "Tugas lab: tulis fungsi yang menerima daftar skor topik, ambang, emisi awal, dan emisi akhir — lalu mencetak dua angka: topik_material dan emisi_turun_persen.",
-        "Setelah lolos, coba eksperimen: naikkan ambang menjadi 15 dan lihat topik material turun menjadi 4 — ambang adalah keputusan, bukan kebenaran.",
+        "Setelah lolos, coba eksperimen: naikkan ambang lensa menjadi 5 dan lihat topik material turun menjadi 3 — (5,3), (5,1), (5,4) — ambang adalah keputusan, bukan kebenaran. Lalu bandingkan dengan aturan perkalian lama (≥ 12): 5 topik — dan perhatikan (5,1) yang hilang di aturan lama.",
       ],
       tasks: [
-        { id: "t1", text: "Hitung topik_material dari skor dan ambang 12" },
+        { id: "t1", text: "Hitung topik_material dari skor dampak dan keuangan dengan ambang lensa 4" },
         { id: "t2", text: "Hitung emisi_turun_persen" },
       ],
       expected: "topik_material=7\nemisi_turun_persen=16.0",
       hints: [
-        "Topik material = skor sama dengan atau di atas ambang.",
+        "Topik material = dampak ≥ ambang lensa ATAU keuangan ≥ ambang lensa.",
         "Penurunan persen = awal dikurangi akhir, dibagi awal, dikali 100.",
       ],
       code: {
-        starter: `# Penilaian materialitas Hijau Lestari: 12 topik + emisi scope 1.\nskor = [18, 15, 12, 9, 20, 11, 14, 8, 16, 10, 13, 7]\nambang = 12\nemisi_awal = 5000\nemisi_akhir = 4200\n\n# TULIS KODEMU: hitung topik_material dan emisi_turun_persen.\n# Cetak, per baris: topik_material, emisi_turun_persen.\n\n\nmesin_gri(skor, ambang, emisi_awal, emisi_akhir)`,
+        starter: `# Penilaian materialitas Hijau Lestari: 12 topik + emisi scope 1.\ndampak = [5, 4, 3, 5, 5, 3, 4, 2, 4, 2, 4, 2]\nkeuangan = [3, 3, 3, 1, 4, 2, 2, 3, 4, 2, 3, 1]\nambang_lensa = 4\nemisi_awal = 5000\nemisi_akhir = 4200\n\n# TULIS KODEMU: hitung topik_material dan emisi_turun_persen.\n# Cetak, per baris: topik_material, emisi_turun_persen.\n\n\nmesin_gri(dampak, keuangan, ambang_lensa, emisi_awal, emisi_akhir)`,
         lockLines: 5,
-        solution: `# Penilaian materialitas Hijau Lestari: 12 topik + emisi scope 1.\nskor = [18, 15, 12, 9, 20, 11, 14, 8, 16, 10, 13, 7]\nambang = 12\nemisi_awal = 5000\nemisi_akhir = 4200\n\n\ndef mesin_gri(skor, ambang, emisi_awal, emisi_akhir):\n    topik_material = 0\n    for s in skor:\n        if s >= ambang:\n            topik_material = topik_material + 1\n    emisi_turun_persen = (emisi_awal - emisi_akhir) / emisi_awal * 100\n    print(f"topik_material={topik_material}")\n    print(f"emisi_turun_persen={emisi_turun_persen}")\n\n\nmesin_gri(skor, ambang, emisi_awal, emisi_akhir)`,
+        solution: `# Penilaian materialitas Hijau Lestari: 12 topik + emisi scope 1.\ndampak = [5, 4, 3, 5, 5, 3, 4, 2, 4, 2, 4, 2]\nkeuangan = [3, 3, 3, 1, 4, 2, 2, 3, 4, 2, 3, 1]\nambang_lensa = 4\nemisi_awal = 5000\nemisi_akhir = 4200\n\n\ndef mesin_gri(dampak, keuangan, ambang_lensa, emisi_awal, emisi_akhir):\n    topik_material = 0\n    for d, k in zip(dampak, keuangan):\n        if d >= ambang_lensa or k >= ambang_lensa:\n            topik_material = topik_material + 1\n    emisi_turun_persen = (emisi_awal - emisi_akhir) / emisi_awal * 100\n    print(f"topik_material={topik_material}")\n    print(f"emisi_turun_persen={emisi_turun_persen}")\n\n\nmesin_gri(dampak, keuangan, ambang_lensa, emisi_awal, emisi_akhir)`,
         checks: [
-          { kind: "stdout_matches", task: "t1", pattern: "topik_material=7", label: "7 topik material", msg: "Skor di atas atau sama dengan 12: 18, 15, 12, 20, 14, 16, 13 — 7 topik." },
+          { kind: "stdout_matches", task: "t1", pattern: "topik_material=7", label: "7 topik material", msg: "Dampak ≥ 4 ATAU keuangan ≥ 4: (5,3), (4,3), (5,1), (5,4), (4,2), (4,4), (4,3) — 7 topik." },
           { kind: "stdout_matches", task: "t2", pattern: "emisi_turun_persen=16.0", label: "Emisi turun 16,0 persen", msg: "(5.000 - 4.200) / 5.000 x 100 = 16,0 persen. Bandingkan dengan target 20 persen." },
         ],
       },
@@ -100,7 +104,7 @@ export const rr35: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Mini-case: laporan yang akhirnya dibaca investor Eropa",
       prose: [
-        "Kembali ke Hijau Lestari. Laporan tahun berikutnya memakai materialitas ganda: 7 topik material dinilai dua lensa, emisi scope 3 mulai diukur (bukan diperkirakan), dan auditor dilibatkan sejak kuartal pertama. Laporan itu memuat target (turun 20 persen pada 2026) di samping realisasi 16,0 persen — dengan jarak ke target yang ditulis jujur.",
+        "Kembali ke Hijau Lestari. Laporan tahun berikutnya memakai materialitas ganda: 7 topik material dinilai dua lensa, emisi scope 3 mulai dihitung dengan metode yang terdokumentasi (estimasi berbasis data primer dan faktor emisi — bukan tebakan tanpa jejak), dan auditor dilibatkan sejak kuartal pertama. Laporan itu memuat target (turun 20 persen pada 2026) di samping realisasi 16,0 persen — dengan jarak ke target yang ditulis jujur.",
         "Fund manager Eropa tidak langsung membeli kembali — tetapi ia membaca laporan itu sampai habis, dan menulis dua halaman pertanyaan lanjutan. Itulah fungsi laporan keberlanjutan yang baik: bukan meyakinkan semua orang, melainkan memberi bahan untuk percakapan yang serius.",
         "Keputusan rapat: GRI dan CSRD menjadi pelengkap ISSB di semua laporan berikutnya — satu proses penilaian, tiga jawaban untuk tiga pembaca.",
       ],
@@ -109,7 +113,7 @@ export const rr35: V2Lesson = {
         title: "Pembahasan",
         body: "Tiga hal yang membuat laporan baru dibaca. Pertama, materialitas ganda — pertanyaan investor Eropa terjawab. Kedua, target di samping realisasi — jarak ke target ditulis jujur. Ketiga, assurance sejak awal — auditor bukan peninjau akhir melainkan rekan sejak kuartal pertama.",
       },
-      reference: "7 topik material dua lensa; scope 3 diukur; target 20 persen vs realisasi 16,0 persen ditulis berdampingan.",
+      reference: "7 topik material dua lensa; scope 3 dihitung dengan metode terdokumentasi; target 20 persen vs realisasi 16,0 persen ditulis berdampingan.",
     },
     {
       id: "kuis",
@@ -129,12 +133,12 @@ export const rr35: V2Lesson = {
       next: { label: "RR36 — Pelaporan Kontrol Internal dan Audit Risk: Siapa Mengawasi Pengawas", href: "/v2/learn/rr36-kontrol-internal-audit-risk" },
       quiz: [
         {
-          q: "Skor topik 18, 15, 12, 9, 20, 11, 14, 8, 16, 10, 13, 7; ambang 12. Berapa topik material?",
+          q: "Pasangan (dampak, keuangan) 12 topik: (5,3), (4,3), (3,3), (5,1), (5,4), (3,2), (4,2), (2,3), (4,4), (2,2), (4,3), (2,1); aturan ATAU dengan ambang lensa 4. Berapa topik material?",
           options: [
-            { text: "6 topik — skor 12 tidak dihitung", why: "Salah: ambang 12 berarti skor 12 lolos (sama dengan atau di atas).", correct: false },
-            { text: "12 topik — semua dinilai", why: "Salah: dinilai bukan berarti material; hanya yang lolos ambang yang material." },
-            { text: "7 topik", why: "Tepat: 18, 15, 12, 20, 14, 16, 13 — tujuh skor sama dengan atau di atas 12.", correct: true },
-            { text: "4 topik — hanya skor di atas 15", why: "Salah: ambangnya 12, bukan 15." },
+            { text: "6 topik — (5,1) tidak dihitung", why: "Salah: (5,1) justru material — dampak 5 saja sudah cukup di aturan ATAU.", correct: false },
+            { text: "12 topik — semua dinilai", why: "Salah: dinilai bukan berarti material; hanya yang lolos aturan ATAU yang material." },
+            { text: "7 topik", why: "Tepat: (5,3), (4,3), (5,1), (5,4), (4,2), (4,4), (4,3) — tujuh pasangan dengan dampak ≥ 4 atau keuangan ≥ 4.", correct: true },
+            { text: "5 topik — hasil aturan perkalian lama", why: "Salah: 5 adalah hasil aturan perkalian (≥ 12) yang sudah diganti; aturan ATAU memberi 7 — dan (5,1) yang dampaknya ekstrem justru hilang di aturan lama." },
           ],
         },
         {
@@ -169,7 +173,7 @@ export const rr35: V2Lesson = {
           options: [
             { text: "Tata kelola — dewan tidak menyetujui", why: "Salah: tata kelola bisa diperbaiki cepat; data yang tidak ada tidak bisa diperbaiki cepat." },
             { text: "Format XBRL — terlalu teknis", why: "Salah: format adalah lapis terakhir; data adalah lapis pertama." },
-            { text: "Data — scope 3 tidak diukur, hanya diperkirakan", why: "Tepat: tanpa data, assurance dan tata kelola tidak punya bahan untuk bekerja.", correct: true },
+            { text: "Data — scope 3 belum dihitung dengan metode yang bisa diaudit", why: "Tepat: tanpa data scope 3 yang terdokumentasi, assurance dan tata kelola tidak punya bahan untuk bekerja. Estimasi berbasis data primer dengan metode tertulis tetap data — tebakan tanpa jejak yang bukan.", correct: true },
             { text: "Nama laporan — kurang menarik", why: "Salah: nama tidak menentukan kesiapan." },
           ],
         },

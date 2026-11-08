@@ -87,7 +87,7 @@ export const mk34: V2Lesson = {
       code: {
         starter: `# Audit fairness widget rekomendasi KirimCepat.\nrate_a = 12.0\nrate_b = 7.2\nslot_top10 = 650\ntotal_slot = 1000\n\n# TULIS KODEMU: hitung di dan pangsa_top10.\n# Cetak, per baris: di, pangsa_top10.\n\n\nmesin_fairness(rate_a, rate_b, slot_top10, total_slot)`,
         lockLines: 5,
-        solution: `# Audit fairness widget rekomendasi KirimCepat.\nrate_a = 12.0\nrate_b = 7.2\nslot_top10 = 650\ntotal_slot = 1000\n\n\ndef mesin_fairness(rate_a, rate_b, slot_top10, total_slot):\n    di = rate_b / rate_a\n    pangsa_top10 = slot_top10 / total_slot * 100\n    print(f"di={di}")\n    print(f"pangsa_top10={pangsa_top10:.0f}")\n\n\nmesin_fairness(rate_a, rate_b, slot_top10, total_slot)`,
+        solution: `# Audit fairness widget rekomendasi KirimCepat.\nrate_a = 12.0\nrate_b = 7.2\nslot_top10 = 650\ntotal_slot = 1000\n\n\ndef mesin_fairness(rate_a, rate_b, slot_top10, total_slot):\n    di = min(rate_a, rate_b) / max(rate_a, rate_b)\n    pangsa_top10 = slot_top10 / total_slot * 100\n    print(f"di={di}")\n    print(f"pangsa_top10={pangsa_top10:.0f}")\n\n\nmesin_fairness(rate_a, rate_b, slot_top10, total_slot)`,
         checks: [
           { kind: "stdout_matches", task: "t1", pattern: "di=0.6", label: "DI 0,6", msg: "7,2 / 12 = 0,6. Di bawah ambang 0,8 — selidiki." },
           { kind: "stdout_matches", task: "t2", pattern: "pangsa_top10=65", label: "Top 10: 65 persen", msg: "650 / 1.000 x 100 = 65 persen rekomendasi dikuasai 10 produk." },

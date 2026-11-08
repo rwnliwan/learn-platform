@@ -44,7 +44,7 @@ export const biz28: V2Lesson = {
       prose: [
         "Kubus adalah tabel fakta yang sudah diagregasi di semua kombinasi dimensi. Dimensinya: wilayah (4), produk (3), bulan (12). Jumlah sel: 4 dikali 3 dikali 12 sama dengan 144 sel — tiap sel menyimpan measure, misalnya revenue. Kubus tidak menyimpan baris transaksi; ia menyimpan jawaban yang sudah dihitung untuk pertanyaan agregat.",
         "Lima operasi. Slice: potong satu irisan — hanya wilayah Jawa — tersisa 3 dikali 12 sama dengan 36 sel. Dice: potong dua dimensi sekaligus — Jawa dan Minuman — tersisa 12 sel. Drill down: turun hierarki — dari wilayah ke kota, dari bulan ke minggu — detail bertambah. Roll up: naik hierarki — dari kota ke wilayah, dari minggu ke bulan — detail berkurang, pola terlihat. Pivot: putar sumbu — wilayah yang tadinya baris menjadi kolom — pertanyaan yang sama, sudut yang berbeda.",
-        "Harga kubus adalah pra-agregasi: 144 sel murah, tetapi kubus dengan 10 dimensi berkardinalitas besar meledak kombinatorial — jutaan sel yang sebagian besar kosong. Kubus modern (MOLAP) mengatasi dengan kompresi dan agregasi parsial; ROLAP tidak menyimpan kubus sama sekali melainkan menerjemahkan operasi OLAP menjadi query SQL ke star schema. Pilihannya mengikuti pola: pertanyaan berulang dan terprediksi cocok MOLAP; pertanyaan ad-hoc cocok ROLAP.",
+        "Harga kubus adalah pra-agregasi: 144 sel murah, tetapi kubus dengan 10 dimensi berkardinalitas besar meledak kombinatorial — jutaan sel yang sebagian besar kosong. Dan satu koreksi konseptual: KUBUS ADALAH MODEL LOGIS multidimensi — cara berpikir tentang data — bukan selalu struktur fisik. MOLAP mewujudkannya sebagai struktur fisik dengan pra-agregasi (sering hanya SEBAGIAN kombinasi, bukan semua — agregasi penuh tidak mungkin pada dimensi besar); ROLAP tidak menyimpan kubus fisik sama sekali, melainkan menerjemahkan operasi OLAP menjadi query SQL ke star schema. Pilihannya mengikuti pola: pertanyaan berulang dan terprediksi cocok MOLAP; pertanyaan ad-hoc cocok ROLAP.",
       ],
       tasks: [],
       note: {
@@ -63,6 +63,10 @@ export const biz28: V2Lesson = {
         "MDX modern jarang ditulis tangan oleh analis bisnis — tool OLAP men-generate-nya dari klik slice dan drill down. Tetapi analis yang bisa membaca MDX bisa memeriksa apa yang sebenarnya ditanyakan tool-nya: apakah slicer-nya Jawa saja atau Jawa plus satu filter tersembunyi yang mengubah angka.",
       ],
       tasks: [],
+      note: {
+        title: "Latihan menulis MDX (coba sebelum melihat jawaban)",
+        body: "Revenue Minuman per bulan di Jawa — SELECT [Measures].[Revenue] ON COLUMNS, [Bulan].Members ON ROWS FROM [Penjualan] WHERE ([Wilayah].[Jawa], [Produk].[Minuman]). Lalu drill down bulan ke minggu: ganti [Bulan].Members dengan [Bulan].[Minggu].Members — dan periksa: apakah slicer-mu hanya Jawa dan Minuman, atau ada filter tersembunyi yang mengubah angka?",
+      },
       reference: "MDX: SELECT measure ON COLUMNS, dimensi ON ROWS, FROM kubus. WHERE adalah slicer.",
     },
     {
@@ -173,7 +177,7 @@ export const biz28: V2Lesson = {
             { text: "Dashboard harus punya lebih banyak chart", why: "Salah: chart lebih banyak tidak menjawab 'di mana' dan 'kapan' tanpa eksplorasi." },
             { text: "Analis harus menulis query lebih cepat", why: "Salah: kecepatan menulis bukan masalahnya — jawabannya belum diagregasi." },
             { text: "Revenue tidak boleh turun", why: "Salah: itu bukan pelajaran BI — itu harapan yang tidak realistis." },
-            { text: "Dashboard menjawab 'berapa'; kubus menjawab 'di mana, kapan, dan kenapa' lewat slice dan drill down", why: "Tepat: kubus menyimpan agregat multidimensi sehingga pertanyaan berlapis terjawab tanpa query baru.", correct: true },
+            { text: "Dashboard menjawab 'berapa'; kubus menjawab 'di mana' dan 'kapan' lewat slice dan drill down — 'kenapa'-nya masih butuh penyelidikan", why: "Tepat: drill down menunjukkan LOKASI masalah (Surabaya, Bahan, minggu kedua) — SEBABNYA (gula aren terlambat) baru ketahuan lewat telepon ke pemasok; kubus tidak menjawab 'kenapa' sendirian.", correct: true },
           ],
         },
       ],

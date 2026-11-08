@@ -63,11 +63,12 @@ export const hd37: V2Lesson = {
         "OVERRIDE RATE: dari semua alert, berapa persen yang diabaikan — 340 dari 500 sama dengan 68 persen. Override rate tinggi bukan vonis dokter 'bandel' — ia adalah sinyal desain: alert yang sering di-override dengan benar (dokter punya alasan klinis yang valid) harus diperbaiki atau dihapus; alert yang di-override dengan alasan 'lelah' harus dikurangi jumlahnya. Analisis ALASAN override — bukan hanya angkanya — adalah evaluasi yang sebenarnya.",
         "Evaluasi dilakukan tiga kali. SEBELUM go-live: uji retrospektif pada data historis — berapa alert yang AKAN muncul, berapa yang benar. Ini mencegah bencana: sistem yang akan memunculkan 5.000 alert sehari tidak boleh go-live. SESUDAH go-live: 30, 90, dan 180 hari — PPV, sensitivitas, override, dan dampak klinis (apakah kejadian berbahaya benar-benar turun?). BERKELANJUTAN: pemantauan bulanan — pedoman berubah, obat baru muncul, dan aturan yang tidak diperbarui menjadi usang.",
         "Satu metrik yang sering dilupakan: WAKTU. Berapa detik alert menambah waktu tiap order? CDSS yang menghemat satu kesalahan tetapi menambah 30 detik per pasien — dikali 100 pasien sehari — menghabiskan 50 menit dokter per hari. Sistem yang tidak menghitung biaya waktu akan kalah oleh sistem yang menghitungnya — berapa pun benarnya.",
+        "Dua hal yang tidak ditangkap tiga angka di atas: PRIVASI dan TATA KELOLA, plus VALIDASI KESELAMATAN. CDSS membaca data pasien — siapa boleh melihat alert siapa, berapa lama log alert disimpan, dan apakah pasien tahu sistem ikut memengaruhi perawatannya, adalah pertanyaan tata kelola, bukan statistik. Dan sebelum go-live, aturan harus diuji pada data historis untuk dua kegagalan: alert yang seharusnya muncul tetapi tidak (miss) dan alert yang memblokir order yang sebenarnya aman (false hard stop). Tanpa uji keduanya, go-live adalah eksperimen pada pasien.",
       ],
       tasks: [],
       note: {
         title: "Trade-off sensitivitas vs PPV",
-        body: "Tidak ada CDSS yang punya sensitivitas 100 persen DAN PPV 100 persen. Menurunkan ambang menangkap lebih banyak kejadian nyata (sensitivitas naik) tetapi juga lebih banyak alarm palsu (PPV turun). Ambang yang benar adalah keputusan klinis dan operasional — bukan default vendor. Tanyakan: berapa alarm palsu yang sanggup ditanggung dokter sebelum mereka berhenti mendengarkan?",
+        body: "Dalam praktik, tidak ada CDSS nyata yang punya sensitivitas 100 persen DAN PPV 100 persen sekaligus — keduanya bertukar lewat ambang. (Secara teori mungkin pada populasi kecil dengan kejadian yang terpisah sempurna — tetapi itu bukan sistem yang dihadapi di lapangan.) Menurunkan ambang menangkap lebih banyak kejadian nyata (sensitivitas naik) tetapi juga lebih banyak alarm palsu (PPV turun). Ambang yang benar adalah keputusan klinis dan operasional — bukan default vendor. Tanyakan: berapa alarm palsu yang sanggup ditanggung dokter sebelum mereka berhenti mendengarkan?",
       },
       reference: "PPV 64 persen; sensitivitas 80 persen; override 68 persen. Evaluasi: sebelum, sesudah (30/90/180 hari), berkelanjutan.",
     },
@@ -127,7 +128,7 @@ export const hd37: V2Lesson = {
       title: "Mini-case: dari 500 alert ke 120 — dan PPV naik",
       prose: [
         "Kembali ke rumah sakit. Tim CDSS menganalisis alasan override selama sebulan: 180 alert salah sebagian besar adalah interaksi ringan yang sudah diketahui dokter dan dosis yang 'berlebih' menurut aturan tetapi benar menurut konteks pasien. Mereka melakukan tiga perubahan: alert ringan menjadi pasif (tidak interruptif), aturan dosis diberi konteks fungsi ginjal, dan duplikat disupresi.",
-        "Bulan berikutnya: alert turun dari 500 menjadi 120. PPV naik dari 64 persen menjadi 88 persen (106 benar dari 120). Override turun dari 68 persen menjadi 22 persen. Sensitivitas turun sedikit — dari 80 persen menjadi 78 persen (312 dari 400) — karena beberapa alert ringan yang dihapus ternyata menangkap kejadian. Komite memutuskan trade-off itu layak: sistem yang didengarkan dengan sensitivitas 78 persen menyelamatkan lebih banyak pasien daripada sistem yang diabaikan dengan sensitivitas 80 persen.",
+        "Bulan berikutnya: alert turun dari 500 menjadi 120. PPV naik dari 64 persen menjadi 88 persen (106 benar dari 120; tepatnya 88,3 persen, dibulatkan). Override turun dari 68 persen menjadi 22 persen (26 dari 120; tepatnya 21,7 persen, dibulatkan). Sensitivitas turun sedikit — dari 80 persen menjadi 78 persen (312 dari 400) — karena beberapa alert ringan yang dihapus ternyata menangkap kejadian. Komite memutuskan trade-off itu layak: sistem yang didengarkan dengan sensitivitas 78 persen DIPERKIRAKAN menyelamatkan lebih banyak pasien daripada sistem yang diabaikan dengan sensitivitas 80 persen — tetapi ini inferensi dari angka alert, bukan hasil yang terukur: lesson ini tidak punya data outcome pasien (berapa kejadian berbahaya yang benar-benar dicegah). Vonis akhirnya menunggu data outcome.",
         "Tiga hal yang membuat perubahan ini berhasil. Pertama, keputusan diambil dari DATA alasan override — bukan dari opini. Kedua, trade-off dihitung dan diputuskan secara eksplisit — bukan terjadi diam-diam. Ketiga, pemantauan berlanjut: PPV dan override dibaca tiap bulan, dan ambang dikalibrasi ulang tiap kuartal.",
       ],
       tasks: [],
@@ -135,7 +136,7 @@ export const hd37: V2Lesson = {
         title: "Pembahasan",
         body: "Pelajaran umumnya: CDSS yang baik bukan yang paling banyak memperingatkan — melainkan yang paling didengarkan. Mengurangi alert dari 500 menjadi 120 terasa seperti 'melemahkan' sistem, tetapi nyatanya memperkuatnya: PPV 88 persen berarti dokter percaya — dan kepercayaan adalah satu-satunya metrik yang membuat alert bekerja.",
       },
-      reference: "Sesudah perbaikan: 120 alert, PPV 88 persen, override 22 persen, sensitivitas 78 persen. Trade-off diputuskan eksplisit.",
+      reference: "Sesudah perbaikan: 120 alert, PPV 88 persen (106/120 = 88,3 persen), override 22 persen (26/120 = 21,7 persen), sensitivitas 78 persen. Trade-off diputuskan eksplisit.",
     },
     {
       id: "kuis",
@@ -175,7 +176,7 @@ export const hd37: V2Lesson = {
         {
           q: "Setelah perbaikan: 120 alert, 106 benar, override 22 persen, sensitivitas 78 persen (dari 80 persen). Apa vonis komite yang benar?",
           options: [
-            { text: "Gagal — sensitivitas turun berarti pasien lebih tidak aman", why: "Salah: sensitivitas turun 2 poin, tetapi override turun 46 poin — sistem yang didengarkan dengan 78 persen menyelamatkan lebih banyak daripada sistem yang diabaikan dengan 80 persen." },
+            { text: "Gagal — sensitivitas turun berarti pasien lebih tidak aman", why: "Salah: sensitivitas turun 2 poin, tetapi override turun 46 poin — sistem yang didengarkan dengan 78 persen DIPERKIRAKAN menyelamatkan lebih banyak daripada sistem yang diabaikan dengan 80 persen, dengan catatan ini inferensi dari metrik alert, bukan outcome pasien yang terukur." },
             { text: "Berhasil — trade-off diputuskan eksplisit: PPV 88 persen dan override 22 persen berarti alert didengarkan; penurunan sensitivitas 2 poin diterima", why: "Tepat: keputusan memakai angka lengkap, bukan satu metrik.", correct: true },
             { text: "Berhasil — karena jumlah alert turun", why: "Salah: jumlah alert bukan metrik keberhasilan. Yang penting PPV, override, dan sensitivitas bersama." },
             { text: "Tidak bisa dinilai — butuh setahun data lagi", why: "Salah: sebulan data operasional dengan metrik lengkap cukup untuk vonis awal — pemantauan berlanjut, tetapi keputusan tidak menunggu setahun." },

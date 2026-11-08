@@ -13,7 +13,7 @@ export const dba31: V2Lesson = {
       title: "Query yang kemarin 3 detik, hari ini 40 menit",
       prose: [
         "Laporan harian FinLog kemarin 3 detik, hari ini 40 menit — tanpa ada perubahan kode. DBA membuka rencana eksekusi: planner memilih sequential scan. Indeksnya masih ada. Yang berubah: statistik. Tabel tumbuh 5 juta baris dalam seminggu, tetapi ANALYZE terakhir jalan 9 hari lalu — planner mengira tabel itu kecil dan memilih scan penuh.",
-        "Di audit yang sama, DBA menemukan 4 dari 12 indeks tidak pernah dipakai planner sama sekali (idx_scan sama dengan 0). Empat indeks itu tidak membantu satu query pun — tetapi tiap INSERT membayar pajak tulisnya.",
+        "Di audit yang sama, DBA menemukan 4 dari 12 indeks dengan idx_scan sama dengan 0 sejak statistik terakhir di-reset — kandidat tak terpakai. Angka nol itu BUKAN bukti indeks tak berguna: indeks bisa menopang constraint (primary key/unique), dipakai query musiman atau laporan kuartalan/tahunan yang belum jalan dalam jendela statistik, atau tercatat sebelum reset terakhir. Empat indeks itu belum terbukti membantu satu query pun — tetapi tiap INSERT membayar pajak tulisnya, dan itulah kenapa mereka diaudit, bukan langsung dihapus.",
         "Lesson ini mengajarkan indeks secara mendalam: jenis di luar B-tree, statistik sebagai kompas planner, dan maintenance sebagai pekerjaan rutin. Setelah lesson ini kamu bisa: (1) memilih jenis indeks dari pola query; (2) menjelaskan peran statistik; (3) mengaudit indeks tak terpakai; (4) menghitung pajak tulis dan fragmentasi; (5) menjadwalkan maintenance tanpa downtime.",
       ],
       tasks: [],
@@ -21,7 +21,7 @@ export const dba31: V2Lesson = {
         title: "Yang sudah ada vs yang baru di sini",
         body: "DBA6 mengajarkan B-tree, GIN, GiST, dan BRIN beserta cara membaca EXPLAIN, dan DBA24 menyinggung indeks saat load. Lesson ini TIDAK mengulang pengantar itu: ia membangun lapisan operasionalnya — siklus hidup statistik, audit indeks tak terpakai dengan hitungan pajak tulis, fragmentasi dan REINDEX CONCURRENTLY, serta jadwal maintenance.",
       },
-      reference: "12 indeks, 4 tak terpakai (33,3 persen); pajak tulis 4 dikali 2 ms sama dengan 8 ms per INSERT; ANALYZE terakhir 9 hari lalu, ambang basi 7 hari.",
+      reference: "12 indeks, 4 kandidat tak terpakai (33,3 persen; idx_scan 0 sejak reset terakhir — bukan bukti tak berguna); pajak tulis 4 dikali 2 ms sama dengan 8 ms per INSERT; ANALYZE terakhir 9 hari lalu, ambang basi 7 hari.",
     },
     {
       id: "tujuan",
@@ -43,7 +43,7 @@ export const dba31: V2Lesson = {
       title: "Jenis indeks dan statistik sebagai kompas planner",
       prose: [
         "Pemilihan jenis dimulai dari pola query, bukan kebiasaan. B-tree untuk kesetaraan dan rentang pada kolom skalar. Hash untuk kesetaraan murni yang tidak butuh urutan. GIN untuk pencarian di dalam teks, JSONB, dan array. GiST untuk geometri dan kedekatan. BRIN untuk tabel raksasa yang terurut alami oleh waktu — beberapa MB melawan B-tree 100 GB. Indeks yang salah jenis bukan sekadar lambat: ia besar, mahal, dan tetap tidak dipakai planner.",
-        "Statistik adalah kompas planner: ANALYZE mengukur distribusi nilai, jumlah baris, dan nilai paling umum, lalu planner memakai angka itu untuk memilih antara index scan dan sequential scan. Statistik basi berarti kompas menunjuk arah yang salah — tabel 5 juta baris dikira 50 ribu, planner memilih scan, dan laporan 3 detik menjadi 40 menit. Autovacuum menjalankan ANALYZE otomatis, tetapi ambangnya (20 persen perubahan baris) terlalu lambat untuk tabel yang tumbuh cepat: jadwalkan ANALYZE manual untuk tabel terpanas.",
+        "Statistik adalah kompas planner: ANALYZE mengukur distribusi nilai, jumlah baris, dan nilai paling umum, lalu planner memakai angka itu untuk memilih antara index scan dan sequential scan. Statistik basi berarti kompas menunjuk arah yang salah — tabel 5 juta baris dikira 50 ribu, planner memilih scan, dan laporan 3 detik menjadi 40 menit. Autovacuum menjalankan ANALYZE otomatis, tetapi ambangnya terlalu lambat untuk tabel yang tumbuh cepat: autovacuum ANALYZE memakai 10 persen perubahan baris (autovacuum_analyze_scale_factor; 20 persen adalah ambang VACUUM, bukan ANALYZE) — untuk tabel terpanas, jadwalkan ANALYZE manual.",
         "Tanda statistik basi: rencana eksekusi berubah tanpa perubahan query atau indeks; estimasi baris planner meleset 10x dari aktual; query lambat muncul bertahap mengikuti pertumbuhan tabel. Diagnosisnya murah: bandingkan estimasi dan aktual di EXPLAIN ANALYZE, lalu jalankan ANALYZE dan lihat apakah rencana kembali normal.",
       ],
       tasks: [],
@@ -51,19 +51,19 @@ export const dba31: V2Lesson = {
         title: "Statistik bukan kebenaran, melainkan sampel",
         body: "ANALYZE mengambil sampel, bukan sensus penuh. Untuk tabel dengan distribusi miring (misalnya 1 persen pelanggan menyumbang 80 persen transaksi), sampel default bisa melewatkan ekornya. Naikkan statistics target untuk kolom yang miring — harga sedikit waktu ANALYZE untuk rencana yang jauh lebih akurat.",
       },
-      reference: "Statistik basi: estimasi planner meleset 10x, rencana berubah tanpa perubahan query. Autovacuum 20 persen terlalu lambat untuk tabel terpanas.",
+      reference: "Statistik basi: estimasi planner meleset 10x, rencana berubah tanpa perubahan query. Autovacuum ANALYZE 10 persen (VACUUM 20 persen) terlalu lambat untuk tabel terpanas.",
     },
     {
       id: "maintenance",
       eyebrow: "Langkah 4 · Teori",
       title: "Maintenance: audit tak terpakai, fragmentasi, REINDEX",
       prose: [
-        "Audit indeks tak terpakai memakai pg_stat_user_indexes: indeks dengan idx_scan sama dengan 0 sejak statistik terakhir di-reset adalah kandidat pensiun. Di cerita pembuka, 4 dari 12 indeks tak terpakai — 33,3 persen. Tiap indeks tak terpakai membebani tiap INSERT: 4 indeks dikali 2 ms sama dengan 8 ms pajak tulis per baris. Pada 1 juta INSERT sehari, itu 8.000 detik — lebih dari 2 jam CPU per hari untuk indeks yang tidak pernah dibaca.",
+        "Audit indeks tak terpakai memakai pg_stat_user_indexes: indeks dengan idx_scan sama dengan 0 sejak statistik terakhir di-reset adalah kandidat pensiun — kandidat, bukan vonis. Sebelum DROP, periksa: apakah indeks menopang constraint (primary key/unique)? Apakah ia dipakai query musiman atau laporan kuartalan di luar jendela statistik? Kapan statistik terakhir di-reset? Di cerita pembuka, 4 dari 12 indeks adalah kandidat tak terpakai — 33,3 persen. Tiap indeks tak terpakai membebani tiap INSERT: 4 indeks dikali 2 ms sama dengan 8 ms pajak tulis per baris. Pada 1 juta INSERT sehari, itu 8.000 detik — lebih dari 2 jam WAKTU tulis per hari untuk indeks yang belum terbukti dibaca. (Angka 8 ms itu mencakup I/O dan wait, bukan hanya CPU — menyebutnya 'CPU' melebih-lebihkan klaimnya.)",
         "Aturan pensiun: jangan DROP langsung. Nonaktifkan dulu dengan membuatnya invisible (bila didukung) atau pantau satu siklus bisnis penuh — bila tidak ada query yang mengeluh dan idx_scan tetap 0, barulah DROP. Indeks yang di-drop tergesa-gesa dan ternyata dipakai laporan kuartalan adalah insiden yang menunggu tanggalnya.",
-        "Fragmentasi membuat halaman indeks berantakan setelah banyak UPDATE dan DELETE: baca menjadi lompatan acak. Perbaikannya REINDEX CONCURRENTLY — membangun indeks baru di samping yang lama tanpa memblokir tulis. REINDEX biasa lebih cepat tetapi mengunci tulis — di produksi, itu downtime. Jadwalkan maintenance di jam sepi, dan catat ukuran indeks sebelum dan sesudah sebagai bukti.",
+        "Fragmentasi membuat halaman indeks berantakan setelah banyak UPDATE dan DELETE: baca menjadi lompatan acak. Cara mengukurnya (PostgreSQL): ekstensi pgstattuple — pgstatindex('nama_indeks') memberi avg_leaf_density (persen kepadatan daun; di bawah sekitar 70 persen berarti fragmentasi patut diperhatikan) dan leaf_fragmentation; bandingkan juga pg_relation_size sebelum dan sesudah REINDEX. Batasnya: pgstattuple membaca indeks (berbeban I/O — jalankan di jam sepi atau pada salinan), dan angka 'sehat' bergantung pola beban, bukan satu ambang universal. Perbaikannya REINDEX CONCURRENTLY — membangun indeks baru di samping yang lama tanpa memblokir tulis. REINDEX biasa lebih cepat tetapi mengunci tulis — di produksi, itu downtime. Jadwalkan maintenance di jam sepi, dan catat ukuran indeks sebelum dan sesudah sebagai bukti.",
       ],
       tasks: [],
-      reference: "4 dari 12 tak terpakai (33,3 persen); pajak 8 ms per INSERT; 1 juta INSERT sehari sama dengan 8.000 detik CPU. REINDEX CONCURRENTLY tanpa blokir tulis.",
+      reference: "4 dari 12 kandidat tak terpakai (33,3 persen); pajak 8 ms per INSERT; 1 juta INSERT sehari sama dengan 8.000 detik waktu tulis. Ukur fragmentasi dengan pgstatindex (avg_leaf_density). REINDEX CONCURRENTLY tanpa blokir tulis.",
     },
     {
       id: "lab-indeks",
@@ -104,7 +104,7 @@ export const dba31: V2Lesson = {
       title: "Mini-case: laporan 40 menit yang sembuh dengan ANALYZE",
       prose: [
         "Kembali ke FinLog. Diagnosis memakan 15 menit: EXPLAIN ANALYZE menunjukkan estimasi 50 ribu baris melawan aktual 5 juta — statistik basi 9 hari. ANALYZE dijalankan manual: 4 menit. Rencana kembali ke index scan, laporan kembali 3 detik.",
-        "Perbaikan permanennya tiga lapis. Satu: ANALYZE terjadwal tiap malam untuk 10 tabel terpanas — tidak menunggu ambang autovacuum 20 persen. Dua: audit indeks tak terpakai tiap kuartal; 4 indeks dipensiunkan setelah satu siklus bisnis tanpa keluhan, menghemat 8.000 detik CPU per hari. Tiga: REINDEX CONCURRENTLY tiap bulan untuk tabel dengan UPDATE berat.",
+        "Perbaikan permanennya tiga lapis. Satu: ANALYZE terjadwal tiap malam untuk 10 tabel terpanas — tidak menunggu ambang autovacuum ANALYZE 10 persen. Dua: audit indeks tak terpakai tiap kuartal; 4 indeks dipensiunkan setelah satu siklus bisnis tanpa keluhan (dan setelah dipastikan tidak menopang constraint), menghemat 8.000 detik waktu tulis per hari. Tiga: REINDEX CONCURRENTLY tiap bulan untuk tabel dengan UPDATE berat.",
         "Keputusan rapat: statistik dan indeks masuk dashboard monitoring DBA — bukan hanya CPU dan disk. Query yang melambat bertahap kini memicu alert sebelum direksi yang menelepon.",
       ],
       tasks: [],
@@ -123,7 +123,7 @@ export const dba31: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "Lab: 33,3 persen indeks tak terpakai; pajak 8 ms per INSERT; beban 8.000 detik per hari.",
+        "Lab: 33,3 persen indeks kandidat tak terpakai; pajak 8 ms per INSERT; beban 8.000 detik waktu tulis per hari.",
         "Statistik basi menyesatkan planner — estimasi meleset 10x, rencana berubah tanpa perubahan query.",
         "Jenis indeks dipilih dari pola query, bukan kebiasaan.",
         "Pensiun indeks bertahap: pantau satu siklus bisnis, baru DROP.",
@@ -154,7 +154,7 @@ export const dba31: V2Lesson = {
           options: [
             { text: "Nonaktifkan atau pantau satu siklus bisnis penuh, baru DROP bila tetap 0", why: "Tepat: masa pantau menutup risiko pemakaian musiman sebelum pensiun permanen.", correct: true },
             { text: "DROP langsung — tidak dipakai berarti tidak berguna", why: "Salah: laporan kuartalan atau tahunan bisa memakainya; DROP tergesa-gesa adalah insiden yang menunggu tanggal." },
-            { text: "Biarkan selamanya — indeks tak terpakai tidak merugikan", why: "Salah: tiap INSERT membayar pajak tulisnya; 4 indeks berarti 8.000 detik CPU per hari." },
+            { text: "Biarkan selamanya — indeks tak terpakai tidak merugikan", why: "Salah: tiap INSERT membayar pajak tulisnya; 4 indeks berarti 8.000 detik waktu tulis per hari." },
             { text: "Buat duplikatnya dengan nama lain", why: "Salah: duplikat menggandakan pajak tanpa manfaat apa pun." },
           ],
         },

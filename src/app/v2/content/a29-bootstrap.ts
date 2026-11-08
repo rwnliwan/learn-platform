@@ -13,7 +13,7 @@ export const a29: V2Lesson = {
       title: "Median tanpa rumus",
       prose: [
         "Manajer CS bertanya: berapa median waktu tunggu pelanggan — dan seberapa yakin kamu? Kamu punya 60 data, median = 13,8 menit. Untuk mean, rumusnya jelas. Untuk median? Buku teks hanya memberi aproksimasi jelek, atau menyuruhmu asumsikan normal — padahal datanya miring parah.",
-        "Di sinilah Bradley Efron (1979) memperkenalkan ide yang terdengar seperti curang: tidak ada rumus? Resample saja datamu sendiri. Ambil 60 datamu, acak-ambil 60 dengan pengembalian, hitung mediannya. Ulangi 5.000 kali. Sebaran 5.000 median itu = taksiran distribusi sampling medianmu. Selesai — tanpa satu pun asumsi distribusi. CI 95%: (11,6, 16,1).",
+        "Di sinilah Bradley Efron (1979) memperkenalkan ide yang terdengar seperti curang: tidak ada rumus? Resample saja datamu sendiri. Ambil 60 datamu, acak-ambil 60 dengan pengembalian, hitung mediannya. Ulangi 5.000 kali. Sebaran 5.000 median itu = taksiran distribusi sampling medianmu. Selesai — tanpa satu pun asumsi distribusi. CI 95% metode persentil: (11,6, 16,1). (Perhatikan: interval ini memakai METODE persentil — metode lain pada data yang sama memberi interval yang sedikit berbeda; lihat Langkah 3.)",
       ],
       tasks: [
         { id: "t1", text: "Catat `median` = 13,8 (median teramati, menit)" },
@@ -81,7 +81,8 @@ export const a29: V2Lesson = {
       title: "Persentil, BCa, dan bootstrap-t",
       prose: [
         "Metode persentil: ambil persentil 2,5% dan 97,5% dari sebaran bootstrap. Simpel dan intuitif. CI bootstrap boleh tidak simetris — tidak seperti x̄ ± margin. Itulah kelebihannya: mengikuti bentuk ketidakpastian yang sebenarnya.",
-        "Versi yang lebih baik: BCa (bias-corrected and accelerated) — mengoreksi bias dan skewness sebaran bootstrap; standar emas praktis, hampir selalu sedikit lebih akurat dengan biaya komputasi yang sama. Bootstrap-t (studentized): orde akurasi lebih tinggi, tapi butuh SE di tiap resampel (mahal). Aturan praktis: persentil cukup untuk kebanyakan keperluan; BCa jika tersedia di library; bootstrap-t untuk n kecil yang kritis.",
+        "Versi yang lebih baik: BCa (bias-corrected and accelerated) — mengoreksi bias dan skewness sebaran bootstrap; standar emas praktis, hampir selalu sedikit lebih akurat — tetapi TIDAK dengan biaya komputasi yang sama seperti persentil. BCa butuh jackknife: statistik dihitung ulang n kali, tiap kali dengan satu observasi dikeluarkan, untuk mengestimasi konstanta akselerasi a. Untuk statistik murah itu sepele; untuk statistik mahal (misalnya refit model ML) biayanya nyata — n refit tambahan di atas B resampel. Bootstrap-t (studentized): orde akurasi lebih tinggi, tapi butuh SE di tiap resampel (mahal). Aturan praktis: persentil cukup untuk kebanyakan keperluan; BCa jika tersedia di library; bootstrap-t untuk n kecil yang kritis.",
+        "Contoh reproduksibel — persentil vs BCa pada data yang sama. Data: 31 waktu tunggu (menit), miring kanan, mean 17,11 dan median 13,5: [2.8, 2.8, 3.2, 4.0, 5.4, 5.5, 5.8, 6.1, 6.7, 7.7, 8.0, 9.7, 9.9, 11.6, 12.4, 13.5, 13.8, 14.0, 14.5, 15.6, 17.8, 22.1, 22.7, 23.3, 24.8, 29.2, 31.8, 39.0, 40.0, 40.2, 66.6] (dibangkitkan dengan random.seed(11), lognormvariate(2.6, 0.8)). Bootstrap B = 5.000, seed 42. Untuk MEAN: CI persentil 95% = (12,41, 22,11); CI BCa 95% = (12,89, 23,03) — BCa bergeser ke ATAS sekitar 0,5–0,9 di kedua ujungnya, karena data miring kanan dan sebaran bootstrap-nya ikut miring (koreksi bias z0 = 0,031, akselerasi a = 0,0473). Untuk MEDIAN pada data yang sama: persentil (7,7, 17,8) vs BCa (6,7, 15,6) — BCa justru bergeser ke BAWAH (z0 = −0,191 mendominasi). Pelajarannya: BCa tidak selalu menggeser ke atas — arah koreksinya bergantung pada z0 dan a — tetapi ia hampir selalu lebih akurat, dan pada data miring perbedaannya nyata (di sini hampir 1 menit di ujung atas mean). Kode untuk mereproduksi (Python, tanpa library khusus selain statistics): hitung B median/mean resampel, ambil persentil 2,5/97,5 untuk metode persentil; untuk BCa, hitung z0 dari proporsi resampel di bawah statistik teramati, hitung a dari jackknife (n statistik leave-one-out), lalu geser level persentilnya dengan rumus alpha1 = Φ(z0 + (z0 − z)/(1 − a(z0 − z))) dan alpha2 = Φ(z0 + (z0 + z)/(1 − a(z0 + z))) dengan z = 1,96.",
       ],
       tasks: [],
       note: {
@@ -97,7 +98,7 @@ export const a29: V2Lesson = {
       title: "Hakim yang adil sempurna",
       prose: [
         "Uji permutasi: di bawah H0 (tidak ada beda antar grup), label grup tidak bermakna — jadi acak-acak labelnya, hitung ulang statistik, lihat seberapa sering hasil acakan seekstrem data asli. p-value = (1 + #{|T_perm| ≥ |T_obs|}) / (1 + B). Algoritme: hitung statistik teramati; gabung data, acak label, hitung ulang; ulangi ribuan kali → distribusi null empiris.",
-        "Ia membangun dunia H0 langsung dari datamu, tanpa meminjam distribusi teoritis — uji ini exact (α-nya tepat, bukan aproksimasi), dengan syarat exchangeability (di bawah H0 label boleh diacak). Kekuatan tersembunyi: statistiknya bebas — selisih mean, selisih median, selisih variansi, bahkan statistik buatanmu sendiri. Uji-t hanya bisa untuk mean; permutasi untuk apapun.",
+        "Ia membangun dunia H0 langsung dari datamu, tanpa meminjam distribusi teoritis — uji permutasi PENUH, yang menghitung SEMUA pelabelan yang mungkin, adalah exact (α-nya tepat, bukan aproksimasi). Tetapi dalam praktik kita hampir selalu memakai versi Monte Carlo: B pengacakan acak, seperti rumus p di atas. Versi Monte Carlo itu HAMPIR exact — galat Monte Carlonya mengecil seiring B membesar — dan koreksi +1 pada pembilang dan penyebut membuatnya sedikit konservatif (p-value tidak pernah nol persis). Menyebut versi Monte Carlo 'exact' tanpa kualifikasi adalah keliru: exact penuh hanya bila semua permutasi dihitung. Syarat keduanya sama: exchangeability — di bawah H0 label boleh diacak. Kekuatan tersembunyi: statistiknya bebas — selisih mean, selisih median, selisih variansi, bahkan statistik buatanmu sendiri. Uji-t hanya bisa untuk mean; permutasi untuk apapun.",
       ],
       formula: String.raw`p = \frac{1 + \#\{|T_{\text{perm}}| \ge |T_{\text{obs}}|\}}{1 + B}`,
       formulaNote: "p = p-value uji permutasi; T_perm = statistik uji pada satu pengacakan label; T_obs = statistik pada data asli; B = banyaknya permutasi; pembilang dan penyebut ditambah 1 agar p-value tidak pernah nol persis.",
@@ -131,7 +132,7 @@ export const a29: V2Lesson = {
       title: "SLA: lolos atau belum konklusif?",
       prose: [
         "Manajer CS menetapkan SLA: median waktu tunggu < 15 menit. Data bulan ini (n=60): median 13,8 — lolos! katanya. Kamu diminta verifikasi dengan interval kepercayaan.",
-        "(a) Rumus x̄ ± margin untuk mean, bukan median — dan SLA ditulis dalam median (tepat, karena data miring). Tidak ada rumus sederhana untuk CI median → bootstrap jawabannya. (b) Bootstrap 95% CI = (11,6, 16,1) — mencakup 15! Data konsisten dengan median sebenarnya 15,5 (gagal SLA) maupun 12 (lolos). Klaim lolos dari titik estimasi = presisi palsu. (c) Laporkan SLA sebagai interval: median 13,8 (95% CI: 11,6–16,1) — belum konklusif vs target 15. Tetapkan aturan sebelum periode: lolos jika batas atas CI < 15. Dan tambah n bulan depan.",
+        "(a) Rumus x̄ ± margin untuk mean, bukan median — dan SLA ditulis dalam median (tepat, karena data miring). Tidak ada rumus sederhana untuk CI median → bootstrap jawabannya. (b) Bootstrap 95% CI metode persentil = (11,6, 16,1) — mencakup 15! Data konsisten dengan median sebenarnya 15,5 (gagal SLA) maupun 12 (lolos). Klaim lolos dari titik estimasi = presisi palsu. (c) Laporkan SLA sebagai interval: median 13,8 (95% CI: 11,6–16,1) — belum konklusif vs target 15. Tetapkan aturan sebelum periode: lolos jika batas atas CI < 15. Dan tambah n bulan depan.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `lebar` = 16,1 − 11,6" },
@@ -170,8 +171,8 @@ export const a29: V2Lesson = {
       tasks: [],
       summary: [
         "Bootstrap: perlakukan sampel sebagai populasi mini; resample dengan pengembalian.",
-        "B ≥ 1.000 untuk SE; B ≥ 5.000 untuk CI; BCa = standar emas praktis.",
-        "Permutasi: acak label untuk membangun dunia H0 — exact, untuk p-value.",
+        "B ≥ 1.000 untuk SE; B ≥ 5.000 untuk CI; BCa = standar emas praktis (lebih akurat, tetapi butuh jackknife — biayanya lebih tinggi dari persentil).",
+        "Permutasi: acak label untuk membangun dunia H0 — exact penuh hanya bila semua permutasi dihitung; versi Monte Carlo (B acakan) hampir exact — untuk p-value.",
         "Bootstrap gagal: n sangat kecil, statistik ekstrem, data dependen (pakai block).",
         "Bootstrap untuk estimasi (CI); permutasi untuk pengujian (p-value).",
       ],
@@ -190,7 +191,7 @@ export const a29: V2Lesson = {
           q: "Kapan uji permutasi menjadi pilihan terbaik?",
           options: [
             { text: "Selalu — gantikan semua uji-t", why: "Untuk kasus standar dengan asumsi terpenuhi, rumus lebih efisien." },
-            { text: "Saat ingin p-value tanpa asumsi distribusi, H0 = 'tidak ada beda', dan label grup bisa diacak (exchangeable)", why: "Permutasi membangun dunia H0 langsung dari data — exact dan bebas asumsi.", correct: true },
+            { text: "Saat ingin p-value tanpa asumsi distribusi, H0 = 'tidak ada beda', dan label grup bisa diacak (exchangeable)", why: "Permutasi membangun dunia H0 langsung dari data — bebas asumsi distribusi; exact penuh bila semua permutasi dihitung, hampir exact pada versi Monte Carlo dengan B besar.", correct: true },
             { text: "Hanya untuk n > 1000", why: "Tidak ada syarat n minimum khusus." },
             { text: "Saat datanya normal", why: "Saat normal, uji klasik sudah cukup — permutasi untuk yang tanpa asumsi." },
           ],

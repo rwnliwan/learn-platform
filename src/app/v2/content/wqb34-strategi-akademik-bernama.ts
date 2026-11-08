@@ -41,7 +41,7 @@ export const wqb34: V2Lesson = {
       eyebrow: "Langkah 3 · Teori",
       title: "Piotroski dan PEAD: kesehatan dan kejutan",
       prose: [
-        "Piotroski F-score (2000) menilai kesehatan fundamental saham value dengan sembilan sinyal biner — masing-masing 1 bila baik, 0 bila tidak. Profitabilitas: laba bersih positif, arus kas operasi positif, ROA naik, arus kas operasi lebih besar dari laba bersih. Leverage dan likuiditas: utang jangka panjang turun, current ratio naik, tidak ada penerbitan saham baru. Efisiensi operasi: margin kotor naik, perputaran aset naik. Skor 0 sampai 9; saham value dengan skor 8 sampai 9 mengalahkan saham value dengan skor 0 sampai 1 secara konsisten dalam penelitian aslinya.",
+        "Piotroski F-score (2000) menilai kesehatan fundamental saham value dengan sembilan sinyal biner — masing-masing 1 bila baik, 0 bila tidak. Profitabilitas: laba bersih positif, arus kas operasi positif, ROA naik, arus kas operasi lebih besar dari laba bersih. Leverage dan likuiditas: utang jangka panjang turun, current ratio naik, tidak ada penerbitan saham baru. Efisiensi operasi: margin kotor naik, perputaran aset naik. Skor 0 sampai 9; saham value dengan skor 8 sampai 9 mengalahkan saham value dengan skor 0 sampai 1 secara konsisten dalam penelitian aslinya. Dalam FASTEXPR, kesembilan sinyal ini ditulis sebagai kondisi biner yang dijumlahkan, accruals sebagai (laba bersih − arus kas operasi) dibagi total aset, dan kejutan laba PEAD sebagai (laba aktual − laba ekspektasi) dibagi harga — ketiganya ilustratif, sesuaikan nama field dengan data yang tersedia.",
         "Dalam data cerita pembuka, perusahaan A mencetak 8, B mencetak 4, dan C mencetak 6. A adalah kandidat beli, B adalah kandidat buang, C adalah zona abu-abu. Tetapi F-score bukan sinyal beli yang berdiri sendiri — ia adalah filter: ia memisahkan value yang murah karena sehat dari value yang murah karena sekarat. Di FASTEXPR, F-score diterjemahkan sebagai kombinasi data field fundamental — dan tantangannya adalah lag: laporan keuangan tiba 45 sampai 90 hari setelah periode berakhir, sehingga sinyal harus di-lag manual (lihat WQB9).",
         "PEAD — post-earnings announcement drift — adalah anomali tertua yang terdokumentasi: saham yang laba-nya mengejutkan positif terus naik selama 60 hari setelah pengumuman, dan yang mengejutkan negatif terus turun. Dalam data cerita pembuka, saham dengan kejutan laba +8 persen naik 4,2 persen dalam 60 hari sementara pasar naik 1,1 persen — drift abnormal +3,1 persen. Penjelasannya: investor bereaksi lambat (underreaction) — dan analis yang mengandalkan PEAD bertaruh bahwa kelambatan itu masih ada, meskipun ia menyusut setiap tahun karena semakin banyak yang mengeksploitasinya.",
       ],
@@ -64,7 +64,7 @@ export const wqb34: V2Lesson = {
       tasks: [],
       note: {
         title: "Lima strategi, satu musuh: crowding",
-        body: "Kelima strategi ini mati dengan cara yang sama: terlalu banyak orang melakukannya. Crowding menaikkan harga masuk, menaikkan korelasi antar pemain, dan mempercepat crash saat semua keluar bersamaan. Pertahanan peneliti bukan rahasia — melainkan kombinasi: F-score dengan momentum, accruals dengan value, BAB dengan netralisasi — kombinasi yang korelasinya rendah satu sama lain.",
+        body: "Crowding adalah SALAH SATU penyebab kematian strategi — bukan satu-satunya dan bukan kepastian: strategi bisa mati karena perubahan struktur pasar, perubahan regulasi, atau implementasi yang ceroboh, dan crowding sendiri adalah hipotesis yang harus diuji (misalnya lewat penyusutan premia pasca-publikasi — McLean dan Pontiff mengukur penyusutan rata-rata 58 persen, rata-rata, bukan jaminan untuk tiap strategi). Crowding menaikkan harga masuk, menaikkan korelasi antar pemain, dan mempercepat crash saat semua keluar bersamaan — bila ia memang terjadi. Pertahanan peneliti bukan rahasia — melainkan kombinasi: F-score dengan momentum, accruals dengan value, BAB dengan netralisasi — kombinasi yang korelasinya rendah satu sama lain.",
       },
       reference: "Accruals 3,5 persen. BAB: beta 0,6 vs 1,5. Momentum crash 2009: kehilangan lebih dari 40 persen dalam beberapa bulan.",
     },
@@ -75,7 +75,7 @@ export const wqb34: V2Lesson = {
       prose: [
         "Lab ini menghitung tiga angka dari data cerita pembuka: F-score perusahaan A, rasio accruals, dan drift abnormal PEAD. Hitung dulu di kepala. F-score A: 8 dari 9 sinyal positif. Accruals: (120 dikurangi 85) dibagi 1.000 dikali 100 sama dengan 3,5 persen. Drift abnormal: 4,2 dikurangi 1,1 sama dengan 3,1 persen.",
         "Tugas lab: isi tiga variabel — f_score_a, accruals_pct, drift_abnormal — lalu cetak ketiganya. Tiga angka ini adalah kartu skor satu perusahaan: sehatkah ia, seberapa besar labanya yang bukan kas, dan seberapa besar kejutan labanya masih berlanjut.",
-        "Setelah lolos, coba eksperimen: ubah arus kas operasi menjadi 130 — lebih besar dari laba bersih 120 — dan lihat accruals menjadi minus 1,0 persen. Lalu tanyakan: apakah perusahaan itu tiba-tiba menjadi kandidat beli? Jawabannya: accruals negatif adalah sinyal BAIK — labanya lebih dari didukung kas — tetapi satu sinyal tidak pernah cukup; baca bersama F-score dan valuasinya.",
+        "Setelah lolos, coba eksperimen: ubah arus kas operasi menjadi 130 — lebih besar dari laba bersih 120 — dan lihat accruals menjadi minus 1,0 persen. Lalu tanyakan: apakah perusahaan itu tiba-tiba menjadi kandidat beli? Jawabannya: accruals negatif adalah sinyal BAIK sebagai titik awal — labanya lebih dari didukung kas — tetapi periksa penyebabnya: write-down atau restrukturisasi besar juga bisa membuat accruals negatif tanpa berarti kualitas laba membaik. Satu sinyal tidak pernah cukup; baca bersama F-score dan valuasinya.",
       ],
       tasks: [
         { id: "t1", text: "Hitung F-score perusahaan A (jumlah sinyal positif)" },
@@ -164,7 +164,7 @@ export const wqb34: V2Lesson = {
           q: "Accruals sebuah perusahaan negatif (arus kas lebih besar dari laba). Apa artinya?",
           options: [
             { text: "Sinyal buruk — labanya tidak didukung kas", why: "Salah: terbalik. Arus kas lebih besar dari laba berarti labanya LEBIH dari didukung kas." },
-            { text: "Sinyal baik — labanya didukung kas bahkan lebih", why: "Tepat: accruals negatif berarti laba yang konservatif dan persisten.", correct: true },
+            { text: "Sinyal baik — labanya didukung kas bahkan lebih", why: "Tepat sebagai sinyal awal: accruals negatif berarti laba didukung kas — tetapi periksa penyebabnya: write-down atau restrukturisasi besar juga bisa membuat accruals negatif tanpa berarti kualitas laba membaik.", correct: true },
             { text: "Tidak ada arti — accruals negatif tidak mungkin", why: "Salah: accruals negatif sangat mungkin — saat arus kas melebihi laba." },
             { text: "Perusahaan pasti memanipulasi laporan", why: "Salah: accruals negatif adalah tanda kesehatan, bukan manipulasi." },
           ],

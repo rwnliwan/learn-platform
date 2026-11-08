@@ -48,7 +48,7 @@ export const fdp13: V2Lesson = {
       tasks: [],
       note: {
         title: "Skor gabungan menipu; floor yang melindungi",
-        body: "Rata-rata menyembunyikan kelemahan: lima dimensi 97 dan satu dimensi 60 memberi rata-rata 91 — terlihat baik, tetapi satu dimensi yang rusak bisa meracuni seluruh analisis. Itulah kenapa kerangka formal memakai floor per dimensi, bukan hanya skor gabungan. Floor adalah gerbang; skor gabungan adalah ringkasan.",
+        body: "Rata-rata menyembunyikan kelemahan: lima dimensi 97 dan satu dimensi 60 memberi rata-rata 91 — terlihat baik, tetapi satu dimensi yang rusak bisa meracuni seluruh analisis. Itulah kenapa kerangka formal memakai floor per dimensi, bukan hanya skor gabungan. Floor adalah gerbang; skor gabungan adalah ringkasan.\n\nCara mengukur tiap dimensi (prosedur, bukan tebakan): Completeness — baris non-null dibagi total baris. Validity — baris yang lolos aturan format dan rentang dibagi total. Accuracy — sampel baris yang dicocokkan ke sumber tepercaya (filing asli) dan dinyatakan benar. Consistency — nilai yang sama antar sistem dibagi total nilai yang dibandingkan. Timeliness — batch yang tiba dalam SLA dibagi total batch. Uniqueness — baris unik dibagi total baris. Tiap skor harus bisa dihitung ulang dari query-nya — skor tanpa prosedur pengukuran adalah opini.",
       },
       reference: "Completeness 96, validity 94, accuracy 91, consistency 88, timeliness 97, uniqueness 99. Gabungan 94,2; floor 90.",
     },
@@ -57,7 +57,7 @@ export const fdp13: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "SLA, floor, dan pemantauan tiap batch",
       prose: [
-        "Floor ditetapkan per dimensi berdasarkan dampaknya. Consistency floor 90 — di bawah itu, definisi yang berbeda membuat perbandingan antar emiten tidak berarti. Timeliness punya SLA waktu, bukan persen: data kuartal harus tiba maksimal 2 hari setelah rilis filing; keterlambatan 3 hari di cerita pembuka adalah pelanggaran SLA, bukan sekadar skor rendah. Accuracy floor 90 — di bawah itu, angka tidak bisa dipakai untuk keputusan investasi.",
+        "Floor ditetapkan per dimensi berdasarkan dampaknya. Consistency floor 90 — di bawah itu, definisi yang berbeda membuat perbandingan antar emiten tidak berarti. Timeliness punya SLA waktu, bukan persen: data kuartal harus tiba maksimal 2 hari setelah rilis filing; keterlambatan 3 hari di cerita pembuka adalah pelanggaran SLA, bukan sekadar skor rendah. Skor timeliness 97 di cerita pembuka dihitung dari 100 batch terakhir: 97 batch tiba dalam SLA 2 hari — keterlambatan 3 hari itu adalah satu dari 3 batch yang terlambat, dan menurunkan skor batch tersebut, bukan menghapus skor keseluruhannya. Accuracy floor 90 — di bawah itu, angka tidak bisa dipakai untuk keputusan investasi.",
         "Pemantauan berjalan tiap batch, bukan tiap kuartal. Setiap kali pipeline selesai mengambil dan membersihkan satu batch, enam skor dihitung otomatis dan ditulis ke log kualitas. Bila satu dimensi jatuh di bawah floor, batch itu ditandai dan tidak diteruskan ke dashboard — ia masuk antrean perbaikan. Bila tiga batch berturut-turut gagal di dimensi yang sama, itu bukan lagi masalah data — itu masalah sumber atau definisi yang harus diperbaiki di hulu.",
         "Satu praktik yang membedakan kerangka formal dari cek ad-hoc: data quality report menyertai setiap dataset yang dibagikan. Satu halaman: enam skor, floor, tren tiga batch terakhir, dan daftar masalah yang diketahui. Analis yang menerima dataset tanpa laporan kualitas sedang menerima angka tanpa mengetahui seberapa kuat lantai tempat angka itu berdiri — sama seperti lesson MK31 tentang profiling, tetapi kini dengan floor dan SLA yang mengikat.",
       ],
@@ -74,7 +74,7 @@ export const fdp13: V2Lesson = {
       title: "Lab: menghitung skor gabungan dan dimensi terlemah",
       prose: [
         "Lab ini menghitung skor gabungan enam dimensi dan menemukan dimensi terlemah. Hitung dulu di kepala. Jumlah skor: 96 ditambah 94 ditambah 91 ditambah 88 ditambah 97 ditambah 99 sama dengan 565. Skor gabungan: 565 dibagi 6 sama dengan 94,2 (pembulatan satu desimal). Dimensi terlemah: consistency, 88 — di bawah floor 90.",
-        "Tugas lab: isi tiga variabel — skor_gabungan, terlemah, dan lolos ('TIDAK' bila ada dimensi di bawah floor 90; 'YA' bila semua di atas floor) — lalu cetak ketiganya. Tiga output ini adalah stempel kualitas pada tiap batch pipeline.",
+        "Tugas lab: isi tiga variabel — skor_gabungan, terlemah, dan lolos ('TIDAK' bila ada dimensi di bawah floor 90; 'YA' bila semua sama dengan atau di atas floor) — lalu cetak ketiganya. Tiga output ini adalah stempel kualitas pada tiap batch pipeline.",
         "Setelah lolos, coba eksperimen: naikkan consistency menjadi 92 dan lihat keputusan berubah menjadi 'YA' — lalu tanyakan: apakah dataset itu tiba-tiba sempurna? Jawabannya: tidak — lolos floor berarti layak dipakai, bukan berarti sempurna. Skor gabungan 94,8 tetap harus dilaporkan bersama dimensinya.",
       ],
       tasks: [
@@ -86,7 +86,7 @@ export const fdp13: V2Lesson = {
       hints: [
         "Skor gabungan = rata-rata keenam skor dimensi.",
         "Dimensi terlemah = nama dengan skor terkecil.",
-        "Lolos hanya bila SEMUA dimensi di atas floor 90.",
+        "Lolos hanya bila SEMUA dimensi sama dengan atau di atas floor 90 — skor tepat 90 lolos.",
       ],
       code: {
         starter: "# Skor enam dimensi data quality (0-100). JANGAN UBAH.\nskor = {\"completeness\": 96, \"validity\": 94, \"accuracy\": 91, \"consistency\": 88, \"timeliness\": 97, \"uniqueness\": 99}\nfloor = 90\n\n# TULIS KODEMU: skor gabungan, dimensi terlemah, lolos floor\nskor_gabungan = \nterlemah = \nlolos = \nprint(f\"skor_gabungan={round(skor_gabungan, 1)}\")\nprint(f\"terlemah={terlemah}\")\nprint(f\"lolos={lolos}\")",

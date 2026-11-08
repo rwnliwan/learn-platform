@@ -43,7 +43,7 @@ export const biz32: V2Lesson = {
       title: "Struktur 3 menit: what, so what, now what",
       prose: [
         "Menit pertama, what: satu kalimat fakta. Revenue Oktober naik 4,6 persen ke Rp550 ribu — dari Rp526 ribu, naik Rp24 ribu. Satu chart: dua batang kategori dengan anotasi. Tidak ada latar belakang 10 slide; fakta dulu, konteks menyusul.",
-        "Menit kedua, so what: kenapa fakta itu penting. Kenaikan ini 100 persen ditopang Minuman; kategori Bahan anjlok 66,7 persen. Headline baik menyembunyikan peringatan dini — Bahan adalah 16 persen revenue September, dan bila tren ini menular ke Minuman, perusahaan kehilangan Rp180 ribu per bulan. Angka konteks mengubah 'naik' menjadi 'naik tetapi rapuh'.",
+        "Menit kedua, so what: kenapa fakta itu penting. Kenaikan ini BUKAN '100 persen ditopang Minuman' — Minuman naik Rp80,11 ribu (dari Rp441,84 ribu ke Rp521,95 ribu), LEBIH BESAR dari kenaikan bersih Rp24 ribu, karena ia menutup kejatuhan Bahan sebesar Rp56,11 ribu (dari Rp84,16 ribu ke Rp28,05 ribu; −66,7 persen). Kalimat yang jujur: Minuman tumbuh kuat, tetapi sebagian pertumbuhannya dipakai menambal lubang Bahan. Headline baik menyembunyikan peringatan dini — Bahan adalah 16 persen revenue September, dan bila tren ini menular ke Minuman, perusahaan kehilangan Rp180 ribu per bulan. Angka konteks mengubah 'naik' menjadi 'naik tetapi rapuh'.",
         "Menit ketiga, now what: aksi yang diminta. Investigasi pasokan gula aren minggu ini; pemilik: manajer operasional; tenggat: Jumat. Presentasi tanpa permintaan keputusan adalah laporan yang dibacakan — dan laporan bisa dikirim lewat email. Rapat ada untuk memutuskan.",
       ],
       tasks: [],

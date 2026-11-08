@@ -43,7 +43,7 @@ export const llmops25: V2Lesson = {
       title: "Lima komponen, lima kontrak",
       prose: [
         "Serving — vLLM: menjalankan model dengan continuous batching dan PagedAttention (LLMOps13). Kontraknya: menerima prompt, mengembalikan token + metrik (TTFT, throughput). Satu-satunya komponen yang menyentuh GPU — dan satu-satunya yang butuh keahlian GPU.",
-        "Gateway — LiteLLM: satu API yang berbicara ke banyak backend (vLLM lokal, API vendor sebagai cadangan). Kontraknya: routing (model A ke vLLM, model B ke API), fallback (vLLM gagal → API otomatis), dan rate limit per kunci. Fallback adalah alasan gateway ada: tanpa itu, satu komponen gagal mematikan seluruh sistem.",
+        "Gateway — LiteLLM: satu API yang berbicara ke banyak backend (vLLM lokal, API vendor sebagai cadangan). Kontraknya: routing (model A ke vLLM, model B ke API), fallback (vLLM gagal → cadangan otomatis), dan rate limit per kunci. Fallback adalah alasan gateway ada: tanpa itu, satu komponen gagal mematikan seluruh sistem. Tetapi fallback ke API vendor hanya sah bila data BOLEH keluar: bila data tidak boleh meninggalkan infrastruktur sendiri (UU PDP, perbankan), fallback eksternal melanggar batas data — fallback-nya harus internal (vLLM cadangan di region yang sama) atau degraded mode yang menolak dengan sopan, bukan ke API vendor.",
         "Observabilitas — Langfuse: trace tiap request (prompt, model, token, latensi, skor judge) dalam satu ID. Kontraknya: setiap request bisa ditelusuri dari skor buruk kembali ke prompt dan retrieval-nya. Tanpa trace, debugging LLM adalah menebak.",
         "Evaluasi — skor judge berjalan + golden set (MLOps19): tiap rilis model diuji sebelum naik; tiap hari, sampel request dinilai judge. Registry — MLflow atau file berversi: model mana yang di produksi, dengan hash dataset dan skornya (LLMOps8). Lima komponen, lima kontrak — ganti satu, empat lainnya tidak peduli.",
       ],
@@ -66,7 +66,7 @@ export const llmops25: V2Lesson = {
       tasks: [],
       note: {
         title: "Fallback API bukan pengkhianatan OSS",
-        body: "Stack OSS yang sehat PUNYA fallback ke API vendor — untuk saat GPU mati atau trafik meledak. Fallback bukan kekalahan; ia asuransi. Yang penting: fallback diuji tiap bulan (bukan saat insiden), dan biayanya dianggarkan. Gateway yang tidak pernah menguji fallback-nya akan menemukan fallback-nya rusak di saat yang paling buruk.",
+        body: "Stack OSS yang sehat PUNYA fallback ke API vendor — untuk saat GPU mati atau trafik meledak. Fallback bukan kekalahan; ia asuransi. Dengan satu syarat: fallback ke API vendor hanya sah bila data request boleh keluar. Bila tidak boleh, fallback API bukan asuransi — ia pelanggaran batas data; di kasus itu fallback harus internal (cadangan di region yang sama) atau degraded mode. Yang penting: fallback diuji tiap bulan (bukan saat insiden), dan biayanya dianggarkan. Gateway yang tidak pernah menguji fallback-nya akan menemukan fallback-nya rusak di saat yang paling buruk.",
       },
       reference: "Latensi 1.115 ms, headroom 385 ms; hemat 57,1 persen ($1.600/bulan).",
     },
@@ -110,7 +110,7 @@ export const llmops25: V2Lesson = {
       prose: [
         "Skenario 1 — Volume besar, tim punya keahlian GPU, data sensitif. → Stack OSS penuh. Alasan: hemat 57 persen + kontrol penuh.",
         "Skenario 2 — Volume kecil, tim 2 orang, butuh rilis minggu ini. → API vendor. Alasan: stack OSS butuh operator; API butuh kartu kredit.",
-        "Skenario 3 — Volume menengah, butuh kontrol tetapi takut downtime. → Hybrid: vLLM utama + API sebagai fallback via LiteLLM. Alasan: hemat saat normal, selamat saat darurat.",
+        "Skenario 3 — Volume menengah, butuh kontrol tetapi takut downtime. → Hybrid: vLLM utama + API sebagai fallback via LiteLLM. Alasan: hemat saat normal, selamat saat darurat — dengan syarat data boleh keluar; bila tidak, fallback harus internal (lihat Langkah 3).",
         "Skenario 4 — Regulasi melarang data keluar, tetapi tim tidak punya keahlian GPU. → Managed platform (LLMOps23) atau vendor lokal. Alasan: OSS tanpa operator adalah liabilitas.",
         "Skenario 5 — Stack sudah jalan 6 bulan tanpa insiden. → Tetap uji fallback tiap bulan + review biaya tiap kuartal. Alasan: stack yang tidak diuji fallback-nya akan gagal di insiden pertama.",
         "Aturan praktis: mulai dari API, pindah ke OSS saat tagihan API melebihi biaya GPU + operator. Migrasi yang didorong angka, bukan ideologi.",
@@ -161,7 +161,7 @@ export const llmops25: V2Lesson = {
           q: "Mengapa gateway (LiteLLM) penting dalam stack?",
           options: [
             { text: "Karena ia menjalankan model", why: "Salah: itu tugas vLLM; gateway merutekan dan memberi fallback." },
-            { text: "Routing + fallback: vLLM gagal, request pindah ke API otomatis", why: "Tepat: tanpa fallback, satu komponen gagal mematikan sistem.", correct: true },
+            { text: "Routing + fallback: vLLM gagal, request pindah ke cadangan (API bila data boleh keluar, internal bila tidak)", why: "Tepat: tanpa fallback, satu komponen gagal mematikan sistem — tetapi fallback eksternal hanya sah bila data boleh keluar.", correct: true },
             { text: "Karena ia menyimpan trace", why: "Salah: itu tugas Langfuse." },
             { text: "Karena ia melatih model", why: "Salah: gateway tidak melatih apa pun." },
           ],

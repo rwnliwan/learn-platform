@@ -105,7 +105,7 @@ export const wqb35: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Mini-case: dua alpha, satu slot",
       prose: [
-        "Dua alpha bersaing untuk satu slot di portofolio. Alpha A: Sharpe 1,6, beta 0,9, Jensen 2,1 persen. Alpha B: Sharpe 1,2, beta 0,3, Jensen 3,8 persen, Treynor 13,3 persen. Bila hanya melihat Sharpe, A menang. Tetapi portofolio sudah penuh dengan alpha ber-beta tinggi — dan B, dengan beta 0,3, menambah diversifikasi yang tidak dimiliki A. Jensen B yang lebih tinggi berkata B menambah nilai lebih besar per unit risiko pasar yang diambilnya.",
+        "Dua alpha bersaing untuk satu slot di portofolio. Alpha A: Sharpe 1,6, beta 0,9, Jensen 2,1 persen. Alpha B: Sharpe 1,35, beta 0,3, Jensen 3,8 persen, Treynor 13,3 persen. Bila hanya melihat Sharpe, A menang. Tetapi portofolio sudah penuh dengan alpha ber-beta tinggi — dan B, dengan beta 0,3, menambah diversifikasi yang tidak dimiliki A. Jensen B yang lebih tinggi berkata B menambah nilai LEBIH BESAR di atas ekspektasi CAPM-nya — Jensen adalah selisih absolut dalam persen, BUKAN 'per unit risiko': ia tidak dibagi beta atau volatilitas apa pun, jadi jangan membacanya sebagai ukuran efisiensi per unit risiko.",
         "Keputusan: B yang dipilih. Enam bulan kemudian, saat pasar jatuh 8 persen, portofolio dengan B jatuh 2 persen lebih sedikit daripada yang akan terjadi dengan A — beta 0,3 itu membayar. Sharpe A yang lebih tinggi ternyata adalah Sharpe dari risiko pasar yang dibungkus sebagai alpha — dan risiko pasar itu tidak dibayar saat pasar jatuh.",
         "Pelajaran yang dicatat: membandingkan alpha dengan satu metrik adalah seperti membandingkan mobil dengan satu angka — kecepatan tanpa rem. Sharpe berkata tentang risiko total; Treynor dan Jensen berkata tentang berapa dari return itu yang benar-benar alpha, bukan beta yang menyamar.",
       ],
@@ -114,7 +114,7 @@ export const wqb35: V2Lesson = {
         title: "Pembahasan",
         body: "Tiga hal yang membuat keputusan ini benar. Pertama, tiga metrik dibaca bersama, bukan satu. Kedua, beta portofolio yang sudah ada dipertimbangkan — diversifikasi adalah konteks. Ketiga, Jensen dipakai sebagai ukuran nilai tambah, bukan Sharpe semata.",
       },
-      reference: "A: Sharpe 1,6, Jensen 2,1 persen. B: Sharpe 1,2, Jensen 3,8 persen, beta 0,3. B dipilih.",
+      reference: "A: Sharpe 1,6, Jensen 2,1 persen. B: Sharpe 1,35, Jensen 3,8 persen, beta 0,3. B dipilih.",
     },
     {
       id: "kuis",
@@ -146,7 +146,7 @@ export const wqb35: V2Lesson = {
           q: "Portofolio punya Treynor tinggi tetapi Sharpe rendah. Apa diagnosisnya?",
           options: [
             { text: "Portofolio sangat baik di semua ukuran", why: "Salah: Sharpe rendah berarti ada masalah — risiko totalnya besar." },
-            { text: "Portofolio kurang terdiversifikasi — risiko spesifiknya besar", why: "Tepat: Treynor mengabaikan risiko spesifik; Sharpe tidak. Selisih keduanya adalah risiko spesifik.", correct: true },
+            { text: "Portofolio kurang terdiversifikasi — risiko spesifiknya besar", why: "Tepat: Treynor mengabaikan risiko spesifik; Sharpe tidak. Kesenjangan keduanya MENANDAKAN risiko spesifik yang besar — tetapi selisih angkanya BUKAN ukuran risiko spesifik itu sendiri: satuannya berbeda (Treynor persen per unit beta, Sharpe tanpa satuan), jadi tidak bisa dibaca sebagai 'selisih = risiko spesifik'.", correct: true },
             { text: "Beta-nya pasti negatif", why: "Salah: beta negatif membalik Treynor menjadi negatif, bukan tinggi." },
             { text: "Risk-free rate-nya salah", why: "Salah: rf yang salah memengaruhi ketiganya secara sama, bukan selisih Treynor-Sharpe." },
           ],
@@ -170,12 +170,12 @@ export const wqb35: V2Lesson = {
           ],
         },
         {
-          q: "Alpha A: Sharpe 1,6, beta 0,9, Jensen 2,1 persen. Alpha B: Sharpe 1,2, beta 0,3, Jensen 3,8 persen. Portofolio sudah penuh alpha ber-beta tinggi. Mana yang dipilih?",
+          q: "Alpha A: Sharpe 1,6, beta 0,9, Jensen 2,1 persen. Alpha B: Sharpe 1,35, beta 0,3, Jensen 3,8 persen. Portofolio sudah penuh alpha ber-beta tinggi. Mana yang dipilih?",
           options: [
             { text: "A — Sharpe lebih tinggi selalu menang", why: "Salah: Sharpe A sebagian adalah beta yang menyamar; portofolio butuh diversifikasi beta rendah." },
-            { text: "B — Jensen lebih tinggi dan beta rendah menambah diversifikasi", why: "Tepat: B menambah nilai lebih besar per unit risiko pasar dan menyeimbangkan portofolio.", correct: true },
+            { text: "B — Jensen lebih tinggi dan beta rendah menambah diversifikasi", why: "Tepat: B menambah nilai absolut lebih besar di atas ekspektasi CAPM-nya dan beta rendahnya menyeimbangkan portofolio.", correct: true },
             { text: "Keduanya — selalu ambil keduanya", why: "Salah: hanya ada satu slot; dan keduanya bersama mungkin berkorelasi." },
-            { text: "Tidak satu pun — Sharpe keduanya di bawah 2", why: "Salah: gerbang Sharpe 1,25 di WQB3, bukan 2. Keduanya lolos gerbang." },
+            { text: "Tidak satu pun — Sharpe keduanya di bawah 2", why: "Salah: gerbang Sharpe 1,25 di WQB3, bukan 2. Keduanya lolos gerbang (A 1,6; B 1,35)." },
           ],
         },
       ],

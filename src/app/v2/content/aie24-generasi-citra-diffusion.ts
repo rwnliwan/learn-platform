@@ -12,7 +12,7 @@ export const aie24: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "5.000 gambar produk dari 50 foto — tanpa fotografer",
       prose: [
-        "KirimCepat butuh gambar produk dalam 10 latar berbeda untuk 500 produk — 5.000 gambar. Fotografer dan studio: 3 bulan dan Rp400 juta. Solusinya: Stable Diffusion dengan ControlNet — foto produk asli sebagai kontrol (pose dan bentuk dipertahankan), prompt teks sebagai pengarah latar ('latar dapur minimalis, cahaya pagi'). Hasil: 5.000 gambar dalam 2 hari, dengan review manusia atas 200 sampel. Bukan tanpa masalah: 3 persen gambar punya cacat anatomi (tangan ekstra pada model, logo miring) — ditangkap review, bukan oleh model.",
+        "KirimCepat butuh gambar produk dalam 10 latar berbeda untuk 500 produk — 5.000 gambar. Fotografer dan studio: 3 bulan dan Rp400 juta. Solusinya: Stable Diffusion dengan ControlNet — foto produk asli sebagai kontrol (pose dan bentuk dipertahankan), prompt teks sebagai pengarah latar ('latar dapur minimalis, cahaya pagi'). Hasil: 5.000 gambar dalam 2 hari, dengan review manusia atas 200 sampel. Bukan tanpa masalah: review menemukan 6 gambar cacat dari 200 sampel (3 persen) — tangan ekstra pada model, logo miring — ditangkap review, bukan oleh model.",
         "Generasi citra diffusion adalah alat produksi AI Engineering: bukan sekadar 'gambar keren', melainkan pipeline dengan kontrol (ControlNet), konsistensi (seed + LoRA gaya), dan evaluasi (review manusia atas sampel). DLE11 mengajarkan difusi sebagai teori; lesson ini mengajarkan MEMAKAINYA sebagai engineer produk.",
         "Setelah lesson ini kamu bisa: (1) menjelaskan forward dan reverse diffusion dengan angka; (2) menghitung alpha-bar dari jadwal beta; (3) menjelaskan latent space dan penghematannya; (4) merancang pipeline ControlNet + LoRA; (5) merancang evaluasi dan review manusia untuk gambar hasil.",
       ],
@@ -43,7 +43,7 @@ export const aie24: V2Lesson = {
       title: "Diffusion dalam angka: dari noise ke gambar, selangkah demi selangkah",
       prose: [
         "Forward diffusion menambahkan noise sedikit demi sedikit: tiap langkah t, x_t = akar(alpha-bar_t) x x_0 + akar(1 - alpha-bar_t) x noise, dengan alpha-bar_t = produk (1 - beta_i) dari i=1 sampai t. Jadwal beta linear dari 0,0001 ke 0,02 selama T=1.000 langkah. Hitung: alpha-bar_10 = 0,9981 (gambar masih 99,8 persen utuh); alpha-bar_100 = 0,897; alpha-bar_1000 = 0,00004 — praktis noise murni. Reverse diffusion membalik prosesnya: model memprediksi noise yang ditambahkan, menguranginya sedikit, dan mengulang 1.000 langkah (atau 20-50 langkah dengan sampler cepat seperti DPM++).",
-        "Latent diffusion (Stable Diffusion) tidak bekerja di piksel — ia bekerja di latent space VAE: gambar 512x512x3 = 786.432 byte dikompresi menjadi latent 64x64x4 float16 = 32.768 byte — 24x lebih kecil. Diffusion berjalan di latent yang kecil ini, lalu VAE decoder mengubahnya kembali menjadi gambar. Itulah mengapa Stable Diffusion bisa jalan di GPU konsumen: komputasi 24x lebih ringan daripada diffusion piksel.",
+        "Latent diffusion (Stable Diffusion) tidak bekerja di piksel — ia bekerja di latent space VAE: gambar 512x512x3 = 786.432 byte dikompresi menjadi latent 64x64x4 float16 = 32.768 byte — 24x lebih kecil dalam UKURAN data. Diffusion berjalan di latent yang kecil ini, lalu VAE decoder mengubahnya kembali menjadi gambar. Itulah mengapa Stable Diffusion bisa jalan di GPU konsumen: ruang kerjanya jauh lebih kecil. Tetapi 24x adalah rasio byte, bukan rasio FLOP/waktu/biaya yang terukur — komputasi riil juga bergantung pada arsitektur UNet, jumlah langkah sampler, dan overhead encode/decode VAE. 'Komputasi 24x lebih ringan' sebagai klaim butuh pengukuran FLOP, bukan hanya rasio byte.",
         "Sampler dan langkah: 50 langkah DPM++ memberi kualitas yang hampir sama dengan 1.000 langkah DDPM — dengan 20x lebih sedikit komputasi. CFG scale (classifier-free guidance) mengatur seberapa kuat prompt diikuti: 7-8 untuk keseimbangan; di atas 12, gambar menjadi jenuh dan artefak; di bawah 5, prompt diabaikan. Tiga angka ini — langkah, CFG, seed — adalah 'resep' tiap gambar; catat ketiganya di metadata, karena gambar tanpa resep tidak bisa direproduksi.",
       ],
       tasks: [],
@@ -60,9 +60,10 @@ export const aie24: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Kontrol: ControlNet, LoRA, dan ComfyUI",
       prose: [
-        "Prompt teks saja tidak cukup untuk produk: 'tas kulit cokelat' bisa menghasilkan 100 tas yang berbeda bentuk. ControlNet menambahkan kontrol spasial: beri gambar referensi (tepi/Canny, pose, depth) dan model WAJIB mengikuti strukturnya — bentuk tas dipertahankan, latar yang berubah. LoRA menambahkan konsistensi GAYA: latih adapter kecil (puluhan MB) pada 20-30 gambar referensi gaya brand, lalu pakai di semua generasi — semua gambar berbicara dalam 'bahasa visual' yang sama.",
+        "Prompt teks saja tidak cukup untuk produk: 'tas kulit cokelat' bisa menghasilkan 100 tas yang berbeda bentuk. ControlNet menambahkan kontrol spasial: beri gambar referensi (tepi/Canny, pose, depth) dan model CENDERUNG KUAT mengikuti strukturnya — bentuk tas umumnya dipertahankan, latar yang berubah. Tetapi itu kondisi, bukan jaminan identitas produk: bentuk bisa tetap bergeser, detail kecil (logo, jahitan, tekstur) bisa berubah — verifikasi dengan review manusia, bukan asumsi. LoRA menambahkan konsistensi GAYA: latih adapter kecil (puluhan MB) pada 20-30 gambar referensi gaya brand, lalu pakai di semua generasi — semua gambar berbicara dalam 'bahasa visual' yang sama.",
+        "Untuk produk yang piksel aslinya HARUS utuh (logo, label, tekstur kulit), ControlNet saja tidak cukup: pakai inpainting dengan masking — kunci piksel produk dengan mask, generate HANYA latar di luar mask, lalu komposit. Dengan begitu piksel produk adalah foto asli, bukan hasil generate — dan cacat seperti 'logo miring' tidak mungkin terjadi pada area yang di-mask. Masking adalah mekanisme yang menjamin, ControlNet adalah mekanisme yang mengarahkan; untuk aset hero, pakai yang menjamin.",
         "ComfyUI adalah orkestrasi visual: workflow sebagai graph node (load model → ControlNet → sampler → VAE decode → save). Keuntungannya: workflow tersimpan sebagai JSON yang bisa di-versioning, dibagikan, dan dijalankan batch (500 produk x 10 latar = 5.000 job dari satu workflow). Kekurangannya: kurva belajar — node dan koneksi membingungkan di minggu pertama. Alternatif: AUTOMATIC1111 (UI sederhana) untuk eksplorasi, ComfyUI untuk produksi.",
-        "Evaluasi produksi: review manusia atas sampel — 200 dari 5.000 (4 persen) diperiksa untuk cacat (anatomi, logo, teks gibberish). Tingkat cacat 3 persen (150 dari 5.000) berarti 150 gambar harus di-generate ulang — anggarkan itu. Deteksi otomatis membantu: CLIP score untuk kesesuaian prompt, detektor NSFW untuk keamanan, dan perbandingan embedding untuk konsistensi gaya. Tetapi tidak ada metrik otomatis yang menangkap 'logo miring 5 derajat' — mata manusia masih diperlukan.",
+        "Evaluasi produksi: review manusia atas sampel — 200 dari 5.000 (4 persen) diperiksa untuk cacat (anatomi, logo, teks gibberish). Review menemukan 6 cacat dari 200 sampel — tingkat cacat 3 persen sebagai ESTIMASI populasi: sekitar 150 dari 5.000 gambar diperkirakan cacat dan harus di-generate ulang. Karena sampelnya hanya 200, estimasi ini punya rentang kasar (simpangan baku ~1,2 poin → 3 persen ± 2,4 poin, alias 30–270 gambar) — anggarkan regenerate dengan rentang itu, bukan angka pasti 150. Deteksi otomatis membantu: CLIP score untuk kesesuaian prompt, detektor NSFW untuk keamanan, dan perbandingan embedding untuk konsistensi gaya. Tetapi tidak ada metrik otomatis yang menangkap 'logo miring 5 derajat' — mata manusia masih diperlukan.",
       ],
       tasks: [],
       note: {
@@ -120,7 +121,7 @@ export const aie24: V2Lesson = {
       tasks: [],
       note: {
         title: "Biaya yang sering dilupakan",
-        body: "Biaya diffusion bukan hanya GPU: review manusia 200 sampel, regenerate 150 cacat, storage 5.000 gambar, dan waktu engineer membangun workflow. Hitung semuanya sebelum membandingkan dengan Rp400 juta fotografer — diffusion tetap menang di kasus ini, tetapi marginnya lebih kecil dari yang terlihat di demo.",
+        body: "Biaya diffusion bukan hanya GPU: review manusia 200 sampel, regenerate ~150 cacat (estimasi, rentang kasar 30–270), storage 5.000 gambar, dan waktu engineer membangun workflow. Hitung semuanya sebelum membandingkan dengan Rp400 juta fotografer — diffusion tetap menang di kasus ini, tetapi marginnya lebih kecil dari yang terlihat di demo.",
       },
       reference: "Diffusion untuk variasi/volume; foto asli untuk hero/manusia; teks setelah generasi.",
     },
@@ -137,9 +138,9 @@ export const aie24: V2Lesson = {
         "Latent 32.768 byte vs gambar 786.432 byte — 24x lebih kecil.",
         "ControlNet = struktur; LoRA = gaya; ComfyUI = workflow berversi.",
         "CFG 7-8 seimbang; di atas 12 artefak; di bawah 5 prompt diabaikan.",
-        "Review 4 persen sampel; cacat 3 persen di-generate ulang.",
+        "Review 4 persen sampel (200); 6 cacat teramati (3 persen) — estimasi ~150 dari 5.000 di-generate ulang.",
       ],
-      next: { label: "AIE25 — Katalog Pola Prompt: 21 Pola Vanderbilt", href: "/v2/learn/aie25-katalog-pola-prompt" },
+      next: { label: "AIE25 — Katalog Pola Prompt: 16 Pola Vanderbilt", href: "/v2/learn/aie25-katalog-pola-prompt" },
       quiz: [
         {
           q: "Alpha-bar_10 = 0,9981 dan alpha-bar_1000 = 0,00004. Apa artinya?",
@@ -153,7 +154,7 @@ export const aie24: V2Lesson = {
         {
           q: "Mengapa Stable Diffusion bekerja di latent, bukan piksel?",
           options: [
-            { text: "Karena latent 24x lebih kecil — komputasi jauh lebih ringan", why: "Tepat: 786.432 byte menjadi 32.768 byte.", correct: true },
+            { text: "Karena latent 24x lebih kecil dalam byte — diffusion berjalan di ruang yang jauh lebih kecil", why: "Tepat: 786.432 byte menjadi 32.768 byte. Itu rasio ukuran data — penghematan komputasi riil juga besar tetapi tidak sama persis dengan 24x; ia bergantung arsitektur dan langkah sampler.", correct: true },
             { text: "Karena piksel tidak bisa di-diffusion", why: "Salah: diffusion piksel bisa (DLE11) — hanya mahal." },
             { text: "Karena latent memberi kualitas lebih tinggi", why: "Salah: latent memberi efisiensi; kualitas datang dari model dan data." },
             { text: "Karena VAE menghapus noise", why: "Salah: VAE mengompresi; noise dihapus oleh reverse diffusion." },
@@ -178,12 +179,12 @@ export const aie24: V2Lesson = {
           ],
         },
         {
-          q: "5.000 gambar, review 200 sampel menemukan cacat 3 persen. Berapa yang harus di-generate ulang?",
+          q: "5.000 gambar, review 200 sampel menemukan 6 cacat (3 persen). Berapa yang harus di-generate ulang?",
           options: [
-            { text: "150 gambar", why: "Tepat: 3 persen dari 5.000 = 150 — anggarkan regenerate.", correct: true },
+            { text: "Sekitar 150 gambar (estimasi — 6 cacat teramati dari 200 sampel)", why: "Tepat: 3 persen adalah estimasi tingkat cacat dari sampel; diterapkan ke 5.000 memberi ~150 — dengan rentang ketidakpastian karena sampel hanya 200.", correct: true },
             { text: "200 gambar — semua yang di-review", why: "Salah: yang di-review bukan yang cacat; cacatnya 3 persen dari total." },
-            { text: "6 gambar — 3 persen dari 200", why: "Salah: 3 persen adalah estimasi tingkat cacat populasi, diterapkan ke 5.000." },
-            { text: "0 — 3 persen bisa diterima", why: "Salah: 150 gambar cacat di katalog adalah 150 pelanggan yang melihat produk rusak." },
+            { text: "6 gambar — 3 persen dari 200", why: "Salah: 6 adalah jumlah cacat yang TERAMATI di sampel — estimasi untuk populasi adalah ~150, bukan 6." },
+            { text: "0 — 3 persen bisa diterima", why: "Salah: ~150 gambar cacat di katalog adalah ~150 pelanggan yang melihat produk rusak." },
           ],
         },
       ],
