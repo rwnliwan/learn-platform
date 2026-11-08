@@ -21,6 +21,11 @@ import { aai19 } from "../content/aai19-cloud-deployment-agen";
 import { aai20 } from "../content/aai20-agen-sebagai-service";
 import { aai21 } from "../content/aai21-automation-platforms";
 import { aai22 } from "../content/aai22-pola-desain-agen";
+import { aai23 } from "../content/aai23-framework-multi-agent";
+import { aai24 } from "../content/aai24-evaluasi-agen-benchmark";
+import { aai25 } from "../content/aai25-governance-compliance-agen";
+import { aai26 } from "../content/aai26-penalaran-agen";
+import { aai27 } from "../content/aai27-ekonomi-operasi-agen";
 
 export const REG_AAI: Record<string, V2Lesson> = {
   "aai1-lanskap": aai1,
@@ -45,4 +50,9 @@ export const REG_AAI: Record<string, V2Lesson> = {
   "aai20-agen-sebagai-service": aai20,
   "aai21-automation-platforms": aai21,
   "aai22-pola-desain-agen": aai22,
+  "aai23-framework-multi-agent": aai23,
+  "aai24-evaluasi-agen-benchmark": aai24,
+  "aai25-governance-compliance-agen": aai25,
+  "aai26-penalaran-agen": aai26,
+  "aai27-ekonomi-operasi-agen": aai27,
 };

@@ -29,6 +29,11 @@ import { de27 } from "../content/de27-data-observability";
 import { de28 } from "../content/de28-kubernetes-data";
 import { de29 } from "../content/de29-semantic-layer";
 import { de30 } from "../content/de30-ai-coding-tools";
+import { de31 } from "../content/de31-scd-type-1-2-3";
+import { de32 } from "../content/de32-framework-keputusan-arsitektur";
+import { de33 } from "../content/de33-troubleshooting-pipeline";
+import { de34 } from "../content/de34-hadoop-hdfs-legacy";
+import { de35 } from "../content/de35-ingest-api-elt-vs-etl";
 
 export const REG_DE: Record<string, V2Lesson> = {
   "de1-lanskap": de1,
@@ -61,4 +66,9 @@ export const REG_DE: Record<string, V2Lesson> = {
   "de28-kubernetes-data": de28,
   "de29-semantic-layer": de29,
   "de30-ai-coding-tools": de30,
+  "de31-scd-type-1-2-3": de31,
+  "de32-framework-keputusan-arsitektur": de32,
+  "de33-troubleshooting-pipeline": de33,
+  "de34-hadoop-hdfs-legacy": de34,
+  "de35-ingest-api-elt-vs-etl": de35,
 };

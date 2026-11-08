@@ -32,6 +32,12 @@ import { wqb30 } from "../content/wqb30-capstone-akhir";
 import { wqb31 } from "../content/wqb31-operator-lanjutan";
 import { wqb32 } from "../content/wqb32-pairs-trading";
 import { wqb33 } from "../content/wqb33-eksekusi";
+import { wqb34 } from "../content/wqb34-strategi-akademik-bernama";
+import { wqb35 } from "../content/wqb35-treynor-jensen";
+import { wqb36 } from "../content/wqb36-survivorship-lookahead-bias";
+import { wqb37 } from "../content/wqb37-reinforcement-learning-trading";
+import { wqb38 } from "../content/wqb38-dl-transformer-deret-waktu";
+import { wqb39 } from "../content/wqb39-factor-research";
 
 export const REG_WQB: Record<string, V2Lesson> = {
   "wqb1-apa-itu-alpha": wqb1,
@@ -67,4 +73,10 @@ export const REG_WQB: Record<string, V2Lesson> = {
   "wqb31-operator-lanjutan": wqb31,
   "wqb32-pairs-trading": wqb32,
   "wqb33-eksekusi": wqb33,
+  "wqb34-strategi-akademik-bernama": wqb34,
+  "wqb35-treynor-jensen": wqb35,
+  "wqb36-survivorship-lookahead-bias": wqb36,
+  "wqb37-reinforcement-learning-trading": wqb37,
+  "wqb38-dl-transformer-deret-waktu": wqb38,
+  "wqb39-factor-research": wqb39,
 };

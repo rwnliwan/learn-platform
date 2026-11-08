@@ -22,6 +22,10 @@ import { aie20 } from "../content/aie20-langchain-langgraph";
 import { aie21 } from "../content/aie21-eval-observability-praktik";
 import { aie22 } from "../content/aie22-cloud-ai-deployment";
 import { aie23 } from "../content/aie23-graphrag";
+import { aie24 } from "../content/aie24-generasi-citra-diffusion";
+import { aie25 } from "../content/aie25-katalog-pola-prompt";
+import { aie26 } from "../content/aie26-kurasi-dataset-llm";
+import { aie27 } from "../content/aie27-pemilihan-model-benchmarking";
 
 export const REG_AIE: Record<string, V2Lesson> = {
   "aie1-lanskap": aie1,
@@ -47,4 +51,8 @@ export const REG_AIE: Record<string, V2Lesson> = {
   "aie21-eval-observability-praktik": aie21,
   "aie22-cloud-ai-deployment": aie22,
   "aie23-graphrag": aie23,
+  "aie24-generasi-citra-diffusion": aie24,
+  "aie25-katalog-pola-prompt": aie25,
+  "aie26-kurasi-dataset-llm": aie26,
+  "aie27-pemilihan-model-benchmarking": aie27,
 };

@@ -32,6 +32,11 @@ import { rr30 } from "../content/rr30-ppatk-goaml";
 import { rr31 } from "../content/rr31-python-risk-reporting";
 import { rr32 } from "../content/rr32-excel-advanced-risiko";
 import { rr33 } from "../content/rr33-sql-risk-reporting";
+import { rr34 } from "../content/rr34-proyeksi-budget-proforma";
+import { rr35 } from "../content/rr35-gri-csrd";
+import { rr36 } from "../content/rr36-kontrol-internal-audit-risk";
+import { rr37 } from "../content/rr37-economic-capital-raroc";
+import { rr38 } from "../content/rr38-pelaporan-cva";
 
 export const REG_RR: Record<string, V2Lesson> = {
   "rr1-lanskap": rr1,
@@ -67,4 +72,9 @@ export const REG_RR: Record<string, V2Lesson> = {
   "rr31-python-risk-reporting": rr31,
   "rr32-excel-advanced-risiko": rr32,
   "rr33-sql-risk-reporting": rr33,
+  "rr34-proyeksi-budget-proforma": rr34,
+  "rr35-gri-csrd": rr35,
+  "rr36-kontrol-internal-audit-risk": rr36,
+  "rr37-economic-capital-raroc": rr37,
+  "rr38-pelaporan-cva": rr38,
 };

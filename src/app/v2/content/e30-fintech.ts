@@ -133,7 +133,7 @@ export const e30: V2Lesson = {
         "Pindah transfer ke QRIS menghemat Rp4,92 juta per bulan; biaya efektif turun menjadi 2,06 persen — dengan risiko ketergantungan satu kanal.",
         "Regulator Indonesia: BI untuk sistem pembayaran, OJK untuk lending dan investasi — dan tarif berubah, jadi hitung ulang tiap bulan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "E31 — Mikrostruktur Pasar: Order Book, Market Making, dan Dampak Harga", href: "/v2/learn/e31-mikrostruktur-pasar" },
       quiz: [
         {
           q: "Transfer 800 kali Rp50.000 dengan tarif flat Rp6.500. Berapa beban persennya, dan kenapa begitu besar?",

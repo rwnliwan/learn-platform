@@ -28,6 +28,11 @@ import { dba26 } from "../content/dba26-normalisasi-dba";
 import { dba27 } from "../content/dba27-administrasi-mysql";
 import { dba28 } from "../content/dba28-administrasi-postgresql";
 import { dba29 } from "../content/dba29-transaksi-konkurensi-dba";
+import { dba30 } from "../content/dba30-stored-procedure-dba";
+import { dba31 } from "../content/dba31-indeks-mendalam";
+import { dba32 } from "../content/dba32-operasional-nosql";
+import { dba33 } from "../content/dba33-data-pump-sqlloader-flashback";
+import { dba34 } from "../content/dba34-troubleshooting-korupsi-data";
 
 export const REG_DBA: Record<string, V2Lesson> = {
   "dba1-lanskap": dba1,
@@ -59,4 +64,9 @@ export const REG_DBA: Record<string, V2Lesson> = {
   "dba27-administrasi-mysql": dba27,
   "dba28-administrasi-postgresql": dba28,
   "dba29-transaksi-konkurensi-dba": dba29,
+  "dba30-stored-procedure-dba": dba30,
+  "dba31-indeks-mendalam": dba31,
+  "dba32-operasional-nosql": dba32,
+  "dba33-data-pump-sqlloader-flashback": dba33,
+  "dba34-troubleshooting-korupsi-data": dba34,
 };

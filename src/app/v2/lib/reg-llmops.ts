@@ -21,6 +21,10 @@ import { llmops19 } from "../content/llmops19-mcp";
 import { llmops20 } from "../content/llmops20-evaluasi-llm-rag";
 import { llmops21 } from "../content/llmops21-gateway-semantic-caching";
 import { llmops22 } from "../content/llmops22-rlhf-dpo-ops";
+import { llmops23 } from "../content/llmops23-managed-platform-deployment";
+import { llmops24 } from "../content/llmops24-pipeline-sft";
+import { llmops25 } from "../content/llmops25-stack-llmops-open-source";
+import { llmops26 } from "../content/llmops26-safety-score-berkelanjutan";
 
 export const REG_LLMOPS: Record<string, V2Lesson> = {
   "llmops1-lanskap": llmops1,
@@ -45,4 +49,8 @@ export const REG_LLMOPS: Record<string, V2Lesson> = {
   "llmops20-evaluasi-llm-rag": llmops20,
   "llmops21-gateway-semantic-caching": llmops21,
   "llmops22-rlhf-dpo-ops": llmops22,
+  "llmops23-managed-platform-deployment": llmops23,
+  "llmops24-pipeline-sft": llmops24,
+  "llmops25-stack-llmops-open-source": llmops25,
+  "llmops26-safety-score-berkelanjutan": llmops26,
 };

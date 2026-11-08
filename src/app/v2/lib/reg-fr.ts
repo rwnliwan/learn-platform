@@ -23,6 +23,16 @@ import { fr21 } from "../content/fr21-sql-fraud";
 import { fr22 } from "../content/fr22-chargeback";
 import { fr23 } from "../content/fr23-regulasi-indonesia";
 import { fr24 } from "../content/fr24-fraud-loss-reporting-roi";
+import { fr25 } from "../content/fr25-fraud-triangle-fraud-tree";
+import { fr26 } from "../content/fr26-whistleblowing-program";
+import { fr27 } from "../content/fr27-teknik-investigasi";
+import { fr28 } from "../content/fr28-financial-statement-fraud";
+import { fr29 } from "../content/fr29-benford-law";
+import { fr30 } from "../content/fr30-synthetic-data-gan";
+import { fr31 } from "../content/fr31-genai-detection-pipeline";
+import { fr32 } from "../content/fr32-audit-independen-aml";
+import { fr33 } from "../content/fr33-bsa-vs-eu-amld";
+import { fr34 } from "../content/fr34-correspondent-banking";
 import { aml1 } from "../content/aml1-triage-alert";
 import { aml2 } from "../content/aml2-kyc-cdd";
 import { aml3 } from "../content/aml3-edd";
@@ -75,6 +85,16 @@ export const REG_FR: Record<string, V2Lesson> = {
   "fr22-chargeback": fr22,
   "fr23-regulasi-indonesia": fr23,
   "fr24-fraud-loss-reporting-roi": fr24,
+  "fr25-fraud-triangle-fraud-tree": fr25,
+  "fr26-whistleblowing-program": fr26,
+  "fr27-teknik-investigasi": fr27,
+  "fr28-financial-statement-fraud": fr28,
+  "fr29-benford-law": fr29,
+  "fr30-synthetic-data-gan": fr30,
+  "fr31-genai-detection-pipeline": fr31,
+  "fr32-audit-independen-aml": fr32,
+  "fr33-bsa-vs-eu-amld": fr33,
+  "fr34-correspondent-banking": fr34,
   "aml1-triage-alert": aml1,
   "aml2-kyc-cdd": aml2,
   "aml3-edd": aml3,

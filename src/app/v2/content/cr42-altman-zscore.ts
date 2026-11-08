@@ -132,7 +132,7 @@ export const cr42: V2Lesson = {
         "PD dari pemetaan frekuensi default historis — kalibrasi milik bank sendiri, bukan angka universal.",
         "Skor tanpa tren adalah setengah cerita: Z 2,10 yang membaik berbeda vonisnya dari Z 2,10 yang memburuk.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "CR43 — Metodologi Rating Agency: Standard and Poor's, Moody's, dan Fitch dari Dalam", href: "/v2/learn/cr43-rating-agency" },
       quiz: [
         {
           q: "Perusahaan Sehat punya Z 2,633. Apa zona dan PD terpetakannya?",

@@ -30,6 +30,13 @@ import { mk28 } from "../content/mk28-mmp-mobile-attribution";
 import { mk29 } from "../content/mk29-conjoint-analysis";
 import { mk30 } from "../content/mk30-riset-pasar-survei";
 import { mk31 } from "../content/mk31-kualitas-data-rekonsiliasi";
+import { mk32 } from "../content/mk32-pemodelan-data-marketing-kpi";
+import { mk33 } from "../content/mk33-social-network-analysis";
+import { mk34 } from "../content/mk34-fairness-trust-recommender";
+import { mk35 } from "../content/mk35-optimasi-alokasi-budget";
+import { mk36 } from "../content/mk36-regresi-marketing";
+import { mk37 } from "../content/mk37-python-untuk-marketing";
+import { mk38 } from "../content/mk38-swot-4p-smart-goals";
 
 export const REG_MK: Record<string, V2Lesson> = {
   "mk1-funnel-aarrr": mk1,
@@ -63,4 +70,11 @@ export const REG_MK: Record<string, V2Lesson> = {
   "mk29-conjoint-analysis": mk29,
   "mk30-riset-pasar-survei": mk30,
   "mk31-kualitas-data-rekonsiliasi": mk31,
+  "mk32-pemodelan-data-marketing-kpi": mk32,
+  "mk33-social-network-analysis": mk33,
+  "mk34-fairness-trust-recommender": mk34,
+  "mk35-optimasi-alokasi-budget": mk35,
+  "mk36-regresi-marketing": mk36,
+  "mk37-python-untuk-marketing": mk37,
+  "mk38-swot-4p-smart-goals": mk38,
 };

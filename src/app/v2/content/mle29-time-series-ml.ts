@@ -146,7 +146,7 @@ export const mle29: V2Lesson = {
         "Lab: MAE naive 9,00; musiman 20,00; MA4 12,50; lag-OLS 2,50 — MAPE naive 4,59 persen, lag-OLS 1,31 persen.",
         "MAE diterjemahkan menjadi stok pengaman: pesan 206 unit untuk minggu 17.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MLE30 — Deep RL Terapan: DQN & PPO dari Simulasi ke Produksi", href: "/v2/learn/mle30-deep-rl-terapan" },
       quiz: [
         {
           q: "Kenapa XGBoost dengan train test split acak melaporkan MAPE 2,1 persen tetapi error aktualnya 38 persen?",

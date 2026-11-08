@@ -339,7 +339,7 @@ beda_jb = banding("Jakarta", "Bandung")`,
           ],
         },
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "BI27 — Snowflake Schema: Dimensi yang Di-normalisasi Bertingkat", href: "/v2/learn/biz27-snowflake-schema" },
     },
   ],
 };

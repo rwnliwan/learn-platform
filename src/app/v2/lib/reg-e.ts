@@ -29,6 +29,14 @@ import { e27 } from "../content/e27-regulasi-keuangan";
 import { e28 } from "../content/e28-capstone-frontier-var";
 import { e29 } from "../content/e29-nonprofit-finance";
 import { e30 } from "../content/e30-fintech";
+import { e31 } from "../content/e31-mikrostruktur-pasar";
+import { e32 } from "../content/e32-konvensi-obligasi";
+import { e33 } from "../content/e33-callable-convertible";
+import { e34 } from "../content/e34-swap-valuasi";
+import { e35 } from "../content/e35-kebijakan-moneter";
+import { e36 } from "../content/e36-pe-vc";
+import { e37 } from "../content/e37-krisis-2008";
+import { e38 } from "../content/e38-model-endowment-swensen";
 
 export const REG_E: Record<string, V2Lesson> = {
   "e1-struktur-pasar": e1,
@@ -61,4 +69,12 @@ export const REG_E: Record<string, V2Lesson> = {
   "e28-capstone-frontier-var": e28,
   "e29-nonprofit-finance": e29,
   "e30-fintech": e30,
+  "e31-mikrostruktur-pasar": e31,
+  "e32-konvensi-obligasi": e32,
+  "e33-callable-convertible": e33,
+  "e34-swap-valuasi": e34,
+  "e35-kebijakan-moneter": e35,
+  "e36-pe-vc": e36,
+  "e37-krisis-2008": e37,
+  "e38-model-endowment-swensen": e38,
 };

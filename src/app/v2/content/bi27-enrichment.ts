@@ -167,7 +167,7 @@ export const bi27: V2Lesson = {
         "GSEA memakai peringkat semua gen tanpa ambang — menangkap efek kecil yang searah di seluruh jalur.",
         "Koreksi BH: lab memberi 3 jalur signifikan pada FDR 0,05; istilah redundan adalah satu temuan yang dihitung berkali-kali.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "BI28 — Bioinformatika Struktural: dari PDB ke Docking dan PPI", href: "/v2/learn/bi28-bioinformatika-struktural" },
       quiz: [
         {
           q: "Respirasi seluler: K 200, k 35, dari daftar 500 gen dan universe 20.000. Berapa harapannya, dan apa artinya?",

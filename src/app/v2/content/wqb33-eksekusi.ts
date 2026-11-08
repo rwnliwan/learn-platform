@@ -131,7 +131,7 @@ export const wqb33: V2Lesson = {
         "IS = impact yang kamu sebabkan + timing luck — pisahkan keduanya sebelum menghakimi algoritma.",
         "Trade-off Almgren-Chriss: cepat = impact tinggi, risiko harga rendah; lambat = impact rendah, risiko harga tinggi.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "WQB34 — Strategi Akademik Bernama: Piotroski, PEAD, Accruals, BAB, Momentum Crash", href: "/v2/learn/wqb34-strategi-akademik-bernama" },
       quiz: [
         {
           q: "Order 20.000 lembar, volume harian 65.000. Berapa partisipasinya, dan apa artinya?",

@@ -170,7 +170,7 @@ export const bcd31: V2Lesson = {
         "Lab: root 8 transaksi 8c7f26...01e3; tanda tangan mainan 123 menjadi 2746 dan terverifikasi kembali ke 123.",
         "Konsensus (PoW, PoS, BFT, serangan 51 persen) tetap di BCD1 — jangan campur bukti kriptografi dengan kesepakatan jaringan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "BCD32 — Smart Contract dan DApp End-to-End: dari Solidity ke Mainnet", href: "/v2/learn/bcd32-smart-contract-dapp" },
       quiz: [
         {
           q: "Mengapa mengubah satu huruf pada kalimat transfer mengubah 62 dari 64 karakter hash-nya?",

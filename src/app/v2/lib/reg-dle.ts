@@ -28,6 +28,9 @@ import { dle26 } from "../content/dle26-video-tracking";
 import { dle27 } from "../content/dle27-fondasi-representasi";
 import { dle28 } from "../content/dle28-sequence-forecasting";
 import { dle29 } from "../content/dle29-speech-audio";
+import { dle30 } from "../content/dle30-neural-style-transfer";
+import { dle31 } from "../content/dle31-nlp-klasik";
+import { dle32 } from "../content/dle32-data-3d-video";
 
 export const REG_DLE: Record<string, V2Lesson> = {
   "dle1-lanskap": dle1,
@@ -59,4 +62,7 @@ export const REG_DLE: Record<string, V2Lesson> = {
   "dle27-fondasi-representasi": dle27,
   "dle28-sequence-forecasting": dle28,
   "dle29-speech-audio": dle29,
+  "dle30-neural-style-transfer": dle30,
+  "dle31-nlp-klasik": dle31,
+  "dle32-data-3d-video": dle32,
 };

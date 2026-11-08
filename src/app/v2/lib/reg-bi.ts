@@ -26,6 +26,10 @@ import { bi23 } from "../content/bi23-pharmacogenomics";
 import { bi25 } from "../content/bi25-indeks-aligner";
 import { bi26 } from "../content/bi26-bioconductor";
 import { bi27 } from "../content/bi27-enrichment";
+import { bi28 } from "../content/bi28-bioinformatika-struktural";
+import { bi29 } from "../content/bi29-atac-hic";
+import { bi30 } from "../content/bi30-galaxy";
+import { bi31 } from "../content/bi31-konsorsium-cloud";
 
 export const REG_BI: Record<string, V2Lesson> = {
   "bi1-biologi-molekuler": bi1,
@@ -55,4 +59,8 @@ export const REG_BI: Record<string, V2Lesson> = {
   "bi25-indeks-aligner": bi25,
   "bi26-bioconductor": bi26,
   "bi27-enrichment": bi27,
+  "bi28-bioinformatika-struktural": bi28,
+  "bi29-atac-hic": bi29,
+  "bi30-galaxy": bi30,
+  "bi31-konsorsium-cloud": bi31,
 };

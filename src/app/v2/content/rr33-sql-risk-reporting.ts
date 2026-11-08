@@ -318,7 +318,7 @@ export const rr33: V2Lesson = {
         "Waterfall mengurai pergerakan: saldo awal + baru − pulih − write-off = saldo akhir.",
         "Rekonsiliasi = COUNT + SUM + anti-join; selisih harus dijelaskan, bukan dibulatkan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "RR34 — Pelaporan Proyeksi, Budget, dan Pro Forma: Laporan Masa Depan", href: "/v2/learn/rr34-proyeksi-budget-proforma" },
       quiz: [
         {
           q: "Dua analis melaporkan NPL berbeda dari data yang sama. Penyebab paling mungkin menurut lesson ini?",

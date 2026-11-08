@@ -146,7 +146,7 @@ export const dle29: V2Lesson = {
         "WaveNet autoregresif: kualitas tinggi, lambat. Diffusion: paralel, puluhan langkah.",
         "WER wajib dilaporkan per aksen — angka global menyembunyikan aksen terburuk.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DLE30 — Neural Style Transfer & Generasi Citra Hands-On", href: "/v2/learn/dle30-neural-style-transfer" },
       quiz: [
         {
           q: "Telepon memakai 8.000 sampel per detik. Frekuensi tertinggi yang bisa ditangkap dan konsekuensinya?",

@@ -28,6 +28,11 @@ import { mle26 } from "../content/mle26-fine-tuning-llm";
 import { mle27 } from "../content/mle27-llm-serving";
 import { mle28 } from "../content/mle28-rag-agent-production";
 import { mle29 } from "../content/mle29-time-series-ml";
+import { mle30 } from "../content/mle30-deep-rl-terapan";
+import { mle31 } from "../content/mle31-automl";
+import { mle32 } from "../content/mle32-edge-ml-onnx-tflite";
+import { mle33 } from "../content/mle33-data-centric-ai";
+import { mle34 } from "../content/mle34-survival-analysis";
 
 export const REG_MLE: Record<string, V2Lesson> = {
   "mle1-lanskap": mle1,
@@ -59,4 +64,9 @@ export const REG_MLE: Record<string, V2Lesson> = {
   "mle27-llm-serving": mle27,
   "mle28-rag-agent-production": mle28,
   "mle29-time-series-ml": mle29,
+  "mle30-deep-rl-terapan": mle30,
+  "mle31-automl": mle31,
+  "mle32-edge-ml-onnx-tflite": mle32,
+  "mle33-data-centric-ai": mle33,
+  "mle34-survival-analysis": mle34,
 };

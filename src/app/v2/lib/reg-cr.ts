@@ -45,6 +45,10 @@ import { cr39 } from "../content/cr39-internal-rating-system";
 import { cr40 } from "../content/cr40-loan-structuring";
 import { cr41 } from "../content/cr41-merton-kmv";
 import { cr42 } from "../content/cr42-altman-zscore";
+import { cr43 } from "../content/cr43-rating-agency";
+import { cr44 } from "../content/cr44-model-portofolio-kredit";
+import { cr45 } from "../content/cr45-cva-kredit";
+import { cr46 } from "../content/cr46-ml-credit-scoring";
 
 export const REG_CR: Record<string, V2Lesson> = {
   "cr1-produk-kredit": cr1,
@@ -93,4 +97,8 @@ export const REG_CR: Record<string, V2Lesson> = {
   "cr40-loan-structuring": cr40,
   "cr41-merton-kmv": cr41,
   "cr42-altman-zscore": cr42,
+  "cr43-rating-agency": cr43,
+  "cr44-model-portofolio-kredit": cr44,
+  "cr45-cva-kredit": cr45,
+  "cr46-ml-credit-scoring": cr46,
 };

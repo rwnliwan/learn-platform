@@ -31,6 +31,9 @@ import { pmE2 } from "../content/pm-e2-esg-praktis";
 import { pmE3 } from "../content/pm-e3-liquidity-risk";
 import { pmE4 } from "../content/pm-e4-deliverable-institusi";
 import { pmcapstone } from "../content/pm-capstone";
+import { pmc14 } from "../content/pm-c14-wealth-planning-multitahun";
+import { pmc15 } from "../content/pm-c15-sustainable-finance-mendalam";
+import { pmc16 } from "../content/pm-c16-goals-based-investing";
 
 export const REG_PM2: Record<string, V2Lesson> = {
   "pm-b9-intercorporate": pmb9,
@@ -65,4 +68,7 @@ export const REG_PM2: Record<string, V2Lesson> = {
   "pm-e3-liquidity-risk": pmE3,
   "pm-e4-deliverable-institusi": pmE4,
   "pm-capstone": pmcapstone,
+  "pm-c14-wealth-planning-multitahun": pmc14,
+  "pm-c15-sustainable-finance-mendalam": pmc15,
+  "pm-c16-goals-based-investing": pmc16,
 };

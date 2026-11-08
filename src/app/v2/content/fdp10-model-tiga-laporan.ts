@@ -131,7 +131,7 @@ export const fdp10: V2Lesson = {
         "Variance analysis per driver: revenue meleset 4,55 persen, laba meleset 9,52 persen — operating leverage memperbesar kesalahan asumsi.",
         "Jangan paksa neraca balance lewat pos lain-lain — selisih adalah alarm, bukan sesuatu untuk disembunyikan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "FDP11 — Variance Analysis & Budgeting: Anggaran yang Bisa Dipertanyakan", href: "/v2/learn/fdp11-variance-analysis-budgeting" },
       quiz: [
         {
           q: "Neraca forecast tidak balance — selisih Rp5 miliar. Apa tindakan yang benar?",

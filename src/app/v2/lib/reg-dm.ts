@@ -28,6 +28,7 @@ import { dm25 } from "../content/dm25-great-expectations";
 import { dm26 } from "../content/dm26-sertifikasi-regulasi-2026";
 import { dm27 } from "../content/dm27-sap-mdg";
 import { dm28 } from "../content/dm28-migrasi-data";
+import { dm29 } from "../content/dm29-inmon-vs-kimball";
 
 export const REG_DM: Record<string, V2Lesson> = {
   "dm1-data-lifecycle": dm1,
@@ -59,4 +60,5 @@ export const REG_DM: Record<string, V2Lesson> = {
   "dm26-sertifikasi-regulasi-2026": dm26,
   "dm27-sap-mdg": dm27,
   "dm28-migrasi-data": dm28,
+  "dm29-inmon-vs-kimball": dm29,
 };

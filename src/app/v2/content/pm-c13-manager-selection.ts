@@ -132,7 +132,7 @@ export const pmc13: V2Lesson = {
         "Empat red flag membatalkan hire: key-person tanpa suksesi, kapasitas penuh, style drift, track record tak terverifikasi.",
         "Due diligence tidak berhenti saat kontrak ditandatangani — ia berlanjut sebagai monitoring kuartalan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "C14 — Wealth Planning Multi-Tahun: Horizon, Monte Carlo, dan Aturan Belanja", href: "/v2/learn/pm-c14-wealth-planning-multitahun" },
       quiz: [
         {
           q: "Manajer A return tertinggi tetapi skor total 3,50; manajer B skor 4,40. Siapa yang dipilih dan kenapa?",

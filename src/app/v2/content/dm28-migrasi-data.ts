@@ -156,7 +156,7 @@ export const dm28: V2Lesson = {
         "Kriteria rollback ditulis sebelum cutover dan dipatuhi saat panik.",
         "Total saja tidak cukup: dua kesalahan bisa saling menutupi.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DM29 — Inmon vs Kimball: Dua Arsitektur Data Warehouse", href: "/v2/learn/dm29-inmon-vs-kimball" },
       quiz: [
         {
           q: "Migrasi 1,2 juta rekening dengan downtime maksimal 1 jam dan kegagalan total yang sangat mahal. Strategi yang paling masuk akal?",

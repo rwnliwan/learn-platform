@@ -22,6 +22,10 @@ import { mlops20 } from "../content/mlops20-cloud-ml-platforms";
 import { mlops21 } from "../content/mlops21-kserve-inference-optimization";
 import { mlops22 } from "../content/mlops22-distributed-training";
 import { mlops23 } from "../content/mlops23-airflow-orkestrasi";
+import { mlops24 } from "../content/mlops24-validasi-data-tfx";
+import { mlops25 } from "../content/mlops25-edge-ml-deployment";
+import { mlops26 } from "../content/mlops26-progressive-delivery-rollback";
+import { mlops27 } from "../content/mlops27-load-testing-serving";
 
 export const REG_MLOPS: Record<string, V2Lesson> = {
   "mlops1-lanskap": mlops1,
@@ -47,4 +51,8 @@ export const REG_MLOPS: Record<string, V2Lesson> = {
   "mlops21-kserve-inference-optimization": mlops21,
   "mlops22-distributed-training": mlops22,
   "mlops23-airflow-orkestrasi": mlops23,
+  "mlops24-validasi-data-tfx": mlops24,
+  "mlops25-edge-ml-deployment": mlops25,
+  "mlops26-progressive-delivery-rollback": mlops26,
+  "mlops27-load-testing-serving": mlops27,
 };

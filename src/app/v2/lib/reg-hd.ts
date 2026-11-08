@@ -34,6 +34,11 @@ import { hd32 } from "../content/hd32-deployment-realtime";
 import { hd33 } from "../content/hd33-fondasi-r";
 import { hd34 } from "../content/hd34-deep-learning-kesehatan";
 import { hd35 } from "../content/hd35-surveilans-end-to-end";
+import { hd36 } from "../content/hd36-epidemiologi-lapangan";
+import { hd37 } from "../content/hd37-cdss";
+import { hd38 } from "../content/hd38-mimic-iii";
+import { hd39 } from "../content/hd39-daly-standardisasi";
+import { hd40 } from "../content/hd40-hambatan-implementasi";
 
 export const REG_HD: Record<string, V2Lesson> = {
   "hd1-sistem-kesehatan": hd1,
@@ -71,4 +76,9 @@ export const REG_HD: Record<string, V2Lesson> = {
   "hd33-fondasi-r": hd33,
   "hd34-deep-learning-kesehatan": hd34,
   "hd35-surveilans-end-to-end": hd35,
+  "hd36-epidemiologi-lapangan": hd36,
+  "hd37-cdss": hd37,
+  "hd38-mimic-iii": hd38,
+  "hd39-daly-standardisasi": hd39,
+  "hd40-hambatan-implementasi": hd40,
 };

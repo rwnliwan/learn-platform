@@ -303,6 +303,7 @@ export const fr24: V2Lesson = {
         "Ingat: CFO menagih ROI, bukan jumlah blokir.",
       ],
       reference: "Laporkan metodologi, bukan sekadar angka.",
+      next: { label: "FR25 — Fraud Triangle & Fraud Tree ACFE: Membaca Motif, Peluang, dan Pola", href: "/v2/learn/fr25-fraud-triangle-fraud-tree" },
     },
   ],
 };

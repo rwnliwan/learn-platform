@@ -151,7 +151,7 @@ export const mlops23: V2Lesson = {
         "Executor: Sequential untuk belajar, Celery standar produksi, Kubernetes untuk isolasi per task.",
         "Satu skrip tanpa dependensi tetap cron — jangan membayar Airflow sebelum merasakan sakitnya.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MLOps24 — Validasi Data & Skema TFX: Gerbang Pertama Pipeline", href: "/v2/learn/mlops24-validasi-data-tfx" },
       quiz: [
         {
           q: "Di cerita DanaKu, kenapa model yang salah bisa sampai di-deploy?",

@@ -31,6 +31,13 @@ import { mr29 } from "../content/mr29-xva";
 import { mr30 } from "../content/mr30-pl-attribution";
 import { mr31 } from "../content/mr31-powerbi-risiko";
 import { mr32 } from "../content/mr32-market-data-management";
+import { mr33 } from "../content/mr33-economic-capital-raroc";
+import { mr34 } from "../content/mr34-hedge-fund-illiquidity";
+import { mr35 } from "../content/mr35-var-es-dengan-r";
+import { mr36 } from "../content/mr36-repo-risk";
+import { mr37 } from "../content/mr37-evt-var-es";
+import { mr38 } from "../content/mr38-risiko-intraday";
+import { mr39 } from "../content/mr39-climate-risk-trading-book";
 
 export const REG_MR: Record<string, V2Lesson> = {
   "mr1-trading-book": mr1,
@@ -65,4 +72,11 @@ export const REG_MR: Record<string, V2Lesson> = {
   "mr30-pl-attribution": mr30,
   "mr31-powerbi-risiko": mr31,
   "mr32-market-data-management": mr32,
+  "mr33-economic-capital-raroc": mr33,
+  "mr34-hedge-fund-illiquidity": mr34,
+  "mr35-var-es-dengan-r": mr35,
+  "mr36-repo-risk": mr36,
+  "mr37-evt-var-es": mr37,
+  "mr38-risiko-intraday": mr38,
+  "mr39-climate-risk-trading-book": mr39,
 };

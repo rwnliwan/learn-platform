@@ -25,6 +25,13 @@ import { biz23 } from "../content/biz23-python-analis-bi";
 import { biz24 } from "../content/biz24-microsoft-fabric";
 import { biz25 } from "../content/biz25-report-automation";
 import { biz26 } from "../content/biz26-statistik-terapan-bi";
+import { biz27 } from "../content/biz27-snowflake-schema";
+import { biz28 } from "../content/biz28-olap-kubus-mdx";
+import { biz29 } from "../content/biz29-forecasting-di-dashboard";
+import { biz30 } from "../content/biz30-requirements-gathering-bi";
+import { biz31 } from "../content/biz31-data-mart";
+import { biz32 } from "../content/biz32-presentasi-eksekutif-powerpoint";
+import { biz33 } from "../content/biz33-cognos-qlik-microstrategy";
 
 export const REG_BIZ: Record<string, V2Lesson> = {
   "biz1-lanskap": biz1,
@@ -53,4 +60,11 @@ export const REG_BIZ: Record<string, V2Lesson> = {
   "biz24-microsoft-fabric": biz24,
   "biz25-report-automation": biz25,
   "biz26-statistik-terapan-bi": biz26,
+  "biz27-snowflake-schema": biz27,
+  "biz28-olap-kubus-mdx": biz28,
+  "biz29-forecasting-di-dashboard": biz29,
+  "biz30-requirements-gathering-bi": biz30,
+  "biz31-data-mart": biz31,
+  "biz32-presentasi-eksekutif-powerpoint": biz32,
+  "biz33-cognos-qlik-microstrategy": biz33,
 };

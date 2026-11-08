@@ -241,7 +241,7 @@ export const mr32: V2Lesson = {
         "Ingat angka lab: outlier idx 5 (75% deviasi), 3 harga stale, 3M = 6,70%.",
       ],
       reference: "Model tidak pernah lebih jujur dari datanya.",
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MR33 — Economic Capital dan RAROC: Modal Trading Book yang Jujur", href: "/v2/learn/mr33-economic-capital-raroc" },
     },
   ],
 };

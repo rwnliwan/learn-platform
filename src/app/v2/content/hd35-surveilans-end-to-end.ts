@@ -168,7 +168,7 @@ export const hd35: V2Lesson = {
         "Diseminasi adalah bagian sistem: buletin untuk pelapor, dashboard untuk analis, alert untuk respons — setiap alert dicatat hasilnya.",
         "Atribut terlemah menentukan intervensi; rekomendasi tanpa atribut adalah doa, bukan rencana.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "HD36 — Epidemiologi Lapangan: Investigasi Wabah Langkah demi Langkah", href: "/v2/learn/hd36-epidemiologi-lapangan" },
       quiz: [
         {
           q: "Sistem surveilans punya PVP 100 persen — semua alert benar-benar wabah. Apa yang harus dicurigai?",

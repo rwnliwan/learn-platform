@@ -273,7 +273,7 @@ export const aie23: V2Lesson = {
           ],
         },
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "AIE24 — Generasi Citra & Diffusion: Stable Diffusion dan ComfyUI", href: "/v2/learn/aie24-generasi-citra-diffusion" },
       reference: "GraphRAG = retrieval yang mengikuti relasi. Pakai bila jawabannya adalah rantai atau ringkasan korpus — ukur dulu, baru beli.",
     },
   ],

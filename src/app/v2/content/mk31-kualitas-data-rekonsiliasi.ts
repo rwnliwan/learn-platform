@@ -155,7 +155,7 @@ export const mk31: V2Lesson = {
         "Lima penyebab umum: dedup, jendela atribusi, zona waktu, bot, definisi view-through.",
         "Triase: hijau di bawah 2 persen, kuning 2 sampai 5 persen, merah di atas 5 persen — jangan laporkan.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "MK32 — Pemodelan Data Marketing dan KPI Framework: Dari Spend ke Keputusan", href: "/v2/learn/mk32-pemodelan-data-marketing-kpi" },
       quiz: [
         {
           q: "Dataset 50.000 baris: 2.500 email kosong, 1.200 duplikat, 750 format salah. Berapa baris bersih dan persennya?",

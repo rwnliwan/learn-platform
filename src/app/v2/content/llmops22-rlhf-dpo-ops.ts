@@ -150,7 +150,7 @@ export const llmops22: V2Lesson = {
         "Gerbang rollout: win rate 58,00 persen, retensi MMLU turun 1,1 poin, keamanan nol pelanggaran — LOLOS.",
         "Monitoring: panjang jawaban, tingkat penolakan, win rate berjalan, distribusi prompt.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "LLMOps23 — Managed-Platform Deployment: SageMaker, Vertex AI & Azure ML", href: "/v2/learn/llmops23-managed-platform-deployment" },
       quiz: [
         {
           q: "Data preferensi menunjukkan jawaban panjang menang 60 persen dari pasangan. Apa artinya dan apa perbaikannya?",

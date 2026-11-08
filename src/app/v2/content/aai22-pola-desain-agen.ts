@@ -151,7 +151,7 @@ export const aai22: V2Lesson = {
         "Parallelization = latensi max 8 menit, bukan jumlah 19 menit; syaratnya independensi.",
         "Evaluator-optimizer = Rp900 untuk dua putaran; evaluator tanpa rubrik tidak bisa diaudit.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "AAI23 — Framework Multi-Agent di Luar LangChain: CrewAI, AG2 & BeeAI", href: "/v2/learn/aai23-framework-multi-agent" },
       quiz: [
         {
           q: "Tugas 9 langkah dengan alur yang sudah diketahui dari awal. Mana yang lebih murah dan kenapa?",

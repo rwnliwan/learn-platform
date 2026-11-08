@@ -30,6 +30,12 @@ import { bcd28 } from "../content/bcd28-erc4337";
 import { bcd29 } from "../content/bcd29-mikrostruktur-pasar";
 import { bcd30 } from "../content/bcd30-keamanan-smart-contract";
 import { bcd31 } from "../content/bcd31-kriptografi";
+import { bcd32 } from "../content/bcd32-smart-contract-dapp";
+import { bcd33 } from "../content/bcd33-fabric-corda";
+import { bcd34 } from "../content/bcd34-cbdc";
+import { bcd35 } from "../content/bcd35-risiko-defi";
+import { bcd36 } from "../content/bcd36-tokenisasi-rwa";
+import { bcd37 } from "../content/bcd37-zk-rollup";
 
 export const REG_BCD: Record<string, V2Lesson> = {
   "bcd1-lanskap": bcd1,
@@ -63,4 +69,10 @@ export const REG_BCD: Record<string, V2Lesson> = {
   "bcd29-mikrostruktur-pasar": bcd29,
   "bcd30-keamanan-smart-contract": bcd30,
   "bcd31-kriptografi": bcd31,
+  "bcd32-smart-contract-dapp": bcd32,
+  "bcd33-fabric-corda": bcd33,
+  "bcd34-cbdc": bcd34,
+  "bcd35-risiko-defi": bcd35,
+  "bcd36-tokenisasi-rwa": bcd36,
+  "bcd37-zk-rollup": bcd37,
 };

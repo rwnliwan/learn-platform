@@ -249,7 +249,7 @@ export const de30: V2Lesson = {
         "Lapis nol: redact PII/kredensial sebelum tempel; pertahankan bentuk data.",
         "Review = manusia baca KLAIM MAKNA; jangan minta AI mereview dirinya sendiri.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DE31 — SCD Type 1/2/3: Saat Dimensi Berubah, Sejarah Ikut Berubah", href: "/v2/learn/de31-scd-type-1-2-3" },
       quiz: [
         {
           q: "Query AI jalan tanpa error dan hasilnya 'masuk akal'. Apa yang BISA disimpulkan?",

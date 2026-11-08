@@ -156,7 +156,7 @@ export const dba29: V2Lesson = {
         "Tiga pagar: lock 5 detik, statement 30 detik, idle-in-transaction 10 menit.",
         "Transaksi idle menahan horizon MVCC dan vacuum — bloat tumbuh di semua tabel sekaligus.",
       ],
-      next: { label: "Kembali ke Kurikulum", href: "/v2/learn" },
+      next: { label: "DBA30 — Stored Procedure dari Sudut DBA: Logika di Dalam Database", href: "/v2/learn/dba30-stored-procedure-dba" },
       quiz: [
         {
           q: "Rantai blokir empat sesi: s1 ditunggu s2, s2 ditunggu s3, s3 ditunggu s5. Apa tindakan pertama yang benar?",
