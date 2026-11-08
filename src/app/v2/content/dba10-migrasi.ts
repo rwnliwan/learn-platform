@@ -63,7 +63,7 @@ export const dba10: V2Lesson = {
       title: "Blue-green: dua dunia, satu saklar",
       prose: [
         "Idenya sederhana: jalankan DUA environment. HIJAU = produksi saat ini (v1). BIRU = environment baru (v2) yang disiapkan diam-diam: skema termigrasi, data disinkronkan dari hijau. Saat biru siap dan terverifikasi, \u201Csaklar\u201D traffic dipindah: hijau → biru. Cutover hanya butuh detik–menit, bukan jam.",
-        "Cara membaca diagram: kotak kiri (hijau, v1) melayani traffic lewat garis putus-putus; kotak kanan (biru, v2) disiapkan; garis bawah = sinkronisasi data berjalan terus. Setelah cutover (garis tebal ke biru), hijau TIDAK langsung dimatikan — ia standby sebagai jalan pulang. Interpretasi: rollback = pindahkan saklar kembali. Downtime hanya sebesar waktu pindah saklar + verifikasi.",
+        "Cara membaca diagram: kotak kiri (hijau, v1) melayani traffic lewat garis putus-putus; kotak kanan (biru, v2) disiapkan; garis bawah = sinkronisasi data berjalan terus. Setelah cutover (garis tebal ke biru), hijau TIDAK langsung dimatikan — ia standby sebagai jalan pulang. Interpretasi: rollback = pindahkan saklar kembali — cepat, tetapi BUKAN instan: verifikasi dulu skema, data yang sudah tertulis ke biru, cache, DNS/pool, dan dual-write. Downtime hanya sebesar waktu pindah saklar + verifikasi.",
         "Syarat keberhasilannya: (1) skema v2 harus kompatibel mundur selama transisi (expand-then-contract: tambah kolom dulu, hapus kemudian); (2) data tersinkron real-time (dual-write atau CDC); (3) verifikasi otomatis sebelum cutover (smoke test + hitung baris). 💡 Intuisi: blue-green menukar \u201Cdowntime lama\u201D dengan \u201Cbiaya ganda sementara\u201D — dua environment berjalan paralel. Mahal? Ya, sementara. Lebih murah dari 6 jam downtime? Hampir selalu.",
       ],
       figure: {
@@ -89,6 +89,21 @@ export const dba10: V2Lesson = {
         body: "Cutover hanyalah pertengahan. Setelah pindah, ada periode \u201Csoak\u201D (pantau 24–72 jam), baru dekomisikan hijau. Tim yang menghapus hijau 10 menit setelah cutover membuang asuransi termurahnya tepat saat paling dibutuhkan.",
         type: "pitfall",
       },
+    },
+    {
+      id: "expand-then-contract",
+      eyebrow: "Langkah 3b · Setelah dual-write & CDC",
+      title: "Expand-then-contract: mengubah kolom tanpa downtime",
+      prose: [
+        "Dual-write memberi jalan untuk menulis ke dua skema — expand-then-contract adalah POLA untuk mengubah kolom itu sendiri tanpa downtime. Tiga fase: (1) EXPAND — tambah kolom baru (misal: tambah kolom email_baru, jangan hapus email lama); deploy kode yang MENULIS ke kedua kolom (dual-write) dan MEMBACA dari kolom lama; (2) MIGRATE — backfill bertahap: isi email_baru dari email lama dalam batch kecil (misal 10.000 baris per batch, di luar jam sibuk), validasi data dengan checksum per batch (jumlah baris dan nilai harus cocok); (3) CONTRACT — setelah semua baris ter-backfill dan tervalidasi, deploy kode yang membaca dari kolom baru, lalu hapus kolom lama.",
+        "Urutan ini penting: hapus kolom lama SEBELUM backfill selesai = kehilangan data; baca dari kolom baru SEBELUM backfill tervalidasi = data kosong untuk sebagian pengguna. Validasi di tiap fase: setelah expand, cek dual-write berjalan (bandingkan nilai kedua kolom di sampel); setelah migrate, cek checksum 100% cocok; setelah contract, cek tidak ada query yang masih merujuk kolom lama (grep codebase + pantau error log 24 jam). Pola ini adalah jawaban atas pertanyaan 'kapan blue-green tidak cocok?' di atas — perubahan skema besar ditangani dengan expand-then-contract, bukan dengan rollback instan.",
+      ],
+      tasks: [],
+      note: {
+        title: "Latihan: rancang migrasi kolom",
+        body: "Rancang migrasi kolom status (VARCHAR) menjadi status_id (INT, foreign key ke tabel status): tulis tiga fase (expand, migrate, contract), ukuran batch backfill, dan cek validasi di tiap fase. Berapa lama backfill 10 juta baris bila tiap batch 10.000 baris dan tiap batch 2 detik?",
+      },
+      reference: "Expand (tambah + dual-write) → Migrate (backfill + validasi checksum) → Contract (baca baru, hapus lama). Jangan hapus sebelum backfill tervalidasi.",
     },
     {
       id: "lab-cutover",
@@ -145,14 +160,14 @@ export const dba10: V2Lesson = {
         body: "Memakai rata-rata untuk keputusan cutover. Rata-rata 23 menenangkan; P95 35 membatalkan. Untuk keputusan sekali-jalan-tanpa-kembali, pakai tail, bukan tengah.",
       },
       hints: [
-        "urut = sorted(GLADI); p95 = urut[int(0.95*len(urut))].",
+        "urut = sorted(GLADI); p95 = urut[int(0.95*len(urut))]. — itu p95 menurut KONVENSI PERCENTILE LAB ini (indeks = int(0,95 x n)), bukan definisi P95 universal; metode lain (interpolasi linear, nearest-rank) bisa memberi nilai berbeda.",
         "aman = p95 <= JENDELA (boolean).",
         "gladi_buruk = [g for g in GLADI if g > JENDELA].",
       ],
       code: {
         starter: `# Waktu cutover rehearsal (menit) dari 5 gladi bersih + jendela maintenance 30 menit\nGLADI = [18, 22, 19, 35, 21]\nJENDELA = 30\n# TULIS KODEMU: p95, aman, gladi_buruk\np95 = 0\naman = True\ngladi_buruk = []\n`,
         lockLines: 3,
-        solution: `# Waktu cutover rehearsal (menit) dari 5 gladi bersih + jendela maintenance 30 menit\nGLADI = [18, 22, 19, 35, 21]\nJENDELA = 30\n\n# TULIS KODEMU: p95, aman, gladi_buruk\nurut = sorted(GLADI)\np95 = urut[int(0.95 * len(urut))]\naman = p95 <= JENDELA\ngladi_buruk = [g for g in GLADI if g > JENDELA]\n\nprint(f"p95={p95}  aman={aman}  gladi_buruk={gladi_buruk}")\n`,
+        solution: `# Waktu cutover rehearsal (menit) dari 5 gladi bersih + jendela maintenance 30 menit\nGLADI = [18, 22, 19, 35, 21]\nJENDELA = 30\n\n# TULIS KODEMU: p95, aman, gladi_buruk\nurut = sorted(GLADI)\n# Konvensi percentile lab: p95 = urut[int(0.95*n)] — bukan definisi P95 universal.\np95 = urut[int(0.95 * len(urut))]\naman = p95 <= JENDELA\ngladi_buruk = [g for g in GLADI if g > JENDELA]\n\nprint(f"p95={p95}  aman={aman}  gladi_buruk={gladi_buruk}")\n`,
         checks: [
           { kind: "equal", task: "t1", name: "p95", value: 35, label: "`p95` = 35", msg: "P95 dari 5 gladi." },
           { kind: "equal", task: "t2", name: "aman", value: false, label: "`aman` = False", msg: "35 > 30." },
@@ -185,7 +200,7 @@ export const dba10: V2Lesson = {
         "Skenario 2 — Upgrade mayor / pindah cloud, RTO ketat. → Blue-green + CDC + cutover saat lag < ambang. Alasan: downtime detik-menit; biaya ganda sementara < biaya downtime.",
         "Skenario 3 — Migrasi skema besar (tambah kolom NOT NULL ke 1 miliar baris). → Expand-then-contract multi-fase: tambah kolom nullable → backfill bertahap → baru NOT NULL. Alasan: ALTER TABLE ... ADD COLUMN NOT NULL me-rewrite tabel = lock lama; pecah menjadi fase tanpa lock.",
         "Skenario 4 — \u201CKita rollback manual saja kalau gagal.\u201D → Tolak: rollback harus TERUJI sebelum cutover (latihan di staging + runbook). Alasan: rollback yang belum pernah dicoba = harapan, bukan rencana (DBA4 mengajarkan ini untuk backup; berlaku sama untuk migrasi).",
-        "Aturan praktis 10 detik: setiap migrasi punya (1) kriteria cutover terukur, (2) rollback teruji, (3) periode soak sebelum dekomisikan yang lama.",
+        "Aturan praktis 10 detik: setiap migrasi punya (1) kriteria cutover terukur, (2) rollback teruji, (3) periode soak sebelum dekomisikan yang lama. Dan observability pasca-cutover yang dipantau beserta ambang abort-nya: error rate (abort bila naik >1% dari baseline selama 5 menit), latensi p95/p99 (abort bila p95 naik >2x baseline), replication lag (abort bila lag > 30 detik dan membesar), mismatch checksum (abort bila SATU PUN mismatch terkonfirmasi pada data kritis), deadlock (abort bila deadlock rate naik 5x), dan rollback trigger — kriteria yang ditulis SEBELUM cutover (bukan diputuskan saat panik): siapa yang memutuskan abort, bagaimana traffic dipindahkan kembali, dan berapa lama jendela observasi (minimal 30 menit pasca-cutover sebelum menyatakan sukses). Tanpa kriteria abort yang ditulis di awal, 'abort' menjadi debat di tengah insiden — dan ABORT bukan kegagalan, melainkan keputusan yang benar.",
       ],
       tasks: [],
     },
@@ -230,7 +245,7 @@ export const dba10: V2Lesson = {
           q: "Keuntungan utama blue-green dibanding dump & restore?",
           options: [
             { text: "Lebih murah", why: "Justru lebih mahal sementara (dua environment)." },
-            { text: "Cutover detik–menit + rollback instan (pindah saklar kembali)", why: "Inilah intinya: downtime minimal dan jalan pulang selalu ada.", correct: true },
+            { text: "Cutover detik–menit + rollback cepat (pindah saklar kembali, setelah kriteria rollback dan konsistensi data diverifikasi)", why: "Inilah intinya: downtime minimal dan jalan pulang selalu ada — tetapi rollback BUKAN instan: verifikasi dulu skema, data yang tertulis ke biru, cache, DNS/pool, dan dual-write sebelum memindahkan traffic kembali.", correct: true },
             { text: "Tidak perlu sinkronisasi", why: "Sinkronisasi (dual-write/CDC) adalah syaratnya." },
             { text: "Tidak perlu tes", why: "Verifikasi sebelum cutover adalah syaratnya." },
           ],

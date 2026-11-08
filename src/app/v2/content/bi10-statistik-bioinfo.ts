@@ -62,6 +62,22 @@ export const bi10: V2Lesson = {
       reference: "Bonferroni: α/m · BH: garis (k/m)·α · tanpa koreksi = banjir.",
     },
     {
+      id: "fdr-qvalue",
+      eyebrow: "Langkah 2b · Setelah koreksi",
+      title: "Membaca FDR dan q-value pada hasil nyata",
+      prose: [
+        "Setelah koreksi kovariat, tabel hasilmu menampilkan kolom baru: q-value. Ini BUKAN p-value yang dikoreksi — ia menjawab pertanyaan yang berbeda. p-value: 'bila gen ini sebenarnya tidak berbeda, seberapa ekstrem hasil yang kulihat?' q-value: 'bila aku menyatakan gen ini (dan semua gen dengan q-value sekecil ini) signifikan, berapa PROPORSI temuan yang diperkirakan palsu?' Itulah False Discovery Rate (FDR).",
+        "Cara membaca: q-value 0,05 pada satu gen berarti — bila kamu mengambil semua gen dengan q-value ≤ 0,05 sebagai 'signifikan' — sekitar 5% dari daftar itu diperkirakan false positive. Cutoff yang umum: q ≤ 0,05 (atau 0,10 bila penemuan eksploratif). Bedakan dari p-value terkoreksi (misal Bonferroni): Bonferroni mengontrol peluang SATU PUN false positive di seluruh pengujian (sangat ketat — 20.000 gen × ambang 0,05/20.000 = 2,5e-6); FDR mengontrol PROPORSI false positive di antara yang dinyatakan signifikan (lebih longgar, lebih bertenaga untuk penemuan). Pilih Bonferroni bila satu false positive saja fatal; pilih FDR bila kamu menyaring kandidat untuk validasi lanjutan.",
+        "Jebakan membaca: (1) q-value 0,04 BUKAN berarti 'peluang gen ini false positive adalah 4%' — ia adalah proporsi yang diperkirakan di SELURUH daftar pada cutoff itu; (2) cutoff q ≤ 0,05 pada 100 gen signifikan berarti sekitar 5 gen palsu di daftar itu — laporkan angkanya, jangan sembunyikan; (3) FDR dihitung dari DISTRIBUSI p-value seluruh gen — bila p-value-mu sudah cacat (batch tidak dikoreksi, model salah), q-value ikut cacat. Koreksi batch dulu (Langkah 2), baru baca FDR.",
+      ],
+      tasks: [],
+      note: {
+        title: "Latihan: baca tabel hasil",
+        body: "Ambil tabel hasil nyata (atau hasil lab Langkah 2): urutkan berdasarkan q-value; hitung berapa gen yang lolos q ≤ 0,05 dan berapa yang diperkirakan palsu (5% dari jumlah itu). Lalu bandingkan dengan ambang Bonferroni — berapa gen yang tersisa? Bila selisihnya besar, itulah harga ketelitian Bonferroni.",
+      },
+      reference: "q-value = FDR yang diperkirakan pada cutoff itu. Bonferroni = kontrol peluang 1 false positive pun; FDR = kontrol proporsi false positive di daftar signifikan.",
+    },
+    {
       id: "lab-batch",
       eyebrow: "Langkah 3 · Lab",
       title: "Deteksi batch effect dari matriks korelasi",
@@ -219,11 +235,27 @@ else:
       reference: "Koreksi lokasi: kurangi mean batch, tambah grand mean. Buktikan: gap → 0, sinyal tetap.",
     },
     {
+      id: "desain-kovariat",
+      eyebrow: "Langkah 4b · Model desain",
+      title: "Kovariat dalam model desain: apa yang dikoreksi, apa yang dipertahankan",
+      prose: [
+        "Koreksi batch bukan menghapus kolom 'batch' lalu berharap yang terbaik — ia adalah MODEL DESAIN: kondisi biologis + batch + kovariat lain, ditulis eksplisit sebelum pengujian. Contoh desain: ekspresi ~ kondisi + batch + jenis_kelamin + usia. Tiap suku punya peran: kondisi adalah sinyal yang dicari; batch adalah gangguan teknis yang dikoreksi; jenis kelamin dan usia adalah kovariat biologis yang menjelaskan variasi — tetapi HANYA bila relevan dengan fenotipemu (jangan memasukkan kovariat yang tidak beralasan).",
+        "Aturan yang menentukan apakah koreksi itu aman: (1) jangan memasukkan kovariat yang HAMPIR SAMA dengan kondisi — bila batch confounded total dengan kondisi (semua sampel sakit di batch A, semua sehat di batch B), tidak ada model yang bisa memisahkan keduanya; (2) jangan menghapus sinyal: kovariat yang berkorelasi kuat dengan kondisi biologis bisa 'memakan' sinyal yang dicari — periksa dengan membandingkan jumlah gen signifikan sebelum dan sesudah memasukkan kovariat itu; bila turun drastis, kovariat itu mungkin menjelaskan sebagian sinyal biologis, bukan hanya noise; (3) laporkan desainnya: tulis rumus desain di metode, dan uji sensitivitas — jalankan dengan dan tanpa kovariat, laporkan keduanya bila hasilnya berbeda.",
+        "ComBat — yang disebut di tabel skor — adalah metode koreksi batch berbasis model empiris Bayes: ia mengoreksi lokasi dan skala per batch sambil mempertahankan efek kondisi. Syaratnya sama: hanya bila batch TIDAK confounded total dengan kondisi. ComBat yang dijalankan pada batch yang confounded total akan menghapus sinyal biologis bersama batch-nya — dan hasilnya terlihat 'bersih' justru karena sinyalnya ikut hilang.",
+      ],
+      tasks: [],
+      note: {
+        title: "Latihan: tulis desainmu",
+        body: "Untuk dataset lab: tulis rumus desain (kondisi + batch + kovariat apa saja yang relevan dan mengapa). Lalu jalankan dua model — dengan dan tanpa kovariat jenis kelamin — dan bandingkan jumlah gen signifikan. Bila selisihnya besar, kovariat itu penting; bila kecil, ia boleh dipertahankan atau dihapus dengan alasan.",
+      },
+      reference: "Desain = kondisi + batch + kovariat yang beralasan. Confounded total = tidak bisa dikoreksi. Uji sensitivitas: dengan dan tanpa kovariat.",
+    },
+    {
       id: "pca-power",
       eyebrow: "Langkah 5 · PCA, UMAP, power",
       title: "Baca struktur sebelum percaya sinyal",
       prose: [
-        "PCA: proyeksi linear variansi maksimal — untuk QC dan struktur global. Plot PCA berlabel batch/kondisi: bila titik mengelompok per batch, bukan per kondisi → berhenti, jangan lanjut ke uji. UMAP: non-linear, menjaga tetangga lokal — untuk visualisasi klaster single-cell. Jangan ukur jarak antar-klaster dari UMAP: ia mengorbankan jarak global.",
+        "PCA: proyeksi linear variansi maksimal — untuk QC dan struktur global. Plot PCA berlabel batch/kondisi: bila titik mengelompok per batch, bukan per kondisi → itu SINYAL PERINGATAN KUAT: pertimbangkan desain, kovariat, dan replikasi — bila batch dapat dimodelkan/dikoreksi (Langkah 4), lanjut dengan koreksi yang didokumentasikan dan diuji sensitivitasnya; bila batch confounded total dengan kondisi, kembalikan data ke lab. UMAP: non-linear, menjaga tetangga lokal — untuk visualisasi klaster single-cell. Jangan ukur jarak antar-klaster dari UMAP: ia mengorbankan jarak global.",
         "Power = peluang mendeteksi efek yang ada (1 − β). Dengan 3 vs 3 sampel, power mendeteksi fold-change 1,5x bisa di bawah 30% — “tidak signifikan” pada studi kecil bukan bukti “tidak ada efek”, melainkan “tidak cukup melihat”. Hitung n SEBELUM eksperimen, dengan m terkoreksi: n untuk satu uji-t ≠ n untuk 20.000 uji.",
       ],
       formula: String.raw`\text{Power} = 1 - \beta`,
@@ -247,10 +279,10 @@ else:
         "Lima skenario yang dihadapi bioinformatikawan:",
         "Skenario 1 — Ribuan uji hipotesis (RNA-seq, GWAS skrining). → Benjamini-Hochberg (FDR). Alasan: mengontrol proporsi temuan palsu, bukan peluang satu pun salah — cocok untuk eksplorasi. Contoh nyata: daftar 200 kandidat validasi dari 20.000 gen.",
         "Skenario 2 — Mengklaim satu varian kausal. → Bonferroni / ambang 5×10⁻⁸. Alasan: klaim tunggal butuh standar jauh lebih ketat; FDR terlalu longgar untuk vonis. Contoh nyata: ambang genome-wide significance di GWAS.",
-        "Skenario 3 — Plot PCA mengelompok per batch, bukan per kondisi. → Berhenti; jangan lanjut ke uji. Alasan: sinyal batch mendominasi — semua “temuan” berikutnya patut dicurigai. Contoh nyata: “subtipe tumor baru” yang ternyata batch library prep.",
+        "Skenario 3 — Plot PCA mengelompok per batch, bukan per kondisi. → Sinyal peringatan kuat; jangan lanjut ke uji TANPA koreksi. Alasan: sinyal batch mendominasi — semua “temuan” berikutnya patut dicurigai. Bila batch dapat dimodelkan/dikoreksi (Langkah 4), lanjut dengan koreksi + uji sensitivitas; bila confounded total dengan kondisi, desain ulang. Contoh nyata: “subtipe tumor baru” yang ternyata batch library prep.",
         "Skenario 4 — Studi 3 vs 3 tidak signifikan. → Artikan sebagai “tidak cukup melihat” (power <30% untuk FC 1,5x), bukan “tidak ada efek”. Alasan: tidak signifikan pada n kecil adalah cermin power, bukan cermin biologi. Contoh nyata: efek nyata yang baru terlihat setelah n=20.",
         "Skenario 5 — Visualisasi struktur data. → PCA untuk QC global; UMAP untuk eksplorasi visual — tapi jarak antar-klaster UMAP tidak diukur. Alasan: UMAP non-linear dan distorsif terhadap jarak global. Contoh nyata: dua klaster “berdekatan” di UMAP yang sebenarnya jauh.",
-        "Aturan praktis 10 detik: banyak uji → BH; PCA mengelompok per batch → desain ulang; n kecil + tidak signifikan = power kurang, bukan bukti negatif."
+        "Aturan praktis 10 detik: banyak uji → BH; PCA mengelompok per batch → sinyal peringatan: koreksi batch bila bisa dimodelkan, desain ulang bila confounded total; n kecil + tidak signifikan = power kurang, bukan bukti negatif."
       ],
       tasks: [],
       note: {

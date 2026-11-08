@@ -58,9 +58,9 @@ export const aie25: V2Lesson = {
       eyebrow: "Langkah 4 · Teori",
       title: "Ekonomi pola: akurasi dibeli dengan token",
       prose: [
-        "Hitung biaya nyata. Zero-shot: instruksi 80 token; few-shot: instruksi 80 + 5 contoh x 120 token = 680 token. Pada tarif $0,002 per 1.000 token, 1.000 query: zero-shot = 80.000 token = $0,16; few-shot = 680.000 token = $1,36. Selisih $1,20 per 1.000 query untuk kenaikan akurasi 72 menjadi 91 persen (+19 poin).",
+        "Hitung biaya nyata — BIAYA KOMPONEN PROMPT dalam asumsi ilustrasi. Zero-shot: instruksi 80 token; few-shot: instruksi 80 + 5 contoh x 120 token = 680 token. Pada tarif $0,002 per 1.000 token, 1.000 query: zero-shot = 80.000 token = $0,16; few-shot = 680.000 token = $1,36. Selisih $1,20 per 1.000 query untuk kenaikan akurasi 72 menjadi 91 persen (+19 poin). Yang TIDAK masuk angka $1,36 ini: teks query pengguna, token OUTPUT jawaban, dan kemungkinan tarif input/output yang berbeda (banyak provider menagih output lebih mahal dari input) — jadi $1,36 adalah biaya komponen prompt-nya saja, bukan biaya total per 1.000 query. Bila query rata-rata 200 token dan output 300 token, biaya totalnya jauh lebih besar — hitung ketiganya sebelum mengklaim 'biaya nyata'.",
         "Apakah sepadan? Tergantung biaya kesalahan. Bila satu kesalahan ekstraksi merugikan Rp50.000 dan volume 1.000 query/hari: zero-shot salah 280x (Rp14 juta), few-shot salah 90x (Rp4,5 juta) — penghematan Rp9,5 juta/hari untuk biaya token $1,20. Jelas sepadan. Bila tugasnya klasifikasi sentimen internal yang salahnya tidak berbiaya: zero-shot cukup. Keputusan pola adalah keputusan ekonomi — hitung biaya kesalahan, bukan hanya biaya token.",
-        "Aturan pemilihan cepat: format output harus di-parse mesin → Template. Tugas baru yang contohnya sedikit → Few-shot 2-3 contoh. Nada/kedalaman penting → Persona + Template. Prosedur multi-langkah → Recipe. Jawaban berisiko tinggi → Meta/refleksi + verifikasi. Dan gabungkan: Persona + Template + Few-shot adalah kombinasi produksi yang paling umum — tiga pola, satu prompt.",
+        "Aturan pemilihan cepat: format output harus di-parse mesin → Template. Tugas baru yang contohnya sedikit → Few-shot 2-3 contoh. Nada/kedalaman penting → Persona + Template. Prosedur multi-langkah → Recipe. Jawaban berisiko tinggi → Meta/refleksi + verifikasi. Dan gabungkan: Persona + Template + Few-shot adalah kombinasi produksi yang paling umum — DUA pola Vanderbilt (Persona, Template) + SATU teknik few-shot (bukan pola katalog), satu prompt.",
       ],
       tasks: [],
       note: {
@@ -124,6 +124,22 @@ export const aie25: V2Lesson = {
       reference: "Template untuk mesin; few-shot untuk tugas baru; persona untuk nada; recipe untuk prosedur; meta untuk risiko.",
     },
     {
+      id: "contoh-gabungan",
+      eyebrow: "Langkah 7 · Contoh gabungan",
+      title: "Satu prompt utuh: Persona + Template + few-shot",
+      prose: [
+        "Teori katalog selesai — sekarang lihat satu prompt UTUH yang menggabungkan dua pola Vanderbilt dengan teknik few-shot (perhatikan anotasi di tiap bagiannya):",
+        "[PERSONA — pola Vanderbilt] Kamu adalah analis kredit senior Bank Nusantara yang menulis untuk komite kredit. Nada: formal, hati-hati, berbasis angka; jangan memakai kata 'mungkin' tanpa angka yang menyertainya. [TEMPLATE — pola Vanderbilt] Jawab HANYA dalam JSON dengan kunci persis ini: vonis (layak/tidak-layak), alasan (maksimal 3 butir, tiap butir kurang dari 20 kata), angka_kunci (pd dan lgd). Tanpa teks di luar JSON. [FEW-SHOT — teknik, BUKAN pola katalog] Contoh 1 — Input: debitur PT Maju, PD 1,2 persen, LGD 45 persen. Output: vonis layak; alasan: PD di bawah ambang 2 persen, LGD moderat; angka_kunci: pd 1,2, lgd 45. Contoh 2 — Input: debitur PT Mundur, PD 4,5 persen, LGD 60 persen. Output: vonis tidak-layak; alasan: PD di atas ambang 2 persen, LGD tinggi; angka_kunci: pd 4,5, lgd 60. [TUGAS NYATA] Input: debitur PT Tumbuh, PD 1,8 persen, LGD 50 persen.",
+        "Baca anotasi itu sebagai peta: Persona mengatur NADA (siapa yang bicara), Template mengunci FORMAT (JSON yang bisa di-parse mesin — lihat Skenario 1 di Langkah 6), dan few-shot memberi CONTOH (spesifikasi yang bisa dieksekusi — lihat Skenario 2). Tanpa Persona, jawabannya benar tetapi nadanya seperti chatbot; tanpa Template, jawabannya bagus tetapi tidak bisa di-parse; tanpa few-shot, model menebak-nebak format JSON-nya. Biaya prompt ini (instruksi + 2 contoh): sekitar 80 + 2 kali 120 = 320 token — separuh dari contoh 5-contoh di Langkah 4 (680 token) — karena 2 contoh sudah cukup untuk tugas berformat tetap. Aturan praktis: tambah contoh hanya bila formatnya masih dilanggar; tiap contoh adalah token yang dibayar di SETIAP query.",
+      ],
+      tasks: [],
+      note: {
+        title: "Latihan: tulis gabunganmu sendiri",
+        body: "Ambil satu tugas kerjamu (misal: ringkas email nasabah menjadi 3 butir). Tulis prompt gabungan Persona + Template + 2 contoh few-shot seperti di atas, lalu jalankan 5 kali: hitung berapa kali output-nya valid JSON dan berapa kali nadanya sesuai persona. Bila JSON-nya rusak 2 dari 5 kali, tambah 1 contoh — jangan tambah Persona baru.",
+      },
+      reference: "Persona = nada; Template = format; few-shot = contoh (teknik, bukan pola katalog). 2 contoh sekitar 320 token.",
+    },
+    {
       id: "kuis",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -179,7 +195,7 @@ export const aie25: V2Lesson = {
         {
           q: "Apa kombinasi prompt produksi yang paling umum?",
           options: [
-            { text: "Persona + Template + Few-shot", why: "Tepat: nada + format + contoh — tiga pola yang saling melengkapi.", correct: true },
+            { text: "Persona + Template + Few-shot", why: "Tepat: nada + format + contoh — dua pola Vanderbilt (Persona, Template) + satu teknik few-shot yang saling melengkapi.", correct: true },
             { text: "16 pola sekaligus", why: "Salah: memakai semua pola berarti prompt yang kacau dan mahal." },
             { text: "Zero-shot saja — pola hanya teori", why: "Salah: zero-shot 72 persen vs few-shot 91 persen di kasus ini." },
             { text: "Recipe saja untuk semua tugas", why: "Salah: recipe untuk prosedur; tugas lain butuh pola lain." },

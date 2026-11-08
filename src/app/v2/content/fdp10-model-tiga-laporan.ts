@@ -51,6 +51,21 @@ export const fdp10: V2Lesson = {
       reference: "Laba-rugi = mesin. Neraca = penampung. Arus kas = pemeriksa. Kas harus sama di dua tempat.",
     },
     {
+      id: "asumsi-forecast",
+      eyebrow: "Langkah 3b · Sebelum rekonsiliasi",
+      title: "Dari mana asumsi forecast berasal — dan bagaimana mengujinya",
+      prose: [
+        "Setiap angka forecast di model ini berasal dari ASUMSI — dan asumsi yang tidak dinyatakan sumbernya adalah tebakan yang disamarkan. Lima driver utama dan cara memilihnya: (1) GROWTH (pertumbuhan pendapatan) — dari historis 3–5 tahun (CAGR) + panduan manajemen + pertumbuhan industri; uji: bandingkan CAGR historis dengan asumsimu — bila historis 5% dan kamu memakai 15%, tulis alasannya (kontrak baru? akuisisi?) atau turunkan; (2) MARGIN (EBITDA/operasi) — dari margin historis + rencana efisiensi; uji: bila margin historis stabil 12% dan kamu memakai 20%, itu klaim efisiensi yang butuh bukti; (3) PAYOUT (dividen) — dari kebijakan dividen historis + kebutuhan kas; uji: payout yang naik bersamaan dengan capex yang naik adalah kontradiksi kas; (4) CAPEX — dari rencana investasi + rasio capex/pendapatan historis; uji: capex di bawah depresiasi berarti aset menyusut — tidak berkelanjutan untuk growth; (5) WORKING CAPITAL — dari siklus kas historis (hari piutang, persediaan, utang); uji: bila hari piutang historis 60 hari dan kamu memakai 30 hari, itu klaim penagihan yang lebih cepat — butuh alasan.",
+        "Uji sensitivitas yang wajib: ubah satu driver 1 poin (misal growth 10% menjadi 9%) dan lihat dampaknya pada kas akhir — bila dampaknya besar, driver itu adalah ASUMSI KRITIS dan harus didokumentasikan dengan sumbernya. Dan aturan kejujuran: setiap asumsi di model ini harus punya baris 'sumber' (historis/manajemen/industri) — asumsi tanpa sumber tidak masuk model, ia masuk catatan 'perlu diverifikasi'.",
+      ],
+      tasks: [],
+      note: {
+        title: "Latihan: audit asumsi",
+        body: "Ambil satu asumsi dari lab forecast (Langkah 2): tulis sumbernya (historis berapa tahun? CAGR berapa?) dan uji sensitivitasnya (ubah 1 poin, berapa dampak pada kas akhir?). Bila tidak ada sumbernya, tulis 'perlu diverifikasi' — jangan biarkan ia terlihat seperti fakta.",
+      },
+      reference: "Growth, margin, payout, capex, working capital — tiap asumsi punya sumber + uji sensitivitas 1 poin. Tanpa sumber = perlu diverifikasi.",
+    },
+    {
       id: "plug-rekonsiliasi",
       eyebrow: "Langkah 4 · Teori",
       title: "Kas sebagai plug dan gerbang rekonsiliasi",

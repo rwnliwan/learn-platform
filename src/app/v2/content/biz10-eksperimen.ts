@@ -56,7 +56,7 @@ export const biz10: V2Lesson = {
       prose: [
         "LIFT = (p_treatment - p_control) / p_control: seberapa besar perbaikan relatif. Z = selisih / standard error: seberapa yakin kita itu bukan noise (|z| > 1,96 = signifikan 95%). CI = rentang nilai yang masih konsisten dengan data.",
         "Aturan baca: (1) cek SRM dulu — kalau alokasi rusak, JANGAN baca sisanya; (2) lihat z/CI — signifikan?; (3) baru lihat lift — seberapa besar, dan apakah cukup besar untuk menutup biaya rilis? Lift signifikan tapi 0,1% mungkin tidak worth it.",
-        "Empat kuadran: signifikan + besar → rilis. Signifikan + kecil → pertimbangkan biaya. Tidak signifikan + besar → tambah sampel (bukan rilis!). Tidak signifikan + kecil → bunuh ide.",
+        "Empat kuadran: signifikan + besar → rilis. Signifikan + kecil → pertimbangkan biaya. Tidak signifikan + besar → tambah sampel (bukan rilis!). Tidak signifikan + kecil → JANGAN langsung bunuh ide: pakai INTERVAL KEPERCAYAAN (CI) terhadap AMBANG BISNIS — bila CI mencakup efek yang bernilai bisnis, tambah sampel dengan desain yang ditetapkan di awal (tanpa peeking tanpa koreksi — jangan intip hasil lalu tambah sampel berulang tanpa penyesuaian); bila CI sempit dan SELURUHNYA di bawah ambang bisnis, barulah bunuh ide. Dan ingat: 'tidak signifikan' tidak sama dengan 'tidak ada efek' — ia berarti datamu belum cukup untuk membedakan efek dari nol.",
         "Kepribadian: CI adalah \u201Csi jujur\u201D — ia tidak bilang \u201Cmenang/kalah\u201D, ia bilang \u201Cyang masih mungkin adalah rentang ini\u201D. Lebar = belum tahu; mencakup nol = belum terbukti.",
         "💡 Intuisi kunci: \u201Ctidak signifikan\u201D BUKAN \u201Ctidak ada efek\u201D. Itu berarti \u201Cdata belum cukup untuk tahu\u201D. Responsnya tambah sampel atau terima ketidakpastian — bukan rilis diam-diam.",
       ],
@@ -152,13 +152,13 @@ export const biz10: V2Lesson = {
       },
       hints: [
         "delta = p * mde_rel; n = 2*(Z_A+Z_B)**2 * p*(1-p) / delta**2.",
-        "Bulatkan ke atas: int(n) + 1.",
+        "Bulatkan ke atas: math.ceil(n) — dan import math di awal (lihat solusi).",
         "rasio ≈ 4: biaya presisi itu kuadratik.",
       ],
       code: {
         starter: `# Konversi baseline 10%. z 95% = 1.96, z power 80% = 0.84.\nZ_A, Z_B, P = 1.96, 0.84, 0.10\n# TULIS KODEMU: n_20, n_10, rasio\nn_20, n_10 = 0, 0\nrasio = 0.0\n`,
         lockLines: 2,
-        solution: `# Konversi baseline 10%. z 95% = 1.96, z power 80% = 0.84.\nZ_A, Z_B, P = 1.96, 0.84, 0.10\n\n# TULIS KODEMU: ukuran_sampel, n_20, n_10, rasio\ndef ukuran_sampel(p, mde_rel):\n    delta = p * mde_rel\n    n = 2 * (Z_A + Z_B) ** 2 * p * (1 - p) / delta ** 2\n    return int(n) + 1\n\nn_20 = ukuran_sampel(P, 0.20)\nn_10 = ukuran_sampel(P, 0.10)\nrasio = round(n_10 / n_20, 2)\n\nprint(f"n_20={n_20}  n_10={n_10}  rasio={rasio}")\n`,
+        solution: `# Konversi baseline 10%. z 95% = 1.96, z power 80% = 0.84.\nZ_A, Z_B, P = 1.96, 0.84, 0.10\nimport math\n\n# TULIS KODEMU: ukuran_sampel, n_20, n_10, rasio\ndef ukuran_sampel(p, mde_rel):\n    delta = p * mde_rel\n    n = 2 * (Z_A + Z_B) ** 2 * p * (1 - p) / delta ** 2\n    return math.ceil(n)\n\nn_20 = ukuran_sampel(P, 0.20)\nn_10 = ukuran_sampel(P, 0.10)\nrasio = round(n_10 / n_20, 2)\n\nprint(f"n_20={n_20}  n_10={n_10}  rasio={rasio}")\n`,
         checks: [
           { kind: "equal", task: "t2", name: "n_20", value: 3528, label: "`n_20` = 3528", msg: "Sampel per grup untuk MDE 20%." },
           { kind: "equal", task: "t2", name: "n_10", value: 14112, label: "`n_10` = 14112", msg: "Sampel per grup untuk MDE 10%." },
@@ -265,7 +265,7 @@ export const biz10: V2Lesson = {
           q: "Uji gratis ongkir: conversion menang, margin anjlok. Ini contoh…",
           options: [
             { text: "Eksperimen gagal total", why: "Eksperimennya berhasil memberi informasi — keputusannya yang harus \u201Cjangan rilis\u201D." },
-            { text: "Guardrail memveto kemenangan semu (Goodhart pada ambang)", why: "Tepat: ini Goodhart dalam eksperimen — user menambah item murah agar dapat gratis ongkir, conversion naik tetapi margin per order anjlok. Eksperimennya 'berhasil' mengukur, tetapi metriknya dioptimasi oleh perilaku. Pelajarannya: sertakan counter-metric (margin) SEBELUM eksperimen jalan, bukan setelah kaget.", correct: true },
+            { text: "Guardrail memveto kemenangan semu (Goodhart pada ambang)", why: "Tepat: ini Goodhart dalam eksperimen — user memecah belanja agar pas ambang, conversion naik tetapi margin per order anjlok. Eksperimennya 'berhasil' mengukur, tetapi metriknya dioptimasi oleh perilaku. Pelajarannya: sertakan counter-metric (margin) SEBELUM eksperimen jalan, bukan setelah kaget.", correct: true },
             { text: "SRM", why: "Chi-square SRM 1,2 < 3,84 berarti randomisasi sah — validitas bukan masalah di sini. Masalahnya ada di desain metrik: conversion naik + margin anjlok = kemenangan semu. Jangan menyalahkan plumbing saat yang bocor adalah definisi suksesnya." },
             { text: "Peeking", why: "Benar, peeking bukan masalah di sini — dan justru itu poinnya: eksperimen bisa valid secara statistik (tidak peeking, tidak SRM) tetapi gagal secara bisnis karena metriknya tidak selaras dengan tujuan. Validitas statistik ≠ keputusan yang benar." },
           ],

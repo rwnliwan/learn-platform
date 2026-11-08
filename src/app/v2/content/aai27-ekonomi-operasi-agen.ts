@@ -51,7 +51,7 @@ export const aai27: V2Lesson = {
       formulaNote: "Tugas berhasil = tugas dicoba x success rate. Pengerjaan ulang manusia dihitung terpisah sebagai biaya kegagalan.",
       note: {
         title: "Success rate adalah tuas ekonomi terbesar",
-        body: "Naikkan success rate dari 82 menjadi 90 persen: tugas selesai 9.000, biaya per tugas selesai $1.240/9.000 = $0,1378, DAN pengerjaan ulang turun dari $4.500 menjadi $2.500. Total hemat $2.000+ dari satu perbaikan kualitas. Investasi pada kualitas agen (AAI24: taksonomi kegagalan) sering memberi pengembalian ekonomi lebih besar daripada negosiasi tarif token.",
+        body: "Naikkan success rate dari 82 menjadi 90 persen — DENGAN ASUMSI biaya agen tetap $1.240: tugas selesai 9.000, biaya per tugas selesai $1.240/9.000 = $0,1378, DAN pengerjaan ulang turun dari $4.500 menjadi $2.500. Angka $2.000 adalah PENURUNAN BIAYA PENGERJAAN ULANG (1.800 − 1.000 tugas × $2,50) — bukan tambahan penghematan kas yang terpisah dari penurunan biaya per tugas selesai (jangan dijumlahkan ganda), dan BUKAN manfaat bersih: biaya pengembangan/operasi untuk menaikkan kualitas (AAI24: taksonomi kegagalan, training, evaluasi) BELUM dimasukkan — manfaat bersih = $2.000 − biaya perbaikan itu. Investasi pada kualitas agen sering memberi pengembalian ekonomi lebih besar daripada negosiasi tarif token — tetapi hanya bila biaya perbaikannya lebih kecil dari $2.000 yang dihemat.",
       },
       reference: "$0,1512 per tugas selesai; hemat 94,0 persen per selesai, 77,0 persen total operasi; pengerjaan ulang $4.500.",
     },

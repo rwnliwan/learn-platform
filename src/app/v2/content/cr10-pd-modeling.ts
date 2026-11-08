@@ -107,12 +107,12 @@ export const cr10: V2Lesson = {
       eyebrow: "Langkah 6 · Lifetime PD",
       title: "Merangkai tahun demi tahun",
       prose: [
-        "Lifetime PD = peluang default kumulatif selama sisa tenor (bukan 12 bulan). Dibutuhkan untuk ECL Stage 2/3 (PSAK 109). Dihitung dari PD marginal (peluang default di tahun ke-t dengan syarat selamat sampai tahun t−1). Logikanya: peluang selamat T tahun = kalikan peluang selamat tiap tahun; lifetime PD = 1 − itu.",
-        "Contoh: PD marginal thn1 2%, thn2 1,8%, thn3 1,5%. Peluang selamat: 0,98 × 0,982 × 0,985 = 0,948. Lifetime PD = 1 − 0,948 = 5,2%. Bandingkan dengan PD 12-bulan (2%): lifetime 2,6× lipat — inilah \"bahan bakar\" cliff effect Stage 1→2.",
-        "Lifetime PD bukan PD 12-bulan × tenor (itu double counting — menghitung yang sudah default dua kali). PD marginal biasanya menurun seiring waktu (seasoning — yang lemah gugur duluan, CR6). Dan ingat: lifetime PD untuk ECL memakai PIT, bukan TTC.",
+        "Lifetime PD = peluang default kumulatif selama sisa tenor (bukan 12 bulan). Dibutuhkan untuk ECL Stage 2/3 (PSAK 109). Dihitung dari PD KONDISIONAL tahunan — disebut juga hazard tahunan — yaitu peluang default di tahun ke-t DENGAN SYARAT selamat sampai tahun t−1. (Jangan tertukar dengan PD MARGINAL sejati: PD marginal tahun ke-t adalah peluang default di tahun t TANPA syarat — PD_marginal(t) = S(t−1) × h(t) — dan lifetime PD adalah JUMLAH PD marginal tiap tahun. Lesson ini memakai input kondisional di rumus survival di bawah; penamaan lamanya yang memakai kata 'marginal' untuk angka kondisional sudah diperbaiki di seluruh lesson.) Logikanya: peluang selamat T tahun = kalikan peluang selamat tiap tahun; lifetime PD = 1 − itu.",
+        "Contoh: PD kondisional (hazard) thn1 2%, thn2 1,8%, thn3 1,5%. Peluang selamat: 0,98 × 0,982 × 0,985 = 0,948. Lifetime PD = 1 − 0,948 = 5,2%. Bandingkan dengan PD 12-bulan (2%): lifetime 2,6× lipat — inilah \"bahan bakar\" cliff effect Stage 1→2. Dan PD marginal (tanpa syarat) tiap tahunnya: tahun 1 = 2,00%; tahun 2 = 0,98 × 1,8% = 1,764%; tahun 3 = 0,98 × 0,982 × 1,5% = 1,443% — jumlah ketiganya = 5,21% ≈ lifetime PD 5,2% (selisih pembulatan). Dua jalan, satu jawaban: survival memakai hazard kondisional, penjumlahan memakai PD marginal — yang fatal adalah memasukkan seri PD yang salah ke rumus yang salah.",
+        "Lifetime PD bukan PD 12-bulan × tenor (itu double counting — menghitung yang sudah default dua kali). PD kondisional biasanya menurun seiring waktu (seasoning — yang lemah gugur duluan, CR6). Dan ingat: lifetime PD untuk ECL memakai PIT, bukan TTC. Untuk ECL PER PERIODE, ubah dulu hazard kondisional menjadi PD marginal (tanpa syarat) tiap tahun — karena ECL tahun t = PD_marginal(t) × LGD × EAD_t (didiskonto): tahun 1: 2,00%; tahun 2: 0,98 × 1,8% = 1,764%; tahun 3: 0,98 × 0,982 × 1,5% = 1,443%. Jumlahnya 5,21% ≈ lifetime PD 5,2% — dan tiap tahunnya langsung bisa dikali LGD × EAD tahun itu. Memakai hazard kondisional langsung sebagai pengali ECL per periode akan MELEBIHKAN cadangan — karena hazard tahun 3 (1,5%) mengasumsikan debitur pasti selamat 2 tahun, padahal sebagian sudah default di tahun 1–2.",
       ],
       formula: String.raw`\text{PD}_{\text{lifetime}} = 1 - \prod_{t=1}^{T} (1 - \text{PD}_t)`,
-      formulaNote: "PD_t = PD marginal tahun ke-t. Kalikan peluang selamat tiap tahun, lalu 1 minus hasilnya.",
+      formulaNote: "PD_t = PD KONDISIONAL (hazard) tahun ke-t — peluang default di tahun t dengan syarat selamat sampai t−1. Kalikan peluang selamat tiap tahun, lalu 1 minus hasilnya. PD marginal sejati = S(t−1) × PD_t; lifetime PD = jumlah PD marginal.",
       tasks: [],
       reference: "Lifetime KPR 15 tahun bisa 12% vs PD 12-bulan 1,2% — lompatan inilah yang membuat pindah stage menghantam laba.",
     },
@@ -121,7 +121,7 @@ export const cr10: V2Lesson = {
       eyebrow: "Langkah 7 · Lab Lifetime",
       title: "PD tenor dari PD tahunan",
       prose: [
-        "PD marginal per tahun: [2,0%; 1,8%; 1,5%; 1,2%; 1,0%]. Tugasmu: hitung PD lifetime 5 tahun (dalam %) dan rasionya terhadap PD 12-bulan.",
+        "PD kondisional (hazard) per tahun: [2,0%; 1,8%; 1,5%; 1,2%; 1,0%]. Tugasmu: hitung PD lifetime 5 tahun (dalam %) dan rasionya terhadap PD 12-bulan.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `pd_lifetime` (%) = (1 − Π(1−p)) × 100" },
@@ -135,9 +135,9 @@ export const cr10: V2Lesson = {
         "survive = 1.0; untuk tiap p: survive *= (1 - p)",
       ],
       code: {
-        starter: `pd_tahunan = [0.020, 0.018, 0.015, 0.012, 0.010]  # PD marginal per tahun\n\n# TULIS KODEMU\nsurvive = \npd_lifetime = \nrasio = \n\nprint(f"lifetime={pd_lifetime:.2f} rasio={rasio:.1f}")`,
+        starter: `pd_tahunan = [0.020, 0.018, 0.015, 0.012, 0.010]  # PD KONDISIONAL (hazard) per tahun\n\n# TULIS KODEMU\nsurvive = \npd_lifetime = \nrasio = \n\nprint(f"lifetime={pd_lifetime:.2f} rasio={rasio:.1f}")`,
         lockLines: 1,
-        solution: `pd_tahunan = [0.020, 0.018, 0.015, 0.012, 0.010]  # PD marginal per tahun\n\n# TULIS KODEMU\nsurvive = 1.0\nfor p in pd_tahunan:\n    survive *= (1 - p)\npd_lifetime = (1 - survive) * 100\nrasio = pd_lifetime / (pd_tahunan[0] * 100)\n\nprint(f"lifetime={pd_lifetime:.2f} rasio={rasio:.1f}")`,
+        solution: `pd_tahunan = [0.020, 0.018, 0.015, 0.012, 0.010]  # PD KONDISIONAL (hazard) per tahun\n\n# TULIS KODEMU\nsurvive = 1.0\nfor p in pd_tahunan:\n    survive *= (1 - p)\npd_lifetime = (1 - survive) * 100\nrasio = pd_lifetime / (pd_tahunan[0] * 100)\n\nprint(f"lifetime={pd_lifetime:.2f} rasio={rasio:.1f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "pd_lifetime", value: 7.28, tol: 0.05, label: "`pd_lifetime` sekitar 7.28", msg: "1 − 0.98×0.982×0.985×0.988×0.99 ≈ 0.0728." },
           { kind: "equal", task: "t2", name: "rasio", value: 3.64, tol: 0.05, label: "`rasio` sekitar 3.6", msg: "7.28 / 2.0 ≈ 3.6 — bukan 5× (double counting dihindari)." },
@@ -153,15 +153,15 @@ export const cr10: V2Lesson = {
       prose: [
         "Skenario 1 — Menghitung kebutuhan modal (IRB/Basel). → Pakai PD TTC (Through-the-Cycle): rata-rata sepanjang siklus, stabil. Alasan: regulator tidak mau modal naik-turun tiap kuartal mengikuti cuaca ekonomi.",
         "Skenario 2 — Menghitung ECL/PSAK 109 atau menetapkan pricing. → Pakai PD PIT (Point-in-Time): 'cuaca' saat ini. Contoh nyata: 2020, PIT melonjak 2% → 4,5% sehingga ECL ikut melonjak — cadangan harus mencerminkan realita kini, bukan iklim rata-rata.",
-        "Skenario 3 — Kredit masuk Stage 2/3. → Pakai lifetime PD dari PD marginal (1 − Π(1−PD_t)), bukan PD 12-bulan × tenor. Contoh nyata: PD marginal 2%/1,8%/1,5% → lifetime 5,2% — 2,6× lipat PD tahunan. Inilah 'bahan bakar' cliff effect Stage 1→2.",
-        "Skenario 4 — Data default rapi baru tersedia sejak 2015. → Jangan rata-rata mentah: reweight boom vs tekanan 50:50. Contoh nyata: rata-rata 2016–2025 = 2,4%, tetapi komposisi 7 tahun tenang + 3 tahun tekanan → TTC yang benar 2,8%. Selisih 0,4 poin × Rp 30 T × LGD 45% = Rp 54 M modal yang tidak dibentuk.",
+        "Skenario 3 — Kredit masuk Stage 2/3. → Pakai lifetime PD dari PD kondisional (1 − Π(1−PD_t)), bukan PD 12-bulan × tenor. Contoh nyata: PD kondisional 2%/1,8%/1,5% → lifetime 5,2% — 2,6× lipat PD tahunan. Inilah 'bahan bakar' cliff effect Stage 1→2.",
+        "Skenario 4 — Data default rapi baru tersedia sejak 2015. → Jangan rata-rata mentah: reweight boom vs tekanan 50:50. Contoh nyata: rata-rata 2016–2025 = 2,4%, tetapi komposisi 7 tahun tenang + 3 tahun tekanan → TTC yang benar 2,8%. Selisih 0,4 poin × Rp 30 T × LGD 45% = Rp 54 M selisih EXPECTED LOSS — BUKAN langsung kebutuhan modal: kebutuhan modal IRB dihitung dengan rumus modal tersendiri (yang memakai PD, LGD, maturity, dan korelasi aset), bukan dengan mengalikan selisih PD dengan eksposur.",
         "Skenario 5 — Model miskalibrasi: realisasi 1,5× prediksi di semua grade, tetapi Gini stabil. → Rekalibrasi (faktor koreksi ke master scale, 2 minggu) — bukan rebuild (6 bulan). Rebuild hanya bila ranking rusak (Gini jatuh) atau populasi bergeser (PSI tinggi).",
         "Aturan praktis 10 detik: modal = TTC, cadangan = PIT, tenor panjang = lifetime; campur aduk = KPMM jebol di resesi atau ECL salah di boom.",
       ],
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "Memakai PD PIT untuk perhitungan modal IRB — 2020: PIT 2% → 4,5%, RWA melonjak 30%, KPMM jatuh 14% → 10,5%, bank dipaksa menahan ekspansi + memotong dividen tepat di tengah krisis. Lingkaran setan procyclical yang ingin dicegah Basel dengan TTC.",
+        body: "Memakai PD PIT untuk perhitungan modal IRB — 2020: PIT 2% → 4,5%, RWA melonjak 30%, KPMM jatuh 14% → 10,8% (14% / 1,30 = 10,77% ≈ 10,8% — dengan asumsi modal pembilang TETAP; angka 10,5% lama salah hitung), bank dipaksa menahan ekspansi + memotong dividen tepat di tengah krisis. Lingkaran setan procyclical yang ingin dicegah Basel dengan TTC.",
       },
     },
     {
@@ -169,7 +169,7 @@ export const cr10: V2Lesson = {
       eyebrow: "Langkah 9 · Mini-case",
       title: "Modal jebol karena salah PD",
       prose: [
-        "Bank Nusantara memakai PD PIT untuk perhitungan modal IRB (kesalahan konseptual). 2020: PIT melonjak 2% → 4,5%. RWA melonjak 30% → KPMM jatuh 14% → 10,5%. OJK mempertanyakan metodologi; bank terpaksa menahan ekspansi + memotong dividen di tengah krisis — tepat saat ekonomi butuh kredit. Padahal jika memakai TTC (tetap ~2%), KPMM hanya turun ke 13,2% (akibat rugi), masih lega.",
+        "Bank Nusantara memakai PD PIT untuk perhitungan modal IRB (kesalahan konseptual). 2020: PIT melonjak 2% → 4,5%. RWA melonjak 30% → KPMM jatuh 14% → 10,8% (14% / 1,30 = 10,77% — bila modal pembilang tetap). OJK mempertanyakan metodologi; bank terpaksa menahan ekspansi + memotong dividen di tengah krisis — tepat saat ekonomi butuh kredit. Padahal jika memakai TTC (tetap ~2%), KPMM hanya turun ke 13,2% (akibat rugi), masih lega.",
         "Pembahasan: procyclical — saat resesi, PIT naik → modal terkunci lebih banyak → bank mengurangi kredit → ekonomi makin sulit → PIT naik lagi. Lingkaran setan yang memperparah krisis — persis yang ingin dicegah Basel dengan TTC.",
         "Perbaikan: (1) pisahkan dua PD — TTC untuk modal (dengan dokumentasi penyesuaian siklus), PIT untuk ECL; (2) bangun buffer di masa boom (capital conservation buffer Basel III) agar saat resesi bank tidak perlu memotong kredit.",
       ],
@@ -182,7 +182,7 @@ export const cr10: V2Lesson = {
       title: "TTC dari siklus yang tidak lengkap",
       prose: [
         "TTC idealnya rata-rata satu siklus ekonomi penuh — 7 sampai 10 tahun yang mencakup boom dan resesi. Masalah praktis bank Indonesia: data default yang rapi sering baru tersedia sejak 2015–2016. Satu dekade itu mencakup boom panjang, Covid, dan pemulihan — tetapi bukan \"siklus penuh\" yang seimbang. Rata-rata mentah dari jendela yang timpang menghasilkan TTC yang timpang.",
-        "Contoh dengan angka: rata-rata default 2016–2025 = 2,4%. Tetapi komposisinya: 7 tahun boom/tenang (rata-rata 1,8%) dan 3 tahun tekanan (rata-rata 3,8%). Jika siklus netral yang benar adalah 50:50, TTC seharusnya ≈ 0,5×1,8 + 0,5×3,8 = 2,8% — bukan 2,4%. Memakai 2,4% berarti modal dihitung dari iklim yang \"kebetulan cerah\". Selisih 0,4 poin pada portofolio Rp 30 T dengan LGD 45% = Rp 54 M modal yang tidak dibentuk. Dan hari ini (boom, z=+1, PIT 1,4%) adalah saat yang paling menggoda untuk memakai angka kecil itu.",
+        "Contoh dengan angka: rata-rata default 2016–2025 = 2,4%. Tetapi komposisinya: 7 tahun boom/tenang (rata-rata 1,8%) dan 3 tahun tekanan (rata-rata 3,8%). Jika siklus netral yang benar adalah 50:50, TTC seharusnya ≈ 0,5×1,8 + 0,5×3,8 = 2,8% — bukan 2,4%. Memakai 2,4% berarti modal dihitung dari iklim yang \"kebetulan cerah\". Selisih 0,4 poin pada portofolio Rp 30 T dengan LGD 45% = Rp 54 M selisih expected loss (bukan kebutuhan modal langsung — lihat Skenario 4). Dan hari ini (boom, z=+1, PIT 1,4%) adalah saat yang paling menggoda untuk memakai angka kecil itu.",
         "Cara salah yang umum: memakai rata-rata 5 tahun terakhir sebagai \"jangka panjang\" — 5 tahun bukan siklus, itu cuaca. Cara benar: sesuaikan dengan posisi siklus (tambah bobot pada tahun tekanan), atau petakan dari PIT hari ini mundur ke TTC memakai hubungan siklus yang terdokumentasi. Keduanya butuh judgment — dan keduanya harus ditulis, bukan diingat-ingat.",
         "Aturan keputusan. Satu: data minimum 7 tahun yang mencakup minimal satu episode tekanan; jika tidak ada, pakai data eksternal/benchmark sebagai jangkar. Dua: uji kewajaran — TTC tidak boleh di bawah rata-rata 3 tahun terburuk dibagi 2; jika ya, tulis justifikasi satu halaman. Tiga: dokumentasikan posisi siklus saat estimasi (\"diestimasi saat boom\") agar pengguna TTC 3 tahun kemudian tahu konteksnya. Empat: review TTC tiap 2–3 tahun, bukan tiap kuartal — jangkar yang digeser tiap kuartal bukan jangkar.",
       ],
@@ -197,7 +197,7 @@ export const cr10: V2Lesson = {
         "Untuk portofolio sovereign, bank, dan korporasi besar, default internal nyaris nol — bukan karena risikonya nol, melainkan karena populasinya kecil dan sejarahnya pendek. \"Belum pernah default dalam 10 tahun\" tidak sama dengan \"PD = 0%\". PD 0% berarti modal 0 — klaim yang tidak akan dipercaya regulator, auditor, atau akal sehat.",
         "Contoh dengan angka: 200 counterparty bank, 0 default dalam 10 tahun. Estimasi naif: 0%. Aturan praktis statistik \"rule of three\": dengan 0 kejadian dari n observasi, batas atas 95% ≈ 3/n = 3/200 = 1,5%. Artinya data ini masih konsisten dengan PD sampai 1,5%! Praktik yang benar: petakan ke rating eksternal (misalnya BBB → PD ~0,2%), terapkan floor regulasi 0,03%, lalu tambahkan margin konservatisme karena ketidakpastian. Hasilnya PD 0,2–0,5% — jauh dari 0%, dan bisa dipertahankan di depan validator.",
         "Cara salah yang klasik: memakai rating induk untuk anak perusahaan tanpa notch-down (anak perusahaan bisa gagal meski induk sehat — double leverage), atau memakai \"PD grup\" untuk debitur yang sebenarnya standalone. Cara benar: shadow rating — replikasi metodologi lembaga pemeringkat dengan data internal, lalu petakan ke tabel default historis mereka yang berbasis ribuan observasi.",
-        "Aturan keputusan. Satu: tidak ada PD di bawah 0,03% — floor absolut, tanpa pengecualian. Dua: untuk portofolio dengan <20 default historis, wajib ada pembanding eksternal (lembaga pemeringkat, data konsorsium). Tiga: uji \"rule of three\" sebagai kewajaran — jika PD-mu jauh di bawah 3/n, kamu mengklaim presisi yang datamu tidak mendukung. Empat: review pemetaan tiap tahun; migrasi rating eksternal adalah sinyal awal sebelum default internal muncul.",
+        "Aturan keputusan. Satu: tidak ada PD di bawah 0,03% pada kerangka IRB Basel untuk eksposur yang tercakup floor itu — floor ini bergantung kerangka, yurisdiksi, jenis eksposur, dan periode penerapan; di lesson ini ia dipakai sebagai asumsi ilustratif track, bukan aturan universal tanpa pengecualian. Dua: untuk portofolio dengan <20 default historis, wajib ada pembanding eksternal (lembaga pemeringkat, data konsorsium). Tiga: uji \"rule of three\" sebagai kewajaran — jika PD-mu jauh di bawah 3/n, kamu mengklaim presisi yang datamu tidak mendukung. Empat: review pemetaan tiap tahun; migrasi rating eksternal adalah sinyal awal sebelum default internal muncul.",
       ],
       tasks: [],
       note: {
@@ -229,7 +229,7 @@ export const cr10: V2Lesson = {
         "TTC (iklim, stabil) untuk modal; PIT (cuaca, reaktif) untuk ECL/pricing.",
         "Kalibrasi (angka benar) ≠ diskriminasi (ranking benar) — ECL butuh keduanya.",
         "Master scale = bahasa manusia untuk PD: komunikasi, konsistensi, regulasi IRB.",
-        "Lifetime PD = 1 − Π(1−PD_t) — bukan PD × tenor (double counting).",
+        "Lifetime PD = 1 − Π(1−PD_t) dengan PD_t = PD KONDISIONAL (hazard) — bukan PD × tenor (double counting); PD marginal sejati = S(t−1) × hazard, lifetime = jumlah PD marginal.",
         "Memakai PIT untuk modal = procyclical: memperparah krisis.",
       ],
       next: { label: "CR11 — Forward-Looking", href: "/v2/learn/cr11-forward-looking" },
@@ -244,7 +244,7 @@ export const cr10: V2Lesson = {
           ],
         },
         {
-          q: "PD marginal tahunan: 2%, 1,8%, 1,5%. Lifetime PD 3 tahun?",
+          q: "PD kondisional (hazard) tahunan: 2%, 1,8%, 1,5%. Lifetime PD 3 tahun?",
           options: [
             { text: "5,3% (2+1,8+1,5 — dijumlah)", why: "Dijumlah = double counting (menghitung yang sudah default dua kali)." },
             { text: "≈5,2% (1 − 0,98×0,982×0,985) — via peluang selamat", why: "Satu-satunya cara yang benar: kalikan peluang selamat.", correct: true },
@@ -271,7 +271,7 @@ export const cr10: V2Lesson = {
           ],
         },
         {
-          q: "Lifetime PD KPR 15 tahun adalah 12%, PD 12-bulan 1,2%. Mengapa lifetime jauh lebih besar dan kapan dipakai?",
+          q: "Lifetime PD KPR 15 tahun adalah 12%, PD 12-bulan 1,2%. Mengapa lifetime jauh lebih besar dan kapan dipakai? (Petunjuk: PD tahunannya adalah PD kondisional.)",
           options: [
             { text: "Karena PD 12-bulan × 15 = 18% — tinggal kalikan", why: "Itu double counting." },
             { text: "Lifetime = 1 − (peluang selamat tiap tahun dikalikan); dipakai untuk ECL Stage 2/3 (PSAK 109) — inilah bahan bakar cliff effect", why: "Lompatan 1,2% → 12% inilah yang membuat perpindahan stage menghantam laba.", correct: true },
