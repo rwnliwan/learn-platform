@@ -49,7 +49,7 @@ export const b11: V2Lesson = {
       title: "Rata-rata menuju ekspektasi \u2014 dengan syarat",
       prose: [
         "Hukum Bilangan Besar: x\u0304_n \u2192 E[X] saat n\u2192\u221E (konvergensi dalam peluang). Intuisi: tiap sampel baru \u201Cmengencerkan\u201D pengaruh sampel lama. Setelah 10.000 lemparan, 10 lemparan awal yang sial tidak lagi berarti.",
-        "Kapan GAGAL? Syarat: E|X| < \u221E dan sampel i.i.d. Untuk data Pareto (\u03B1\u22641), n=1 juta pun rata-rata tetap liar \u2014 simulasi membuktikan: mean kumulatif Pareto(\u03B1=1,1) meloncat terus, sementara Eksponensial(1) tenang mendekati 1.",
+        "Kapan GAGAL? Syarat: E|X| < ∞ dan sampel i.i.d. Untuk Pareto α≤1, mean TIDAK ADA (E|X| = ∞) — LLN tidak berlaku sama sekali. Untuk Pareto α=1,1, mean ADA (α·x_m/(α−1) = 1,1/0,1 = 11 untuk x_m=1) tetapi varians TAK HINGGA — LLN berlaku, namun rata-rata sampel konvergen sangat lambat: simulasi membuktikan mean kumulatif Pareto(α=1,1) meloncat terus, sementara Eksponensial(1) tenang mendekati 1. \"Tidak ada mean\" dan \"mean ada tetapi sulit diestimasi\" adalah dua hal berbeda.",
         "LLN adalah alasan kita percaya rata-rata sampel; CLT adalah penggaris yang mengukur kepercayaannya. LLN tanpa CLT = \u201Cpercaya saja\u201D tanpa ukuran.",
       ],
       formula: String.raw`\bar{X}_n = \frac{1}{n}\sum_{i=1}^{n} X_i \;\xrightarrow[n\to\infty]{}\; E[X]`,
@@ -235,7 +235,7 @@ export const b11: V2Lesson = {
       summary: [
         "LLN: x\u0304_n \u2192 E[X] \u2014 alasan percaya rata-rata (butuh mean hingga, i.i.d.).",
         "CLT: distribusi x\u0304_n \u2192 Normal \u2014 bukan datanya, tapi rata-ratanya.",
-        "SE = \u03C3/\u221An: penggaris presisi; presisi 2x = 4x sampel; populasi tak masuk rumus.",
+        "SE = σ/√n: penggaris presisi (bergantung σ dan n); presisi 2x = 4x sampel; populasi tak masuk rumus.",
         "Fondasi: survei \u00B13%, interval kepercayaan, uji hipotesis, A/B testing, Monte Carlo.",
         "Jangan paksa CLT untuk n kecil + data liar \u2014 dan jangan samakan \u201Cdata normal\u201D dengan \u201Crata-rata normal\u201D.",
       ],
@@ -253,7 +253,7 @@ export const b11: V2Lesson = {
           q: "Survei 1.000 orang untuk 200 juta pemilih valid karena\u2026",
           options: [
             { text: "1.000 cukup besar absolut", why: "Salah: 1.000 vs 200 juta itu 0,0005%." },
-            { text: "SE hanya bergantung pada n, bukan besar populasi", why: "Benar: SE = \u03C3/\u221An \u2014 populasi tidak masuk rumus.", correct: true },
+            { text: "Untuk σ yang sama, SE hanya bergantung pada n, bukan besar populasi", why: "Benar: SE = σ/√n — SE bergantung pada σ DAN n; untuk σ yang sama, hanya n yang mengubahnya, dan besar populasi tidak masuk rumus.", correct: true },
             { text: "Pemilih homogen", why: "Salah: tidak perlu homogen \u2014 perlu acak." },
           ],
         },
@@ -274,11 +274,11 @@ export const b11: V2Lesson = {
           ],
         },
         {
-          q: "Rata-rata 64 transaksi: mean Rp150 ribu, SD Rp80 ribu. P(rata-ratanya > Rp165 ribu)?",
+          q: "Rata-rata 64 transaksi dari distribusi yang cukup ringan (tidak sangat miring; SD Rp80 ribu diketahui): mean Rp150 ribu, SD Rp80 ribu. P(rata-ratanya > Rp165 ribu)?",
           options: [
             { text: "SE=10, z=1,5 \u2192 \u22486,7%", why: "Benar: SE=80/8=10; z=(165\u2212150)/10=1,5.", correct: true },
             { text: "SE=80 \u2192 \u224850%", why: "Salah: SE = \u03C3/\u221An = 80/8 = 10, bukan 80." },
-            { text: "Tidak bisa \u2014 datanya tidak normal", why: "Salah: CLT \u2014 n=64 cukup untuk aproksimasi." },
+            { text: "Tidak bisa — soal tidak memberi tahu distribusinya", why: "Salah: soal tidak memberi info distribusi — kecukupan n=64 BERGANTUNG pada distribusi (untuk yang ringan, n=64 cukup; untuk yang sangat miring/berekor tebal, belum). Tanpa info itu kunci tidak dapat ditentukan." },
           ],
         },
       ],

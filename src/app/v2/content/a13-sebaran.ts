@@ -86,7 +86,7 @@ export const a13: V2Lesson = {
       eyebrow: "Langkah 3 · Standar deviasi",
       title: "SD: penerjemah variansi ke bahasa manusia",
       prose: [
-        "SD = akar variansi — mengembalikan sebaran ke satuan asli. Variansi sampel tadi = 4 (juta Rp)² → SD = Rp 2 juta. Interpretasi bisnis: pendapatan debitur menyimpang rata-rata sekitar Rp 2 juta dari rata-ratanya.",
+        "SD = akar variansi — mengembalikan sebaran ke satuan asli. Variansi sampel tadi = 4 (juta Rp)² → SD = Rp 2 juta. Interpretasi bisnis yang tepat: akar rata-rata KUADRAT simpangan ≈ Rp 2 juta — bukan rata-rata simpangan absolutnya (mean absolute deviation data ini hanya (2+0+2)/3 ≈ Rp 1,33 juta). SD dan rata-rata simpangan absolut adalah dua ukuran berbeda; jangan baca SD sebagai \"rata-rata selisih\" mentah.",
         "Untuk data yang mendekati normal berlaku aturan empiris: ±1 SD ≈ 68% data, ±2 SD ≈ 95%, ±3 SD ≈ 99,7%. Tapi hati-hati: SD kecil bukan berarti risiko rendah — semua debitur DPD 89 hari memberi SD kecil, padahal semuanya hampir macet. Selalu baca SD bersama mean-nya.",
       ],
       formula: String.raw`s = \sqrt{\frac{\sum_{i=1}^{n}(x_i - \bar{x})^2}{n-1}}`,
@@ -125,7 +125,7 @@ export const a13: V2Lesson = {
       title: "IQR: penjaga tengah yang kebal outlier",
       prose: [
         "IQR = Q3 − Q1: lebar 50% data di tengah. 25% terbawah dan 25% teratas — tempat outlier bersembunyi — diabaikan total. Data 1, 3, 5, 7, 9, 11, 13, 100: Q1 = median separuh bawah (1,3,5,7) = 4; Q3 = median separuh atas (9,11,13,100) = 12; IQR = 8.",
-        "Outlier 100 tidak menggerakkan IQR sama sekali — bandingkan dengan SD data ini (≈ 32) yang hancur oleh satu angka. Diagnostik senior: bandingkan SD vs IQR/1,35. Kalau SD jauh lebih besar, ada outlier atau skew yang sedang disembunyikan SD.",
+        "Outlier 100 tidak menggerakkan IQR sama sekali — bandingkan dengan SD data ini (≈ 32) yang hancur oleh satu angka. Diagnostik senior: bandingkan SD vs IQR/1,35 — tetapi ingat, perbandingan IQR/1,35 ≈ SD HANYA berlaku untuk data yang mendekati normal (untuk normal, IQR = 1,349σ). Di luar normalitas, selisihnya belum tentu berarti outlier. Kalau SD jauh lebih besar dari IQR/1,35 pada data yang diduga normal, ada outlier atau skew yang sedang disembunyikan SD."
       ],
       formula: String.raw`\text{IQR} = Q_3 - Q_1`,
       formulaNote: "IQR = rentang interkuartil; Q1 = kuartil bawah (persentil 25); Q3 = kuartil atas (persentil 75); lebar 50 persen data di tengah — kebal outlier.",
@@ -138,7 +138,7 @@ export const a13: V2Lesson = {
       note: {
         title: "Sering salah",
         type: "pitfall",
-        body: "Kalau SD sudah dihitung, IQR tidak perlu. Justru selisih SD vs IQR adalah diagnostik: SD ≈ IQR/1,35 berarti data relatif bersih; SD jauh lebih besar berarti ada outlier yang sedang ditutupi SD.",
+        body: "Kalau SD sudah dihitung, IQR tidak perlu. Justru selisih SD vs IQR adalah diagnostik — dengan syarat data mendekati normal, karena IQR/1,35 ≈ SD hanya untuk distribusi normal: SD ≈ IQR/1,35 berarti data relatif bersih; SD jauh lebih besar berarti ada outlier yang sedang ditutupi SD."
       },
       hints: [
         "Modul statistics sudah diimpor sebagai st.",
@@ -164,7 +164,7 @@ export const a13: V2Lesson = {
       title: "MAD: median dipakai dua kali",
       prose: [
         "MAD = median dari jarak absolut tiap data ke median: penyimpangan tipikal dari nilai tipikal. Data 1, 3, 5, 7, 100, median 5: jarak absolutnya 4, 2, 0, 2, 95 → median jarak-jarak itu = 2.",
-        "Jarak raksasa 95 tenggelam tanpa jejak — SD data ini ≈ 42, 21x lipat lebih panik dari MAD. Breakdown point MAD 50%: separuh datamu boleh rusak total dan dia tetap waras. Inilah standar emas deteksi outlier di sistem fraud: flag transaksi jika |x − median| > 3 × MAD.",
+        "Jarak raksasa 95 tenggelam tanpa jejak — SD data ini ≈ 42, 21x lipat lebih panik dari MAD. Breakdown point MAD 50%: separuh datamu boleh rusak total dan dia tetap waras. Inilah praktik deteksi outlier yang umum di sistem fraud: flag transaksi jika |x − median| > 3 × MAD — dengan catatan, untuk data normal MAD ≈ 0,6745σ sehingga 3 × MAD ≈ 2,02σ, BUKAN setara 3-sigma; ambang ini lebih ketat dari 3-sigma. Bila ingin setara 3-sigma, pakai ≈ 4,45 × MAD (3/0,6745)."
       ],
       formula: String.raw`\text{MAD} = \text{median}(|x_i - \text{median}(x)|)`,
       formulaNote: "MAD = median absolute deviation; median(x) = median data; |x_i - median(x)| = jarak absolut tiap data ke median; median dari jarak-jarak itu = penyimpangan tipikal.",
@@ -176,7 +176,7 @@ export const a13: V2Lesson = {
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "Untuk aturan deteksi fraud otomatis, pakai MAD bukan SD: threshold berbasis SD ikut membesar saat ada fraud besar, sehingga fraud justru lolos. |x − median| > 3×MAD adalah aturan robust ala 3-sigma.",
+        body: "Untuk aturan deteksi fraud otomatis, pakai MAD bukan SD: threshold berbasis SD ikut membesar saat ada fraud besar, sehingga fraud justru lolos. |x − median| > 3×MAD adalah aturan robust — tetapi jangan sebut \"ala 3-sigma\": 3×MAD ≈ 2,02σ untuk data normal, lebih ketat dari 3-sigma (setara 3-sigma ≈ 4,45×MAD)."
       },
       hints: [
         "med = st.median(d).",
@@ -239,7 +239,7 @@ export const a13: V2Lesson = {
       title: "Dua portofolio, expected loss sama, modal beda jauh",
       prose: [
         "Kamu analis risiko. Dua portofolio KUR, masing-masing 2.000 debitur. Kerugian tahunan (% outstanding) 5 tahun terakhir. Portofolio P (ritel mikro): 1,8 – 2,1 – 2,0 – 1,9 – 2,2 → mean 2,0%. Portofolio Q (korporasi kecil): 0,5 – 0,8 – 1,2 – 2,5 – 5,0 → mean 2,0%.",
-        "Direktur bertanya: expected loss sama, jadi modal cadangannya sama, kan? Hitung SD keduanya: P ≈ 0,16%, Q ≈ 1,84%. SD Q ~12x SD P dengan mean yang identik. Jawabanmu: tidak, modalnya tidak sama. Tahun buruk Q (5%) menghabiskan 2,5 tahun expected loss sekaligus.",
+        "Direktur bertanya: expected loss sama, jadi modal cadangannya sama, kan? Hitung SD keduanya: P ≈ 0,158% (SD sampel), Q ≈ 1,842% — rasio 1,842/0,158 ≈ 11,66, dibulatkan 12x — SD Q ~12x SD P dengan mean yang identik. Jawabanmu: tidak, modalnya tidak sama. Tahun buruk Q (5%) menghabiskan 2,5 tahun expected loss sekaligus. Dan \"modal beda jauh\" di judul bisa dihitung: bila modal ≈ 3 × SD kerugian tahunan (ilustrasi, bukan rumus regulasi), P butuh ≈ 0,47% dari outstanding vs Q ≈ 5,5% — lebih dari 11x lipat.",
         "Peta keputusan 10 detik: data bersih & simetris → SD. Ada outlier/miring → IQR (+ median). Data sangat kotor/deteksi anomali → MAD. Beda skala → CV. Hanya peduli sisi buruk → semi-deviation. Dan selalu laporkan pemusatan + sebaran berpasangan: mean+SD, atau median+IQR.",
       ],
       tasks: [
@@ -264,7 +264,7 @@ export const a13: V2Lesson = {
         checks: [
           { kind: "equal", task: "t1", name: "sd_p", value: 0.158, tol: 0.005, label: "`sd_p` sekitar 0.16", msg: "SD sampel dari P ≈ 0,16%. Pakai statistics.stdev (pembagi n−1)." },
           { kind: "equal", task: "t1", name: "sd_q", value: 1.842, tol: 0.01, label: "`sd_q` sekitar 1.84", msg: "SD sampel dari Q ≈ 1,84%." },
-          { kind: "equal", task: "t2", name: "lipat", value: 12, tol: 0.6, label: "`lipat` seharusnya 12", msg: "1,84 / 0,16 ≈ 11,7 → dibulatkan 12." },
+          { kind: "equal", task: "t2", name: "lipat", value: 12, tol: 0.6, label: "`lipat` seharusnya 12", msg: "1,842 / 0,158 ≈ 11,66 → dibulatkan 12." },
           { kind: "stdout_matches", task: "t2", pattern: "sd_p=0\\.16\\s+sd_q=1\\.84\\s+lipat=12", label: "`print` menampilkan ketiganya", msg: "Format: sd_p=0.16  sd_q=1.84  lipat=12." },
         ],
       },
@@ -300,7 +300,7 @@ export const a13: V2Lesson = {
           q: "Data gaji ada outlier (gaji direktur). Ukuran sebaran apa yang paling tepat?",
           options: [
             { text: "Standar deviasi", why: "SD ikut panik saat ada outlier — dia dibangun dari kuadrat." },
-            { text: "IQR atau MAD", why: "Keduanya robust: outlier tidak menggerakkannya.", correct: true },
+            { text: "IQR atau MAD", why: "Keduanya robust: outlier hampir tidak menggerakkannya (robust, bukan imun — breakdown point IQR/MAD 50%, bukan tak hingga).", correct: true },
             { text: "Range", why: "Range justru paling rapuh: hanya memakai 2 titik ujung." },
             { text: "Variansi", why: "Satuannya kuadrat (Rp²) — tidak bermakna bisnis dan ikut panik." },
           ],
@@ -334,7 +334,7 @@ export const a13: V2Lesson = {
       ],
       note: {
         title: "Intuisi: mean tanpa sebaran adalah janji tanpa jaminan",
-        body: "Lima heuristik. Satu: mean tanpa sebaran adalah janji tanpa jaminan — dua cabang sama-sama NPL 3 persen bisa berarti satu stabil dan satu kolaps; yang membedakan hanyalah sebarannya. Dua: SD kecil bukan berarti risiko rendah — semua debitur DPD 89 hari memberi SD kecil dengan risiko raksasa; sebaran mengukur keragaman, bukan keamanan. Tiga: bandingkan SD dengan IQR dibagi 1,35 — selisih besar berarti outlier bersembunyi di data; diagnostik 10 detik analis senior. Empat: untuk membandingkan aset beda skala pakai CV, untuk mengukur risiko pakai semi-deviasi — volatilitas ke atas bukan risiko, hanya sisi buruk yang dihitung. Lima: aturan empiris 68-95-99,7 hanya berlaku untuk yang mendekati normal — jangan dipaksakan ke return saham berekor tebal; di sana ekorlah yang menentukan, bukan aturan. Enam: pilih ukuran sebaran sesuai pertanyaan — untuk ketahanan pakai IQR atau MAD, untuk kompatibilitas model pakai SD, untuk perbandingan lintas skala pakai CV; tidak ada satu ukuran untuk semua.",
+        body: "Lima heuristik. Satu: mean tanpa sebaran adalah janji tanpa jaminan — dua cabang sama-sama NPL 3 persen bisa berarti satu stabil dan satu kolaps; yang membedakan hanyalah sebarannya. Dua: SD kecil bukan berarti risiko rendah — semua debitur DPD 89 hari memberi SD kecil dengan risiko raksasa; sebaran mengukur keragaman, bukan keamanan. Tiga: bandingkan SD dengan IQR dibagi 1,35 — untuk data yang mendekati normal — selisih besar berarti outlier bersembunyi di data; diagnostik 10 detik analis senior. Empat: untuk membandingkan aset beda skala pakai CV, untuk mengukur risiko pakai semi-deviasi — volatilitas ke atas bukan risiko, hanya sisi buruk yang dihitung. Lima: aturan empiris 68-95-99,7 hanya berlaku untuk yang mendekati normal — jangan dipaksakan ke return saham berekor tebal; di sana ekorlah yang menentukan, bukan aturan. Enam: pilih ukuran sebaran sesuai pertanyaan — untuk ketahanan pakai IQR atau MAD, untuk kompatibilitas model pakai SD, untuk perbandingan lintas skala pakai CV; tidak ada satu ukuran untuk semua.",
       },
     },
   ],

@@ -69,14 +69,14 @@ export const c13: V2Lesson = {
       eyebrow: "Langkah 2 · DPD bucket & NPL",
       title: "Bahasa kolektibilitas",
       prose: [
-        "DPD (Days Past Due) = hari keterlambatan bayar. Bucket standar Indonesia: current (0) = kolektibilitas 1; 1–30 = kol 2 (DPK); 31–60 = kol 3; 61–90 = kol 4; 90+ = kol 5 (macet). NPL = kolektibilitas 3–5 — tapi samakan definisi dulu!",
-        "NPL ratio = `SUM(CASE WHEN kolektibilitas >= 3 THEN plafon ELSE 0 END) * 1.0 / SUM(plafon)` — berdasar nominal (baki debet), bukan jumlah debitur. Satu debitur besar mengubah segalanya. Selalu tampilkan nominal + ratio berdampingan: NPL ratio bisa naik karena penyebut menyusut (penyaluran turun) sementara pembilang tetap — % tanpa basis = manipulasi.",
+        "DPD (Days Past Due) = hari keterlambatan bayar. Bucket standar Indonesia: current (0) = kolektibilitas 1; 1–30 = kol 2 (DPK); 31–60 = kol 3; 61–90 = kol 4; >90 = kol 5 (macet). Batasnya tidak tumpang tindih: DPD tepat 90 masih kol 4 (sesuai data lesson: facility #5 dpd=90 → kol 4); kol 5 mulai DPD 91. Catatan: ini pemetaan penyederhanaan lesson — di praktik bank, penilaian kualitatif juga berperan (lihat CR14a: DPD bukan satu-satunya penentu kolektibilitas). NPL = kolektibilitas 3–5 — tapi samakan definisi dulu!",
+        "NPL ratio = `SUM(CASE WHEN kolektibilitas >= 3 THEN plafon ELSE 0 END) * 1.0 / SUM(plafon)` — berdasar PLAFON, bukan jumlah debitur. Catatan jujur: skema lesson ini hanya punya plafon — angka 23,23% adalah rasio PLAFON, bukan baki debet. Di produksi, NPL dihitung dari baki debet (outstanding), bukan plafon; plafon ≠ baki debet (plafon = limit yang disetujui, baki debet = yang sudah ditarik). Hasilnya bisa berbeda bila utilisasi antar debitur berbeda — lesson ini memakai plafon sebagai proksi karena itu satu-satunya nominal di skema. Satu debitur besar mengubah segalanya. Selalu tampilkan nominal + ratio berdampingan: NPL ratio bisa naik karena penyebut menyusut (penyaluran turun) sementara pembilang tetap — % tanpa basis = manipulasi.",
       ],
       tasks: [
         { id: "t1", text: "Tulis query di `sql`: `npl_nominal`, `total_plafon`, dan `npl_ratio` (kolektibilitas >= 3, berdasar plafon)" },
         { id: "t2", text: "Ambil `npl` dan `ratio` dari hasil; pastikan npl = 180000000 dan ratio ≈ 0.2323" },
       ],
-      expected: "npl_nominal=180000000, total=775000000, npl_ratio=0.2323 (23.23%)",
+      expected: "npl_nominal=180000000, total=775000000, npl_ratio=0.2323 (23.23% — rasio plafon, bukan baki debet)",
       hints: [
         "SUM(CASE WHEN kolektibilitas >= 3 THEN plafon ELSE 0 END) AS npl_nominal.",
         "Kredit macet (kol 3-5): 30jt + 75jt + 25jt + 30jt + 20jt = 180jt.",
@@ -132,7 +132,7 @@ print(f"ratio: {ratio:.4f}")`,
       title: "Probabilitas memburuk",
       prose: [
         "Roll rate = % saldo di bucket X bulan ini yang pindah ke bucket lebih buruk bulan depan. Ini PD empiris antar bucket! Roll rate matrix (bucket_ini × bucket_depan) = matriks transisi Markov — jembatan ke modeling: angka yang kamu hitung di sini menjadi input matriks transisi dan PD di track credit risk.",
-        "Contoh rantai: roll rate 1–30 → 31–60 = 35%, 31–60 → 61–90 = 45%, 61–90 → 90+ = 55%, 90+ → macet = 70%. Maka P(DPD 1–30 → macet) = 0,35 × 0,45 × 0,55 × 0,70 = 0,0606 — ekspektasi macet dari Rp300M di DPD 1–30 = Rp18,2M. Inilah dasar provisioning (CKPN/ECL stage 2!). Di lab ini: simulasi sederhana — asumsikan bulan depan tiap dpd +30 (tak ada yang bayar).",
+        "Contoh rantai: roll rate 1–30 → 31–60 = 35%, 31–60 → 61–90 = 45%, 61–90 → >90 = 55%, >90 → macet (write-off) = 70%. Maka probabilitas SATU JALUR ini (selalu memburuk tiap bulan, tanpa pernah sembuh, tanpa lompat bucket, tanpa bertahan di bucket yang sama) = 0,35 × 0,45 × 0,55 × 0,70 = 0,0606 — ekspektasi macet dari Rp300M di DPD 1–30 SEPANJANG JALUR INI SAJA = Rp18,2M. Itu BUKAN PD total: PD total = jumlah probabilitas SEMUA jalur yang berakhir macet (termasuk yang sempat sembuh lalu memburuk, yang bertahan satu-dua bulan lalu memburuk, yang lompat bucket) — dihitung dari matriks transisi lengkap (langkah 8), bukan produk satu rantai. Jangan presentasikan 6,06% sebagai 'PD dari DPD 1–30'. Inilah dasar provisioning (CKPN/ECL stage 2!). Di lab ini: simulasi sederhana — asumsikan bulan depan tiap dpd +30 (tak ada yang bayar).",
       ],
       tasks: [
         { id: "t1", text: "Tulis query di `sql`: bucket `ini` (dpd) dan `depan` (dpd+30), hitung roll rate dari tiap bucket" },
@@ -141,11 +141,11 @@ print(f"ratio: {ratio:.4f}")`,
       expected: "roll rate '1-30' → '31-60' = 1.0 (simulasi: semua dpd +30 tanpa pembayaran)",
       note: {
         title: "Sering salah",
-        body: "Roll rate yang benar butuh snapshot 2 periode (bulan ini vs bulan lalu) — data historis SCD-2! Tanpa itu, yang kamu hitung hanya simulasi. Di produksi, jangan presentasikan simulasi sebagai roll rate aktual.",
+        body: "Roll rate yang benar butuh snapshot 2 periode (bulan ini vs bulan lalu) — data historis SCD-2! Tanpa itu, yang kamu hitung hanya simulasi. Di produksi, jangan presentasikan simulasi sebagai roll rate aktual. Dan solusi lab ini menghitung roll rate BERDASARKAN SALDO (plafon) yang MEMBURUK — bukan jumlah fasilitas yang berubah apa saja — sesuai definisi “% SALDO … pindah ke bucket lebih buruk”.",
       },
       hints: [
-        "CTE: WITH b AS (SELECT CASE WHEN dpd BETWEEN 1 AND 30 THEN '1-30' WHEN dpd BETWEEN 31 AND 60 THEN '31-60' ELSE 'lain' END AS ini, CASE WHEN dpd+30 BETWEEN 31 AND 60 THEN '31-60' WHEN dpd+30 BETWEEN 61 AND 90 THEN '61-90' ELSE 'lain' END AS depan FROM kredit).",
-        "Lalu SELECT ini, COUNT(*), SUM(CASE WHEN depan <> ini THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS roll_rate FROM b WHERE ini <> 'lain' GROUP BY ini.",
+        "CTE: WITH b AS (SELECT CASE WHEN dpd BETWEEN 1 AND 30 THEN '1-30' WHEN dpd BETWEEN 31 AND 60 THEN '31-60' ELSE 'lain' END AS ini, CASE WHEN dpd BETWEEN 1 AND 30 THEN 1 WHEN dpd BETWEEN 31 AND 60 THEN 2 ELSE 0 END AS ini_ord, CASE WHEN dpd+30 BETWEEN 31 AND 60 THEN '31-60' WHEN dpd+30 BETWEEN 61 AND 90 THEN '61-90' ELSE 'lain' END AS depan, CASE WHEN dpd+30 BETWEEN 31 AND 60 THEN 2 WHEN dpd+30 BETWEEN 61 AND 90 THEN 3 ELSE 0 END AS depan_ord, plafon FROM kredit).",
+        "Lalu SELECT ini, COUNT(*), SUM(CASE WHEN depan_ord > ini_ord THEN plafon ELSE 0 END) * 1.0 / SUM(plafon) AS roll_rate FROM b WHERE ini <> 'lain' GROUP BY ini. Roll rate = % SALDO yang MEMBURUK (bukan % jumlah fasilitas), dan hanya yang memburuk yang dihitung (depan_ord > ini_ord — bukan sembarang perubahan).",
         "rr = [r[2] for r in rows if r[0] == '1-30'][0]  →  1.0.",
       ],
       code: {
@@ -174,12 +174,17 @@ WITH b AS (
   SELECT
   CASE WHEN dpd BETWEEN 1 AND 30 THEN '1-30'
        WHEN dpd BETWEEN 31 AND 60 THEN '31-60' ELSE 'lain' END AS ini,
+  CASE WHEN dpd BETWEEN 1 AND 30 THEN 1
+       WHEN dpd BETWEEN 31 AND 60 THEN 2 ELSE 0 END AS ini_ord,
   CASE WHEN dpd+30 BETWEEN 31 AND 60 THEN '31-60'
-       WHEN dpd+30 BETWEEN 61 AND 90 THEN '61-90' ELSE 'lain' END AS depan
+       WHEN dpd+30 BETWEEN 61 AND 90 THEN '61-90' ELSE 'lain' END AS depan,
+  CASE WHEN dpd+30 BETWEEN 31 AND 60 THEN 2
+       WHEN dpd+30 BETWEEN 61 AND 90 THEN 3 ELSE 0 END AS depan_ord,
+  plafon
   FROM kredit
 )
 SELECT ini, COUNT(*) AS n,
-SUM(CASE WHEN depan <> ini THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS roll_rate
+SUM(CASE WHEN depan_ord > ini_ord THEN plafon ELSE 0 END) * 1.0 / SUM(plafon) AS roll_rate
 FROM b WHERE ini <> 'lain' GROUP BY ini
 """
 cur.execute(sql)
@@ -210,7 +215,7 @@ for r in rows:
         {
           q: "Vintage Jul-25 konsisten lebih buruk dari Jan-25. Diagnosis?",
           options: [
-            { text: "Ekonomi memburuk", why: "Salah — jika ekonomi, semua vintage ikut memburuk." },
+            { text: "Ekonomi memburuk", why: "Salah — jika ekonomi memburuk, SEMUA vintage cenderung ikut memburuk (bukan hanya satu angkatan); pola yang hanya menimpa satu angkatan menunjuk underwriting/origination — tetapi itu heuristik, bukan bukti mutlak: guncangan ekonomi bisa menimpa segmen yang hanya ada di satu angkatan, jadi periksa komposisi segmen sebelum menyimpulkan." },
             { text: "Underwriting angkatan Jul-25 bermasalah", why: "Benar. Pola per angkatan = masalah origination, bukan sistemik.", correct: true },
             { text: "Collection malas", why: "Salah — collection memengaruhi vintage lama juga." },
           ],
@@ -232,7 +237,7 @@ for r in rows:
       title: "Diagnosis NPL naik",
       prose: [
         "Situasi: NPL 2,1% → 2,6% dalam 3 bulan. Tugas: (1) hitung NPL nominal + ratio; (2) distribusi bucket — di mana penumpukan? (3) jika vintage Jul-25 NPL-nya 2× vintage Jan-25, apa diagnosis & rekomendasi? (4) tulis memo 5 kalimat untuk direksi.",
-        "Diagnosis contoh: “Kenaikan NPL terkonsentrasi di bucket 31–60 vintage Jul–Sep 25 (roll rate 1–30→31–60 naik 18%→27%). Vintage lama stabil — masalah underwriting, bukan collection/ekonomi. Satu debitur besar (plafon 200jt) menyumbang 0,2pp — sisanya granular.” Rekomendasi: (1) hold penyaluran segmen vintage bermasalah sambil review scoring; (2) intensifkan collection bucket 1–30 (cegah roll); (3) monitor vintage baru mingguan.",
+        "Diagnosis contoh (ILUSTRASI — angka roll rate dan vintage di bawah ini hipotetis, bukan dari dataset lesson): “Kenaikan NPL terkonsentrasi di bucket 31–60 vintage Jul–Sep 25 (roll rate 1–30→31–60 naik 18%→27%). Vintage lama stabil — masalah underwriting, bukan collection/ekonomi. Satu debitur besar (facility #4, plafon Rp200 jt = 25,8% dari total plafon Rp775 jt) adalah kandidat penyumbang tunggal terbesar BILA ia macet — tetapi dataset lesson ini tidak punya data perubahan antar periode, jadi kontribusi '0,2pp' TIDAK dapat dihitung dari data ini; di kasus nyata, hitung dari snapshot dua periode (ΔNPL dari fasilitas itu / total portofolio). — sisanya granular.” Rekomendasi: (1) hold penyaluran segmen vintage bermasalah sambil review scoring; (2) intensifkan collection bucket 1–30 (cegah roll); (3) monitor vintage baru mingguan.",
         "Pelajaran: angka agregat bertanya “berapa”; bedah bucket/roll/vintage menjawab “kenapa” dan “apa yang dilakukan”. Itulah analyst → advisor.",
       ],
       tasks: [],
@@ -274,7 +279,7 @@ for r in rows:
       eyebrow: "Langkah 8 · Roll rate → PD",
       title: "Dari matriks transisi ke estimasi PD: rantai Markov dan batasnya",
       prose: [
-        "Matriks roll rate bukan sekadar diagnostik — ia mesin estimasi: probabilitas fasilitas CURRENT menjadi macet dalam 12 bulan ≈ hasil kali peluang transisi sepanjang rantai (current→1, 1→2, ..., 30→macet). Inilah intuisi di balik model rantai Markov untuk PD: bila matriks transisinya stabil, perkalian matriks 12× memberi distribusi 12 bulan ke depan. Praktiknya: hitung matriks dari 24–36 bulan data (cukup untuk stabil, tidak terlalu lama hingga usang), lalu proyeksikan — dan BANDINGKAN proyeksi 12 bulan lalu dengan realisasinya (backtest!). Matriks yang proyeksnya meleset sistematis bukan “model yang perlu di-tuning” — melainkan sinyal bahwa asumsi stasionernya salah (ekonomi berubah, kebijakan berubah).",
+        "Matriks roll rate bukan sekadar diagnostik — ia mesin estimasi: probabilitas fasilitas CURRENT menjadi macet dalam 12 bulan ≈ hasil kali peluang transisi sepanjang rantai (current→1, 1→2, ..., 30→macet). Inilah intuisi di balik model rantai Markov untuk PD: bila matriks transisinya stabil, perkalian matriks 12× memberi distribusi 12 bulan ke depan. Perkalian matriks inilah yang menjumlahkan SEMUA jalur — berbeda dengan produk satu rantai di langkah 3 yang hanya menghitung satu jalur. Praktiknya: hitung matriks dari 24–36 bulan data (cukup untuk stabil, tidak terlalu lama hingga usang), lalu proyeksikan — dan BANDINGKAN proyeksi 12 bulan lalu dengan realisasinya (backtest!). Matriks yang proyeksnya meleset sistematis bukan “model yang perlu di-tuning” — melainkan sinyal bahwa asumsi stasionernya salah (ekonomi berubah, kebijakan berubah).",
         "Tiga batas asumsi Markov yang harus jujur diakui: (1) TANPA MEMORI — Markov mengasumsikan peluang transisi hanya tergantung bucket SAAT INI, bukan riwayat (“sudah 3× keluar-masuk bucket 1” vs “baru pertama kali telat” dianggap sama — padahal perilakunya beda jauh); segmentasi perilaku (ever-delinquent vs first-time) memperbaiki ini; (2) STASIONER — matriks dihitung dari masa lalu; resesi, perubahan underwriting, atau program restrukturisasi massal membuat matriks lama tidak berlaku — solusinya overlay forward-looking (skenario makro), bukan matriks yang lebih rumit; (3) SEASONING — fasilitas baru berperilaku beda dari yang tua (risiko memuncak di bulan 6–18 untuk KTA); matriks agregat mencampur umur — stratifikasi per umur/vintage sebelum mengalikan.",
         "Aturan keputusan: gunakan roll-rate Markov untuk ESTIMASI PORTOFOLIO (cadangan, stress test ringan) — bukan untuk KEPUTUSAN INDIVIDU (persetujuan kredit per nasabah butuh scorecard, bukan matriks agregat). Dan selalu sajikan dengan interval keyakinan dari backtest (“proyeksi 12 bulan terakhir meleset ±15%”) — angka tanpa ketepatan historisnya adalah ramalan, bukan estimasi. Analis yang menyajikan keduanya (angka + seberapa bisa dipercaya) adalah analis yang komite dengarkan.",
       ],
@@ -332,7 +337,7 @@ for r in rows:
           q: "NPL regulator dihitung berdasar?",
           options: [
             { text: "Jumlah debitur", why: "Salah." },
-            { text: "Baki debet (nominal)", why: "Benar. Satu debitur besar mengubah segalanya.", correct: true },
+            { text: "Baki debet (nominal)", why: "Benar — regulator memakai baki debet; lesson ini memakai plafon sebagai proksi karena skema hanya punya plafon. Satu debitur besar mengubah segalanya.", correct: true },
             { text: "Rata-rata", why: "Salah." },
           ],
         },

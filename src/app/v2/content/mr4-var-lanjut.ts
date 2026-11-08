@@ -70,12 +70,12 @@ export const mr4: V2Lesson = {
       eyebrow: "Langkah 3 · Delta-gamma",
       title: "Orde-2 untuk dunia non-linear",
       prose: [
-        "Untuk portofolio ber-opsi, hubungan nilai vs faktor melengkung. Aproksimasi Taylor orde-2 (delta-gamma): ΔV ≈ δ·ΔS + ½Γ(ΔS)². Delta adalah kemiringan kurva nilai, gamma adalah kelengkungannya — seberapa cepat delta berubah saat harga bergerak.",
+        "Untuk portofolio ber-opsi, hubungan nilai vs faktor melengkung. Aproksimasi Taylor orde-2 (delta-gamma): ΔV ≈ δ·ΔS + ½Γ(ΔS)². Delta adalah kemiringan kurva nilai, gamma adalah kelengkungannya — seberapa cepat delta berubah saat harga bergerak. Catatan: rumus ini masih mengabaikan vega — risiko perubahan volatilitas implisit (ν·Δσ). Untuk opsi, pergerakan vol bisa sama pentingnya dengan pergerakan harga; bila vega material, tambahkan suku νΔσ (menjadi delta-gamma-vega) atau pakai full Monte Carlo.",
         "Suku ½Γ(ΔS)² tumbuh kuadratik: untuk pergerakan kecil ia bisa diabaikan, tetapi untuk pergerakan besar ia mendominasi. Portofolio short gamma (menjual opsi) rugi besar saat pasar bergerak liar ke arah mana pun — VaR linear tidak melihat ini sama sekali. Contoh: δ = −200, Γ = −150 (short call), skenario ΔS = −12. Suku delta: −200 × (−12) = +2.400 (terlihat untung!). Suku gamma: 0,5 × (−150) × 144 = −10.800 — empat kali suku delta. Total ΔV = −8.400: rugi besar yang disembunyikan aproksimasi linear.",
         "Delta = kecepatan, gamma = akselerasi. Mengukur risiko opsi hanya dengan delta seperti mengukur bahaya mobil hanya dari kecepatannya — tanpa melihat apakah ia menginjak rem atau gas. Long gamma = rem otomatis (untung dari pergerakan besar); short gamma = gas pol saat jurang di depan.",
       ],
-      formula: String.raw`\Delta V \approx \delta \cdot \Delta S + \tfrac{1}{2}\,\Gamma \cdot (\Delta S)^2`,
-      formulaNote: "ΔV = perubahan nilai portofolio; δ (delta) = kemiringan kurva nilai; ΔS = pergerakan harga aset; Γ (gamma) = kelengkungan — suku kedua tumbuh kuadratik dan mendominasi saat pergerakan besar.",
+      formula: String.raw`\Delta V \approx \delta \cdot \Delta S + \tfrac{1}{2}\,\Gamma \cdot (\Delta S)^2 + \nu \cdot \Delta\sigma`,
+      formulaNote: "ΔV = perubahan nilai portofolio; δ (delta) = kemiringan kurva nilai; ΔS = pergerakan harga aset; Γ (gamma) = kelengkungan — suku kedua tumbuh kuadratik dan mendominasi saat pergerakan besar; ν (vega) = sensitivitas terhadap volatilitas implisit; Δσ = perubahan volatilitas — suku vega jangan dilupakan bila vol bergerak.",
       tasks: [
         { id: "t1", text: "Hitung `dV_delta` (aproksimasi linear saja) untuk skenario `dS`" },
         { id: "t2", text: "Hitung `dV_dg` (delta-gamma), lalu cetak keduanya dan bandingkan" },
@@ -83,7 +83,7 @@ export const mr4: V2Lesson = {
       expected: "dV_delta=2400  dV_dg=-8400",
       note: {
         title: "Sering salah",
-        body: "Mengira delta kecil berarti risiko kecil. Portofolio delta-neutral tetapi short gamma (misal jual straddle) terlihat aman untuk pergerakan kecil — padahal ia jebakan volatilitas: rugi kuadratik saat pasar bergerak besar. Banyak bencana derivatif berasal dari posisi delta kecil yang gamma-nya mematikan. Selalu cek orde-2.",
+        body: "Mengira delta kecil berarti risiko kecil. Portofolio delta-neutral tetapi short gamma (misal jual straddle) terlihat aman untuk pergerakan kecil — padahal ia jebakan volatilitas: rugi kuadratik saat pasar bergerak besar. Banyak bencana derivatif berasal dari posisi delta kecil yang gamma-nya mematikan. Selalu cek orde-2 — dan ingat rumus di lab ini belum memuat vega: bila volatilitas bergerak, tambahkan suku νΔσ.",
         type: "pitfall",
       },
       hints: [
@@ -101,7 +101,7 @@ export const mr4: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "dV_delta=2400\\s+dV_dg=-8400", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "ΔV ≈ δΔS + ½Γ(ΔS)². Short gamma: rugi kuadratik dua arah.",
+      reference: "ΔV ≈ δΔS + ½Γ(ΔS)² + νΔσ. Short gamma: rugi kuadratik dua arah; vega jangan dilupakan.",
     },
     {
       id: "component-var",
@@ -109,7 +109,7 @@ export const mr4: V2Lesson = {
       title: "Siapa menyumbang risiko?",
       prose: [
         "VaR total Rp80 miliar dari lima desk — desk mana yang paling berkontribusi? Component VaR menjawab dengan memecah VaR total menjadi kontribusi tiap desk yang jumlahnya pas sama dengan VaR total (aditif). Contoh: component VaR lima desk berjumlah Rp80 M = VaR total, dengan Desk Rates = Rp30 M.",
-        "Artinya: kontribusi Desk Rates ke VaR total adalah Rp30 M setelah memperhitungkan diversifikasi — bukan rugi kemarin, bukan limitnya. Desk dengan component terbesar adalah kandidat pertama untuk dipotong saat de-risking: ia memberi penghematan risiko per rupiah yang dipotong terbesar (marginal VaR tertinggi).",
+        "Artinya: kontribusi Desk Rates ke VaR total adalah Rp30 M setelah memperhitungkan diversifikasi — bukan rugi kemarin, bukan limitnya. Desk dengan component terbesar adalah kandidat pertama untuk dipotong saat de-risking bila tujuannya penghematan risiko ABSOLUT terbesar. Jangan samakan dengan marginal VaR tertinggi (penghematan PER RUPIAH yang dipotong): component VaR = bobot × marginal VaR — desk dengan component terbesar belum tentu marginal-nya tertinggi.",
         "Dua metrik terkait: marginal VaR = turunan VaR terhadap bobot posisi (∂VaR/∂w_i) — menjawab trader yang bertanya kalau saya tambah Rp10 M di posisi X, VaR naik berapa? Standalone VaR posisi X mengabaikan korelasi dan akan salah besar. Dan manfaat diversifikasi = jumlah standalone VaR (Rp131 M) − VaR total (Rp80 M) = Rp51 M — yang akan menyusut saat korelasi melonjak di tengah krisis. Jangan pernah mengandalkan Rp51 M itu penuh.",
       ],
       tasks: [
@@ -129,7 +129,7 @@ export const mr4: V2Lesson = {
       title: "Teknik lanjutan mana, kapan",
       prose: [
         "Empat keputusan. Pertama, HS biasa memberi VaR yang terasa tidak mewakili rezim kini (terlalu kecil di awal krisis, terlalu besar lama setelah krisis lewat) → Filtered HS: skalakan return historis ke volatilitas kini, pertahankan bentuk distribusi empiris.",
-        "Kedua, portofolio mengandung opsi dengan gamma/vega material → delta-gamma VaR (atau full Monte Carlo): aproksimasi linear tidak cukup, suku kuadratik mendominasi saat pasar bergerak besar. Ketiga, VaR total perlu dipecah untuk limit dan de-risking → component & marginal VaR: kontribusi aditif per desk, turunan untuk perubahan kecil.",
+        "Kedua, portofolio mengandung opsi dengan gamma/vega material → delta-gamma-vega VaR (tambahkan suku νΔσ) atau full Monte Carlo: aproksimasi linear tidak cukup, suku kuadratik mendominasi saat pasar bergerak besar. Ketiga, VaR total perlu dipecah untuk limit dan de-risking → component & marginal VaR: kontribusi aditif per desk, turunan untuk perubahan kecil.",
         "Keempat, kebutuhan modal regulator pasca-2008 → Stressed VaR: VaR dihitung ulang memakai data periode krisis 12 bulan, lalu dijumlahkan ke VaR normal (Basel 2.5) — bank tidak bisa lagi bersembunyi di balik data masa tenang. Aturan 10 detik: rezim berubah → filter; non-linear → orde-2; multi-desk → bedah kontribusi; modal → stressed.",
       ],
       tasks: [
@@ -169,13 +169,13 @@ export const mr4: V2Lesson = {
       title: "VaR parametrik untuk dunia berekor tebal",
       prose: [
         "VaR parametrik memakai kuantil normal z = 2,33 — tetapi return pasar nyata berekor lebih tebal dan sering miring (skew). Ekspansi Cornish-Fisher memperbaiki kuantil normal memakai skewness (S) dan kurtosis berlebih (K) dari data: z_CF = z + (z²−1)S/6 + (z³−3z)K/24 − (2z³−5z)S²/36, lalu VaR = μ + σ·z_CF. Untuk distribusi normal (S=0, K=0), z_CF = z — rumus ini mundur dengan elegan ke parametrik biasa.",
-        "Contoh: portofolio Rp200 miliar, σ harian 1,2%, skewness −0,8 (ekor kiri lebih tebal — khas ekuitas), kurtosis berlebih 3. Hitung: z = 2,33; koreksi skew = (2,33²−1)(−0,8)/6 ≈ −0,59; koreksi kurt = (2,33³−3·2,33)·3/24 ≈ 0,71; koreksi silang = −(2·2,33³−5·2,33)(0,64)/36 ≈ −0,24. Total z_CF ≈ 2,33 − 0,59 + 0,71 − 0,24 ≈ 2,21 — tunggu, skewness negatif seharusnya MENAIKKAN kuantil kerugian kiri. Cek tanda: untuk kuantil kiri (z positif di rumus VaR sebagai besaran kerugian), skew negatif mempertebal ekor kiri sehingga kuantil membesar. Dengan konvensi yang benar, z_CF ≈ 2,85 — VaR naik dari Rp5,6 M menjadi ≈ Rp6,8 M. Moral: jangan hafal tanda, hitung dan uji kewarasannya — VaR CF harus ≥ VaR normal saat ekor tebal.",
+        "Contoh: portofolio Rp200 juta, σ harian 1,2%, skewness return S = −0,8 (ekor kiri lebih tebal — khas ekuitas), kurtosis berlebih K = 3. Kuantil kiri 1% (z = −2,33) dihitung dengan tanda yang benar: koreksi skew = (z²−1)S/6 = (5,43−1)×(−0,8)/6 ≈ −0,59; koreksi kurt = (z³−3z)K/24 = (−12,65+6,99)×3/24 ≈ −0,71; koreksi silang = −(2z³−5z)S²/36 = −(−25,30+11,65)×0,64/36 ≈ +0,24. Total z_CF ≈ −2,33 − 0,59 − 0,71 + 0,24 ≈ −3,39 — besaran kuantil kerugian |z_CF| ≈ 3,39 (bukan 2,21 dan bukan 2,85 — kedua angka lama itu salah hitung tanda). VaR = Rp200 jt × 1,2% × 3,39 ≈ Rp8,13 juta, naik dari VaR normal Rp5,59 juta. Moral: jangan hafal tanda — hitung dengan z bertanda (kuantil kiri = negatif) dan uji kewarasannya dengan HS. Dan satu koreksi atas moral lama: VaR CF TIDAK selalu ≥ VaR normal saat ekor tebal — CF bisa di bawah normal bila skew positif mendominasi (ekor kiri lebih tipis); arahnya tergantung tanda skew dan kurtosis, bukan sekadar “ekor tebal”.",
         "Kapan Cornish-Fisher bekerja: skew/kurtosis moderat dan distribusi unimodal — jembatan murah antara kecepatan parametrik dan kejujuran HS. Kapan ia gagal: ekor sangat ekstrem (koreksi orde-4 bisa membuat kuantil tidak monoton — z_CF turun saat α naik, hasil absurd), distribusi multimodal, atau risiko lompatan kredit (payoff diskrit tidak bisa didekati polinomial halus). Aturan praktisi: selalu bandingkan VaR CF dengan HS — selisih kecil = asumsi sehat; selisih besar = salah satunya bohong, investigasi. CF adalah tambalan cerdas untuk parametrik, bukan pengganti pemikiran tentang bentuk distribusi.",
       ],
       formula: String.raw`z_{CF} = z + \frac{z^2-1}{6}S + \frac{z^3-3z}{24}K - \frac{2z^3-5z}{36}S^2`,
       formulaNote: "z_CF = kuantil terkoreksi; z = kuantil normal (2,33 untuk 99%); S = skewness (negatif = ekor kiri tebal); K = kurtosis berlebih (0 = normal); VaR = μ + σ·z_CF — gagal bila ekor terlalu ekstrem (kuantil tidak monoton).",
       tasks: [
-        { id: "t1", text: "Jelaskan kenapa VaR Cornish-Fisher ≥ VaR parametrik biasa saat ekor tebal." },
+        { id: "t1", text: "Jelaskan kenapa VaR Cornish-Fisher BISA di atas atau di bawah VaR parametrik biasa — dan kapan ia di atas (skew negatif / kurtosis besar pada kuantil kiri)." },
         { id: "t2", text: "Sebutkan dua kondisi ketika Cornish-Fisher gagal dan apa yang dipakai sebagai gantinya." },
       ],
       note: {
@@ -194,7 +194,7 @@ export const mr4: V2Lesson = {
       tasks: [],
       summary: [
         "Filtered HS: r*_t = (σ_T/σ_t)·r_t — bentuk distribusi dari histori, level volatilitas dari kini. Sadar rezim, bukan selalu konservatif.",
-        "Delta-gamma: ΔV ≈ δΔS + ½Γ(ΔS)² — wajib untuk portofolio ber-opsi; short gamma = rugi kuadratik dua arah.",
+        "Delta-gamma-vega: ΔV ≈ δΔS + ½Γ(ΔS)² + νΔσ — wajib untuk portofolio ber-opsi (vega jangan dilupakan); short gamma = rugi kuadratik dua arah.",
         "Component VaR aditif = VaR total; marginal VaR = ∂VaR/∂w untuk perubahan kecil; manfaat diversifikasi menyusut saat krisis.",
         "Stressed VaR (Basel 2.5): VaR krisis + VaR normal — modal menutupi dua kondisi.",
         "Aturan 10 detik: rezim berubah → filter; non-linear → orde-2; multi-desk → bedah kontribusi.",
@@ -223,7 +223,7 @@ export const mr4: V2Lesson = {
           q: "Component VaR lima desk berjumlah Rp80 M = VaR total. Desk Rates = Rp30 M. Artinya?",
           options: [
             { text: "Desk Rates rugi Rp30 M kemarin", why: "component VaR bukan realisasi rugi." },
-            { text: "Kontribusi Desk Rates ke VaR total adalah Rp30 M setelah diversifikasi — kandidat pertama untuk dipotong saat de-risking", why: "component VaR = kontribusi risiko yang aditif; desk terbesar memberi penghematan risiko per rupiah terbesar.", correct: true },
+            { text: "Kontribusi Desk Rates ke VaR total adalah Rp30 M setelah diversifikasi — kandidat pertama untuk dipotong saat de-risking", why: "component VaR = kontribusi risiko yang aditif; desk terbesar memberi penghematan ABSOLUT terbesar saat dipotong — penghematan per rupiah adalah marginal VaR, metrik yang berbeda.", correct: true },
             { text: "Limit Desk Rates adalah Rp30 M", why: "component VaR bukan limit." },
             { text: "Desk Rates harus ditutup", why: "besar kontribusi bukan vonis penutupan." },
           ],

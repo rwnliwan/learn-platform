@@ -45,10 +45,10 @@ export const mk13: V2Lesson = {
       prose: [
         "Adstock: A_t = s_t + λ·A_{t−1}. Iklan tidak hilang begitu tayang — efeknya meluruh. TV λ≈0,7 (awet, brand), digital λ≈0,3 (cepat hilang, respons langsung).",
         "Worked: spend Rp10jt hanya di minggu 1. A1=10; A2=0+0,7×10=7; A3=0+0,7×7=Rp4,9jt. Di minggu 3, separuh efek masih ada — inilah yang ROI jangka pendek tidak tangkap (tragedi RasaNusa).",
-        "Saturasi Hill: S(x) = x^a/(x^a+k^a) — rupiah pertama paling produktif, lalu melandai. Kombinasi adstock + Hill = bentuk respons iklan yang realistis.",
+        "Saturasi Hill: S(x) = x^a/(x^a+k^a) — BENTUKNYA TERGANTUNG a: untuk a=1, rupiah pertama paling produktif lalu melandai; untuk a=2 (yang dipakai lesson ini), dS/dx di x=0 adalah 0 — kurva berbentuk-S: naik dulu hingga maksimum di x=k/√3, baru melandai. “Rupiah pertama paling produktif” SALAH untuk a>1. Kombinasi adstock + Hill = bentuk respons iklan yang realistis.",
       ],
       formula: String.raw`A_t = s_t + \lambda A_{t-1} \qquad S(x) = \frac{x^a}{x^a + k^a}`,
-      formulaNote: "Adstock: A_t = stok iklan periode t; s_t = spend periode t; lambda = carryover (0-1): TV ~0,7 (awet), digital ~0,3 (cepat hilang). Saturasi Hill: S(x) = respons jenuh; x = adstock; a = kecuraman (biasanya 2); k = titik tengah saturasi (spend di mana respons setengah maksimum). Kombinasinya = bentuk respons iklan yang realistis: menumpuk lalu melandai.",
+      formulaNote: "Adstock: A_t = stok iklan periode t; s_t = spend periode t; lambda = carryover (0-1): TV ~0,7 (awet), digital ~0,3 (cepat hilang). Saturasi Hill: S(x) = respons jenuh; x = adstock; a = kecuraman (biasanya 2 — dan ingat: dengan a=2 kurva berbentuk-S, bukan diminishing returns sejak rupiah pertama; hanya a≤1 yang melandai sejak awal); k = titik tengah saturasi (spend di mana respons setengah maksimum). Kombinasinya = bentuk respons iklan yang realistis: menumpuk lalu melandai.",
       tasks: [
         { id: "t1", text: "Hitung deret `A` (adstock) dari `spend` dengan λ=0,7" },
         { id: "t2", text: "Hitung `hill` = saturasi dari A[0] (eksponen 2, k=Rp5jt), cetak" },
@@ -133,7 +133,7 @@ export const mk13: V2Lesson = {
         {
           q: "MMM bilang ROI 3, geo-experiment bilang 0,8. Yang dipercaya?",
           options: [
-            { text: "Eksperimen — ia jangkar kebenaran; perbaiki MMM", why: "Kausal mengalahkan observasional. Selalu.", correct: true },
+            { text: "Eksperimen — ia jangkar kebenaran; perbaiki MMM", why: "Kausal mengalahkan observasional — pada umumnya, bila eksperimennya dirancang baik. “Selalu” terlalu mutlak: eksperimen punya ketidakpastian, desain, dan horizon yang berbeda, dan satu geo-test kecil tidak otomatis mengalahkan MMM yang terkalibrasi baik.", correct: true },
             { text: "MMM — lebih canggih", why: "Canggih ≠ benar. Tanpa kalibrasi, MMM = dongeng mahal." },
             { text: "Rata-rata keduanya", why: "Tidak ada dasarnya." },
           ],
@@ -154,7 +154,7 @@ export const mk13: V2Lesson = {
         {
           q: "MMM bilang TV ROI 0,8; geo-experiment bilang 1,9. Yang dipakai untuk keputusan?",
           options: [
-            { text: "1,9 — eksperimen adalah jangkar; MMM harus dikalibrasi ulang", why: "Kausal mengalahkan observasional. MMM yang menolak kalibrasi = dongeng mahal.", correct: true },
+            { text: "1,9 — eksperimen adalah jangkar; MMM harus dikalibrasi ulang", why: "Kausal mengalahkan observasional — dengan catatan: satu eksperimen bukan vonis akhir; kalibrasi = paksa MMM setuju dengan angka eksperimen, lalu uji lagi. MMM yang menolak kalibrasi = dongeng mahal.", correct: true },
             { text: "0,8 — MMM lebih komprehensif", why: "Komprehensif tapi salah = komprehensif menyesatkan." },
             { text: "Rata-rata 1,35", why: "Tidak ada dasar; mencampur kausal dan observasional." },
             { text: "Yang lebih baru", why: "Kebaruan bukan kriteria kebenaran." },
@@ -200,11 +200,11 @@ export const mk13: V2Lesson = {
       eyebrow: "Langkah 9 · Lab alokasi",
       title: "Lab: Rp100 juta berikutnya ke mana? (marginal ROI)",
       prose: [
-        "Dua channel dengan kurva Hill masing-masing. Di lab ini kamu menghitung marginal ROI di spend saat ini — dan memutuskan ke mana Rp100 juta tambahan pergi.",
+        "Dua channel dengan kurva Hill masing-masing. Di lab ini kamu menghitung marginal ROI di spend saat ini — dan memutuskan ke mana Rp100 juta tambahan pergi. CATATAN: marginal di SATU titik tidak memutuskan alokasi Rp100jt sekaligus — untuk alokasi yang boleh dibagi, marginal berubah sepanjang penambahan dan perlu optimasi ulang. Hitung all-in sebagai pembanding: TV +Rp47,65jt vs Digital +Rp112,17jt (all-in Rp100jt ke satu channel) — Digital tetap menang all-in, tetapi alokasi optimal yang dibagi bisa berbeda dari “semua ke pemenang marginal”. Putusan lab ini = “mulai dari Digital”, bukan “Rp100jt penuh ke Digital tanpa pikir ulang”.",
         "Coba: naikkan spend TV menjadi Rp600jt. Pada titik mana TV menjadi jenuh dan Digital menang? (Itulah gunanya membaca kurva, bukan rata-rata.)",
       ],
       tasks: [
-        { id: "t1", text: "Hitung `marg` = marginal ROI tiap channel (h = Rp1jt)" },
+        { id: "t1", text: "Hitung `marg` = marginal ROI tiap channel (h = Rp1jt), lalu `marg_tv` = marg['TV']" },
         { id: "t2", text: "Tentukan `pemenang` = channel marginal tertinggi, cetak" },
       ],
       expected: "pemenang=Digital marg_TV=0.57 marg_Digital=1.78",
@@ -246,7 +246,7 @@ h = 1_000_000
 marg = {}
 for nama, (vmax, a, k, spend) in channels.items():
     marg[nama] = (respons(spend + h, vmax, a, k) - respons(spend, vmax, a, k)) / h
-marg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\npemenang = max(marg, key=marg.get)
+marg_tv = marg["TV"]\npemenang = max(marg, key=marg.get)
 
 print(f"pemenang={pemenang} marg_TV={marg['TV']:.2f} marg_Digital={marg['Digital']:.2f}")`,
         checks: [

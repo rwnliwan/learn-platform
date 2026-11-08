@@ -48,7 +48,7 @@ export const aml2: V2Lesson = {
       title: "Dua kata yang tidak sama",
       prose: [
         "Identifikasi = mengumpulkan klaim: nama, tanggal lahir, alamat, NPWP, struktur kepemilikan. Verifikasi = membuktikan klaim itu benar terhadap sumber independen: Dukcapil untuk KTP, Ditjen AHU untuk akta perusahaan, biometric liveness untuk \"orang di depan kamera = orang di KTP\". Identifikasi tanpa verifikasi = menerima lamaran kerja tanpa cek ijazah.",
-        "Untuk nasabah korporat ada lapisan ketiga: beneficial ownership (BO). BO = individu yang pada akhirnya memiliki atau mengendalikan ≥25% perusahaan, atau yang menikmati manfaat ekonominya — walau namanya tidak tercantum sebagai direktur. Struktur Maju Abadi: direktur (0% saham, \"karyawan\"), 3 perusahaan cangkang masing-masing pegang 33%, dan di ujungnya satu individu mengendalikan ketiganya. Aturan ≥25% bukan angka magis — ia ambang praktis di mana pengaruh menjadi pengendalian.",
+        "Untuk nasabah korporat ada lapisan ketiga: beneficial ownership (BO). BO = individu yang pada akhirnya memiliki atau mengendalikan ≥25% perusahaan, atau yang menikmati manfaat ekonominya — walau namanya tidak tercantum sebagai direktur. Struktur Maju Abadi: direktur (0% saham, \"karyawan\"), 3 perusahaan cangkang masing-masing pegang 33%, dan di ujungnya satu individu mengendalikan ketiganya. Ambang ≥25% bukan angka magis — ia ambang PRAKTIK UMUM (dipakai banyak yurisdiksi, termasuk Indonesia), BUKAN aturan universal FATF: FATF tidak menetapkan angka tunggal; tiap negara/bank menetapkan ambangnya sendiri, dan pengendalian bisa ada di bawah 25% (mis. lewat perjanjian pemegang saham).",
         "Cara membaca diagram: lima kotak = lima tahap berurutan, panah = tidak boleh dilompati. Empat pil di bawah = hasil risk rating dan tindakannya. Interpretasi: KYC bukan gerbang sekali lewat — panah implisitnya melingkar: setiap trigger (transaksi aneh, berita negatif, perubahan struktur) mengembalikan nasabah ke tahap screening. Bank yang memutus lingkaran ini buta terhadap Maju Abadi setelah hari ke-40.",
       ],
       figure: {
@@ -121,9 +121,9 @@ export const aml2: V2Lesson = {
     {
       id: "pendalaman",
       eyebrow: "Pendalaman · Monitoring",
-      title: "Drift profil: menangkap Maju Abadi di hari ke-60",
+      title: "Drift profil: menangkap Maju Abadi di hari ke-90",
       prose: [
-        "KYC bukan gerbang sekali lewat — ia janji yang harus ditepati. PT Maju Abadi mendaftar sebagai 'perdagangan sparepart' dengan omzet deklarasi Rp2 miliar per bulan. Realita bulan ke-2: Rp14 miliar masuk-keluar. Rasio drift = 14/2 = 7×. Ambang review: >3× selama 2 bulan berturut-turut — Maju Abadi tertangkap di hari ke-60, bukan bulan ke-3.",
+        "KYC bukan gerbang sekali lewat — ia janji yang harus ditepati. PT Maju Abadi mendaftar sebagai 'perdagangan sparepart' dengan omzet deklarasi Rp2 miliar per bulan. Realita bulan ke-2: Rp14 miliar masuk-keluar. Rasio drift = 14/2 = 7×. Ambang review: >3× selama 2 bulan berturut-turut — Maju Abadi tertangkap di akhir bulan ke-3 (~hari 90), bukan hari ke-60: bulan 1 tidak merah (0,9×), bulan 2 merah pertama (7,0×), bulan 3 merah kedua (6,25×) — dua bulan merah BERTURUT-TURUT baru lengkap di akhir bulan 3.",
         "Rumus drift: aktual / deklarasi, dihitung tiap bulan. Sederhana, tetapi ia mengubah ongoing monitoring dari 'dibaca kalau sempat' menjadi angka yang bisa di-alert. Kuncinya: deklarasi harus SPESIFIK (Rp2 miliar/bulan untuk sparepart) — 'usaha dagang' tanpa angka tidak bisa diuji.",
         "Profil bisa usang secara sah: bisnis tumbuh 2× lipat dalam setahun = kabar baik, bukan kejahatan. Respons yang benar: perbarui profil (naikkan deklarasi + verifikasi sumber pertumbuhan), bukan menghukum nasabah. Ongoing monitoring = menjaga profil tetap jujur, bukan mencari-cari kesalahan.",
         "Lab menghitung drift 6 bulan Maju Abadi: 0,9×, 7,0×, 6,2×, 8,0×, 4,5×, 7,5×. Lima bulan merah — tidak ada keraguan: REVIEW RATING. Di dunia nyata, alert bulan ke-2 ini memicu EDD yang menemukan ruko kosong. Satu rasio, satu visitasi, satu jaringan Rp14 miliar terhenti 30 hari lebih awal.",
@@ -131,8 +131,9 @@ export const aml2: V2Lesson = {
       tasks: [
         { id: "t1", text: "Hitung `drift` dan daftar `merah`" },
         { id: "t2", text: "Jalankan dan pastikan verdict tercetak" },
+        { id: "t3", text: "Hitung `berturut` — True bila ada dua bulan merah berurutan" },
       ],
-      expected: "Drift per bulan: 0.9x, 7.0x, 6.2x, 8.0x, 4.5x, 7.5x\nBulan merah (>3x): [2, 3, 4, 5, 6] -> REVIEW RATING",
+      expected: "Drift per bulan: 0.9x, 7.0x, 6.2x, 8.0x, 4.5x, 7.5x\nBulan merah (>3x): [2, 3, 4, 5, 6]\nDua bulan merah berturut-turut pertama: bulan 2-3 -> REVIEW RATING",
       note: {
         title: "Sering salah",
         type: "pitfall",
@@ -143,22 +144,23 @@ export const aml2: V2Lesson = {
         "merah = bulan dengan drift > 3.",
       ],
       code: {
-        starter: "# Profil vs realita Maju Abadi (Rp juta/bulan, JANGAN UBAH).\ndeklarasi = 2000\naktual = [1800, 14000, 12500, 16000, 9000, 15000]\n\n# TULIS KODEMU: drift + bulan merah\ndrift =\nmerah =\n\nprint(\"Drift per bulan: \" + \", \".join(f\"{d:.1f}x\" for d in drift))\nprint(f\"Bulan merah (>3x): {merah} -> {'REVIEW RATING' if len(merah) >= 2 else 'PANTAU'}\")",
+        starter: "# Profil vs realita Maju Abadi (Rp juta/bulan, JANGAN UBAH).\ndeklarasi = 2000\naktual = [1800, 14000, 12500, 16000, 9000, 15000]\n\n# TULIS KODEMU: drift + bulan merah\ndrift =\nmerah =\nberturut =\n\nprint(\"Drift per bulan: \" + \", \".join(f\"{d:.1f}x\" for d in drift))\nprint(f\"Bulan merah (>3x): {merah} -> {'REVIEW RATING' if berturut else 'PANTAU'}\")",
         lockLines: 3,
-        solution: "# Profil vs realita Maju Abadi (Rp juta/bulan, JANGAN UBAH).\ndeklarasi = 2000\naktual = [1800, 14000, 12500, 16000, 9000, 15000]\n\n# TULIS KODEMU: drift + bulan merah\ndrift = [a / deklarasi for a in aktual]\nmerah = [i + 1 for i, d in enumerate(drift) if d > 3]\n\nprint(\"Drift per bulan: \" + \", \".join(f\"{d:.1f}x\" for d in drift))\nprint(f\"Bulan merah (>3x): {merah} -> {'REVIEW RATING' if len(merah) >= 2 else 'PANTAU'}\")",
+        solution: "# Profil vs realita Maju Abadi (Rp juta/bulan, JANGAN UBAH).\ndeklarasi = 2000\naktual = [1800, 14000, 12500, 16000, 9000, 15000]\n\n# TULIS KODEMU: drift + bulan merah\ndrift = [a / deklarasi for a in aktual]\nmerah = [i + 1 for i, d in enumerate(drift) if d > 3]\nberturut = any(merah[i + 1] == merah[i] + 1 for i in range(len(merah) - 1))  # DUA bulan merah BERTURUT-TURUT, bukan dua bulan merah mana saja\n\nprint(\"Drift per bulan: \" + \", \".join(f\"{d:.1f}x\" for d in drift))\nprint(f\"Bulan merah (>3x): {merah} -> {'REVIEW RATING' if berturut else 'PANTAU'}\")",
         checks: [
           { kind: "equal", task: "t1", label: "`merah` = [2,3,4,5,6]", msg: "Lima bulan di atas 3×.", name: "merah", value: [2, 3, 4, 5, 6] },
-          { kind: "stdout_matches", task: "t2", label: "Verdict REVIEW RATING", msg: "5 bulan merah ≥ 2.", pattern: "\\[2, 3, 4, 5, 6\\] -> REVIEW RATING" }
+          { kind: "equal", task: "t3", label: "`berturut` = True", msg: "Bulan 2 dan 3 merah berturut-turut.", name: "berturut", value: true },
+          { kind: "stdout_matches", task: "t2", label: "Verdict REVIEW RATING", msg: "Bulan 2 dan 3 merah berturut-turut.", pattern: "\\[2, 3, 4, 5, 6\\] -> REVIEW RATING" }
         ],
       },
-      reference: "Drift = aktual/deklarasi. >3× dua bulan = review rating.",
+      reference: "Drift = aktual/deklarasi. >3× dua bulan BERTURUT-TURUT = review rating (bukan dua bulan merah mana saja).",
     },
     {
       id: "pendalaman-2",
       eyebrow: "Pendalaman 2 · Kalibrasi ambang",
       title: "Kapan drift memicu review ulang?",
       prose: [
-        "Lab pertama menangkap drift Maju Abadi lewat rasio per bulan. Pertanyaan lanjutannya: pada angka berapa drift resmi memicu EDD ulang? Praktik umum memakai ambang 5x — profil yang berubah lebih dari lima kali lipat dari baseline dianggap 'bukan nasabah yang sama'. Ambang bukan angka sakral; ia hasil kalibrasi antara biaya review dan risiko terlewat.",
+        "Lab pertama menangkap drift Maju Abadi lewat rasio per bulan. Pertanyaan lanjutannya: pada angka berapa drift resmi memicu EDD ulang? Lesson ini memakai ambang 5x sebagai KONVENSI OPERASIONAL untuk latihan — bukan praktik umum yang bersumber: tidak ada standar industri yang menetapkan 5x; kalibrasi ambang ke data bankmu. Profil yang berubah lebih dari lima kali lipat dari baseline dianggap 'bukan nasabah yang sama' menurut konvensi ini. Ambang bukan angka sakral; ia hasil kalibrasi antara biaya review dan risiko terlewat.",
         "Lab ini menerapkan ambang 5x ke enam bulan data: bulan dengan drift ≥ 5x otomatis masuk antrean EDD ulang. Empat dari enam bulan ter-flag — artinya profil ini memang tidak stabil dan layak diprioritaskan, bukan sekadar fluktuasi musiman.",
       ],
       tasks: [
@@ -192,7 +194,7 @@ export const aml2: V2Lesson = {
       title: "Empat nasabah, empat jalur",
       prose: [
         "Satu: WNI, karyawan swasta, gaji bulanan, produk tabungan → simplified CDD: identifikasi + verifikasi dasar, tier Low, review 3 tahunan. Jangan perlakukan semua nasabah seperti tersangka — gesekan berlebihan mengusir nasabah baik.",
-        "Dua: perusahaan asing dengan 3 lapis kepemilikan lintas negara → EDD: uraikan BO sampai individu (≥25%), pahami tujuan rekening bisnis, pantau transaksi vs profil. Tidak paham strukturnya = tidak boleh buka rekening.",
+        "Dua: perusahaan asing dengan 3 lapis kepemilikan lintas negara → EDD: uraikan BO sampai individu (≥25% — ambang praktik umum), pahami tujuan rekening bisnis, pantau transaksi vs profil. Tidak paham strukturnya = tidak boleh buka rekening.",
         "Tiga: nasabah teridentifikasi PEP → EDD + persetujuan pejabat senior + penetapan sumber dana/kekayaan. PEP bukan penolakan otomatis (lesson 3 membahas detailnya) — ia \"lampu kuning yang tidak boleh dilewati tanpa rem.\"",
         "Empat: BO tidak bisa diverifikasi (dokumen tidak lengkap / struktur menolak transparan) → tolak buka rekening, atau exit untuk nasabah existing. Ini keputusan termahal sekaligus termurah: mahal karena kehilangan bisnis, murah karena menghindari denda dan kasus.",
         "Aturan praktis 10 detik: tidak kenal BO-nya → tidak buka rekeningnya. Struktur lebih dari 2 lapis tanpa alasan bisnis jelas → EDD. Perubahan profil transaksi >3x lipat → review rating ulang.",
@@ -227,7 +229,7 @@ export const aml2: V2Lesson = {
       tasks: [],
       summary: [
         "Identifikasi = kumpulkan klaim; verifikasi = uji klaim ke sumber independen.",
-        "BO = individu pengendali/penerima manfaat akhir (≥25%) — kejar sampai orang, bukan perusahaan.",
+        "BO = individu pengendali/penerima manfaat akhir (≥25% — ambang praktik umum, bukan aturan universal FATF) — kejar sampai orang, bukan perusahaan.",
         "Risk rating = Σ w_i f_i → tier Low/Standard/High/Prohibited menentukan kedalaman & frekuensi.",
         "High → EDD + approval senior; BO tak terverifikasi → tolak/exit.",
         "CDD = ongoing: trigger (pola berubah, berita, struktur) mengembalikan ke screening.",
@@ -275,7 +277,7 @@ export const aml2: V2Lesson = {
           options: [
             { text: "Agar formulir lebih pendek", why: "Tidak ada hubungannya dengan panjang formulir." },
             { text: "Karena pengendalian efektif bisa lewat minoritas terfragmentasi — 25% menangkap pengendali di balik cangkang berlapis", why: "Mayoritas 50% mudah diakali dengan memecah ke 3x33%. 25% = jaring yang cukup rapat tanpa menjaring semua pemegang saham kecil.", correct: true },
-            { text: "Angka asal-asalan", why: "Ini standar FATF yang diadopsi global — hasil pengalaman, bukan tebakan." },
+            { text: "Angka asal-asalan", why: "Bukan standar FATF universal: 25% adalah praktik umum yang dipakai banyak yurisdiksi — FATF sendiri tidak menetapkan angka tunggal. Angka ini tetap hasil pengalaman, bukan tebakan." },
             { text: "Agar semua pemegang saham kecil ikut terdata", why: "Justru sebaliknya: 25% menyaring pemegang kecil agar fokus ke pengendali." },
           ],
         },

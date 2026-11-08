@@ -39,7 +39,7 @@ export const aai13: V2Lesson = {
       prose: [
         "MCP memisahkan tiga peran. Host = aplikasi AI (misalnya Claude Desktop atau agenmu) — ia yang ingin memakai tool. Client = konektor di dalam host yang berbicara MCP (satu client per server). Server = program yang menyediakan kemampuan: tools (fungsi yang bisa dipanggil), resources (data yang bisa dibaca), dan prompts (template siap pakai). Satu server bisa dilayani banyak client; satu host bisa punya banyak client.",
         "Komunikasinya JSON-RPC: pesan request seperti {\"method\": \"tools/list\"} dan {\"method\": \"tools/call\", \"params\": {\"name\": ..., \"arguments\": {...}}}. Server menjawab dengan result atau error. Sederhana sampai membosankan — dan justru itu kekuatannya: tidak ada SDK ajaib, hanya pesan JSON yang bisa di-debug dengan mata telanjang.",
-        "Tiga primitif, tiga pekerjaan. Tools = model MEMUTUSKAN memanggil (dengan argumen) — untuk aksi. Resources = aplikasi MENAWARKAN data (file, database) — untuk konteks baca-saja. Prompts = template alur kerja yang bisa dipilih user. Jangan tertukar: tool yang hanya membaca data sebaiknya jadi resource (lebih aman, tidak perlu persetujuan eksekusi).",
+        "Tiga primitif, tiga pekerjaan. Tools = model MEMUTUSKAN memanggil (dengan argumen) — untuk aksi. Resources = aplikasi MENAWARKAN data (file, database) — untuk konteks baca-saja. Prompts = template alur kerja yang bisa dipilih user. Jangan tertukar: tool yang hanya membaca data sebaiknya jadi resource (lebih mudah diaudit, tidak perlu persetujuan eksekusi per panggilan) — tetapi 'hanya membaca' BUKAN otomatis aman: membaca saldo, PII, atau data rahasia adalah aksi sensitif; keamanan tergantung DATA yang dibaca, bukan verb-nya. Resource baca-saja tetap butuh scope + audit log.",
         "Kepribadian MCP: ia seperti menu restoran standar. Dulu setiap restoran (framework) punya format pesanan sendiri; pelayan (developer) harus hafal semuanya. Kini satu format menu — restoran mana pun bisa dilayani. Standarisasi = membosankan = bekerja.",
         "Rumus biaya integrasi menjelaskan segalanya. Tanpa standar: setiap tool (N) × setiap client (M). Dengan MCP: N server + M client. Pada N=5, M=3: 15 vs 8 — hemat 47 persen. Pada N=20, M=5: 100 vs 25 — hemat 75 persen. Makin banyak tool dan client, makin besar kemenangan standar.",
       ],
@@ -64,7 +64,7 @@ export const aai13: V2Lesson = {
       title: "Lab: server MCP mini dalam 30 baris",
       prose: [
         "Kamu membangun inti MCP server: dispatcher yang menangani tools/list (daftar kemampuan) dan tools/call (eksekusi dengan validasi argumen). Dua tool disediakan: kalkulator dan cari_dokumen. Tugasmu: lengkapi penanganan kedua method — termasuk error untuk tool tak dikenal dan argumen yang kurang.",
-        "Perhatikan desain error-nya: server TIDAK PERNAH crash karena request jahat — ia menjawab {\"error\": ...}. Inilah kontrak yang membuat client berani menyambung ke server yang ditulis orang lain. Coba: panggil tool yang tidak ada, hilangkan argumen, dan lihat error yang rapi.",
+        "Perhatikan desain error-nya: server TIDAK PERNAH crash karena request jahat — ASALKAN dispatcher memvalidasi BENTUK request sebelum mengaksesnya: params yang hilang, params yang bukan objek, atau arguments yang bukan objek harus dijawab {\"error\": ...}, bukan dibiarkan melempar KeyError/TypeError. Versi lama lab ini mengakses request[\"params\"][\"name\"] di luar try — request {\"method\":\"tools/call\"} tanpa params membuat server crash dengan KeyError. Pelajaran: validasi bentuk dulu, baru isi. Inilah kontrak yang membuat client berani menyambung ke server yang ditulis orang lain. Coba: panggil tool yang tidak ada, hilangkan argumen, dan lihat error yang rapi.",
         "Cara membaca: request masuk → cocokkan method → validasi → eksekusi → result/error. Interpretasi: inilah seluruh 'keajaiban' MCP — tidak ada yang ajaib, hanya disiplin antarmuka.",
       ],
       tasks: [
@@ -83,11 +83,24 @@ export const aai13: V2Lesson = {
       ],
       code: {
         starter: `# SEED — jangan ubah: registry 2 tool + contoh request
+# Kalkulator memakai evaluator AST yang aman (bukan eval): hanya angka + operator aritmetika.
+# eval() dengan __builtins__ kosong BUKAN sandbox — ().__class__.__base__.__subclasses__() tetap dapat diakses (demo verifikasi: 231 subclass) — eval adalah pintu eksekusi kode.
+import ast, operator
+_OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv, ast.Pow: operator.pow, ast.Mod: operator.mod, ast.USub: operator.neg, ast.UAdd: operator.pos}
+def _safe_eval(expr):
+    tree = ast.parse(expr, mode="eval")
+    def _ev(node):
+        if isinstance(node, ast.Expression): return _ev(node.body)
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)): return node.value
+        if isinstance(node, ast.BinOp) and type(node.op) in _OPS: return _OPS[type(node.op)](_ev(node.left), _ev(node.right))
+        if isinstance(node, ast.UnaryOp) and type(node.op) in _OPS: return _OPS[type(node.op)](_ev(node.operand))
+        raise ValueError("ekspresi tidak diizinkan")
+    return _ev(tree)
 TOOLS = {
     "kalkulator": {
         "description": "Hitung ekspresi aritmetika sederhana",
         "params": ["ekspresi"],
-        "run": lambda args: eval(args["ekspresi"], {"__builtins__": {}}),
+        "run": lambda args: _safe_eval(args["ekspresi"]),
     },
     "cari_dokumen": {
         "description": "Cari dokumen dari keyword",
@@ -102,6 +115,7 @@ def mcp_dispatch(request):
     # TODO t1: tangani "tools/list" -> {"result": [{"name","description"}]}
     # TODO t1: tangani "tools/call" -> validasi name & arguments -> {"result": ...}
     # TODO t2: kembalikan {"error": "..."} untuk method/tool/argumen yang salah
+    # TODO t2: validasi BENTUK request dulu — params hilang/bukan dict, atau arguments bukan dict -> {"error": "..."}; jangan biarkan KeyError/TypeError
     return {"error": "belum diimplementasikan"}
 
 # UJI (jangan ubah)
@@ -109,17 +123,34 @@ r1 = mcp_dispatch({"method": "tools/list"})
 r2 = mcp_dispatch({"method": "tools/call", "params": {"name": "kalkulator", "arguments": {"ekspresi": "0.9*0.8*0.9"}}})
 r3 = mcp_dispatch({"method": "tools/call", "params": {"name": "kalkulator", "arguments": {}}})
 r4 = mcp_dispatch({"method": "tools/call", "params": {"name": "tidak_ada", "arguments": {}}})
+r5 = mcp_dispatch({"method": "tools/call"})  # tanpa params — dulu crash KeyError
+r6 = mcp_dispatch({"method": "tools/call", "params": "x"})  # params bukan objek — dulu crash TypeError
 print("n_tools =", len(r1["result"]))
 print("kalkulator =", round(r2["result"], 3))
 print("missing =", r3["error"][:14])
-print("unknown =", r4["error"][:18])`,
-        lockLines: 15,
+print("unknown =", r4["error"][:18])
+print("no_params =", r5["error"])
+print("params_string =", r6["error"])`,
+        lockLines: 28,
         solution: `# SEED — jangan ubah: registry 2 tool + contoh request
+# Kalkulator memakai evaluator AST yang aman (bukan eval): hanya angka + operator aritmetika.
+# eval() dengan __builtins__ kosong BUKAN sandbox — ().__class__.__base__.__subclasses__() tetap dapat diakses (demo verifikasi: 231 subclass) — eval adalah pintu eksekusi kode.
+import ast, operator
+_OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv, ast.Pow: operator.pow, ast.Mod: operator.mod, ast.USub: operator.neg, ast.UAdd: operator.pos}
+def _safe_eval(expr):
+    tree = ast.parse(expr, mode="eval")
+    def _ev(node):
+        if isinstance(node, ast.Expression): return _ev(node.body)
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)): return node.value
+        if isinstance(node, ast.BinOp) and type(node.op) in _OPS: return _OPS[type(node.op)](_ev(node.left), _ev(node.right))
+        if isinstance(node, ast.UnaryOp) and type(node.op) in _OPS: return _OPS[type(node.op)](_ev(node.operand))
+        raise ValueError("ekspresi tidak diizinkan")
+    return _ev(tree)
 TOOLS = {
     "kalkulator": {
         "description": "Hitung ekspresi aritmetika sederhana",
         "params": ["ekspresi"],
-        "run": lambda args: eval(args["ekspresi"], {"__builtins__": {}}),
+        "run": lambda args: _safe_eval(args["ekspresi"]),
     },
     "cari_dokumen": {
         "description": "Cari dokumen dari keyword",
@@ -134,8 +165,13 @@ def mcp_dispatch(request):
     if method == "tools/list":
         return {"result": [{"name": n, "description": t["description"]} for n, t in TOOLS.items()]}
     if method == "tools/call":
-        name = request["params"]["name"]
-        args = request["params"].get("arguments", {})
+        params = request.get("params")
+        if not isinstance(params, dict):
+            return {"error": "params harus objek JSON"}
+        name = params.get("name")
+        args = params.get("arguments", {})
+        if not isinstance(args, dict):
+            return {"error": "arguments harus objek JSON"}
         tool = TOOLS.get(name)
         if tool is None:
             return {"error": f"tool tidak dikenal: {name}"}
@@ -153,18 +189,24 @@ r1 = mcp_dispatch({"method": "tools/list"})
 r2 = mcp_dispatch({"method": "tools/call", "params": {"name": "kalkulator", "arguments": {"ekspresi": "0.9*0.8*0.9"}}})
 r3 = mcp_dispatch({"method": "tools/call", "params": {"name": "kalkulator", "arguments": {}}})
 r4 = mcp_dispatch({"method": "tools/call", "params": {"name": "tidak_ada", "arguments": {}}})
+r5 = mcp_dispatch({"method": "tools/call"})  # tanpa params — dulu crash KeyError
+r6 = mcp_dispatch({"method": "tools/call", "params": "x"})  # params bukan objek — dulu crash TypeError
 print("n_tools =", len(r1["result"]))
 print("kalkulator =", round(r2["result"], 3))
 print("missing =", r3["error"][:14])
-print("unknown =", r4["error"][:18])`,
+print("unknown =", r4["error"][:18])
+print("no_params =", r5["error"])
+print("params_string =", r6["error"])`,
         checks: [
           { kind: "stdout_matches", task: "t2", pattern: "n_tools\\s*=\\s*2", label: "`tools/list` mengembalikan 2 tool", msg: "Daftar dari TOOLS: kalkulator + cari_dokumen." },
           { kind: "stdout_matches", task: "t2", pattern: "kalkulator\\s*=\\s*0\\.648", label: "`tools/call` kalkulator = 0.648", msg: "0.9*0.8*0.9 = 0.648." },
           { kind: "stdout_matches", task: "t2", pattern: "missing\\s*=\\s*argumen kurang", label: "Error rapi untuk argumen kurang", msg: "Validasi params sebelum eksekusi." },
           { kind: "stdout_matches", task: "t2", pattern: "unknown\\s*=\\s*tool tidak dikenal", label: "Error rapi untuk tool tak dikenal", msg: "Jangan KeyError — kembalikan error JSON." },
+          { kind: "stdout_matches", task: "t2", pattern: "no_params\\s*=\\s*params harus objek JSON", label: "Request tanpa params dijawab error, bukan crash", msg: "params hilang -> error JSON, bukan KeyError." },
+          { kind: "stdout_matches", task: "t2", pattern: "params_string\\s*=\\s*params harus objek JSON", label: "params bukan objek dijawab error, bukan crash", msg: "params string -> error JSON, bukan TypeError." },
         ],
       },
-      reference: "Server yang baik tidak pernah crash karena request jahat — ia menjawab error yang rapi.",
+      reference: "Server yang baik tidak pernah crash karena request jahat — ia memvalidasi BENTUK request dulu, lalu menjawab error yang rapi.",
     },
     {
       id: "konsep-server-aman",
@@ -181,7 +223,7 @@ print("unknown =", r4["error"][:18])`,
       tasks: [],
       note: {
         title: "💡 Intuisi",
-        body: "Keamanan MCP bukan soal 'percaya model atau tidak' — melainkan soal blast radius. Tool kalkulator yang 'dibajak' hanya menghasilkan angka salah; tool transfer yang dibajak mengosongkan rekening. Desain zona = desain seberapa jauh kesalahan bisa menjalar.",
+        body: "Keamanan MCP bukan soal 'percaya model atau tidak' — melainkan soal blast radius. Tool kalkulator yang 'dibajak' hanya menghasilkan angka salah — TETAPI hanya bila kalkulatornya aman: versi lama lesson ini memakai eval() dengan __builtins__ kosong, yang BUKAN sandbox (().__class__.__base__.__subclasses__() tetap dapat diakses — demo verifikasi: 231 subclass — dan eval adalah pintu eksekusi kode, bukan sekadar 'angka salah'). Kalkulator di lab ini sekarang memakai evaluator AST yang hanya mengizinkan angka dan operator aritmetika; tool transfer yang dibajak mengosongkan rekening. Desain zona = desain seberapa jauh kesalahan bisa menjalar.",
       },
       reference: "Hijau bebas, kuning dibatasi, merah wajib approval. Tulis zona di deskripsi tool.",
     },
@@ -190,7 +232,7 @@ print("unknown =", r4["error"][:18])`,
       eyebrow: "Langkah 5 · Peta keputusan",
       title: "Peta keputusan: MCP kapan, langsung kapan?",
       prose: [
-        "Skenario 1 — tool dipakai ≥2 client/framework → MCP. Satu server, semua client. Inilah kasus Dina: 5 tool × 3 framework. Bahkan untuk 2 tool × 2 client (4 vs 4, impas!), MCP menang di perawatan: update tool sekali, bukan dua kali.",
+        "Skenario 1 — tool dipakai ≥2 client/framework → MCP. Satu server, semua client. Inilah kasus Dina: 5 tool × 3 framework. Bahkan untuk 2 tool × 2 client (4 vs 4 — impas secara JUMLAH, tetapi bukan impas secara BIAYA), MCP menang di perawatan: update tool sekali, bukan dua kali.",
         "Skenario 2 — tool SANGAT spesifik untuk satu agen dan tidak akan dipakai ulang → integrasi langsung. Membungkus fungsi internal 20 baris menjadi MCP server = overhead tanpa manfaat. Aturan: reusable → MCP; sekali pakai → langsung.",
         "Skenario 3 — butuh kontrol keamanan/audit ketat → MCP + zona. Protokol memberi titik choke tunggal: semua panggilan lewat dispatcher yang bisa di-log, di-rate-limit, dan dimintai approval. Integrasi langsung tersebar = audit tersebar = lubang.",
         "Skenario 4 — latensi ultra-ketat (<10ms) dan throughput masif → pertimbangkan langsung. MCP menambah hop serialisasi (JSON-RPC). Untuk 99 persen kasus bedanya <2ms — abaikan. Untuk HFT atau kontrol robot: ukur dulu, standarkan kemudian.",
@@ -208,10 +250,10 @@ print("unknown =", r4["error"][:18])`,
       title: "Mini-case: 20 tool, 4 client, 1 kuartal",
       prose: [
         "Bank Dina kuartal depan: 20 tool internal, 4 client (LangGraph, CrewAI, asisten vendor, dashboard internal). Tanpa MCP: 20 × 4 = 80 integrasi. Estimasi: 3 hari per integrasi (kode + tes + review) = 240 hari-orang ≈ 12 orang-bulan. Dengan MCP: 20 server + 4 client = 24 koneksi × 3 hari = 72 hari-orang ≈ 3,6 orang-bulan. Hemat: 8,4 orang-bulan ≈ Rp840 juta (asumsi Rp100 juta/orang-bulan).",
-        "Tetapi ada biaya standar: membangun 4 client MCP (2 hari tiap = 8 hari), review keamanan 20 server (1 hari tiap = 20 hari), total 28 hari ≈ 1,4 orang-bulan = Rp140 juta. Net: hemat Rp700 juta di kuartal pertama — dan setiap tool/client BARU berikutnya hanya +1 koneksi, bukan +N/+M. Tahun kedua: penghematan berlipat.",
+        "Tetapi ada biaya standar: review keamanan 20 server (1 hari tiap = 20 hari) ≈ 1,0 orang-bulan = Rp100 juta. (Membangun 4 client MCP TIDAK ditambahkan di sini — client sudah terhitung dalam 24 koneksi × 3 hari; menambahkannya lagi = double counting.) Net: hemat Rp740 juta di kuartal pertama — dan setiap tool/client BARU berikutnya hanya +1 koneksi, bukan +N/+M. Tahun kedua: penghematan berlipat.",
         "Pembahasan: perhatikan bahwa perhitungan ini mengasumsikan 3 hari/integrasi — untuk tool kompleks (transfer dana + approval) bisa 5 hari, yang MEMPERBESAR kemenangan MCP (karena logika keamanan ditulis sekali di server). Asumsi konservatif = kemenangan minimal; realita biasanya lebih besar.",
-        "Cara membaca: bandingkan bukan hanya biaya bangun, melainkan biaya RAWAT. 80 integrasi = 80 tempat bug bersembunyi saat API berubah. 24 koneksi = 24. Setiap perubahan API: 4x lebih sedikit tempat yang diperbaiki. Standar = diskon perawatan permanen.",
-        "Interpretasi: mini-case ini menunjukkan MCP sebagai keputusan EKONOMI, bukan sekadar teknis. Rp700 juta/kuartal = alasan yang dipahami direksi. Saat mengusulkan standar teknis, selalu bawa aritmetikanya.",
+        "Cara membaca: bandingkan bukan hanya biaya bangun, melainkan biaya RAWAT. 80 integrasi = 80 tempat bug bersembunyi saat API berubah. 24 koneksi = 24. Setiap perubahan API: 3,33x lebih sedikit tempat yang diperbaiki (80/24). Standar = diskon perawatan permanen.",
+        "Interpretasi: mini-case ini menunjukkan MCP sebagai keputusan EKONOMI, bukan sekadar teknis. Rp740 juta/kuartal = alasan yang dipahami direksi. Saat mengusulkan standar teknis, selalu bawa aritmetikanya.",
       ],
       tasks: [],
     },
@@ -273,7 +315,7 @@ print("unknown =", r4["error"][:18])`,
         "MCP = protokol standar (JSON-RPC) agar tool ditulis sekali, dipakai semua client: host → client → server.",
         "C_tanpa = N×M vs C_MCP = N+M: makin banyak tool/client, makin besar hematnya (47% pada 5×3).",
         "Tiga primitif: tools (aksi, model memutuskan), resources (data baca-saja), prompts (template).",
-        "Dispatcher inti: tools/list + tools/call dengan validasi dan error rapi — tidak pernah crash karena request jahat.",
+        "Dispatcher inti: tools/list + tools/call dengan validasi (termasuk BENTUK request: params/arguments harus objek) dan error rapi — tidak pernah crash karena request jahat.",
         "Keamanan = zona (hijau/kuning/merah) + least privilege + approval manusia untuk aksi kritis.",
         "Pakai MCP bila tool dipakai ulang atau butuh audit terpusat; langsung bila sekali pakai atau latensi <10ms.",
       ],
@@ -283,7 +325,7 @@ print("unknown =", r4["error"][:18])`,
           q: "Bank punya 6 tool dan 4 framework. Berapa integrasi tanpa vs dengan MCP?",
           options: [
             { text: "24 vs 10", why: "Tepat: 6×4=24 tanpa standar; 6+4=10 dengan MCP — hemat 58%.", correct: true },
-            { text: "10 vs 24", why: "Terbalik: perkalian selalu lebih besar dari penjumlahan untuk N,M ≥ 2.", correct: false },
+            { text: "10 vs 24", why: "Terbalik: untuk N,M ≥ 2, N×M ≥ N+M (sama besar hanya di N=M=2: 4=4); di sini 6×4=24 > 6+4=10.", correct: false },
             { text: "24 vs 24", why: "MCP mengubah struktur biaya dari perkalian menjadi penjumlahan — tidak sama.", correct: false },
             { text: "10 vs 10", why: "Tanpa standar tiap tool harus disambung ke tiap client satu per satu.", correct: false },
           ],
@@ -300,8 +342,8 @@ print("unknown =", r4["error"][:18])`,
         {
           q: "Tool 'baca saldo' sebaiknya diekspos sebagai apa?",
           options: [
-            { text: "Resource (data baca-saja)", why: "Tepat: tidak perlu keputusan eksekusi model, lebih aman, tidak butuh approval.", correct: true },
-            { text: "Tool dengan approval manusia", why: "Berlebihan: membaca bukan aksi berbahaya — approval untuk tiap baca = friction tanpa manfaat.", correct: false },
+            { text: "Resource (data baca-saja)", why: "Tepat: resource adalah pola yang benar untuk data baca-saja — tetapi 'lebih aman' bukan 'aman': membaca saldo tetap sensitif (data keuangan), jadi resource ini tetap butuh scope + audit log; yang tidak dibutuhkan adalah persetujuan eksekusi per panggilan.", correct: true },
+            { text: "Tool dengan approval manusia", why: "Bukan jawaban terbaik: approval per panggilan untuk tiap baca = friction — tetapi membaca saldo BUKAN tanpa risiko: yang dibutuhkan adalah scope + audit, bukan approval per panggilan.", correct: false },
             { text: "Prompt template", why: "Prompt adalah template alur kerja, bukan akses data.", correct: false },
             { text: "Tidak diekspos sama sekali", why: "Data baca-saja justru kasus paling aman untuk diekspos via MCP.", correct: false },
           ],
@@ -309,7 +351,7 @@ print("unknown =", r4["error"][:18])`,
         {
           q: "Server menerima tools/call untuk tool yang tidak dikenal. Respons yang benar?",
           options: [
-            { text: "{\"error\": \"tool tidak dikenal\"} — rapi, tanpa crash", why: "Tepat: kontrak MCP — server tidak pernah crash karena request jahat.", correct: true },
+            { text: "{\"error\": \"tool tidak dikenal\"} — rapi, tanpa crash", why: "Tepat: kontrak MCP — server yang memvalidasi bentuk request tidak pernah crash karena request jahat.", correct: true },
             { text: "Crash dengan KeyError", why: "Itu mematikan server untuk semua client — kegagalan satu request meruntuhkan semua.", correct: false },
             { text: "Diam dan tidak menjawab", why: "Client akan menggantung menunggu — timeout massal.", correct: false },
             { text: "Menebak tool yang paling mirip", why: "Menebak = mengeksekusi yang tidak diminta — berbahaya untuk tool aksi.", correct: false },

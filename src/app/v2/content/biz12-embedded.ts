@@ -40,7 +40,7 @@ export const biz12: V2Lesson = {
       prose: [
         "TokoKu, SaaS kasir untuk UMKM, membangun tab \u201CReports\u201D yang megah: 12 chart, export PDF, filter lengkap. Setelah 3 bulan, hanya 4% merchant yang pernah membukanya. Tim produk frustrasi: \u201Cpadahal datanya berguna!\u201D",
         "Lalu mereka memindahkan SATU angka ke halaman utama: \u201CHari ini: Rp800 rb, ▲ 12% vs kemarin\u201D — tepat di atas daftar order yang dibuka tiap pagi. Engagement analitik naik 6x lipat dalam sebulan. Tidak ada chart baru, tidak ada fitur baru. Hanya lokasi yang berubah.",
-        "Twist-nya: analitik terbaik adalah yang tidak terasa seperti analitik. Merchant tidak \u201Cpergi ke laporan\u201D — laporannya yang datang ke tempat kerja mereka. Jarak antara insight dan keputusan diukur dalam KLIK, dan tiap klik membunuh separuh pengguna.",
+        "Twist-nya: analitik terbaik adalah yang tidak terasa seperti analitik. Merchant tidak \u201Cpergi ke laporan\u201D — laporannya yang datang ke tempat kerja mereka. Jarak antara insight dan keputusan diukur dalam KLIK, dan tiap klik tambahan mengikis sebagian pengguna — angka “separuh” di sini ilustrasi dari kasus TokoKu, bukan hukum universal: besarnya tergantung konteks, ukur di produkmu sendiri.",
         "Di lesson ini kamu akan bisa: (1) menjelaskan prinsip embedded analytics; (2) merancang row-level security multi-tenant; (3) memilih build vs buy vs embed; (4) menghindari jebakan privasi data tenant.",
       ],
       tasks: [],
@@ -141,15 +141,15 @@ export const biz12: V2Lesson = {
       title: "Lab: audit log — siapa mengintip siapa",
       prose: [
         "Filter di UI tidak cukup — yang menentukan keamanan adalah filter di API. Tugasmu: audit log akses dan temukan setiap baris di mana filter_tenant ≠ merchant_id pemanggil (termasuk filter None = tanpa filter!).",
-        "Dua pelanggaran tertangkap: M-101 memanggil tanpa filter (melihat agregat semua tenant — persis bug di cerita pembuka), dan M-102 membaca dengan filter M-101 (melihat data tetangga).",
+        "Dua pelanggaran tertangkap: M-101 memanggil tanpa filter (melihat agregat semua tenant — persis bug di cerita pembuka), dan M-102 membaca dengan filter M-101 (melihat data tetangga). Tenant yang datanya terekspos: panggilan tanpa filter mengekspos agregat SEMUA tenant (M-101, M-102, M-103), bukan hanya M-101 — definisi “terdampak” di lab ini = semua tenant yang datanya terekspos, termasuk lewat agregat; kunci lama [M-101] mengecilkan cakupan eksposur.",
         "Coba juga: bagaimana desain API yang membuat pelanggaran ini mustahil, bukan sekadar terdeteksi? Jawabannya: tenant diambil dari token autentikasi, bukan dari parameter yang bisa diutak-atik.",
       ],
       tasks: [
         { id: "t1", text: "Isi `pelanggaran`: baris log dengan filter_tenant != merchant_id" },
         { id: "t2", text: "Hitung `n_pelanggaran`" },
-        { id: "t3", text: "Isi `merchant_terdampak`: tenant yang datanya terekspos/terlibat" },
+        { id: "t3", text: "Isi `merchant_terdampak`: tenant yang datanya terekspos/terlibat — patok definisi: target filter yang dipakai + SEMUA tenant bila ada panggilan tanpa filter (agregat = semua tenant terekspos)" },
       ],
-      expected: "n_pelanggaran=2",
+      expected: "n_pelanggaran=2  merchant_terdampak=['M-101', 'M-102', 'M-103']",
       note: {
         title: "Sering salah",
         body: "Menganggap filter None = aman ('tidak filter ya tidak bocor'). Tanpa filter, API mengembalikan agregat SEMUA tenant — itu justru eksposur terbesar.",
@@ -157,15 +157,16 @@ export const biz12: V2Lesson = {
       hints: [
         "pelanggaran = [baris for baris in LOG if f != m].",
         "None != 'M-101' → True: tanpa filter ikut tertangkap, memang seharusnya.",
-        "merchant_terdampak: gabungan filter yang dipakai + pemanggil tanpa filter.",
+        "merchant_terdampak: target filter yang dipakai + SEMUA tenant bila ada panggilan tanpa filter (agregat = semua tenant terekspos).",
       ],
       code: {
         starter: `# Log akses API: (merchant_id, endpoint, filter_tenant)\nLOG = [\n    ("M-101", "/revenue", "M-101"), ("M-102", "/revenue", "M-102"),\n    ("M-101", "/revenue", None),          # tanpa filter!\n    ("M-103", "/orders", "M-103"), ("M-102", "/orders", "M-101"),  # salah tenant!\n    ("M-101", "/revenue", "M-101"),\n]\n# TULIS KODEMU: pelanggaran, n_pelanggaran, merchant_terdampak\npelanggaran = []\nn_pelanggaran = 0\nmerchant_terdampak = []\n`,
         lockLines: 7,
-        solution: `# Log akses API: (merchant_id, endpoint, filter_tenant)\nLOG = [\n    ("M-101", "/revenue", "M-101"), ("M-102", "/revenue", "M-102"),\n    ("M-101", "/revenue", None),          # tanpa filter!\n    ("M-103", "/orders", "M-103"), ("M-102", "/orders", "M-101"),  # salah tenant!\n    ("M-101", "/revenue", "M-101"),\n]\n\n# TULIS KODEMU: pelanggaran, n_pelanggaran, merchant_terdampak\npelanggaran = [(m, e, f) for m, e, f in LOG if f != m]\nn_pelanggaran = len(pelanggaran)\nmerchant_terdampak = sorted({f for _, _, f in pelanggaran if f is not None} | {m for m, _, f in pelanggaran if f is None})\n\nprint(f"n_pelanggaran={n_pelanggaran}")\nprint(f"merchant_terdampak={merchant_terdampak}")\n`,
+        solution: `# Log akses API: (merchant_id, endpoint, filter_tenant)\nLOG = [\n    ("M-101", "/revenue", "M-101"), ("M-102", "/revenue", "M-102"),\n    ("M-101", "/revenue", None),          # tanpa filter!\n    ("M-103", "/orders", "M-103"), ("M-102", "/orders", "M-101"),  # salah tenant!\n    ("M-101", "/revenue", "M-101"),\n]\n\n# TULIS KODEMU: pelanggaran, n_pelanggaran, merchant_terdampak\npelanggaran = [(m, e, f) for m, e, f in LOG if f != m]\nn_pelanggaran = len(pelanggaran)\nsemua_tenant = sorted({m for m, _, _ in LOG} | {f for _, _, f in LOG if f})
+merchant_terdampak = sorted({f for _, _, f in pelanggaran if f is not None} | (set(semua_tenant) if any(f is None for _, _, f in pelanggaran) else set()))\n\nprint(f"n_pelanggaran={n_pelanggaran}")\nprint(f"merchant_terdampak={merchant_terdampak}")\n`,
         checks: [
           { kind: "equal", task: "t2", name: "n_pelanggaran", value: 2, label: "`n_pelanggaran` = 2", msg: "Tanpa filter + salah tenant." },
-          { kind: "equal", task: "t3", name: "merchant_terdampak", value: ["M-101"], label: "`merchant_terdampak` = [M-101]", msg: "Datanya terekspos." },
+          { kind: "equal", task: "t3", name: "merchant_terdampak", value: ["M-101", "M-102", "M-103"], label: "`merchant_terdampak` = [M-101, M-102, M-103]", msg: "Panggilan tanpa filter mengekspos agregat SEMUA tenant + M-101 sebagai target filter salah. Kunci lama [M-101] mengecilkan cakupan." },
         ],
       },
       reference: "Tenant isolation: filter wajib = identitas dari token, bukan parameter.",
@@ -176,7 +177,7 @@ export const biz12: V2Lesson = {
       eyebrow: "Langkah 7 · Intuisi kunci",
       title: "💡 Intuisi kunci",
       prose: [
-        "💡 Jarak klik adalah gravitasi adopsi: tiap klik tambahan membunuh sebagian pengguna. Angka yang hidup di homepage 1 klik mengalahkan dashboard lengkap yang butuh 4 klik — selalu.",
+        "💡 Jarak klik adalah gravitasi adopsi: tiap klik tambahan mengikis sebagian pengguna. Angka yang hidup di homepage 1 klik mengalahkan dashboard lengkap yang butuh 4 klik — pada kasus TokoKu; bukan hukum universal, ukur di produkmu sendiri.",
         "💡 Keamanan tenant diuji dari API, bukan dari UI. Kalau endpoint mengembalikan data benar saat dipanggil dengan curl tanpa filter, UI secantik apa pun hanya tirai.",
       ],
       tasks: [],
@@ -206,7 +207,7 @@ export const biz12: V2Lesson = {
       prose: [
         "Marketplace \u201CPasarKita\u201D punya 5.000 merchant. Portal analitik merchant dibuka 6% per bulan. Target: 40%. Redesign embedded: (1) di halaman produk: \u201C7 hari terakhir: 120 views, 8 terjual (6,7%)\u201D + tombol \u201Coptimalkan\u201D; (2) di halaman order: \u201CRata-rata kirim 2,1 hari — 0,4 hari lebih lambat dari kategori\u201D; (3) notifikasi: \u201CStok SKU-123 tersisa 5, laju 2/hari\u201D.",
         "Hasil 2 bulan: 43% merchant melihat insight mingguan; merchant yang mengikuti rekomendasi restock naikkan penjualan 18% vs kontrol. Kuncinya: tiap insight menempel pada objek kerja (produk, order, stok) — bukan di tab terpisah.",
-        "Scoping: tiap merchant hanya melihat agregat tokonya + benchmark kategori (anonim, min. 10 merchant agar tidak bisa ditebak). Benchmark \u201Crata-rata kategori\u201D dihitung lintas tenant tapi disajikan anonim — pola ini butuh review privasi eksplisit.",
+        "Scoping: tiap merchant hanya melihat agregat tokonya + benchmark kategori (anonim, min. 10 merchant sebagai AMBANG AWAL — bukan jaminan: serangan komposisi/differencing — merchant mengurangkan angkanya sendiri dari agregat kecil, atau membandingkan dua snapshot — masih bisa menebak; butuh review privasi eksplisit seperti lesson ini akui). Benchmark \u201Crata-rata kategori\u201D dihitung lintas tenant tapi disajikan anonim — pola ini butuh review privasi eksplisit.",
         "💡 Intuisi kunci: benchmark anonim adalah fitur embedded paling kuat (merchant peduli posisi relatifnya) sekaligus paling berisiko privasi. Aturan: agregat min. N tenant + tidak ada drill-down ke tenant lain.",
       ],
       tasks: [],
@@ -224,7 +225,7 @@ export const biz12: V2Lesson = {
         "Ukur jarak keputusan (klik); target 0.",
         "Row-level security di lapisan data: filter tenant dulu, agregat kemudian.",
         "Mulai dari 1 angka; kembangkan jika dipakai.",
-        "Benchmark anonim: min. N tenant, tanpa drill-down lintas tenant.",
+        "Benchmark anonim: min. N tenant + review privasi eksplisit (ambang N saja bukan jaminan), tanpa drill-down lintas tenant.",
       ],
       next: { label: "BI13 — AI dalam BI", href: "/v2/learn/biz13-ai" },
       quiz: [
@@ -232,7 +233,7 @@ export const biz12: V2Lesson = {
           q: "Tab Reports dibuka 4%; 1 angka di homepage dibuka 6x lipat. Pelajarannya?",
           options: [
             { text: "Merchant tidak butuh data", why: "Tab Reports dibuka 4% tetapi satu angka di homepage dibuka 6x lipat — buktinya bukan 'pengguna malas', melainkan 'pengguna butuh jawabannya, bukan perjalanannya'. Mereka tidak butuh portal; mereka butuh satu angka kontekstual di tempat keputusan dibuat." },
-            { text: "Lokasi mengalahkan kelengkapan — insight harus di titik keputusan", why: "Tepat: tiap klik tambahan adalah pajak yang membunuh sebagian pengguna. Angka di homepage (1 klik, dalam konteks kerja) vs tab Reports (4 klik, konteks terpisah) = 6x lipat pemakaian. Pelajarannya: bawa insight ke keputusan, bukan pengguna ke dashboard.", correct: true },
+            { text: "Lokasi mengalahkan kelengkapan — insight harus di titik keputusan", why: "Tepat: tiap klik tambahan adalah pajak yang mengikis sebagian pengguna. Angka di homepage (1 klik, dalam konteks kerja) vs tab Reports (4 klik, konteks terpisah) = 6x lipat pemakaian — pada kasus TokoKu (cerita pembuka lesson ini), bukan angka umum. Pelajarannya: bawa insight ke keputusan, bukan pengguna ke dashboard.", correct: true },
             { text: "Chart harus dihapus semua", why: "Benar — untuk 5% yang mengebor. Tetapi merancang untuk 5% sambil mengorbankan 95% = prioritas terbalik. Solusinya progressive disclosure: satu angka untuk semua, detail selapis di bawah untuk yang meminta. Keduanya dilayani, tidak ada yang dikorbankan." },
             { text: "Homepage harus penuh angka", why: "Menampilkan 12 angka di homepage = memindahkan masalah tab Reports ke alamat baru. Embedded yang baik = SATU angka yang menjawab pertanyaan layar itu ('stok aman?'), bukan hujan angka yang memaksa pengguna menjadi analis dadakan." },
           ],
@@ -241,7 +242,7 @@ export const biz12: V2Lesson = {
           q: "Merchant B memanggil API tanpa filter tenant dan melihat 2100 (bukan 600). Ini…",
           options: [
             { text: "Fitur benchmark", why: "Benchmark yang sah = agregat anonim ('rata-rata kategorimu: 75') yang dirancang sebagai fitur. Melihat total mentah 2.100 milik tenant lain karena lupa filter = eksposur data. Bedanya: yang satu dirancang dan disetujui, yang lain kecelakaan." },
-            { text: "Kebocoran scoping — filter harus di lapisan data, bukan UI", why: "Tepat: dua bug sekaligus — privasi (melihat data tenant lain) dan bisnis (angka 2.100 menyesatkan keputusan merchant yang seharusnya melihat 60). Satu baris filter yang hilang merusak dua hal: kepercayaan dan kebenaran.", correct: true },
+            { text: "Kebocoran scoping — filter harus di lapisan data, bukan UI", why: "Tepat: dua bug sekaligus — privasi (melihat data tenant lain) dan bisnis (angka 2.100 menyesatkan keputusan merchant yang seharusnya melihat 600). Satu baris filter yang hilang merusak dua hal: kepercayaan dan kebenaran.", correct: true },
             { text: "Normal untuk admin", why: "Justru itu parahnya: bukan admin, bukan hacker — merchant biasa yang memanggil API normal. Sistem yang aman tidak bergantung pada 'pengguna baik'; ia menegakkan isolasi di backend terlepas dari siapa yang memanggil." },
             { text: "Salah hitung kecil", why: "Angkanya 'benar' secara aritmetika (total semua tenant memang 2.100) tetapi salah secara otorisasi. Kategori bug-nya bukan correctness melainkan confidentiality — dan itu lebih berbahaya karena tidak ada yang komplain ('angkanya keluar, kok') sampai auditor datang." },
           ],
@@ -259,7 +260,7 @@ export const biz12: V2Lesson = {
           q: "Benchmark \u201Crata-rata kategori\u201D untuk merchant. Syarat privasi?",
           options: [
             { text: "Tampilkan semua data merchant lain", why: "Menampilkan rata-rata kategori TANPA anonimisasi yang benar (mis. kategori hanya berisi 2 merchant) = pelanggaran privasi: merchant A bisa mengurangkan angkanya sendiri dan menebak angka merchant B. Agregat kecil bukan anonim." },
-            { text: "Agregat anonim min. N tenant + tanpa drill-down ke tenant lain", why: "Tepat — tetapi 'tepat' saja tidak cukup di sini, jadi perjelas: syaratnya adalah k-anonymity praktis (kategori cukup besar sehingga tidak ada merchant yang bisa diidentifikasi) DAN agregat yang tidak bisa di-reverse-engineering. Benchmark tanpa syarat ini = fitur yang menuntut ganti rugi.", correct: true },
+            { text: "Agregat anonim min. N tenant + tanpa drill-down ke tenant lain", why: "Tepat — tetapi 'tepat' saja tidak cukup di sini, jadi perjelas: syaratnya adalah k-anonymity praktis (kategori cukup besar sehingga tidak ada merchant yang bisa diidentifikasi) DAN agregat yang tidak bisa di-reverse-engineering — dan ingat: ambang N saja bukan jaminan, serangan differencing tetap mungkin; review privasi eksplisit wajib. Benchmark tanpa syarat ini = fitur yang menuntut ganti rugi.", correct: true },
             { text: "Jangan tampilkan apa-apa", why: "Benar, benchmark mendorong merchant meningkatkan performa — tetapi 'bernilai' tidak membenarkan 'bocor'. Solusinya bukan membuang fitur, melainkan membangunnya dengan benar: agregat anonim + ambang ukuran kategori minimum + audit berkala." },
             { text: "Minta izin tiap merchant manual", why: "Memberi setiap merchant akses ke data mentah kategori 'dengan perjanjian' = tidak scalable (N perjanjian, N risiko) dan tidak bisa diaudit. Agregat anonim melayani kebutuhan benchmark yang sah tanpa membuka data mentah siapa pun." },
           ],
@@ -274,7 +275,7 @@ export const biz12: V2Lesson = {
           ],
         },
         {
-          q: "Merchant memanggil /revenue TANPA parameter tenant dan menerima angka 2.100 (bukan 60 miliknya). Ini bukti...",
+          q: "Merchant memanggil /revenue TANPA parameter tenant dan menerima angka 2.100 (bukan 600 miliknya). Ini bukti...",
           options: [
             { text: "Bug tampilan di UI", why: "UI tidak terlibat: respons API-nya sendiri yang salah. Ini bug keamanan backend, bukan kosmetik." },
             { text: "Filter tenant tidak ditegakkan di API — pelanggaran isolasi", why: "Tepat: tenant diambil dari parameter (yang bisa dikosongkan), bukan dari token autentikasi. Perbaikannya di desain: tenant = identitas dari token, bukan input.", correct: true },

@@ -20,7 +20,7 @@ export const cr14a: V2Lesson = {
       note: {
         title: "Kaitan ke risk",
         type: "risk",
-        body: "90% portofolio \"murah\" (Stage 1), tetapi 10% sisanya mendominasi CKPN: 7% × Rp 38 jt + 3% × Rp 225 jt jauh melampaui 90% × Rp 4,5 jt. Kualitas ECL bank ditentukan akurasi staging 10% ini — bukan 90% yang sehat.",
+        body: "90% portofolio \"murah\" (Stage 1), tetapi 10% sisanya mendominasi CKPN: 0,07×38 + 0,03×225 = 9,41 vs 0,90×4,5 = 4,05 (rasio 2,32×) — untuk angka per-berkas lesson ini. Itu menunjukkan staging 10% ini BERPENGARUH BESAR, tetapi jangan baca sebagai kausalitas mutlak: kualitas ECL juga ditentukan PD, LGD, EAD, skenario, dan diskonto — staging adalah salah satu penentu besar, bukan satu-satunya.",
       },
       reference: "Stage = tumpukan harga: Rp 4,5 jt · Rp 38 jt · Rp 225 jt untuk berkas yang sama.",
     },
@@ -31,7 +31,7 @@ export const cr14a: V2Lesson = {
       prose: [
         "ECL (Expected Credit Loss) = ekspektasi kerugian kredit yang didiskonto dan dibobot skenario. Lima komponennya: PD — peluang default per tahun (PIT, forward-looking) — CR10; LGD — porsi hilang saat default — CR12; EAD — exposure saat default (termasuk CCF) — CR13; Diskonto — nilai waktu uang (suku bunga efektif) — baru di lesson ini; Skenario — probability-weighting ekonomi — CR11.",
         "ECL seperti resep rendang — lima bumbu yang tak bisa dikurangi. PD/LGD/EAD adalah \"dagingnya\"; diskonto adalah \"santan\"-nya; skenario adalah \"api\"-nya. Kurang satu = bukan rendang.",
-        "Sensitivitas: skenario (30%) dan EAD (25%) paling sensitif — kesalahan 10% di sana paling mahal. Validasi model jangan merata — fokuskan energi ke komponen paling sensitif. Inilah risk-based validation.",
+        "Sensitivitas: skenario (30%) dan EAD (25%) paling sensitif — kesalahan 10% di sana paling mahal. Angka 30%/25% ini ILUSTRASI lesson ini untuk portofolio contoh (bukan hasil studi atau angka universal): sensitivitas nyata bergantung pada portofolio, tenor, dan segmen — selalu hitung sensitivitas sendiri sebelum memutuskan fokus validasi. Prinsipnya tetap: validasi model jangan merata — fokuskan energi ke komponen paling sensitif. Inilah risk-based validation.",
       ],
       tasks: [],
       reference: "Komponen baru lesson ini: diskonto (EIR). Sisanya merangkum CR10–CR13 & CR11.",
@@ -41,7 +41,7 @@ export const cr14a: V2Lesson = {
       eyebrow: "Langkah 3 · Staging",
       title: "Menentukan tumpukan",
       prose: [
-        "Staging = mengklasifikasikan tiap kredit ke Stage 1/2/3 (PSAK 109). Aturan praktis bank. Stage 1: tidak ada SICR → ECL = PD 12-bulan × LGD × EAD. Stage 2: SICR (PD naik ≥2× atau DPD ≥30) → ECL = PD lifetime × LGD × EAD. Stage 3: default (DPD >90 atau unlikely-to-pay) → ECL = 100% × LGD × EAD.",
+        "Staging = mengklasifikasikan tiap kredit ke Stage 1/2/3 (PSAK 109). Aturan praktis bank. Stage 1: tidak ada SICR → ECL = PD 12-bulan × LGD × EAD. Stage 2: SICR (PD naik ≥2× atau DPD ≥30) → ECL = PD lifetime × LGD × EAD. Stage 3: credit-impaired, mengikuti definisi default bank — DPD >90 hari adalah salah satu pemicu, bersama unlikely-to-pay dan restrukturisasi bermasalah; DPD >90 saja BUKAN definisi lengkap default → ECL = 100% × LGD × EAD.",
         "Halus tetapi penting: curing — kredit bisa kembali Stage 2→1 jika membaik (dengan masa percobaan, misal 6 bulan DPD 0). Stage bukan jalan satu arah — tetapi juga bukan pintu putar (tidak boleh naik-turun tiap bulan).",
         "Kolek 2 (DPK) vs Stage 2 (PSAK 109) — hubungannya tidak 1:1. Kolek 2 bisa Stage 1 atau 2 tergantung SICR. Analis Indonesia harus fasih dua bahasa: kolektibilitas (POJK, berbasis DPD + kualitatif) dan stage (PSAK 109, berbasis SICR) — dengan rekonsiliasi yang jelas.",
       ],
@@ -69,7 +69,7 @@ export const cr14a: V2Lesson = {
       note: {
         title: "Sering salah",
         type: "pitfall",
-        body: "Kasus C: PD naik cuma 1,2× TAPI DPD 35 → Stage 2. Backstop 30 hari tidak bisa dinegosiasi model — jaring pengaman regulator.",
+        body: "Kasus C: PD naik cuma 1,2× TAPI DPD 35 → Stage 2. Backstop 30 hari adalah rebuttable presumption — jaring pengaman yang dapat dibantah dengan bukti yang wajar dan dapat didukung, bukan aturan mutlak; di lab ini ia diterapkan sebagai aturan karena tidak ada bukti pembantah.",
       },
       hints: [
         "Panggil tentukan_stage(pd_awal, pd_kini, dpd), ambil elemen pertama.",
@@ -158,7 +158,7 @@ export const cr14a: V2Lesson = {
         "Rasio PD 2× dan backstop 30 hari adalah lantai, bukan seluruh bangunan. Standar mewajibkan informasi \"yang wajar dan dapat didukung\" — termasuk yang kualitatif: masuk daftar pantauan (watchlist), pelanggaran covenant, restrukturisasi ringan, industri debitur yang kolaps, hingga indikasi fraud. Kredit bisa mengalami SICR jauh sebelum DPD-nya bergerak, dan bank yang hanya menunggu angka model pada dasarnya menunda pengakuan.",
         "Contoh dengan angka: debitur KMK tekstil Rp 2 M. PD model naik 1,5% → 2,4% (1,6× — lolos dari jerat kuantitatif), DPD 0 (belum ada yang telat). Tetapi: DSCR breach dua kuartal berturut-turut + industri tekstil terpukul impor + masuk watchlist komite. SICR kualitatif → Stage 2. ECL Stage 1 = 0,024 × 0,45 × 2000 = Rp 21,6 jt; ECL Stage 2 (lifetime 4,5×) ≈ Rp 97 jt. Keputusan satu komite sore itu menambah Rp 75 jt cadangan untuk satu debitur — dan justru itulah gunanya komite.",
         "Cara salah yang klasik: \"belum 30 hari, jadi belum Stage 2\" — menjadikan backstop sebagai kebijakan. Backstop adalah jaring pengaman regulator untuk kegagalan model, bukan pengganti penilaian. Bank yang begitu akan selalu mengakui SICR terlambat, tepat saat kerugian sudah di depan mata — pola yang auditor sebut \"too little, too late\" dan denda dengan temuan.",
-        "Aturan keputusan. Satu: susun daftar pemicu SICR kualitatif per segmen (korporasi: covenant + watchlist; ritel: restrukturisasi + EWS skor) dan review tiap bulan. Dua: setiap forbearance (keringanan) = SICR otomatis, tanpa perdebatan — standar mengatakannya eksplisit. Tiga: dokumentasikan alasan \"mengapa TIDAK Stage 2\" untuk debitur watchlist yang dipertahankan di Stage 1 — beban pembuktiannya ada pada yang menahan, bukan yang memindahkan. Empat: uji konsistensi — dua debitur dengan profil sama harus mendapat stage sama; inkonsistensi adalah temuan audit.",
+        "Aturan keputusan. Satu: susun daftar pemicu SICR kualitatif per segmen (korporasi: covenant + watchlist; ritel: restrukturisasi + EWS skor) dan review tiap bulan. Dua: setiap forbearance (keringanan) adalah INDIKATOR SICR yang kuat — bank wajib menilai apakah keringanan itu mencerminkan peningkatan risiko signifikan; bukan SICR otomatis tanpa penilaian, dan bukan tanpa perdebatan: dokumentasikan penilaiannya, termasuk bila diputuskan BUKAN SICR beserta buktinya. Tiga: dokumentasikan alasan \"mengapa TIDAK Stage 2\" untuk debitur watchlist yang dipertahankan di Stage 1 — beban pembuktiannya ada pada yang menahan, bukan yang memindahkan. Empat: uji konsistensi — dua debitur dengan profil sama harus mendapat stage sama; inkonsistensi adalah temuan audit.",
       ],
       tasks: [],
       reference: "Backstop 30 hari = lantai. Pemicu kualitatif = dindingnya.",
@@ -170,7 +170,7 @@ export const cr14a: V2Lesson = {
       prose: [
         "Stage 3 = credit-impaired, mengikuti definisi default (DPD >90, unlikely-to-pay, restrukturisasi bermasalah). Dua hal berubah sekaligus: ECL memakai PD 100% atas lifetime, DAN pendapatan bunga diakui atas nilai tercatat neto (amortised cost dikurangi cadangan) — bukan atas bruto seperti Stage 1/2. Ini pukulan ganda ke laba: cadangan naik, pendapatan bunga turun bersamaan.",
         "Contoh dengan angka: KPR Rp 500 jt masuk Stage 3, LGD 60% → ECL = 1,0 × 0,6 × 500 = Rp 300 jt. Nilai neto = Rp 200 jt. Pendapatan bunga setahun pada 8%: atas neto = Rp 16 jt, vs Rp 40 jt jika masih dihitung atas bruto. Rp 24 jt pendapatan \"hilang\" per tahun per debitur — di atas Rp 300 jt cadangan yang sudah dibentuk. Inilah mengapa direksi sangat sensitif pada migrasi ke Stage 3: ia memukul laba dua kali.",
-        "Arah sebaliknya — cure (kembali ke Stage 2 atau 1) — adalah tempat gaming terjadi. \"Stage shopping\": menahan kredit bermasalah di Stage 2 agar tidak masuk statistik Stage 3, atau mempercepat cure agar cadangan turun sebelum tutup buku. Pertahanannya: kriteria cure tertulis dan disetujui (misalnya 6 bulan DPD 0 berturut-turut + tanpa keringanan baru), masa percobaan yang tidak bisa dinegosiasi, dan larangan lompat langsung Stage 3 → 1. Stage boleh dua arah, tetapi bukan pintu putar.",
+        "Arah sebaliknya — cure (kembali ke Stage 2 atau 1) — adalah tempat gaming terjadi. \"Stage shopping\": menahan kredit bermasalah di Stage 2 agar tidak masuk statistik Stage 3, atau mempercepat cure agar cadangan turun sebelum tutup buku. Pertahanannya: kriteria cure tertulis dan disetujui (misalnya 6 bulan DPD 0 berturut-turut + tanpa keringanan baru), masa percobaan yang ketat, dan aturan bahwa lompat langsung Stage 3 → 1 hanya boleh bila debitur sudah terbukti tidak lagi credit-impaired dan memenuhi kriteria cure — yang dilarang adalah lompat TANPA bukti cure, bukan transisinya sendiri.",
         "Aturan keputusan. Satu: setiap cure di atas Rp 1 M wajib lewat komite, bukan analis individu. Dua: lacak \"re-default dalam 12 bulan setelah cure\" — jika di atas 30%, kriteria cure-mu terlalu longgar. Tiga: auditor menguji matriks migrasi antar stage; migrasi Stage 2 → 1 yang melonjak di kuartal IV adalah bendera merah klasik. Empat: perlakukan Stage 3 sebagai status fakta (debitur memang default), bukan pilihan akuntansi — tidak ada \"kebijakan\" yang bisa menunda fakta.",
       ],
       tasks: [],
@@ -185,7 +185,7 @@ export const cr14a: V2Lesson = {
       eyebrow: "Langkah 10 · Rekonsiliasi",
       title: "Dua bahasa: kolektibilitas vs stage",
       prose: [
-        "Analis Indonesia hidup dalam dua bahasa yang tidak sejajar. Kolektibilitas (POJK) berbasis DPD + penilaian kualitatif tiga pilar untuk komersial; stage (PSAK 109) berbasis SICR relatif terhadap origination. Kolek 2 (DPK, 1–90 hari) bisa Stage 1 (telat 5 hari karena administrasi, PD tidak naik signifikan) atau Stage 2 (telat 40 hari + watchlist). Kolek 1 pun bisa Stage 2 — debitur korporasi DPD 0 yang industrinya kolaps dan masuk watchlist: kolektibilitas masih 1 (belum ada tunggakan), stage sudah 2 (SICR kualitatif).",
+        "Analis Indonesia hidup dalam dua bahasa yang tidak sejajar. Kolektibilitas (POJK) berbasis DPD + penilaian kualitatif tiga pilar untuk komersial; stage (PSAK 109) berbasis SICR relatif terhadap origination. Kolek 2 (DPK — umumnya 1–90 hari, tetapi penentuan kolektibilitas juga memakai penilaian kualitatif, bukan DPD semata) bisa Stage 1 (telat 5 hari karena administrasi, PD tidak naik signifikan) atau Stage 2 (telat 40 hari + watchlist). Kolek 1 pun bisa Stage 2 — debitur korporasi DPD 0 yang industrinya kolaps dan masuk watchlist: kolektibilitas masih 1 (belum ada tunggakan), stage sudah 2 (SICR kualitatif).",
         "Contoh jebakan: laporan ke direksi menampilkan \"Kolek 1: 95% — portofolio sehat\", sementara 8% dari Kolek 1 itu sebenarnya Stage 2 dengan ECL lifetime. Direksi membaca kesehatan, akuntansi mencatat cadangan. Rekonsiliasi wajib: matriks 5 × 3 (kolektibilitas × stage) setiap bulan. Sel yang harus diinterogasi: Kolek 1 × Stage 2 yang membesar (SICR diam-diam menumpuk), dan Kolek 3+ × Stage 1/2 (seharusnya hampir kosong — jika terisi, definisi default-mu tidak selaras).",
         "Aturan keputusan. Satu: tidak ada kredit Kolek 3+ yang boleh Stage 1 — default akuntansi minimal seketat default regulasi. Dua: selisih definisi didokumentasikan dalam kebijakan, bukan di kepala analis. Tiga: saat OJK bertanya \"mengapa CKPN naik padahal NPL stabil?\", jawabanmu adalah matriks ini — Stage 2 tumbuh di dalam Kolek 1/2. Analis yang hanya fasih satu bahasa akan selalu kalah argumen dari yang fasih dua-duanya.",
       ],
@@ -201,7 +201,7 @@ export const cr14a: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "ECL = 5 komponen: PD · LGD · EAD · diskonto (EIR) · skenario. Paling sensitif: skenario & EAD.",
+        "ECL = 5 komponen: PD · LGD · EAD · diskonto (EIR) · skenario. Paling sensitif (ilustrasi lesson ini, bukan angka universal): skenario & EAD.",
         "Stage 1: ECL 12-bulan · Stage 2: ECL lifetime (SICR) · Stage 3: ECL lifetime PD 100%.",
         "SICR: PD naik ≥2× atau backstop DPD ≥30. Curing: bisa kembali 2→1 dengan masa percobaan.",
         "ECL lifetime = Σ(PD_t × LGD_t × EAD_t)/(1+r)^t — 'film', bukan 'foto × tenor'.",
@@ -213,7 +213,7 @@ export const cr14a: V2Lesson = {
           q: "Kredit: PD awal 1,5%, PD kini 1,8%, DPD 35. Stage?",
           options: [
             { text: "Stage 1 — PD naik cuma 1,2×", why: "Rasio PD memang kecil, tetapi backstop DPD mengalahkan." },
-            { text: "Stage 2 — backstop DPD ≥30 hari memicu SICR apapun kata PD", why: "Backstop 30 hari tidak bisa dinegosiasi model — jaring pengaman regulator.", correct: true },
+            { text: "Stage 2 — backstop DPD ≥30 hari memicu SICR apapun kata PD", why: "Backstop 30 hari adalah rebuttable presumption — dapat dibantah dengan bukti yang wajar dan dapat didukung, bukan aturan mutlak.", correct: true },
             { text: "Stage 3", why: "Stage 3 butuh DPD >90 atau unlikely to pay." },
             { text: "Tidak bisa ditentukan", why: "Bisa: backstop jelas terpicu." },
           ],

@@ -90,13 +90,14 @@ export const b12: V2Lesson = {
       prose: [
         "Saham Rp10.000, return harian ~ Normal(\u03BC=0,05%, \u03C3=2%). Simulasikan 5.000 hari: S1 = S0\u00D7exp(return), P&L = S1\u2212S0. VaR 95% = kerugian pada kuantil 5% dari P&L terurut. Tidak butuh rumus \u2014 butuh model simulasi yang jujur.",
         "Expected Shortfall (ES) = rata-rata kerugian JIKA tembus VaR \u2014 ukuran yang lebih informatif karena VaR tidak bilang \u201Cseberapa dalam\u201D saat jebol. Monte Carlo memisahkan \u201Cmodel dunia\u201D (distribusi) dari \u201Cperhitungan\u201D (simulasi): payoff serumit apa pun \u2014 asal bisa dihitung per skenario \u2014 VaR-nya bisa diestimasi.",
-        "Catatan: 5.000 skenario cukup untuk demo di browser. Di produksi, VaR 99% butuh N jauh lebih besar \u2014 atau importance sampling (langkah 4).",
+        "Catatan: 5.000 skenario cukup untuk demo di browser. Di produksi, VaR 99% butuh N jauh lebih besar — atau importance sampling (langkah 4). Dan ingat aturan lesson ini sendiri: estimasi MC tanpa SE = angka tanpa kejujuran. Untuk rata-rata P&L, SE = SD/√N langsung bisa dihitung; untuk kuantil seperti VaR/ES, SE-nya lebih besar dan butuh bootstrap atau teori statistik urutan — jangan laporkan VaR/ES simulasi tanpa ukuran ketidakpastiannya."
       ],
       tasks: [
         { id: "t1", text: "Simulasikan `N=5000` P&L harian" },
         { id: "t2", text: "Hitung `var95` (kuantil 5%) dan `es95`, cetak keduanya" },
+        { id: "t3", text: "Hitung `se_mean` = SE dari rata-rata P&L (SD/√N) — aturan lesson ini: setiap estimasi MC wajib ditemani SE-nya" },
       ],
-      expected: "var95\u2248330  es95\u2248410",
+      expected: "var95≈330  es95≈410  se_mean≈2.8",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -108,13 +109,15 @@ export const b12: V2Lesson = {
         "es95 = -mean(pl_sorted[:int(0.05*N)]).",
       ],
       code: {
-        starter: `import random, math, statistics\nrandom.seed(124)\nS0, mu, sigma, N = 10_000, 0.0005, 0.02, 5000\npl = [S0*math.exp(random.gauss(mu, sigma)) - S0 for _ in range(N)]\npl_sorted = sorted(pl)\n\n# TULIS KODEMU: VaR 95% dan Expected Shortfall\nvar95 = \nes95 = \n\nprint(f"var95={var95:.0f}  es95={es95:.0f}")`,
+        starter: `import random, math, statistics\nrandom.seed(124)\nS0, mu, sigma, N = 10_000, 0.0005, 0.02, 5000\npl = [S0*math.exp(random.gauss(mu, sigma)) - S0 for _ in range(N)]\npl_sorted = sorted(pl)\n\n# TULIS KODEMU: VaR 95% dan Expected Shortfall\nvar95 = \nes95 = \nse_mean = \n\nprint(f"var95={var95:.0f}  es95={es95:.0f}  se_mean={se_mean:.1f}")`,
         lockLines: 3,
-        solution: `import random, math, statistics\nrandom.seed(124)\nS0, mu, sigma, N = 10_000, 0.0005, 0.02, 5000\npl = [S0*math.exp(random.gauss(mu, sigma)) - S0 for _ in range(N)]\npl_sorted = sorted(pl)\n\n# TULIS KODEMU: VaR 95% dan Expected Shortfall\nvar95 = -pl_sorted[int(0.05*N)]\nes95 = -statistics.mean(pl_sorted[:int(0.05*N)])\n\nprint(f"var95={var95:.0f}  es95={es95:.0f}")`,
+        solution: `import random, math, statistics\nrandom.seed(124)\nS0, mu, sigma, N = 10_000, 0.0005, 0.02, 5000\npl = [S0*math.exp(random.gauss(mu, sigma)) - S0 for _ in range(N)]\npl_sorted = sorted(pl)\n\n# TULIS KODEMU: VaR 95% dan Expected Shortfall\nvar95 = -pl_sorted[int(0.05*N)]\nes95 = -statistics.mean(pl_sorted[:int(0.05*N)])\nse_mean = statistics.stdev(pl) / math.sqrt(N)\n\nprint(f"var95={var95:.0f}  es95={es95:.0f}  se_mean={se_mean:.1f}")`,
         checks: [
           { kind: "equal", task: "t2", name: "var95", value: 330, tol: 60, label: "`var95` sekitar 330", msg: "Dengan seed 124, N=5000, VaR 95% \u2248 Rp330." },
           { kind: "equal", task: "t2", name: "es95", value: 410, tol: 80, label: "`es95` sekitar 410", msg: "ES > VaR \u2014 rata-rata kerugian saat tembus." },
           { kind: "stdout_matches", task: "t2", pattern: "var95=\\d+\\s+es95=\\d+", label: "`print` menampilkan keduanya", msg: "Cetak dengan format var95=...  es95=... ." },
+          { kind: "equal", task: "t3", name: "se_mean", value: 2.8, tol: 0.3, label: "`se_mean` sekitar 2,8", msg: "SD(P&L)/√5000 ≈ 200/70,7 ≈ 2,8 — SE yang menemani estimasi MC." },
+          { kind: "stdout_matches", task: "t3", pattern: "se_mean=\\d+\\.\\d", label: "`print` menampilkan SE", msg: "Estimasi MC tanpa SE = angka tanpa kejujuran." },
         ],
       },
       reference: "VaR = kuantil simulasi. ES = rata-rata ekor. Model harus jujur.",
@@ -125,7 +128,7 @@ export const b12: V2Lesson = {
       title: "Bekerja lebih cerdas, bukan lebih banyak",
       prose: [
         "Antithetic variates: tiap sampel Z dipasangkan dengan \u2212Z \u2014 saling mengkansel noise. Sering memangkas varians 2\u201310x, hampir gratis. Control variate: jika tahu E[h(X)] analitik dan h mirip g, simulasikan g\u2212h (varians kecil) lalu tambah E[h].",
-        "Importance sampling: sampel lebih banyak di wilayah penting (ekor!) \u2014 wajib untuk kejadian langka; jika tidak, 1 juta simulasi pun tak menyentuh ekor. Satu jam memikirkan variance reduction > satu hari menambah N.",
+        "Importance sampling: sampel lebih banyak di wilayah penting (ekor!) — wajib untuk kejadian langka; jika tidak, 1 juta simulasi pun tak menyentuh ekor. Tetapi ada syarat yang tidak boleh dilupakan: setiap sampel dari distribusi proposal q WAJIB dikoreksi dengan bobot likelihood-ratio w(x) = p(x)/q(x) — tanpa koreksi itu, rata-rata sampelmu adalah ekspektasi di bawah q, bukan di bawah p, alias estimator yang BIAS. Sampling terarah tanpa koreksi bukan variance reduction — itu jawaban salah yang terlihat presisi. Satu jam memikirkan variance reduction > satu hari menambah N.",
         "Contoh: estimasi E[max(S\u2212100,0)], N=10.000 memberi SE=0,5. Dengan antithetic, varians turun 60% \u2192 SE baru = 0,5\u00D7\u221A0,4 \u2248 0,316. N efektif = 10.000/0,4 = 25.000 \u2014 gratis, tanpa simulasi tambahan!",
       ],
       tasks: [
@@ -152,7 +155,7 @@ export const b12: V2Lesson = {
           { kind: "stdout_matches", task: "t2", pattern: "se_baru=0\\.316\\s+n_efektif=25000", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Variance reduction = N gratis. Antithetic, control variate, importance sampling.",
+      reference: "Variance reduction = menghemat path, bukan N gratis: antithetic, control variate, importance sampling (selalu dengan koreksi likelihood-ratio).",
     },
     {
       id: "minicase-ecl",
@@ -217,7 +220,7 @@ export const b12: V2Lesson = {
       ],
       note: {
         title: "Intuisi: Monte Carlo dibayar dengan N — kurangi varians dulu, tambah N kemudian",
-        body: "Standard error Monte Carlo adalah σ/√N — akar kuadrat yang sama kejamnya dengan survei. Menambah path dari 10.000 ke 1.000.000 hanya memangkas error sepuluh kali lipat dengan biaya seratus kali lipat. Praktisi tidak membayar pajak ini mentah-mentah; mereka mengakalinya. Variance reduction adalah seni membayar lebih murah: antithetic memasangkan tiap path dengan cerminnya, control variates mengurangkan sesuatu yang jawabannya diketahui, dan yang paling penting — importance sampling untuk kejadian langka. Mensimulasikan VaR 99% dengan sampling mentah berarti 99% path terbuang sia-sia; sampling yang diarahkan ke ekor memberi jawaban yang sama dengan seperseratus biaya. Aturan keputusannya: jika ada rumus analitik, pakai rumus. Jika integralnya berdimensi tinggi atau payoff-nya aneh, baru Monte Carlo — dan selalu laporkan standard error bersama estimasinya. Estimasi tanpa SE adalah angka tanpa kejujuran. Jebakan yang terasa: N besar memberi rasa aman palsu. Satu juta path dari model yang salah tetap salah — presisi bukan akurasi. Dan satu disiplin terakhir: seed yang tetap untuk eksperimen yang bisa direproduksi — Monte Carlo yang tidak reproducible bukanlah sains.",
+        body: "Standard error Monte Carlo adalah σ/√N — akar kuadrat yang sama kejamnya dengan survei. Menambah path dari 10.000 ke 1.000.000 hanya memangkas error sepuluh kali lipat dengan biaya seratus kali lipat. Praktisi tidak membayar pajak ini mentah-mentah; mereka mengakalinya. Variance reduction adalah seni membayar lebih murah: antithetic memasangkan tiap path dengan cerminnya, control variates mengurangkan sesuatu yang jawabannya diketahui, dan yang paling penting — importance sampling untuk kejadian langka. Mensimulasikan VaR 99% dengan sampling mentah berarti 99% path terbuang sia-sia; sampling yang diarahkan ke ekor — dengan koreksi bobot likelihood-ratio — BISA memberi jawaban yang sama dengan biaya jauh lebih kecil (seperseratus biaya hanya bila proposalnya dirancang baik; bukan janji pasti, dan tanpa koreksi bobot jawabannya bias). Aturan keputusannya: jika ada rumus analitik, pakai rumus. Jika integralnya berdimensi tinggi atau payoff-nya aneh, baru Monte Carlo — dan selalu laporkan standard error bersama estimasinya. Estimasi tanpa SE adalah angka tanpa kejujuran. Jebakan yang terasa: N besar memberi rasa aman palsu. Satu juta path dari model yang salah tetap salah — presisi bukan akurasi. Dan satu disiplin terakhir: seed yang tetap untuk eksperimen yang bisa direproduksi — Monte Carlo yang tidak reproducible bukanlah sains.",
       },
 
       reference: "Ada rumus eksak murah \u2192 jangan MC. Kejadian langka \u2192 importance sampling.",
@@ -234,7 +237,7 @@ export const b12: V2Lesson = {
         "Prinsip: E[g(X)] \u2248 rata-rata g(Xi) \u2014 LLN yang dipekerjakan.",
         "Error: SE = \u03C3/\u221AN \u2014 lambat tapi pasti; tentukan N dari target error.",
         "Pola: tulis ekspektasi \u2192 sampel \u2192 rata-rata \u2192 SE. Untuk integral, VaR, opsi.",
-        "Variance reduction: antithetic, control variate, importance sampling \u2014 \u201CN gratis\u201D.",
+        "Variance reduction: antithetic, control variate, importance sampling (selalu dengan koreksi likelihood-ratio) — menghemat path, bukan 'N gratis'.",
         "Jangan MC untuk yang ada rumus eksaknya; selalu set seed + laporkan SE; model harus jujur.",
       ],
       next: { label: "B13 \u2014 Model Vasicek", href: "/v2/learn/b13-vasicek" },

@@ -36,7 +36,7 @@ export const mr3: V2Lesson = {
       prose: [
         "Historical Simulation (HS) mengambil N hari return historis, menerapkannya ke portofolio saat ini — seolah tiap skenario historis terjadi besok — lalu mengambil kuantilnya. Tidak ada asumsi bentuk distribusi: non-parametrik, menangkap fat tail dan skew asli data.",
         "Kepribadiannya seperti sejarawan yang jujur tetapi buta masa depan: tidak mengasumsikan apa pun, tetapi tidak bisa membayangkan apa yang belum pernah terjadi. Krisis yang belum ada di jendela data = tidak ada di VaR. Kelemahan lain: butuh 250+ hari data, sensitif ke pilihan jendela (ghost effect — hari krisis yang keluar dari jendela membuat VaR anjlok tiba-tiba), dan tidak bisa untuk instrumen baru tanpa histori.",
-        "Coba mekaniknya dengan tangan. 20 P&L harian (Rp juta, sudah diurutkan): −60, −25, −18, −12, −9, −7, −5, −3, −1, 0, 2, 4, 6, 8, 10, 12, 15, 20, 25, 30. VaR 95% berarti 5% × 20 = 1 observasi boleh lebih buruk → observasi terburuk ke-1 = −60. VaR 90% berarti 2 observasi boleh lebih buruk → −25.",
+        "Coba mekaniknya dengan tangan. 20 P&L harian (Rp juta, sudah diurutkan): −60, −25, −18, −12, −9, −7, −5, −3, −1, 0, 2, 4, 6, 8, 10, 12, 15, 20, 25, 30. VaR 95% berarti 5% × 20 = 1 observasi boleh lebih buruk → observasi terburuk ke-1 = −60. VaR 90% berarti 2 observasi boleh lebih buruk → −25. Konvensi yang dipakai lesson ini: nearest-rank — kuantil 5% dari 20 data = data ke-1 dari yang terkecil; konvensi lain (interpolasi) bisa menggeser satu observasi. Selalu sebut konvensimu — E13 memakai nearest-rank yang sama (data ke-50 dari 1000, indeks 49).",
       ],
       formula: String.raw`\text{VaR}^{HS}_{99\%} = -\text{kuantil}_{1\%}\{V_0 \cdot r_1, \dots, V_0 \cdot r_N\}`,
       formulaNote: "VaR^HS = VaR via Historical Simulation; V_0 = nilai portofolio kini; r_i = return historis hari ke-i — tiap skenario masa lalu diterapkan ke portofolio kini, lalu diambil kuantilnya.",
@@ -73,11 +73,11 @@ export const mr3: V2Lesson = {
       title: "Metode 2: asumsi normal, hitungan kilat",
       prose: [
         "Metode parametrik mengasumsikan return berdistribusi normal dengan volatilitas σ, lalu VaR tinggal mengalikan: VaR_99% = 2,33 × σ × V_0. Untuk portofolio multi-aset: 2,33 × √(w^T Σ w) × V_0. Hitungan instan, agregasi elegan — tetapi buta terhadap fat tail. Return pasar nyata berekor lebih tebal dari normal, sehingga VaR parametrik sistematis meremehkan kejadian ekstrem.",
-        "Contoh: portofolio Rp200 miliar, volatilitas harian σ = 1,2% (diestimasi dari model volatilitas adaptif — rata-rata bergerak dengan bobot eksponensial untuk data terbaru). VaR = 2,33 × 0,012 × 200 M = Rp5.592.000. Tiga langkah, selesai — tetapi wajib tanya: apakah return aset ini benar-benar normal? Kalau kurtosis > 3, angka ini underestimate.",
-        "VaR 1-hari perlu diskalakan ke horizon regulasi (Basel: 10 hari). Dengan asumsi return i.i.d.: VaR(T) = VaR(1 hari) × √T. Kenapa akar? Variansi jumlah T return independen = T × variansi harian, sehingga standar deviasi = √T × σ. Aturan ini berbohong saat ada autokorelasi positif (risiko tumbuh lebih cepat dari √T), mean-reversion (lebih lambat), atau posisi illiquid (asumsi bisa keluar dalam T hari fiktif).",
+        "Contoh: portofolio Rp200 juta, volatilitas harian σ = 1,2% (diestimasi dari model volatilitas adaptif — rata-rata bergerak dengan bobot eksponensial untuk data terbaru). VaR = 2,33 × 0,012 × Rp200 jt = Rp5.592.000. Tiga langkah, selesai — tetapi wajib tanya: apakah return aset ini benar-benar normal? Kalau kurtosis berlebih > 0 (kurtosis > 3), angka ini CENDERUNG underestimate ekor — tetapi tidak selalu: arah dan besarnya tergantung skew dan bentuk ekor; selalu bandingkan dengan HS.",
+        "VaR 1-hari perlu diskalakan ke horizon regulasi (Basel: 10 hari). Dengan asumsi return i.i.d.: VaR(T) = VaR(1 hari) × √T. Kenapa akar? Variansi jumlah T return independen = T × variansi harian, sehingga standar deviasi = √T × σ. Tetapi hati-hati: √T menskalakan STANDAR DEVIASI. Menerapkannya ke KUANTIL VaR hanya sah bila return normal dengan mean nol (atau mean diabaikan); di luar itu √T untuk VaR adalah aproksimasi — label sebagai aproksimasi, bukan rumus eksak. Aturan ini berbohong saat ada autokorelasi positif (risiko tumbuh lebih cepat dari √T), mean-reversion (lebih lambat), atau posisi illiquid (asumsi bisa keluar dalam T hari fiktif).",
       ],
       formula: String.raw`\text{VaR}_{99\%} = 2{,}33 \cdot \sigma \cdot V_0 \qquad \text{VaR}(T) = \text{VaR}(1\text{d}) \sqrt{T}`,
-      formulaNote: "2,33 = kuantil 99% distribusi normal — hanya sah bila return normal; σ = volatilitas harian; V_0 = nilai portofolio; VaR(T) = VaR horizon T hari — faktor √T hanya sah bila return i.i.d.",
+      formulaNote: "2,33 = kuantil 99% distribusi normal — hanya sah bila return normal; σ = volatilitas harian; V_0 = nilai portofolio; VaR(T) = VaR horizon T hari — faktor √T hanya sah bila return i.i.d. normal dengan mean nol; di luar itu aproksimasi.",
       tasks: [
         { id: "t1", text: "Hitung `var_1d` parametrik 99% dari `posisi` dan `sigma_harian`" },
         { id: "t2", text: "Skalakan ke `var_10d` dengan aturan akar waktu, lalu cetak keduanya" },
@@ -94,9 +94,9 @@ export const mr3: V2Lesson = {
         "Bulatkan ke rupiah penuh dengan :.0f pada print.",
       ],
       code: {
-        starter: `import math\n\nposisi = 200_000_000  # Rp200 miliar\nsigma_harian = 0.012\n\n# TULIS KODEMU: VaR parametrik 99% 1-hari, lalu skala ke 10 hari\nvar_1d = \nvar_10d = \n\nprint(f"var_1d={var_1d:.0f}  var_10d={var_10d:.0f}")`,
+        starter: `import math\n\nposisi = 200_000_000  # Rp200 juta\nsigma_harian = 0.012\n\n# TULIS KODEMU: VaR parametrik 99% 1-hari, lalu skala ke 10 hari\nvar_1d = \nvar_10d = \n\nprint(f"var_1d={var_1d:.0f}  var_10d={var_10d:.0f}")`,
         lockLines: 4,
-        solution: `import math\n\nposisi = 200_000_000  # Rp200 miliar\nsigma_harian = 0.012\n\n# TULIS KODEMU: VaR parametrik 99% 1-hari, lalu skala ke 10 hari\nvar_1d = 2.33 * sigma_harian * posisi\nvar_10d = var_1d * math.sqrt(10)\n\nprint(f"var_1d={var_1d:.0f}  var_10d={var_10d:.0f}")`,
+        solution: `import math\n\nposisi = 200_000_000  # Rp200 juta\nsigma_harian = 0.012\n\n# TULIS KODEMU: VaR parametrik 99% 1-hari, lalu skala ke 10 hari\nvar_1d = 2.33 * sigma_harian * posisi\nvar_10d = var_1d * math.sqrt(10)\n\nprint(f"var_1d={var_1d:.0f}  var_10d={var_10d:.0f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "var_1d", value: 5592000, tol: 1, label: "`var_1d` seharusnya 5.592.000", msg: "2,33 × 0,012 × 200 jt = 5.592.000." },
           { kind: "equal", task: "t2", name: "var_10d", value: 17683457, tol: 1, label: "`var_10d` seharusnya 17.683.457", msg: "5.592.000 × √10. Ingat: ini mengasumsikan return i.i.d." },
@@ -154,7 +154,7 @@ export const mr3: V2Lesson = {
       prose: [
         "Lima keputusan. Pertama, portofolio linear (saham, obligasi biasa, FX spot) yang butuh cepat dan transparan → Historical Simulation: tanpa asumsi distribusi, menangkap fat tail empiris, mudah diaudit. Waspadai ghost effect dan kebutaan terhadap kejadian unprecedented.",
         "Kedua, butuh agregasi portofolio besar atau alokasi modal per desk → Parametrik: rumus tertutup √(w^T Σ w) membuat dekomposisi per faktor/desk mudah (jembatan ke teknik component VaR — bedah kontribusi risiko tiap desk terhadap VaR total). Harganya: asumsi normal — selalu cek kurtosis.",
-        "Ketiga, ada opsi atau derivatif non-linear material → Monte Carlo dengan full revaluation: satu-satunya yang menilai ulang payoff eksak per skenario. Keempat, horizon > 1 hari → scaling √T plus uji asumsi; untuk posisi illiquid pakai liquidity horizon, bukan √T. Kelima, angka VaR untuk keputusan besar (laporan direksi, limit, modal) → bandingkan minimal 2 metode: selisih besar = sinyal asumsi bermasalah, bukan gangguan.",
+        "Ketiga, ada opsi atau derivatif non-linear material → Monte Carlo dengan full revaluation: salah satu metode yang menilai ulang payoff eksak per skenario (bersama binomial/PDE numerik untuk kasus tertentu — MC bukan satu-satunya). Keempat, horizon > 1 hari → scaling √T plus uji asumsi; untuk posisi illiquid pakai liquidity horizon, bukan √T. Kelima, angka VaR untuk keputusan besar (laporan direksi, limit, modal) → bandingkan minimal 2 metode: selisih besar = sinyal asumsi bermasalah, bukan gangguan.",
         "Aturan 10 detik: selalu sebut tiga hal — tingkat kepercayaan, horizon, metode. VaR menjawab seberapa sering ambang terlampaui, bukan seberapa dalam jika terlampaui (itu ES). Kalau portofolio berubah (ada opsi baru), metodenya harus dievaluasi ulang — bukan datanya saja.",
       ],
       tasks: [
@@ -173,7 +173,7 @@ export const mr3: V2Lesson = {
       eyebrow: "Langkah 7 · Mini-case",
       title: "VaR hijau, bank jebol",
       prose: [
-        "Bank ABC, 2007. Portofolio Rp8 triliun (obligasi + sekuritisasi kredit perumahan AS). VaR 99%/1-hari (Historical, 250 hari): Rp95 miliar — hanya 1,2% dari portofolio. Direksi: aman. Data 250 hari berasal dari 2006–2007: masa tenang. Korelasi antar tranche dalam data: 0,3; saat krisis melonjak ke 0,9. Kerugian aktual 2008: Rp2,1 triliun — sekitar 22.105× VaR.",
+        "Bank ABC, 2007. Portofolio Rp8 triliun (obligasi + sekuritisasi kredit perumahan AS). VaR 99%/1-hari (Historical, 250 hari): Rp95 miliar — hanya 1,2% dari portofolio. Direksi: aman. Data 250 hari berasal dari 2006–2007: masa tenang. Korelasi antar tranche dalam data: 0,3; saat krisis melonjak ke 0,9. Kerugian aktual 2008: Rp2,1 triliun — sekitar 22,11× VaR 1-hari. Catatan horizon: kerugian Rp2,1 T itu kerugian SETAHUN penuh 2008, sementara VaR-nya 1-hari — membandingkan keduanya langsung adalah horizon mismatch. Diskalakan ke horizon tahunan (√250 ≈ 15,8×), VaR tahunan ≈ Rp1,5 T — jurangnya 1,4×, bukan 22×; tetap jauh, tetapi perbandingan yang jujur memakai horizon yang sama.",
         "Tiga kegagalan spesifik: pertama, jendela tenang — HS buta terhadap krisis yang belum ada di data. Kedua, korelasi statis — diversifikasi yang diandalkan menguap saat krisis (correlation breakdown). Ketiga, VaR dibaca sebagai batas rugi — tidak ada yang bertanya bagaimana jika 1% itu terjadi (ES tidak dihitung).",
         "Stressed VaR (VaR dari periode krisis historis) dan stress test skenario korelasi → 0,9 akan menunjukkan angka ratusan miliar, bukan 95 miliar. Backtesting membandingkan VaR dengan P&L aktual — tetapi di masa tenang pun backtest akan lolos. Backtest menguji kalibrasi frekuensi, bukan ketahanan terhadap krisis: ia tidak cukup sendirian, harus dipasangkan dengan stress test.",
       ],
@@ -181,7 +181,7 @@ export const mr3: V2Lesson = {
         { id: "t1", text: "Hitung `kelipatan` = kerugian aktual / VaR, lalu cetak" },
         { id: "t2", text: "Tuliskan tiga kegagalan spesifik penggunaan VaR di kasus ini." },
       ],
-      expected: "kelipatan=22105.26",
+      expected: "kelipatan=22.11",
       note: {
         title: "Kaitan ke risk",
         body: "Angka VaR yang terlihat kecil dibanding portofolio (1,2%) memberi rasa aman palsu ke direksi. Selalu laporkan VaR bersama ES, stressed VaR, dan skenario korelasi-naik — direksi butuh tahu apa yang terjadi saat asumsi tenang runtuh.",
@@ -193,15 +193,15 @@ export const mr3: V2Lesson = {
         "Hasilnya sekitar 22 ribu kali — itulah skala kegagalannya.",
       ],
       code: {
-        starter: `var_99 = 95_000_000  # VaR 99%/1-hari (Rp)\nrugi_aktual = 2_100_000_000_000  # kerugian 2008 (Rp)\n\n# TULIS KODEMU: berapa kali lipat kerugian aktual terhadap VaR?\nkelipatan = \n\nprint(f"kelipatan={kelipatan:.2f}")`,
+        starter: `var_99 = 95_000_000_000  # VaR 99%/1-hari = Rp95 miliar (Rp)\nrugi_aktual = 2_100_000_000_000  # kerugian 2008 (Rp)\n\n# TULIS KODEMU: berapa kali lipat kerugian aktual terhadap VaR?\nkelipatan = \n\nprint(f"kelipatan={kelipatan:.2f}")`,
         lockLines: 2,
-        solution: `var_99 = 95_000_000  # VaR 99%/1-hari (Rp)\nrugi_aktual = 2_100_000_000_000  # kerugian 2008 (Rp)\n\n# TULIS KODEMU: berapa kali lipat kerugian aktual terhadap VaR?\nkelipatan = rugi_aktual / var_99\n\nprint(f"kelipatan={kelipatan:.2f}")`,
+        solution: `var_99 = 95_000_000_000  # VaR 99%/1-hari = Rp95 miliar (Rp)\nrugi_aktual = 2_100_000_000_000  # kerugian 2008 (Rp)\n\n# TULIS KODEMU: berapa kali lipat kerugian aktual terhadap VaR?\nkelipatan = rugi_aktual / var_99\n\nprint(f"kelipatan={kelipatan:.2f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "kelipatan", value: 22105.26, tol: 0.01, label: "`kelipatan` seharusnya 22105.26", msg: "2,1 triliun / 95 juta. Cek pembagi dan pembilangnya." },
-          { kind: "stdout_matches", task: "t1", pattern: "kelipatan=22105\\.26", label: "`print` menampilkan hasil", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "kelipatan", value: 22.11, tol: 0.01, label: "`kelipatan` seharusnya 22,11", msg: "2,1 triliun / 95 miliar. Cek pembagi dan pembilangnya." },
+          { kind: "stdout_matches", task: "t1", pattern: "kelipatan=22\\.11", label: "`print` menampilkan hasil", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Kerugian 22.105× VaR: jendela tenang + korelasi statis + VaR dibaca sebagai batas rugi.",
+      reference: "Kerugian 22,11× VaR 1-hari: jendela tenang + korelasi statis + VaR dibaca sebagai batas rugi. Ingat horizon mismatch: rugi setahun vs VaR 1-hari.",
     },
     {
       id: "checkpoint",
@@ -235,12 +235,12 @@ export const mr3: V2Lesson = {
           ],
         },
         {
-          q: "Portofolio Rp200 M, σ harian 1,2%. VaR parametrik 99%/1-hari?",
+          q: "Portofolio Rp200 juta, σ harian 1,2%. VaR parametrik 99%/1-hari?",
           options: [
-            { text: "Rp2,4 M", why: "cek lagi perkaliannya." },
-            { text: "Rp5,6 M", why: "2,33 × 0,012 × 200 M = Rp5,59 M ≈ Rp5,6 M. Ingat asumsi normalnya — cek kurtosis.", correct: true },
-            { text: "Rp4,7 M", why: "itu angka contoh volatilitas masa tenang dengan vol tahunan 16% — konteksnya beda." },
-            { text: "Rp7,9 M", why: "terlalu besar untuk z = 2,33." },
+            { text: "Rp2,4 juta", why: "cek lagi perkaliannya." },
+            { text: "Rp5,6 juta", why: "2,33 × 0,012 × Rp200 jt = Rp5,59 jt ≈ Rp5,6 jt. Ingat asumsi normalnya — cek kurtosis.", correct: true },
+            { text: "Rp4,7 juta", why: "itu angka contoh volatilitas masa tenang dengan vol tahunan 16% — konteksnya beda." },
+            { text: "Rp7,9 juta", why: "terlalu besar untuk z = 2,33." },
           ],
         },
         {

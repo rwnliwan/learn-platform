@@ -24,7 +24,7 @@ export const e13: V2Lesson = {
       expected: "var_99=4660000000  var_10hari=14736213896",
       note: {
         title: "Sering salah",
-        body: "“VaR 99% Rp6 M = rugi maksimal Rp6 M.” VaR justru menjamin kerugian di atas Rp6 M AKAN terjadi — ~2–3 hari setahun. VaR bukan sabuk pengaman; ia speedometer.",
+        body: "“VaR 99% Rp6 M = rugi maksimal Rp6 M.” Salah dua kali: VaR bukan batas maksimal, dan ia tidak MENJAMIN apa pun — VaR 99% artinya pada ~1% hari (≈2–3 hari setahun) kerugian MELEBIHI Rp6 M; itu frekuensi yang diharapkan, bukan jaminan, dan tahun tertentu bisa 0 hari atau 5 hari. VaR bukan sabuk pengaman; ia speedometer.",
       },
       hints: [
         "VaR 99% = 2,33 × σ × nilai portofolio (μ ≈ 0).",
@@ -62,16 +62,16 @@ export const e13: V2Lesson = {
         body: "Mengira VaR parametrik “lebih ilmiah” sehingga pasti benar. Ia mengasumsikan return normal — asumsi yang persis runtuh di krisis. Speedometer yang dikalibrasi di jalan tol mulus, underestimate di jalan berlubang.",
       },
       hints: [
-        "Urutkan return; persentil 5% dari 1000 data = indeks 50; VaR = −nilai itu.",
+        "Urutkan return; persentil 5% dari 1000 data (konvensi nearest-rank — sama seperti MR3: terburuk ke-1 dari 20 data) = data ke-50 dari yang terkecil, indeks 49; VaR = −nilai itu.",
         "var_param = −(mean − 1,645×sd).",
         "es = −rata-rata 50 data terburuk.",
       ],
       code: {
         starter: `import math, random\nrandom.seed(42)\nrets = [random.gauss(0.5, 4.0) for _ in range(1000)]  # Rp jt, harian\nrs = sorted(rets)\nk = int(0.05 * len(rs))\n\n# TULIS KODEMU: VaR historis, parametrik, dan ES (Rp jt)\nvar_hist = \nmean = sum(rets) / len(rets)\nsd = math.sqrt(sum((x - mean) ** 2 for x in rets) / len(rets))\nvar_param = \nes = \n\nprint(f"var_hist={var_hist:.2f}  var_param={var_param:.2f}  es={es:.2f}")`,
         lockLines: 5,
-        solution: `import math, random\nrandom.seed(42)\nrets = [random.gauss(0.5, 4.0) for _ in range(1000)]  # Rp jt, harian\nrs = sorted(rets)\nk = int(0.05 * len(rs))\n\n# TULIS KODEMU: VaR historis, parametrik, dan ES (Rp jt)\nvar_hist = -rs[k]\nmean = sum(rets) / len(rets)\nsd = math.sqrt(sum((x - mean) ** 2 for x in rets) / len(rets))\nvar_param = -(mean - 1.645 * sd)\nes = -sum(rs[:k]) / k\n\nprint(f"var_hist={var_hist:.2f}  var_param={var_param:.2f}  es={es:.2f}")`,
+        solution: `import math, random\nrandom.seed(42)\nrets = [random.gauss(0.5, 4.0) for _ in range(1000)]  # Rp jt, harian\nrs = sorted(rets)\nk = int(0.05 * len(rs))\n\n# TULIS KODEMU: VaR historis, parametrik, dan ES (Rp jt)\nvar_hist = -rs[k-1]  # nearest-rank: data ke-50 dari yang terkecil (indeks 49), bukan ke-51\nmean = sum(rets) / len(rets)\nsd = math.sqrt(sum((x - mean) ** 2 for x in rets) / len(rets))\nvar_param = -(mean - 1.645 * sd)\nes = -sum(rs[:k]) / k\n\nprint(f"var_hist={var_hist:.2f}  var_param={var_param:.2f}  es={es:.2f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "var_hist", value: 6.22, tol: 0.05, label: "`var_hist` sekitar 6,22", msg: "−return terburuk ke-50 dari 1000 data = Rp6,22 jt." },
+          { kind: "equal", task: "t1", name: "var_hist", value: 6.22, tol: 0.05, label: "`var_hist` sekitar 6,22", msg: "−return terburuk ke-50 dari 1000 data (nearest-rank, indeks 49) = Rp6,22 jt." },
           { kind: "equal", task: "t2", name: "var_param", value: 6.28, tol: 0.05, label: "`var_param` sekitar 6,28", msg: "−(0,5 − 1,645×sd) = Rp6,28 jt." },
           { kind: "equal", task: "t3", name: "es", value: 7.85, tol: 0.05, label: "`es` sekitar 7,85", msg: "Rata-rata 50 hari terburuk = Rp7,85 jt. ES selalu ≥ VaR — ia menjawab kedalaman ekor." },
           { kind: "stdout_matches", task: "t3", pattern: "var_hist=6\\.22\\s+var_param=6\\.28\\s+es=7\\.85", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
@@ -170,7 +170,7 @@ export const e13: V2Lesson = {
       ],
       note: {
         title: "Intuisi: VaR menjawab “seberapa sering”, bukan “seberapa parah”",
-        body: "VaR 99% Rp5 miliar artinya: 1 hari dari 100, kerugian melebihi Rp5 miliar — dan ia bungkam soal seberapa dalam jurangnya: Rp6 miliar atau Rp60 miliar, VaR tidak peduli. Empat heuristik. Pertama: VaR = ambang, ES = rata-rata di balik ambang — Expected Shortfall menjawab “kalau jebol, rata-rata seberapa parah?”; untuk ekor, ES selalu lebih jujur; itulah kenapa standar global beralih ke ES. Kedua: model risiko = peta, bukan wilayah — VaR historis mengasumsikan masa depan mirip masa lalu; 2008 tidak ada di data 2005; rezim berubah, peta kedaluwarsa. Ketiga: backtest adalah poligraf model — 99% VaR yang jebol 5 kali dari 100 hari = model berbohong; jadwalkan uji berkala, bukan saat krisis. Keempat: stress test = bertanya “bagaimana jika” — bagaimana jika rupiah −20% + SBN +200bps + IHSG −30% bersamaan? Tidak ada probabilitasnya, tetapi ada rencananya; yang tidak direncanakan = yang membunuh. Aturan 10 detiknya: laporkan VaR selalu berpasangan dengan ES dan satu skenario stress — angka tunggal = ketenangan palsu.",
+        body: "VaR 99% Rp5 miliar artinya: 1 hari dari 100, kerugian melebihi Rp5 miliar — dan ia bungkam soal seberapa dalam jurangnya: Rp6 miliar atau Rp60 miliar, VaR tidak peduli. Empat heuristik. Pertama: VaR = ambang, ES = rata-rata di balik ambang — Expected Shortfall menjawab “kalau jebol, rata-rata seberapa parah?”; untuk ekor, ES selalu lebih jujur; itulah kenapa standar global beralih ke ES. Kedua: model risiko = peta, bukan wilayah — VaR historis mengasumsikan masa depan mirip masa lalu; 2008 tidak ada di data 2005; rezim berubah, peta kedaluwarsa. Ketiga: backtest adalah poligraf model — 99% VaR yang jebol 5 kali dari 100 hari = sinyal merah yang wajib diuji statistik, bukan vonis otomatis — uji Kupiec: ekspektasi 1 jebol, P(X≥5) ≈ 0,3% (LR ≈ 8,3 > 3,84) sehingga di contoh ini ujinya memang menolak model; tetapi vonisnya datang dari uji, bukan dari hitungan mentah. Jadwalkan uji berkala, bukan saat krisis. Keempat: stress test = bertanya “bagaimana jika” — bagaimana jika rupiah −20% + SBN +200bps + IHSG −30% bersamaan? Tidak ada probabilitasnya, tetapi ada rencananya; yang tidak direncanakan = yang membunuh. Aturan 10 detiknya: laporkan VaR selalu berpasangan dengan ES dan satu skenario stress — angka tunggal = ketenangan palsu.",
       },
       tasks: [],
       reference: "Operasional = VaR. Modal = ES. Validasi = backtest. Kiamat = stress test.",

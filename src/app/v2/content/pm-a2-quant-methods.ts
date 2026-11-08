@@ -116,11 +116,11 @@ export const pma2: V2Lesson = {
       eyebrow: "Langkah 3 · Hypothesis Testing",
       title: "Skill atau noise? Uji dengan z",
       prose: [
-        "Manajer mengklaim strateginya mengalahkan pasar. Kamu punya sampel n = 100, mean return 0,8%/bulan, s = 5%. Alurnya: (1) H0: \u03bc = 0 vs Ha: \u03bc \u2260 0; (2) \u03b1 = 5%; (3) z = (x\u0304 \u2212 \u03bc0)/(s/\u221an); (4) tolak H0 jika |z| > 1,96 atau p < \u03b1; (5) simpulkan.",
-        "Di sini SE = 5/\u221a100 = 0,5%; z = 0,8/0,5 = 1,60 < 1,96 \u2192 gagal tolak H0. Belum cukup bukti ada return positif — dan itu bukan bukti return-nya nol. Dengan n = 400, z = 3,2 \u2192 tolak: power matters.",
+        "Manajer mengklaim strateginya mengalahkan pasar. Kamu punya sampel n = 100 bulan, EXCESS return (return strategi − return benchmark) rata-rata 0,8%/bulan, s = 5%. Alurnya: (1) H0: \u03bc = 0 vs Ha: \u03bc \u2260 0; (2) \u03b1 = 5%; (3) z = (x\u0304 \u2212 \u03bc0)/(s/\u221an); (4) tolak H0 jika |z| > 1,96 atau p < \u03b1; (5) simpulkan. CATATAN: menguji mean return strategi terhadap NOL hanya menguji apakah return-nya positif — BUKAN apakah ia mengalahkan pasar. Klaim “mengalahkan pasar” hanya bisa diuji pada SELISIH return strategi − benchmark (atau pada alpha regresi). Versi lama lesson ini menguji return mentah terhadap nol sambil mengklaim menguji outperformance — salah. Di lesson ini, 0,8% dan 5% adalah statistik dari EXCESS return, bukan return mentah; H0 di atas adalah H0: μ_excess = 0.",
+        "Di sini SE = 5/\u221a100 = 0,5%; z = 0,8/0,5 = 1,60 < 1,96 \u2192 gagal tolak H0. Belum cukup bukti ada EXCESS return positif (outperformance) — dan itu bukan bukti excess return-nya nol. Dengan n = 400, z = 3,2 \u2192 tolak: power matters.",
       ],
       formula: String.raw`z = \frac{\bar{x}-\mu_0}{s/\sqrt{n}} \quad;\quad \text{tolak } H_0 \text{ jika } |z| > 1{,}96 \ (\alpha=5\%)`,
-      formulaNote: "x̄ = rata-rata sampel (0,8%/bulan); μ0 = nilai yang diklaim hipotesis nol (0%); s = simpangan baku sampel (5%); n = ukuran sampel (100); s/√n = standard error (0,5%). Interpretasi: z mengukur berapa standard error rata-rata sampel menyimpang dari nol — z = 1,60 artinya rata-rata 0,8% hanya 1,6 SE di atas nol, belum meyakinkan pada α 5% (butuh |z| > 1,96). Contoh angka: dengan n = 400, SE = 5/√400 = 0,25% → z = 0,8/0,25 = 3,2 → tolak H0. Sampel 4x lipat mengubah kesimpulan tanpa mengubah data.",
+      formulaNote: "x̄ = rata-rata EXCESS return sampel (strategi − benchmark; 0,8%/bulan); μ0 = nilai yang diklaim hipotesis nol (0%); s = simpangan baku sampel (5%); n = ukuran sampel (100); s/√n = standard error (0,5%). Interpretasi: z mengukur berapa standard error rata-rata sampel menyimpang dari nol — z = 1,60 artinya rata-rata 0,8% hanya 1,6 SE di atas nol, belum meyakinkan pada α 5% (butuh |z| > 1,96). Contoh angka: dengan n = 400, SE = 5/√400 = 0,25% → z = 0,8/0,25 = 3,2 → tolak H0. Sampel 4x lipat mengubah kesimpulan tanpa mengubah data.",
       tasks: [
         { id: "t1", text: "Hitung `se` (standard error)" },
         { id: "t2", text: "Hitung `z` dan cetak keduanya" },
@@ -137,9 +137,9 @@ export const pma2: V2Lesson = {
         "se = s / n**0.5\nz = mean / se",
       ],
       code: {
-        starter: `n, mean, s = 100, 0.8, 5.0\n\n# TULIS KODEMU\nse = \nz = \n\nprint(f"se={se}  z={z}")`,
+        starter: `n, mean, s = 100, 0.8, 5.0  # mean, s = statistik EXCESS return (strategi - benchmark), BUKAN return mentah\n\n# TULIS KODEMU\nse = \nz = \n\nprint(f"se={se}  z={z}")`,
         lockLines: 1,
-        solution: `n, mean, s = 100, 0.8, 5.0\n\n# TULIS KODEMU\nse = s / n**0.5\nz = mean / se\n\nprint(f"se={se}  z={z}")`,
+        solution: `n, mean, s = 100, 0.8, 5.0  # mean, s = statistik EXCESS return (strategi - benchmark), BUKAN return mentah\n\n# TULIS KODEMU\nse = s / n**0.5\nz = mean / se\n\nprint(f"se={se}  z={z}")`,
         checks: [
           { kind: "equal", task: "t1", name: "se", value: 0.5, tol: 1e-9, label: "`se` seharusnya 0.5", msg: "SE = 5/\u221a100 = 0,5. Jangan lupa akar n." },
           { kind: "equal", task: "t2", name: "z", value: 1.6, tol: 1e-9, label: "`z` seharusnya 1.6", msg: "z = 0,8/0,5 = 1,6 < 1,96 \u2192 gagal tolak H0." },
@@ -222,7 +222,7 @@ export const pma2: V2Lesson = {
         "Skenario 3 — Seseorang mengklaim strateginya mengalahkan pasar. → Uji hipotesis: z = (x̄−μ0)/(s/√n), tolak H0 hanya jika |z| > 1,96. Gagal tolak ≠ bukti return nol — dan cek power: n = 100 vs n = 400 bisa membalik kesimpulan.",
         "Skenario 4 — Merata-ratakan return multi-periode. → Pakai geometric mean, bukan aritmatika: +50% lalu −50% = −13,4%, bukan 0%. Aritmatika melebih-lebihkan karena volatility drag.",
         "Skenario 5 — Mengukur sensitivitas saham ke pasar. → Regresi OLS return saham vs pasar: kemiringan = beta, R² = porsi gerakan yang dijelaskan. Lalu cek asumsi: residual harus acak, bukan berpola.",
-        "Aturan praktis 10 detik: beda waktu → PV; beda compounding → EAR; klaim outperformance → uji z; rata-rata return → geometric; hubungan dua variabel → regresi.",
+        "Aturan praktis 10 detik: beda waktu → PV; beda compounding → EAR; klaim outperformance → uji z pada EXCESS return; rata-rata return → geometric; hubungan dua variabel → regresi.",
       ],
       tasks: [],
       note: {
@@ -237,7 +237,7 @@ export const pma2: V2Lesson = {
       prose: [
         "Pak Budi (55 tahun) ditawari: Rp2 miliar lump sum atau Rp15 juta/bulan selama 20 tahun. Discount rate 7%/tahun.",
         "Hitung bulanan: r = 7%/12 = 0,5833%, N = 240. PV = 15jt \u00d7 [1 \u2212 (1,005833)^\u2212240]/0,005833 = 15jt \u00d7 129,0 = Rp1,94 miliar. Lump sum Rp2M menang tipis (+Rp60jt), plus fleksibilitas dan warisan.",
-        "Tetapi ada yang tidak ditangkap TVM: longevity risk. Jika Pak Budi hidup sampai 90, anuitas 20 tahun habis di usia 75. Anuitas = transfer longevity risk ke pemberi tawaran — nilai non-finansial yang PV tidak ukur. Dan disiplin periode: 7% nominal bulanan \u2192 EAR 7,23%; jika depositonya 7% efektif tahunan, discount bulanan yang konsisten = (1,07)^(1/12)\u22121 = 0,5654%, bukan 0,5833%. Campur nominal/EAR = jawaban salah yang terlihat benar.",
+        "Tetapi ada yang tidak ditangkap TVM: longevity risk. Jika Pak Budi hidup sampai 90, anuitas 20 tahun habis di usia 75. Anuitas SEUMUR HIDUP = transfer longevity risk ke pemberi tawaran — nilai non-finansial yang PV tidak ukur. Tetapi anuitas ini BERJANGKA 20 tahun: jika Pak Budi hidup sampai 90, pembayarannya habis di usia 75 dan risiko hidup 75–90 tetap ditanggung Pak Budi sendiri. Transfer penuh butuh anuitas seumur hidup, bukan anuitas berjangka — lesson lama menyatakan transfer secara mutlak tepat setelah mencontohkan batasnya sendiri. Dan disiplin periode: 7% nominal bulanan \u2192 EAR 7,23%; jika depositonya 7% efektif tahunan, discount bulanan yang konsisten = (1,07)^(1/12)\u22121 = 0,5654%, bukan 0,5833%. Campur nominal/EAR = jawaban salah yang terlihat benar.",
       ],
       tasks: [],
       note: {

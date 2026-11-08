@@ -13,7 +13,7 @@ export const bi12: V2Lesson = {
       title: "1 juta orang, 1 varian",
       prose: [
         "Studi 1 juta orang menemukan varian yang menaikkan risiko diabetes 1,15x. Media: “Gen diabetes ditemukan!” Realita: varian itu menjelaskan 0,01% variasi — dan diabetes dipengaruhi 1.000+ varian serupa. Satu varian = setetes; yang penting adalah lautan poligenik.",
-        "Twist-nya berlapis. Pertama: 1.000 varian × efek 1,15x = polygenic score yang memprediksi risiko diabetes sebaik faktor klinis — setetes demi setetes menjadi lautan yang bisa dipakai dokter. Kedua, dan ini yang pahit: skor yang dilatih pada 1 juta orang Eropa gagal total dipakai di populasi Asia atau Afrika. Skor “personal” yang tidak personal untuk 80% manusia.",
+        "Twist-nya berlapis. Pertama: 1.000 varian × efek 1,15x = polygenic score yang — pada populasi tempat ia dilatih — dapat menandingi faktor klinis untuk STRATIFIKASI risiko (bukan diagnosis); seberapa baik ia menandingi faktor klinis bergantung pada penyakit dan populasi, dan lesson ini tidak menyajikan angka perbandingan langsung untuk diabetes. Kedua, dan ini yang pahit: skor yang dilatih pada 1 juta orang Eropa berkinerja JAUH LEBIH BURUK di populasi Asia atau Afrika (bukan “gagal total” — penurunannya besar tetapi tidak nol, dan besarnya bergantung pada populasi dan penyakit). Skor “personal” yang tidak personal untuk 80% manusia.",
       ],
       tasks: [
         { id: "t1", text: "Jelaskan kenapa OR 1,15 dengan n=1 juta tetap “kecil” secara individu" },
@@ -32,7 +32,7 @@ export const bi12: V2Lesson = {
       title: "Uji Hardy-Weinberg sebagai QC",
       prose: [
         "Hardy-Weinberg: frekuensi genotipe = p², 2pq, q² bila populasi ideal. Penyimpangan = sinyal genotyping error, seleksi, atau stratifikasi — dipakai untuk QC SNP sebelum GWAS.",
-        "Diberikan count genotipe: hitung frekuensi alel, ekspektasi HW, dan chi-square (df=1; kritis 3,84 untuk α=5%). Lolos QC atau buang?",
+        "Diberikan count genotipe: hitung frekuensi alel, ekspektasi HW, dan chi-square (df=1; kritis 3,84 untuk α=5%). CATATAN: α=5% di lab ini adalah ambang LATIHAN yang jauh lebih longgar dari praktik GWAS — di kontrol sehat, ambang yang dipakai biasanya p<1e-6 untuk “menyimpang jauh”; dan deviasi HW di KASUS penyakit justru bisa menjadi sinyal asosiasi, bukan alasan buang otomatis. Lolos QC atau buang — dan atas dasar apa?",
       ],
       formula: String.raw`p^2 + 2pq + q^2 = 1`,
       formulaNote: "Kesetimbangan Hardy-Weinberg: p = frekuensi alel A, q = frekuensi alel a (p+q=1). p² = proporsi AA, 2pq = Aa, q² = aa — ekspektasi genotipe bila tidak ada seleksi, migrasi, atau inbreeding. Penyimpangan signifikan = sinyal QC gagal atau struktur populasi.",
@@ -53,9 +53,9 @@ export const bi12: V2Lesson = {
         "chi2 = jumlah (obs-exp)²/exp; bandingkan dengan 3.84.",
       ],
       code: {
-        starter: `obs = {'AA': 25, 'Aa': 50, 'aa': 25}\nn = sum(obs.values())\n\n# TULIS KODEMU: frekuensi alel, ekspektasi HW, chi-square\np = \nq = 1 - p\nexp = {'AA': p**2*n, 'Aa': 2*p*q*n, 'aa': q**2*n}\nchi2 = \nprint(f'p={p:.3f}, q={q:.3f}')\nfor g in obs:\n    print(f'{g}: observasi={obs[g]}, ekspektasi HW={exp[g]:.1f}')\nprint(f'chi-square = {chi2:.2f} (df=1; kritis 3.84 untuk alpha 5%)')\nprint('LOLOS QC' if chi2 < 3.84 else 'GAGAL QC -> buang SNP ini')`,
+        starter: `obs = {'AA': 25, 'Aa': 50, 'aa': 25}\nn = sum(obs.values())\n\n# TULIS KODEMU: frekuensi alel, ekspektasi HW, chi-square\np = \nq = 1 - p\nexp = {'AA': p**2*n, 'Aa': 2*p*q*n, 'aa': q**2*n}\nchi2 = \nprint(f'p={p:.3f}, q={q:.3f}')\nfor g in obs:\n    print(f'{g}: observasi={obs[g]}, ekspektasi HW={exp[g]:.1f}')\nprint(f'chi-square = {chi2:.2f} (df=1; kritis 3.84 untuk alpha 5%)')\nprint('LOLOS QC' if chi2 < 3.84 else 'GAGAL QC (ambang latihan alpha 5%) -> periksa dulu: kontrol vs kasus, p<1e-6? Jangan buang otomatis')`,
         lockLines: 1,
-        solution: `obs = {'AA': 25, 'Aa': 50, 'aa': 25}\nn = sum(obs.values())\n\n# TULIS KODEMU: frekuensi alel, ekspektasi HW, chi-square\np = (2*obs['AA'] + obs['Aa']) / (2*n)\nq = 1 - p\nexp = {'AA': p**2*n, 'Aa': 2*p*q*n, 'aa': q**2*n}\nchi2 = sum((obs[g]-exp[g])**2/exp[g] for g in obs)\nprint(f'p={p:.3f}, q={q:.3f}')\nfor g in obs:\n    print(f'{g}: observasi={obs[g]}, ekspektasi HW={exp[g]:.1f}')\nprint(f'chi-square = {chi2:.2f} (df=1; kritis 3.84 untuk alpha 5%)')\nprint('LOLOS QC' if chi2 < 3.84 else 'GAGAL QC -> buang SNP ini')`,
+        solution: `obs = {'AA': 25, 'Aa': 50, 'aa': 25}\nn = sum(obs.values())\n\n# TULIS KODEMU: frekuensi alel, ekspektasi HW, chi-square\np = (2*obs['AA'] + obs['Aa']) / (2*n)\nq = 1 - p\nexp = {'AA': p**2*n, 'Aa': 2*p*q*n, 'aa': q**2*n}\nchi2 = sum((obs[g]-exp[g])**2/exp[g] for g in obs)\nprint(f'p={p:.3f}, q={q:.3f}')\nfor g in obs:\n    print(f'{g}: observasi={obs[g]}, ekspektasi HW={exp[g]:.1f}')\nprint(f'chi-square = {chi2:.2f} (df=1; kritis 3.84 untuk alpha 5%)')\nprint('LOLOS QC' if chi2 < 3.84 else 'GAGAL QC (ambang latihan alpha 5%) -> periksa dulu: kontrol vs kasus, p<1e-6? Jangan buang otomatis')`,
         checks: [
           { kind: "equal", task: "t1", name: "p", value: 0.5, tol: 1e-9, label: "`p` = 0.5", msg: "p = (2×25+50)/200 = 0.5. Cek rumus frekuensi alel." },
           { kind: "equal", task: "t2", name: "chi2", value: 0.0, tol: 1e-9, label: "`chi2` = 0.0", msg: "Observasi persis sama dengan ekspektasi → chi-square 0." },
@@ -100,8 +100,8 @@ export const bi12: V2Lesson = {
       title: "Menjumlahkan setetes menjadi lautan",
       prose: [
         "PRS = Σ (efek SNP × jumlah alel): agregat ribuan varian kecil menjadi skor risiko individu. Satu SNP menjelaskan 0,01%, tapi 1 juta SNP menjelaskan 20–30% variasi. Individu top 5% PRS jantung bisa berisiko 3–5x rata-rata — berguna untuk stratifikasi, bukan diagnosis.",
-        "Batasan: transferabilitas — PRS dari Eropa berkinerja buruk di Asia/Afrika (LD & frekuensi beda); bukan vonis — probabilitas, bukan takdir; isu etik (diskriminasi asuransi). eQTL menjembatani GWAS ke mekanisme: SNP GWAS diabetes ternyata eQTL untuk TCF7L2 di pankreas — dari “blok LD” menjadi “cerita biologis”.",
-        "Angka kunci GWAS: ambang signifikansi 5×10⁻⁸ (Bonferroni ~1 juta uji). Selalu baca QQ plot sebelum Manhattan: inflasi genomik (λ >> 1) = ada yang salah — jangan percaya puncak apa pun.",
+        "Batasan: transferabilitas — PRS dari Eropa berkinerja buruk di Asia/Afrika (LD & frekuensi beda); bukan vonis — probabilitas, bukan takdir; isu etik (diskriminasi asuransi). eQTL menjembatani GWAS ke mekanisme: SNP GWAS diabetes ternyata eQTL untuk TCF7L2 di pankreas — dari “blok LD” menjadi “cerita biologis”. Catatan: eQTL menunjukkan SNP itu BERASOSIASI dengan ekspresi TCF7L2, bukan membuktikan SNP itu MENGATUR TCF7L2; “cerita biologis” di sini = hipotesis mekanisme, bukan vonis kausal — kausalitas butuh bukti fungsional.",
+        "Angka kunci GWAS: ambang signifikansi 5×10⁻⁸ (Bonferroni ~1 juta uji). Selalu baca QQ plot sebelum Manhattan: inflasi genomik (λ >> 1) = curigai ada yang salah — tetapi λ > 1 JUGA bisa berasal dari poligenisitas sejati (ribuan varian kecil yang benar-benar berasosiasi), bukan hanya stratifikasi atau error. Bedakan dengan LD score regression (intercept) dan periksa QQ plot: inflasi di SELURUH garis curigai sistematis; ekor atas yang naik sendirian lebih konsisten dengan sinyal sejati.",
       ],
       formula: String.raw`PRS_i = \sum_{j=1}^{m} \hat{\beta}_j \cdot G_{ij}`,
       formulaNote: "β = efek SNP j dari GWAS; G = genotipe individu i (0/1/2 kopi alel); m = ribuan–jutaan SNP.",
@@ -122,7 +122,7 @@ export const bi12: V2Lesson = {
       title: "Peta keputusan: QC dan interpretasi apa di GWAS?",
       prose: [
         "Lima skenario yang dihadapi bioinformatikawan:",
-        "Skenario 1 — QC varian sebelum asosiasi. → Uji Hardy-Weinberg; varian yang gagal → buang. Alasan: penyimpangan HW menandakan genotyping error atau seleksi kuat — keduanya meracuni uji. Contoh nyata: “sinyal kuat” yang hilang setelah varian gagal-HW dibuang.",
+        "Skenario 1 — QC varian sebelum asosiasi. → Uji Hardy-Weinberg; varian yang gagal pada ambang KETAT (di kontrol, p<1e-6) → buang. Alasan: penyimpangan HW yang jauh di kontrol menandakan genotyping error atau seleksi kuat. Tetapi jangan buang otomatis pada α=5% (ambang lab ini) dan jangan buang deviasi di KASUS tanpa memeriksa — deviasi di kasus bisa menjadi sinyal asosiasi. Contoh nyata: “sinyal kuat” yang hilang setelah varian gagal-HW dibuang.",
         "Skenario 2 — Populasi sampel beragam. → PCA struktur populasi + koreksi sebelum klaim asosiasi. Alasan: tanpa koreksi, perbedaan frekuensi alel antar-populasi meniru asosiasi (stratifikasi). Contoh nyata: gen “penyuka sumpit” yang sebenarnya gen perbedaan populasi.",
         "Skenario 3 — Menjalankan PCA untuk struktur. → LD pruning dulu. Alasan: tanpa pruning, blok LD besar mendominasi komponen utama dan PCA membaca LD, bukan struktur. Contoh nyata: PC1 yang ternyata cuma inversi kromosom 8.",
         "Skenario 4 — Memakai polygenic score. → Untuk stratifikasi risiko populasi, bukan diagnosis individu. Alasan: PRS = probabilitas agregat, bukan takdir; satu individu top-5% belum tentu sakit. Contoh nyata: skrining intensif untuk kuintil teratas, bukan vonis.",
@@ -245,7 +245,7 @@ export const bi12: V2Lesson = {
           q: "QQ plot menunjukkan SEMUA titik di atas garis diagonal. Artinya?",
           options: [
             { text: "Banyak penemuan", why: "Inflasi global bukan penemuan; ia masalah sistematis." },
-            { text: "Inflasi sistematis — curigai stratifikasi/kualitas, jangan percaya puncak", why: "Ekor atas saja yang boleh naik. Inflasi global = ada yang salah.", correct: true },
+            { text: "Inflasi sistematis — curigai stratifikasi/kualitas, jangan percaya puncak", why: "Ekor atas saja yang boleh naik. Inflasi global = curigai masalah sistematis (stratifikasi/kualitas) — tetapi λ > 1 juga bisa dari poligenisitas sejati; jangan vonis dari λ saja, periksa intercept LD score regression.", correct: true },
             { text: "Normal", why: "Normal = mengikuti garis diagonal kecuali ekor." },
             { text: "Power tinggi", why: "Power tinggi menaikkan ekor, bukan seluruh garis." },
           ],
@@ -263,7 +263,7 @@ export const bi12: V2Lesson = {
           q: "eQTL menjembatani GWAS ke biologi dengan…",
           options: [
             { text: "Menambah sampel", why: "eQTL bukan soal ukuran sampel." },
-            { text: "Menghubungkan SNP ke perubahan EKSPRESI gen (mekanisme)", why: "Dari “blok LD terkait” ke “SNP ini mengatur gen X di jaringan Y”.", correct: true },
+            { text: "Menghubungkan SNP ke perubahan EKSPRESI gen (mekanisme)", why: "Dari “blok LD terkait” ke “SNP ini BERASOSIASI dengan ekspresi gen X di jaringan Y” — eQTL = asosiasi ekspresi, BUKAN bukti kausal bahwa SNP “mengatur” gen itu; kausalitas butuh bukti fungsional (fine-mapping, eksperimen).", correct: true },
             { text: "Mengganti GWAS", why: "eQTL melengkapi, bukan mengganti GWAS." },
             { text: "Tidak ada", why: "Ada: ia jembatan ke mekanisme." },
           ],

@@ -37,7 +37,7 @@ export const llmops13: V2Lesson = {
       prose: [
         "Serving naive: satu request = satu proses GPU. Request A (20 token) dan B (200 token) jalan sendiri-sendiri: GPU melayani A 1 detik, lalu B 10 detik — total 11 detik, GPU menganggur saat A menunggu? Tidak — lebih buruk: GPU TIDAK BISA dipakai orang lain saat melayani satu request (tanpa batching). Utilisasi: 15%. Inilah mengapa Svara butuh 4 GPU untuk pekerjaan 1 GPU.",
         "Static batching (naive batch): kumpulkan 4 request, jalankan bersama. Masalah: batch SELESAI saat request TERPANJANG selesai. A(20) + B(200) + C(30) + D(40): batch jalan 10 detik (menunggu B!) — A, C, D selesai di detik 1–2 tapi TIDAK BOLEH keluar (menunggu B). GPU membuang 70% waktunya menunggu. Plus: request E yang tiba di detik 2 harus menunggu batch berikutnya (antre 8 detik!). Static batching = restoran yang tidak boleh mengantar makanan sampai SEMUA meja selesai.",
-        "Continuous batching (vLLM, TGI): TIDAK ADA konsep `batch selesai`. Tiap iterasi (satu token), scheduler: (1) keluarkan request yang sudah selesai (A keluar di detik 1!), (2) masukkan request baru yang antre (E masuk detik 2!), (3) lanjutkan sisanya. GPU tidak pernah menunggu yang lambat, tidak pernah menolak yang baru. Hasil lab lesson ini: throughput 61,9 vs 35,1 tok/s (1,76x!) — dan itu dengan contoh kecil; di produksi bedanya 3–5x.",
+        "Continuous batching (vLLM, TGI): TIDAK ADA konsep `batch selesai`. Tiap iterasi (satu token), scheduler: (1) keluarkan request yang sudah selesai (A keluar di detik 1!), (2) masukkan request baru yang antre (E masuk detik 2!), (3) lanjutkan sisanya. GPU tidak pernah menunggu yang lambat, tidak pernah menolak yang baru. Hasil lab lesson ini (dengan batas kapasitas 3 slot bersamaan — GPU tidak bisa menjalankan request tak terbatas): throughput 52,0 vs 35,1 tok/s (1,48x) — dan itu dengan contoh kecil; di produksi bedanya 3–5x. Catatan jujur: versi lama lab ini membiarkan continuous batching berjalan tanpa batas slot (paralelisme tak terbatas) sehingga 1,76×-nya melebih-lebihkan; angka 1,48× di sini sudah memodelkan antrean saat slot penuh.",
         "Angka produksi nyata (vLLM, A100, model 13B): tanpa batching: 8 req/s. Static batching: 22 req/s. Continuous batching: 68 req/s. Satu perubahan arsitektur (bukan GPU baru!) = 8,5x throughput. Svara yang memakai serving naive butuh 4 GPU; dengan vLLM cukup 1 GPU untuk traffic yang sama. $8.000/bulan → $2.000/bulan. Inilah `rahasia` yang bukan rahasia: batching yang benar.",
         "Cara kerja PagedAttention (inovasi vLLM): KV-cache tradisional menyimpan memori KONTIGU per request — boros (fragmentasi!) seperti malloc tanpa free. PagedAttention membagi KV-cache menjadi BLOK-BLOK kecil (seperti virtual memory OS!) yang bisa dipakai bersama antar request (prefix yang sama = blok yang sama = hemat!). Hasil: memori 2–4x lebih efisien → batch 2–4x lebih besar → throughput 2–4x. Tiga lapis pengali: continuous batching × PagedAttention × GPU yang sama.",
         "vLLM vs TGI 30 detik: vLLM (UC Berkeley) = throughput tertinggi, komunitas terbesar, PagedAttention; TGI (HuggingFace) = integrasi HF terbaik, production-hardened, sedikit lebih lambat. Untuk 90% kasus: vLLM. Untuk yang butuh `didukung HuggingFace resmi` (enterprise): TGI. Keduanya open-source, keduanya continuous batching. Pilih vLLM kecuali ada alasan spesifik untuk TGI.",
@@ -55,14 +55,14 @@ export const llmops13: V2Lesson = {
       eyebrow: "Langkah 3 · Konsep",
       title: "KV-cache: memori adalah batasnya",
       prose: [
-        "Setiap token yang di-generate menyimpan `ingatan` (key-value) agar tidak menghitung ulang: KV-cache. Ukurannya: mem = 2 (K dan V) × L (layer) × h (heads) × d (dim per head) × b (batch) × s (sequence) × 2 byte (fp16). Untuk model 13B (L=40, h=40, d=128), batch 16, sequence 1024: 2×40×40×128×16×1024×2 = 13,4 miliar byte ≈ 12,5GB. A100 40GB: model 26GB + KV 12,5GB = 38,5GB — HAMPIR PENUH dengan batch cuma 16!",
-        "Inilah OOM misterius Svara tiap malam: traffic malam naik 2x → batch 32 → KV 25GB → total 51GB > 40GB → CRASH. Mereka mengira `modelnya bocor memori`; sebenarnya aritmetika. Solusinya BUKAN `restart tiap jam` (yang mereka lakukan 2 minggu!), melainkan: (1) batasi max_batch by hitungan (bukan firasat!); (2) kuantisasi KV-cache ke int8 (12,5GB → 6,3GB); (3) batasi max_sequence (1024 → 512 = setengah memori). Tiga tuas, semuanya dari rumus.",
-        "Contoh perencanaan kapasitas: target 100 req/s, rata-rata 50 token/request = 5.000 tok/s. vLLM throughput 68 req/s per A100 (dari langkah 2) → butuh 2x A100 (100/68 = 1,47 → 2). Cek memori per GPU: batch efektif ~32, seq 512 → KV = 2×40×40×128×32×512×2 = 13,4GB × (32/16)×(512/1024) = 13,4GB. Model 26GB + 13,4 = 39,4GB < 40GB ✓ (tipis! pakai int8 KV untuk margin). Tanpa hitungan ini = Svara (OOM tiap malam). Dengan hitungan ini = tidur nyenyak.",
-        "Trade-off kuantisasi: fp16 → int8 KV-cache: hemat 50% memori, kualitas turun < 0,5% (tidak terasa untuk kebanyakan use-case). fp16 → int4: hemat 75%, kualitas turun 1–2% (terasa untuk reasoning!). Aturan: KV int8 = default aman; int4 = hanya jika memori benar-benar kritis DAN sudah diuji di golden set (LLMOps3!). Jangan kuantisasi buta — ukur dampaknya.",
+        "Setiap token yang di-generate menyimpan `ingatan` (key-value) agar tidak menghitung ulang: KV-cache. Ukurannya: mem = 2 (K dan V) × L (layer) × h (heads) × d (dim per head) × b (batch) × s (sequence) × 2 byte (fp16). Untuk model 13B (L=40, h=40, d=128), batch 16, sequence 1024: 2×40×40×128×16×1024×2 = 13.421.772.800 byte = 13,42 GB (desimal) = 12,5 GiB (biner, 1024³). A100 40GB: model 26GB + KV 12,5 GiB ≈ 38,5GB — HAMPIR PENUH dengan batch cuma 16! (Catatan satuan: GB desimal vs GiB biner — 13,42 GB = 12,5 GiB; lesson ini memakai GiB untuk memori KV mulai sekarang. Rumus ini memakai h = jumlah attention head — untuk model GQA, pakai jumlah KV head, bukan query head; dan tambahkan margin 5–10% untuk fragmentasi/aktivasi — angka rumus adalah batas bawah, bukan total memori.)",
+        "Inilah OOM misterius Svara tiap malam: traffic malam naik 2x → batch 32 → KV 26,8GB → total 52,8GB > 40GB → CRASH. Mereka mengira `modelnya bocor memori`; sebenarnya aritmetika. Solusinya BUKAN `restart tiap jam` (yang mereka lakukan 2 minggu!), melainkan: (1) batasi max_batch by hitungan (bukan firasat!); (2) kuantisasi KV-cache ke int8 (12,5 GiB → 6,3 GiB); (3) batasi max_sequence (1024 → 512 = setengah memori). Tiga tuas, semuanya dari rumus.",
+        "Contoh perencanaan kapasitas: target 100 req/s, rata-rata 50 token/request = 5.000 tok/s. vLLM throughput 68 req/s per A100 (dari langkah 2) → butuh 2x A100 (100/68 = 1,47 → 2). Cek memori per GPU: batch efektif ~32, seq 512 → KV = 2×40×40×128×32×512×2 = 13,42 GB × (32/16)×(512/1024) = 13,42 GB (12,5 GiB). Model 26GB + 13,42GB ≈ 39,4GB < 40GB ✓ (tipis! pakai int8 KV untuk margin). Tanpa hitungan ini = Svara (OOM tiap malam). Dengan hitungan ini = tidur nyenyak.",
+        "Trade-off kuantisasi: fp16 → int8 KV-cache: hemat 50% memori, kualitas turun < 0,5% pada benchmark umum (tidak terasa untuk kebanyakan use-case) — tetapi itu angka benchmark, bukan janji: ukur di golden set-mu sendiri, angkanya bervariasi per tugas. fp16 → int4: hemat 75%, kualitas turun 1–2% (terasa untuk reasoning!). Aturan: KV int8 = default aman; int4 = hanya jika memori benar-benar kritis DAN sudah diuji di golden set (LLMOps3!). Jangan kuantisasi buta — ukur dampaknya.",
         "Autoscaling GPU untuk LLM berbeda dari MLOps6: cold start = load model 26GB → 60–90 detik (bukan 10 detik!). Selama 90 detik, traffic menunggu. Solusi: (1) scheduled scaling (tahu jam sibuk); (2) keep 1 GPU warm standby (bayar $2.000/bulan untuk tidur — murah dibanding 90 detik downtime); (3) scale by queue length, bukan CPU (GPU selalu 100%!). Svara yang scale by CPU tidak pernah scale (CPU selalu rendah!) — antrean 90 detik tiap spike.",
       ],
       formula: String.raw`mem_{KV} = 2 \cdot L \cdot h \cdot d \cdot b \cdot s \cdot 2\text{ byte}`,
-      formulaNote: "mem_KV = memori KV-cache; L = layer; h = heads; d = dim per head; b = batch size; s = panjang sequence; 2 byte = fp16 (1 byte jika int8). Contoh: 13B, b=16, s=1024 → 12,5GB. Selalu hitung SEBELUM deploy — OOM bukan misteri, ia aritmetika.",
+      formulaNote: "mem_KV = memori KV-cache; L = layer; h = heads; d = dim per head; b = batch size; s = panjang sequence; 2 byte = fp16 (1 byte jika int8). Contoh: 13B, b=16, s=1024 → 12,5 GiB (13,42 GB). Selalu hitung SEBELUM deploy — OOM bukan misteri, ia aritmetika.",
       tasks: [
       ],
       note: {
@@ -77,33 +77,33 @@ export const llmops13: V2Lesson = {
       eyebrow: "Langkah 4 · Lab",
       title: "Lab: static vs continuous batching",
       prose: [
-        "Kita simulasikan 6 request dengan waktu tiba dan panjang berbeda (mock). Static batching: batch 3, tunggu penuh/timeout, batch berikutnya menunggu. Continuous: tiap request mulai saat tiba. Tugasmu: implementasikan kedua scheduler dan hitung makespan + throughput.",
-        "Cara membaca: makespan = total waktu; throughput = token/detik; speedup = static/continuous. Interpretasi: speedup 1,76x pada contoh kecil ini; di produksi (ratusan request) bedanya 3–5x. Angka ini = alasan vLLM ada.",
+        "Kita simulasikan 6 request dengan waktu tiba dan panjang berbeda (mock). Static batching: batch 3, tunggu penuh/timeout, batch berikutnya menunggu. Continuous: tiap request mulai saat tiba ATAU saat slot bebas (maks 3 slot bersamaan — kapasitas GPU terbatas, request ke-4+ mengantre). Tugasmu: implementasikan kedua scheduler dan hitung makespan + throughput.",
+        "Cara membaca: makespan = total waktu; throughput = token/detik; speedup = static/continuous. Interpretasi: speedup 1,48x pada contoh kecil ini (dengan 3 slot); di produksi (ratusan request) bedanya 3–5x. Angka ini = alasan vLLM ada.",
         "Coba eksplorasi: ubah request ke-2 menjadi 200 token (sangat panjang). Perhatikan: static batching makin menderita (semua menunggu si panjang!), continuous tidak peduli. Inilah `straggler problem` yang diselesaikan continuous batching.",
       ],
       tasks: [
         { id: "t1", text: "Implementasikan `static_batch` — batch 3, makespan & throughput" },
-        { id: "t2", text: "Implementasikan `continuous_batch` — mulai saat tiba" },
+        { id: "t2", text: "Implementasikan `continuous_batch` — mulai saat tiba atau saat slot bebas (max_slots=3)" },
         { id: "t3", text: "Hitung speedup, jalankan dan baca output" },
       ],
-      expected: "static: 3.70s, 35.1 tok/s · continuous: 2.10s, 61.9 tok/s · speedup 1.76x",
+      expected: "static: 3.70s, 35.1 tok/s · continuous: 2.50s, 52.0 tok/s · speedup 1.48x",
       note: {
         title: "💡 Intuisi: straggler = pajak static batching",
         body: "Satu request 200 token membuat 3 request lain menunggu 10 detik dalam static batching — pajak yang dibayar semua orang untuk satu orang lambat. Continuous batching menghapus pajak ini: yang selesai keluar, yang baru masuk. Tidak ada yang menunggu straggler.",
       },
       hints: [
         "static: batch reqs[i:i+3]; start = max(t, batch[0][0]); dur = max(tok)*0.05; t = start+dur.",
-        "continuous: makespan = max(arr + tok*0.05); throughput = total_tok/makespan.",
+        "continuous: jaga daftar slot (waktu bebas tiap slot); tiap request mulai max(arr, slot tercepat bebas) — antre bila semua slot sibuk; makespan = max(end); throughput = total_tok/makespan.",
         "speedup = t_static / t_continuous.",
       ],
       code: {
-        starter: `requests = [(0.0, 20), (0.1, 40), (0.2, 10), (0.5, 30), (0.6, 20), (1.0, 10)]\nTOK = 0.05  # detik per token\n\n# TULIS KODEMU\ndef static_batch(reqs, bsize=3):\n    \n\ndef continuous_batch(reqs):\n    \n\nt1, tp1, b1 = static_batch(requests)\nt2, tp2 = continuous_batch(requests)\nprint(f\"static: makespan={t1:.2f}s throughput={tp1:.1f} tok/s batches={b1}\")\nprint(f\"continuous: makespan={t2:.2f}s throughput={tp2:.1f} tok/s\")\nprint(f\"speedup={t1 / t2:.2f}x\")`,
+        starter: `requests = [(0.0, 20), (0.1, 40), (0.2, 10), (0.5, 30), (0.6, 20), (1.0, 10)]\nTOK = 0.05  # detik per token\n\n# TULIS KODEMU\ndef static_batch(reqs, bsize=3):\n    \n\ndef continuous_batch(reqs, max_slots=3):\n    \n\nt1, tp1, b1 = static_batch(requests)\nt2, tp2 = continuous_batch(requests)\nprint(f\"static: makespan={t1:.2f}s throughput={tp1:.1f} tok/s batches={b1}\")\nprint(f\"continuous: makespan={t2:.2f}s throughput={tp2:.1f} tok/s\")\nprint(f\"speedup={t1 / t2:.2f}x\")`,
         lockLines: 3,
-        solution: `requests = [(0.0, 20), (0.1, 40), (0.2, 10), (0.5, 30), (0.6, 20), (1.0, 10)]\nTOK = 0.05  # detik per token\n\n# TULIS KODEMU\ndef static_batch(reqs, bsize=3):\n    t = 0.0\n    total_tok = 0\n    i = 0\n    batches = []\n    while i < len(reqs):\n        batch = reqs[i:i + bsize]\n        start = max(t, batch[0][0])\n        wait_until = batch[0][0] + 1.0\n        start = max(start, min(wait_until, batch[-1][0] if len(batch) == bsize else wait_until))\n        dur = max(tok for _, tok in batch) * TOK\n        t = start + dur\n        total_tok += sum(tok for _, tok in batch)\n        batches.append(len(batch))\n        i += bsize\n    return t, total_tok / t, batches\n\ndef continuous_batch(reqs):\n    end_times = []\n    for arr, tok in reqs:\n        end_times.append(arr + tok * TOK)\n    makespan = max(end_times)\n    total_tok = sum(tok for _, tok in reqs)\n    return makespan, total_tok / makespan\n\nt1, tp1, b1 = static_batch(requests)\nt2, tp2 = continuous_batch(requests)\nprint(f\"static: makespan={t1:.2f}s throughput={tp1:.1f} tok/s batches={b1}\")\nprint(f\"continuous: makespan={t2:.2f}s throughput={tp2:.1f} tok/s\")\nprint(f\"speedup={t1 / t2:.2f}x\")`,
+        solution: `requests = [(0.0, 20), (0.1, 40), (0.2, 10), (0.5, 30), (0.6, 20), (1.0, 10)]\nTOK = 0.05  # detik per token\n\n# TULIS KODEMU\ndef static_batch(reqs, bsize=3):\n    t = 0.0\n    total_tok = 0\n    i = 0\n    batches = []\n    while i < len(reqs):\n        batch = reqs[i:i + bsize]\n        start = max(t, batch[0][0])\n        wait_until = batch[0][0] + 1.0\n        start = max(start, min(wait_until, batch[-1][0] if len(batch) == bsize else wait_until))\n        dur = max(tok for _, tok in batch) * TOK\n        t = start + dur\n        total_tok += sum(tok for _, tok in batch)\n        batches.append(len(batch))\n        i += bsize\n    return t, total_tok / t, batches\n\ndef continuous_batch(reqs, max_slots=3):\n    slots = [0.0] * max_slots  # waktu bebas tiap slot GPU — kapasitas TERBATAS\n    end_times = []\n    for arr, tok in reqs:\n        s = min(slots)  # slot yang paling cepat bebas\n        start = max(arr, s)  # mulai saat tiba ATAU saat slot bebas (antre bila penuh)\n        end = start + tok * TOK\n        slots[slots.index(s)] = end\n        end_times.append(end)\n    makespan = max(end_times)\n    total_tok = sum(tok for _, tok in reqs)\n    return makespan, total_tok / makespan\n\nt1, tp1, b1 = static_batch(requests)\nt2, tp2 = continuous_batch(requests)\nprint(f\"static: makespan={t1:.2f}s throughput={tp1:.1f} tok/s batches={b1}\")\nprint(f\"continuous: makespan={t2:.2f}s throughput={tp2:.1f} tok/s\")\nprint(f\"speedup={t1 / t2:.2f}x\")`,
         checks: [
           { kind: "stdout_matches", task: "t3", label: "static 3.70s", msg: "Makespan static batching harus 3.70s.", pattern: "static: makespan=3\\.70s" },
-          { kind: "stdout_matches", task: "t3", label: "continuous 61.9 tok/s", msg: "Throughput continuous harus 61.9 tok/s.", pattern: "throughput=61\\.9 tok/s" },
-          { kind: "stdout_matches", task: "t3", label: "speedup 1.76x", msg: "Speedup continuous vs static = 1.76x.", pattern: "speedup=1\\.76x" },
+          { kind: "stdout_matches", task: "t3", label: "continuous 52.0 tok/s", msg: "Throughput continuous harus 52.0 tok/s (3 slot).", pattern: "throughput=52\\.0 tok/s" },
+          { kind: "stdout_matches", task: "t3", label: "speedup 1.48x", msg: "Speedup continuous vs static = 1.48x.", pattern: "speedup=1\\.48x" },
         ],
       },
       reference: "Straggler problem: static menunggu terpanjang; continuous tidak.",
@@ -114,25 +114,25 @@ export const llmops13: V2Lesson = {
       title: "Break-even yang jujur: $50.000 vs $18.000 vs $31.000",
       prose: [
         "Hitungan CTO Svara: API $50.000/bulan (10 juta request × $0,005) vs self-host $18.000 (4 GPU × $2.000 + engineer $10.000). Tapi angka $18.000 SALAH DUA KALI: (1) GPU over-provision 4x (tanpa continuous batching, butuh 4 GPU untuk kerja 1 GPU!) → seharusnya 2 GPU (redundansi) = $4.000; (2) engineer $10.000/bulan PENUH untuk 1 sistem — realistis 0,25 FTE setelah stabil = $2.500. Hitungan JUJUR: $4.000 + $2.500 + buffer 30% = $8.450/bulan. BUKAN $18.000! CTO over-estimasi 2x — dan realisasi $31.000 karena operasional buruk.",
-        "Rumus break-even: Q* = GPU_fixed / (p_api − c_var). Dengan GPU_fixed = $4.000/bulan (2 GPU), p_api = $0,005/request, c_var = $0,0002 (listrik + bandwidth): Q* = 4000/0,0048 ≈ 833.000 request/bulan. Di ATAS 833rb/bulan: self-host menang. Di BAWAH: API menang. Svara (10 juta) = 12x di atas break-even — keputusan migrasi BENAR, eksekusinya yang salah.",
+        "Rumus break-even: Q* = biaya_tetap_total / (p_api − c_var). Dengan biaya tetap total = $8.450/bulan (GPU $4.000 + engineer $2.500 + buffer 30% — angka JUJUR yang baru saja dihitung, BUKAN hanya biaya GPU $4.000), p_api = $0,005/request, c_var = $0,0002 (listrik + bandwidth): Q* = 8450/0,0048 ≈ 1.760.417 request/bulan. Di ATAS 1,76jt/bulan: self-host menang. Di BAWAH: API menang. Svara (10 juta) = 5,7x di atas break-even — keputusan migrasi BENAR, eksekusinya yang salah. (Hitungan lama lesson ini memakai $4.000 saja — membuang engineer + buffer yang baru saja dimasukkan — dan mendapat 833rb, yang salah.)",
         "Tiga biaya yang selalu dilupakan: (1) ENGINEER TIME — 0,25 FTE setelah stabil, 1 FTE selama 3 bulan migrasi; (2) REDUNDANSI — 2 GPU minimum (1 down = tetap jalan); jangan hitung 1 GPU!; (3) OBSERVABILITY — monitoring GPU/throughput/latensi (LLMOps7) = $500/bulan tools + waktu. Total `biaya tak terlihat`: ~$4.000/bulan. Hitungan yang mengabaikan ketiganya = hitungan yang bohong.",
         "Kapan JANGAN self-host (jujur): (1) Q < 500rb/bulan — API lebih murah (di bawah break-even); (2) traffic SANGAT spiky (100x naik-turun) — GPU idle 90% = API (pay-per-use) menang; (3) butuh 10+ model berbeda — kelola 10 deployment vs 1 API call; (4) tim < 3 orang tanpa ML-ops — tidak ada yang jaga malam saat OOM. Svara lolos semua (10jt req, traffic stabil, 1 model, tim 8) — makanya migrasi benar.",
-        "Jalur tengah: HYBRID. 80% traffic (reguler) → self-host ($6.760); 20% spike → API ($10.000). Total $16.760 vs murni self-host $8.450 + risiko spike vs murni API $50.000. Hybrid = self-host untuk baseline + API untuk overflow. Ini pola yang dipakai NusaBank (mini-case): hemat 66% dengan risiko spike nol.",
+        "Jalur tengah: HYBRID. 80% traffic (reguler) → self-host ($6.760); 20% spike → API ($10.000). Total $16.760 vs murni self-host $8.450 + risiko spike vs murni API $50.000. Hybrid = self-host untuk baseline + API untuk overflow. Ini pola yang dipakai NusaBank (mini-case): hemat 41% dengan risiko spike nol.",
       ],
-      formula: String.raw`Q^* = \frac{GPU_{fixed}}{p_{api} - c_{var}}`,
-      formulaNote: "Q* = break-even (request/bulan); GPU_fixed = biaya tetap GPU/bulan (termasuk redundansi 2x!); p_api = harga API per request; c_var = biaya variabel per request (listrik/bandwidth). Di atas Q*: self-host. Di bawah: API. Jangan lupa 3 biaya tak terlihat.",
+      formula: String.raw`Q^* = \frac{biaya_{tetap\ total}}{p_{api} - c_{var}}`,
+      formulaNote: "Q* = break-even (request/bulan); biaya tetap total = GPU $4.000 (2× redundansi) + engineer $2.500 + buffer 30% = $8.450/bulan — JANGAN hanya pakai biaya GPU: engineer dan buffer adalah biaya tetap juga; p_api = harga API per request; c_var = biaya variabel per request (listrik/bandwidth). Di atas Q*: self-host. Di bawah: API. Jangan lupa 3 biaya tak terlihat.",
       figure: {
         svg: LLMOPS13_SVG,
         alt: "Diagram batang biaya bulanan: API $50.000 vs self-host $18.000 (hitungan kasar) — realisasi $31.000 karena operasional buruk.",
-        caption: "Cara membaca: tinggi batang = biaya bulanan (USD) untuk 10 juta request; tiga batang = API, hitungan kasar self-host, realisasi Svara. Interpretasi: keputusan migrasi BENAR (di atas break-even 833rb), tapi realisasi $31.000 (bukan $18.000) karena GPU idle 60% + OOM. Selisih $13.000/bulan = harga ketidaktahuan operasional.",
+        caption: "Cara membaca: tinggi batang = biaya bulanan (USD) untuk 10 juta request; tiga batang = API, hitungan kasar self-host, realisasi Svara. Interpretasi: keputusan migrasi BENAR (di atas break-even 1,76jt), tapi realisasi $31.000 (bukan $18.000) karena GPU idle 60% + OOM. Selisih $13.000/bulan = harga ketidaktahuan operasional.",
       },
       tasks: [
       ],
       note: {
         title: "💡 Intuisi: keputusan benar, eksekusi salah",
-        body: "Svara benar pindah (12x di atas break-even) tapi salah menjalankannya (naive batching + tanpa hitung KV-cache). Break-even menjawab `apakah pindah?`; lesson ini menjawab `bagaimana pindahnya dengan benar?`. Dua pertanyaan berbeda — jawab keduanya.",
+        body: "Svara benar pindah (5,7x di atas break-even) tapi salah menjalankannya (naive batching + tanpa hitung KV-cache). Break-even menjawab `apakah pindah?`; lesson ini menjawab `bagaimana pindahnya dengan benar?`. Dua pertanyaan berbeda — jawab keduanya.",
       },
-      reference: "Q* = 833rb/bulan (contoh). Hybrid: self-host baseline + API overflow.",
+      reference: "Q* = 1,76jt/bulan (contoh). Hybrid: self-host baseline + API overflow.",
     },
     {
       id: "peta",
@@ -140,10 +140,10 @@ export const llmops13: V2Lesson = {
       title: "API, self-host, atau hybrid?",
       prose: [
         "**Skenario 1 — Startup, < 500rb req/bulan, tim 3 orang.** → API. Di bawah break-even + tidak ada yang jaga malam. Self-host = bunuh diri operasional.",
-        "**Skenario 2 — Scale-up, 10jt req/bulan, traffic stabil, 1–2 model.** → Self-host (vLLM). 12x di atas break-even. Hemat $40.000+/bulan. Syarat: paham lesson ini!",
+        "**Skenario 2 — Scale-up, 10jt req/bulan, traffic stabil, 1–2 model.** → Self-host (vLLM). 5,7x di atas break-even. Hemat $40.000+/bulan. Syarat: paham lesson ini!",
         "**Skenario 3 — E-commerce, spike 100x saat Harbolnas.** → Hybrid. Self-host untuk baseline (80%), API untuk spike (20%). GPU idle 90% di luar spike = pemborosan.",
         "**Skenario 4 — Bank, data sensitif (UU PDP), butuh kontrol penuh.** → Self-host (TGI/vLLM on-prem). Bukan soal biaya — soal data tidak boleh keluar. Break-even tidak relevan jika regulasi yang memerintah.",
-        "Aturan praktis 10 detik: `Q > 1jt/bulan DAN traffic stabil DAN tim ada yang bisa jaga?` → self-host. `Ada satu TIDAK?` → API atau hybrid. `Regulasi?` → self-host, titik.",
+        "Aturan praktis 10 detik: `Q > 2jt/bulan DAN traffic stabil DAN tim ada yang bisa jaga?` → self-host. `Ada satu TIDAK?` → API atau hybrid. `Regulasi?` → self-host sebagai titik awal — tetapi 'regulasi' bukan satu aturan: periksa UU PDP + aturan sektor (mis. data tidak boleh keluar) dan konsultasikan ke legal; ada kasus di mana API dengan wilayah data yang tepat memenuhi syarat.",
       ],
       tasks: [
       ],
@@ -160,7 +160,7 @@ export const llmops13: V2Lesson = {
       prose: [
         "NusaBank: 2 juta request/bulan reguler, spike 5x saat Lebaran (1 bulan). Harga API $0,005/req. GPU A100 $2.000/bulan. Engineer 0,25 FTE ($2.500).",
         "Hitung: (a) Biaya API murni setahun. (b) Biaya self-host murni (ingat: provision untuk SPIKE = 5x GPU!). (c) Biaya hybrid. (d) Rekomendasi + alasan.",
-        "**Pembahasan:** (a) API: 2jt × 12 × $0,005 = $120.000/tahun (spike termasuk, pay-per-use!). (b) Self-host: butuh GPU untuk 10jt req/bulan (spike!) = 4 GPU × $2.000 × 12 = $96.000 + engineer $30.000 = $126.000/tahun. LEBIH MAHAL dari API! (c) Hybrid: baseline 2jt = 1 GPU ($24.000) + engineer ($30.000) + spike via API (8jt × $0,005 = $40.000) = $94.000/tahun. (d) HYBRID menang $26.000/tahun (22%). Pelajaran: provision untuk spike = bunuh diri; spike adalah TUGAS API.",
+        "**Pembahasan:** (a) API: volume tahunan = 11 bulan × 2jt + bulan Lebaran 10jt = 32jt request × $0,005 = $160.000/tahun (spike termasuk, pay-per-use — hitungan lama 2jt×12 mengabaikan spike: bulan Lebaran 10jt, bukan 2jt!). (b) Self-host: butuh GPU untuk 10jt req/bulan (spike!) = 4 GPU × $2.000 × 12 = $96.000 + engineer $30.000 = $126.000/tahun. LEBIH MAHAL dari API! (c) Hybrid: baseline 2jt = 1 GPU ($24.000) + engineer ($30.000) + spike via API (8jt × $0,005 = $40.000) = $94.000/tahun. (d) HYBRID menang $66.000/tahun (41,25%) — 160.000−94.000 = 66.000; 66.000/160.000 = 41,25%. Pelajaran: provision untuk spike = bunuh diri; spike adalah TUGAS API.",
       ],
       tasks: [
       ],
@@ -193,16 +193,16 @@ export const llmops13: V2Lesson = {
         {
           q: "Model 13B, batch 16, seq 1024. Estimasi KV-cache (fp16)?",
           options: [
-            { text: "~12,5GB — hitung: 2×40×40×128×16×1024×2 byte", why: "Tepat. Dan 26GB (model) + 12,5GB = 38,5GB < 40GB — hampir penuh! Batch 32 = OOM. Hitungan ini mencegah `OOM misterius`.", correct: true },
+            { text: "~12,5 GiB (13,42 GB) — hitung: 2×40×40×128×16×1024×2 byte", why: "Tepat. Dan 26GB (model) + 12,5 GiB ≈ 38,5GB < 40GB — hampir penuh! Batch 32 = OOM (KV 26,8GB, total 52,8GB). Hitungan ini mencegah `OOM misterius`.", correct: true },
             { text: "~1GB — KV-cache kecil, abaikan", why: "Salah 12x. KV-cache adalah KONSUMEN MEMORI TERBESAR setelah bobot model. Mengabaikannya = OOM tiap malam." },
             { text: "~40GB — pasti tidak muat", why: "Berlebihan 3x. 12,5GB muat (tipis). Estimasi yang terlalu takut = over-provision 2x = buang $2.000/bulan." },
             { text: "Tidak bisa dihitung tanpa menjalankan", why: "Bisa dan HARUS dihitung sebelum deploy — rumusnya deterministik. `Jalankan dulu` untuk OOM = Svara." },
           ],
         },
         {
-          q: "Q* = 833rb/bulan. Startup dengan 300rb req/bulan, tim 3 orang. Keputusan?",
+          q: "Q* = 1,76jt/bulan. Startup dengan 300rb req/bulan, tim 3 orang. Keputusan?",
           options: [
-            { text: "Self-host — lebih murah jangka panjang", why: "300rb < 833rb = di bawah break-even = API lebih murah. `Jangka panjang` tidak mengubah aritmetika." },
+            { text: "Self-host — lebih murah jangka panjang", why: "300rb < 1,76jt = di bawah break-even = API lebih murah. `Jangka panjang` tidak mengubah aritmetika." },
             { text: "Tetap API — di bawah break-even + tidak ada yang jaga malam", why: "Tepat. Dua alasan independen (ekonomi + operasional) menunjuk API. Self-host di sini = bunuh diri ganda.", correct: true },
             { text: "Self-host dengan 1 GPU saja agar murah", why: "1 GPU tanpa redundansi = 1 down = 100% down. Dan 300rb req tetap di bawah break-even. Murah yang rapuh." },
             { text: "Hybrid 50-50", why: "Hybrid untuk SPIKE, bukan untuk volume kecil stabil. 300rb stabil = API murni paling sederhana dan murah." },
@@ -212,7 +212,7 @@ export const llmops13: V2Lesson = {
           q: "Traffic naik 100x setahun sekali (Harbolnas). Strategi GPU TEPAT?",
           options: [
             { text: "Provision 100x GPU sepanjang tahun", why: "Membayar 12 bulan untuk 1 bulan spike = over-hedging. Premi (idle 11 bulan) > risiko." },
-            { text: "Hybrid: self-host baseline + API untuk spike", why: "Tepat (mini-case: hemat 22%). Baseline milikmu (murah), ekor milik vendor (fleksibel). Jangan tertukar.", correct: true },
+            { text: "Hybrid: self-host baseline + API untuk spike", why: "Tepat (mini-case: hemat 41%). Baseline milikmu (murah), ekor milik vendor (fleksibel). Jangan tertukar.", correct: true },
             { text: "Tolak traffic spike — tutup layanan saat Harbolnas", why: "Menolak revenue terbesar tahun ini = keputusan bisnis yang... berani. Tapi salah." },
             { text: "Berdoa spike tidak terjadi", why: "Bukan strategi. Spike PASTI terjadi; yang bisa dipilih hanya siapa yang menanggungnya." },
           ],
@@ -239,7 +239,7 @@ export const llmops13: V2Lesson = {
       summary: [
         "Naive serving (1 req = 1 proses) utilisasi 15% — continuous batching (vLLM/TGI) 3–5x throughput.",
         "KV-cache = batas memori: hitung mem_KV sebelum deploy; OOM = aritmetika, bukan misteri.",
-        "Break-even Q* = GPU_fixed/(p_api − c_var); di atasnya self-host, di bawahnya API.",
+        "Break-even Q* = biaya_tetap_total/(p_api − c_var) — total $8.450/bulan, bukan hanya GPU; di atasnya self-host, di bawahnya API.",
         "Tiga biaya tak terlihat: engineer time, redundansi 2x, observability.",
         "Spike = tugas API (hybrid); baseline stabil = tugas self-host.",
         "vLLM default (90% kasus); TGI untuk enterprise HF. Scale by queue, bukan CPU.",

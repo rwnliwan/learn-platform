@@ -29,14 +29,14 @@ export const cr13: V2Lesson = {
       eyebrow: "Langkah 2 · EAD",
       title: "Dua jenis fasilitas, dua rumus",
       prose: [
-        "EAD (Exposure at Default) = total tagihan bank pada saat debitur default. Term loan (KPR, KTA angsuran): EAD ≈ sisa pokok (+ tunggakan bunga). Pasti, tidak bisa ditarik lagi — tidak butuh CCF. Revolving (kartu kredit, cerukan, KMK revolving): EAD = outstanding + (undrawn × CCF) — karena debitur bisa menarik sisa limit sebelum macet.",
-        "Contoh: kartu kredit limit Rp 100 jt, outstanding Rp 60 jt, CCF 35% (kondisi menurun). Undrawn = 100 − 60 = Rp 40 jt. Tambahan = 40 × 35% = Rp 14 jt. EAD = 60 + 14 = Rp 74 jt (bukan 60!). Selisih Rp 14 jt = \"utang masa depan\" yang belum terjadi tetapi harus dicadangkan hari ini.",
+        "EAD (Exposure at Default) = total tagihan bank pada saat debitur default. Term loan (KPR, KTA angsuran): EAD ≈ sisa pokok (+ tunggakan bunga). Umumnya tidak bisa ditarik lagi — tidak butuh CCF — tetapi “pasti” ada pengecualiannya: tranche yang belum cair (KPR bertahap, KMK konstruksi) tetap punya EAD komitmen, dan fasilitas yang bisa ditarik ulang (mis. redraw) kembali ke rumus revolving. Revolving (kartu kredit, cerukan, KMK revolving): EAD = outstanding + (undrawn × CCF) — karena debitur bisa menarik sisa limit sebelum macet.",
+        "Contoh: kartu kredit limit Rp 100 jt, outstanding Rp 60 jt, CCF 35% (kondisi menurun). Undrawn = 100 − 60 = Rp 40 jt. Tambahan = 40 × 35% = Rp 14 jt. EAD = 60 + 14 = Rp 74 jt (bukan 60!). Selisih Rp 14 jt itu adalah tambahan EAD (eksposur), BUKAN cadangan: cadangan (CKPN) = PD × LGD × EAD, jadi tambahan cadangan dari Rp 14 jt ini hanya PD × LGD × Rp 14 jt — misalnya PD 3%, LGD 45% → Rp 0,19 jt — bukan Rp 14 jt. Menyamakan EAD dengan cadangan adalah kesalahan konsep dasar ECL.",
         "18,9% dari EAD tidak terlihat di laporan hari ini. Bank yang menghitung EL dari outstanding saja underestimate sekitar seperlima eksposur kartu kreditnya. Inilah mengapa CCF wajib dalam perhitungan ECL dan modal.",
       ],
       formula: String.raw`\text{EAD}_{\text{revolving}} = \text{Outstanding} + (\text{Undrawn} \times \text{CCF})`,
       formulaNote: "Undrawn = limit − outstanding. Untuk term loan: EAD ≈ sisa pokok.",
       tasks: [],
-      reference: "Beda produk, beda formula: term loan pasti, revolving butuh CCF.",
+      reference: "Beda produk, beda formula: term loan umumnya pasti (kecuali tranche belum cair), revolving butuh CCF.",
     },
     {
       id: "lab-ead",
@@ -139,12 +139,12 @@ export const cr13: V2Lesson = {
       eyebrow: "Langkah 7 · Peta keputusan",
       title: "Peta keputusan: menjinakkan EAD hantu",
       prose: [
-        "Skenario 1 — Fasilitas revolving (kartu kredit, cerukan, KMK revolving). → EAD = outstanding + (undrawn × CCF), dengan CCF kondisional: sehat 10%, menurun 35%, kritis 70%. Contoh nyata: limit Rp 100 jt, outstanding Rp 60 jt, kondisi menurun → EAD Rp 74 jt, bukan 60. Rp 14 jt = 'utang masa depan' yang harus dicadangkan hari ini.",
-        "Skenario 2 — Limit jumbo menganggur + debitur memburuk (bom tidur). → Pangkas limit / pasang MAC clause yang bisa dieksekusi. Contoh nyata: 30% kartu tidur dengan undrawn Rp 1,1 T dipangkas → Rp 700 M EAD hantu hilang dengan biaya komplain ~2%.",
+        "Skenario 1 — Fasilitas revolving (kartu kredit, cerukan, KMK revolving). → EAD = outstanding + (undrawn × CCF), dengan CCF kondisional: sehat 10%, menurun 35%, kritis 70%. Contoh nyata: limit Rp 100 jt, outstanding Rp 60 jt, kondisi menurun → EAD Rp 74 jt, bukan 60. Rp 14 jt = tambahan EAD (eksposur) — cadangannya hanya PD × LGD × Rp 14 jt, bukan Rp 14 jt.",
+        "Skenario 2 — Limit jumbo menganggur + debitur memburuk (bom tidur). → Pangkas limit / pasang MAC clause yang bisa dieksekusi. Contoh nyata: 30% kartu tidur dengan undrawn Rp 1,1 T dipangkas → Rp 700 M undrawn hilang — dan EAD yang benar-benar terhapus = Rp 700 M × CCF 60% = Rp 420 M (bukan Rp 700 M: yang hilang dari EAD hanya porsi yang diperkirakan ditarik). Biaya komplain ~2%.",
         "Skenario 3 — Mengestimasi CCF. → Pendekatan kohort per segmen utilisasi, bukan flat. Contoh nyata: utilisasi <30% → CCF 55% (banyak yang bisa ditarik); utilisasi >70% → CCF 15%. CCF flat 40% melebih-lebihkan yang satu, meremehkan yang lain.",
         "Skenario 4 — Komitmen sudah ACC tetapi belum cair (pipeline KPR Rp 1,6 T, jeda 45 hari). → Catat EAD hantu pipeline: 1% memburuk dalam jeda × dicairkan = Rp 16 M dengan PD di atas rata-rata. Putuskan sebelum memburuk: cairkan atau batalkan — jangan biarkan mengambang.",
         "Skenario 5 — Utilisasi meledak di satu sisi, undrawn raksasa di sisi lain. → Hafalkan pasangan: utilisasi tinggi = soal PD (EWS); limit besar menganggur = soal EAD. Tanyakan keduanya setiap review portofolio.",
-        "Aturan praktis 10 detik: EAD satu-satunya tuas EL yang murah — diet limit tidur hari ini (pangkas, MAC clause, borrowing base) selalu lebih murah dari CKPN esok hari.",
+        "Aturan praktis 10 detik: EAD satu-satunya tuas EL yang murah — diet limit tidur hari ini (pangkas, MAC clause, borrowing base) biasanya lebih murah dari CKPN esok hari — dengan syarat dipangkas saat portofolio SEHAT (lihat langkah 10: memangkas saat krisis justru pro-cyclical). “Selalu” di sini bersyarat, bukan hukum alam.",
       ],
       tasks: [],
       note: {
@@ -183,14 +183,14 @@ export const cr13: V2Lesson = {
       title: "Tiga jurus menurunkan EAD hantu",
       prose: [
         "EAD adalah satu-satunya komponen EL yang bisa diturunkan hampir tanpa biaya — tidak seperti PD (butuh underwriting lebih ketat = mengorbankan pertumbuhan) atau LGD (butuh agunan = mengorbankan segmen). Tiga jurus taktisnya: pangkas limit kartu tidur, pasang MAC clause yang benar-benar bisa dieksekusi untuk korporasi, dan terapkan borrowing base (limit mengikuti nilai agunan berjalan) untuk KMK agunan persediaan/piutang.",
-        "Contoh dengan angka: 30% kartu tidur dengan undrawn Rp 1,1 T dipangkas ke 2× pemakaian historis → undrawn turun ke Rp 0,4 T. EAD hantu yang hilang: Rp 700 M. Dengan CCF stres 60%, EAD yang benar-benar terhapus dari skenario buruk = Rp 420 M. Biayanya: komplain nasabah sekitar 2%, sebagian besar diam saja karena kartunya memang tidak dipakai. Bandingkan dengan alternatifnya — menaikkan CKPN untuk menutup EAD yang sama: butuh modal dan menggerus laba. Diet EAD selalu lebih murah daripada obat cadangan.",
+        "Contoh dengan angka: 30% kartu tidur dengan undrawn Rp 1,1 T dipangkas ke 2× pemakaian historis → undrawn turun ke Rp 0,4 T. Undrawn yang hilang: Rp 700 M. Dengan CCF stres 60%, EAD yang benar-benar terhapus dari skenario buruk = Rp 420 M — itulah angka yang hilang dari EAD, bukan Rp 700 M. Biayanya: komplain nasabah sekitar 2%, sebagian besar diam saja karena kartunya memang tidak dipakai. Bandingkan dengan alternatifnya — menaikkan CKPN untuk menutup EAD yang sama: butuh modal dan menggerus laba. Diet EAD biasanya lebih murah daripada obat cadangan (asal dipangkas saat sehat — lihat paragraf berikut).",
         "Cara salah yang klasik: memangkas limit justru saat krisis berlangsung. Itu pro-cyclical — nasabah yang sedang kesulitan melihat limitnya dipotong, panik, lalu menarik sisanya sebelum benar-benar dibekukan (rush to draw yang justru mempercepat EAD). Jurus yang benar: pangkas diam-diam saat portofolio sehat, sebagai hygiene tahunan. Waktu eksekusi adalah separuh dari strateginya.",
         "Aturan keputusan. Satu: review otomatis limit kartu tidur tiap 12 bulan — jadikan proses, bukan proyek. Dua: untuk korporasi, uji MAC clause ke tim legal setahun sekali; klausul yang tidak bisa dieksekusi adalah dekorasi. Tiga: tetapkan cap undrawn per nasabah untuk segmen konsumer (misalnya 3× penghasilan bulanan). Empat: ukur keberhasilan bukan dari \"limit dipangkas\", melainkan dari EAD stres yang turun — metriknya adalah rupiah risiko, bukan jumlah kartu.",
       ],
       tasks: [],
       note: {
         title: "Intuisi: undrawn limit adalah opsi jual yang kamu berikan gratis",
-        body: "Setiap rupiah undrawn adalah put option yang bank jual ke debitur dengan premi nol — hak (bukan kewajiban) untuk menarik dana, yang akan dieksekusi persis saat bank paling tidak menginginkannya. Begitu kamu melihatnya sebagai opsi, seluruh perilaku menjadi intuitif: nilainya meledak saat kondisi memburuk (seperti semua put option), dan penjual opsi yang waras mematok batas eksposur. Heuristik meja kerja: sebelum meminta tambahan modal atau menaikkan cadangan, dietkan dulu EAD — memangkas Rp 700 M undrawn tidur menghapus risiko dengan biaya nyaris nol, sementara menutupnya dengan modal butuh Rp 56 M modal mahal (8% dari RWA). Urutan pertahanan yang benar: kecilkan EAD dulu, perkuat LGD kedua, dan hanya terakhir minta modal. Bank yang langsung lompat ke langkah ketiga sedang membayar mahal untuk risiko yang sebenarnya bisa dihapus gratis. Satu kebiasaan yang membedakan analis EAD yang baik: setiap kali melihat limit besar yang menganggur, ia tidak bertanya \"berapa outstanding-nya?\" melainkan \"berapa yang bisa hilang besok pagi?\" — karena EAD hidup di masa depan yang buruk, bukan di laporan hari ini.",
+        body: "Setiap rupiah undrawn adalah put option yang bank jual ke debitur dengan premi nol — hak (bukan kewajiban) untuk menarik dana, yang akan dieksekusi persis saat bank paling tidak menginginkannya. Begitu kamu melihatnya sebagai opsi, seluruh perilaku menjadi intuitif: nilainya meledak saat kondisi memburuk (seperti semua put option), dan penjual opsi yang waras mematok batas eksposur. Heuristik meja kerja: sebelum meminta tambahan modal atau menaikkan cadangan, dietkan dulu EAD — memangkas Rp 700 M undrawn tidur (EAD terhapus Rp 420 M pada CCF 60%) menghapus risiko dengan biaya nyaris nol, sementara menutup EAD yang sama dengan modal butuh 8% × RWA — dan RWA dihitung dari EAD (Rp 420 M), BUKAN dari undrawn Rp 700 M (ilustrasi kasar dengan bobot risiko 100%: 8% × Rp 420 M ≈ Rp 34 M — bukan Rp 56 M, karena Rp 56 M = 8% × Rp 700 M memakai undrawn sebagai RWA, dan undrawn bukan RWA). Urutan pertahanan yang benar: kecilkan EAD dulu, perkuat LGD kedua, dan hanya terakhir minta modal. Bank yang langsung lompat ke langkah ketiga sedang membayar mahal untuk risiko yang sebenarnya bisa dihapus gratis. Satu kebiasaan yang membedakan analis EAD yang baik: setiap kali melihat limit besar yang menganggur, ia tidak bertanya \"berapa outstanding-nya?\" melainkan \"berapa yang bisa hilang besok pagi?\" — karena EAD hidup di masa depan yang buruk, bukan di laporan hari ini.",
       },
       reference: "EAD diet dulu, modal kemudian.",
     },
@@ -227,7 +227,7 @@ export const cr13: V2Lesson = {
           q: "Kartu kredit: limit Rp 100 jt, outstanding Rp 60 jt, CCF 35%. EAD?",
           options: [
             { text: "Rp 60 jt (outstanding saja)", why: "Mengabaikan undrawn = underestimate." },
-            { text: "Rp 74 jt (60 + 40×35%)", why: "60 + (100−60)×0,35 = 74. Rp 14 jt adalah 'utang masa depan' yang harus dicadangkan hari ini.", correct: true },
+            { text: "Rp 74 jt (60 + 40×35%)", why: "60 + (100−60)×0,35 = 74. Rp 14 jt adalah tambahan EAD (eksposur) — cadangannya hanya PD × LGD × Rp 14 jt, bukan Rp 14 jt.", correct: true },
             { text: "Rp 100 jt (limit penuh)", why: "Tidak semua undrawn akan ditarik — CCF yang menentukan." },
             { text: "Rp 14 jt", why: "Itu tambahannya saja, bukan total EAD." },
           ],
@@ -238,7 +238,7 @@ export const cr13: V2Lesson = {
             { text: "Bank sengaja menaikkan", why: "CCF diestimasi dari data, bukan ditetapkan." },
             { text: "Adverse drawdown: yang kesulitan cenderung menghabiskan limit sebelum macet — seperti orang tenggelam meraih apa saja", why: "Perilaku rasional dari sisi debitur = bencana dari sisi bank. CCF harus kondisional.", correct: true },
             { text: "Salah hitung", why: "Ini pola empiris yang konsisten." },
-            { text: "Regulasi mewajibkan", why: "Regulasi tidak menetapkan angka CCF." },
+            { text: "Regulasi mewajibkan", why: "Regulasi tidak menetapkan angka CCF spesifik per bank — tetapi pendekatan standar menetapkan floor (mis. 10% untuk fasilitas unconditionally cancellable seperti kartu kredit, lihat langkah 9); angka CCF-nya sendiri diestimasi internal." },
           ],
         },
         {
@@ -254,7 +254,7 @@ export const cr13: V2Lesson = {
           q: "Untuk KPR angsuran (term loan), EAD dihitung sebagai?",
           options: [
             { text: "Outstanding + undrawn × CCF", why: "Itu rumus revolving." },
-            { text: "Sisa pokok (+ tunggakan) — tidak ada penarikan lagi, jadi tidak butuh CCF", why: "Term loan tidak revolving — EAD pasti. Beda produk, beda formula.", correct: true },
+            { text: "Sisa pokok (+ tunggakan) — tidak ada penarikan lagi, jadi tidak butuh CCF", why: "Term loan umumnya tidak revolving — EAD-nya sisa pokok (pengecualian: tranche yang belum cair tetap punya EAD komitmen). Beda produk, beda formula.", correct: true },
             { text: "Limit awal", why: "Limit awal sudah berkurang oleh angsuran." },
             { text: "Selalu sama dengan EAD kartu kredit", why: "Berbeda — kartu kredit revolving." },
           ],

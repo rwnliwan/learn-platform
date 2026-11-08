@@ -45,7 +45,7 @@ export const wqb13: V2Lesson = {
       eyebrow: "Langkah 2 · Konsep",
       title: "Kenapa platform menolak duplikat brilian",
       prose: [
-        "Korelasi Pearson mengukur seberapa seiring dua deret return bergerak: +1 = bergerak bersama sempurna, 0 = tidak berhubungan, −1 = berlawanan sempurna. Self-correlation kandidat A = 0,94 artinya 94% gerakannya menempel pada alpha yang sudah kamu submit — ia bukan alpha baru, ia adalah alpha lamamu yang berganti baju. Platform menolaknya karena ekonomi portofolio: dua alpha berkorelasi 0,94 tidak menggandakan return, hanya menggandakan bobot pada taruhan yang sama — sambil memakan slot submit dan biaya komputasi.",
+        "Korelasi Pearson mengukur seberapa seiring dua deret return bergerak: +1 = bergerak bersama sempurna, 0 = tidak berhubungan, −1 = berlawanan sempurna. Self-correlation kandidat A = 0,94 artinya asosiasi linear yang sangat kuat dengan alpha yang sudah kamu submit — kuadratnya ρ² = 0,8836: dalam regresi linear sederhana, 88,36% variasi sampel kandidat dijelaskan oleh alpha lama — BUKAN “94% gerakannya sama”, dan bukan bukti duplikasi kausal. Ia bukan alpha baru, ia adalah alpha lamamu yang berganti baju. Platform menolaknya karena ekonomi portofolio: dua alpha berkorelasi 0,94 tidak menggandakan return, hanya menggandakan bobot pada taruhan yang sama — sambil memakan slot submit dan biaya komputasi.",
         "Ambang 0,7 bukan garis magis fisika — ia garis kebijakan: di bawah 0,7, kandidat dianggap cukup berbeda untuk menambah diversifikasi portofolio; di atasnya, dianggap duplikat. Pahami gradasinya: < 0,5 = aman dan nyaman; 0,5–0,7 = zona waspada (lolos, tapi poles berikutnya bisa mendorong melewati ambang); ≥ 0,7 = gugur; > 0,9 = praktis duplikat — buang tanpa diskusi.",
         "Kenapa ini 'gerbang yang sebenarnya'? Karena enam check lain menguji kualitas SATU kandidat, sedangkan self-correlation menguji NILAI TAMBAHNYA bagi portofoliomu. Kandidat bisa sempurna sendirian tapi tidak berharga bersama-sama. Analogi: tim sepak bola tidak butuh sebelas striker terbaik dunia — butuh komposisi. A adalah striker kelas dunia kesekian yang ditolak karena tim sudah punya lima striker; B adalah gelandang bertahan 'Average' yang justru melengkapi.",
         "Contoh angka yang menghidupkan: A — Sharpe 2,38, fitness 2,10 (Excellent), self-corr 0,94 → GUGUR. B — Sharpe 3,00, fitness 1,41 (Average), self-corr 0,31 → LOLOS. Perhatikan B Sharpe-nya justru lebih tinggi (3,00) walau fitness Average — fitness menghukum sesuatu pada B (mungkin turnover atau konsistensi), tapi keunikannya tak terbantahkan. Pelajaran: bangun kandidat yang BERBEDA dulu, bagus kemudian — bukan sebaliknya.",
@@ -71,7 +71,7 @@ export const wqb13: V2Lesson = {
       prose: [
         "Cara membaca figur: garis putus-putus = kurva PnL alpha milikmu yang sudah disubmit; garis merah = Kandidat A; garis hijau = Kandidat B. Interpretasi: garis merah menempel persis pada garis putus-putus di hampir setiap belokan — naik-turunnya sinkron. Itulah korelasi 0,94 yang terlihat: bukan angka abstrak, melainkan dua kurva yang menari dengan koreografi sama. Garis hijau sesekali searah tapi sering menyimpang sendiri — korelasi 0,31.",
         "Latihan mata yang penting: korelasi tinggi TIDAK berarti return sama besar. A bisa Sharpe 2,38 (lebih 'miring ke atas') sambil bentuknya menempel — korelasi mengukur kesamaan bentuk, bukan kemiringan. Inilah yang menipu analis junior: 'kurva A lebih bagus dari alpha lama, jadi ini peningkatan!' Bukan — ini duplikat yang lebih bagus, tetap duplikat.",
-        "Gunakan figur ini sebagai tes 5 detik di meja riset: plot kandidat vs alpha existing-mu yang paling mirip. Kalau matamu tidak bisa membedakan mana kandidat mana yang lama tanpa label warna — korelasinya di atas 0,9 dan kamu sudah tahu jawabannya sebelum menghitung.",
+        "Gunakan figur ini sebagai tes 5 detik di meja riset: plot kandidat vs alpha existing-mu yang paling mirip. Kalau matamu tidak bisa membedakan mana kandidat mana yang lama tanpa label warna — korelasinya MUNGKIN di atas 0,9, dan itu cukup untuk triase: jangan buang waktu menghitung untuk sementara. Tetapi tes mata bukan pengukuran — dua kurva yang tampak menempel bisa berkorelasi 0,85 atau 0,95, dan korelasi tinggi tidak selalu tampak menempel (beda skala/volatilitas). Vonis gugur tetap butuh angka formal (ambang 0,7), bukan mata.",
       ],
       figure: {
         svg: FIG_CORR,
@@ -81,9 +81,9 @@ export const wqb13: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi",
-        body: "Korelasi 0,94 = 'kembar identik'. Kalau dua kurva tidak bisa dibedakan tanpa label warna, jangan buang waktu menghitung — jawabannya sudah jelas: gugur. Hitungan formal hanya untuk zona abu-abu 0,5–0,8.",
+        body: "Korelasi 0,94 = 'kembar identik'. Kalau dua kurva tidak bisa dibedakan tanpa label warna, curigai korelasi di atas 0,9 — cukup untuk triase, tetapi vonis gugur tetap butuh angka formal (ambang 0,7). Hitungan formal bukan hanya untuk zona abu-abu 0,5–0,8 — ia yang memutuskan di SEMUA zona.",
       },
-      reference: "Tak bisa dibedakan tanpa label = korelasi > 0,9 = gugur.",
+      reference: "Tak bisa dibedakan tanpa label = CURIGAI korelasi > 0,9 — hitung untuk memastikan; vonis dari angka, bukan mata.",
     },
     {
       id: "lab-korelasi",
@@ -178,9 +178,9 @@ export const wqb13: V2Lesson = {
       eyebrow: "Langkah 7 · Peta keputusan",
       title: "Zona korelasi: respons tiap zona",
       prose: [
-        "Satu: ρ < 0,5 → AMAN. Lanjut; korelasi ini tidak perlu dipikirkan lagi. Dua: 0,5–0,7 → WASPADA. Boleh lanjut, tapi catat sebagai constraint: setiap poles berikutnya wajib uji ulang korelasi; bila merangkak naik, diferensiasi segera. Tiga: 0,7–0,9 → GUGUR SEMENTARA. Jangan submit; diferensiasi dengan empat tuas; bila setelah 3 upaya masih ≥ 0,7 → buang permanen. Empat: > 0,9 → DUPLIKAT. Buang langsung — ini alpha lamamu berganti baju; tidak ada diferensiasi yang sepadan dengan waktunya, kecuali kamu memang ingin menggantikan alpha lama (maka pensiunkan yang lama dulu).",
+        "Satu: ρ < 0,5 → AMAN untuk saat ini. Lanjut — tetapi “aman” bukan “kebal”: ρ<0,5 terhadap SATU alpha existing tidak menjamin aman terhadap alpha lain, dan maksimum korelasi atas BANYAK alpha cenderung lebih tinggi dari korelasi terhadap satu alpha (multiple comparison); bila kandidat dipoles secara material, uji ulang korelasinya. Dua: 0,5–0,7 → WASPADA. Boleh lanjut, tapi catat sebagai constraint: setiap poles berikutnya wajib uji ulang korelasi; bila merangkak naik, diferensiasi segera. Tiga: 0,7–0,9 → GUGUR SEMENTARA. Jangan submit; diferensiasi dengan empat tuas; bila setelah 3 upaya masih ≥ 0,7 → buang permanen. Empat: > 0,9 → DUPLIKAT. Buang langsung — ini alpha lamamu berganti baju; tidak ada diferensiasi yang sepadan dengan waktunya, kecuali kamu memang ingin menggantikan alpha lama (maka pensiunkan yang lama dulu).",
         "Lima: kandidat BARU berkorelasi tinggi dengan kandidat BARU lain (belum disubmit) → pilih SATU yang terbaik (Sharpe tertinggi + margin korelasi terlebar), arsipkan sisanya. Jangan submit dua-duanya 'untuk coba-coba' — yang satu akan membunuh yang lain di check, dan kamu membuang dua slot.",
-        "Aturan praktis 10 detik: di bawah 0,5 tidur nyenyak; 0,5–0,7 catat dan awasi; di atas 0,7 jangan sentuh tombol submit.",
+        "Aturan praktis 10 detik: di bawah 0,5 tidur nyenyak — untuk alpha yang sudah diuji terhadap SEMUA alpha existing; 0,5–0,7 catat dan awasi (uji ulang tiap poles); di atas 0,7 jangan sentuh tombol submit.",
       ],
       tasks: [],
       note: {
@@ -195,7 +195,7 @@ export const wqb13: V2Lesson = {
       title: "Kandidat C: dari 0,83 ke 0,61",
       prose: [
         "Data: Kandidat C — Sharpe 2,10, fitness 1,85, semua check lain hijau, self-corr 0,83 terhadap alpha lamamu 'Delta'. Tugas: (1) putuskan nasib awal; (2) pilih tuas diferensiasi; (3) nilai hasil akhir.",
-        "Pembahasan. (1) 0,83 ≥ 0,7 → GUGUR SEMENTARA: jangan submit, jangan buang dulu — sinyalnya bagus (Sharpe 2,10), masalahnya redundansi. (2) Sidik jari Delta menunjukkan ia memakai operator rank() pada reversal 3 hari di USA large. Tuas yang dipilih: ubah delay 1→2 (tangkap fase berbeda) + ganti rank() menjadi zscore() pada komponen utama. Bukan tambah noise, bukan ganti universe (universe sudah tepat). (3) Hasil: Sharpe turun sedikit menjadi 1,92 (wajar — diferensiasi ada harganya), self-corr jatuh ke 0,61. Keputusan akhir: LOLOS zona waspada — submit boleh, dengan catatan constraint: poles berikutnya dilarang menyentuh delay dan operator yang baru saja diubah.",
+        "Pembahasan. (1) 0,83 ≥ 0,7 → GUGUR SEMENTARA: jangan submit, jangan buang dulu — sinyalnya bagus (Sharpe 2,10), masalahnya redundansi. (2) Sidik jari Delta menunjukkan ia memakai operator rank() pada reversal 3 hari di USA large. Tuas yang dipilih: ubah delay 1→2 (tangkap fase berbeda) + ganti rank() menjadi zscore() pada komponen utama. Bukan tambah noise, bukan ganti universe (universe sudah tepat). (3) Hasil: Sharpe turun sedikit menjadi 1,92 (wajar — diferensiasi ada harganya), self-corr jatuh ke 0,61. Keputusan akhir: LOLOS zona waspada — submit boleh, dengan catatan constraint: poles berikutnya dilarang menyentuh delay dan operator yang baru saja diubah, DAN setiap poles berikutnya wajib uji ulang korelasi (aturan zona waspada di Langkah 7) — “submit boleh” berarti boleh diajukan sekarang, bukan bebas poles tanpa uji ulang.",
         "Bandingkan dengan jalan pintas yang salah: memoles Sharpe C dari 2,10 menjadi 2,4 tanpa menyentuh korelasi — lalu gugur juga di 0,85. Tiga minggu poles terbuang. Urutan yang benar selalu: keunikan dulu (< 0,6 dengan margin), keunggulan kemudian.",
       ],
       tasks: [],

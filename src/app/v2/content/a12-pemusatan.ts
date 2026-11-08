@@ -94,10 +94,10 @@ export const a12: V2Lesson = {
     {
       id: "median-modus",
       eyebrow: "Langkah 3 · Median dan modus",
-      title: "Median dan modus: kebal terhadap outlier",
+      title: "Median dan modus: jauh lebih tahan terhadap outlier",
       prose: [
         "Sekarang datanya: 8, 8, 9, 10, 100. Satu angka 100 ikut masuk, mungkin data direktur tercampur. Mean-nya melompat ke 27, padahal empat dari lima orang gajinya di bawah 11.",
-        "Median mengurutkan data lalu mengambil yang di tengah: tetap 9, tidak peduli seberapa besar angka 100 itu. Modus mengambil nilai yang paling sering muncul: 8.",
+        "Median mengurutkan data lalu mengambil yang di tengah: tetap 9 — satu angka 100 tidak menggesernya. Modus mengambil nilai yang paling sering muncul: 8. Catatan jujur: \"tahan\" bukan \"kebal\" — median tetap bisa bergeser bila cukup banyak data berpindah sisi (breakdown point-nya 50%: separuh data harus rusak sebelum median runtuh), dan contoh ekstrem [-100, 0, 1, 2, 102] bahkan punya mean = median = 1 — satu outlier tidak selalu membuat keduanya berjauhan.",
         "Aturan praktis: data miring atau ada outlier, pakai median. Data kategori, pakai modus.",
         "Anggota keluarga robust yang ketiga: trimmed mean. Ia memotong p% data terkecil dan terbesar, lalu merata-ratakan sisanya \u2014 kompromi antara mean (memakai semua data) dan median (hampir membuang semuanya kecuali titik tengah). Trimmed mean 20% dari [8, 9, 10, 11, 100]: potong satu dari tiap ujung (20% x 5), lalu rata-ratakan [9, 10, 11] = 10. Hasilnya 10 \u2014 tidak setinggi mean 27,6 yang terseret outlier, tidak sekasar median yang hanya melihat satu titik.",
       ],
@@ -211,10 +211,10 @@ export const a12: V2Lesson = {
       eyebrow: "Langkah 6 · Kawan-kawan",
       title: "Geometric dan weighted mean: rata-rata untuk kasus khusus",
       prose: [
-        "Return investasi bersifat perkalian, bukan penjumlahan. Rata-rata aritmatika melebih-lebihkan hasilnya.",
+        "Return investasi bersifat perkalian, bukan penjumlahan. Untuk return multi-periode yang dikalikan (dan positif), rata-rata aritmatika cenderung melebih-lebihkan hasil — geometric mean yang tepat secara finansial.",
         "Contoh: return +10%, -5%, +20%. Mean aritmatika = 8,3%. Geometric mean = 7,8% — itulah angka yang benar secara finansial.",
         "Untuk data berbobot, pakai weighted mean. Portofolio 60% saham (return 12%) dan 40% obligasi (return 5%): 0,6 x 12 + 0,4 x 5 = 9,2%.",
-        "Dan untuk laju atau kecepatan, ada harmonic mean: n dibagi jumlah kebalikan tiap nilai. Pergi 60 km/jam, pulang 40 km/jam — mean aritmatikanya 50, tetapi kecepatan rata-rata yang sebenarnya 48 km/jam: 2 / (1/60 + 1/40) = 48. Memakai mean biasa untuk laju sama berbahayanya dengan memakai mean aritmatika untuk return: ia melebih-lebihkan hasilmu secara sistematis.",
+        "Dan untuk laju atau kecepatan, ada harmonic mean: n dibagi jumlah kebalikan tiap nilai. Pergi 60 km/jam, pulang 40 km/jam — dengan jarak pergi dan pulang yang SAMA — mean aritmatikanya 50, tetapi kecepatan rata-rata yang sebenarnya 48 km/jam: 2 / (1/60 + 1/40) = 48. Syarat \"jarak sama\" itu penting: bila jaraknya berbeda, harmonic mean memakai bobot jarak, bukan rumus 2/(1/a + 1/b) mentah. Memakai mean biasa untuk laju sama berbahayanya dengan memakai mean aritmatika untuk return: ia melebih-lebihkan hasilmu secara sistematis."
       ],
       formula: String.raw`G = \sqrt[n]{x_1 \times x_2 \times \cdots \times x_n} - 1 \qquad \bar{x}_w = \sum w_i x_i`,
       formulaNote: "G = geometric mean (untuk return yang bersifat perkalian, dikurangi 1 agar menjadi laju); x_i = tiap observasi (harus positif); x-bar_w = weighted mean; w_i = bobot tiap observasi (jumlah bobot = 1).",
@@ -324,8 +324,8 @@ export const a12: V2Lesson = {
       tasks: [],
       summary: [
         "Mean untuk data simetris; median untuk data miring atau ber-outlier; modus untuk kategori.",
-        "Outlier menarik mean tetapi tidak menggeser median.",
-        "Return investasi selalu pakai geometric mean, bukan aritmatika.",
+        "Outlier menarik mean tetapi hampir tidak menggeser median — median robust, bukan imun (breakdown point 50%).",
+        "Return multi-periode yang dikalikan pakai geometric mean, bukan aritmatika (untuk satu periode, keduanya sama — geometric mean hanya bermakna saat return dikalikan antar periode).",
         "Kecepatan rata-rata pakai harmonic mean; data berbobot pakai weighted mean.",
         "Selalu laporkan pemusatan bersama sebaran. Mean tanpa SD hanya setengah cerita.",
       ],

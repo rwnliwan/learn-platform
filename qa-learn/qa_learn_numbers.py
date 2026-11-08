@@ -876,8 +876,15 @@ FIXTURES = [
     ),
     (
         "aai11-debugging.ts",
-        ['Rp607', 'Rp25.500', 'R = 2/5', 'Rp3.035', 'Rp306.000', '2/10 = 0,20'],
-        ['R = 4/8 = 0,5', 'Rp24.000 per insiden'],
+        ['Rp607', 'Rp25.500', 'R = 2/5', 'Rp3.035', 'Rp306.000', '2/10 = 0,20',
+         # R7: total tanpa detektor 47x607 = Rp28.529 (bukan Rp25.500 — itu HEMAT);
+         # hemat bln 1 Rp1,95jt, bln 2+ Rp2,55jt; 25 tugas Rp713.225, selisih Rp637rb;
+         # ROI tahun 1 Rp44,1jt; alert tau=0,15 tetap di langkah 5 (aturan >=2x).
+         'Rp28.529', 'Rp1,95 juta', 'Rp2,55 juta/bulan', 'Rp713.225',
+         'Rp637 ribu', 'Rp44,1 juta', 'alert di langkah 5 (R = 2/5'],
+        ['R = 4/8 = 0,5', 'Rp24.000 per insiden',
+         'Rp1,65 juta', 'Rp2,25 juta/bulan',
+         'alert di langkah 4 (R=0,25 > 0,15)'],
     ),
     (
         "aie11-ux.ts",
@@ -952,6 +959,198 @@ FIXTURES = [
     (
         "biz11-governance.ts",
         ['2025-11-30', 'tanggal yang benar 2025-11-30'],
+        [],
+    ),
+    # --- Review Ronde 7 Terra (fix), 2026-11-08 ---
+    # Semua angka di bawah dihitung ulang independen (python3 / eksekusi lab)
+    # sebelum dijadikan fixture; derivasi lengkap di qa_r7_recompute.py.
+    # Must-not HANYA untuk angka lama yang SUDAH tidak muncul lagi — angka lama
+    # yang masih muncul di paragraf koreksi yang eksplisit mencabutnya
+    # ("hitungan lama ... salah") SENGAJA tidak jadi must-not.
+    # B13: Vasicek n=500, PD=2%, rho=0,15 -> joint 0,000877, korelasi indikator
+    # 0,0243, SD = 11,35 (vs binomial 3,13; rasio 3,63x). Angka lesson 27,26
+    # = penyalahgunaan rho sebagai korelasi indikator.
+    (
+        "b13-vasicek.ts",
+        ["SD ≈ 11,35", "≈11,35 vs 3,13"],
+        ["27,26"],
+    ),
+    # LLMOps13: break-even 8450/0,0048 = 1.760.417/bln (bukan 833rb — angka
+    # lama memakai GPU-only $4.000); NusaBank (11x2jt+10jt)x$0,005 = $160.000
+    # (bukan $120.000); hybrid hemat $66.000 = 41,25%. "833rb" SENGAJA tidak
+    # jadi must-not: ia muncul di paragraf koreksi yang mencabutnya.
+    (
+        "llmops13-inference-selfhosted.ts",
+        ["1.760.417", "$160.000/tahun", "41,25", "12,5 GiB"],
+        ["120.000"],
+    ),
+    # CR13: EAD yang terhapus = 700M undrawn x CCF 60% = Rp 420 M (bukan 700M);
+    # penghematan modal 8%x700M = Rp56M tanpa dasar RWA.
+    (
+        "cr13-ead-ccf.ts",
+        ["Rp 420 M"],
+        ["Rp56"],
+    ),
+    # CR15: Vasicek q99,9 PD=2%: rho=24% -> 26,79%; rho=12% -> 14,73%.
+    # Angka lesson lama (1,9T/1,2T) mengimplikasikan LGD tak konsisten (0,71/0,82).
+    (
+        "cr15-risiko-portofolio.ts",
+        ["q_99,9% = 26,79%", "q_99,9% = 14,73%"],
+        ["1,9T"],
+    ),
+    # CR16: titik mati KPMM 8%: (5200-30000d)/(40000(1+3d)) = 8% -> d = 5,05pp
+    # -> NPL = 2,5% + 5,05% = 7,55% ~ 7,6%.
+    (
+        "cr16-stress-testing.ts",
+        ["≈7,6%"],
+        [],
+    ),
+    # AML1: 5 analis x Rp15jt / 4.500 review = Rp16.667/review; review-all
+    # 36.000 x Rp16.667 = Rp600jt; Rp126M = BATAS ATAS, rasio 1:210 (bukan 1:778).
+    # "Rp4.500" SENGAJA tidak jadi must-not: ia muncul di "bukan Rp4.500
+    # (angka lama...)" yang mencabutnya.
+    (
+        "aml1-triage-alert.ts",
+        ["Rp16.667", "rasio 1 : 210"],
+        ["1:778"],
+    ),
+    # MLE12: FNR grup B 60% vs grup A 15% -> 4,0x lebih mungkin terlewat
+    # (bukan 2x).
+    (
+        "mle12-fairness.ts",
+        ["4,0×"],
+        ["2x lebih mungkin"],
+    ),
+    # WQB13: rho=0,94 -> rho^2 = 0,8836 (88,36% variasi sampel dijelaskan
+    # regresi linear sederhana) — BUKAN "94% gerakannya sama". Frasa lama
+    # SENGAJA tidak jadi must-not: ia muncul di "BUKAN ..." yang mencabutnya.
+    (
+        "wqb13-self-correlation.ts",
+        ["0,8836"],
+        [],
+    ),
+    # MK13: all-in +Rp100jt (eksekusi fungsi lab): TV +Rp47,65jt, Digital
+    # +Rp112,17jt — marginal satu titik tidak memutuskan alokasi all-in.
+    (
+        "mk13-mmm.ts",
+        ["47,65", "112,17"],
+        [],
+    ),
+    # RR11: CKPN memperkuat COVERAGE, bukan jarak NPL gross; "0,4 pp" tanpa
+    # penyebut/data. FIG fan: ujung garis baseline 216, adverse 168, severe
+    # 120 (skala y=240->3,0%; 60px/pp) — dikunci di qa_r7_recompute.py
+    # (parse SVG), bukan di sini (string ber-escape).
+    (
+        "rr11-stress.ts",
+        ["memperkuat COVERAGE"],
+        ["jarak severe menjadi 0,4 pp"],
+    ),
+    # BIZ12: panggilan tanpa filter mengekspos agregat SEMUA tenant:
+    # merchant_terdampak = [M-101, M-102, M-103] (bukan [M-101]).
+    # "seharusnya melihat 60" SENGAJA tidak jadi must-not: ia substring dari
+    # "seharusnya melihat 600" yang benar — must-not-nya "bukan 60 miliknya".
+    (
+        "biz12-embedded.ts",
+        ['M-102", "M-103'],
+        ["bukan 60 miliknya"],
+    ),
+    # HD12: baseline konstan prevalensi 4% = 0,04x0,96 = 0,0384 — Brier 0,09
+    # LEBIH BURUK dari baseline; prediksi 60% yang salah (outcome 0) = 0,36.
+    (
+        "hd12-prediksi-klinis.ts",
+        ["0,0384", "0,6² = 0,36"],
+        ["0,25 = tidak informatif"],
+    ),
+    # AIE13: rerank +Rp100/query (50xRp2), bukan Rp30/query; hemat
+    # 20.000x0,06xRp500 = Rp600 ribu/hari (bukan Rp80 ribu) = persis impas.
+    # "Rp30/query" dan "hemat Rp80 ribu" SENGAJA tidak jadi must-not: keduanya
+    # muncul di "(Hitungan lama ... keduanya salah ...)" yang mencabutnya.
+    (
+        "aie13-hybrid-search-reranking.ts",
+        ["Rp600 ribu/hari", "Rp100/query"],
+        [],
+    ),
+    # PM-A2: klaim "mengalahkan pasar" hanya bisa diuji pada EXCESS return
+    # (strategi - benchmark), bukan return mentah vs nol.
+    (
+        "pm-a2-quant-methods.ts",
+        ["EXCESS return"],
+        [],
+    ),
+    # FR11: ambang Rp500 ribu = CONTOH ILUSTRATIF, bukan kutipan regulasi —
+    # ambang nyata bergantung yurisdiksi/jenis transaksi.
+    (
+        "fr11-threshold.ts",
+        ["CONTOH ILUSTRATIF"],
+        [],
+    ),
+    # MLE11: p50 nearest-rank 23 ms; median konvensional (23+24)/2 = 23,5 ms;
+    # hanya 1/24 = 4,2% request yang melebihi 150 ms (150 = nilai p95).
+    (
+        "mle11-cost.ts",
+        ["23,5 ms", "4,2%"],
+        ["5% request menembus 150 ms"],
+    ),
+    # A31: R^2 in-sample CENDERUNG (bukan "selalu") terlihat bagus — model
+    # bisa buruk bahkan in-sample.
+    (
+        "a31-regresi-ols.ts",
+        ["CENDERUNG terlihat bagus"],
+        ["ia selalu terlihat bagus"],
+    ),
+    # E13: nearest-rank — persentil 5% dari 1000 data = data ke-50 dari yang
+    # terkecil (indeks 49): var_hist = -rs[k-1].
+    (
+        "e13-market-risk.ts",
+        ["rs[k-1]", "indeks 49"],
+        [],
+    ),
+    # MR3: minicase VaR 99% 1-hari Rp200 JUTA (bukan miliar); kelipatan 22,11x.
+    (
+        "mr3-var.ts",
+        ["Rp200 juta"],
+        ["Rp200 miliar"],
+    ),
+    # MR4: Cornish-Fisher S=-0,8, z=-2,33 -> |z_CF| ~ 3,39, VaR ~ Rp8,13 juta
+    # (basis Rp200jt, dari Rp5,59jt) — CF bisa di bawah VaR normal bila skew
+    # dominan; klaim "CF harus >= VaR normal" salah.
+    (
+        "mr4-var-lanjut.ts",
+        ["Rp8,13 juta"],
+        ["Rp6,8 M"],
+    ),
+    # AML2: dua bulan merah berturut-turut selesai akhir bulan ke-3 (~hari
+    # ke-90), bukan hari ke-60. "hari ke-60" SENGAJA tidak jadi must-not: ia
+    # muncul di "bukan hari ke-60" yang mencabutnya.
+    (
+        "aml2-kyc-cdd.ts",
+        ["hari ke-90"],
+        [],
+    ),
+    # FR12: 8 node (S,B,C,D,E,A,F,G), 11 baris transfer (4+4+2+1).
+    (
+        "fr12-graph-analytics.ts",
+        ["Delapan node"],
+        [],
+    ),
+    # C13: NPL dari plafon = 180/775 = 23,23% (rasio PLAFON — NPL produksi
+    # memakai baki debet).
+    (
+        "c13-risiko-dpd-rollrate.ts",
+        ["23,23%"],
+        [],
+    ),
+    # AAI13: 80 koneksi / 24 = 3,33x (bukan 4x); N=M=2 -> N*M = N+M = 4.
+    (
+        "aai13-mcp.ts",
+        ["3,33"],
+        ["4x lebih sedikit"],
+    ),
+    # B12: lab VaR/ES — se_mean = SD(P&L)/sqrt(N) ~ 2,8 (setiap estimasi MC
+    # wajib ditemani SE-nya).
+    (
+        "b12-monte-carlo.ts",
+        ["se_mean≈2.8"],
         [],
     ),
 ]

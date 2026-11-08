@@ -11,10 +11,10 @@ const FIG_FAN = `<svg viewBox=\"0 0 480 280\" role=\"img\" aria-label=\"Fan char
 </g>
 <line x1=\"50\" y1=\"120\" x2=\"450\" y2=\"120\" stroke=\"var(--c4)\" stroke-width=\"1.5\" stroke-dasharray=\"7 5\"/>
 <text x=\"446\" y=\"110\" font-size=\"11\" fill=\"var(--c4)\" font-family=\"var(--font-ui)\" text-anchor=\"end\">batas 5,0%</text>
-<path d=\"M50,240 L450,204 L450,96 L50,240 Z\" fill=\"var(--c2)\" opacity=\"0.25\"/>
-<line x1=\"50\" y1=\"240\" x2=\"450\" y2=\"204\" stroke=\"var(--c3)\" stroke-width=\"2.5\"/>
-<line x1=\"50\" y1=\"240\" x2=\"450\" y2=\"150\" stroke=\"var(--c2)\" stroke-width=\"2.5\"/>
-<line x1=\"50\" y1=\"240\" x2=\"450\" y2=\"96\" stroke=\"var(--c4)\" stroke-width=\"2.5\"/>
+<path d=\"M50,240 L450,216 L450,120 L50,240 Z\" fill=\"var(--c2)\" opacity=\"0.25\"/>
+<line x1=\"50\" y1=\"240\" x2=\"450\" y2=\"216\" stroke=\"var(--c3)\" stroke-width=\"2.5\"/>
+<line x1=\"50\" y1=\"240\" x2=\"450\" y2=\"168\" stroke=\"var(--c2)\" stroke-width=\"2.5\"/>
+<line x1=\"50\" y1=\"240\" x2=\"450\" y2=\"120\" stroke=\"var(--c4)\" stroke-width=\"2.5\"/>
 <g font-size=\"12\" fill=\"var(--chart-text)\" font-family=\"var(--font-ui)\" font-weight=\"600\" text-anchor=\"start\">
 <text x=\"330\" y=\"216\">baseline 3,4%</text>
 <text x=\"330\" y=\"164\" fill=\"var(--c2)\">adverse 4,2%</text>
@@ -38,8 +38,8 @@ export const rr11: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "\u201CKatanya aman\u201D",
       prose: [
-        "Hasil stress test tahunan dipresentasikan ke direksi: \u201Cdi semua skenario, NPL tetap di bawah batas 5%.\u201D Direksi tenang, dividen disetujui. Enam bulan kemudian skenario adverse terjadi — kontraksi ekonomi, NPL menyentuh 4,9%. Komite memanggil tim risiko: \u201CKatanya aman?\u201D",
-        "Twist-nya: presentasinya tidak berbohong — skenario severe memang menghasilkan 5,0%, tepat di batas, alias \u201Clolos\u201D. Tetapi \u201Clolos dengan jarak 0,0 pp\u201D disajikan dengan nada yang sama dengan \u201Clolos dengan jarak 2,0 pp\u201D. Direksi pulang dengan kesan \u201Caman\u201D, padahal yang benar adalah \u201Clolos tipis — buffer nyaris nol\u201D. Pelajaran: dalam melaporkan stress test, yang penting bukan lolos/tidak — melainkan JARAK ke batas dan seberapa bisa dipercaya asumsinya.",
+        "Hasil stress test tahunan dipresentasikan ke direksi: “di semua skenario, NPL tetap tidak melewati batas 5%.” Direksi tenang, dividen disetujui. Enam bulan kemudian skenario adverse terjadi — kontraksi ekonomi, NPL menyentuh 4,9%. Komite memanggil tim risiko: \u201CKatanya aman?\u201D",
+        "Twist-nya: presentasinya tidak berbohong — skenario severe memang menghasilkan 5,0%, tepat di batas, alias “lolos” (aturan lesson ini: lolos = NPL ≤ 5,0% — “tepat di batas” = lolos dengan buffer 0,0 pp, bukan “aman”). Tetapi \u201Clolos dengan jarak 0,0 pp\u201D disajikan dengan nada yang sama dengan \u201Clolos dengan jarak 2,0 pp\u201D. Direksi pulang dengan kesan \u201Caman\u201D, padahal yang benar adalah \u201Clolos tipis — buffer nyaris nol\u201D. Pelajaran: dalam melaporkan stress test, yang penting bukan lolos/tidak — melainkan JARAK ke batas dan seberapa bisa dipercaya asumsinya.",
         "Setelah lesson ini kamu bisa: (1) menghitung sensitivitas NPL terhadap shock; (2) menyajikan jarak ke batas, bukan sekadar lolos/gagal; (3) menulis asumsi sebelum hasil.",
       ],
       tasks: [],
@@ -218,7 +218,7 @@ export const rr11: V2Lesson = {
       title: "\u201CLolos tipis\u201D Bank Artha Dana",
       prose: [
         "Data: NPL base 3,0%, beta 0,4, batas 5%. Hasil: baseline 3,4% (jarak 1,6), adverse 4,2% (jarak 0,8), severe 5,0% (jarak 0,0). Draf slide analis: judul \u201CStress Test: LOLOS di semua skenario\u201D dengan centang hijau tiga biji.",
-        "Tulis ulang: Judul — \u201CBuffer habis pada skenario terberat (jarak 0,0 pp)\u201D. Isi — tabel tiga skenario + kolom jarak (dari lab Langkah 3) + dua opsi: (a) tambah CKPN Rp8 miliar → jarak severe menjadi 0,4 pp; (b) batasi eksposur SME Rp50 miliar. Rekomendasi: opsi (a) sebelum akhir kuartal. Perhatikan: tidak ada kata \u201Caman\u201D, tidak ada kata \u201Ckiamat\u201D — hanya jarak dan opsi. Itulah nada yang benar.",
+        "Tulis ulang: Judul — \u201CBuffer habis pada skenario terberat (jarak 0,0 pp)\u201D. Isi — tabel tiga skenario + kolom jarak (dari lab Langkah 3) + dua opsi: (a) tambah CKPN Rp8 miliar → memperkuat COVERAGE, bukan jarak: NPL gross severe tetap 5,0% (jarak 0,0 pp) — yang membaik adalah cadangan menyerap kerugian bila kredit itu macet; penambahan cadangan TIDAK menurunkan NPL gross, dan lesson ini tidak memberi penyebut/data apa pun untuk menghitung “0,4 pp” (angka lama itu tidak berdasar); (b) batasi eksposur SME Rp50 miliar → mengurangi NPL mendatang — satu-satunya dari dua opsi ini yang bisa memperlebar jarak. Rekomendasi: lakukan keduanya — (a) untuk daya serap, (b) untuk jarak — dan JANGAN sajikan (a) seolah-olah memperbaiki jarak. Perhatikan: tidak ada kata \u201Caman\u201D, tidak ada kata \u201Ckiamat\u201D — hanya jarak dan opsi. Itulah nada yang benar.",
       ],
       tasks: [],
       note: {

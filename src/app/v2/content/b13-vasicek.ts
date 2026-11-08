@@ -12,7 +12,7 @@ export const b13: V2Lesson = {
       eyebrow: "Langkah 1 · Model satu faktor",
       title: "Mengapa 5% \u00D7 1.000 \u2260 50 gagal?",
       prose: [
-        "B1 mengajarkan: 1.000 nasabah \u00D7 PD 5% (independen) \u2192 ekspektasi 50 gagal, SD 6,9. Kenyataannya saat krisis 2008: 200 gagal \u2014 22 SD di atas mean! Model Binomial bilang \u201Cmustahil\u201D. Yang mustahil bukan kejadiannya, melainkan modelnya \u2014 yang salah asumsi independen.",
+        "B1 mengajarkan: 1.000 nasabah \u00D7 PD 5% (independen) \u2192 ekspektasi 50 gagal, SD 6,9. Kenyataannya — contoh ILUSTRATIF (bukan data historis satu bank tertentu): 200 gagal — 22 SD di atas mean! Model Binomial bilang “mustahil”. Yang mustahil bukan kejadiannya, melainkan modelnya \u2014 yang salah asumsi independen.",
         "Model Vasicek (1987): nilai aset (laten) debitur i adalah X_i = \u221A\u03C1\u00B7Y + \u221A(1\u2212\u03C1)\u00B7\u03B5_i. Y ~ N(0,1) faktor sistemik (ekonomi, sama untuk semua), \u03B5_i ~ N(0,1) idiosinkratik (nasib individual, independen), \u03C1 korelasi aset. Default jika X_i < \u03A6\u207B\u00B9(PD).",
         "Vasicek adalah \u201Corkestra satu dirigen\u201D \u2014 Y dirigen (ekonomi), tiap debitur main notnya sendiri (\u03B5_i) tapi mengikuti tempo dirigen sebesar \u221A\u03C1. Model ini basis rumus modal Basel II/III \u2014 setiap bank di dunia memakainya.",
       ],
@@ -158,14 +158,14 @@ export const b13: V2Lesson = {
       title: "Kalibrasi \u03C1 dari 10 tahun data",
       prose: [
         "Bank punya 10 tahun data default tahunan portofolio UKM: rata-rata 3%, tapi tahun terburuk 11%. Model independen (Binomial) bilang P(\u226511%) \u2248 0. Perkirakan \u03C1 yang konsisten: cari \u03C1 sehingga q_90% \u2248 11% (tahun terburuk dari 10 \u2248 kuantil 90%).",
-        "Coba \u03C1=0,2: q_90% = \u03A6((\u03A6\u207B\u00B9(0,03)+\u221A0,2\u00D71,28)/\u221A0,8) \u2248 7,2%. Kurang. \u03C1=0,35 \u2192 \u22488,2%. \u03C1=0,5 \u2192 \u22488,4%. Butuh \u03C1 sangat tinggi atau model multi-faktor \u2014 data 10 titik tidak cukup untuk kalibrasi presisi! Inilah pesan sebenarnya: kalibrasi \u03C1 dari deret pendek sangat tidak pasti.",
+        "Coba \u03C1=0,2: q_90% = \u03A6((\u03A6\u207B\u00B9(0,03)+\u221A0,2\u00D71,28)/\u221A0,8) \u2248 7,2%. Kurang. \u03C1=0,35 \u2192 \u22488,2%. ρ=0,5 → ≈8,4%. Dan inilah yang mengejutkan: q_90% TIDAK naik terus dengan ρ — ia memuncak ≈8,43% di ρ≈0,46, lalu TURUN (ρ=0,9 → 1,77%: korelasi nyaris sempurna berarti tahun terburuk nyaris selalu 0% atau 100%, dan kuantil 90%-nya jatuh ke 0%). Jadi TIDAK ADA ρ yang membuat q_90% mencapai 11% — “butuh ρ lebih besar” adalah inferensi yang menyesatkan. Yang benar: 11% tidak bisa dijelaskan ρ saja — butuh model multi-faktor, PD yang lebih tinggi, atau deret yang lebih panjang. Data 10 titik tidak cukup untuk kalibrasi presisi! Inilah pesan sebenarnya: kalibrasi ρ dari deret pendek sangat tidak pasti.",
         "Bahaya mengkalibrasi dari 10 tahun \u201Ctenang\u201D: tidak mengandung krisis \u2014 \u03C1 terkalibrasi terlalu rendah (period bias). Praktik benar: pakai \u03C1 regulator (konservatif) + stress + data lintas siklus + benchmark antar bank.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `q90` untuk PD=3%, \u03C1=0,2 (bandingkan dengan 11%)" },
         { id: "t2", text: "Cetak `q90` sebagai persen 1 desimal" },
       ],
-      expected: "q90=7.2% (< 11%: butuh \u03C1 lebih besar)",
+      expected: "q90=7.2% (< 11%: tidak ada ρ yang mencapai 11%)",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -194,7 +194,7 @@ export const b13: V2Lesson = {
       prose: [
         "Kuantil q dari langkah 2 adalah kerugian di skenario buruk (99,9 persen). Modal bukan q itu sendiri — modal adalah unexpected loss: selisih antara kerugian skenario buruk dan kerugian yang diharapkan. Rumusnya: modal per unit eksposur = LGD × (q − PD). Ekspektasi (PD × LGD) sudah dicadangkan lewat provisi atau CKPN; modal menutup sisanya — yang tidak diharapkan.",
         "Contoh: PD = 2 persen, ρ = 0,15, LGD = 45 persen. Kuantil 99,9 persen dari langkah 2: q ≈ 17,63 persen. Modal = 0,45 × (0,1763 − 0,02) = 0,45 × 0,1563 ≈ 7,03 persen dari eksposur. Bandingkan dengan expected loss-nya: 0,02 × 0,45 = 0,9 persen. Modalnya hampir 8x expected loss — sekali lagi, ekor yang menentukan, bukan rata-rata.",
-        "Tiga hal yang membuat angka ini bergerak: ρ naik → q naik → modal naik (paling sensitif); PD naik → q dan ekspektasi sama-sama naik, tetapi selisihnya melebar; LGD naik → modal naik proporsional. Inilah alasan Basel menetapkan ρ per segmen dan mewajibkan stress: parameter yang paling menentukan modal adalah yang paling sulit diestimasi — jadi regulator memaksa konservatisme di sana.",
+        "Tiga hal yang membuat angka ini bergerak — dengan syarat: pada α=99,9% dan PD kecil seperti di contoh ini, ρ naik → q naik → modal naik (paling sensitif). Tetapi monotonisitas ini TIDAK umum: pada α=90% dan PD=3%, q memuncak di ρ≈0,46 lalu turun; dan saat PD mendekati 100%, kuantil menyempit ke 100%, bukan melebar. PD naik → q dan ekspektasi sama-sama naik, tetapi selisihnya melebar (pada rentang PD yang relevan); LGD naik → modal naik proporsional. Inilah alasan Basel menetapkan ρ per segmen dan mewajibkan stress: parameter yang paling menentukan modal adalah yang paling sulit diestimasi — jadi regulator memaksa konservatisme di sana."
       ],
       formula: String.raw`\text{Modal} = LGD \times (q_{99{,}9\%} - PD) = 0{,}45 \times (0{,}1763 - 0{,}02) \approx 7{,}03\%`,
       formulaNote: "Modal = unexpected loss per unit eksposur; LGD = 45 persen; q = 17,63 persen = kuantil Vasicek 99,9 persen; PD = 2 persen; 0,45 × 0,1563 = 0,0703 = 7,03 persen.",
@@ -253,7 +253,7 @@ export const b13: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: satu faktor menjelaskan mengapa yang mustahil terjadi berbarengan",
-        body: "PD 5% untuk 1.000 kredit tidak berarti 50 gagal dengan pasti — dan juga tidak berarti gagalnya tersebar acak. Model Vasicek menunjukkan satu faktor bersama Y, kondisi ekonomi, mengikat semuanya: saat Y buruk, peluang gagal tiap kredit naik bersamaan. Inilah mengapa 200 gagal sekaligus bisa terjadi padahal ekspektasinya 50 — bukan karena PD-nya salah, melainkan karena korelasinya bekerja. Praktisi merasakannya sebagai: diversifikasi antar debitur bukan diversifikasi antar skenario. Seribu kredit di satu negara dalam satu resesi pada dasarnya adalah satu taruhan besar pada faktor yang sama. Aturan keputusannya: ρ adalah seluruh cerita. ρ kecil mengubah ekor secara dramatis — kuantil 99,9% bisa sembilan kali lipat mean. Kalibrasi ρ dari data tahun baik akan meremehkan ekor; stres dengan ρ krisis. Jebakan yang mahal: mengira portofolio granular, banyak debitur kecil, berarti aman. Granularitas membunuh idiosyncratic risk, tetapi systematic risk — faktor Y — tidak bisa didiversifikasi pergi. Satu faktor tetap berkuasa atas ribuan kredit.",
+        body: "PD 5% untuk 1.000 kredit tidak berarti 50 gagal dengan pasti — dan juga tidak berarti gagalnya tersebar acak. Model Vasicek menunjukkan satu faktor bersama Y, kondisi ekonomi, mengikat semuanya: saat Y buruk, peluang gagal tiap kredit naik bersamaan. Inilah mengapa 200 gagal sekaligus bisa terjadi padahal ekspektasinya 50 — bukan karena PD-nya salah, melainkan karena korelasinya bekerja. Praktisi merasakannya sebagai: diversifikasi antar debitur bukan diversifikasi antar skenario. Seribu kredit di satu negara dalam satu resesi pada dasarnya adalah satu taruhan besar pada faktor yang sama. Aturan keputusannya: ρ adalah seluruh cerita. Pada α=99,9% dan PD kecil, ρ kecil mengubah ekor secara dramatis — kuantil 99,9% bisa sembilan kali lipat mean (tetapi ingat: monotonisitas ρ→q tidak berlaku umum — pada α=90%, q memuncak lalu turun). Kalibrasi ρ dari data tahun baik akan meremehkan ekor; stres dengan ρ krisis. Jebakan yang mahal: mengira portofolio granular, banyak debitur kecil, berarti aman. Granularitas membunuh idiosyncratic risk, tetapi systematic risk — faktor Y — tidak bisa didiversifikasi pergi. Satu faktor tetap berkuasa atas ribuan kredit.",
       },
       summary: [
         "Model: X_i = \u221A\u03C1\u00B7Y + \u221A(1\u2212\u03C1)\u00B7\u03B5_i \u2014 satu faktor sistemik + idiosinkratik.",
@@ -273,11 +273,11 @@ export const b13: V2Lesson = {
           ],
         },
         {
-          q: "PD=2%, \u03C1=0,15: VaR 99,9% \u2248 17,9% vs ekspektasi 2%. Artinya\u2026",
+          q: "PD=2%, ρ=0,15: VaR 99,9% ≈ 17,6% vs ekspektasi 2%. Artinya…",
           options: [
             { text: "Model salah", why: "Salah: ini konsekuensi korelasi yang benar." },
             { text: "Ekor 9x mean \u2014 modal melindungi dari korelasi, bukan dari rata-rata", why: "Benar: inti modal kredit \u2014 unexpected loss dari korelasi.", correct: true },
-            { text: "PD sebenarnya 17,9%", why: "Salah: PD tetap 2% \u2014 17,9% adalah kuantil distribusi kerugian." },
+            { text: "PD sebenarnya 17,6%", why: "Salah: PD tetap 2% — 17,6% adalah kuantil distribusi kerugian, bukan PD." },
           ],
         },
         {
@@ -291,7 +291,7 @@ export const b13: V2Lesson = {
         {
           q: "n=500, PD=2%, \u03C1=0,15. SD jumlah gagal Vasicek vs Binomial?",
           options: [
-            { text: "\u224827,3 vs 3,13 \u2014 8,7x lipat", why: "Benar: korelasi meledakkan SD jumlah gagal.", correct: true },
+            { text: "≈11,35 vs 3,13 — 3,6x lipat", why: "Benar: korelasi menaikkan SD jumlah gagal — tetapi tidak sebesar itu. Hitung yang benar: korelasi indikator default ρ_ind = (P(keduanya gagal) − PD²)/(PD(1−PD)) dengan P(keduanya gagal) ≈ 0,000877 (bivariate normal, ρ_aset=0,15) → ρ_ind ≈ 0,0243 — JAUH lebih kecil dari ρ_aset 0,15. Var = n·PD(1−PD)·[1+(n−1)ρ_ind] = 500×0,02×0,98×(1+499×0,0243) ≈ 128,8 → SD ≈ 11,35 (vs binomial 3,13; rasio 3,63×). Memakai ρ_aset 0,15 langsung sebagai korelasi indikator (27,3) adalah penyalahgunaan yang lesson ini sendiri larang di langkah 4.", correct: true },
             { text: "Sama \u2014 korelasi tidak mengubah SD", why: "Salah: justru itu yang diubah korelasi." },
             { text: "3,13 vs 27,3", why: "Salah: tertukar." },
           ],

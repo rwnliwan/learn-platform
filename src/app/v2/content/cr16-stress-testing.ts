@@ -41,7 +41,7 @@ export const cr16: V2Lesson = {
       eyebrow: "Langkah 3 · Lab Migrasi",
       title: "Peta perpindahan rating",
       prose: [
-        "Migration matrix = tabel probabilitas perpindahan rating dalam 1 tahun (baris = rating awal). Matriks `migrasi` dan `portofolio` (Rp M) terkunci. Tugasmu: hitung default baru per rating dan totalnya.",
+        "Migration matrix = tabel probabilitas perpindahan rating dalam 1 tahun (baris = rating awal). Kolom matriks (tujuan, dalam urutan): [AAA, AA, tetap di rating awal, Default] — matriks ini disederhanakan untuk lab: perpindahan turun satu tingkat tidak dimodelkan terpisah, dan yang dipakai lab adalah kolom Default (indeks 3). Matriks `migrasi` dan `portofolio` (Rp M) terkunci. Tugasmu: hitung default baru per rating dan totalnya.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `default_bbb` dan `default_bb` (Rp M)" },
@@ -77,12 +77,12 @@ export const cr16: V2Lesson = {
       eyebrow: "Langkah 4 · Reverse",
       title: "Mulai dari kematian",
       prose: [
-        "Reverse stress test = dibalik: bukan \"skenario X → dampak Y\", melainkan \"dampak fatal Y → skenario apa yang menyebabkannya?\" Contoh: \"NPL berapa yang membuat KPMM jebol 8%?\" → jawab: 15% → \"skenario apa yang membuat NPL 15%?\"",
+        "Reverse stress test = dibalik: bukan \"skenario X → dampak Y\", melainkan \"dampak fatal Y → skenario apa yang menyebabkannya?\" Contoh: \"NPL berapa yang membuat KPMM jebol 8%?\" → jawab: ≈7,6% (dihitung tuntas di langkah 11: (5.200−30.000×d)/(40.000×(1+3d)) = 8% → d ≈ 5,05 poin → NPL ≈ 2,5% + 5,05% ≈ 7,55% ≈ 7,6%) → \"skenario apa yang membuat NPL 7,6%?\"",
         "Kegunaan: menetapkan risk appetite (\"kita tidak boleh...\") dan menemukan titik buta — kombinasi faktor yang tidak terpikirkan dalam skenario normal (misal: NPL naik bersamaan dengan rush penarikan dana).",
         "Stress test normal menjawab \"seberapa sakit?\"; reverse stress test menjawab \"apa yang membunuh kita?\". Bank hanya butuh satu dari keduanya untuk bertahan — tetapi butuh keduanya untuk tidur nyenyak.",
       ],
       tasks: [],
-      reference: "KPMM menyentuh 8% di sekitar NPL 13–14% — itulah titik mati bank ini. Mulai dari kematian, rancang pencegahannya.",
+      reference: "KPMM menyentuh 8% di NPL ≈ 7,6% — itulah titik mati bank ini (dihitung di langkah 11: NPL 7,5% → KPMM 8,04%; NPL 8% → 7,6%). Mulai dari kematian, rancang pencegahannya.",
     },
     {
       id: "lab-kpmm",
@@ -96,7 +96,7 @@ export const cr16: V2Lesson = {
         { id: "t2", text: "Tentukan `status_berat` (AMAN/WASPADA/KRITIS!)" },
         { id: "t3", text: "Cetak semuanya dengan `print`" },
       ],
-      expected: "ringan=10.35 WASPADA berat=6.02 KRITIS!",
+      expected: "ringan=10.35% berat=6.02% status=KRITIS!",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -125,7 +125,7 @@ export const cr16: V2Lesson = {
       eyebrow: "Langkah 6 · Jepitan",
       title: "Dua sisi yang menekan",
       prose: [
-        "Mekanisme stress test yang paling penting untuk dihayati: stres menekan pembilang (modal turun via CKPN tambahan) DAN menggelembungkan penyebut (RWA naik via migrasi/downgrade) bersamaan. Contoh: stress test menghitung CKPN tambahan Rp 2 T tetapi RWA dianggap tetap — yang terlewat: downgrade menaikkan RWA juga. KPMM 14,3% → 10% (bukan 11,4% jika RWA tetap); selisih 1,4 poin = selisih 'nyaman' vs 'OJK menelepon'.",
+        "Mekanisme stress test yang paling penting untuk dihayati: stres menekan pembilang (modal turun via CKPN tambahan) DAN menggelembungkan penyebut (RWA naik via migrasi/downgrade) bersamaan. Contoh: stress test menghitung CKPN tambahan Rp 2 T tetapi RWA dianggap tetap — yang terlewat: downgrade DAPAT menaikkan RWA juga — tergantung pendekatan (SA: bobot naik bila rating eksternal turun; IRB: PD naik → bobot naik) — bukan otomatis. KPMM 14,3% → 10% (bukan 11,4% jika RWA tetap); selisih 1,4 poin = selisih 'nyaman' vs 'OJK menelepon'.",
         "Menghitung satu sisi = optimis 1+ poin KPMM — selisih yang bisa menentukan hidup-mati keputusan. Selalu tunjukkan kedua sisi.",
       ],
       tasks: [],
@@ -151,7 +151,7 @@ export const cr16: V2Lesson = {
       tasks: [],
       note: {
         title: "Sering salah",
-        body: "Direksi memprotes skenario 'terlalu ekstrem' dan meminta 'pakai yang ringan saja agar hasilnya bagus' — formalitas berbahaya yang memberi rasa aman palsu. Ironisnya hasil 8,7% justru kabar baik: bank selamat dari skenario seberat itu — itulah yang ingin didengar OJK dan pasar.",
+        body: "Direksi memprotes skenario 'terlalu ekstrem' dan meminta 'pakai yang ringan saja agar hasilnya bagus' — formalitas berbahaya yang memberi rasa aman palsu. Ironisnya hasil 8,7% adalah kabar baik RELATIF: bank selamat dari skenario seberat ini (0,7 poin di atas minimum 8%) — tetapi “bukti ketahanan” butuh pembanding: buffer 0,7 poin itu tipis, dan skenario ini belum mencakup guncangan lain; bandingkan dengan buffer peer dan skenario yang lebih berat sebelum menyebutnya bukti.",
       },
     },
     {
@@ -188,7 +188,7 @@ export const cr16: V2Lesson = {
       title: "\"PD naiknya dari mana?\"",
       prose: [
         "Langkah rantai menyebut model satelit sekilas: skenario makro → model satelit → PD/LGD naik. Di sinilah rantai stress test paling sering bocor — dan kebocoran ini tidak terlihat sampai auditor atau OJK bertanya. Model satelit = model yang menerjemahkan variabel makro (GDP, pengangguran, suku bunga) menjadi parameter risiko (PD, LGD, NPL). Contoh yang benar: regresi dari 10 tahun data — setiap kenaikan pengangguran 1 poin menaikkan NPL segmen KTA 0,8 poin (R² 0,72, teruji). Contoh yang bocor: \"PD naik 50% karena skenario berat\" — angka dari firasat, tanpa model, tanpa data, tanpa backtest. Keduanya menghasilkan \"PD stres\", tetapi yang pertama bisa dipertahankan di depan auditor, yang kedua runtuh di pertanyaan pertama: \"PD naiknya dari mana?\" Referensi langkah rantai sudah mengingatkan: melompati langkah = angka tidak bisa dipertahankan. Pendalamannya: bagaimana memastikan tiap sambungan rantai tidak bocor.",
-        "Tiga uji kebocoran untuk setiap model satelit. Pertama, uji arah dan besaran: apakah tanda koefisiennya masuk akal? Pengangguran naik → NPL naik (positif) — jika regresi menghasilkan tanda negatif, datanya atau spesifikasinya salah, bukan \"temuan menarik\". Besaran: kenaikan pengangguran 1 poin menaikkan NPL 0,8 poin — bandingkan dengan literatur dan pengalaman krisis 2020 (saat pengangguran naik ~2 poin, NPL KTA naik ~1,5 poin — konsisten). Kedua, uji backtest: jalankan model satelit \"seolah\" tahun 2019 dengan data sampai 2019, prediksi NPL 2020, bandingkan dengan aktual. Selisih >30% = model tidak layak untuk stres — ia bahkan tidak bisa menjelaskan masa lalu yang sudah terjadi. Ketiga, uji konsistensi antar segmen: jika satelit KTA bilang NPL naik 3 poin tetapi satelit KPR (yang lebih sensitif ke pengangguran) bilang naik 1 poin, salah satunya salah — peta yang tidak konsisten antar wilayahnya adalah peta yang salah.",
+        "Tiga uji kebocoran untuk setiap model satelit. Pertama, uji arah dan besaran: apakah tanda koefisiennya masuk akal? Pengangguran naik → NPL naik (positif) — jika regresi menghasilkan tanda negatif, datanya atau spesifikasinya salah, bukan \"temuan menarik\". Besaran: kenaikan pengangguran 1 poin menaikkan NPL 0,8 poin — bandingkan dengan literatur dan pengalaman krisis 2020 (saat pengangguran naik ~2 poin, NPL KTA naik ~1,5 poin — konsisten). Kedua, uji backtest: jalankan model satelit \"seolah\" tahun 2019 dengan data sampai 2019, prediksi NPL 2020, bandingkan dengan aktual. Selisih >30% = sinyal kuat model tidak layak untuk stres menurut aturan praktis lesson ini (bukan ambang universal — kalibrasi ke kebijakan validasi bankmu; yang wajib adalah backtest dilakukan dan selisihnya dijelaskan) — ia bahkan tidak bisa menjelaskan masa lalu yang sudah terjadi. Ketiga, uji konsistensi antar segmen: jika satelit KPR bilang NPL naik 3 poin tetapi satelit KTA (yang lebih sensitif ke pengangguran — kredit tanpa agunan paling dulu macet saat penghasilan hilang) bilang naik 1 poin, salah satunya salah — peta yang tidak konsisten antar wilayahnya adalah peta yang salah.",
         "Mode kegagalan yang paling mahal: satelit yang \"disewa\" dari konsultan tanpa transfer pemahaman. Bank membayar mahal untuk model satelit, menjalankannya tiap tahun sebagai black box — tidak ada yang di bank memahami mengapa pengangguran 12% menghasilkan PD 6,2% dan bukan 4% atau 9%. Saat OJK bertanya dalam review ICAAP, tim hanya bisa menjawab \"menurut model konsultan\". Itu bukan jawaban — itu pengakuan bahwa bank tidak menguasai rantai transmisinya sendiri. Aturan keputusan: setiap parameter stres yang masuk ke perhitungan KPMM wajib punya \"kartu identitas\" satu halaman — nama model, data latih (periode + cakupan), koefisien kunci dengan interpretasi bisnis, hasil backtest terakhir, nama pemilik di internal bank. Tidak ada kartu identitas = tidak boleh dipakai untuk keputusan modal. Dan satu prinsip pamungkas: model satelit yang sederhana tetapi dipahami (regresi linear yang di-backtest) mengalahkan model canggih yang misterius (machine learning tanpa interpretasi) untuk stress testing regulatori — karena di depan OJK, \"saya paham dan bisa menjelaskan\" mengalahkan \"modelnya lebih akurat 2%\". Rantai transmisi yang bocor di satu sambungan membuat seluruh stress test — seberapa pun tebal laporannya — menjadi teater.",
       ],
       tasks: [],

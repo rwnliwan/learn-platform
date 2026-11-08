@@ -1,8 +1,8 @@
 import type { V2Lesson } from "../lib/types";
 
 // Distribusi 1.200 alert harian per band skor: 18+96+210+376+500 = 1200.
-// Garis kapasitas: 150 review/hari hanya mencapai band 70-89.
-const BAND_SVG = `<svg viewBox="0 0 480 300" role="img" aria-label="Diagram batang distribusi 1200 alert per band skor dengan garis kapasitas 150.">
+// Garis kapasitas bertangga: 150 review/hari = 18 (90-100) + 96 (70-89) + 36 dari 210 (50-69).
+const BAND_SVG = `<svg viewBox="0 0 480 300" role="img" aria-label="Diagram batang distribusi 1200 alert per band skor dengan garis kapasitas bertangga 150 (kumulatif).">
 <g stroke="var(--chart-grid)" stroke-width="1"><line x1="52" y1="20" x2="452" y2="20"/><line x1="52" y1="80" x2="452" y2="80"/><line x1="52" y1="140" x2="452" y2="140"/><line x1="52" y1="200" x2="452" y2="200"/><line x1="52" y1="260" x2="452" y2="260"/></g>
 <g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="46" y="24">500</text><text x="46" y="84">375</text><text x="46" y="144">250</text><text x="46" y="204">125</text><text x="46" y="264">0</text></g>
 <g font-size="11" font-family="var(--font-ui)" text-anchor="middle" fill="var(--chart-text)">
@@ -12,8 +12,8 @@ const BAND_SVG = `<svg viewBox="0 0 480 300" role="img" aria-label="Diagram bata
 <rect x="308" y="72" width="56" height="188" fill="var(--c3)"/><text x="336" y="276">30-49</text><text x="336" y="68" fill="var(--text)" font-weight="600">376</text>
 <rect x="384" y="20" width="56" height="240" fill="var(--c4)" opacity="0.55"/><text x="412" y="276">0-29</text><text x="412" y="16" fill="var(--text)" font-weight="600">500</text>
 </g>
-<line x1="52" y1="185" x2="452" y2="185" stroke="var(--c4)" stroke-width="2" stroke-dasharray="6 4"/>
-<text x="446" y="178" text-anchor="end" font-size="12" fill="var(--c4)" font-family="var(--font-ui)" font-weight="600">kapasitas 150 review/hari</text>
+<polyline points="80,251 136,251 136,212 212,212 212,173 288,173" fill="none" stroke="var(--c4)" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="292" y="166" font-size="12" fill="var(--c4)" font-family="var(--font-ui)" font-weight="600">kapasitas 150 review/hari (kumulatif)</text>
 <text x="240" y="296" text-anchor="middle" font-size="12" fill="var(--text-muted)" font-family="var(--font-ui)">band skor prioritas (0-100)</text>
 </svg>`;
 
@@ -61,15 +61,15 @@ export const aml1: V2Lesson = {
       eyebrow: "Langkah 3 · Skor prioritas",
       title: "Satu angka untuk mengurutkan 1.200 alert",
       prose: [
-        "Skor prioritas = rata-rata berbobot dari fitur risiko yang dinormalisasi ke 0-100. Tiga fitur paling prediktif di transaction monitoring: nominal relatif terhadap profil nasabah (bukan nominal absolut — Rp450 juta untuk payroll korporat itu kecil, untuk warung itu gila), risiko negara tujuan (skala 1-3 dari daftar yurisdiksi berisiko), dan velocity 24 jam (banyaknya transaksi — pencuci uang berpacu dengan waktu).",
+        "Skor prioritas = rata-rata berbobot dari fitur risiko yang dinormalisasi ke 0-100. Tiga fitur paling prediktif di transaction monitoring: nominal relatif terhadap profil nasabah (bukan nominal absolut — Rp450 juta untuk payroll korporat itu kecil, untuk warung itu gila). Catatan jujur: rumus SEDERHANA di lesson ini memakai cap absolut (min(nominal/500, 1)) sebagai proksi — itu BUKAN normalisasi profil; di produksi, ganti penyebut 500 dengan profil nasabah itu sendiri (mis. median transaksi 90 hari nasabah), karena cap absolut memperlakukan warung dan korporat dengan penggaris yang sama, risiko negara tujuan (skala 1-3 dari daftar yurisdiksi berisiko), dan velocity 24 jam (banyaknya transaksi — pencuci uang berpacu dengan waktu).",
         "Bobot mencerminkan pengalaman investigator: 0,4 untuk nominal, 0,35 untuk negara, 0,25 untuk velocity. Bobot harus berjumlah 1 — kalau tidak, skor antar versi tidak bisa dibandingkan. Normalisasi memakai cap (min(nominal/500, 1)) agar satu transfer Rp50 miliar tidak menenggelamkan semua sinyal lain.",
-        "Cara membaca diagram: sumbu X = band skor, tinggi batang = jumlah alert di band itu. Garis putus-putus = kapasitas 150 review/hari. Interpretasi: hanya band 90-100 (18 alert) dan 70-89 (96 alert) yang seluruhnya terbaca — total 114. Dari band 50-69 (210 alert) hanya 36 yang kebagian slot. Alert di bawah skor 50 praktis tidak pernah direview: kalau rule-mu menaruh kasus nyata di sana, tuning ulang.",
+        "Cara membaca diagram: sumbu X = band skor, tinggi batang = jumlah alert di band itu. Garis bertangga = kapasitas 150 review/hari (kumulatif dari band teratas: 18 + 96 + 36 dari band 50-69 — garis horizontal biasa akan salah, karena ia membandingkan terhadap tinggi tiap batang, bukan alokasi kumulatif). Interpretasi: hanya band 90-100 (18 alert) dan 70-89 (96 alert) yang seluruhnya terbaca — total 114. Dari band 50-69 (210 alert) hanya 36 yang kebagian slot. Alert di bawah skor 50 praktis tidak pernah direview: kalau rule-mu menaruh kasus nyata di sana, tuning ulang.",
       ],
       formula: String.raw`S = \sum_{i=1}^{n} w_i x_i \qquad \sum_{i=1}^{n} w_i = 1`,
       formulaNote: "S = skor prioritas (0-100). w_i = bobot fitur ke-i (jumlah = 1). x_i = fitur ternormalisasi 0-100. Contoh: w = (0,4; 0,35; 0,25) untuk (nominal; negara; velocity).",
       figure: {
         svg: BAND_SVG,
-        alt: "Diagram batang distribusi 1200 alert per band skor dengan garis kapasitas 150.",
+        alt: "Diagram batang distribusi 1200 alert per band skor dengan garis kapasitas bertangga 150 (kumulatif).",
         caption: "Distribusi 1.200 alert harian per band skor. Hanya ~150 alert teratas yang terbaca — sisanya buta.",
       },
       tasks: [],
@@ -121,9 +121,9 @@ export const aml1: V2Lesson = {
       prose: [
         "Simulasikan 30 hari. FIFO: 1.200 alert masuk per hari, 150 direview — backlog tumbuh 1.050 per hari. Dari 4.500 yang direview, hit rate 8% → 360 suspicious tertangkap. Kedengarannya lumayan, sampai kamu menghitung yang tidak terlihat: jika 8% dari SEMUA alert sebenarnya suspicious, totalnya 2.880 — FIFO meloloskan 2.520 (87,5%).",
         "Dengan skor: 150 top-skor direview per hari, hit rate 20,7% → 932 tertangkap, 1.948 lolos (67,6%). Masih banyak yang lolos — tetapi 572 kasus tambahan tertangkap dengan analis, gaji, dan kopi yang sama. Triase tidak menyelesaikan masalah kapasitas; ia mengalokasikan kelangkaan ke tempat paling berharga.",
-        "Pelajaran yang sering terlewat: backlog TETAP tumbuh di kedua skenario (1.200 > 150). Triase mengubah KOMPOSISI yang direview, bukan volume masalah. Tanpa auto-close tier bawah (skor < 30) dan tuning rule hulu, triase hanya memperlambat pendarahan — tidak menghentikannya.",
-        "Eksperimen setelah lab: ubah kapasitas menjadi 300/hari. Backlog tetap tumbuh (1.200 > 300), tangkapan naik 2× tetapi lolos tetap ribuan. Kesimpulan: tambah analis tanpa triase = antrean yang dibaca lebih cepat, tetap buta. Urutan intervensi yang benar: skor dulu, auto-close tier bawah, tuning rule, baru tambah orang.",
-        "Angka ekonomi triage: analis dibayar Rp15 juta/bulan, menangani ~150 alert/hari. Biaya per review ≈ Rp4.500. Dengan 36.000 alert/bulan, mereview SEMUA = Rp162 juta/bulan biaya analis — versus expected loss dari alert yang terlewat. Jika 2.520 suspicious lolos dan tiap kasus merugikan Rp50 juta, ekspektasi kerugian Rp126 miliar. Biaya review Rp162 juta vs risiko Rp126 miliar: rasio 1 : 778. Review bukan biaya — ia asuransi termurah di bank.",
+        "Pelajaran yang sering terlewat: backlog TETAP tumbuh di kedua skenario (1.200 > 150). Triase mengubah KOMPOSISI yang direview, bukan volume masalah. Tanpa auto-close tier bawah yang TERVALIDASI (skor < 30) dan tuning rule hulu, triase hanya memperlambat pendarahan — tidak menghentikannya. Validasi artinya: sampling independen atas alert yang akan di-auto-close untuk mengestimasi miss rate, dan monitoring miss berkala — skor rendah ≠ aman, karena label alert yang tidak direview tidak diketahui.",
+        "Eksperimen setelah lab: ubah kapasitas menjadi 300/hari. Backlog tetap tumbuh (1.200 > 300), tangkapan naik 2× tetapi lolos tetap ribuan. Kesimpulan: tambah analis tanpa triase = antrean yang dibaca lebih cepat, tetap buta. Urutan intervensi yang benar: skor dulu, validasi auto-close tier bawah (sampling independen + monitoring miss), tuning rule, baru tambah orang. Auto-close tanpa validasi = membuang alert dengan dokumentasi yang rapi.",
+        "Angka ekonomi triage: tim 5 analis, gaji Rp15 juta/bulan/orang = Rp75 juta/bulan untuk 4.500 review (150/hari × 30 hari). Biaya per review = Rp75 jt / 4.500 ≈ Rp16.667 — bukan Rp4.500 (angka lama itu keliru membagi gaji SATU analis dengan volume TIM). Dengan 36.000 alert/bulan, mereview SEMUA = 36.000 × Rp16.667 = Rp600 juta/bulan biaya analis. Jika 2.520 suspicious lolos dan tiap kasus MERUGIKAN Rp50 juta dengan pasti, kerugiannya Rp126 miliar — tetapi itu BATAS ATAS, bukan ekspektasi: tidak setiap kasus yang lolos pasti merugikan Rp50 juta; ekspektasi sebenarnya = 2.520 × Rp50 jt × P(rugi | lolos). Bahkan memakai batas atas itu, biaya review Rp600 juta vs risiko Rp126 miliar: rasio 1 : 210. Review bukan biaya — ia asuransi termurah di bank.",
         "Tetapi ada batas: menambah analis ke-20 tidak menambah 150 review/hari yang produktif. Setiap analis butuh 2 minggu training, 1 bulan supervisi, dan kualitas review menurun setelah alert ke-100 dalam sehari (kelelahan keputusan). Kapasitas manusia punya diminishing return — di titik inilah otomasi (skor + aturan) mengambil alih 80% volume, manusia fokus ke 20% teratas.",
         "Benchmark industri: bank besar Indonesia memproses 50.000–200.000 alert/bulan dengan rasio analis 1:3.000 alert. Bank yang rasionya 1:10.000 bukan efisien — ia buta. Jika backlog-mu tumbuh 1.050/hari seperti simulasi lab, dalam 30 hari ada 31.500 alert tak tersentuh. Itu bukan antrean; itu kuburan bukti.",
       ],
@@ -157,7 +157,7 @@ export const aml1: V2Lesson = {
       eyebrow: "Langkah 5 · Peta keputusan",
       title: "Empat situasi, empat respons",
       prose: [
-        "Satu: volume 8x kapasitas dan backlog menua → terapkan risk scoring, dan auto-close alert skor <30 dengan audit trail (bukan dihapus — ditutup otomatis dengan alasan tercatat, bisa dibuka lagi). Jangan tambah analis dulu; tambah analis tanpa triase = antrean yang dibaca lebih cepat, tetap buta.",
+        "Satu: volume 8x kapasitas dan backlog menua → terapkan risk scoring, dan auto-close alert skor <30 — TETAPI hanya setelah validasi berbasis risiko: sampling independen atas alert yang akan di-auto-close (estimasi miss rate), monitoring miss berkala, dan audit trail (bukan dihapus — ditutup otomatis dengan alasan tercatat, bisa dibuka lagi). Audit trail saja tidak memvalidasi: ia mencatat keputusan, bukan membuktikan keputusan itu aman. Jangan tambah analis dulu; tambah analis tanpa triase = antrean yang dibaca lebih cepat, tetap buta.",
         "Dua: regulator menetapkan SLA ketat (mis. STR 15 hari) → tier-kan antrean: skor ≥70 direview ≤4 jam kerja, 40-69 ≤2 hari, <40 ≤5 hari. SLA diukur dari umur alert tertua per tier, bukan rata-rata — rata-rata menyembunyikan satu alert busuk berumur 30 hari.",
         "Tiga: hit rate <5% dan analis mengeluh → masalahnya di hulu, bukan hilir. Audit rule: rule mana penyumbang alert terbesar dengan hit rate terendah? Ketatkan atau turunkan aksinya dari hold menjadi monitor. Satu rule yang diperbaiki menghemat ratusan jam.",
         "Empat: lonjakan serangan terkonfirmasi (spike velocity lintas nasabah) → mode darurat 14 hari: threshold sementara diperketat, lembur terarah ke tier atas, tanggal kedaluwarsa mode darurat dicatat. Mode darurat tanpa tanggal kedaluwarsa menjadi beban permanen.",
@@ -166,7 +166,7 @@ export const aml1: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi",
-        body: "Auto-close bukan \"membuang alert\" — ia memindahkan keputusan dari analis yang kelelahan ke rule yang terdokumentasi. Alert yang di-auto-close dengan alasan tercatat lebih aman daripada alert yang \"dibaca\" dalam 8 detik karena analis mengejar target.",
+        body: "Auto-close bukan \"membuang alert\" — ia memindahkan keputusan dari analis yang kelelahan ke rule yang terdokumentasi. Alert yang di-auto-close dengan alasan tercatat lebih aman daripada alert yang \"dibaca\" dalam 8 detik karena analis mengejar target — tetapi hanya SETELAH validasi (sampling + monitoring miss): tanpa itu, auto-close adalah membuang alert dengan alasan tercatat.",
       },
       reference: "Urutkan intervensi: tuning rule > triase > tambah analis. Kebanyakan tim melakukannya terbalik.",
     },
@@ -194,7 +194,7 @@ export const aml1: V2Lesson = {
       summary: [
         "Coverage = kapasitas/volume. Di bawah ~20%, FIFO praktis buta — triase wajib.",
         "Skor prioritas = Σ w_i x_i dengan Σ w_i = 1; fitur ternormalisasi 0-100 dengan cap.",
-        "Nominal absolut tanpa konteks = umpan FP; nominal relatif terhadap profil nasabah yang prediktif.",
+        "Nominal absolut tanpa konteks = umpan FP; yang prediktif adalah nominal relatif terhadap profil nasabah (rumus sederhana lesson ini memakai cap absolut Rp500jt sebagai proksi — di produksi ganti dengan profil nasabah).",
         "SLA per tier (mis. ≥70: 4 jam; 40-69: 2 hari; <40: 5 hari), diukur dari umur tertua per tier.",
         "Urutan intervensi: tuning rule > triase > tambah analis.",
       ],
@@ -210,10 +210,10 @@ export const aml1: V2Lesson = {
           ],
         },
         {
-          q: "Alert Rp2 miliar (korporat, negara risiko 1) vs Rp95 juta (perorangan, negara risiko 3, velocity 30). Mana diprioritaskan?",
+          q: "Alert Rp2 miliar (korporat, negara risiko 1, velocity 5) vs Rp95 juta (perorangan, negara risiko 3, velocity 30). Mana diprioritaskan?",
           options: [
             { text: "Rp2 miliar — nominal terbesar selalu menang", why: "Inilah umpan FP: nominal absolut tanpa konteks. Korporat Rp2 miliar bisa jadi payroll rutin." },
-            { text: "Rp95 juta — kombinasi negara risiko 3 + velocity 30 = pola placement, skornya lebih tinggi", why: "Skor = bobot fitur, bukan nominal. Di lab, a1 (Rp450jt, negara 3, vel 18) mengalahkan a3 (Rp2.000jt).", correct: true },
+            { text: "Rp95 juta — kombinasi negara risiko 3 + velocity 30 = pola placement, skornya lebih tinggi", why: "Skor Rp95jt = 0,4×19 + 0,35×100 + 0,25×100 = 67,6 vs Rp2M = 0,4×100 + 0,35×33,3 + 0,25×25 = 57,9 — kombinasi negara+velocity menang. (Soal lama tidak menyebut velocity Rp2M sehingga skornya tidak dapat ditentukan; kini velocity-nya dinyatakan.) Di lab, a1 (Rp450jt, negara 3, vel 18) mengalahkan a3 (Rp2.000jt).", correct: true },
             { text: "Keduanya sama", why: "Skor keduanya jauh berbeda — fitur konteks memisahkan keduanya." },
             { text: "Tolak keduanya", why: "Triase = urutan kerja, bukan vonis. Tidak ada yang ditolak di tahap ini." },
           ],
@@ -222,7 +222,7 @@ export const aml1: V2Lesson = {
           q: "Kenapa bobot skor harus berjumlah 1?",
           options: [
             { text: "Agar terlihat rapi", why: "Bukan soal estetika — soal perbandingan antar versi skor." },
-            { text: "Agar skor antar versi/tuning bisa dibandingkan — tanpa itu, skor 70 versi lama vs 70 versi baru artinya beda", why: "Normalisasi bobot membuat skala 0-100 stabil. Tanpa itu tuning menjadi tebak-tebakan.", correct: true },
+            { text: "Agar skor antar versi/tuning bisa dibandingkan — tanpa itu, skor 70 versi lama vs 70 versi baru artinya beda", why: "Bobot berjumlah 1 membuat skor antar versi bisa dibandingkan — tetapi itu TIDAK menjamin skala 0-100 stabil: stabilitas skala juga bergantung pada normalisasi fitur (cap, distribusi) dan kalibrasi; bobot yang berjumlah 1 adalah syarat perlu, bukan cukup. Tanpa itu tuning menjadi tebak-tebakan.", correct: true },
             { text: "Syarat regulator", why: "Regulator tidak mengatur rumus internal skor bank." },
             { text: "Tidak harus", why: "Harus — kalau tidak, tiap tuning mengubah arti angka." },
           ],
