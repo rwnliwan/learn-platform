@@ -20,7 +20,7 @@ export const aml3: V2Lesson = {
   track: "Fraud & AML Analytics",
   module: "Anti Money Laundering",
   title: "AML3 — EDD: PEP & Adverse Media",
-  estMinutes: 50,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita",
@@ -210,6 +210,125 @@ export const aml3: V2Lesson = {
       tasks: [],
       reference: "Satu temuan kuat > sepuluh gosip. Kualitas sumber mengalahkan kuantitas berita.",
     },
+        {
+          id: "gap-r8-siklus-sar-str",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G19)",
+          title: "Dari alert ke laporan: siklus SAR/STR dan larangan tipping-off",
+          prose: [
+            "Lesson ini berhenti di 'exit + SAR' — tetapi tidak menjelaskan JALANNYA dari alert menjadi laporan, dan jalan itu punya aturan yang bila dilanggar justru menciptakan masalah hukum baru. Siklusnya lima tahap. Satu, ALERT & TRIAGE: alert sistem (skor adverse ≥ 12, transaksi aneh) ditinjau analis — kebanyakan alert ditutup sebagai false positive dengan alasan tertulis. Dua, INVESTIGASI: analis mengumpulkan bukti (transaksi, dokumen, adverse media) — tanpa menghubungi nasabah untuk 'klarifikasi' soal kecurigaan (lihat tahap lima). Tiga, ESKALASI INTERNAL: kasus yang tidak bisa ditutup naik ke MLRO (Money Laundering Reporting Officer) atau komite — analis TIDAK memutuskan sendiri apakah ini dilaporkan. Empat, KEPUTUSAN & PELAPORAN: bila MLRO menilai ada indikasi yang cukup, bank menyampaikan Laporan Transaksi Keuangan Mencurigakan (LTKM/STR) ke PPATK dalam tenggat yang ditetapkan regulator — dan hubungan dengan nasabah bisa dilanjutkan dengan pantau, dibatasi, atau diakhiri (exit) sesuai keputusan komite. Lima, PASCA-LAPORAN: pantau terus, jangan beri tahu nasabah.",
+            "Larangan TIPPING-OFF adalah aturan yang paling sering dilanggar secara tidak sengaja: bank DILARANG memberi tahu nasabah (atau pihak yang bisa memberi tahu nasabah) bahwa ia sedang diselidiki atau telah dilaporkan. Bentuknya bisa halus — 'permohonan Bapak sedang kami tinjau oleh tim kepatuhan' yang diucapkan kepada nasabah yang tepat — tetapi akibatnya fatal: nasabah memindahkan dana sebelum laporan diproses. Yang BOLEH dikatakan hanyalah penolakan/layanan yang netral ('kami tidak dapat memproses transaksi ini') tanpa alasan yang membocorkan penyelidikan.",
+            "DOKUMENTASI KEPUTUSAN adalah yang membedakan bank yang patuh dari bank yang hanya beruntung: setiap keputusan — termasuk keputusan TIDAK melaporkan — didokumentasikan (siapa memutus, kapan, atas bukti apa, dengan alasan apa) dan disimpan untuk audit/regulator. Kasus H. Sulaeman lesson ini: 14 bulan tanpa dokumentasi yang memadai berarti bank tidak bisa membuktikan apa yang ia ketahui dan kapan — dan itu, di mata regulator, sama buruknya dengan tidak tahu.",
+          ],
+          tasks: [],
+          note: {
+            title: "Sering salah",
+            body: "Memberi tahu nasabah 'rekening Bapak sedang kami laporkan' — atau menanyakan 'klarifikasi' soal transaksi yang dicurigai kepada nasabahnya sendiri. Keduanya adalah tipping-off: penyelidikan bocor, dana dipindah, laporan menjadi sia-sia.",
+          },
+          quiz: [
+            {
+              q: "Analis yakin sebuah transaksi mencurigakan. Urutan yang benar?",
+              options: [
+                { text: "Investigasi internal → eskalasi ke MLRO/komite → MLRO memutuskan pelaporan ke PPATK → dokumentasikan", why: "Tepat: analis tidak memutuskan pelaporan sendiri; MLRO/komite yang memutuskan; semua keputusan didokumentasikan.", correct: true },
+                { text: "Tanya nasabah dulu untuk klarifikasi, baru laporkan bila jawabannya tidak meyakinkan", why: "Salah: menanyakan hal yang dicurigai kepada nasabah adalah tipping-off — dana bisa dipindah sebelum laporan diproses." },
+                { text: "Laporkan langsung ke PPATK tanpa eskalasi internal", why: "Salah: pelaporan diputuskan MLRO/komite setelah investigasi — analis yang melompatinya menghilangkan kontrol kualitas." },
+                { text: "Tutup rekeningnya dulu, laporkan belakangan bila sempat", why: "Salah: exit tanpa keputusan komite + dokumentasi menciptakan risiko hukum dan menghilangkan jejak audit." },
+              ],
+            },
+          ],
+          reference: "Siklus: alert → investigasi → eskalasi MLRO/komite → LTKM/STR ke PPATK → pantau. Tipping-off dilarang; setiap keputusan (termasuk tidak melapor) didokumentasikan.",
+        },
+        {
+          id: "gap-r8-beneficial-owner",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G20)",
+          title: "Beneficial owner: siapa yang benar-benar memiliki perusahaan ini?",
+          prose: [
+            "Lesson ini menyebut beneficial owner (BO) sebagai objek EDD — tetapi tidak memberi checklist BAGAIMANA memverifikasinya. BO = orang yang AKHIRNYA memiliki atau mengendalikan nasabah korporasi — bukan direktur di atas kertas, bukan pemegang saham perantara. Ambang yang umum dipakai (periksa ketentuan yang berlaku): kepemilikan langsung maupun tidak langsung ≥ 25%. Lab ini menghitungnya lewat rantai: Sulaeman memiliki 60% PT A, PT A memiliki 50% PT B (nasabah) → kepemilikan tidak langsung Sulaeman di PT B = 60% × 50% = 30% ≥ 25% → ia BO. Rantai kedua: 40% × 40% = 16% < 25% → BUKAN BO lewat rantai itu (tetapi tetap periksa kendali lain — lihat di bawah).",
+            "Checklist verifikasi BO — empat lapis. Satu, DOKUMEN: akta pendirian + perubahan, struktur kepemilikan yang ditandatangani, KTP/paspor BO, dan dokumen pendukung (NPWP, bukti alamat). Dua, HIERARKI VERIFIKASI: cocokkan dokumen nasabah dengan sumber INDEPENDEN — registry perusahaan (AHU/Kemenkumham), database komersial, dan adverse media atas nama BO (bukan hanya nama perusahaan). Tiga, SUMBER KEKAYAAN vs SUMBER DANA — dua hal yang berbeda: sumber kekayaan = DARI MANA kekayaan BO berasal secara keseluruhan (warisan? bisnis? gaji? — butuh bukti: laporan pajak, penjualan aset); sumber dana = dari mana dana UNTUK TRANSAKSI INI berasal (rekening mana? — butuh bukti: mutasi rekening). Nasabah yang sumber dananya jelas tetapi sumber kekayaannya tidak bisa dijelaskan tetap bermasalah. Empat, DOKUMEN TIDAK KONSISTEN: nama berbeda antar-dokumen, alamat tidak cocok, struktur berlapis tanpa alasan bisnis → status NEED-INFO (seperti adjudikasi lesson ini): tunda onboarding, minta dokumen tambahan, eskalasi — JANGAN 'terima dulu, verifikasi belakangan'.",
+            "Kasus H. Sulaeman adalah pelajaran BO yang sempurna: '3 perusahaan perantara' adalah struktur berlapis yang menyembunyikan BO — dan bank yang hanya memeriksa perusahaan perantara (bukan menembus ke orang akhirnya) akan selalu 'tidak menemukan apa-apa'.",
+          ],
+          formula: String.raw`\text{kepemilikan tidak langsung} = \prod \text{kepemilikan tiap lapis} \qquad \ge 25\% \Rightarrow \text{BO}`,
+          formulaNote: "Rantai A: 60% × 50% = 30% ≥ 25% → BO. Rantai B: 40% × 40% = 16% < 25% → bukan BO lewat rantai itu.",
+          tasks: [
+            { id: "t1", text: "Hitung `bo_a` = kepemilikan tidak langsung rantai A (60% × 50%) dan `is_bo_a` (True bila ≥ 25%)" },
+            { id: "t2", text: "Hitung `bo_b` = kepemilikan tidak langsung rantai B (40% × 40%) dan `is_bo_b` (True bila ≥ 25%)" },
+          ],
+          expected: "bo_a=30.0 is_bo_a=True bo_b=16.0 is_bo_b=False",
+          hints: [
+            "Kalikan kepemilikan tiap lapis, dalam persen.",
+            "Ambang BO yang umum: 25% (periksa ketentuan yang berlaku).",
+          ],
+          code: {
+            starter: `# rantai A: Sulaeman 60% PT A, PT A 50% PT B (nasabah)\n# rantai B: 40% x 40%\n\n# TULIS KODEMU: kepemilikan tidak langsung (%) + status BO (ambang 25%)\nbo_a =\nis_bo_a =\nbo_b =\nis_bo_b =\n\nprint(f"bo_a={bo_a} is_bo_a={is_bo_a} bo_b={bo_b} is_bo_b={is_bo_b}")`,
+            lockLines: 4,
+            solution: `# rantai A: Sulaeman 60% PT A, PT A 50% PT B (nasabah)\n# rantai B: 40% x 40%\n\n# TULIS KODEMU: kepemilikan tidak langsung (%) + status BO (ambang 25%)\nbo_a = 60 * 50 / 100\nis_bo_a = bo_a >= 25\nbo_b = 40 * 40 / 100\nis_bo_b = bo_b >= 25\n\nprint(f"bo_a={bo_a} is_bo_a={is_bo_a} bo_b={bo_b} is_bo_b={is_bo_b}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "bo_a", value: 30.0, tol: 0.01, label: "`bo_a` = 30%", msg: "60% × 50% = 30% — di atas ambang 25%." },
+              { kind: "equal", task: "t2", name: "bo_b", value: 16.0, tol: 0.01, label: "`bo_b` = 16%", msg: "40% × 40% = 16% — di bawah ambang 25% lewat rantai ini." },
+              { kind: "stdout_matches", task: "t1", pattern: "bo_a=30\\.0\\s+is_bo_a=True\\s+bo_b=16\\.0\\s+is_bo_b=False", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dokumen BO nasabah tidak konsisten (nama berbeda antar-dokumen, struktur berlapis tanpa alasan bisnis). Tindakan yang benar?",
+              options: [
+                { text: "NEED-INFO: tunda onboarding, minta dokumen tambahan, eskalasi", why: "Tepat: dokumen tidak konsisten bukan 'diterima dengan catatan' — ia alasan menunda sampai BO terverifikasi independen.", correct: true },
+                { text: "Terima dulu, verifikasi belakangan", why: "Salah: setelah rekening aktif, dana sudah bisa bergerak — verifikasi belakangan berarti menutup pintu setelah kuda keluar." },
+                { text: "Tolak langsung tanpa penjelasan", why: "Salah: dokumen tidak konsisten = butuh informasi lebih lanjut, bukan vonis — tolak tanpa proses menghilangkan nasabah yang sah." },
+                { text: "Minta nasabah menjelaskan sendiri sumber kekayaannya secara lisan", why: "Salah: sumber kekayaan butuh BUKTI (pajak, penjualan aset) dari sumber independen — klaim lisan bukan verifikasi." },
+              ],
+            },
+          ],
+          reference: "BO = orang akhir yang memiliki/mengendalikan (ambang umum 25%, langsung+tidak langsung). Verifikasi: dokumen + sumber independen + sumber kekayaan vs sumber dana.",
+        },
+        {
+          id: "gap-r8-kalibrasi-threshold-aml",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G21)",
+          title: "Kalibrasi threshold AML: murah, mahal, dan yang tidak muat di tim",
+          prose: [
+            "Lesson ini memberi banyak ambang — skor adverse ≥ 12 → EDD, skor hold 0,5–0,9 — tetapi tidak pernah menunjukkan BAGAIMANA ambang itu dipilih dan kapan ia harus diubah. Ambang bukan angka sakral: ia pilihan ekonomi yang bisa (dan harus) dihitung. Ambil 200 kasus pencucian uang sejati per bulan yang harus ditemukan. Tiga ambang skor adverse: ambang 8 → 2.500 alert, 150 kasus tertangkap (presisi 6,0%); ambang 12 → 1.000 alert, 120 tertangkap (presisi 12,0%); ambang 20 → 400 alert, 100 tertangkap (presisi 25,0%). Biaya: review Rp50 ribu per alert; kasus yang lolos Rp5 juta per kasus (denda, kerugian, reputasi). Total biaya: ambang 8 = 2.500×0,05 + 50×5 = Rp375 juta; ambang 12 = 1.000×0,05 + 80×5 = Rp450 juta; ambang 20 = 400×0,05 + 100×5 = Rp520 juta.",
+            "Bila hanya membaca biaya, ambang 8 'menang' — tetapi ia TIDAK MUAT: tim hanya mampu me-review 1.200 alert per bulan, dan ambang 8 menghasilkan 2.500. Ambang yang biayanya paling murah tetapi melebihi kapasitas tim adalah ambang yang alert-nya menumpuk tidak dibaca — sama dengan tidak ada ambang. Maka ambang 12 yang dipilih: termurah DI ANTARA yang layak (1.000 ≤ 1.200), dengan presisi 12% dan 80 kasus lolos. Inilah kalibrasi yang jujur: biaya total + kapasitas review + presisi — ketiganya, bukan salah satu.",
+            "VALIDASI threshold berarti mengulang perhitungan ini BERKALA (kuartalan, atau saat distribusi skor bergeser — drift!): hitung ulang presisi, biaya, dan kapasitas dari data TERBARU, dan setiap perubahan ambang wajib DISETUJUI (komite/MLRO) + DIDOKUMENTASIKAN (ambang lama, ambang baru, alasan, tanggal, penanggung jawab). Ambang yang diubah diam-diam oleh satu analis adalah ambang yang tidak bisa dipertahankan di depan regulator — dan ambang yang tidak pernah divalidasi ulang adalah ambang untuk populasi yang sudah tidak ada.",
+          ],
+          formula: String.raw`\text{biaya total} = \text{alert} \times \text{biaya review} + \text{kasus lolos} \times \text{biaya kasus} \qquad \text{alert} \le \text{kapasitas tim}`,
+          formulaNote: "200 kasus/bulan; review Rp0,05 jt; kasus lolos Rp5 jt; kapasitas 1.200 alert/bln. Ambang 8: Rp375 jt (tidak muat); 12: Rp450 jt (dipilih); 20: Rp520 jt.",
+          tasks: [
+            { id: "t1", text: "Hitung presisi (%) tiap ambang: `prec8`, `prec12`, `prec20` (1 desimal)" },
+            { id: "t2", text: "Hitung biaya total (Rp juta): `cost8`, `cost12`, `cost20`, dan `pilihan` (ambang termurah yang muat kapasitas 1.200)" },
+          ],
+          expected: "prec8=6.0 prec12=12.0 prec20=25.0 cost8=375.0 cost12=450.0 cost20=520.0 pilihan=12",
+          hints: [
+            "Presisi = kasus tertangkap / alert × 100%.",
+            "Biaya = alert × 0,05 + (200 − tertangkap) × 5 (Rp juta).",
+            "Pilihan = ambang termurah dengan alert ≤ 1.200.",
+          ],
+          code: {
+            starter: `# (alert, tertangkap) per ambang; 200 kasus sejati/bulan; kapasitas 1200 alert/bln\nambang = {8: (2500, 150), 12: (1000, 120), 20: (400, 100)}\n\n# TULIS KODEMU: presisi + biaya total + pilihan ambang\nprec8 =\nprec12 =\nprec20 =\ncost8 =\ncost12 =\ncost20 =\npilihan =\n\nprint(f"prec8={prec8} prec12={prec12} prec20={prec20} cost8={cost8} cost12={cost12} cost20={cost20} pilihan={pilihan}")`,
+            lockLines: 4,
+            solution: `# (alert, tertangkap) per ambang; 200 kasus sejati/bulan; kapasitas 1200 alert/bln\nambang = {8: (2500, 150), 12: (1000, 120), 20: (400, 100)}\n\n# TULIS KODEMU: presisi + biaya total + pilihan ambang\ndef presisi(a):\n    return round(a[1] / a[0] * 100, 1)\ndef biaya(a):\n    return a[0] * 0.05 + (200 - a[1]) * 5\nprec8, prec12, prec20 = presisi(ambang[8]), presisi(ambang[12]), presisi(ambang[20])\ncost8, cost12, cost20 = biaya(ambang[8]), biaya(ambang[12]), biaya(ambang[20])\npilihan = min([t for t, a in ambang.items() if a[0] <= 1200], key=lambda t: biaya(ambang[t]))\n\nprint(f"prec8={prec8} prec12={prec12} prec20={prec20} cost8={cost8} cost12={cost12} cost20={cost20} pilihan={pilihan}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "prec8", value: 6.0, tol: 0.1, label: "`prec8` = 6,0%", msg: "150/2500 = 6,0%." },
+              { kind: "equal", task: "t1", name: "prec12", value: 12.0, tol: 0.1, label: "`prec12` = 12,0%", msg: "120/1000 = 12,0%." },
+              { kind: "equal", task: "t1", name: "prec20", value: 25.0, tol: 0.1, label: "`prec20` = 25,0%", msg: "100/400 = 25,0%." },
+              { kind: "equal", task: "t2", name: "cost8", value: 375.0, tol: 0.5, label: "`cost8` = 375", msg: "2500×0,05 + 50×5 = 375." },
+              { kind: "equal", task: "t2", name: "cost12", value: 450.0, tol: 0.5, label: "`cost12` = 450", msg: "1000×0,05 + 80×5 = 450." },
+              { kind: "equal", task: "t2", name: "cost20", value: 520.0, tol: 0.5, label: "`cost20` = 520", msg: "400×0,05 + 100×5 = 520." },
+              { kind: "equal", task: "t2", name: "pilihan", value: 12, tol: 0.01, label: "`pilihan` = 12", msg: "Ambang 8 termurah tetapi 2.500 alert > kapasitas 1.200 — tidak layak. Ambang 12 termurah di antara yang layak." },
+              { kind: "stdout_matches", task: "t2", pattern: "prec8=6\\.0\\s+prec12=12\\.0\\s+prec20=25\\.0\\s+cost8=375\\.0\\s+cost12=450\\.0\\s+cost20=520\\.0\\s+pilihan=12", label: "`print` menampilkan ketujuhnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Ambang 8 biayanya paling murah (Rp375 jt) tetapi menghasilkan 2.500 alert/bulan; kapasitas tim 1.200. Keputusan?",
+              options: [
+                { text: "Pilih ambang 12 (Rp450 jt) — termurah di antara yang muat kapasitas", why: "Tepat: ambang yang melebihi kapasitas menghasilkan alert yang tidak dibaca — sama dengan tidak ada ambang.", correct: true },
+                { text: "Tetap ambang 8 — biaya total yang paling kecil", why: "Salah: biaya total mengasumsikan SEMUA alert di-review. 1.300 alert yang tidak dibaca berarti kasus lolos yang tidak terhitung." },
+                { text: "Pilih ambang 20 — presisinya tertinggi (25%)", why: "Salah: presisi tertinggi bukan tujuan — biaya totalnya tertinggi (Rp520 jt) dengan 100 kasus lolos." },
+                { text: "Naikkan kapasitas tim menjadi 2.500 tanpa menghitung biayanya", why: "Salah: menambah kapasitas juga berbiaya — keputusan ambang dan kapasitas dihitung BERSAMA, bukan sepihak." },
+              ],
+            },
+          ],
+          reference: "Kalibrasi threshold = biaya total + kapasitas review + presisi; validasi berkala; perubahan ambang disetujui komite/MLRO + didokumentasikan.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

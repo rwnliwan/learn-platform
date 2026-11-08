@@ -5,7 +5,7 @@ export const b17: V2Lesson = {
   track: "Probabilitas",
   module: "Bayesian",
   title: "B17. Bayesian Praktis: Belajar dari Data, Bukan dari Nol",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cabang",
@@ -225,6 +225,49 @@ export const b17: V2Lesson = {
       ],
       reference: "78% \u2260 pasti. Lanjut sampai 95% atau hitung EVI.",
     },
+        {
+          id: "gap-r8-likelihood-transfer-populasi",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G6)",
+          title: "Transfer keyakinan antar-populasi: kapan prior historis boleh dipakai?",
+          prose: [
+            "Cerita cabang baru bekerja karena SATU asumsi yang tidak pernah ditulis eksplisit: 10 nasabah cabang baru dan 100.000 nasabah historis dimodelkan dengan PD BERSAMA yang sama (θ) — likelihood Binomial(10, θ) yang sama untuk keduanya. Asumsi inilah yang membuat prior Beta(50,950) boleh 'ditransfer' ke cabang baru. Bila cabang baru itu segmen yang berbeda — wilayah lain, produk lain, underwriting lain — asumsi PD bersama runtuh, dan transfer keyakinan historis menjadi transfer yang tidak berhak.",
+            "Lab ini menunjukkan betapa besar taruhannya. Data yang sama (3 gagal dari 10) memberi tiga jawaban berbeda tergantung kekuatan transfer: prior penuh Beta(50,950) — transfer penuh, kekuatan 1000 — posterior 5,25%. Prior yang DIDISKON Beta(5,95) — transfer sebagian, kekuatan 100 — posterior 7,27%. Tanpa transfer sama sekali, prior flat Beta(1,1) — posterior 33,33%, nyaris angka mentah 30%. Selisih 5,25% vs 33,33% bukan perdebatan teknis kecil — ia menentukan apakah cabang ditutup atau dibiarkan hidup.",
+            "Praktik yang jujur: (1) Tulis asumsi transfernya — 'cabang baru dianggap satu populasi dengan historis (PD bersama)' — dan uji: apakah profil cabang (segmen, wilayah, produk) memang sebanding? (2) Bila ragu, DISKON kekuatan prior (turunkan konsentrasi, mis. 1000 → 100) atau pakai model hierarkis (partial pooling: tiap cabang punya θ sendiri yang 'meminjam' dari distribusi bersama — cabang yang berbeda otomatis kurang ditarik ke rata-rata). (3) Deteksi prior-data conflict: bila data baru konsisten berkata lain (mis. 300 gagal dari 1000), prior kuat yang menolak bergerak adalah prior yang salah — bukan data yang salah. Transfer keyakinan bukan otomatis — ia keputusan pemodelan yang harus bisa dipertahankan.",
+          ],
+          formula: String.raw`\text{posterior} \propto \text{likelihood}(\theta) \times \text{prior}(\theta) \qquad \text{transfer penuh} \Rightarrow \theta_{\text{cabang}} = \theta_{\text{historis}}`,
+          formulaNote: "3 gagal dari 10: prior penuh Beta(50,950) → 5,25%; prior didiskon Beta(5,95) → 7,27%; tanpa transfer Beta(1,1) → 33,33%.",
+          tasks: [
+            { id: "t1", text: "Hitung mean posterior untuk 3 transfer: `post_penuh` (Beta 50,950), `post_lemah` (Beta 5,95), `post_tanpa` (Beta 1,1) — dalam persen, 2 desimal" },
+          ],
+          expected: "post_penuh=5.25 post_lemah=7.27 post_tanpa=33.33",
+          hints: [
+            "Posterior Beta(a+s, b+f): s = 3 gagal, f = 7 tidak gagal.",
+            "Mean Beta(a,b) = a/(a+b); kalikan 100 untuk persen.",
+          ],
+          code: {
+            starter: `# 3 gagal dari 10 nasabah cabang baru\ns, f = 3, 7\n\n# TULIS KODEMU: mean posterior (%) di bawah tiga kekuatan transfer\npost_penuh =\npost_lemah =\npost_tanpa =\n\nprint(f"post_penuh={post_penuh} post_lemah={post_lemah} post_tanpa={post_tanpa}")`,
+            lockLines: 4,
+            solution: `# 3 gagal dari 10 nasabah cabang baru\ns, f = 3, 7\n\n# TULIS KODEMU: mean posterior (%) di bawah tiga kekuatan transfer\npost_penuh = round((50 + s) / (50 + s + 950 + f) * 100, 2)\npost_lemah = round((5 + s) / (5 + s + 95 + f) * 100, 2)\npost_tanpa = round((1 + s) / (1 + s + 1 + f) * 100, 2)\n\nprint(f"post_penuh={post_penuh} post_lemah={post_lemah} post_tanpa={post_tanpa}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "post_penuh", value: 5.25, tol: 0.05, label: "`post_penuh` = 5,25%", msg: "53/1010 = 5,25% — nilai kanonis cerita cabang." },
+              { kind: "equal", task: "t1", name: "post_lemah", value: 7.27, tol: 0.05, label: "`post_lemah` = 7,27%", msg: "8/110 = 7,27% — sama dengan contoh konjugat Beta(5,95) lesson ini." },
+              { kind: "equal", task: "t1", name: "post_tanpa", value: 33.33, tol: 0.05, label: "`post_tanpa` = 33,33%", msg: "4/12 = 33,33% — nyaris angka mentah 30%." },
+              { kind: "stdout_matches", task: "t1", pattern: "post_penuh=5\\.25\\s+post_lemah=7\\.27\\s+post_tanpa=33\\.33", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Cabang baru ternyata melayani segmen yang sama sekali berbeda dari populasi historis. Apa yang harus dilakukan pada prior Beta(50,950)?",
+              options: [
+                { text: "Diskon kekuatan priornya (atau pakai model hierarkis) — asumsi PD bersama tidak berlaku", why: "Tepat: transfer penuh mengasumsikan satu θ bersama; segmen berbeda → prior historis tidak berhak memveto data baru.", correct: true },
+                { text: "Tetap pakai penuh — prior historis selalu benar", why: "Salah: prior adalah keyakinan tentang populasi YANG SAMA; populasi berbeda = prior berbeda." },
+                { text: "Buang prior dan pakai angka mentah 30%", why: "Salah: tanpa transfer sama sekali kamu membuang semua informasi historis — diskon (bukan buang) adalah jalan tengahnya." },
+                { text: "Kumpulkan 100.000 nasabah cabang baru dulu baru boleh berpendapat", why: "Salah: itulah gunanya prior yang didiskon — memberi jawaban sementara yang jujur sambil data dikumpulkan." },
+              ],
+            },
+          ],
+          reference: "Transfer prior = asumsi PD bersama (likelihood sama) — tulis dan ujilah; bila populasi berbeda, diskon kekuatan prior atau pakai partial pooling (hierarkis).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

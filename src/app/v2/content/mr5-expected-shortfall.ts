@@ -5,7 +5,7 @@ export const mr5: V2Lesson = {
   track: "Market Risk",
   module: "VaR & Backtesting",
   title: "MR5 — Expected Shortfall: Melihat ke Dalam Ekor yang Disembunyikan VaR",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-dua-desk",
@@ -180,6 +180,52 @@ export const mr5: V2Lesson = {
       },
       reference: "ES tidak elisitable sendirian; pasangan (VaR, ES) jointly elicitable — pakai skoring gabungan.",
     },
+        {
+          id: "gap-r8-es-diskrit-sensitif",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G13)",
+          title: "ES dari 10 data: satu hari buruk mengubah segalanya",
+          prose: [
+            "ES 80% = 37,5 di lesson ini dihitung dari HANYA 10 hari — dan ekor dari 10 data adalah ekor yang rapuh. Tiga kerapuhan yang wajib dipahami sebelum memakai angka seperti ini untuk limit. Satu, SENSITIVITAS TERHADAP SATU OBSERVASI: bila kerugian terburuk 45 menjadi 40 (satu angka berubah), ES 80% turun menjadi (40 + 30)/2 = 35,0 — berubah 6,7% karena SATU hari. Dua, SENSITIVITAS TERHADAP n: tambah SATU hari buruk (rugi 60) sehingga n = 11 — VaR 80% melonjak dari 4 menjadi 30 dan ES 80% dari 37,5 menjadi (45 + 60)/2 = 52,5. Satu hari mengubah VaR 7,5× lipat. Tiga, KONVENSI KUANTIL: lesson ini memakai VaR sebagai statistik urutan (nilai ke-8 dari 10) dan ES sebagai rata-rata yang MELAMPAUI VaR — konvensi yang sah, tetapi konvensi lain (interpolasi kuantil, rata-rata (1−α) bagian terburuk dengan bobot fraksional) memberi angka berbeda dari data yang sama.",
+            "Inilah kenapa ES historis dari sampel kecil TIDAK BOLEH dipakai sebagai angka limit tanpa kualifikasi: ia bukan 'ES yang sebenarnya', melainkan 'ES dari 10 hari ini, dengan konvensi ini'. Praktik yang jujur: (1) laporkan n dan konvensi di samping ES ('ES 80% = 37,5; n = 10; konvensi rata-rata di atas VaR'); (2) uji sensitivitas — buang/ubah satu observasi terburuk dan lihat perubahannya (seperti lab ini); (3) untuk keputusan limit, butuh n yang jauh lebih besar (ratusan hari) atau model parametrik sebagai pembanding. ES yang dihitung dari 10 data adalah ilustrasi yang bagus — dan limit yang buruk.",
+          ],
+          formula: String.raw`\text{ES}_{80\%} = \text{rata-rata kerugian} > \text{VaR}_{80\%} \qquad n=10 \to 37{,}5 \quad n=11 \text{ (+rugi 60)} \to 52{,}5`,
+          formulaNote: "10 hari kanonis: VaR80 4, ES80 37,5. Terburuk 45→40: ES 35,0. Tambah 1 hari rugi 60: VaR80 30, ES80 52,5.",
+          tasks: [
+            { id: "t1", text: "Hitung `var10` dan `es10` dari 10 kerugian kanonis (konvensi lesson: VaR = statistik urutan, ES = rata-rata di atas VaR)" },
+            { id: "t2", text: "Hitung `es_sens` (terburuk 45→40) dan `var11`, `es11` setelah tambah 1 hari rugi 60" },
+          ],
+          expected: "var10=4.0 es10=37.5 es_sens=35.0 var11=30.0 es11=52.5",
+          hints: [
+            "Kerugian (rugi positif, untung negatif): [-5, 2, -8, 30, -3, 1, -6, 45, -2, 4]; urutkan menaik.",
+            "VaR80 = nilai urutan ke-8 dari 10 (80%); ES80 = rata-rata yang > VaR.",
+            "n=11: urutan ke-9 dari 11 adalah VaR80-nya.",
+          ],
+          code: {
+            starter: `rugi10 = [-5, 2, -8, 30, -3, 1, -6, 45, -2, 4]  # Rp juta, 10 hari kanonis\n\n# TULIS KODEMU: VaR/ES 80% (n=10), sensitivitas, lalu n=11 (+rugi 60)\nvar10 =\nes10 =\nes_sens =\nvar11 =\nes11 =\n\nprint(f"var10={var10} es10={es10} es_sens={es_sens} var11={var11} es11={es11}")`,
+            lockLines: 3,
+            solution: `rugi10 = [-5, 2, -8, 30, -3, 1, -6, 45, -2, 4]  # Rp juta, 10 hari kanonis\n\n# TULIS KODEMU: VaR/ES 80% (n=10), sensitivitas, lalu n=11 (+rugi 60)\ndef var_es(rugi):\n    s = sorted(rugi); n = len(s)\n    var = s[int(n * 0.8) - 1] if n * 0.8 == int(n * 0.8) else s[int(n * 0.8)]\n    atas = [x for x in s if x > var]\n    return float(var), sum(atas) / len(atas)\nvar10, es10 = var_es(rugi10)\nes_sens = (40 + 30) / 2\nvar11, es11 = var_es(rugi10 + [60])\n\nprint(f"var10={var10} es10={es10} es_sens={es_sens} var11={var11} es11={es11}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "var10", value: 4.0, tol: 0.01, label: "`var10` = 4", msg: "Nilai urutan ke-8 dari 10 (kanonis lesson ini)." },
+              { kind: "equal", task: "t1", name: "es10", value: 37.5, tol: 0.01, label: "`es10` = 37,5 (kanonis)", msg: "(45 + 30)/2 = 37,5 — cocok dengan langkah ES-dari-data." },
+              { kind: "equal", task: "t2", name: "es_sens", value: 35.0, tol: 0.01, label: "`es_sens` = 35,0", msg: "(40 + 30)/2 = 35,0 — satu observasi mengubah ES 6,7%." },
+              { kind: "equal", task: "t2", name: "var11", value: 30.0, tol: 0.01, label: "`var11` = 30", msg: "Satu hari buruk menggeser VaR80 dari 4 ke 30." },
+              { kind: "equal", task: "t2", name: "es11", value: 52.5, tol: 0.01, label: "`es11` = 52,5", msg: "(45 + 60)/2 = 52,5 — ES naik 40% karena satu hari." },
+              { kind: "stdout_matches", task: "t2", pattern: "var10=4\\.0\\s+es10=37\\.5\\s+es_sens=35\\.0\\s+var11=30\\.0\\s+es11=52\\.5", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "ES 80% dari 10 hari = 37,5 dipakai sebagai limit trading. Kelemahan terbesarnya?",
+              options: [
+                { text: "Satu hari buruk mengubahnya 40% — sampel terlalu kecil untuk limit", why: "Tepat: n = 11 dengan satu hari rugi 60 memberi ES 52,5. ES historis butuh n besar atau pembanding parametrik.", correct: true },
+                { text: "ES selalu lebih besar dari VaR sehingga limitnya terlalu ketat", why: "Salah: ES ≥ VaR adalah sifat definisi (dalam konvensi lesson) — bukan kelemahan sampel kecil." },
+                { text: "Konvensi kuantilnya salah", why: "Salah: konvensi lesson ini sah — masalahnya bukan konvensi, melainkan n = 10 yang membuat HASILNYA rapuh di konvensi apa pun." },
+                { text: "ES tidak bisa dihitung dari data diskrit", why: "Salah: ES diskrit bisa dihitung — yang tidak bisa adalah MENGANDALKANNYA dari 10 data." },
+              ],
+            },
+          ],
+          reference: "ES historis sampel kecil = rapuh: satu observasi mengubah ES 6,7–40%. Laporkan n + konvensi; uji sensitivitas; jangan jadikan limit tanpa n besar/pembanding.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

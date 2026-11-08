@@ -35,7 +35,7 @@ export const biz13: V2Lesson = {
   track: "Business Intelligence",
   module: "Operasi & Governance",
   title: "BI13 — AI dalam BI",
-  estMinutes: 50,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita",
@@ -222,6 +222,78 @@ export const biz13: V2Lesson = {
       ],
       tasks: [],
     },
+        {
+          id: "gap-r8-kalibrasi-bucket-kecil",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G33)",
+          title: "Bucket 85% dari 4 jawaban: kalibrasi yang diukur dengan penggaris rusak",
+          prose: [
+            "Lab kalibrasi lesson ini (lab2) menghitung gap kalibrasi dari bucket kecil: bucket 85 berisi n=4 dengan 2 benar (50%), bucket 95 berisi n=5 dengan 4 benar (80%) — dan menyimpulkan gap_max 35 poin. Tetapi TIDAK PERNAH menghitung ketidakpastian bucket itu sendiri. Interval Wilson 95% untuk bucket 85 (2/4): (15,0%; 85,0%) — lebar 70 poin! Bucket 95 (4/5): (37,6%; 96,4%) — lebar 59 poin. 'Akurasi bucket 85 = 50%' cocok dengan tingkat sebenarnya 15% maupun 85% — dan gap_max 35 poin yang dilaporkan adalah selisih dari dua angka yang masing-masing punya interval selebar 60–70 poin.",
+            "Dampak operasionalnya konkret: SATU jawaban tambahan yang benar di bucket 85 mengubah akurasinya dari 50% (2/4) menjadi 75% (3/4) — lompatan 25 poin dari satu observasi. Keputusan 'model ini tidak terkalibrasi di bucket 85, turunkan confidence-nya' yang diambil dari n=4 adalah keputusan yang bisa berbalik total karena satu jawaban. Obatnya: (a) laporkan interval Wilson per bucket di samping akurasinya; (b) gabungkan bucket yang terlalu kecil (n < 10) sebelum menyimpulkan; (c) gunakan SHRINKAGE menuju akurasi keseluruhan bila bucket harus tetap dipisah. Dan ingat: kalibrasi adalah soal KONSISTENSI jangka panjang — bucket dengan n=4 tidak bisa membuktikan apa pun tentang konsistensi.",
+            "Kaitannya dengan minicase lesson ini (vendor test 44/50 = 88%, CI ~76–94%): n=50 memberi interval selebar ~18 poin — masih lebar, tetapi sudah jauh lebih informatif daripada n=4. Prinsip yang sama, skala yang berbeda.",
+          ],
+          formula: String.raw`\text{Wilson 95\% per bucket} \qquad \text{1 jawaban} = \frac{1}{n} \text{ poin akurasi bucket}`,
+          formulaNote: "Bucket 85 (2/4): Wilson (15,0%; 85,0%). Bucket 95 (4/5): (37,6%; 96,4%). Satu jawaban di bucket 85 = 25 poin.",
+          tasks: [
+            { id: "t1", text: "Hitung interval Wilson 95% bucket 85 (2/4) dan bucket 95 (4/5): `b85_lo`, `b85_hi`, `b95_lo`, `b95_hi` (%, 1 desimal)" },
+            { id: "t2", text: "Hitung `satu_jawaban` = perubahan akurasi bucket 85 bila satu jawaban tambahan benar (poin, 1 desimal)" },
+          ],
+          expected: "b85_lo=15.0 b85_hi=85.0 b95_lo=37.6 b95_hi=96.4 satu_jawaban=25.0",
+          hints: [
+            "Wilson: z = 1,96 (fungsi yang sama seperti langkah d9 — tulis ulang di sini).",
+            "Bucket 85: 2/4 = 50%; bila 3/4 = 75% — selisihnya?",
+          ],
+          code: {
+            starter: `import math\n\nz = 1.96\n\ndef wilson(x, n):\n    p = x / n; d = 1 + z * z / n\n    c = (p + z * z / (2 * n)) / d\n    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d\n    return round(max(0.0, c - h) * 100, 1), round(min(1.0, c + h) * 100, 1)\n\n# TULIS KODEMU: Wilson bucket 85 (2/4) + 95 (4/5) + efek satu jawaban\nb85_lo, b85_hi = wilson(2, 4)\nb95_lo, b95_hi = wilson(4, 5)\nsatu_jawaban =\n\nprint(f"b85_lo={b85_lo} b85_hi={b85_hi} b95_lo={b95_lo} b95_hi={b95_hi} satu_jawaban={satu_jawaban}")`,
+            lockLines: 11,
+            solution: `import math\n\nz = 1.96\n\ndef wilson(x, n):\n    p = x / n; d = 1 + z * z / n\n    c = (p + z * z / (2 * n)) / d\n    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d\n    return round(max(0.0, c - h) * 100, 1), round(min(1.0, c + h) * 100, 1)\n\n# TULIS KODEMU: Wilson bucket 85 (2/4) + 95 (4/5) + efek satu jawaban\nb85_lo, b85_hi = wilson(2, 4)\nb95_lo, b95_hi = wilson(4, 5)\nsatu_jawaban = round(3 / 4 * 100 - 2 / 4 * 100, 1)\n\nprint(f"b85_lo={b85_lo} b85_hi={b85_hi} b95_lo={b95_lo} b95_hi={b95_hi} satu_jawaban={satu_jawaban}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "b85_lo", value: 15.0, tol: 0.5, label: "`b85_lo` = 15,0%", msg: "Batas bawah Wilson untuk 2/4." },
+              { kind: "equal", task: "t1", name: "b85_hi", value: 85.0, tol: 0.5, label: "`b85_hi` = 85,0%", msg: "Batas atas Wilson untuk 2/4 — lebar 70 poin." },
+              { kind: "equal", task: "t1", name: "b95_lo", value: 37.6, tol: 0.5, label: "`b95_lo` = 37,6%", msg: "Batas bawah Wilson untuk 4/5." },
+              { kind: "equal", task: "t1", name: "b95_hi", value: 96.4, tol: 0.5, label: "`b95_hi` = 96,4%", msg: "Batas atas Wilson untuk 4/5." },
+              { kind: "equal", task: "t2", name: "satu_jawaban", value: 25.0, tol: 0.5, label: "`satu_jawaban` = 25 poin", msg: "75% − 50% = 25 poin — satu jawaban membalik kesimpulan bucket." },
+              { kind: "stdout_matches", task: "t2", pattern: "b85_lo=15\\.0\\s+b85_hi=85\\.0\\s+b95_lo=37\\.6\\s+b95_hi=96\\.4\\s+satu_jawaban=25\\.0", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Bucket kalibrasi 85% berisi n=4 (2 benar). Interval Wilson-nya (15–85%). Apa yang boleh disimpulkan?",
+              options: [
+                { text: "Hampir tidak ada — intervalnya 70 poin; gabungkan bucket atau kumpulkan lebih banyak data", why: "Tepat: satu jawaban mengubah akurasi 25 poin. Bucket sekecil ini tidak bisa membuktikan miscalibration.", correct: true },
+                { text: "Model tidak terkalibrasi di bucket 85 — akurasi 50% vs confidence 85%", why: "Salah: '50%' itu titik estimasi dari n=4 dengan interval (15–85%) — 85% pun masih di dalam interval." },
+                { text: "Model terkalibrasi dengan baik — gap hanya 35 poin", why: "Salah: gap_max 35 poin dihitung dari bucket-bucket yang masing-masing punya interval 60–70 poin — selisihnya sendiri tidak terukur." },
+                { text: "Buang bucket 85 dari analisis", why: "Salah: membuang data bukan solusi — gabungkan dengan bucket tetangga atau laporkan beserta intervalnya." },
+              ],
+            },
+          ],
+          reference: "Kalibrasi per bucket wajib membawa n + interval Wilson; bucket n<10 digabung atau di-shrinkage; 1 jawaban di bucket n=4 = 25 poin.",
+        },
+        {
+          id: "gap-r8-batas-sql-nlq",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G34)",
+          title: "NLQ yang boleh bertanya apa saja adalah NLQ yang bisa merusak apa saja",
+          prose: [
+            "Lesson ini mengajarkan NLQ (natural language to SQL) menghasilkan query dari pertanyaan — tetapi tidak pernah membatasi APA yang boleh dihasilkan. Query yang dihasilkan model adalah KODE yang dieksekusi — dan kode yang tidak dibatasi adalah kerentanan. Empat batasan sisi sistem yang wajib ada SEBELUM query menyentuh database. Satu, ALLOWLIST TABEL & KOLOM: model hanya boleh menyentuh tabel/kolom yang diizinkan (mis. tabel agregat penjualan) — bukan tabel gaji, bukan tabel PII nasabah. Query yang menyebut tabel di luar allowlist DITOLAK sebelum dieksekusi. Dua, LARANGAN OPERASI TULIS: hanya SELECT yang diizinkan — DELETE, UPDATE, DROP, INSERT ditolak di level parser, bukan di level 'percaya pada model'. Tiga, BATAS SUMBER DAYA: LIMIT baris (mis. maks 1.000), timeout query (mis. 30 detik), dan larangan JOIN yang meledak (cross join tanpa kondisi) — satu query 'berapa total penjualan per pelanggan per hari per kota' yang tidak dibatasi bisa memindai tabel miliaran baris. Empat, MASKING & AGREGASI MINIMUM: hasil yang mengandung PII dimasking; query yang mengembalikan baris per individu (bukan agregat) untuk data sensitif ditolak atau diagregasi.",
+            "Dan satu prinsip arsitektur: model TIDAK PERNAH memegang kredensial database. Arsitektur yang benar: model menghasilkan SQL → VALIDATOR memeriksa (allowlist, hanya-SELECT, limit, timeout) → EXECUTOR dengan kredensial read-only dan batas sumber daya menjalankan query yang SUDAH divalidasi. Bila validator menolak, pengguna mendapat pesan 'pertanyaan ini tidak bisa dijawab dari data yang diizinkan' — bukan error database mentah yang membocorkan skema. NLQ yang baik bukan yang menjawab semua pertanyaan — melainkan yang menjawab pertanyaan yang diizinkan, dengan aman, setiap kali.",
+          ],
+          tasks: [],
+          note: {
+            title: "Sering salah",
+            body: "Mengandalkan 'model sudah diinstruksikan hanya SELECT' — instruksi di prompt bukan kontrol keamanan. Kontrolnya adalah validator + kredensial read-only + batas sumber daya di sisi sistem.",
+          },
+          quiz: [
+            {
+              q: "Pengguna bertanya via NLQ: 'tampilkan gaji semua karyawan'. Sistem yang benar merespons bagaimana?",
+              options: [
+                { text: "Menolak — tabel gaji di luar allowlist; tawarkan pertanyaan agregat yang diizinkan", why: "Tepat: allowlist tabel/kolom adalah batas pertama; penolakan yang sopan + alternatif adalah perilaku yang benar.", correct: true },
+                { text: "Menjalankan query — model sudah diinstruksikan hanya SELECT", why: "Salah: instruksi prompt bukan kontrol keamanan; SELECT atas tabel gaji tetap membocorkan gaji." },
+                { text: "Menjalankan query tetapi menyembunyikan hasilnya", why: "Salah: menjalankan lalu menyembunyikan tetap mengeksekusi query yang tidak diizinkan — dan log-nya tetap ada." },
+                { text: "Meminta model menulis ulang query-nya", why: "Salah: menulis ulang tidak mengubah bahwa tabelnya tidak diizinkan — validator yang menolak, bukan model yang merapikan." },
+              ],
+            },
+          ],
+          reference: "NLQ aman = allowlist tabel/kolom + hanya SELECT (parser-level) + LIMIT/timeout + masking/PII + kredensial read-only; model tidak pernah pegang kredensial.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

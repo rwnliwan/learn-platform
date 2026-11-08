@@ -5,7 +5,7 @@ export const mk14: V2Lesson = {
   track: "Marketing Analytics",
   module: "Pricing & Promo",
   title: "MK14 — Pricing & Efektivitas Promo",
-  estMinutes: 60,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita-kriukku",
@@ -314,6 +314,50 @@ print(f"inkremental={inkremental} net={net}")`,
       ],
       reference: "Promo disiplin: net lengkap + guardrail baseline + jeda.",
     },
+        {
+          id: "gap-r8-basis-kanibalisasi",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G36)",
+          title: "Kanibalisasi 15% atau 60%? Jawabannya tergantung penyebutnya",
+          prose: [
+            "Lesson ini (setelah perbaikan ronde 8) melaporkan kanibalisasi 15% — tetapi tidak pernah menjelaskan BAHWA angka itu hanya bermakna bila penyebutnya disebutkan. Ambil angka kanonis promo-bersih: 40 unit promo terjual, 10 di antaranya adalah baseline (akan terjual tanpa promo), 6 di antaranya kanibalisasi (mengambil penjualan produk lain), 3 subsidi murni, dan 21 inkremental. Tiga 'kanibalisasi %' yang semuanya benar secara aritmetika dan ketiganya berbeda: 6/40 = 15,0% (terhadap total unit promo — konvensi lesson ini); 6/10 = 60,0% (terhadap baseline — 'enam dari sepuluh penjualan yang sudah pasti terjadi ternyata mengambil dari produk lain'); 6/21 = 28,6% (terhadap inkremental — 'untuk tiap 21 unit baru, 6 unit produk lain hilang'). Tiga angka, tiga cerita — dan presentasi yang hanya menulis 'kanibalisasi 15%' tanpa penyebut adalah presentasi yang tidak bisa diaudit.",
+            "Definisi formal yang dipakai lesson ini — dan yang harus dipakai setiap kali angka ini dilaporkan: kanibalisasi = unit produk LAIN yang hilang karena promo ini, diukur terhadap TOTAL UNIT PROMO (40). Alasannya: penyebut ini yang dipakai minicase-2 (4.000/28.000 = 14,3%) dan yang konsisten dengan lift bersih 210% (21 inkremental / 10 baseline). Tetapi konvensi ini BUKAN satu-satunya yang sah di industri — yang tidak sah adalah MENGGANTI penyebut tanpa memberi tahu. Aturan pelaporan: selalu tulis 'kanibalisasi X% (A/B)' — angka, pembilang, penyebut. Dan satu jebakan terakhir: kanibalisasi terhadap baseline (60%) terlihat 'mengerikan', tetapi ia menjawab pertanyaan yang berbeda ('seberapa besar penjualan yang sudah pasti terjadi ternyata bergeser?') — gunakan ia bila itu pertanyaanmu, bukan untuk menakut-nakuti.",
+          ],
+          formula: String.raw`\text{kanibalisasi} = \frac{\text{unit produk lain yang hilang}}{\text{total unit promo}} = \frac{6}{40} = 15,0\% \qquad \text{selalu tulis penyebutnya}`,
+          formulaNote: "Kanonis: 6/40 = 15,0% (konvensi lesson); 6/10 = 60,0% (vs baseline); 6/21 = 28,6% (vs inkremental). Minicase-2: 4.000/28.000 = 14,3%.",
+          tasks: [
+            { id: "t1", text: "Hitung `kanibal_promo` (%, 1 desimal), `kanibal_baseline` (%, 1 desimal), `kanibal_inkremental` (%, 1 desimal)" },
+            { id: "t2", text: "Hitung `kanibal_minicase2` (%, 1 desimal) dari 4.000/28.000" },
+          ],
+          expected: "kanibal_promo=15.0 kanibal_baseline=60.0 kanibal_inkremental=28.6 kanibal_minicase2=14.3",
+          hints: [
+            "Kanibal 6 unit; penyebut: total promo 40, baseline 10, inkremental 21.",
+            "Minicase-2: 4.000 kanibal dari 28.000 promo_vol.",
+          ],
+          code: {
+            starter: `kanibal = 6; total_promo = 40; baseline = 10; inkremental = 21\n\n# TULIS KODEMU: kanibalisasi dengan tiga penyebut + minicase-2\nkanibal_promo =\nkanibal_baseline =\nkanibal_inkremental =\nkanibal_minicase2 =\n\nprint(f"kanibal_promo={kanibal_promo} kanibal_baseline={kanibal_baseline} kanibal_inkremental={kanibal_inkremental} kanibal_minicase2={kanibal_minicase2}")`,
+            lockLines: 4,
+            solution: `kanibal = 6; total_promo = 40; baseline = 10; inkremental = 21\n\n# TULIS KODEMU: kanibalisasi dengan tiga penyebut + minicase-2\nkanibal_promo = round(kanibal / total_promo * 100, 1)\nkanibal_baseline = round(kanibal / baseline * 100, 1)\nkanibal_inkremental = round(kanibal / inkremental * 100, 1)\nkanibal_minicase2 = round(4000 / 28000 * 100, 1)\n\nprint(f"kanibal_promo={kanibal_promo} kanibal_baseline={kanibal_baseline} kanibal_inkremental={kanibal_inkremental} kanibal_minicase2={kanibal_minicase2}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "kanibal_promo", value: 15.0, tol: 0.1, label: "`kanibal_promo` = 15,0%", msg: "6/40 = 15,0% — konvensi kanonis lesson ini (post-R8-fix; 62,5% lama tidak terlacak)." },
+              { kind: "equal", task: "t1", name: "kanibal_baseline", value: 60.0, tol: 0.1, label: "`kanibal_baseline` = 60,0%", msg: "6/10 = 60,0% — terhadap baseline." },
+              { kind: "equal", task: "t1", name: "kanibal_inkremental", value: 28.6, tol: 0.1, label: "`kanibal_inkremental` = 28,6%", msg: "6/21 ≈ 28,6% — terhadap inkremental." },
+              { kind: "equal", task: "t2", name: "kanibal_minicase2", value: 14.3, tol: 0.1, label: "`kanibal_minicase2` = 14,3%", msg: "4.000/28.000 = 14,3% — konsisten dengan konvensi yang sama." },
+              { kind: "stdout_matches", task: "t2", pattern: "kanibal_promo=15\\.0\\s+kanibal_baseline=60\\.0\\s+kanibal_inkremental=28\\.6\\s+kanibal_minicase2=14\\.3", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Laporan menulis 'kanibalisasi 60%' tanpa penyebut, padahal konvensi lesson ini 15% (6/40). Apa masalahnya?",
+              options: [
+                { text: "Angkanya benar terhadap baseline (6/10) tetapi menyesatkan tanpa penyebut — laporkan selalu 'X% (A/B)'", why: "Tepat: 60% dan 15% keduanya benar secara aritmetika dengan penyebut berbeda; tanpa penyebut, angka tidak bisa diaudit.", correct: true },
+                { text: "Angkanya salah — yang benar 15%", why: "Salah: 6/10 = 60% juga benar — yang salah adalah MENYEMBUNYIKAN penyebutnya, bukan angkanya." },
+                { text: "Tidak ada masalah — 60% lebih konservatif", why: "Salah: 'lebih konservatif' bukan alasan — angka tanpa penyebut tidak bisa diverifikasi dan bisa dipakai menakut-nakuti." },
+                { text: "Harus dipakai 28,6% (vs inkremental) sebagai gantinya", why: "Salah: 28,6% juga benar dengan penyebutnya sendiri — solusinya bukan mengganti angka, melainkan menuliskan penyebut." },
+              ],
+            },
+          ],
+          reference: "Kanibalisasi (konvensi lesson) = unit produk lain yang hilang / total unit promo = 6/40 = 15,0%. Selalu tulis 'X% (A/B)'.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

@@ -17,7 +17,7 @@ export const llmops14: V2Lesson = {
   track: "LLMOps",
   module: "Safety & Skala",
   title: "LLMOps14 — Smart Routing & Fallback antar Model/Provider: Model Murah Dulu, Fallback Saat Gagal",
-  estMinutes: 48,
+  estMinutes: 58,
   steps: [
     {
       id: "cerita",
@@ -181,6 +181,54 @@ export const llmops14: V2Lesson = {
       },
       reference: "$20.000 → $3.080/bulan (hemat 84,6%). Rantai: 99,6% → 99,9998%. Budget cap wajib.",
     },
+        {
+          id: "gap-r8-routing-quality",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G26)",
+          title: "Router yang hemat tetapi salah: ukur kualitas routing per tier",
+          prose: [
+            "Lesson ini membuktikan tiering menghemat 84,6% biaya — tetapi tidak pernah mengukur APA YANG DIKORBANKAN. Hemat tidak gratis: setiap request yang di-route ke tier yang salah membayar dengan kualitas. Ambil 200 request FinPay: 100 mudah, 100 sulit. Router mengirim 8 request mudah ke frontier (over-route: boros, tetapi benar) dan — yang jauh lebih mahal — 48 request SULIT ke tier murah (under-route: murah, tetapi salah). Dari 140 request di tier murah, 118 benar (84,3%); dari 60 request di frontier, 58 benar (96,7%). Total benar: 176/200 = 88,0%. Bila SEMUA request dikirim ke frontier (ekspektasi sukses 98,1% dari data historis), benarnya ~196 — routing ini 'menghemat' biaya dengan harga ~20 jawaban benar yang hilang. Hemat 84,6% dengan kehilangan 10 poin akurasi: apakah itu perdagangan yang bagus? Jawabannya tergantung nilai jawaban yang benar — dan lesson ini tidak pernah menanyakannya.",
+            "Tiga metrik yang wajib ada di samping biaya. Satu, CONFUSION ROUTING: matriks 2×2 (mudah/sulit × tier murah/frontier) — under-route rate (48%) dan over-route rate (8%) dipisah, karena keduanya punya biaya yang berbeda. Dua, SUKSES PER TIER: sukses tier murah 84,3% vs frontier 96,7% — bila tier murah suksesnya di bawah ambang (mis. 90%), tiering-nya perlu diperbaiki, bukan dirayakan. Tiga, EXPECTED LOSS: selisih sukses vs semua-frontier (20,2 jawaban per 200 request) dikali nilai per jawaban benar — baru bisa dibandingkan dengan penghematan biaya secara apel-ke-apel. Dan satu metrik keempat yang sering dilupakan: LATENSI + FALLBACK — request sulit yang gagal di tier murah lalu di-retry ke frontier membayar DUA KALI (biaya murah + biaya frontier + latensi) — routing yang 'hemat' bisa jadi routing yang paling mahal bila fallback-nya sering.",
+            "Aturan: setiap keputusan routing WAJIB dilaporkan sebagai pasangan (biaya, kualitas) — biaya tanpa kualitas adalah setengah laporan, dan setengah laporan adalah cara termurah untuk mengambil keputusan yang salah.",
+          ],
+          formula: String.raw`\text{under-route} = \frac{\text{sulit} \to \text{murah}}{\text{total sulit}} \qquad \text{expected loss} = (\text{sukses}_{\text{frontier}} - \text{sukses}_{\text{routing}}) \times \text{nilai jawaban}`,
+          formulaNote: "200 req: under-route 48/100 = 48%; over-route 8/100 = 8%; murah 118/140 = 84,3%; frontier 58/60 = 96,7%; total 176/200 = 88,0%; semua-frontier ~196 → rugi ~20,2 jawaban.",
+          tasks: [
+            { id: "t1", text: "Hitung `under_route` (%) dan `over_route` (%) (1 desimal)" },
+            { id: "t2", text: "Hitung `sukses_murah` (%) dan `sukses_frontier` (%) (1 desimal), lalu `total_benar` dan `rugi` = 196,2 − total_benar (1 desimal)" },
+          ],
+          expected: "under_route=48.0 over_route=8.0 sukses_murah=84.3 sukses_frontier=96.7 total_benar=176 rugi=20.2",
+          hints: [
+            "Under-route = sulit yang jatuh ke tier murah (48 dari 100 sulit).",
+            "Sukses murah = 118/140; frontier = 58/60; total benar = 118 + 58.",
+            "Semua-frontier: 200 × 0,981 = 196,2.",
+          ],
+          code: {
+            starter: `# 200 request FinPay: 100 mudah, 100 sulit\n# murah: 92 mudah + 48 sulit, 118 benar; frontier: 8 mudah + 52 sulit, 58 benar\n\n# TULIS KODEMU: under/over-route + sukses per tier + rugi vs semua-frontier\nunder_route =\nover_route =\nsukses_murah =\nsukses_frontier =\ntotal_benar =\nrugi =\n\nprint(f"under_route={under_route} over_route={over_route} sukses_murah={sukses_murah} sukses_frontier={sukses_frontier} total_benar={total_benar} rugi={rugi}")`,
+            lockLines: 4,
+            solution: `# 200 request FinPay: 100 mudah, 100 sulit\n# murah: 92 mudah + 48 sulit, 118 benar; frontier: 8 mudah + 52 sulit, 58 benar\n\n# TULIS KODEMU: under/over-route + sukses per tier + rugi vs semua-frontier\nunder_route = round(48 / 100 * 100, 1)\nover_route = round(8 / 100 * 100, 1)\nsukses_murah = round(118 / 140 * 100, 1)\nsukses_frontier = round(58 / 60 * 100, 1)\ntotal_benar = 118 + 58\nrugi = round(200 * 0.981 - total_benar, 1)\n\nprint(f"under_route={under_route} over_route={over_route} sukses_murah={sukses_murah} sukses_frontier={sukses_frontier} total_benar={total_benar} rugi={rugi}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "under_route", value: 48.0, tol: 0.1, label: "`under_route` = 48,0%", msg: "48 dari 100 request sulit jatuh ke tier murah — hampir separuh." },
+              { kind: "equal", task: "t1", name: "over_route", value: 8.0, tol: 0.1, label: "`over_route` = 8,0%", msg: "8 dari 100 request mudah jatuh ke frontier — boros tetapi benar." },
+              { kind: "equal", task: "t2", name: "sukses_murah", value: 84.3, tol: 0.1, label: "`sukses_murah` = 84,3%", msg: "118/140 = 84,3%." },
+              { kind: "equal", task: "t2", name: "sukses_frontier", value: 96.7, tol: 0.1, label: "`sukses_frontier` = 96,7%", msg: "58/60 = 96,7%." },
+              { kind: "equal", task: "t2", name: "total_benar", value: 176, tol: 0.01, label: "`total_benar` = 176", msg: "118 + 58 = 176 dari 200 (88,0%)." },
+              { kind: "equal", task: "t2", name: "rugi", value: 20.2, tol: 0.5, label: "`rugi` = 20,2", msg: "196,2 − 176 = 20,2 jawaban benar hilang per 200 request." },
+              { kind: "stdout_matches", task: "t2", pattern: "under_route=48\\.0\\s+over_route=8\\.0\\s+sukses_murah=84\\.3\\s+sukses_frontier=96\\.7\\s+total_benar=176\\s+rugi=20\\.2", label: "`print` menampilkan keenamnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Tiering menghemat 84,6% biaya tetapi under-route 48% request sulit dan kehilangan ~20 jawaban benar per 200 request. Apa yang harus dilaporkan?",
+              options: [
+                { text: "Pasangan (biaya, kualitas) — penghematan tanpa expected loss adalah setengah laporan", why: "Tepat: hemat 84,6% dengan kehilangan 10 poin akurasi baru bisa dinilai bila nilai jawaban benar ikut dihitung.", correct: true },
+                { text: "Biaya saja — hemat 84,6% sudah cukup membuktikan tiering berhasil", why: "Salah: biaya tanpa kualitas menyembunyikan ~20 jawaban benar yang hilang." },
+                { text: "Naikkan semua request ke frontier", why: "Salah: itu membuang penghematan tanpa menghitung — yang benar adalah MEMPERBAIKI router (turunkan under-route), bukan menghapus tiering." },
+                { text: "Turunkan ambang kesulitan agar lebih banyak ke tier murah", why: "Salah: itu menaikkan under-route — arah yang salah. Under-route 48% sudah terlalu tinggi." },
+              ],
+            },
+          ],
+          reference: "Routing diukur per tier: confusion routing (under/over-route), sukses per tier, expected loss vs semua-frontier, plus latensi + fallback.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

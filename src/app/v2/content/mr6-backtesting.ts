@@ -5,7 +5,7 @@ export const mr6: V2Lesson = {
   track: "Market Risk",
   module: "VaR & Backtesting",
   title: "MR6 — Backtesting VaR: Mengadili Model dengan Data Nyata",
-  estMinutes: 50,
+  estMinutes: 80,
   steps: [
     {
       id: "cerita-model-sehat",
@@ -183,6 +183,122 @@ export const mr6: V2Lesson = {
       },
       reference: "Validasi = outcomes analysis + ongoing monitoring + conceptual soundness. Beri tanggal kedaluwarsa.",
     },
+        {
+          id: "gap-r8-rekonsiliasi-hpl-apl-rtpl",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G14)",
+          title: "Bridge HPL–APL–RTPL: ke mana perginya Rp27 juta?",
+          prose: [
+            "Lesson ini mendefinisikan tiga P&L — hipotetis (HPL), aktual (APL), dan risk-theoretical (RTPL) — tetapi tidak pernah menunjukkan BRIDGE-nya: rekonsiliasi angka yang memisahkan 'model salah' dari 'trading yang mahal'. Ambil satu hari: RTPL (dari sensitivitas model risiko) = −Rp120 juta; HPL (posisi kemarin dibekukan) = −Rp118 juta; APL (yang benar-benar terjadi) = −Rp145 juta. Bridge-nya dua lompatan. Lompatan pertama, HPL − RTPL = +Rp2 juta — 'unexplained' model: kecil, modelnya menangkap hampir semua pergerakan faktor risiko. Lompatan kedua, APL − HPL = −Rp27 juta — selisih trading: trading intraday −Rp18 juta, fee/komisi −Rp6 juta, valuation adjustment −Rp3 juta. Total −27 juta — cocok.",
+            "Bacaan bridge-nya: model TIDAK BERSALAH di hari ini (unexplained hanya +2 juta) — yang mahal adalah aktivitas tradingnya. Inilah gunanya bridge: tanpa itu, APL yang buruk (−145 vs RTPL −120) mudah dibaca sebagai 'model meleset 25 juta', lalu tim mengutak-atik model yang sebenarnya sehat. Sebaliknya, bila HPL − RTPL yang besar dan persisten (mis. −Rp20 juta setiap hari selama sebulan), itulah sinyal PLA yang sesungguhnya: faktor risiko hilang, sensitivitas kedaluwarsa, atau model valuasi yang salah — dan backtest VaR yang masih hijau tidak akan menangkapnya sampai terlambat.",
+            "Disiplin operasional: hitung bridge ini HARIAN, bukan saat krisis. Ambang investigasi yang wajar: unexplained (HPL−RTPL) persisten di atas, mis., 10% dari RTPL selama 5 hari berturut-turut → investigasi PLA; selisih APL−HPL yang membesar → audit biaya trading dan eksekusi. Bridge yang dibaca setiap hari mengubah PLA dari 'teori FRTB' menjadi alarm dini yang murah.",
+          ],
+          formula: String.raw`\text{APL} = \text{RTPL} + \underbrace{(\text{HPL}-\text{RTPL})}_{\text{unexplained model}} + \underbrace{(\text{APL}-\text{HPL})}_{\text{trading + fee + VA}}`,
+          formulaNote: "RTPL −120, HPL −118, APL −145 (Rp juta): unexplained +2; selisih trading −27 = intraday −18 + fee −6 + VA −3.",
+          tasks: [
+            { id: "t1", text: "Hitung `unexplained` = HPL − RTPL dan `selisih` = APL − HPL (Rp juta)" },
+            { id: "t2", text: "Verifikasi komponen selisih: `intraday` −18, `fee` −6, `va` −3 (jumlahnya = selisih)" },
+          ],
+          expected: "unexplained=2.0 selisih=-27.0 intraday=-18.0 fee=-6.0 va=-3.0",
+          hints: [
+            "unexplained = −118 − (−120); selisih = −145 − (−118).",
+            "Komponen selisih sudah diberikan — verifikasi jumlahnya.",
+          ],
+          code: {
+            starter: `rtpl = -120; hpl = -118; apl = -145  # Rp juta, satu hari\n\n# TULIS KODEMU: bridge HPL-APL-RTPL\nunexplained =\nselisih =\nintraday = -18.0\nfee = -6.0\nva = -3.0\n\nprint(f"unexplained={unexplained} selisih={selisih} intraday={intraday} fee={fee} va={va}")`,
+            lockLines: 3,
+            solution: `rtpl = -120; hpl = -118; apl = -145  # Rp juta, satu hari\n\n# TULIS KODEMU: bridge HPL-APL-RTPL\nunexplained = float(hpl - rtpl)\nselisih = float(apl - hpl)\nintraday = -18.0\nfee = -6.0\nva = -3.0\n\nprint(f"unexplained={unexplained} selisih={selisih} intraday={intraday} fee={fee} va={va}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "unexplained", value: 2.0, tol: 0.5, label: "`unexplained` = +2", msg: "−118 − (−120) = +2 — model hampir tepat." },
+              { kind: "equal", task: "t1", name: "selisih", value: -27.0, tol: 0.5, label: "`selisih` = −27", msg: "−145 − (−118) = −27 — biaya trading, bukan kesalahan model." },
+              { kind: "equal", task: "t2", name: "intraday", value: -18.0, tol: 0.5, label: "`intraday` = −18", msg: "Komponen terbesar selisih APL−HPL." },
+              { kind: "equal", task: "t2", name: "fee", value: -6.0, tol: 0.5, label: "`fee` = −6", msg: "Fee/komisi." },
+              { kind: "equal", task: "t2", name: "va", value: -3.0, tol: 0.5, label: "`va` = −3", msg: "Valuation adjustment. −18 − 6 − 3 = −27 ✓." },
+              { kind: "stdout_matches", task: "t2", pattern: "unexplained=2\\.0\\s+selisih=-27\\.0\\s+intraday=-18\\.0\\s+fee=-6\\.0\\s+va=-3\\.0", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "APL −Rp145 jt vs RTPL −Rp120 jt, tetapi HPL −Rp118 jt. Kesimpulan yang benar?",
+              options: [
+                { text: "Model hampir tepat (unexplained +2); yang mahal adalah trading intraday + fee", why: "Tepat: bridge memisahkan kesalahan model (+2) dari biaya trading (−27). Mengutak-atik model di sini salah sasaran.", correct: true },
+                { text: "Model meleset Rp25 juta — harus direkalibrasi", why: "Salah: Rp25 juta itu selisih APL vs RTPL — sebagian besarnya (−27) adalah trading, bukan model." },
+                { text: "Trading intraday harus dilarang", why: "Salah: intraday −18 juta di satu hari belum tentu buruk — yang dibutuhkan adalah bridge HARIAN untuk melihat apakah ia persisten." },
+                { text: "RTPL salah karena tidak sama dengan APL", why: "Salah: RTPL memang tidak mencakup trading intraday dan fee — selisih itu BUKAN kesalahan RTPL." },
+              ],
+            },
+          ],
+          reference: "Bridge harian: APL = RTPL + (HPL−RTPL) + (APL−HPL). Unexplained besar+persisten = salah model; selisih APL−HPL besar = biaya trading.",
+        },
+        {
+          id: "gap-r8-gagal-menolak-bukan-lulus",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G15)",
+          title: "'Gagal menolak' bukan 'lulus': uji Kupiec dengan power rendah",
+          prose: [
+            "Lesson ini menyebut power Kupiec yang rendah — tetapi tidak menunjukkan betapa rendahnya. Ambil contoh kanonis: T = 250 hari, VaR 99%, x = 7 pelanggaran → LR = 5,50 > 3,84 → tolak H₀. Sekarang ubah SATU angka: x = 4 pelanggaran (masih di atas ekspektasi 2,5). LR-nya = 0,77 < 3,84 → GAGAL MENOLAK H₀. Bahasa yang benar: 'tidak ada cukup bukti untuk menolak model' — BUKAN 'model lolos' atau 'model benar'. Bedanya bukan semantik: 'lulus' mengklaim model benar; 'gagal menolak' mengakui ujinya mungkin terlalu lemah untuk mendeteksi yang salah.",
+            "Seberapa lemah? Hitung peluangnya: bila model SEBENARNYA underestimate dua kali lipat — pelanggaran sejati 2%, bukan 1% — peluang ia tetap 'lolos' (x ≤ 4 dari 250 hari) adalah 43,9%. Hampir SETENGAH model yang salah 2× lipat akan terlihat 'lulus' di uji ini. Model yang benar (1%) lolos 89,2% dari waktu. Jadi 'gagal menolak' di 250 hari hampir tidak membedakan model benar dari model yang salah dua kali lipat — dan itulah alasan lesson ini (dan Basel) tidak pernah mengandalkan Kupiec sendirian: multiplier modal 3–4× adalah harga yang dibayar atas ketidakpastian ini, dan Christoffersen + PLA + multi-level VaR adalah pemeriksanya.",
+            "Aturan bahasa untuk laporan validasi: tulis SELALU 'gagal menolak H₀ pada α = 5% (LR = 0,77; power rendah pada n = 250)' — jangan pernah tulis 'model lulus uji Kupiec' tanpa kualifikasi. Dan bila seseorang mengklaim modelnya 'terbukti benar' dari satu backtest 250 hari, tanyakan power-nya: berapa peluang uji itu mendeteksi model yang salah 2× lipat? Jawabannya — 56% — adalah jawaban yang meruntuhkan klaim itu.",
+          ],
+          formula: String.raw`LR = 0{,}77 < 3{,}84 \Rightarrow \text{gagal menolak } H_0 \ne \text{model benar} \qquad P(X \le 4 \mid p=2\%) = 43{,}9\%`,
+          formulaNote: "T = 250, x = 4: LR 0,77 → gagal menolak. Model 2% (salah 2×) lolos 43,9% dari waktu; model 1% (benar) lolos 89,2%.",
+          tasks: [
+            { id: "t1", text: "Hitung LR Kupiec untuk T=250, x=4, p=0,01: `lr` (2 desimal) dan `tolak` (True/False)" },
+            { id: "t2", text: "Hitung peluang model 2% tetap lolos (x ≤ 4): `peluang_lolos_2pct` (%, 1 desimal)" },
+          ],
+          expected: "lr=0.77 tolak=False peluang_lolos_2pct=43.9",
+          hints: [
+            "LR = −2 ln[(0,99^246 × 0,01^4) / (0,984^246 × 0,016^4)].",
+            "Peluang lolos = Σ Binomial(250, 0,02) untuk x = 0..4 — gunakan math.comb.",
+          ],
+          code: {
+            starter: `import math\n\nT = 250; x = 4; p = 0.01\n\n# TULIS KODEMU: LR Kupiec + keputusan + peluang model 2% lolos\nlr =\ntolak =\npeluang_lolos_2pct =\n\nprint(f"lr={lr} tolak={tolak} peluang_lolos_2pct={peluang_lolos_2pct}")`,
+            lockLines: 5,
+            solution: `import math\n\nT = 250; x = 4; p = 0.01\n\n# TULIS KODEMU: LR Kupiec + keputusan + peluang model 2% lolos\nph = x / T\nlr = round(-2 * ((T - x) * math.log(1 - p) + x * math.log(p) - ((T - x) * math.log(1 - ph) + x * math.log(ph))), 2)\ntolak = lr > 3.84\npeluang_lolos_2pct = round(sum(math.comb(T, i) * 0.02 ** i * 0.98 ** (T - i) for i in range(0, 5)) * 100, 1)\n\nprint(f"lr={lr} tolak={tolak} peluang_lolos_2pct={peluang_lolos_2pct}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "lr", value: 0.77, tol: 0.05, label: "`lr` = 0,77", msg: "LR Kupiec untuk x=4: 0,77 < 3,84." },
+              { kind: "equal", task: "t2", name: "peluang_lolos_2pct", value: 43.9, tol: 0.5, label: "`peluang_lolos_2pct` = 43,9%", msg: "Model yang salah 2× lipat lolos 43,9% dari waktu — power uji ini rendah." },
+              { kind: "stdout_matches", task: "t1", pattern: "lr=0\\.77\\s+tolak=False\\s+peluang_lolos_2pct=43\\.9", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Uji Kupiec 250 hari: LR = 0,77 → gagal menolak H₀. Pernyataan yang benar?",
+              options: [
+                { text: "'Tidak cukup bukti menolak model' — bukan bukti model benar", why: "Tepat: model 2% (salah 2×) lolos 43,9% dari waktu. Gagal menolak ≠ lulus.", correct: true },
+                { text: "Model terbukti benar pada α = 5%", why: "Salah: uji hipotesis tidak pernah 'membuktikan' H₀ — ia hanya gagal menolaknya, dan power-nya di sini rendah." },
+                { text: "Model harus ditolak karena x = 4 > ekspektasi 2,5", why: "Salah: LR = 0,77 < 3,84 — selisih 4 vs 2,5 masih dalam noise sampel 250 hari." },
+                { text: "Tambah data sampai model lolos — lalu klaim lulus", why: "Salah: mengulang uji sampai lolos adalah p-hacking; n dan α ditetapkan SEBELUM melihat hasil." },
+              ],
+            },
+          ],
+          reference: "Gagal menolak H₀ ≠ model benar. Kupiec 250 hari: model 2% lolos 43,9% — laporkan LR + power, jangan tulis 'lulus' telanjang.",
+        },
+        {
+          id: "gap-r8-traffic-light-batas",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G16)",
+          title: "Tabel traffic-light Basel: berlaku di mana, kapan, dan untuk siapa?",
+          prose: [
+            "Tabel traffic-light lesson ini — hijau 0–4, kuning 5–9, merah ≥10 pelanggaran dalam 250 hari VaR 99%, multiplier 3,0×–4,0× — disajikan seolah aturan modal universal. Ia bukan. Tabel itu berasal dari kerangka market risk Basel (amandemen 1996, Basel II): multiplier diterapkan ke rata-rata VaR 60 hari untuk menghitung capital charge model internal. Tiga batas yang wajib ditulis di samping tabelnya. Satu, REZIM: FRTB (standar Basel yang berlaku, 2016/2019) MENGGANTI pendekatan ini — modal berbasis ES 97,5%, bukan VaR 99%, dengan PLA test sebagai gerbang kelayakan model internal. Bank yang masih memakai tabel traffic-light VaR 99% sebagai 'aturan modal yang berlaku saat ini' memakai kerangka yang sudah digantikan.",
+            "Dua, YURISDIKSI: tiap regulator mengadopsi Basel dengan jadwal dan modifikasi sendiri — AS (Fed/OCC), Uni Eropa (CRR), Indonesia (OJK) tidak menerapkan tabel yang sama pada tanggal yang sama, dan bank yang memakai pendekatan standar (bukan model internal) tidak memakai multiplier ini sama sekali. Tiga, CAKUPAN: multiplier hanya berlaku untuk model internal market risk yang DISETUJUI regulator; model yang belum disetujui, model non-market-risk, dan model di luar perbankan tidak tersentuh tabel ini. Tabel traffic-light adalah ALAT DIAGNOSIS yang bagus (zona kuning = investigasi, zona merah = model bermasalah) — tetapi sebagai klaim 'konsekuensi modal langsung', ia hanya benar di dalam rezim, yurisdiksi, dan cakupan yang tepat.",
+            "Aturan penulisan: setiap kali tabel ini dikutip, tulis ketiganya — 'kerangka Basel market risk (VaR 99%, 250 hari), pra-FRTB; implementasi mengikuti regulator setempat; hanya untuk model internal yang disetujui'. Tanpa ketiganya, pembaca akan menerapkan multiplier 1996 ke dunia FRTB 2026.",
+          ],
+          tasks: [],
+          note: {
+            title: "Sering salah",
+            body: "Mengutip 'zona merah = multiplier 4,0×' sebagai aturan modal yang berlaku untuk semua bank saat ini. Yang benar: tabel itu milik kerangka Basel market risk pra-FRTB; FRTB memakai ES 97,5% + PLA, dan tiap yurisdiksi mengadopsinya berbeda.",
+          },
+          quiz: [
+            {
+              q: "Bank memakai model internal market risk di bawah FRTB dan mendapat 7 pelanggaran VaR 99% dalam 250 hari. Apa yang benar tentang multiplier 3,65×?",
+              options: [
+                { text: "Tidak otomatis berlaku — tabel itu dari kerangka Basel pra-FRTB; FRTB memakai ES 97,5% + PLA", why: "Tepat: 3,65× adalah angka kerangka lama (kuning, 7 pelanggaran). Di bawah FRTB, modal dan kelayakan model dinilai dengan ES + PLA — cek aturan regulator setempat.", correct: true },
+                { text: "Berlaku langsung — 7 pelanggaran selalu berarti multiplier 3,65×", why: "Salah: angka itu terikat pada rezim VaR 99% pra-FRTB, bukan aturan universal lintas rezim." },
+                { text: "Berlaku bila banknya di Indonesia, tidak bila di AS", why: "Salah: pembedanya bukan negara semata — melainkan REZIM (pra-FRTB vs FRTB) dan status persetujuan model internalnya." },
+                { text: "Tidak berlaku karena 7 pelanggaran masih zona kuning", why: "Salah: zona kuning justru YANG punya multiplier bertahap (3,4×–3,85×) di kerangka lama — alasannya bukan zona, melainkan rezimnya." },
+              ],
+            },
+          ],
+          reference: "Traffic-light Basel = kerangka market risk pra-FRTB (VaR 99%, 250 hari, multiplier 3–4× atas rata-rata VaR 60 hari). FRTB: ES 97,5% + PLA; cek regulator setempat.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

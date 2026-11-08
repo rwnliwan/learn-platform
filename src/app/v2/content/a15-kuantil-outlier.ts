@@ -5,7 +5,7 @@ export const a15: V2Lesson = {
   track: "Statistika",
   module: "Deskriptif",
   title: "A1.5 Outlier: Dibuang, atau Justru Diselidiki?",
-  estMinutes: 45,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita-pipeline",
@@ -244,6 +244,101 @@ export const a15: V2Lesson = {
       },
       reference: "Keputusan outlier selalu defensible: catat metode, ambang, dan alasan penanganannya.",
     },
+        {
+          id: "gap-r8-kuantil-konvensi",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G1)",
+          title: "Kuantil: tiga konvensi, tiga jawaban — dan posisi di luar data",
+          prose: [
+            "Lesson ini memakai satu konvensi kuantil — posisi (n+1)p — tanpa menyebut bahwa software lain memakai konvensi berbeda, dan ketiganya memberi jawaban berbeda dari DATA YANG SAMA. Ambil data latihan delapan nilai (sudah urut): 10, 20, 30, 40, 50, 60, 70, 80 (n = 8). Kuartil pertamanya: konvensi (n+1)p memberi posisi 2,25 → 20 + 0,25 × 10 = 22,5. Konvensi median-paruh (Tukey hinges, yang dipakai boxplot langkah 3) memberi 25 — median paruh bawah [10, 20, 30, 40]. Konvensi linear numpy (posisi (n−1)p + 1) memberi 2,75 → 20 + 0,75 × 10 = 27,5. Tiga jawaban sah — 22,5 / 25 / 27,5 — untuk satu pertanyaan yang sama.",
+            "Kuartil ketiganya pun berbeda: (n+1)p → posisi 6,75 → 67,5; median-paruh → 65; linear → posisi 6,25 → 62,5. Jadi IQR pun ikut berbeda: 45 vs 40 vs 35 — dan pagar Tukey yang dihitung darinya bergeser. Ini bukan kesalahan ketik siapa pun: kuantil sampel adalah ESTIMASI, dan tiap konvensi adalah aturan interpolasi yang berbeda. Yang berbahaya bukan bedanya, melainkan membandingkan kuartil dari dua software tanpa menyebut konvensinya — atau memindahkan ambang (mis. pagar outlier) dari satu tool ke tool lain tanpa cek ulang. (Catatan: pada data gaji lesson ini yang banyak nilai kembar, ketiga konvensi kebetulan hampir sama — justru itulah kenapa perbedaan ini jarang ketahuan.)",
+            "Aturan batas posisi: posisi kuantil harus dijepit ke rentang data. Persentil ke-99 dari 10 data dengan (n+1)p: posisi 0,99 × 11 = 10,89 — DI LUAR data (posisi maksimum 10). Jawaban yang jujur: jepit ke data terbesar, 14 — dan katakan bahwa itu batas data, bukan estimasi persentil ke-99 yang sesungguhnya. Dengan 10 data, persentil ekstrem apa pun pada dasarnya adalah ekstrapolasi: jangan laporkan p99 dari n = 10 seolah ia angka yang kokoh. Aturan praktis: sebut konvensimu di samping angkamu ('Q1 = 10, median-paruh'), dan jangan pernah bandingkan kuartil lintas tool tanpa menyamakan konvensi dulu.",
+          ],
+          formula: String.raw`\text{posisi}_{(n+1)p} = p\,(n+1) \qquad \text{posisi}_{\text{linear}} = (n-1)p + 1 \qquad 1 \le \text{posisi} \le n`,
+          formulaNote: "Q1: 22,5 ((n+1)p) vs 25 (median-paruh) vs 27,5 (linear). Q3: 67,5 vs 65 vs 62,5. Posisi di luar [1, n] dijepit ke ujung data.",
+          tasks: [
+            { id: "t1", text: "Hitung `q1_n1p`, `q1_paruh`, `q1_linear` untuk data latihan (1 desimal)" },
+            { id: "t2", text: "Hitung `q3_n1p`, `q3_paruh`, `q3_linear` untuk data latihan (1 desimal)" },
+          ],
+          expected: "q1_n1p=22.5 q1_paruh=25.0 q1_linear=27.5 q3_n1p=67.5 q3_paruh=65.0 q3_linear=62.5",
+          hints: [
+            "Posisi (n+1)p: Q1 di 0,25×9 = 2,25 → interpolasi antara data ke-2 (20) dan ke-3 (30).",
+            "Median-paruh: Q1 = median 4 data bawah, Q3 = median 4 data atas.",
+            "Linear: posisi = (n−1)p + 1; Q1 di 2,75 → antara data ke-2 (20) dan ke-3 (30).",
+          ],
+          code: {
+            starter: `data = [10, 20, 30, 40, 50, 60, 70, 80]\n\n# TULIS KODEMU: Q1 dan Q3 di bawah tiga konvensi (1 desimal)\nq1_n1p =\nq1_paruh =\nq1_linear =\nq3_n1p =\nq3_paruh =\nq3_linear =\n\nprint(f"q1_n1p={q1_n1p} q1_paruh={q1_paruh} q1_linear={q1_linear} q3_n1p={q3_n1p} q3_paruh={q3_paruh} q3_linear={q3_linear}")`,
+            lockLines: 3,
+            solution: `data = [10, 20, 30, 40, 50, 60, 70, 80]\n\n# TULIS KODEMU: Q1 dan Q3 di bawah tiga konvensi (1 desimal)\ndef interp(pos):\n    lo = int(pos) - 1\n    frac = pos - int(pos)\n    return round(data[lo] + frac * (data[lo + 1] - data[lo]), 2)\nq1_n1p = interp(0.25 * 9)\nq1_paruh = 25.0\nq1_linear = interp(0.25 * 7 + 1)\nq3_n1p = interp(0.75 * 9)\nq3_paruh = 65.0\nq3_linear = interp(0.75 * 7 + 1)\n\nprint(f"q1_n1p={q1_n1p} q1_paruh={q1_paruh} q1_linear={q1_linear} q3_n1p={q3_n1p} q3_paruh={q3_paruh} q3_linear={q3_linear}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "q1_n1p", value: 22.5, tol: 0.01, label: "`q1_n1p` = 22,5", msg: "Posisi 2,25 → 20 + 0,25×(30−20) = 22,5." },
+              { kind: "equal", task: "t1", name: "q1_paruh", value: 25.0, tol: 0.01, label: "`q1_paruh` = 25", msg: "Median paruh bawah [10, 20, 30, 40] = 25." },
+              { kind: "equal", task: "t1", name: "q1_linear", value: 27.5, tol: 0.01, label: "`q1_linear` = 27,5", msg: "Posisi 2,75 → 20 + 0,75×(30−20) = 27,5." },
+              { kind: "equal", task: "t2", name: "q3_n1p", value: 67.5, tol: 0.01, label: "`q3_n1p` = 67,5", msg: "Posisi 6,75 → 60 + 0,75×(70−60) = 67,5." },
+              { kind: "equal", task: "t2", name: "q3_paruh", value: 65.0, tol: 0.01, label: "`q3_paruh` = 65", msg: "Median paruh atas [50, 60, 70, 80] = 65." },
+              { kind: "equal", task: "t2", name: "q3_linear", value: 62.5, tol: 0.01, label: "`q3_linear` = 62,5", msg: "Posisi 6,25 → 60 + 0,25×(70−60) = 62,5." },
+              { kind: "stdout_matches", task: "t2", pattern: "q1_n1p=22\\.5\\s+q1_paruh=25\\.0\\s+q1_linear=27\\.5\\s+q3_n1p=67\\.5\\s+q3_paruh=65\\.0\\s+q3_linear=62\\.5", label: "`print` menampilkan keenamnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua analis menghitung Q1 dari data yang sama: satu dapat 22,5, satu dapat 25. Penjelasan yang paling mungkin?",
+              options: [
+                { text: "Mereka memakai konvensi kuantil berbeda — keduanya bisa benar", why: "Tepat: (n+1)p memberi 22,5, median-paruh memberi 25. Kuantil sampel adalah estimasi dengan aturan interpolasi yang berbeda.", correct: true },
+                { text: "Yang dapat 22,5 pasti salah hitung", why: "Salah: 22,5 adalah hasil sah konvensi (n+1)p — posisi 2,25 di antara 20 dan 30." },
+                { text: "Yang dapat 25 pasti salah hitung", why: "Salah: 25 adalah hasil sah median-paruh — median empat data bawah." },
+                { text: "Datanya pasti berbeda", why: "Salah: data yang sama pun memberi Q1 berbeda bila konvensinya berbeda." },
+              ],
+            },
+          ],
+          reference: "Kuantil sampel = estimasi: sebut konvensi ((n+1)p / median-paruh / linear); jepit posisi ke [1, n]; jangan bandingkan kuartil lintas tool tanpa menyamakan konvensi.",
+        },
+        {
+          id: "gap-r8-mad-nol",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G2)",
+          title: "MAD nol: saat penggaris besi patah",
+          prose: [
+            "MAD dipuji di langkah 6 sebagai penggaris besi anti-masking — dan memang begitu, sampai ia patah di satu titik: ketika MAD-nya sendiri NOL. Modified z-score membagi dengan MAD; bila MAD = 0, skornya tak terdefinisi (pembagian dengan nol), bukan 'sangat besar'. Kapan ini terjadi? Saat lebih dari separuh data bernilai SAMA. Contoh: tujuh pengukuran [50, 50, 50, 50, 50, 51, 200]. Mediannya 50; selisih absolutnya [0, 0, 0, 0, 0, 1, 150]; median selisih itu = 0. Jadi MAD = 0 — dan 0,6745 × 150 / 0 tidak punya jawaban.",
+            "Ini bukan kasus pinggiran: data transaksi, sensor, dan skor yang dibulatkan PENUH dengan nilai berulang — lebih dari separuh transaksi bisa bernilai sama persis (mis. nominal promo yang sama, skor 0 untuk mayoritas). Analis yang tidak menyiapkan fallback akan melihat error — atau lebih buruk, kode yang diam-diam mengganti MAD = 0 dengan bilangan kecil (epsilon) sehingga skornya meledak menjadi jutaan dan SEMUA nilai beda tampak seperti outlier raksasa. Epsilon adalah jalan pintas yang memalsukan skala.",
+            "Fallback yang jujur: bila MAD = 0, jangan paksa modified z-score — ganti penggaris. Aturan Tukey (IQR) tetap bekerja di data ini: paruh bawah [50, 50, 50] → Q1 = 50; paruh atas [50, 51, 200] → Q3 = 51; IQR = 1; pagar atas = 51 + 1,5 × 1 = 52,5. Hasilnya: 200 outlier, 51 aman di dalam pagar. Pesannya simetris dengan lesson ini: tidak ada satu penggaris yang kebal di semua kondisi — MAD kebal terhadap masking, tetapi rapuh saat data terlalu 'rata'. Cek MAD = 0 SEBELUM membagi; bila nol, laporkan 'modified z-score tak terdefinisi' dan pakai IQR.",
+          ],
+          formula: String.raw`\text{MAD} = 0 \Rightarrow M_i = 0{,}6745 \times \frac{x_i - \text{median}}{0} = \text{tak terdefinisi} \Rightarrow \text{pakai pagar Tukey}`,
+          formulaNote: "Data [50, 50, 50, 50, 50, 51, 200]: median 50, MAD 0, Q1 50, Q3 51, IQR 1, pagar atas 52,5 → 200 outlier, 51 aman.",
+          tasks: [
+            { id: "t1", text: "Hitung `median` dan `mad` dari `d` — buktikan MAD = 0" },
+            { id: "t2", text: "Hitung fallback Tukey: `q1`, `q3`, `pagar_atas`, dan `outlier_200` (True/False)" },
+          ],
+          expected: "median=50.0 mad=0.0 q1=50.0 q3=51.0 pagar_atas=52.5 outlier_200=True",
+          hints: [
+            "MAD = median dari |x − median|; lebih dari separuh selisih = 0.",
+            "Q1 = median paruh bawah [50, 50, 50]; Q3 = median paruh atas [50, 51, 200].",
+            "Pagar atas = Q3 + 1,5 × IQR; 200 > pagar → outlier.",
+          ],
+          code: {
+            starter: `import statistics as st\n\nd = [50, 50, 50, 50, 50, 51, 200]\n\n# TULIS KODEMU: median + MAD (buktikan MAD = 0), lalu fallback Tukey\nmedian =\nmad =\nq1 =\nq3 =\npagar_atas =\noutlier_200 =\n\nprint(f"median={median} mad={mad} q1={q1} q3={q3} pagar_atas={pagar_atas} outlier_200={outlier_200}")`,
+            lockLines: 5,
+            solution: `import statistics as st\n\nd = [50, 50, 50, 50, 50, 51, 200]\n\n# TULIS KODEMU: median + MAD (buktikan MAD = 0), lalu fallback Tukey\nmedian = round(float(st.median(d)), 1)\nmad = round(float(st.median([abs(x - median) for x in d])), 1)\nq1 = 50.0\nq3 = 51.0\npagar_atas = q3 + 1.5 * (q3 - q1)\noutlier_200 = 200 > pagar_atas\n\nprint(f"median={median} mad={mad} q1={q1} q3={q3} pagar_atas={pagar_atas} outlier_200={outlier_200}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "median", value: 50.0, tol: 1e-9, label: "`median` = 50", msg: "Median 7 data = data ke-4 = 50." },
+              { kind: "equal", task: "t1", name: "mad", value: 0.0, tol: 1e-9, label: "`mad` = 0", msg: "Selisih absolut [0,0,0,0,0,1,150] → median 0." },
+              { kind: "equal", task: "t2", name: "q1", value: 50.0, tol: 1e-9, label: "`q1` = 50", msg: "Median paruh bawah [50, 50, 50] = 50." },
+              { kind: "equal", task: "t2", name: "q3", value: 51.0, tol: 1e-9, label: "`q3` = 51", msg: "Median paruh atas [50, 51, 200] = 51." },
+              { kind: "equal", task: "t2", name: "pagar_atas", value: 52.5, tol: 1e-9, label: "`pagar_atas` = 52,5", msg: "51 + 1,5 × (51−50) = 52,5." },
+              { kind: "stdout_matches", task: "t2", pattern: "outlier_200=True", label: "200 dinyatakan outlier", msg: "200 > 52,5 → outlier menurut pagar Tukey." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Data mayoritas bernilai sama sehingga MAD = 0. Tindakan yang benar untuk modified z-score?",
+              options: [
+                { text: "Nyatakan tak terdefinisi dan pakai fallback (mis. pagar Tukey)", why: "Tepat: pembagian dengan nol tidak punya jawaban; IQR tetap bekerja di data ini (pagar atas 52,5).", correct: true },
+                { text: "Ganti MAD = 0 dengan 0,0001 agar skor bisa dihitung", why: "Salah: epsilon memalsukan skala — skor meledak jutaan dan semua nilai beda tampak seperti outlier raksasa." },
+                { text: "Anggap semua nilai sebagai outlier", why: "Salah: hanya 200 yang di luar pagar Tukey; 51 aman di dalam (52,5)." },
+                { text: "Buang nilai yang sama sampai MAD tidak nol lagi", why: "Salah: membuang mayoritas data demi menyelamatkan rumus adalah manipulasi data." },
+              ],
+            },
+          ],
+          reference: "MAD = 0 (lebih dari separuh data sama) → modified z-score TAK TERDEFINISI; jangan pakai epsilon — fallback ke pagar Tukey (IQR).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

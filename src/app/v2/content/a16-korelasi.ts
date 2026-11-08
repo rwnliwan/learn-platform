@@ -5,7 +5,7 @@ export const a16: V2Lesson = {
   track: "Statistika",
   module: "Deskriptif",
   title: "A1.6 Angka 0,92 yang Menyesatkan: Pearson, Spearman, Kendall",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita-dimas",
@@ -184,6 +184,52 @@ export const a16: V2Lesson = {
       },
       reference: "Peta keputusan: linear+bersih → Pearson; ordinal/monotonik → Spearman; kecil+ties → Kendall; krisis → korelasi kondisional + stress test.",
     },
+        {
+          id: "gap-r8-korelasi-ketidakpastian",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G3)",
+          title: "Korelasi 0,99 dari 4 data: seberapa yakin kamu?",
+          prose: [
+            "Lesson ini menghitung r dengan teliti — tetapi tidak pernah bertanya seberapa PASTI angka itu. Korelasi dari sampel kecil adalah estimasi yang goyah, dan interval kepercayaannya (CI) mengatakannya dengan jujur. Ambil data Pearson langkah 2: (1,2), (2,4), (3,5), (4,7) → r ≈ 0,992, n = 4. Dengan transformasi Fisher z (z = artanh(r), SE = 1/√(n−3)), CI 95%-nya adalah (0,66; 1,00). Baca kalimat itu baik-baik: r = 0,99 dari 4 data masih cocok dengan korelasi populasi 0,66 — 'sangat kuat' boleh jadi hanya 'kuat'. Angka titiknya memukau; intervalnya merendahkan.",
+            "Bandingkan dengan n = 30 pada r yang sama: SE = 1/√27 ≈ 0,19 → CI 95% = (0,98; 1,00). Barulah 0,99 berarti sesuatu. Pelajarannya: JANGAN pernah melaporkan r tanpa n — dan untuk n kecil, laporkan CI-nya, bukan hanya titiknya. Aturan praktis: n < 10 → CI korelasi hampir selalu terlalu lebar untuk klaim kuat; n ≥ 30 → barulah CI mulai sempit. Inilah alasan lesson ini tidak boleh dipakai untuk menyimpulkan 'login menyebabkan transaksi' dari segelintir titik — selain kausalitas, ketidakpastiannya sendiri sudah melarang.",
+            "Prasyarat yang sama pentingnya: pasangan observasi harus INDEPENDEN. Korelasi Pearson mengasumsikan tiap pasangan (x, y) adalah undian independen. Pada data runtun waktu — harga saham harian, login vs transaksi per hari — asumsi ini runtuh: hari ini mirip kemarin (autokorelasi), sehingga n efektif jauh lebih kecil dari n nominal dan CI di atas terlalu sempit (terlalu pede). Obatnya seperti di langkah jebakan: difference dulu (korelasikan PERUBAHANNYA, bukan levelnya) atau detrend — dan laporkan bahwa CI standar tidak berlaku mentah-mentah untuk data berwaktu.",
+          ],
+          formula: String.raw`z = \text{artanh}(r) \qquad SE = \frac{1}{\sqrt{n-3}} \qquad CI_{95\%} = \tanh(z \pm 1{,}96 \times SE)`,
+          formulaNote: "r = 0,992: n = 4 → CI (0,66; 1,00); n = 30 → CI (0,98; 1,00). CI menyempit dengan n; data runtun waktu butuh difference/detrend dulu.",
+          tasks: [
+            { id: "t1", text: "Hitung CI 95% Fisher untuk r = 0,992 dengan n = 4: `ci4_lo`, `ci4_hi` (2 desimal)" },
+            { id: "t2", text: "Hitung CI 95% Fisher untuk r = 0,992 dengan n = 30: `ci30_lo`, `ci30_hi` (2 desimal)" },
+          ],
+          expected: "ci4_lo=0.66 ci4_hi=1.0 ci30_lo=0.98 ci30_hi=1.0",
+          hints: [
+            "z = artanh(0,992) ≈ 2,76; SE n=4 adalah 1/√1 = 1,0.",
+            "Batas bawah = tanh(z − 1,96×SE), batas atas = tanh(z + 1,96×SE).",
+            "Gunakan math.atanh dan math.tanh; bulatkan 2 desimal.",
+          ],
+          code: {
+            starter: `import math\n\nr = 0.992\n\n# TULIS KODEMU: CI 95% Fisher untuk n=4 dan n=30 (2 desimal)\nci4_lo =\nci4_hi =\nci30_lo =\nci30_hi =\n\nprint(f"ci4_lo={ci4_lo} ci4_hi={ci4_hi} ci30_lo={ci30_lo} ci30_hi={ci30_hi}")`,
+            lockLines: 5,
+            solution: `import math\n\nr = 0.992\n\n# TULIS KODEMU: CI 95% Fisher untuk n=4 dan n=30 (2 desimal)\ndef fisher_ci(r, n):\n    z = math.atanh(r)\n    se = 1 / math.sqrt(n - 3)\n    return round(math.tanh(z - 1.96 * se), 2), round(math.tanh(z + 1.96 * se), 2)\nci4_lo, ci4_hi = fisher_ci(r, 4)\nci30_lo, ci30_hi = fisher_ci(r, 30)\n\nprint(f"ci4_lo={ci4_lo} ci4_hi={ci4_hi} ci30_lo={ci30_lo} ci30_hi={ci30_hi}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "ci4_lo", value: 0.66, tol: 0.01, label: "`ci4_lo` = 0,66", msg: "tanh(2,76 − 1,96) ≈ 0,66." },
+              { kind: "equal", task: "t1", name: "ci4_hi", value: 1.0, tol: 0.01, label: "`ci4_hi` = 1,00", msg: "tanh(2,76 + 1,96) ≈ 0,9998 → 1,00." },
+              { kind: "equal", task: "t2", name: "ci30_lo", value: 0.98, tol: 0.01, label: "`ci30_lo` = 0,98", msg: "SE = 1/√27 ≈ 0,19 → tanh(2,76 − 0,38) ≈ 0,98." },
+              { kind: "equal", task: "t2", name: "ci30_hi", value: 1.0, tol: 0.01, label: "`ci30_hi` = 1,00", msg: "tanh(2,76 + 0,38) ≈ 0,996 → 1,00." },
+              { kind: "stdout_matches", task: "t2", pattern: "ci4_lo=0\\.66\\s+ci4_hi=1\\.0\\s+ci30_lo=0\\.98\\s+ci30_hi=1\\.0", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua studi melaporkan r = 0,99: studi A dengan n = 4, studi B dengan n = 30. Mana yang buktinya lebih kuat?",
+              options: [
+                { text: "Studi B — CI-nya (0,98; 1,00), jauh lebih sempit dari A (0,66; 1,00)", why: "Tepat: angka titik yang sama, ketidakpastian yang beda jauh. r tanpa n (dan CI) tidak bisa dibandingkan.", correct: true },
+                { text: "Sama kuat — r-nya sama-sama 0,99", why: "Salah: r = 0,99 dari 4 data masih cocok dengan korelasi populasi 0,66." },
+                { text: "Studi A — n kecil berarti datanya lebih bersih", why: "Salah: n kecil berarti SE besar (1,0) dan CI lebar — bukan data lebih bersih." },
+                { text: "Tidak bisa dibandingkan karena rumusnya beda", why: "Salah: rumusnya sama (Fisher z); yang beda hanya n — dan itulah intinya." },
+              ],
+            },
+          ],
+          reference: "Laporkan r beserta n dan CI-nya (Fisher z); n kecil → CI lebar; pasangan harus independen — data runtun waktu di-difference/detrend dulu.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

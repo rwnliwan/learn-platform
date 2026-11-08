@@ -19,7 +19,7 @@ export const c14: V2Lesson = {
   track: "SQL",
   module: "Risiko",
   title: "C14 Velocity & Impossible Travel: Menangkap Fraud dengan SQL",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-47jt",
@@ -276,6 +276,51 @@ print("vmax:", vmax)`,
       },
       reference: "Fitur velocity = agregat jendela per entitas; train-serve konsisten; semua fitur as-of (anti-leakage); metrik akhir = Rp.",
     },
+        {
+          id: "gap-r8-travel-tiga-vonis",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G22)",
+          title: "Impossible travel di produksi: tiga pasangan, tiga vonis",
+          prose: [
+            "Lab travel langkah 3 sudah bekerja karena fixture-nya kini punya kolom WAKTU dan KOTA (perbaikan ronde 8) — tanpa keduanya, 'kota berbeda + jeda < ambang' tidak bisa dihitung sama sekali. Langkah ini memakai kolom itu untuk tiga vonis yang berbeda — karena di produksi, impossible travel bukan satu aturan, melainkan aturan + pengecualian yang didokumentasikan. Pasangan 1 (dari fixture): Andi, Jakarta 10:00 → Surabaya 10:30 — 700 km dalam 0,5 jam = 1.400 km/jam > 800 → FLAG. Pasangan 2 (dari fixture): Budi, Bandung 15:00 → Bandung 17:00 — kota sama, 0 km → TIDAK FLAG. Pasangan 3 (kasus pesawat): Jakarta 10:00 → Surabaya 11:30 — 700 km dalam 1,5 jam = 466,7 km/jam < 800 → TIDAK FLAG: masih mungkin ditempuh pesawat, jadi bukan impossible travel — meski tetap dicatat untuk pola.",
+            "Tiga aturan produksi yang melengkapi lab langkah 3. Satu, FILTER CHANNEL DULU: transaksi online memakai kota MERCHANT, bukan lokasi kartu — 'Jakarta → Surabaya' untuk belanja online bukan perjalanan nasabah, melainkan dua merchant. Terapkan aturan travel hanya untuk channel offline (ATM, EDC, cabang) — atau false positive membanjiri tim. Dua, AMBANG GANDA: kota beda + jeda < 2 jam = mustahil; kecepatan implisit > 800 km/jam = flag — keduanya harus dihitung (jeda saja tidak cukup: Jakarta–Bandung 150 km dalam 0,5 jam = 300 km/jam, cepat tetapi mungkin). Tiga, VONIS ≠ BLOKIR: flag impossible travel = screening — verifikasi (hubungi nasabah, cek channel, cek histori perjalanan) SEBELUM blokir. Satu flag yang benar + satu telepon verifikasi lebih murah dari seribu blokir yang salah.",
+            "Dan satu jebakan data: tabel jarak_kota lesson ini hanya punya 3 pasang kota (Jakarta–Surabaya 700, Jakarta–Bandung 150, Jakarta–Medan 1400). Pasangan di luar tabel (mis. Surabaya–Medan) memberi jarak NULL — kecepatan tak terhitung. Di produksi, tabel jarak harus lengkap (atau pakai jarak geodesik dari koordinat) — aturan yang diam-diam mengembalikan NULL adalah aturan yang diam-diam tidak bekerja.",
+          ],
+          formula: String.raw`\text{kec} = \frac{\text{jarak (km)}}{\text{jeda (jam)}} \qquad \text{kec} > 800 \Rightarrow \text{flag} \qquad \text{channel online} \Rightarrow \text{kota = kota merchant}`,
+          formulaNote: "Andi JKT→SBY 0,5 jam: 1.400 km/jam → FLAG. Budi Bandung→Bandung: 0 → tidak. Pesawat JKT→SBY 1,5 jam: 466,7 km/jam → tidak.",
+          tasks: [
+            { id: "t1", text: "Hitung kecepatan implisit tiga pasangan: `kec_andi`, `kec_budi`, `kec_pesawat` (km/jam, 2 desimal)" },
+            { id: "t2", text: "Hitung `n_flag` = jumlah pasangan dengan kec > 800 km/jam" },
+          ],
+          expected: "kec_andi=1400.0 kec_budi=0.0 kec_pesawat=466.67 n_flag=1",
+          hints: [
+            "kec = jarak / jeda jam: Andi 700/0,5; Budi 0/2; pesawat 700/1,5.",
+            "Flag bila kec > 800.",
+          ],
+          code: {
+            starter: `# (jarak km, jeda jam): Andi JKT-SBY, Budi Bandung-Bandung, pesawat JKT-SBY\npasangan = [(700, 0.5), (0, 2.0), (700, 1.5)]\n\n# TULIS KODEMU: kecepatan implisit tiap pasangan + jumlah flag (>800 km/jam)\nkec_andi =\nkec_budi =\nkec_pesawat =\nn_flag =\n\nprint(f"kec_andi={kec_andi} kec_budi={kec_budi} kec_pesawat={kec_pesawat} n_flag={n_flag}")`,
+            lockLines: 4,
+            solution: `# (jarak km, jeda jam): Andi JKT-SBY, Budi Bandung-Bandung, pesawat JKT-SBY\npasangan = [(700, 0.5), (0, 2.0), (700, 1.5)]\n\n# TULIS KODEMU: kecepatan implisit tiap pasangan + jumlah flag (>800 km/jam)\nkec_andi = round(pasangan[0][0] / pasangan[0][1], 2)\nkec_budi = round(pasangan[1][0] / pasangan[1][1], 2)\nkec_pesawat = round(pasangan[2][0] / pasangan[2][1], 2)\nn_flag = sum(1 for km, jam in pasangan if km / jam > 800)\n\nprint(f"kec_andi={kec_andi} kec_budi={kec_budi} kec_pesawat={kec_pesawat} n_flag={n_flag}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "kec_andi", value: 1400.0, tol: 0.01, label: "`kec_andi` = 1.400", msg: "700/0,5 = 1.400 km/jam — nilai kanonis lab travel." },
+              { kind: "equal", task: "t1", name: "kec_budi", value: 0.0, tol: 0.01, label: "`kec_budi` = 0", msg: "Kota sama = 0 km." },
+              { kind: "equal", task: "t1", name: "kec_pesawat", value: 466.67, tol: 0.01, label: "`kec_pesawat` = 466,67", msg: "700/1,5 ≈ 466,67 — di bawah 800, masih mungkin pesawat." },
+              { kind: "equal", task: "t2", name: "n_flag", value: 1, tol: 0.01, label: "`n_flag` = 1", msg: "Hanya pasangan Andi yang flag." },
+              { kind: "stdout_matches", task: "t2", pattern: "kec_andi=1400\\.0\\s+kec_budi=0\\.0\\s+kec_pesawat=466\\.67\\s+n_flag=1", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Transaksi online Jakarta 10:00 lalu Surabaya 10:30 (700 km). Apa vonis yang benar?",
+              options: [
+                { text: "Bukan impossible travel — transaksi online memakai kota merchant, bukan lokasi kartu", why: "Tepat: filter channel dulu. Aturan travel hanya untuk channel offline; kota merchant tidak membuktikan nasabah berpindah.", correct: true },
+                { text: "Flag impossible travel — 1.400 km/jam > 800", why: "Salah: kecepatannya memang 1.400 km/jam, tetapi 'perjalanan' itu tidak pernah terjadi — kotanya kota merchant." },
+                { text: "Blokir kartu langsung", why: "Salah: flag = screening, bukan vonis — verifikasi dulu sebelum blokir." },
+                { text: "Abaikan — kecepatan di atas 800 selalu error data", why: "Salah: 1.400 km/jam pada channel OFFLINE adalah flag yang sah (lab travel lesson ini)." },
+              ],
+            },
+          ],
+          reference: "Impossible travel butuh waktu + kota: kec = jarak/jeda, flag > 800 km/jam; filter channel offline dulu; flag = screening, verifikasi sebelum blokir.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

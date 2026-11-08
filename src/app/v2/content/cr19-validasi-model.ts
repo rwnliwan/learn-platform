@@ -5,7 +5,7 @@ export const cr19: V2Lesson = {
   track: "Credit Risk",
   module: "Validasi & Monitoring",
   title: "CR19 — Validasi Model",
-  estMinutes: 45,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -196,6 +196,95 @@ export const cr19: V2Lesson = {
       tasks: [],
       reference: "PSI = termometer; CSI = diagnosis per variabel; buku harian = rekam medis populasi.",
     },
+        {
+          id: "gap-r8-psi-ketidakpastian",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G10)",
+          title: "PSI 0,13 dari data yang TIDAK bergeser: noise sampel dan binning",
+          prose: [
+            "Lab PSI lesson ini menghitung PSI = 0,1573 → WASPADA dari distribusi band skor training [5, 15, 35, 30, 15] vs kini [12, 25, 30, 22, 11]. Tetapi PSI adalah STATISTIK SAMPEL — ia punya noise — dan ambang 0,10/0,25 tidak bertanya berapa besar sampelmu. Lab ini membuktikannya: ambil DUA sampel dari distribusi yang SAMA PERSIS (10 band), hitung PSI antar-keduanya. Dengan n = 200 per sampel, PSI-nya 0,13 — melewati ambang WASPADA — padahal populasinya TIDAK bergeser sama sekali. Dengan n = 20.000, PSI yang sama = 0,0007. Alarm palsu yang sama, hanya karena sampelnya kecil.",
+            "Tiga sumber ketidakpastian PSI/CSI yang wajib dicek sebelum memvonis 'geser': (1) UKURAN SAMPEL — band dengan pangsa kecil (2–5%) hanya berisi segelintir observasi pada n kecil; satu-dua observasi pindah band sudah menggerakkan PSI puluhan poin. Aturan: laporkan n per band di samping PSI; band dengan n < 30 jangan dibaca sendirian. (2) BINNING — jumlah dan batas band mengubah PSI dari data yang sama: distribusi yang sama dihitung 10 band memberi PSI 0,1672, dihitung 5 band memberi 0,1573. Ambang yang sama, binning berbeda, vonis bisa berbeda — tetapkan binning di awal dan JANGAN ubah-ubah untuk mencari hasil. (3) MISSING & MUSIM — missing yang terkonsentrasi di satu band (mis. penghasilan hilang untuk segmen mikro) menggeser distribusi TERAMATI tanpa menggeser populasi; begitu pula musim (belanja Lebaran vs bulan biasa). PSI yang dihitung tanpa memeriksa missingness dan musim adalah alarm yang tidak tahu apa yang dibunyikannya.",
+            "Praktik yang jujur: PSI/CSI selalu dilaporkan bertiga — nilai, n, dan binning — plus pemeriksaan missing per band dan perbandingan periode yang sama tahun lalu (year-on-year, bukan bulan-ke-bulan yang musiman). Bila PSI 0,13 datang dari n = 200, responsnya bukan 'rekalibrasi' melainkan 'kumpulkan data dulu'.",
+          ],
+          formula: String.raw`\text{PSI} = \sum (\text{kini} - \text{train}) \times \ln\frac{\text{kini}}{\text{train}} \qquad \text{PSI butuh } n \text{ dan binning di sampingnya}`,
+          formulaNote: "Dua sampel dari distribusi sama: n = 200 → PSI 0,13 (WASPADA palsu); n = 20.000 → PSI 0,0007. Binning sama: 10 band 0,1672 vs 5 band 0,1573.",
+          tasks: [
+            { id: "t1", text: "Hitung `psi_kecil` (n=200) dan `psi_besar` (n=20.000) antar dua sampel dari distribusi yang SAMA" },
+            { id: "t2", text: "Hitung `psi_10bin` dan `psi_5bin` dari pergeseran yang sama (4 desimal)" },
+          ],
+          expected: "psi_kecil=0.13 psi_besar=0.0007 psi_10bin=0.1672 psi_5bin=0.1573",
+          hints: [
+            "Gunakan random.Random(11) untuk sampel n=200 dan Random(1011) untuk pasangannya; n=20.000 pakai seed yang sama.",
+            "PSI = Σ (kini−train) × ln(kini/train); band 0% dilewati.",
+            "Gabungkan tiap 2 band bersebelahan untuk versi 5-band.",
+          ],
+          code: {
+            starter: `import math, random\n\ndist10 = [0.02, 0.03, 0.07, 0.08, 0.15, 0.20, 0.15, 0.15, 0.10, 0.05]\nkini10 = [0.05, 0.07, 0.11, 0.14, 0.13, 0.17, 0.13, 0.09, 0.07, 0.04]\n\ndef ambil(n, seed):\n    r = random.Random(seed); hit = [0] * len(dist10)\n    for _ in range(n):\n        x = r.random(); c = 0.0\n        for i, p in enumerate(dist10):\n            c += p\n            if x < c:\n                hit[i] += 1; break\n    return [h / n for h in hit]\n\ndef psi(a, b):\n    return sum((k - t) * math.log(k / t) for t, k in zip(a, b) if t > 0 and k > 0)\n\n# TULIS KODEMU\npsi_kecil =\npsi_besar =\npsi_10bin =\npsi_5bin =\n\nprint(f"psi_kecil={psi_kecil} psi_besar={psi_besar} psi_10bin={psi_10bin} psi_5bin={psi_5bin}")`,
+            lockLines: 19,
+            solution: `import math, random\n\ndist10 = [0.02, 0.03, 0.07, 0.08, 0.15, 0.20, 0.15, 0.15, 0.10, 0.05]\nkini10 = [0.05, 0.07, 0.11, 0.14, 0.13, 0.17, 0.13, 0.09, 0.07, 0.04]\n\ndef ambil(n, seed):\n    r = random.Random(seed); hit = [0] * len(dist10)\n    for _ in range(n):\n        x = r.random(); c = 0.0\n        for i, p in enumerate(dist10):\n            c += p\n            if x < c:\n                hit[i] += 1; break\n    return [h / n for h in hit]\n\ndef psi(a, b):\n    return sum((k - t) * math.log(k / t) for t, k in zip(a, b) if t > 0 and k > 0)\n\n# TULIS KODEMU\npsi_kecil = round(psi(ambil(200, 11), ambil(200, 1011)), 4)\npsi_besar = round(psi(ambil(20000, 11), ambil(20000, 1011)), 4)\npsi_10bin = round(psi(dist10, kini10), 4)\nt5 = [sum(dist10[i:i + 2]) for i in range(0, 10, 2)]\nk5 = [sum(kini10[i:i + 2]) for i in range(0, 10, 2)]\npsi_5bin = round(psi(t5, k5), 4)\n\nprint(f"psi_kecil={psi_kecil} psi_besar={psi_besar} psi_10bin={psi_10bin} psi_5bin={psi_5bin}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "psi_kecil", value: 0.13, tol: 0.005, label: "`psi_kecil` = 0,13", msg: "Dua sampel dari distribusi SAMA dengan n=200 memberi PSI 0,13 — melewati ambang WASPADA padahal tidak ada pergeseran." },
+              { kind: "equal", task: "t1", name: "psi_besar", value: 0.0007, tol: 0.001, label: "`psi_besar` = 0,0007", msg: "Dengan n=20.000, noise yang sama menyusut ke 0,0007 — PSI butuh n besar." },
+              { kind: "equal", task: "t2", name: "psi_10bin", value: 0.1672, tol: 0.005, label: "`psi_10bin` = 0,1672", msg: "Pergeseran yang sama dihitung 10 band." },
+              { kind: "equal", task: "t2", name: "psi_5bin", value: 0.1573, tol: 0.005, label: "`psi_5bin` = 0,1573", msg: "Pergeseran yang sama dihitung 5 band — beda binning, beda PSI." },
+              { kind: "stdout_matches", task: "t2", pattern: "psi_kecil=0\\.13\\s+psi_besar=0\\.0007\\s+psi_10bin=0\\.1672\\s+psi_5bin=0\\.1573", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "PSI = 0,13 (WASPADA) dihitung dari n = 200 per sampel. Respons pertama yang benar?",
+              options: [
+                { text: "Periksa n per band dan kumpulkan data dulu — PSI 0,13 bisa murni noise sampel kecil", why: "Tepat: dua sampel dari distribusi yang sama dengan n=200 memberi PSI 0,13. Vonis 'geser' dari n kecil adalah alarm palsu.", correct: true },
+                { text: "Langsung rekalibrasi model", why: "Salah: rekalibrasi atas noise sampel kecil merusak model yang sebenarnya stabil." },
+                { text: "Ganti binning sampai PSI turun di bawah 0,10", why: "Salah: mengubah binning untuk mencari hasil yang diinginkan adalah manipulasi metrik." },
+                { text: "Abaikan — PSI di bawah 0,25 tidak pernah penting", why: "Salah: PSI 0,13 dari n BESAR adalah sinyal nyata; yang menentukan adalah n-nya, bukan hanya angkanya." },
+              ],
+            },
+          ],
+          reference: "PSI/CSI = nilai + n + binning + cek missing/musim. n kecil → noise bisa melewati ambang WASPADA dari distribusi yang sama.",
+        },
+        {
+          id: "gap-r8-validasi-leakage-fairness",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G11)",
+          title: "Validasi pilar kelima: leakage, representasi, dan fairness",
+          prose: [
+            "Empat pilar lesson ini — diskriminasi, kalibrasi, stabilitas, benchmark — kuat, tetapi ada tiga pemeriksaan modern yang tidak masuk keempatnya dan masing-masing bisa membatalkan vonis 'lolos'. Satu, LEAKAGE: fitur yang 'bocor' memakai informasi dari MASA DEPAN relatif terhadap keputusan. Contoh klasik di kredit: fitur 'DPD setelah approval' atau 'rata-rata default cabang yang dihitung dari seluruh data termasuk test' — model terlihat hebat di training (Gini 0,72) lalu ambruk di out-of-time (0,48) karena di produksi informasi itu BELUM ADA saat keputusan dibuat. Uji: untuk tiap fitur, tanyakan 'apakah nilai ini tersedia SAAT prediksi dibuat?' — bila tidak, buang, betapa pun prediktifnya.",
+            "Dua, REPRESENTATIVENESS: apakah populasi validasi mewakili populasi yang akan dilayani? Cerita lesson ini memberi contohnya: segmen penghasilan < Rp3 juta naik dari 15% (training) menjadi 28% (kini) — selisih 13 poin. Model yang divalidasi di populasi lama tidak otomatis valid di populasi baru; PSI/CSI memberi tahu ADA pergeseran, tetapi representativeness bertanya APAKAH SAMPEL VALIDASINYA mencakup segmen baru itu dalam jumlah cukup untuk diuji. Tiga, FAIRNESS: dampak yang berbeda antar-grup. Hitung disparate impact ratio: tingkat approval gig worker 32% vs karyawan tetap 48% → DI = 0,32/0,48 = 0,67 — di bawah ambang four-fifths 0,80 → FLAG: disparitas yang wajib diselidiki (bukan vonis diskriminasi — tetapi juga bukan untuk diabaikan).",
+            "Aturan: tambahkan tiga cek ini sebagai 'pilar kelima' sebelum menandatangani validasi — (a) audit leakage per fitur (ketersediaan saat keputusan), (b) tabel representasi training vs populasi kini per segmen kunci, (c) metrik per grup (approval/TPR/FPR) dengan ambang DI 0,80. Model yang lolos empat pilar tetapi gagal di ketiganya adalah model yang lolos ujian yang salah.",
+          ],
+          formula: String.raw`\text{DI} = \frac{\text{tingkat approval grup yang dilindungi}}{\text{tingkat approval grup referensi}} \qquad \text{DI} < 0{,}80 \Rightarrow \text{flag disparitas}`,
+          formulaNote: "Gig worker 32% vs karyawan tetap 48% → DI = 0,67 < 0,80 → flag. Segmen <Rp3 jt: 15% (training) → 28% (kini), selisih 13 poin.",
+          tasks: [
+            { id: "t1", text: "Hitung `di` = approval gig worker / approval karyawan tetap (2 desimal) dan `flag` (True bila DI < 0,80)" },
+            { id: "t2", text: "Hitung `rep_gap` = pangsa segmen <Rp3 jt kini − training (poin persen)" },
+          ],
+          expected: "di=0.67 flag=True rep_gap=13.0",
+          hints: [
+            "DI = 0,32 / 0,48.",
+            "rep_gap = 28 − 15.",
+          ],
+          code: {
+            starter: `app_gig = 0.32; app_tetap = 0.48  # tingkat approval\npangsa_training = 15.0; pangsa_kini = 28.0  # segmen <Rp3 jt, %\n\n# TULIS KODEMU: disparate impact ratio + flag + kesenjangan representasi\ndi =\nflag =\nrep_gap =\n\nprint(f"di={di} flag={flag} rep_gap={rep_gap}")`,
+            lockLines: 4,
+            solution: `app_gig = 0.32; app_tetap = 0.48  # tingkat approval\npangsa_training = 15.0; pangsa_kini = 28.0  # segmen <Rp3 jt, %\n\n# TULIS KODEMU: disparate impact ratio + flag + kesenjangan representasi\ndi = round(app_gig / app_tetap, 2)\nflag = di < 0.80\nrep_gap = pangsa_kini - pangsa_training\n\nprint(f"di={di} flag={flag} rep_gap={rep_gap}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "di", value: 0.67, tol: 0.01, label: "`di` = 0,67", msg: "0,32/0,48 ≈ 0,67 — di bawah ambang four-fifths 0,80." },
+              { kind: "equal", task: "t2", name: "rep_gap", value: 13.0, tol: 0.5, label: "`rep_gap` = 13 poin", msg: "28% − 15% = 13 poin — segmen baru membanjiri portofolio." },
+              { kind: "stdout_matches", task: "t1", pattern: "di=0\\.67\\s+flag=True\\s+rep_gap=13\\.0", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Model lolos 4 pilar (Gini OOT bagus, HL lolos, PSI rendah, benchmark menang) tetapi satu fiturnya 'DPD setelah approval'. Vonis?",
+              options: [
+                { text: "Tolak bersyarat — leakage membatalkan validasi; fitur itu belum ada saat keputusan dibuat", why: "Tepat: leakage membuat skor training fiktif. Empat pilar tidak menguji ketersediaan fitur saat keputusan.", correct: true },
+                { text: "Lolos — 4 pilar sudah mencakup semuanya", why: "Salah: tidak satu pun dari empat pilar menanyakan 'apakah fitur ini tersedia saat prediksi dibuat?'" },
+                { text: "Lolos bila Gini OOT tetap bagus", why: "Salah: Gini OOT yang dihitung dengan fitur bocor ikut bocor — ia mengukur kebocoran, bukan kemampuan." },
+                { text: "Perbaiki dengan menambah data training", why: "Salah: menambah data tidak menghilangkan kebocoran — fitur masa depan tetap masa depan." },
+              ],
+            },
+          ],
+          reference: "Pilar kelima validasi: (a) audit leakage — fitur tersedia saat keputusan? (b) representasi training vs kini (c) metrik per grup, DI < 0,80 = flag.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

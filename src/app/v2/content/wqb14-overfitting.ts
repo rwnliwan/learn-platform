@@ -23,7 +23,7 @@ export const wqb14: V2Lesson = {
   track: "WorldQuant Brain",
   module: "Praktik & Diagnosis",
   title: "WQB14 — Overfitting & Plafon Satu Family",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -212,6 +212,50 @@ export const wqb14: V2Lesson = {
       },
       reference: "12 tweak, slope ≈ 0,001 → tolak tweak ke-13, alihkan ke family baru.",
     },
+        {
+          id: "gap-r8-validasi-oos",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G35)",
+          title: "Dari in-sample ke out-of-sample: prosedur holdout yang konkret",
+          prose: [
+            "Lesson ini membuktikan 1−0,95²⁰ = 64% peluang satu dari 20 alpha 'signifikan' secara kebetulan — tetapi tidak memberi PROSEDUR untuk membuktikan alpha-mu bukan salah satunya. Prosedurnya tiga jendela yang tidak tumpang tindih, dengan tanggal yang eksplisit. Ambil alpha yang dikembangkan 2015–2019 (in-sample, 5 tahun): fitness 1,31. Lalu VALIDASI 2020–2021 (2 tahun, data yang belum pernah dipakai untuk memilih alpha): fitness 1,18 — turun 9,9%. Lalu TEST 2022–2025 (4 tahun, sentuh SEKALI, setelah semua keputusan terkunci): fitness 1,05 — turun 19,8% dari in-sample. Tiga angka itu adalah cerita yang jujur: alpha ini melemah di luar sampel, tetapi masih di atas ambang kelayakan (fitness > 1) — keputusan 'lanjut dengan pantau' bisa dipertahankan, dan keputusan 'tambah modal besar' tidak.",
+            "Empat aturan yang membuat holdout bermakna. Satu, JENDELA TIDAK TUMPANG TINDIH dan berurutan waktu — validasi SETELAH in-sample, test SETELAH validasi; tidak ada 'pinjam' data test untuk memperbaiki alpha. Dua, FREEZE SEBELUM TEST: semua parameter, semua aturan seleksi, semua ambang dikunci SEBELUM test disentuh — bila test disentuh lalu alpha diubah, test itu sudah menjadi validasi kedua (lihat langkah hd13: optimism gap yang sama, konteks yang berbeda). Tiga, LAPORKAN KETIGANYA: in-sample, validasi, test — berdampingan, dengan persentase penurunannya. Alpha yang hanya melaporkan in-sample adalah alpha yang belum diuji. Empat, BATAS PENERIMAAN YANG DITETAPKAN DI AWAL: mis. 'test fitness ≥ 1,0 dan penurunan ≤ 30%' — ditetapkan SEBELUM melihat test, bukan disesuaikan setelah melihat hasilnya.",
+            "Kaitannya dengan ceiling keluarga lesson ini (±0,94 untuk reversal 1–5 hari): holdout yang menunjukkan fitness di bawah ceiling keluarga BUKAN kegagalan — ia informasi. Kegagalan adalah alpha yang 'lolos' karena test-nya sudah dipakai untuk memilihnya.",
+          ],
+          formula: String.raw`\text{penurunan} = \frac{\text{fitness}_{IS} - \text{fitness}_{OOS}}{\text{fitness}_{IS}} \qquad \text{IS} \to \text{val} \to \text{test (sekali, setelah freeze)}`,
+          formulaNote: "IS 2015–2019: 1,31. Val 2020–2021: 1,18 (−9,9%). Test 2022–2025: 1,05 (−19,8%).",
+          tasks: [
+            { id: "t1", text: "Hitung `decay_val` (%) dan `decay_test` (%) penurunan fitness dari in-sample 1,31 (1 desimal)" },
+            { id: "t2", text: "Tentukan `layak` (True bila fitness test ≥ 1,0 DAN decay_test ≤ 30%)" },
+          ],
+          expected: "decay_val=9.9 decay_test=19.8 layak=True",
+          hints: [
+            "Penurunan = (1,31 − fitness OOS)/1,31 × 100%.",
+            "Kriteria layak ditetapkan sebelum melihat test: fitness ≥ 1,0 dan penurunan ≤ 30%.",
+          ],
+          code: {
+            starter: `fitness_is = 1.31; fitness_val = 1.18; fitness_test = 1.05\n\n# TULIS KODEMU: penurunan fitness validasi + test, lalu keputusan layak\ndecay_val =\ndecay_test =\nlayak =\n\nprint(f"decay_val={decay_val} decay_test={decay_test} layak={layak}")`,
+            lockLines: 4,
+            solution: `fitness_is = 1.31; fitness_val = 1.18; fitness_test = 1.05\n\n# TULIS KODEMU: penurunan fitness validasi + test, lalu keputusan layak\ndecay_val = round((fitness_is - fitness_val) / fitness_is * 100, 1)\ndecay_test = round((fitness_is - fitness_test) / fitness_is * 100, 1)\nlayak = fitness_test >= 1.0 and decay_test <= 30\n\nprint(f"decay_val={decay_val} decay_test={decay_test} layak={layak}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "decay_val", value: 9.9, tol: 0.1, label: "`decay_val` = 9,9%", msg: "(1,31−1,18)/1,31 = 9,9%." },
+              { kind: "equal", task: "t1", name: "decay_test", value: 19.8, tol: 0.1, label: "`decay_test` = 19,8%", msg: "(1,31−1,05)/1,31 = 19,8%." },
+              { kind: "equal", task: "t2", name: "layak", value: true, tol: 0.01, label: "`layak` = True", msg: "Fitness test 1,05 ≥ 1,0 dan penurunan 19,8% ≤ 30% — lanjut dengan pantau." },
+              { kind: "stdout_matches", task: "t2", pattern: "decay_val=9\\.9\\s+decay_test=19\\.8\\s+layak=True", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Alpha fitness in-sample 1,31; setelah melihat test 1,05, tim 'memperbaiki' alpha lalu menguji ulang di test yang sama: 1,28. Apa masalahnya?",
+              options: [
+                { text: "Test sudah menjadi validasi kedua — 1,28 bukan angka out-of-sample lagi", why: "Tepat: test hanya boleh disentuh sekali setelah freeze. Mengubah alpha dari hasil test = snooping yang sama dengan yang diperingatkan lesson ini.", correct: true },
+                { text: "Tidak ada masalah — 1,28 membuktikan perbaikan berhasil", why: "Salah: 1,28 diukur di data yang dipakai untuk memilih perbaikannya — ia mengandung optimism gap." },
+                { text: "Masalahnya hanya dokumentasi — catat saja perbaikannya", why: "Salah: dokumentasi tidak mengembalikan status out-of-sample test yang sudah terkontaminasi." },
+                { text: "Harusnya test-nya diganti dengan data 2026", why: "Salah: mengganti test setelah melihat hasilnya adalah bentuk lain dari snooping — jendela ditetapkan di awal." },
+              ],
+            },
+          ],
+          reference: "Holdout konkret: IS (kembangkan) → val (pilih/kunci) → test (nilai sekali, setelah freeze). Laporkan ketiganya + penurunan; kriteria layak ditetapkan di awal.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

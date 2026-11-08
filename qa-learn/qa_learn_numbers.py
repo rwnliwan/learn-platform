@@ -1201,6 +1201,84 @@ FIXTURES = [
         ["α=100 → beta = 850/1100 = 0,7727"],
         [],
     ),
+    # --- Build gap ronde 8 Terra, 2026-11-09 (37 langkah gap-r8) ---
+    # Kelas: angka langkah gap yang dihitung ulang dari parameter pertama.
+    (
+        "a15-kuantil-outlier.ts",
+        ["q1_n1p=22.5", "q1_linear=27.5", "q3_n1p=67.5", "q3_linear=62.5"],
+        ["Q1 = 10,25"],  # draf awal yang salah: Q1 linear data gaji = 10,0, bukan 10,25
+    ),
+    (
+        "a16-korelasi.ts",
+        ["ci4_lo=0.66", "ci30_lo=0.98"],
+        [],
+    ),
+    (
+        "b17-bayesian-praktis.ts",
+        ["post_lemah=7.27", "post_tanpa=33.33"],
+        [],
+    ),
+    (
+        "cr17a-corporate-credit-1.ts",
+        ["dscr_cfads=1.07", "dscr_cfads_lease=0.96", "icr_lease=2.25",
+         "ocf=-80.0"],
+        [],
+    ),
+    (
+        "cr18-industry-country-risk.ts",
+        ["skor=3.05"],
+        [],
+    ),
+    (
+        "cr19-validasi-model.ts",
+        ["psi_kecil=0.13", "psi_besar=0.0007", "di=0.67"],
+        [],
+    ),
+    (
+        "mr6-backtesting.ts",
+        ["unexplained +2", "lr=0.77", "peluang_lolos_2pct=43.9"],
+        [],
+    ),
+    (
+        "fr13-realtime.ts",
+        ["bersih=9", "selisih_pct=33.3", "event_time=6"],
+        [],
+    ),
+    (
+        "aml3-edd.ts",
+        ["60% × 50% = 30%", "pilihan=12"],
+        [],
+    ),
+    (
+        "c14-fraud-velocity.ts",
+        ["kec_andi=1400.0", "kec_pesawat=466.67", "n_flag=1"],
+        [],
+    ),
+    (
+        "d9-eda.ts",
+        ["npl_mar=75.0", "miss_mar=25.0", "shrink_jkt=51.9"],
+        [],
+    ),
+    (
+        "mle15-ml-klasik.ts",
+        ["brier=0.1705", "cost05=6.0", "cost03=2.0"],
+        [],
+    ),
+    (
+        "aai14-context-engineering.ts",
+        ["eksposur_tanpa_kunci=1000000", "retensi=84.2", "retensi_fakta=83.3"],
+        [],
+    ),
+    (
+        "hd13-fairness-kesehatan.ts",
+        ["tpr_validasi=75.0", "tpr_test=60.0", "optimism_gap=15.0"],
+        [],
+    ),
+    (
+        "biz13-ai.ts",
+        ["b85_lo=15.0", "b95_lo=37.6", "satu_jawaban=25.0"],
+        [],
+    ),
 ]
 
 

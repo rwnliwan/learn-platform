@@ -5,7 +5,7 @@ export const fr13: V2Lesson = {
   track: "Fraud & AML Analytics",
   module: "Operasi Model",
   title: "FR13 — Sistem Real-Time",
-  estMinutes: 50,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita",
@@ -181,6 +181,94 @@ export const fr13: V2Lesson = {
       tasks: [],
       reference: "Size untuk puncak ×2. Infra Rp80 jt/bln vs hemat Rp45 M/bln. Tiap komponen punya mode degraded.",
     },
+        {
+          id: "gap-r8-idempotensi-duplikat",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G17)",
+          title: "Retry bukan transaksi baru: idempotensi dan ordering di pipeline",
+          prose: [
+            "Sliding window lesson ini menghitung '12 transaksi dalam 60 detik' — tetapi tidak pernah bertanya apakah ke-12 itu BENAR-BENAR 12 transaksi. Di pipeline real-time, retry, failover partisi, dan redelivery Kafka membuat SATU transaksi bisa muncul DUA kali. Ambil burst userX dari langkah window: 12 event dalam 60 detik, 3 di antaranya adalah redelivery (retry yang sama). Tanpa dedup, window menghitung 12; dengan dedup atas event_id, yang benar adalah 9. Alert-nya sama-sama bunyi (ambang > 5) — tetapi FITUR yang masuk model beda 33%: count 12 vs 9, dan skor fraud yang dihitung darinya ikut salah. Duplikat tidak selalu mengubah keputusan hari ini — ia selalu merusak FITUR yang dipakai keputusan besok.",
+            "Tiga disiplin yang memisahkan pipeline yang benar dari yang 'kelihatan benar'. Satu, IDEMPOTENSI: tiap event punya kunci unik (event_id / transaction_id) dan tiap consumer menyimpan kunci yang sudah diproses selama TTL ≥ panjang window — event yang sama datang dua kali dihitung sekali. Dua, ORDERING: event diproses dalam urutan EVENT-TIME, bukan urutan kedatangan — retry yang datang terlambat tidak boleh menggeser window yang sudah ditutup; bila window sudah terlanjur dihitung, koreksi diterbitkan sebagai revisi, bukan diam-diam menimpa. Tiga, EXACTLY-ONCE SEMANTIK: 'tepat sekali' tidak datang dari harapan — ia datang dari dedup store + penulisan atomik (offset Kafka dicommit BERSAMAAN dengan hasil agregat, bukan sesudahnya). Tanpa ketiganya, angka 'transaksi 60 detik terakhir' adalah angka yang bergantung pada keberuntungan jaringan — dan feature store yang diberi angka itu melatih model di atas noise duplikat.",
+            "Aturan: setiap agregat window WAJIB punya kunci dedup yang terdokumentasi, dan setiap lab/pengujian pipeline WAJIB menyertakan kasus duplikat — bila pipeline-mu belum pernah diuji dengan redelivery, ia belum teruji.",
+          ],
+          formula: String.raw`\text{count}_{\text{bersih}} = |\text{event\_id unik dalam window}| \qquad \text{retry} \ne \text{event baru}`,
+          formulaNote: "Burst userX: 12 event mentah, 3 redelivery → 9 unik. Alert sama (>5), fitur beda 33%.",
+          tasks: [
+            { id: "t1", text: "Hitung `mentah` (semua event) dan `bersih` (event_id unik) dari `events` dalam window 60 detik" },
+            { id: "t2", text: "Hitung `selisih_pct` = (mentah−bersih)/bersih × 100% (1 desimal) dan tentukan alert di kedua hitungan (ambang > 5)" },
+          ],
+          expected: "mentah=12 bersih=9 selisih_pct=33.3 alert_mentah=True alert_bersih=True",
+          hints: [
+            "event_id yang sama = redelivery, bukan transaksi baru — pakai set().",
+            "Alert bunyi bila count > 5; cek di kedua hitungan.",
+          ],
+          code: {
+            starter: `# 12 event dalam window 60 detik; 3 adalah redelivery (event_id sama)\nevents = ["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08", "e09", "e02", "e05", "e09"]\n\n# TULIS KODEMU: hitungan mentah vs dedup + alert (ambang > 5)\nmentah =\nbersih =\nselisih_pct =\nalert_mentah =\nalert_bersih =\n\nprint(f"mentah={mentah} bersih={bersih} selisih_pct={selisih_pct} alert_mentah={alert_mentah} alert_bersih={alert_bersih}")`,
+            lockLines: 4,
+            solution: `# 12 event dalam window 60 detik; 3 adalah redelivery (event_id sama)\nevents = ["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08", "e09", "e02", "e05", "e09"]\n\n# TULIS KODEMU: hitungan mentah vs dedup + alert (ambang > 5)\nmentah = len(events)\nbersih = len(set(events))\nselisih_pct = round((mentah - bersih) / bersih * 100, 1)\nalert_mentah = mentah > 5\nalert_bersih = bersih > 5\n\nprint(f"mentah={mentah} bersih={bersih} selisih_pct={selisih_pct} alert_mentah={alert_mentah} alert_bersih={alert_bersih}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "mentah", value: 12, tol: 0.01, label: "`mentah` = 12", msg: "Semua event termasuk redelivery." },
+              { kind: "equal", task: "t1", name: "bersih", value: 9, tol: 0.01, label: "`bersih` = 9", msg: "e01–e09 = 9 event unik; e02, e05, e09 yang muncul kedua kali adalah redelivery." },
+              { kind: "equal", task: "t2", name: "selisih_pct", value: 33.3, tol: 0.5, label: "`selisih_pct` = 33,3%", msg: "(12−9)/9 = 33,3% — fitur meleset sepertiga." },
+              { kind: "stdout_matches", task: "t2", pattern: "alert_mentah=True\\s+alert_bersih=True", label: "Alert bunyi di kedua hitungan", msg: "Ambang > 5 terlampaui baik mentah (12) maupun bersih (9)." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Window menghitung 12 transaksi/60 detik, tetapi 3 adalah redelivery. Apa dampaknya?",
+              options: [
+                { text: "Fitur count salah 33% meski alert tetap bunyi — model dilatih di atas angka duplikat", why: "Tepat: 12 vs 9 — alert sama, tetapi fitur yang masuk model dan feature store salah sepertiga.", correct: true },
+                { text: "Tidak ada dampak — alert tetap bunyi", why: "Salah: alert hari ini sama, tetapi fitur yang disimpan dan dipakai model besok salah." },
+                { text: "Harus menaikkan ambang menjadi 12", why: "Salah: ambang bukan obat duplikat — obatnya dedup atas event_id." },
+                { text: "Retry harus dimatikan agar tidak ada duplikat", why: "Salah: retry adalah mekanisme ketahanan yang sah — yang harus ada adalah DEDUP, bukan larangan retry." },
+              ],
+            },
+          ],
+          reference: "Retry ≠ event baru: dedup atas event_id (TTL ≥ window), proses dalam urutan event-time, commit offset bersamaan dengan hasil (exactly-once).",
+        },
+        {
+          id: "gap-r8-clock-skew-event-time",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G18)",
+          title: "Jam siapa yang benar? Event-time vs processing-time",
+          prose: [
+            "Window 60 detik lesson ini mengasumsikan semua jam sepakat — padahal tidak. Tiga sumber ketidaksepakatan: jam perangkat nasabah/merchant yang melenceng (clock skew), transaksi offline yang baru terkirim berjam-jam kemudian, dan antrean yang menunda pemrosesan. Ambil 6 event dalam window [1800, 1860) detik (event-time): semuanya terjadi di dalam window. Tetapi 2 event datang terlambat — jam perangkatnya 45 detik lebih lambat — sehingga sistem baru MELIHATNYA pada detik 1870+. Dihitung dengan PROCESSING-TIME (kapan sistem melihat), window itu hanya berisi 4 event — 2 'hilang' ke window berikutnya. Burst 6 yang seharusnya alert (> 5) menjadi 4 yang tidak alert. Jam yang salah mengubah keputusan.",
+            "Bedakan dua waktu dengan tegas. EVENT-TIME = kapan transaksi TERJADI (timestamp dari sumber, yang masuk ke logika window, agregat, dan model). PROCESSING-TIME = kapan sistem MEMPROSESNYA (hanya untuk monitoring keterlambatan — 'event ini telat 45 detik'). Aturan keras: logika bisnis SELALU memakai event-time; processing-time tidak pernah dipakai untuk menghitung window. Untuk event yang datang terlambat, pakai WATERMARK: 'tunggu sampai event-time + 60 detik sebelum menutup window' — event yang datang setelah watermark diterima sebagai revisi terlambat (atau dibuang dengan pencatatan, bukan diam-diam). Dan untuk clock skew: sinkronkan jam sumber (NTP), tolak timestamp yang mustahil (masa depan), dan laporkan distribusi keterlambatan sebagai metrik kesehatan pipeline.",
+            "Kaitannya dengan langkah sebelumnya: dedup dan ordering hanya bermakna dalam event-time. Pipeline yang memakai processing-time untuk window-nya akan salah menghitung BAHKAN BILA tidak ada duplikat — karena urutan kedatangan bukan urutan kejadian.",
+          ],
+          formula: String.raw`\text{window} = f(\text{event-time}) \qquad \text{processing-time} = \text{monitoring lag saja} \qquad \text{watermark} = \text{event-time} + \text{toleransi keterlambatan}`,
+          formulaNote: "Window [1800, 1860): event-time 6 event; processing-time 4 event (2 telat 45 detik jatuh ke window berikut).",
+          tasks: [
+            { id: "t1", text: "Hitung `event_time` = jumlah event yang TERJADI di window [1800, 1860) dan `processing_time` = jumlah yang TERLIHAT di window yang sama" },
+            { id: "t2", text: "Hitung `selisih` = event_time − processing_time" },
+          ],
+          expected: "event_time=6 processing_time=4 selisih=2",
+          hints: [
+            "Event-time = kolom waktu_kejadian; processing-time = kolom waktu_lihat.",
+            "Window [1800, 1860): 1800 ≤ t < 1860.",
+          ],
+          code: {
+            starter: `# (waktu_kejadian, waktu_lihat) dalam detik; 2 event telat 45 detik\npairs = [(1805, 1805), (1815, 1815), (1825, 1825), (1835, 1880), (1845, 1845), (1855, 1900)]\n\n# TULIS KODEMU: hitung isi window [1800, 1860) menurut event-time vs processing-time\nevent_time =\nprocessing_time =\nselisih =\n\nprint(f"event_time={event_time} processing_time={processing_time} selisih={selisih}")`,
+            lockLines: 4,
+            solution: `# (waktu_kejadian, waktu_lihat) dalam detik; 2 event telat 45 detik\npairs = [(1805, 1805), (1815, 1815), (1825, 1825), (1835, 1880), (1845, 1845), (1855, 1900)]\n\n# TULIS KODEMU: hitung isi window [1800, 1860) menurut event-time vs processing-time\nevent_time = sum(1 for e, _ in pairs if 1800 <= e < 1860)\nprocessing_time = sum(1 for _, p in pairs if 1800 <= p < 1860)\nselisih = event_time - processing_time\n\nprint(f"event_time={event_time} processing_time={processing_time} selisih={selisih}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "event_time", value: 6, tol: 0.01, label: "`event_time` = 6", msg: "Keenam event TERJADI di [1800, 1860)." },
+              { kind: "equal", task: "t1", name: "processing_time", value: 4, tol: 0.01, label: "`processing_time` = 4", msg: "Dua event baru TERLIHAT pada 1880 dan 1900 — jatuh di window berikut." },
+              { kind: "equal", task: "t2", name: "selisih", value: 2, tol: 0.01, label: "`selisih` = 2", msg: "6 − 4 = 2 event 'hilang' dari window — cukup untuk mengubah alert (>5) menjadi tidak alert." },
+              { kind: "stdout_matches", task: "t2", pattern: "event_time=6\\s+processing_time=4\\s+selisih=2", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Burst 6 transaksi dalam 60 detik tidak memicu alert karena 2 event baru terlihat sistem 45 detik kemudian. Akar masalahnya?",
+              options: [
+                { text: "Window dihitung dengan processing-time, bukan event-time", why: "Tepat: logika window harus memakai kapan transaksi TERJADI. Processing-time hanya untuk monitoring keterlambatan.", correct: true },
+                { text: "Ambang alert terlalu tinggi", why: "Salah: ambang > 5 sudah benar — yang salah adalah HITUNGANNYA (4, bukan 6)." },
+                { text: "Dua event itu duplikat", why: "Salah: keduanya event asli yang datang terlambat (clock skew) — bukan redelivery." },
+                { text: "Watermark terlalu panjang", why: "Salah: justru TIDAK ADA watermark — window ditutup sebelum event terlambat tiba." },
+              ],
+            },
+          ],
+          reference: "Logika window = event-time; processing-time = monitoring lag. Watermark = toleransi keterlambatan sebelum window ditutup.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

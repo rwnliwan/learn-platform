@@ -19,6 +19,7 @@ sumber sebelum ditambahkan.
 Jalankan: python3 qa_quiz_numeric_keys.py
 Keluar 0 = lolos; 1 = ada kunci kuis yang tidak cocok dengan hitung ulang.
 """
+import math
 import re
 import sys
 from pathlib import Path
@@ -107,6 +108,12 @@ WHY_CHECKS = [
      "jumlah Macet naik terus lalu mendatar",
      # 5000 × π_macet; π dari iterasi P 60× (lihat qa_r8_recompute.py) = 255,81
      [("Macet stasioner", 255.81395348837225, 1, "")]),
+    # R8 gaps: model 2% (salah 2x) lolos Kupiec x<=4 dari 250 hari = 43,9%.
+    ("mr6-backtesting.ts",
+     "Uji Kupiec 250 hari: LR = 0,77",
+     [("lolos model 2%",
+       sum(math.comb(250, i) * 0.02 ** i * 0.98 ** (250 - i)
+           for i in range(5)) * 100, 1, "%")]),
 ]
 
 # (file, pertanyaan, [(nama, nilai, desimal, akhiran)], [string yang TIDAK
@@ -119,6 +126,25 @@ QUESTION_CHECKS = [
     ("mk14-pricing.ts",
      "Kanibalisasi 15% pada promo",
      [("kanibalisasi 6/40", 6 / 40 * 100, 0, "%")],
+     ["62,5%"]),
+    # R8 gaps: LR Kupiec x=4 dihitung ulang dari rumus (bukan dari teks).
+    ("mr6-backtesting.ts",
+     "Uji Kupiec 250 hari: LR = 0,77",
+     [("LR Kupiec x=4",
+       -2 * ((250 - 4) * math.log(0.99) + 4 * math.log(0.01)
+             - ((250 - 4) * math.log(1 - 4 / 250) + 4 * math.log(4 / 250))),
+       2, "")],
+     []),
+    # R8 gaps: retensi compaction 16/19 = 84,2% (ambang 90% -> GAGAL).
+    ("aai14-context-engineering.ts",
+     "Compaction meretensi 84,2%",
+     [("retensi 16/19", 16 / 19 * 100, 1, "%")],
+     []),
+    # R8 gaps: kanibalisasi 6/10 = 60% (vs baseline) vs 6/40 = 15% (vs promo).
+    ("mk14-pricing.ts",
+     "kanibalisasi 60%' tanpa penyebut",
+     [("kanibalisasi vs baseline 6/10", 6 / 10 * 100, 0, "%"),
+      ("kanibalisasi vs promo 6/40", 6 / 40 * 100, 0, "%")],
      ["62,5%"]),
 ]
 

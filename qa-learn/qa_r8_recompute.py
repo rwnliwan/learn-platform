@@ -166,6 +166,176 @@ def main() -> int:
     must("aai11-debugging.ts", t, "notasi", "τ = 0,25 = rasio frekuensi")
     print("OK   aai11-debugging.ts :: notasi 3× (hitungan) vs τ=0,25 (rasio) dibedakan")
 
+    # --- R8 GAPS (2026-11-09): angka langkah gap-r8, dihitung ulang ---
+    # G1 a15 kuantil tiga konvensi, data [10..80] (n=8)
+    d8 = [10, 20, 30, 40, 50, 60, 70, 80]
+
+    def q_np(p):
+        h = (len(d8) + 1) * p; lo = int(h); f = h - lo
+        return d8[lo - 1] + f * (d8[lo] - d8[lo - 1])
+
+    def q_half(p):
+        half = d8[:4] if p < 0.5 else d8[4:]
+        return (half[1] + half[2]) / 2
+    q1 = (q_np(0.25), q_half(0.25), float(np.percentile(d8, 25)))
+    q3 = (q_np(0.75), q_half(0.75), float(np.percentile(d8, 75)))
+    assert q1 == (22.5, 25.0, 27.5) and q3 == (67.5, 65.0, 62.5)
+    t = decode_file(CONTENT / "a15-kuantil-outlier.ts")
+    must("a15-kuantil-outlier.ts", t, "gap kuantil", "22,5")
+    must("a15-kuantil-outlier.ts", t, "gap kuantil", "27,5")
+    must("a15-kuantil-outlier.ts", t, "gap kuantil", "67,5")
+    must("a15-kuantil-outlier.ts", t, "gap kuantil", "62,5")
+    print(f"OK   a15-kuantil-outlier.ts :: gap Q1={q1} Q3={q3}")
+
+    # G5 b16 sensitivitas GPD: xi=0,2 -> 37,3; xi=0,4 -> 52,2; rentang 14,9
+    def gpd_var(xi):
+        return 10 + (5 / xi) * ((0.04 / 0.001) ** xi - 1)
+    v02, v04 = gpd_var(0.2), gpd_var(0.4)
+    assert abs(v02 - 37.3) < 0.05 and abs(v04 - 52.2) < 0.05
+    assert abs((v04 - v02) - 14.9) < 0.1
+    t = decode_file(CONTENT / "b16-heavy-tails-evt.ts")
+    must("b16-heavy-tails-evt.ts", t, "gap ekor", "37,3")
+    must("b16-heavy-tails-evt.ts", t, "gap ekor", "52,2")
+    must("b16-heavy-tails-evt.ts", t, "gap ekor", "14,9")
+    print(f"OK   b16-heavy-tails-evt.ts :: gap GPD xi=0,2 -> {v02:.1f}; "
+          f"xi=0,4 -> {v04:.1f}; rentang {v04 - v02:.1f}")
+
+    # G12 e12 forward tiga konvensi (S=16500, IDR 6%, USD 4,5%, T=2)
+    S, rd, rf, T = 16500, 0.06, 0.045, 2
+    f_s = S * (1 + rd * T) / (1 + rf * T)
+    f_m = S * (1 + rd) ** T / (1 + rf) ** T
+    f_c = S * math.exp((rd - rf) * T)
+    selisih = round((f_m - f_s) * 500000 / 1e6, 2)
+    assert abs(f_s - 16954.13) < 0.01 and abs(f_m - 16977.08) < 0.01
+    assert abs(f_c - 17002.50) < 0.01 and selisih == 11.48
+    t = decode_file(CONTENT / "e12-fx-suku-bunga.ts")
+    must("e12-fx-suku-bunga.ts", t, "gap forward", "16.954,13")
+    must("e12-fx-suku-bunga.ts", t, "gap forward", "16.977,08")
+    must("e12-fx-suku-bunga.ts", t, "gap forward", "17.002,50")
+    must("e12-fx-suku-bunga.ts", t, "gap forward", "11,48")
+    print(f"OK   e12-fx-suku-bunga.ts :: gap forward {f_s:.2f} / {f_m:.2f} / "
+          f"{f_c:.2f}; selisih Rp{selisih} jt")
+
+    # G13 mr5 ES diskrit: sensitivitas + n=11
+    rugi10 = [-5, 2, -8, 30, -3, 1, -6, 45, -2, 4]
+
+    def var_es(rugi):
+        s = sorted(rugi); n = len(s)
+        var = s[int(n * 0.8) - 1] if n * 0.8 == int(n * 0.8) else s[int(n * 0.8)]
+        atas = [x for x in s if x > var]
+        return var, sum(atas) / len(atas)
+    v10, e10 = var_es(rugi10)
+    v11, e11 = var_es(rugi10 + [60])
+    assert (v10, e10) == (4, 37.5) and (v11, e11) == (30, 52.5)
+    assert (40 + 30) / 2 == 35.0
+    t = decode_file(CONTENT / "mr5-expected-shortfall.ts")
+    must("mr5-expected-shortfall.ts", t, "gap ES", "ES 35,0")
+    must("mr5-expected-shortfall.ts", t, "gap ES", "ES80 52,5")
+    must("mr5-expected-shortfall.ts", t, "gap ES", "es_sens=35.0")
+    must("mr5-expected-shortfall.ts", t, "gap ES", "var11=30.0")
+    print(f"OK   mr5-expected-shortfall.ts :: gap ES10={e10} sens=35,0 "
+          f"ES11={e11} var11={v11}")
+
+    # G15 mr6 Kupiec x=4: LR 0,77 + peluang model 2% lolos 43,9%
+    def kupiec_lr(T, x, p):
+        ph = x / T
+        return -2 * ((T - x) * math.log(1 - p) + x * math.log(p)
+                     - ((T - x) * math.log(1 - ph) + x * math.log(ph)))
+    lr4 = kupiec_lr(250, 4, 0.01)
+    p_lolos = sum(math.comb(250, i) * 0.02 ** i * 0.98 ** (250 - i)
+                  for i in range(5)) * 100
+    assert abs(lr4 - 0.77) < 0.01 and abs(p_lolos - 43.9) < 0.1
+    t = decode_file(CONTENT / "mr6-backtesting.ts")
+    must("mr6-backtesting.ts", t, "gap kupiec", "0,77")
+    must("mr6-backtesting.ts", t, "gap kupiec", "43,9%")
+    print(f"OK   mr6-backtesting.ts :: gap Kupiec x=4 LR={lr4:.2f} "
+          f"lolos-2%={p_lolos:.1f}%")
+
+    # G21 aml3 kalibrasi threshold: biaya total + pilihan 12
+    costs = {8: 2500 * 0.05 + 50 * 5, 12: 1000 * 0.05 + 80 * 5,
+             20: 400 * 0.05 + 100 * 5}
+    assert costs == {8: 375.0, 12: 450.0, 20: 520.0}
+    t = decode_file(CONTENT / "aml3-edd.ts")
+    must("aml3-edd.ts", t, "gap threshold", "Rp375 juta")
+    must("aml3-edd.ts", t, "gap threshold", "Rp450 juta")
+    must("aml3-edd.ts", t, "gap threshold", "Rp520 juta")
+    print("OK   aml3-edd.ts :: gap threshold biaya 375/450/520 jt; pilih 12")
+
+    # G24 d9 Wilson 95% + shrinkage (k=4, p0=5/12)
+    def wilson(x, n):
+        z = 1.96; p = x / n; dd = 1 + z * z / n
+        c = (p + z * z / (2 * n)) / dd
+        h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / dd
+        return max(0.0, c - h) * 100, min(1.0, c + h) * 100
+    jkt = wilson(3, 5); mdn = wilson(0, 2)
+    assert abs(jkt[0] - 23.1) < 0.1 and abs(jkt[1] - 88.2) < 0.1
+    assert abs(mdn[1] - 65.8) < 0.1
+    p0 = 5 / 12
+    sj = (3 + 4 * p0) / 9 * 100; sm = (0 + 4 * p0) / 6 * 100
+    assert abs(sj - 51.9) < 0.1 and abs(sm - 27.8) < 0.1
+    t = decode_file(CONTENT / "d9-eda.ts")
+    must("d9-eda.ts", t, "gap wilson", "23,1%")
+    must("d9-eda.ts", t, "gap wilson", "88,2%")
+    must("d9-eda.ts", t, "gap wilson", "65,8%")
+    must("d9-eda.ts", t, "gap wilson", "51,9%")
+    must("d9-eda.ts", t, "gap wilson", "27,8%")
+    print(f"OK   d9-eda.ts :: gap Wilson JKT=({jkt[0]:.1f}%; {jkt[1]:.1f}%) "
+          f"Medan hi={mdn[1]:.1f}%; shrink {sj:.1f}%/{sm:.1f}%")
+
+    # G26 llmops14 routing: under-route 48%, sukses per tier, rugi ~20,2
+    assert abs(118 / 140 * 100 - 84.3) < 0.1 and abs(58 / 60 * 100 - 96.7) < 0.1
+    assert abs(200 * 0.981 - 176 - 20.2) < 0.1
+    t = decode_file(CONTENT / "llmops14-smart-routing.ts")
+    must("llmops14-smart-routing.ts", t, "gap routing", "84,3%")
+    must("llmops14-smart-routing.ts", t, "gap routing", "96,7%")
+    must("llmops14-smart-routing.ts", t, "gap routing", "20,2")
+    print("OK   llmops14-smart-routing.ts :: gap routing murah 84,3% "
+          "frontier 96,7%; rugi 20,2 jawaban")
+
+    # G32 bi13 SE beta + BH (10 lokus: 5 mentah -> 3 terkoreksi)
+    se20 = math.sqrt(0.85 * 0.15 / 20); se1000 = math.sqrt(0.85 * 0.15 / 1000)
+    assert abs(se20 - 0.0798) < 1e-4 and abs(se1000 - 0.0113) < 1e-4
+    pvals = [0.001, 0.004, 0.012, 0.03, 0.04, 0.12, 0.25, 0.4, 0.6, 0.9]
+    m = len(pvals)
+    q = [v * m / (i + 1) for i, v in enumerate(pvals)]
+    for i in range(m - 2, -1, -1):
+        q[i] = min(q[i], q[i + 1])
+    assert sum(1 for v in pvals if v < 0.05) == 5
+    assert sum(1 for v in q if v < 0.05) == 3
+    t = decode_file(CONTENT / "bi13-epigenomik.ts")
+    must("bi13-epigenomik.ts", t, "gap metilasi", "0,0798")
+    must("bi13-epigenomik.ts", t, "gap metilasi", "0,0113")
+    print(f"OK   bi13-epigenomik.ts :: gap SE beta n=20 {se20:.4f} n=1000 "
+          f"{se1000:.4f}; BH 5 -> 3")
+
+    # G35 wqb14 holdout: decay val 9,9% + test 19,8%
+    assert abs((1.31 - 1.18) / 1.31 * 100 - 9.9) < 0.1
+    assert abs((1.31 - 1.05) / 1.31 * 100 - 19.8) < 0.1
+    t = decode_file(CONTENT / "wqb14-overfitting.ts")
+    must("wqb14-overfitting.ts", t, "gap oos", "1,18 (−9,9%)")
+    must("wqb14-overfitting.ts", t, "gap oos", "1,05 (−19,8%)")
+    print("OK   wqb14-overfitting.ts :: gap OOS val -9,9% test -19,8%")
+
+    # G36 mk14 kanibalisasi tiga penyebut + minicase-2
+    assert abs(6 / 40 * 100 - 15.0) < 1e-9 and abs(6 / 10 * 100 - 60.0) < 1e-9
+    assert abs(6 / 21 * 100 - 28.6) < 0.1 and abs(4000 / 28000 * 100 - 14.3) < 0.1
+    t = decode_file(CONTENT / "mk14-pricing.ts")
+    must("mk14-pricing.ts", t, "gap kanibalisasi", "6/10 = 60,0%")
+    must("mk14-pricing.ts", t, "gap kanibalisasi", "6/21 = 28,6%")
+    must("mk14-pricing.ts", t, "gap kanibalisasi", "4.000/28.000 = 14,3%")
+    print("OK   mk14-pricing.ts :: gap kanibalisasi 15,0% / 60,0% / 28,6% / "
+          "14,3% (penyebut ditulis)")
+
+    # G37 pm-a3 Taylor dovish-hawkish: 8,0% - 13,0%, rentang 5,0 poin
+    r_d = 1 + 6 + 0.5 * (6 - 2) + 0.5 * (-2)
+    r_h = 3 + 6 + 0.5 * (6 - 2) + 0.5 * 4
+    assert r_d == 8.0 and r_h == 13.0 and r_h - r_d == 5.0
+    t = decode_file(CONTENT / "pm-a3-economics.ts")
+    must("pm-a3-economics.ts", t, "gap taylor", "8,0–13,0%")
+    must("pm-a3-economics.ts", t, "gap taylor", "5,0 poin")
+    print("OK   pm-a3-economics.ts :: gap Taylor dovish 8,0% hawkish 13,0% "
+          "rentang 5,0 poin")
+
     print(f"QA R8-RECOMPUTE: {'ALL PASS' if not fails else f'{len(fails)} FAIL'}")
     return 0 if not fails else 1
 

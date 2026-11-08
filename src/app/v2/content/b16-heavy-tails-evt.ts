@@ -5,7 +5,7 @@ export const b16: V2Lesson = {
   track: "Probabilitas",
   module: "Ekor Berat",
   title: "B16. Heavy Tails & EVT: Ekor yang Memakan Model",
-  estMinutes: 55,
+  estMinutes: 75,
   steps: [
     {
       id: "banjir",
@@ -219,6 +219,95 @@ export const b16: V2Lesson = {
       ],
       reference: "Pemilihan ekor = keputusan modal terbesar.",
     },
+        {
+          id: "gap-r8-return-period-satuan",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G4)",
+          title: "Return period: '1-in-1000' observasi atau '1-in-1000' tahun?",
+          prose: [
+            "Rumus return level di langkah POT menulis '1-in-m observasi' — tetapi ringkasan lesson ini (dan kebanyakan laporan) menyebutnya peluang tahunan. Keduanya hanya sama bila SATU observasi = SATU tahun. Contoh kanonis lesson ini: VaR 99,9% = Rp43,7 juta (satuan Rp juta) adalah return level 1-in-1000 OBSERVASI (m = 1/0,001 = 1000). Bila datanya HARIAN (250 hari kerja per tahun), 1000 observasi = 4 tahun — banjir/kerugian '1-in-1000' itu datang rata-rata sekali per 4 tahun, bukan sekali per 1000 tahun. Membacanya sebagai '1-in-1000 tahun' meremehkan frekuensinya 250 KALI LIPAT.",
+            "Konversinya bergantung pada frekuensi observasi: tahun = m / (observasi per tahun). Untuk m = 1000: data harian (250/tahun) → 4,0 tahun; mingguan (52/tahun) → 19,2 tahun; bulanan (12/tahun) → 83,3 tahun; tahunan (1/tahun) → 1000 tahun. Return level-nya SAMA (Rp43,7 juta) — maknanya beda total. Inilah jebakan yang sama dengan cerita banjir pembuka: '1-in-100-tahun' hanya bermakna bila modelnya memakai maxima TAHUNAN; bila datanya harian, '1-in-100' berarti 100 hari.",
+            "Aturan penulisan yang aman: SELALU tulis satuannya — 'return level 1-in-1000 observasi harian (≈ 4 tahun)' — jangan pernah menulis '1-in-1000' telanjang. Dan saat membaca laporan orang lain, pertanyaan pertamamu: 'observasi apa, seberapa sering?' Tanpa jawaban itu, angka return period tidak punya makna.",
+          ],
+          formula: String.raw`\text{periode (tahun)} = \frac{m}{\text{observasi per tahun}} \qquad m = \frac{1}{p}`,
+          formulaNote: "m = 1000: harian → 4,0 tahun; mingguan → 19,2 tahun; bulanan → 83,3 tahun; tahunan → 1000 tahun. Return level sama, maknanya beda.",
+          tasks: [
+            { id: "t1", text: "Hitung periode (tahun) untuk m = 1000 pada frekuensi harian, mingguan, bulanan, tahunan" },
+          ],
+          expected: "thn_harian=4.0 thn_mingguan=19.2 thn_bulanan=83.3 thn_tahunan=1000.0",
+          hints: [
+            "Tahun = 1000 / observasi-per-tahun.",
+            "Harian = 250 hari kerja/tahun; mingguan = 52; bulanan = 12; tahunan = 1.",
+          ],
+          code: {
+            starter: `m = 1000  # 1-in-1000 observasi (VaR 99,9% lesson ini)\n\n# TULIS KODEMU: periode dalam tahun untuk tiap frekuensi (1 desimal)\nthn_harian =\nthn_mingguan =\nthn_bulanan =\nthn_tahunan =\n\nprint(f"thn_harian={thn_harian} thn_mingguan={thn_mingguan} thn_bulanan={thn_bulanan} thn_tahunan={thn_tahunan}")`,
+            lockLines: 3,
+            solution: `m = 1000  # 1-in-1000 observasi (VaR 99,9% lesson ini)\n\n# TULIS KODEMU: periode dalam tahun untuk tiap frekuensi (1 desimal)\nthn_harian = round(m / 250, 1)\nthn_mingguan = round(m / 52, 1)\nthn_bulanan = round(m / 12, 1)\nthn_tahunan = round(m / 1, 1)\n\nprint(f"thn_harian={thn_harian} thn_mingguan={thn_mingguan} thn_bulanan={thn_bulanan} thn_tahunan={thn_tahunan}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "thn_harian", value: 4.0, tol: 0.05, label: "`thn_harian` = 4,0", msg: "1000/250 = 4,0 tahun — bukan 1000 tahun." },
+              { kind: "equal", task: "t1", name: "thn_mingguan", value: 19.2, tol: 0.05, label: "`thn_mingguan` = 19,2", msg: "1000/52 ≈ 19,2 tahun." },
+              { kind: "equal", task: "t1", name: "thn_bulanan", value: 83.3, tol: 0.05, label: "`thn_bulanan` = 83,3", msg: "1000/12 ≈ 83,3 tahun." },
+              { kind: "equal", task: "t1", name: "thn_tahunan", value: 1000.0, tol: 0.05, label: "`thn_tahunan` = 1000", msg: "Hanya bila observasi = tahunan, 1-in-1000 berarti 1000 tahun." },
+              { kind: "stdout_matches", task: "t1", pattern: "thn_harian=4\\.0\\s+thn_mingguan=19\\.2\\s+thn_bulanan=83\\.3\\s+thn_tahunan=1000\\.0", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Laporan menulis 'return level 1-in-1000 = Rp43,7 juta' dari data HARIAN. Interpretasi yang benar?",
+              options: [
+                { text: "Kejadian sebesar itu datang rata-rata sekali per ~4 tahun (1000 hari kerja)", why: "Tepat: m = 1000 observasi harian = 1000/250 = 4 tahun. Membacanya sebagai 1000 tahun meremehkan frekuensi 250×.", correct: true },
+                { text: "Kejadian sebesar itu datang sekali per 1000 tahun", why: "Salah: itu hanya benar bila observasinya tahunan — datanya harian." },
+                { text: "Peluang kejadian itu tahun ini adalah 0,1%", why: "Salah: peluang tahunannya ≈ 1/4 = 25% per tahun, bukan 0,1%." },
+                { text: "Return level-nya salah hitung", why: "Salah: Rp43,7 juta benar sebagai return level 1-in-1000 observasi — yang salah adalah SATUANNYA." },
+              ],
+            },
+          ],
+          reference: "Return period tanpa satuan frekuensi tidak bermakna: tahun = m / (observasi per tahun). Selalu tulis '1-in-m observasi (frekuensi)'.",
+        },
+        {
+          id: "gap-r8-ketidakpastian-ekor",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G5)",
+          title: "Return level tanpa interval: angka pasti dari ekor yang tak pasti",
+          prose: [
+            "Lesson ini mengingatkan bahwa estimasi ekor 'tidak stabil' — tetapi tidak pernah menunjukkan SEBERAPA tidak stabil. Padahal itu bisa dihitung. Ambil contoh POT kanonis: u = Rp10 juta, ζ = 4%, β = 5, return level 1-in-1000 observasi = Rp43,7 juta pada ξ = 0,3. Sekarang geser ξ sedikit — hanya ±0,1, selisih yang wajar dari error estimasi dengan 40 exceedance: ξ = 0,2 → Rp37,3 juta; ξ = 0,4 → Rp52,2 juta. Rentang Rp37,3–52,2 juta (lebar Rp14,9 juta, ±17% dari titiknya) hanya dari ketidakpastian SATU parameter — sebelum menghitung ketidakpastian ambang u, β, dan ζ.",
+            "Inilah harga ekstrapolasi: return level 1-in-1000 dihitung dari 1000 hari data dengan hanya 40 exceedance — ekstrapolasinya jauh di luar data, dan tiap parameter yang digeser sedikit menggerakkan hasilnya jutaan rupiah. Praktik yang jujur: laporkan return level BESERTA intervalnya — dari bootstrap (resample data, fit ulang, lihat sebaran return level) atau profile likelihood — dan laporkan sensitivitasnya (tabel ξ vs return level seperti lab ini). Angka titik tanpa interval adalah janji presisi yang tidak bisa ditepati.",
+            "Aturan keputusannya: bila interval return level melewati ambang modal/keputusanmu (mis. VaR yang dipakai untuk modal Rp80 miliar di mini-case LDA), keputusan itu tidak kokoh — butuh lebih banyak data ekor, ambang yang lebih stabil, atau model ekor alternatif sebagai pembanding. Jangan pernah membangun tanggul dari satu angka titik.",
+          ],
+          formula: String.raw`x_m = u + \frac{\beta}{\xi}\left((m\,\zeta_u)^{\xi} - 1\right) \qquad \xi = 0{,}2 \to 37{,}3 \quad \xi = 0{,}3 \to 43{,}7 \quad \xi = 0{,}4 \to 52{,}2`,
+          formulaNote: "u = 10, β = 5, ζ = 4%, m = 1000 (Rp juta). ξ ±0,1 → return level Rp37,3–52,2 juta (rentang Rp14,9 juta).",
+          tasks: [
+            { id: "t1", text: "Hitung return level untuk ξ = 0,2 / 0,3 / 0,4: `x_02`, `x_03`, `x_04` (Rp juta, 1 desimal)" },
+            { id: "t2", text: "Hitung `rentang` = x_04 − x_02 (Rp juta, 1 desimal)" },
+          ],
+          expected: "x_02=37.3 x_03=43.7 x_04=52.2 rentang=14.9",
+          hints: [
+            "Rumus GPD lesson ini: x = u + (β/ξ)((m·ζ)^ξ − 1), m·ζ = 1000×0,04 = 40.",
+            "40^0,2 ≈ 2,09; 40^0,3 ≈ 3,02; 40^0,4 ≈ 4,37.",
+          ],
+          code: {
+            starter: `u = 10; beta = 5; zeta = 0.04; m = 1000  # Rp juta, contoh POT kanonis\n\n# TULIS KODEMU: return level untuk xi = 0,2 / 0,3 / 0,4 + rentangnya\nx_02 =\nx_03 =\nx_04 =\nrentang =\n\nprint(f"x_02={x_02} x_03={x_03} x_04={x_04} rentang={rentang}")`,
+            lockLines: 3,
+            solution: `u = 10; beta = 5; zeta = 0.04; m = 1000  # Rp juta, contoh POT kanonis\n\n# TULIS KODEMU: return level untuk xi = 0,2 / 0,3 / 0,4 + rentangnya\ndef return_level(xi):\n    return round(u + (beta / xi) * ((m * zeta) ** xi - 1), 1)\nx_02 = return_level(0.2)\nx_03 = return_level(0.3)\nx_04 = return_level(0.4)\nrentang = round(x_04 - x_02, 1)\n\nprint(f"x_02={x_02} x_03={x_03} x_04={x_04} rentang={rentang}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "x_02", value: 37.3, tol: 0.1, label: "`x_02` = 37,3", msg: "10 + 25×(40^0,2 − 1) ≈ 37,3." },
+              { kind: "equal", task: "t1", name: "x_03", value: 43.7, tol: 0.1, label: "`x_03` = 43,7 (kanonis)", msg: "Nilai kanonis lesson ini — cocok dengan langkah POT." },
+              { kind: "equal", task: "t1", name: "x_04", value: 52.2, tol: 0.1, label: "`x_04` = 52,2", msg: "10 + 12,5×(40^0,4 − 1) ≈ 52,2." },
+              { kind: "equal", task: "t2", name: "rentang", value: 14.9, tol: 0.1, label: "`rentang` = 14,9", msg: "52,2 − 37,3 = 14,9 juta — hanya dari ξ ±0,1." },
+              { kind: "stdout_matches", task: "t2", pattern: "x_02=37\\.3\\s+x_03=43\\.7\\s+x_04=52\\.2\\s+rentang=14\\.9", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Return level 1-in-1000 = Rp43,7 juta, tetapi ξ ±0,1 saja menggerakkannya ke Rp37,3–52,2 juta. Kesimpulan yang benar?",
+              options: [
+                { text: "Laporkan return level beserta interval/sensitivitasnya — angka titik saja menyesatkan", why: "Tepat: ketidakpastian parameter (±17% di sini) adalah bagian dari jawabannya, bukan catatan kaki.", correct: true },
+                { text: "Pakai Rp43,7 juta saja — itu hasil fit terbaik", why: "Salah: fit terbaik tetap punya error estimasi; keputusan modal yang bertumpu pada satu titik rapuh." },
+                { text: "Naikkan ambang u sampai intervalnya menyempit", why: "Salah: ambang lebih tinggi = lebih sedikit exceedance = estimasi ξ justru makin tidak stabil." },
+                { text: "Ganti ke block maxima agar tidak ada ξ", why: "Salah: GEV juga punya parameter bentuk ξ — ketidakpastiannya pindah, bukan hilang." },
+              ],
+            },
+          ],
+          reference: "Return level = titik + interval: sensitivitas ξ ±0,1 → Rp37,3–52,2 juta di contoh ini. Ekstrapolasi jauh di luar data wajib membawa ketidakpastiannya.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

@@ -5,7 +5,7 @@ export const hd13: V2Lesson = {
   track: "Health Data Science",
   module: "Data Science Klinis",
   title: "HD13 Fairness di Kesehatan: Ketika AI Memihak",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "skor-rasis",
@@ -291,6 +291,50 @@ print(f"t_c={t_c:.2f} tpr_c={rate(pos_c, t_c):.3f} gap={gap_sesudah:.3f} fpr_c={
       },
       reference: "Threshold per grup menutup gap TPR; harganya FPR naik. Perbaiki label/data dulu.",
     },
+        {
+          id: "gap-r8-split-threshold-evaluasi",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G31)",
+          title: "Threshold yang dipilih di data yang sama dengan yang dinilai: optimism gap",
+          prose: [
+            "Audit lesson ini menemukan gap TPR 25 poin antara kelompok A dan B — tetapi tidak pernah bertanya apakah angka itu sendiri bisa dipercaya. Ada satu jebakan yang membuat angka audit terlihat LEBIH BAIK dari kenyataannya: memilih threshold fairness (t_c ≈ −0,99) pada data yang SAMA dengan data yang dipakai menilai hasilnya. Lab ini menunjukkan besarnya: 20 kasus positif per kelompok. Pada data VALIDASI (tempat threshold dipilih): kelompok C mencapai TPR 15/20 = 75%. Pada data UJI yang belum pernah disentuh: TPR yang sama hanya 12/20 = 60%. Selisih 15 poin adalah OPTIMISM GAP — threshold yang 'dilatih' pada validasi terlihat lebih baik di validasi daripada di dunia nyata, karena ia sempat menyesuaikan diri dengan noise validasi.",
+            "Aturan tiga-split yang mencegahnya — dan bedanya dengan split lesson ini (train/val/test) yang sudah benar untuk MODEL tetapi belum diterapkan untuk THRESHOLD. Satu, TRAIN: latih model. Dua, VALIDASI: pilih threshold fairness (t_c) di sini — dan HANYA di sini. Tiga, TEST: nilai hasil AKHIR di sini, sekali, tanpa mengubah apa pun. Bila threshold diubah setelah melihat test, test itu sudah menjadi validasi kedua — dan angka yang dilaporkan adalah angka validasi, bukan angka test. Praktik yang benar: kunci threshold SEBELUM menyentuh test (freeze), catat tanggal pengunciannya, dan laporkan TPR validasi DAN test berdampingan — selisihnya adalah ukuran kejujuran auditmu.",
+            "Kaitannya dengan mitigasi lesson ini: mitigasi yang menaikkan TPR_C dari 0,375 menjadi 0,75 dengan gap 0,013 dilaporkan pada data yang sama dengan tempat t_c dipilih — angka 0,75 itu mengandung optimism gap yang tidak diketahui besarnya. Bukan berarti mitigasinya salah — berarti klaimnya perlu diuji ulang pada data yang belum disentuh sebelum diumumkan sebagai hasil.",
+          ],
+          formula: String.raw`\text{optimism gap} = \text{TPR}_{\text{validasi}} - \text{TPR}_{\text{test}} \qquad \text{threshold dikunci di validasi, dinilai di test}`,
+          formulaNote: "Kelompok C (20 positif): validasi TPR 15/20 = 75%; test TPR 12/20 = 60%; optimism gap 15 poin.",
+          tasks: [
+            { id: "t1", text: "Hitung `tpr_validasi` (%) dan `tpr_test` (%) kelompok C" },
+            { id: "t2", text: "Hitung `optimism_gap` = tpr_validasi − tpr_test (poin)" },
+          ],
+          expected: "tpr_validasi=75.0 tpr_test=60.0 optimism_gap=15.0",
+          hints: [
+            "Validasi: 15 TP dari 20 positif. Test: 12 TP dari 20 positif.",
+            "Optimism gap = selisih keduanya.",
+          ],
+          code: {
+            starter: `# kelompok C, 20 kasus positif di tiap split\n# validasi: TP 15, FN 5 — test: TP 12, FN 8\n\n# TULIS KODEMU: TPR validasi vs test + optimism gap\ntpr_validasi =\ntpr_test =\noptimism_gap =\n\nprint(f"tpr_validasi={tpr_validasi} tpr_test={tpr_test} optimism_gap={optimism_gap}")`,
+            lockLines: 4,
+            solution: `# kelompok C, 20 kasus positif di tiap split\n# validasi: TP 15, FN 5 — test: TP 12, FN 8\n\n# TULIS KODEMU: TPR validasi vs test + optimism gap\ntpr_validasi = round(15 / 20 * 100, 1)\ntpr_test = round(12 / 20 * 100, 1)\noptimism_gap = round(tpr_validasi - tpr_test, 1)\n\nprint(f"tpr_validasi={tpr_validasi} tpr_test={tpr_test} optimism_gap={optimism_gap}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "tpr_validasi", value: 75.0, tol: 0.1, label: "`tpr_validasi` = 75%", msg: "15/20 = 75% — di data tempat threshold dipilih." },
+              { kind: "equal", task: "t1", name: "tpr_test", value: 60.0, tol: 0.1, label: "`tpr_test` = 60%", msg: "12/20 = 60% — di data yang belum disentuh." },
+              { kind: "equal", task: "t2", name: "optimism_gap", value: 15.0, tol: 0.1, label: "`optimism_gap` = 15 poin", msg: "75 − 60 = 15 poin yang hilang saat threshold keluar dari data pemilihannya." },
+              { kind: "stdout_matches", task: "t2", pattern: "tpr_validasi=75\\.0\\s+tpr_test=60\\.0\\s+optimism_gap=15\\.0", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Threshold fairness dipilih di validasi (TPR 75%) dan dinilai di test (TPR 60%). Mana laporan yang jujur?",
+              options: [
+                { text: "Laporkan keduanya: TPR test 60% sebagai hasil, gap 15 poin sebagai optimism gap", why: "Tepat: angka test adalah angka yang belum disentuh — angka validasi adalah angka yang threshold-nya sempat menyesuaikan diri.", correct: true },
+                { text: "Laporkan 75% — itu yang dicapai threshold-nya", why: "Salah: 75% diukur di data tempat threshold dipilih — ia mengandung optimism yang tidak terlihat di dunia nyata." },
+                { text: "Ubah threshold sampai test juga 75%", why: "Salah: mengubah threshold setelah melihat test menjadikan test sebagai validasi kedua — angka yang dilaporkan bukan lagi angka test." },
+                { text: "Rata-ratakan keduanya: 67,5%", why: "Salah: rata-rata validasi dan test bukan ukuran apa pun — hasil akhir dinilai di test, sekali, tanpa perubahan." },
+              ],
+            },
+          ],
+          reference: "Tiga split: train (latih) → validasi (pilih threshold, lalu FREEZE) → test (nilai sekali). Laporkan TPR validasi dan test berdampingan.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

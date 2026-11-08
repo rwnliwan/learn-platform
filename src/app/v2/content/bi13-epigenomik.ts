@@ -5,7 +5,7 @@ export const bi13: V2Lesson = {
   track: "Bioinformatika",
   module: "Epigenomik",
   title: "BI13 · Epigenomik: ChIP-seq & Metilasi",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -194,6 +194,52 @@ export const bi13: V2Lesson = {
       ],
       reference: "Peak = uji vs latar. Input + IDR + FRiP = tiga penjaga kualitas ChIP-seq.",
     },
+        {
+          id: "gap-r8-metilasi-coverage",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G32)",
+          title: "Beta 0,85 dari 20 bacaan vs 1.000 bacaan: coverage mengubah segalanya",
+          prose: [
+            "Lab DMR lesson ini membandingkan beta 0,1 (normal) vs 0,85 (tumor) pada SATU lokus — tetapi tidak pernah bertanya seberapa dalam lokus itu dibaca. Beta adalah proporsi: 17 metilasi dari 20 bacaan = 0,85; 850 dari 1.000 = 0,85 juga — angkanya sama, kepastiannya tidak. Standard error proporsi: √(p(1−p)/n). Pada n = 20: √(0,85×0,15/20) = 0,0798 — interval ±16 poin, beta '0,85' itu cocok dengan 0,69 maupun 1,00. Pada n = 1.000: 0,0113 — interval ±2 poin. Lab yang melaporkan beta tanpa coverage melaporkan angka tanpa ketidakpastian — dan lokus dengan coverage rendah adalah lokus yang paling sering 'menemukan' DMR palsu.",
+            "Dan satu lokus bukan satu pengujian: DMR scan menguji RIBUAN lokus sekaligus, sehingga koreksi pengujian berganda WAJIB. Ambil 10 lokus dengan p-value [0,001; 0,004; 0,012; 0,03; 0,04; 0,12; 0,25; 0,4; 0,6; 0,9]. Tanpa koreksi (p < 0,05): 5 'signifikan'. Dengan Benjamini–Hochberg (q-value = p × m/rank, lalu ambil kumulatif minimum dari belakang): q = [0,01; 0,02; 0,04; 0,075; 0,08; 0,2; 0,357; 0,5; 0,667; 0,9] — hanya 3 yang q < 0,05. Dua 'temuan' hilang karena koreksi — dan itu BUKAN kerugian: itu harga yang benar untuk menguji 10 lokus sekaligus. Bandingkan dengan lab-peak lesson ini yang memakai Bonferroni (14 jendela) — Bonferroni mengendalikan family-wise error (lebih ketat, lebih konservatif); BH mengendalikan false discovery rate (lebih longgar, lebih bertenaga untuk scan luas). Pilih yang sesuai pertanyaanmu — tetapi pilih salah satu, jangan tanpa koreksi.",
+            "Aturan: laporkan beta SELALU bersama coverage (n) dan intervalnya; laporkan DMR SELALU bersama metode koreksi dan jumlah lokus yang diuji. 'Beta 0,85, n=20, p=0,03 tanpa koreksi' adalah tiga peringatan dalam satu kalimat.",
+          ],
+          formula: String.raw`\text{SE}(\hat{p}) = \sqrt{\frac{p(1-p)}{n}} \qquad q_{(i)} = \min_{j \ge i}\left(p_{(j)} \cdot \frac{m}{j}\right) \text{ (BH)}`,
+          formulaNote: "Beta 0,85: SE n=20 → 0,0798; n=1.000 → 0,0113. BH pada 10 lokus: 3 signifikan (q<0,05) vs 5 tanpa koreksi (p<0,05).",
+          tasks: [
+            { id: "t1", text: "Hitung SE beta 0,85 pada `se_n20` (n=20) dan `se_n1000` (n=1.000) (4 desimal)" },
+            { id: "t2", text: "Hitung jumlah signifikan tanpa koreksi (`sig_raw`, p<0,05) dan dengan BH (`sig_bh`, q<0,05) dari 10 p-value" },
+          ],
+          expected: "se_n20=0.0798 se_n1000=0.0113 sig_raw=5 sig_bh=3",
+          hints: [
+            "SE = √(0,85 × 0,15 / n).",
+            "BH: q_i = p_i × 10/rank, lalu ambil minimum kumulatif dari belakang.",
+            "p-value: [0,001; 0,004; 0,012; 0,03; 0,04; 0,12; 0,25; 0,4; 0,6; 0,9].",
+          ],
+          code: {
+            starter: `import math\n\np = 0.85\npvals = [0.001, 0.004, 0.012, 0.03, 0.04, 0.12, 0.25, 0.4, 0.6, 0.9]\n\n# TULIS KODEMU: SE beta di dua coverage + signifikan mentah vs BH\nse_n20 =\nse_n1000 =\nsig_raw =\nsig_bh =\n\nprint(f"se_n20={se_n20} se_n1000={se_n1000} sig_raw={sig_raw} sig_bh={sig_bh}")`,
+            lockLines: 6,
+            solution: `import math\n\np = 0.85\npvals = [0.001, 0.004, 0.012, 0.03, 0.04, 0.12, 0.25, 0.4, 0.6, 0.9]\n\n# TULIS KODEMU: SE beta di dua coverage + signifikan mentah vs BH\nse_n20 = round(math.sqrt(p * (1 - p) / 20), 4)\nse_n1000 = round(math.sqrt(p * (1 - p) / 1000), 4)\nsig_raw = sum(1 for v in pvals if v < 0.05)\n# Benjamini-Hochberg: q_i = p_i * m / rank, minimum kumulatif dari belakang\nm = len(pvals)\nq = [v * m / (i + 1) for i, v in enumerate(pvals)]\nfor i in range(m - 2, -1, -1):\n    q[i] = min(q[i], q[i + 1])\nsig_bh = sum(1 for v in q if v < 0.05)\n\nprint(f"se_n20={se_n20} se_n1000={se_n1000} sig_raw={sig_raw} sig_bh={sig_bh}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "se_n20", value: 0.0798, tol: 0.001, label: "`se_n20` = 0,0798", msg: "√(0,85×0,15/20) = 0,0798 — interval ±16 poin." },
+              { kind: "equal", task: "t1", name: "se_n1000", value: 0.0113, tol: 0.001, label: "`se_n1000` = 0,0113", msg: "√(0,85×0,15/1000) = 0,0113 — 7× lebih presisi." },
+              { kind: "equal", task: "t2", name: "sig_raw", value: 5, tol: 0.01, label: "`sig_raw` = 5", msg: "Lima p-value < 0,05 tanpa koreksi." },
+              { kind: "equal", task: "t2", name: "sig_bh", value: 3, tol: 0.01, label: "`sig_bh` = 3", msg: "Hanya 3 yang q < 0,05 setelah BH — dua 'temuan' hilang karena koreksi." },
+              { kind: "stdout_matches", task: "t2", pattern: "se_n20=0\\.0798\\s+se_n1000=0\\.0113\\s+sig_raw=5\\s+sig_bh=3", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua lokus sama-sama beta 0,85 — satu dari 20 bacaan, satu dari 1.000 bacaan. Mana yang lebih bisa dipercaya sebagai DMR?",
+              options: [
+                { text: "Yang 1.000 bacaan — SE-nya 0,0113 vs 0,0798, intervalnya 7× lebih sempit", why: "Tepat: beta yang sama dengan coverage berbeda punya ketidakpastian yang berbeda — laporkan beta bersama n dan intervalnya.", correct: true },
+                { text: "Keduanya sama — beta-nya sama 0,85", why: "Salah: angka sama, kepastian tidak — n=20 punya interval ±16 poin." },
+                { text: "Yang 20 bacaan — lebih sedikit data berarti lebih sedikit noise", why: "Salah: sebaliknya — lebih sedikit data berarti LEBIH BESAR ketidakpastian (SE ∝ 1/√n)." },
+                { text: "Tidak bisa dibandingkan tanpa p-value", why: "Salah: p-value tanpa coverage pun menyesatkan — coverage adalah informasi yang hilang di sini." },
+              ],
+            },
+          ],
+          reference: "Beta selalu bersama coverage + interval (SE = √(p(1−p)/n)); DMR scan selalu dengan koreksi berganda (BH untuk FDR, Bonferroni untuk FWER).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

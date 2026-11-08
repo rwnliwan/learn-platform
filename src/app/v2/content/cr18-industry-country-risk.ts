@@ -5,7 +5,7 @@ export const cr18: V2Lesson = {
   track: "Credit Risk",
   module: "Kredit Korporasi",
   title: "CR18 — Risiko Industri & Negara",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -195,6 +195,48 @@ export const cr18: V2Lesson = {
       tasks: [],
       reference: "Ceiling = BBB untuk domestik murni; tembus hanya dengan 3 syarat (valas dominan, kas offshore, bebas izin cabut).",
     },
+        {
+          id: "gap-r8-country-risk-kuantitatif",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G9)",
+          title: "Country risk yang bisa dihitung: skor, plafon ganda, dan hukum",
+          prose: [
+            "Lesson ini menyebut empat komponen country risk — transfer, konversi, sovereign, makro — tetapi tidak memberi cara MENGHITUNGNYA, dan tidak menyebut dua lapis yang paling sering menjebak analis: plafon yang berbeda menurut mata uang/jenis kewajiban, serta risiko hukum dan repatriasi. Langkah ini menutup ketiganya dengan kerangka kerja yang operasional.",
+            "Satu, SKOR TERTIMBANG. Nilai tiap komponen 1 (buruk) sampai 5 (bagus), lalu bobot seperti skor industri lesson ini. Contoh negara X: transfer 3 (25%), sovereign 3 (25%), makro 4 (20%), hukum/penegakan kontrak 3 (15%), repatriasi hasil 2 (15%). Skor = 0,25×3 + 0,25×3 + 0,20×4 + 0,15×3 + 0,15×2 = 3,05 → SEDANG (ambang lesson ini: <2,5 berisiko tinggi; <3,5 sedang). Dua, SUMBER DATA untuk tiap komponen — tulis di samping skor: transfer & sovereign dari rating agency (S&P/Moody's/Fitch) dan CDS sovereign; makro dari IMF WEO dan bank sentral; hukum dari World Bank Governance Indicators / Doing Business; repatriasi dari peraturan devisa bank sentral dan rekam jejak pembatasan. Skor tanpa sumber = opini.",
+            "Tiga, PLAFON GANDA. Aturan 'rating debitur tidak boleh melampaui sovereign' di lesson ini menyederhanakan kenyataan: plafon berbeda menurut MATA UANG dan JENIS KEWAJIBAN. Kewajiban VALAS (utang USD) tunduk pada plafon valas — biasanya SAMA dengan rating sovereign (Indonesia: BBB). Kewajiban RUPIAH (utang domestik) tunduk pada plafon mata uang lokal — praktik umumnya SATU notch di atas plafon valas (BBB+), karena pemerintah yang menerbitkan rupiah tidak mungkin 'gagal bayar' rupiah dengan cara yang sama seperti gagal bayar dolar. Memberi rating BBB+ ke obligasi rupiah debitur domestik yang kuat BUKAN pelanggaran plafon — memberi rating BBB+ ke obligasi USD-nya adalah. Empat, HUKUM & REPATRIASI: penegakan kontrak yang lambat (sengketa bertahun-tahun), pembatasan repatriasi dividen/keuntungan, dan perubahan aturan mendadak adalah risiko yang tidak tertangkap empat komponen awal — dan justru inilah yang paling sering merugikan investor asing: uangnya ada, tetapi tidak bisa keluar. Aturan: cek skor repatriasi SEBELUM menyetujui tenor panjang; mitigasinya: struktur offshore, escrow di luar negeri, atau asuransi risiko politik.",
+          ],
+          formula: String.raw`\text{Skor negara} = \sum w_i \times \text{skor}_i \qquad \text{plafon valas} \le \text{sovereign} < \text{plafon lokal (umumnya +1 notch)}`,
+          formulaNote: "Contoh: 0,25×3 + 0,25×3 + 0,20×4 + 0,15×3 + 0,15×2 = 3,05 → SEDANG. Plafon valas BBB; plafon lokal umumnya BBB+.",
+          tasks: [
+            { id: "t1", text: "Hitung `skor` negara X dari lima komponen + bobot (2 desimal)" },
+            { id: "t2", text: "Tentukan `vonis` (string): BERISIKO TINGGI jika skor < 2,5; SEDANG jika < 3,5; else RENDAH" },
+          ],
+          expected: "skor=3.05 vonis=SEDANG",
+          hints: [
+            "Skor = 0,25×3 + 0,25×3 + 0,20×4 + 0,15×3 + 0,15×2.",
+            "Ambang sama dengan skor industri lesson ini.",
+          ],
+          code: {
+            starter: `# komponen: transfer, sovereign, makro, hukum, repatriasi (skala 1-5)\nskor_komponen = [3, 3, 4, 3, 2]\nbobot = [0.25, 0.25, 0.20, 0.15, 0.15]\n\n# TULIS KODEMU: skor tertimbang + vonis\nskor =\nvonis =\n\nprint(f"skor={skor} vonis={vonis}")`,
+            lockLines: 5,
+            solution: `# komponen: transfer, sovereign, makro, hukum, repatriasi (skala 1-5)\nskor_komponen = [3, 3, 4, 3, 2]\nbobot = [0.25, 0.25, 0.20, 0.15, 0.15]\n\n# TULIS KODEMU: skor tertimbang + vonis\nskor = round(sum(w * s for w, s in zip(bobot, skor_komponen)), 2)\nvonis = "BERISIKO TINGGI" if skor < 2.5 else ("SEDANG" if skor < 3.5 else "RENDAH")\n\nprint(f"skor={skor} vonis={vonis}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "skor", value: 3.05, tol: 0.01, label: "`skor` = 3,05", msg: "0,75 + 0,75 + 0,80 + 0,45 + 0,30 = 3,05." },
+              { kind: "stdout_matches", task: "t2", pattern: "vonis=SEDANG", label: "`vonis` = SEDANG", msg: "2,5 ≤ 3,05 < 3,5 → SEDANG." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Debitur domestik kuat mengajukan obligasi RUPIAH dengan rating BBB+ sementara sovereign Indonesia BBB. Penilaian yang benar?",
+              options: [
+                { text: "Bisa sah — plafon mata uang lokal umumnya satu notch di atas plafon valas", why: "Tepat: plafon berbeda menurut mata uang. Yang melanggar plafon adalah rating BBB+ untuk obligasi USD-nya.", correct: true },
+                { text: "Melanggar sovereign ceiling — rating apapun tidak boleh di atas BBB", why: "Salah: aturan plafon tidak tunggal — plafon lokal dan plafon valas berbeda." },
+                { text: "Bisa sah hanya bila ada jaminan luar negeri", why: "Salah: jaminan luar negeri adalah salah satu mitigasi untuk menembus plafon VALAS; plafon lokal memang umumnya lebih tinggi." },
+                { text: "Tidak bisa dinilai tanpa skor negaranya", why: "Salah: soal plafon adalah soal JENIS kewajiban, bukan soal skor — skor 3,05 (SEDANG) tidak mengubah logika plafon ganda." },
+              ],
+            },
+          ],
+          reference: "Country risk = skor tertimbang 5 komponen (transfer, sovereign, makro, hukum, repatriasi) + sumber data per komponen + plafon ganda (valas vs lokal).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

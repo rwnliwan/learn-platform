@@ -22,7 +22,7 @@ export const pma3: V2Lesson = {
   track: "Portfolio Management",
   module: "CFA",
   title: "PM-A3 Economics: Mikro, Makro & FX",
-  estMinutes: 65,
+  estMinutes: 75,
   steps: [
     {
       id: "mikro",
@@ -251,6 +251,49 @@ export const pma3: V2Lesson = {
       },
       reference: "Rantai kebijakan \u2192 sektor. FX per emiten, bukan per negara. Pricing power = moat.",
     },
+        {
+          id: "gap-r8-taylor-emerging",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G37)",
+          title: "Taylor rule di emerging market: ketika 11% bukan jawaban",
+          prose: [
+            "Lesson ini menghitung Taylor rule 11% untuk Indonesia (r* = 2%, inflasi 6%, target 2%, output gap +2%) — tetapi tidak pernah menguji SEBERAPA RAPUH angka itu. Sensitivitasnya: ubah dua asumsi dan jawabannya bergerak 5 poin. Skenario dovish (r* = 1%, output gap −2%): r = 1 + 6 + 0,5×(6−2) + 0,5×(−2) = 8,0%. Skenario hawkish (r* = 3%, output gap +4%): r = 3 + 6 + 0,5×(6−2) + 0,5×4 = 13,0%. Rentang 8,0–13,0% — 5 poin penuh — dari perubahan asumsi yang SAMA-SAMA masuk akal. Taylor rule bukan ramalan; ia peta sensitivitas.",
+            "Empat batasan yang membuat Taylor rule di emerging market (termasuk Indonesia) lebih rapuh daripada di ekonomi maju. Satu, r* TIDAK TERAMATI dan tidak stabil: di EM, r* bergerak dengan aliran modal, premi risiko, dan perubahan struktural — mengasumsikan r* = 2% konstan adalah asumsi, bukan fakta. Dua, INFLASI YANG DIUKUR ≠ INFLASI YANG DIKENDALIKAN: administered prices (BBM, listrik) dan harga pangan bergejolak membuat inflasi headline bergerak karena hal yang tidak bisa dikendalikan suku bunga — bank sentral EM sering memakai inflasi inti, dan Taylor rule atas headline memberi sinyal yang salah. Tiga, OUTPUT GAP TIDAK TERAMATI: PDB potensial di EM sulit diestimasi (ekonomi informal besar, data revisi besar) — gap +2% bisa jadi −1% setelah revisi data. Empat, NILAI TUKAR & ALIRAN MODAL: Taylor rule klasik tidak punya suku untuk nilai tukar — padahal di EM, depresiasi yang tajam memaksa bank sentral menaikkan suku bunga DI ATAS yang disarankan Taylor (fear of floating) untuk menahan capital outflow — atau sebaliknya, menahannya karena utang berdenominasi dolar. Aturan praktis: laporkan Taylor rule sebagai RENTANG (skenario dovish–hawkish) + sebutkan asumsi r* dan gap-nya — angka tunggal tanpa sensitivitas adalah kepalsuan presisi.",
+          ],
+          formula: String.raw`r = r^* + \pi + 0,5(\pi - \pi^*) + 0,5(\text{gap}) \qquad \text{rentang EM: 8,0\%--13,0\%}`,
+          formulaNote: "Basis 11,0%. Dovish (r*=1, gap −2): 8,0%. Hawkish (r*=3, gap +4): 13,0%. Rentang 5,0 poin.",
+          tasks: [
+            { id: "t1", text: "Hitung `r_dovish` dan `r_hawkish` (%, 1 desimal) dengan rumus Taylor (π=6, π*=2)" },
+            { id: "t2", text: "Hitung `rentang` = r_hawkish − r_dovish (poin, 1 desimal)" },
+          ],
+          expected: "r_dovish=8.0 r_hawkish=13.0 rentang=5.0",
+          hints: [
+            "r = r* + π + 0,5×(π − π*) + 0,5×gap.",
+            "Dovish: r*=1, gap=−2. Hawkish: r*=3, gap=+4.",
+          ],
+          code: {
+            starter: `pi = 6; pi_star = 2\n\n# TULIS KODEMU: Taylor rule dovish vs hawkish + rentang\nr_dovish =\nr_hawkish =\nrentang =\n\nprint(f"r_dovish={r_dovish} r_hawkish={r_hawkish} rentang={rentang}")`,
+            lockLines: 4,
+            solution: `pi = 6; pi_star = 2\n\n# TULIS KODEMU: Taylor rule dovish vs hawkish + rentang\nr_dovish = round(1 + pi + 0.5 * (pi - pi_star) + 0.5 * (-2), 1)\nr_hawkish = round(3 + pi + 0.5 * (pi - pi_star) + 0.5 * 4, 1)\nrentang = round(r_hawkish - r_dovish, 1)\n\nprint(f"r_dovish={r_dovish} r_hawkish={r_hawkish} rentang={rentang}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "r_dovish", value: 8.0, tol: 0.1, label: "`r_dovish` = 8,0%", msg: "1 + 6 + 2 − 1 = 8,0%." },
+              { kind: "equal", task: "t1", name: "r_hawkish", value: 13.0, tol: 0.1, label: "`r_hawkish` = 13,0%", msg: "3 + 6 + 2 + 2 = 13,0%." },
+              { kind: "equal", task: "t2", name: "rentang", value: 5.0, tol: 0.1, label: "`rentang` = 5,0 poin", msg: "13,0 − 8,0 = 5,0 poin — dari asumsi yang sama-sama masuk akal." },
+              { kind: "stdout_matches", task: "t2", pattern: "r_dovish=8\\.0\\s+r_hawkish=13\\.0\\s+rentang=5\\.0", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Taylor rule memberi 11% untuk Indonesia, tetapi skenario dovish–hawkish memberi rentang 8–13%. Bagaimana melaporkannya?",
+              options: [
+                { text: "Sebagai rentang 8–13% beserta asumsi r* dan output gap-nya", why: "Tepat: angka tunggal tanpa sensitivitas adalah kepalsuan presisi — di EM, r* dan gap tidak teramati dan bergerak.", correct: true },
+                { text: "Sebagai 11% — itu hasil rumusnya", why: "Salah: 11% hanya benar di bawah satu set asumsi; dua asumsi lain yang masuk akal memberi 8% dan 13%." },
+                { text: "Rata-ratakan menjadi 10,5%", why: "Salah: rata-rata skenario bukan estimasi — rentanglah yang informatif." },
+                { text: "Pakai inflasi headline saja dan abaikan nilai tukar", why: "Salah: administered prices menggerakkan headline di luar kendali suku bunga, dan fear of floating membuat nilai tukar relevan." },
+              ],
+            },
+          ],
+          reference: "Taylor rule di EM = rentang + asumsi (r* tak teramati, inflasi inti vs headline, output gap direvisi, nilai tukar/aliran modal di luar rumus).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

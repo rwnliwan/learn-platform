@@ -37,7 +37,7 @@ export const mle15: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Skala & Tanggung Jawab",
   title: "MLE15 — Algoritma ML Klasik & Model Selection",
-  estMinutes: 65,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita-pilih",
@@ -416,6 +416,53 @@ print("MAE regresi_lag    =", round(mae_lr, 3))`,
       },
       reference: "Forecasting = supervised learning: baris = titik waktu, fitur = lag + rolling + kalender. GBM menang bila banyak seri + fitur eksternal kaya; kalah dari klasik bila seri tunggal pendek atau musiman sangat stabil. Tree tidak mengekstrapolasi — beri fitur tren.",
     },
+        {
+          id: "gap-r8-kalibrasi-metrik",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G25)",
+          title: "Akurasi 70% yang menipu: kalibrasi probabilitas dan metrik yang dibayar bisnis",
+          prose: [
+            "Lesson ini memilih model dengan akurasi dan AUC — tetapi keputusan kredit/fraud tidak memakai akurasi: ia memakai PROBABILITAS yang terkalibrasi dan AMBANG yang dihitung dari biaya. Ambil 10 prediksi skor kredit dengan probabilitas dan hasil aktualnya: probabilitas [0,9; 0,8; 0,7; 0,6; 0,55; 0,45; 0,4; 0,3; 0,2; 0,1], hasil [1, 1, 0, 1, 0, 0, 1, 0, 0, 0]. Akurasinya pada ambang 0,5 adalah 70% — kedengarannya lumayan. Tetapi Brier score-nya (rata-rata (p − y)²) = 0,1705 — dan kalibrasinya miring: pada bucket probabilitas ≥ 0,5, rata-rata probabilitas 0,71 tetapi kejadian aktualnya hanya 0,60 (terlalu pede 11 poin); pada bucket < 0,5, rata-rata 0,29 vs aktual 0,20 (terlalu pede 9 poin). Model ini SISTEMATIS melebih-lebihkan risiko — dan akurasi 70% tidak menangkapnya sama sekali.",
+            "Metrik yang benar tergantung KEPUTUSANNYA. Untuk ranking (siapa didahulukan untuk review): AUC / precision-recall — dan untuk kelas langka (fraud 1%), precision-recall jauh lebih jujur daripada ROC-AUC. Untuk keputusan ambang (approve/tolak): presisi + recall + BIAYA. Pada ambang 0,5: TP 3, FP 2, FN 1 → presisi 0,60, recall 0,75. Dengan biaya FP Rp0,5 juta (review) dan FN Rp5 juta (default yang lolos): biaya = 2×0,5 + 1×5 = Rp6 juta. Turunkan ambang ke 0,3: TP 4, FP 4, FN 0 → presisi turun ke 0,50, tetapi biaya = 4×0,5 + 0 = Rp2 juta — TIGA KALI lebih murah. Ambang 'terbaik' menurut akurasi (0,5) adalah ambang TERMAHAL menurut bisnis. Inilah kenapa pemilihan metrik adalah keputusan bisnis, bukan statistik: tanyakan dulu 'berapa biaya salahnya?' — baru pilih metriknya.",
+            "Dan bila probabilitasnya tidak terkalibrasi, perbaiki SEBELUM memilih ambang: kalibrasi ulang (Platt scaling / isotonic regression) pada data VALIDASI yang terpisah — bukan pada data yang dipakai melatih model. Probabilitas yang terkalibrasi + ambang berbasis biaya = keputusan kredit yang bisa dipertahankan; akurasi tanpa keduanya = angka yang enak dibaca dan mahal dibayar.",
+          ],
+          formula: String.raw`\text{Brier} = \frac{1}{n}\sum (p_i - y_i)^2 \qquad \text{biaya} = \text{FP} \times C_{FP} + \text{FN} \times C_{FN}`,
+          formulaNote: "10 prediksi: Brier 0,1705; bucket ≥0,5: prediksi 0,71 vs aktual 0,60. Ambang 0,5: biaya Rp6 jt; ambang 0,3: biaya Rp2 jt.",
+          tasks: [
+            { id: "t1", text: "Hitung `brier` (4 desimal), `prec` dan `rec` pada ambang 0,5 (2 desimal)" },
+            { id: "t2", text: "Hitung biaya (Rp juta) ambang 0,5 dan 0,3: `cost05`, `cost03` (FP Rp0,5 jt, FN Rp5 jt)" },
+          ],
+          expected: "brier=0.1705 prec=0.6 rec=0.75 cost05=6.0 cost03=2.0",
+          hints: [
+            "Brier = rata-rata (p−y)² atas 10 prediksi.",
+            "Ambang 0,5: prediksi positif = p ≥ 0,5 (5 prediksi: TP 3, FP 2, FN 1).",
+            "Ambang 0,3: prediksi positif = 8 (TP 4, FP 4, FN 0).",
+          ],
+          code: {
+            starter: `probs = [0.9, 0.8, 0.7, 0.6, 0.55, 0.45, 0.4, 0.3, 0.2, 0.1]\ny = [1, 1, 0, 1, 0, 0, 1, 0, 0, 0]\n\n# TULIS KODEMU: Brier + presisi/recall ambang 0,5 + biaya ambang 0,5 vs 0,3\nbrier =\nprec =\nrec =\ncost05 =\ncost03 =\n\nprint(f"brier={brier} prec={prec} rec={rec} cost05={cost05} cost03={cost03}")`,
+            lockLines: 4,
+            solution: `probs = [0.9, 0.8, 0.7, 0.6, 0.55, 0.45, 0.4, 0.3, 0.2, 0.1]\ny = [1, 1, 0, 1, 0, 0, 1, 0, 0, 0]\n\n# TULIS KODEMU: Brier + presisi/recall ambang 0,5 + biaya ambang 0,5 vs 0,3\nbrier = round(sum((p - t) ** 2 for p, t in zip(probs, y)) / len(y), 4)\ndef biaya(th):\n    tp = sum(1 for p, t in zip(probs, y) if p >= th and t == 1)\n    fp = sum(1 for p, t in zip(probs, y) if p >= th and t == 0)\n    fn = sum(1 for p, t in zip(probs, y) if p < th and t == 1)\n    return tp, fp, fn, fp * 0.5 + fn * 5\ntp, fp, fn, cost05 = biaya(0.5)\nprec = round(tp / (tp + fp), 2); rec = round(tp / (tp + fn), 2)\n_, _, _, cost03 = biaya(0.3)\n\nprint(f"brier={brier} prec={prec} rec={rec} cost05={cost05} cost03={cost03}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "brier", value: 0.1705, tol: 0.001, label: "`brier` = 0,1705", msg: "Rata-rata (p−y)² = 1,705/10." },
+              { kind: "equal", task: "t1", name: "prec", value: 0.6, tol: 0.01, label: "`prec` = 0,60", msg: "3/(3+2) = 0,60 pada ambang 0,5." },
+              { kind: "equal", task: "t1", name: "rec", value: 0.75, tol: 0.01, label: "`rec` = 0,75", msg: "3/(3+1) = 0,75 pada ambang 0,5." },
+              { kind: "equal", task: "t2", name: "cost05", value: 6.0, tol: 0.1, label: "`cost05` = 6,0", msg: "2×0,5 + 1×5 = 6,0 juta." },
+              { kind: "equal", task: "t2", name: "cost03", value: 2.0, tol: 0.1, label: "`cost03` = 2,0", msg: "4×0,5 + 0×5 = 2,0 juta — tiga kali lebih murah meski presisi turun." },
+              { kind: "stdout_matches", task: "t2", pattern: "brier=0\\.1705\\s+prec=0\\.6\\s+rec=0\\.75\\s+cost05=6\\.0\\s+cost03=2\\.0", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Model A akurasi 70% (ambang 0,5, biaya Rp6 jt). Model yang sama dengan ambang 0,3: akurasi turun tetapi biaya Rp2 jt. Mana yang dipakai untuk keputusan kredit?",
+              options: [
+                { text: "Ambang 0,3 — ambang dipilih dari biaya, bukan dari akurasi", why: "Tepat: FN (default lolos, Rp5 jt) jauh lebih mahal dari FP (review, Rp0,5 jt) — ambang murah menurut biaya adalah ambang yang benar.", correct: true },
+                { text: "Ambang 0,5 — akurasinya lebih tinggi", why: "Salah: akurasi memberi bobot yang sama untuk FP dan FN — bisnis tidak." },
+                { text: "Yang AUC-nya lebih tinggi", why: "Salah: AUC mengukur ranking di SEMUA ambang — ia tidak memilih ambang, dan tidak mengenal biaya." },
+                { text: "Keduanya salah — harus melatih ulang modelnya", why: "Salah: masalahnya bukan modelnya (probabilitasnya sama) — melainkan ambang dan metrik pemilihannya." },
+              ],
+            },
+          ],
+          reference: "Pilih metrik dari keputusan: ranking → AUC/PR; ambang → presisi/recall + biaya (FP×C_FP + FN×C_FN); probabilitas harus terkalibrasi dulu (Brier, Platt/isotonic).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

@@ -5,7 +5,7 @@ export const e12: V2Lesson = {
   track: "Financial Markets",
   module: "Makro & Valas",
   title: "E12. Kurs & Suku Bunga",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-rupiah",
@@ -187,6 +187,51 @@ export const e12: V2Lesson = {
       },
       reference: "Carry = receh vs buldoser. Forward = matematika, bukan ramalan. BI rate butuh 3–6 bulan.",
     },
+        {
+          id: "gap-r8-bunga-sederhana-majemuk",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G12)",
+          title: "Bunga sederhana vs majemuk: forward yang sama, rumusnya beda",
+          prose: [
+            "Rumus CIP lesson ini — F = S × (1 + r_d·T)/(1 + r_f·T) — memakai BUNGA SEDERHANA: bunga dihitung sekali atas pokok, sebanding dengan tenor. Itu asumsi yang sah untuk tenor pendek dan pasar uang (yang memang mengutip simple interest) — tetapi BUKAN rumus universal. Bila suku bunga yang kamu pakai adalah suku bunga tahunan EFEKTIF (yang sudah mengandung pemajemukan), forward yang benar memakai bunga MAJEMUK: F = S × (1 + r_d)^T/(1 + r_f)^T. Untuk T = 1 tahun keduanya IDENTIK — itulah kenapa contoh lesson ini (T = 1, F = Rp16.736,84) tidak membedakan keduanya.",
+            "Bedanya muncul saat T ≠ 1. Ambil S = Rp16.500, r_IDR = 6%, r_USD = 4,5%, T = 2 tahun. Sederhana: 16.500 × (1 + 0,12)/(1 + 0,09) = 16.500 × 1,12/1,09 = Rp16.954,13. Majemuk: 16.500 × 1,06²/1,045² = 16.500 × 1,1236/1,092025 = Rp16.977,08. Selisih Rp22,95 per dolar — kecil per dolar, tetapi untuk kewajiban USD 500 ribu (mini-case importir lesson ini) selisihnya Rp11,48 juta. Pemajemukan KONTINYU — F = S × e^((r_d−r_f)T), konvensi yang dipakai banyak model derivatif — memberi Rp17.002,50 untuk contoh yang sama. Tiga konvensi, tiga forward — dan ketiganya 'benar' di bawah asumsinya masing-masing.",
+            "Aturan: sebelum memakai rumus CIP, tanyakan DUA hal — (1) suku bunga ini dikutip sebagai simple atau efektif? (2) tenornya berapa? Untuk T ≤ 1 tahun dan pasar uang, sederhana adalah konvensi standarnya. Untuk tenor multi-tahun atau saat membandingkan dengan harga pasar (yang memakai konvensi tertentu), pakai konvensi yang SAMA dengan pasarnya — forward yang 'salah' Rp23 per dolar adalah forward yang memakai konvensi yang salah.",
+          ],
+          formula: String.raw`F_{\text{simple}} = S\frac{1+r_d T}{1+r_f T} \qquad F_{\text{majemuk}} = S\frac{(1+r_d)^T}{(1+r_f)^T} \qquad F_{\text{kontinyu}} = S\,e^{(r_d-r_f)T}`,
+          formulaNote: "S = 16.500, r_IDR = 6%, r_USD = 4,5%, T = 2: sederhana 16.954,13; majemuk 16.977,08; kontinyu 17.002,50. Selisih majemuk−sederhana Rp22,95/USD (Rp11,48 jt untuk USD 500 rb).",
+          tasks: [
+            { id: "t1", text: "Hitung forward T=2 tahun: `f_simple`, `f_majemuk`, `f_kontinyu` (2 desimal)" },
+            { id: "t2", text: "Hitung `selisih_jt` = (f_majemuk − f_simple) × 500.000 / 1e6 (Rp juta, 2 desimal)" },
+          ],
+          expected: "f_simple=16954.13 f_majemuk=16977.08 f_kontinyu=17002.5 selisih_jt=11.48",
+          hints: [
+            "Sederhana: 16500 × 1,12/1,09. Majemuk: 16500 × 1,06²/1,045².",
+            "Kontinyu: 16500 × e^(0,015×2).",
+          ],
+          code: {
+            starter: `import math\n\nS = 16500; rd = 0.06; rf = 0.045; T = 2\n\n# TULIS KODEMU: forward 2 tahun di tiga konvensi + selisih untuk USD 500 rb\nf_simple =\nf_majemuk =\nf_kontinyu =\nselisih_jt =\n\nprint(f"f_simple={f_simple} f_majemuk={f_majemuk} f_kontinyu={f_kontinyu} selisih_jt={selisih_jt}")`,
+            lockLines: 5,
+            solution: `import math\n\nS = 16500; rd = 0.06; rf = 0.045; T = 2\n\n# TULIS KODEMU: forward 2 tahun di tiga konvensi + selisih untuk USD 500 rb\nf_simple = round(S * (1 + rd * T) / (1 + rf * T), 2)\nf_majemuk = round(S * (1 + rd) ** T / (1 + rf) ** T, 2)\nf_kontinyu = round(S * math.exp((rd - rf) * T), 2)\nselisih_jt = round((f_majemuk - f_simple) * 500000 / 1e6, 2)\n\nprint(f"f_simple={f_simple} f_majemuk={f_majemuk} f_kontinyu={f_kontinyu} selisih_jt={selisih_jt}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "f_simple", value: 16954.13, tol: 0.5, label: "`f_simple` = 16.954,13", msg: "16500 × 1,12/1,09 ≈ 16.954,13." },
+              { kind: "equal", task: "t1", name: "f_majemuk", value: 16977.08, tol: 0.5, label: "`f_majemuk` = 16.977,08", msg: "16500 × 1,1236/1,092025 ≈ 16.977,08." },
+              { kind: "equal", task: "t1", name: "f_kontinyu", value: 17002.5, tol: 0.5, label: "`f_kontinyu` = 17.002,50", msg: "16500 × e^0,03 ≈ 17.002,50." },
+              { kind: "equal", task: "t2", name: "selisih_jt", value: 11.48, tol: 0.05, label: "`selisih_jt` = 11,48", msg: "(16.977,08 − 16.954,13) × 500.000 ≈ Rp11,48 juta." },
+              { kind: "stdout_matches", task: "t2", pattern: "f_simple=16954\\.13\\s+f_majemuk=16977\\.08\\s+f_kontinyu=17002\\.5\\s+selisih_jt=11\\.48", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Forward 1 tahun dari rumus sederhana dan majemuk hasilnya sama persis. Kenapa?",
+              options: [
+                { text: "Karena pada T = 1, (1 + r×1) = (1 + r)^1 — kedua rumus berimpit", why: "Tepat: bedanya baru muncul saat T ≠ 1. Contoh lesson ini (T = 1) tidak bisa membedakan keduanya.", correct: true },
+                { text: "Karena suku bunganya kecil", why: "Salah: kecilnya bunga hanya memperkecil selisih — pada T = 1 selisihnya NOL persis, bukan kecil." },
+                { text: "Karena spot-nya sama", why: "Salah: spot yang sama tidak menjelaskan kenapa dua rumus berbeda memberi hasil sama." },
+                { text: "Karena CIP tidak berlaku untuk T = 1", why: "Salah: CIP berlaku — justru pada T = 1 kedua konvensi kebetulan sama." },
+              ],
+            },
+          ],
+          reference: "CIP sederhana vs majemuk vs kontinyu: sama di T = 1, beda di T ≠ 1. Tanyakan konvensi suku bunga + tenor sebelum memakai rumus.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

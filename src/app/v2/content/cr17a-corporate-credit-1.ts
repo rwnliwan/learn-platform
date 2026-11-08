@@ -5,7 +5,7 @@ export const cr17a: V2Lesson = {
   track: "Credit Risk",
   module: "Kredit Korporasi",
   title: "CR17A — Kredit Korporasi 1: Membaca Laporan Keuangan",
-  estMinutes: 45,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -170,6 +170,97 @@ export const cr17a: V2Lesson = {
       },
       reference: "CCC = DSO + DIO − DPO: baca per komponen, bandingkan YoY, dan bersihkan angka dari piutang zombie.",
     },
+        {
+          id: "gap-r8-dscr-definisi",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G7)",
+          title: "DSCR: satu perusahaan, tiga jawaban — tanyakan definisinya",
+          prose: [
+            "Lesson ini memakai DSCR = EBITDA / (bunga + cicilan pokok). Untuk PT Maju Jaya: 162 / (60 + 40) = 1,62× — di atas ambang aman 1,25×. Kedengarannya nyaman. Tetapi DSCR bukan satu rumus — ia KELUARGA rumus, dan tiap bank/covenant memakai anggota keluarga yang berbeda. Hitung ulang Maju Jaya dengan tiga definisi: (1) EBITDA: 162/100 = 1,62×. (2) CFADS — cash flow available for debt service = EBITDA − pajak − capex pemeliharaan − lease: 162 − 18 − 25 − 12 = 107 → 107/100 = 1,07×. (3) CFADS dengan lease JUGA di penyebut (debt service = bunga + cicilan + lease): 107/(60 + 40 + 12) = 0,96× — DI BAWAH 1,0×, alias tidak sanggup bayar.",
+            "Perusahaan yang sama, DSCR 1,62 → 0,96 — dari 'aman' menjadi 'tidak sanggup bayar' — hanya karena definisinya berubah. EBITDA melebih-lebihkan kas yang tersedia: ia mengabaikan pajak yang wajib dibayar, capex pemeliharaan yang tidak bisa ditunda (mesin yang tidak dirawat berhenti), dan lease yang secara ekonomi adalah utang. CFADS lebih jujur, tetapi lebih sulit dihitung — dan tiap covenant mendefinisikan komponennya sendiri-sendiri. ICR pun sama: EBITDA/bunga = 2,70×, tetapi bila lease dihitung sebagai beban bunga, 162/(60+12) = 2,25×.",
+            "Disiplin analis: JANGAN pernah menulis 'DSCR 1,62×' telanjang. Tulis 'DSCR (EBITDA) 1,62×' atau 'DSCR (CFADS, lease di penyebut) 0,96×' — dan saat membaca covenant, baca DEFINISINYA dulu sebelum angkanya. Pertanyaan pertama saat bank lain memamerkan DSCR debitur: 'DSCR versi siapa?'",
+          ],
+          formula: String.raw`\text{DSCR}_{\text{EBITDA}} = \frac{\text{EBITDA}}{\text{bunga} + \text{cicilan}} \qquad \text{DSCR}_{\text{CFADS}} = \frac{\text{EBITDA} - \text{pajak} - \text{capex} - \text{lease}}{\text{bunga} + \text{cicilan} + \text{lease}}`,
+          formulaNote: "Maju Jaya: DSCR EBITDA 1,62×; DSCR CFADS 1,07×; DSCR CFADS (lease di penyebut) 0,96×; ICR (lease sebagai bunga) 2,25×.",
+          tasks: [
+            { id: "t1", text: "Hitung `dscr_ebitda`, `dscr_cfads`, `dscr_cfads_lease` (2 desimal)" },
+            { id: "t2", text: "Hitung `icr_lease` = EBITDA/(bunga+lease) (2 desimal)" },
+          ],
+          expected: "dscr_ebitda=1.62 dscr_cfads=1.07 dscr_cfads_lease=0.96 icr_lease=2.25",
+          hints: [
+            "CFADS = 162 − 18 (pajak) − 25 (capex pemeliharaan) − 12 (lease) = 107.",
+            "Penyebut definisi 3 = 60 + 40 + 12 = 112.",
+          ],
+          code: {
+            starter: `ebitda = 162; bunga = 60; cicilan = 40  # Rp M, data kanonis Maju Jaya\npajak = 18; capex = 25; lease = 12  # Rp M, komponen definisi CFADS\n\n# TULIS KODEMU: DSCR tiga definisi + ICR dengan lease (2 desimal)\ndscr_ebitda =\ndscr_cfads =\ndscr_cfads_lease =\nicr_lease =\n\nprint(f"dscr_ebitda={dscr_ebitda} dscr_cfads={dscr_cfads} dscr_cfads_lease={dscr_cfads_lease} icr_lease={icr_lease}")`,
+            lockLines: 4,
+            solution: `ebitda = 162; bunga = 60; cicilan = 40  # Rp M, data kanonis Maju Jaya\npajak = 18; capex = 25; lease = 12  # Rp M, komponen definisi CFADS\n\n# TULIS KODEMU: DSCR tiga definisi + ICR dengan lease (2 desimal)\ncfads = ebitda - pajak - capex - lease\ndscr_ebitda = round(ebitda / (bunga + cicilan), 2)\ndscr_cfads = round(cfads / (bunga + cicilan), 2)\ndscr_cfads_lease = round(cfads / (bunga + cicilan + lease), 2)\nicr_lease = round(ebitda / (bunga + lease), 2)\n\nprint(f"dscr_ebitda={dscr_ebitda} dscr_cfads={dscr_cfads} dscr_cfads_lease={dscr_cfads_lease} icr_lease={icr_lease}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "dscr_ebitda", value: 1.62, tol: 0.01, label: "`dscr_ebitda` = 1,62", msg: "162/100 = 1,62 — nilai kanonis lesson ini." },
+              { kind: "equal", task: "t1", name: "dscr_cfads", value: 1.07, tol: 0.01, label: "`dscr_cfads` = 1,07", msg: "CFADS 107/100 = 1,07 — pajak, capex, dan lease memakan 55 dari EBITDA." },
+              { kind: "equal", task: "t1", name: "dscr_cfads_lease", value: 0.96, tol: 0.01, label: "`dscr_cfads_lease` = 0,96", msg: "107/112 ≈ 0,96 — di bawah 1,0×: definisi ini menyatakan tidak sanggup bayar." },
+              { kind: "equal", task: "t2", name: "icr_lease", value: 2.25, tol: 0.01, label: "`icr_lease` = 2,25", msg: "162/72 = 2,25 — lebih rendah dari ICR kanonis 2,70." },
+              { kind: "stdout_matches", task: "t2", pattern: "dscr_ebitda=1\\.62\\s+dscr_cfads=1\\.07\\s+dscr_cfads_lease=0\\.96\\s+icr_lease=2\\.25", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Bank A melaporkan DSCR debitur 1,62×; bank B melaporkan 0,96× untuk debitur yang sama. Reaksi yang benar?",
+              options: [
+                { text: "Tanyakan definisi masing-masing dulu — keduanya bisa benar dengan definisi berbeda", why: "Tepat: EBITDA vs CFADS (lease di penyebut) memberi 1,62 vs 0,96 untuk Maju Jaya. Angka tanpa definisi tidak bisa dibandingkan.", correct: true },
+                { text: "Bank B pasti salah hitung", why: "Salah: 0,96 adalah hasil sah definisi CFADS — 107/112." },
+                { text: "Pakai rata-ratanya, 1,29×", why: "Salah: merata-rata dua definisi berbeda menghasilkan angka tanpa makna." },
+                { text: "Pakai yang lebih tinggi — debitur berhak atas definisi terbaik", why: "Salah: memilih definisi yang menguntungkan adalah cherry-picking; covenant memakai definisi yang TERTULIS, bukan yang tertinggi." },
+              ],
+            },
+          ],
+          reference: "DSCR/ICR = keluarga definisi: selalu tulis definisinya (EBITDA vs CFADS, lease di mana); CFADS = EBITDA − pajak − capex pemeliharaan − lease.",
+        },
+        {
+          id: "gap-r8-rekonsiliasi-ocf",
+          eyebrow: "Langkah tambahan · Gap ronde 8 (R8-G8)",
+          title: "Dari laba Rp54 M ke OCF −Rp80 M: rekonsiliasi yang menjelaskan kematian",
+          prose: [
+            "Cerita pembuka lesson ini — laba naik 30% menjadi Rp54 miliar, tetapi OCF negatif Rp80 miliar — disajikan sebagai misteri yang dijawab 'piutang dan persediaan'. Misteri itu layak dibuka dengan rekonsiliasi formal, karena di situlah analis membedakan 'laba yang belum jadi kas' dari 'laba yang tidak akan pernah jadi kas'. Rekonsiliasi Maju Jaya (Rp M): laba bersih 54 + depresiasi 28 = 82; kenaikan piutang −95; kenaikan persediaan −70; kenaikan utang usaha +15; pajak dibayar −12. Total: 54 + 28 − 95 − 70 + 15 − 12 = −80. OCF-nya −Rp80 miliar — cocok dengan cerita pembuka.",
+            "Bacaan lapis keduanya yang lebih penting: pisahkan OCF menjadi dua bagian. OCF SEBELUM perubahan modal kerja = 54 + 28 − 12 = Rp70 miliar — operasi intinya MASIH menghasilkan kas. Yang membunuhnya adalah perubahan modal kerja: −95 − 70 + 15 = −Rp150 miliar. Rasio OCF/laba = −80/54 = −148% — jauh di bawah ambang 80% yang dipakai lesson ini sebagai aturan praktis. Tetapi angka −148% saja tidak cukup: analis harus bertanya APAKAH drainase modal kerja itu berkelanjutan atau sekali jalan. Piutang naik karena penjualan kredit agresif ke pelanggan yang tidak membayar = tidak berkelanjutan. Persediaan naik karena barang tidak laku = tidak berkelanjutan. Utang usaha naik karena menunda bayar pemasok = SEKALI jalan (pemasok akhirnya menagih).",
+            "Kualitas arus kas dinilai dari SUMBERNYA, bukan besarnya: kas dari operasi berkelanjutan (margin + koleksi) = sehat; kas dari menunda bayar, menjual piutang, atau mengosongkan persediaan = sekali jalan dan justru sinyal bahaya. Tiga cek kualitas: (1) OCF sebelum modal kerja positif dan stabil? (2) Perubahan modal kerja searah dengan pertumbuhan penjualan yang sehat — atau melawan? (3) Apakah OCF positif karena operasi, atau karena 'memeras' pemasok dan persediaan? Maju Jaya gagal di ketiganya — itulah kenapa laba Rp54 miliarnya tidak menyelamatkannya.",
+          ],
+          formula: String.raw`\text{OCF} = \text{laba} + \text{depresiasi} - \Delta\text{piutang} - \Delta\text{persediaan} + \Delta\text{utang usaha} - \text{pajak dibayar}`,
+          formulaNote: "Maju Jaya: 54 + 28 − 95 − 70 + 15 − 12 = −80. OCF sebelum modal kerja 70; drainase modal kerja −150; OCF/laba −148%.",
+          tasks: [
+            { id: "t1", text: "Hitung `ocf` dari rekonsiliasi (Rp M)" },
+            { id: "t2", text: "Hitung `ocf_sebelum_wc`, `wc_drag`, dan `ocf_laba` (% , 1 desimal)" },
+          ],
+          expected: "ocf=-80.0 ocf_sebelum_wc=70.0 wc_drag=-150.0 ocf_laba=-148.1",
+          hints: [
+            "OCF = 54 + 28 − 95 − 70 + 15 − 12.",
+            "OCF sebelum modal kerja = laba + depresiasi − pajak dibayar.",
+            "wc_drag = −95 − 70 + 15; ocf_laba = ocf/laba × 100%.",
+          ],
+          code: {
+            starter: `laba = 54; depr = 28; d_piutang = -95; d_persediaan = -70; d_utang = 15; pajak = -12  # Rp M\n\n# TULIS KODEMU: OCF, OCF sebelum modal kerja, drag modal kerja, OCF/laba %\nocf =\nocf_sebelum_wc =\nwc_drag =\nocf_laba =\n\nprint(f"ocf={ocf} ocf_sebelum_wc={ocf_sebelum_wc} wc_drag={wc_drag} ocf_laba={ocf_laba}")`,
+            lockLines: 3,
+            solution: `laba = 54; depr = 28; d_piutang = -95; d_persediaan = -70; d_utang = 15; pajak = -12  # Rp M\n\n# TULIS KODEMU: OCF, OCF sebelum modal kerja, drag modal kerja, OCF/laba %\nocf = float(laba + depr + d_piutang + d_persediaan + d_utang + pajak)\nocf_sebelum_wc = float(laba + depr + pajak)\nwc_drag = float(d_piutang + d_persediaan + d_utang)\nocf_laba = round(ocf / laba * 100, 1)\n\nprint(f"ocf={ocf} ocf_sebelum_wc={ocf_sebelum_wc} wc_drag={wc_drag} ocf_laba={ocf_laba}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "ocf", value: -80.0, tol: 0.01, label: "`ocf` = −80", msg: "54 + 28 − 95 − 70 + 15 − 12 = −80 — cocok dengan cerita pembuka." },
+              { kind: "equal", task: "t2", name: "ocf_sebelum_wc", value: 70.0, tol: 0.01, label: "`ocf_sebelum_wc` = 70", msg: "54 + 28 − 12 = 70 — operasi inti masih menghasilkan kas." },
+              { kind: "equal", task: "t2", name: "wc_drag", value: -150.0, tol: 0.01, label: "`wc_drag` = −150", msg: "−95 − 70 + 15 = −150 — modal kerja yang menenggelamkan OCF." },
+              { kind: "equal", task: "t2", name: "ocf_laba", value: -148.1, tol: 0.5, label: "`ocf_laba` = −148,1%", msg: "−80/54 = −148,1% — jauh di bawah ambang 80% lesson ini." },
+              { kind: "stdout_matches", task: "t2", pattern: "ocf=-80\\.0\\s+ocf_sebelum_wc=70\\.0\\s+wc_drag=-150\\.0\\s+ocf_laba=-148\\.1", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua perusahaan sama-sama OCF Rp70 M. A dari operasi berkelanjutan; B dari menunda bayar pemasok Rp70 M. Mana yang kualitas arusnya lebih baik?",
+              options: [
+                { text: "A — kas dari operasi berkelanjutan; B sekali jalan dan justru sinyal bahaya", why: "Tepat: kualitas arus kas dinilai dari sumbernya. Menunda bayar hanya menggeser kas antar-periode — pemasok akhirnya menagih.", correct: true },
+                { text: "Sama baik — OCF-nya sama-sama Rp70 M", why: "Salah: angka yang sama dari sumber berbeda punya makna berbeda — itulah gunanya rekonsiliasi." },
+                { text: "B — menunda bayar menunjukkan kekuatan negosiasi", why: "Salah: menunda bayar tanpa batas merusak pemasok dan akhirnya memutus pasokan — bukan kekuatan, melainkan pinjaman paksa." },
+                { text: "Tidak bisa dinilai tanpa melihat laba", why: "Salah: justru rekonsiliasi laba→OCF yang menjawabnya — sumber kas terlihat di komponennya." },
+              ],
+            },
+          ],
+          reference: "Rekonsiliasi laba → OCF memisahkan operasi berkelanjutan dari drainase modal kerja; nilai kualitas dari SUMBER kas, bukan besarnya.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
