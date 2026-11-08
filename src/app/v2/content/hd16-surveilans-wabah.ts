@@ -202,7 +202,7 @@ export const hd16: V2Lesson = {
         "Klaim keberhasilan butuh pembanding; spasial: fokus di hotspot.",
         "CUSUM/EWMA menangkap kenaikan pelan yang lolos ambang 2SD; nowcast keterlambatan lapor sebelum menyimpulkan.",
       ],
-      next: { label: "HD17 — Ekonomi Kesehatan", href: "/learn/hd17-ekonomi-kesehatan" },
+      next: { label: "HD17 — Ekonomi Kesehatan", href: "/v2/learn/hd17-ekonomi-kesehatan" },
       quiz: [
         {
           q: "Rt = 0,7 artinya…",

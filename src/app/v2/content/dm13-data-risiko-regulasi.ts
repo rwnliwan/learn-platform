@@ -237,7 +237,7 @@ export const dm13: V2Lesson = {
         "Reporting: jejak + versi + persetujuan + immutability. Regulator menilai proses.",
         "Jangan: kirim angka tak terjawab; toleransi longgar diam-diam; agregasi via spreadsheet manual.",
       ],
-      next: { label: "DM14 — Arsitektur Modern", href: "/learn/dm14-arsitektur-modern" },
+      next: { label: "DM14 — Arsitektur Modern", href: "/v2/learn/dm14-arsitektur-modern" },
       quiz: [
         {
           q: "Pelajaran utama krisis 2008 yang melahirkan BCBS 239?",

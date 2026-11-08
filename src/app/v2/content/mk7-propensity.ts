@@ -318,7 +318,7 @@ print(f"naive={naive:.3f} ipw={ipw:.3f}")`,
         "Positivity: tanpa overlap treatment, tidak ada estimasi kausal — hanya bias seleksi.",
         "IPW mengoreksi via bobot 1/p; doubly robust aman jika satu dari dua model benar.",
       ],
-      next: { label: "MK8 — Rekomendasi", href: "/learn/mk8-rekomendasi" },
+      next: { label: "MK8 — Rekomendasi", href: "/v2/learn/mk8-rekomendasi" },
       quiz: [
         {
           q: "Bedanya propensity (MK7) dan uplift (MK11)?",

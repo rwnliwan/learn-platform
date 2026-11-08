@@ -321,7 +321,7 @@ print(f"klaim_bermasalah={len(tanpa_angka)}  overclaim={sum(oc.values())}  skor_
           ],
         },
       ],
-      next: { label: "BCD25 — Regulasi Kripto Indonesia: OJK, PPATK, dan Kewajiban Exchange", href: "/learn/bcd25-regulasi-kripto-indonesia" },
+      next: { label: "BCD25 — Regulasi Kripto Indonesia: OJK, PPATK, dan Kewajiban Exchange", href: "/v2/learn/bcd25-regulasi-kripto-indonesia" },
     },
   ],
 };

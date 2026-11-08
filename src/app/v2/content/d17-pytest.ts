@@ -356,7 +356,7 @@ lolos = jalankan([
         "Wajib test bila: dipakai >1 tempat, angkanya masuk laporan/keputusan, pernah punya bug (test regresi); tunda untuk eksplorasi sekali pakai.",
         "Biaya bug eksponensial per tahap keterlambatan (1×→10×→100×→1000×) — testing adalah diskon 99,9%; test = bagian dari “selesai”, dijalankan otomatis.",
       ],
-      next: { label: "D18 — FastAPI & REST API", href: "/learn/d18-fastapi-rest-api" },
+      next: { label: "D18 — FastAPI & REST API", href: "/v2/learn/d18-fastapi-rest-api" },
       quiz: [
         {
           q: "Akar masalah 3 bulan laporan NPL salah di cerita pembuka adalah…",

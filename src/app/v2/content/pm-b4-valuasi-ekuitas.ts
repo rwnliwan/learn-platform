@@ -297,7 +297,7 @@ export const pmb4: V2Lesson = {
         "Multiples: cepat tetapi relatif; waspada value trap (pakai forward).",
         "Aturan: DCF jangkar, multiples cross-check; sensitivitas selalu; margin of safety.",
       ],
-      next: { label: "PM-B5 — Fixed Income Lanjut: Kurva, Kredit & MBS", href: "/learn/pm-b5-fixed-income-lanjut" },
+      next: { label: "PM-B5 — Fixed Income Lanjut: Kurva, Kredit & MBS", href: "/v2/learn/pm-b5-fixed-income-lanjut" },
     },
   ],
 };

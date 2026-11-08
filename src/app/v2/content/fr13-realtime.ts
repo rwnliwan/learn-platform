@@ -195,7 +195,7 @@ export const fr13: V2Lesson = {
         "Sliding window in-memory = agregat real-time O(1) per transaksi.",
         "Arsitektur: approve / hold / block; pre-compute agregat; fallback = hold selektif.",
       ],
-      next: { label: "FR14 — Case Management", href: "/learn/fr14-case-management" },
+      next: { label: "FR14 — Case Management", href: "/v2/learn/fr14-case-management" },
       quiz: [
         {
           q: "Model menangkap fraud dengan skor 0,91 — 47 detik setelah dana terkirim. Masalahnya?",

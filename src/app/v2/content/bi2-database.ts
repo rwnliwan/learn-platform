@@ -202,7 +202,7 @@ export const bi2: V2Lesson = {
         "Waspadai bias populasi database global untuk pasien Indonesia.",
         "Anotasi fungsional standar: posisi → protein → pathway → struktur.",
       ],
-      next: { label: "BI3 · Format File Genomik", href: "/learn/bi3-format-data" },
+      next: { label: "BI3 · Format File Genomik", href: "/v2/learn/bi3-format-data" },
       quiz: [
         {
           q: "Paper 2015 melaporkan varian patogenik di chr17:7.579.472 (hg19). Kamu intersect langsung dengan data hg38 dan dapat 0 hasil. Diagnosis paling mungkin?",

@@ -174,7 +174,7 @@ export const dm2: V2Lesson = {
         "SCD: Type 1 timpa (koreksi), Type 2 baris baru (histori analitik), Type 3 kolom berdampingan.",
         "Data Vault: Hub/Link/Satellite untuk warehouse raksasa yang skemanya labil — bukan untuk tim kecil.",
       ],
-      next: { label: "DM3A — Database Relasional", href: "/learn/dm3a-database-relasional" },
+      next: { label: "DM3A — Database Relasional", href: "/v2/learn/dm3a-database-relasional" },
       quiz: [
         {
           q: "Satu nasabah bisa punya banyak rekening, satu rekening bisa dimiliki banyak nasabah (joint account). Bagaimana memodelkannya?",

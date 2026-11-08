@@ -191,7 +191,7 @@ kum =
 opt_depth =
 opt_gain =
 
-print(f"opt_depth={opt_depth} opt_gain={opt_gain"}`,
+print(f"opt_depth={opt_depth} opt_gain={opt_gain}")`,
         lockLines: 2,
         solution: `# gain inkremental per desil (ribu Rp), sudah urut by tau prediksi
 gain = [120, 80, 40, 10, -20, -30, -10, 0, 5, -5]
@@ -205,7 +205,7 @@ for g in gain:
 opt_gain = max(kum)
 opt_depth = kum.index(opt_gain) + 1
 
-print(f"opt_depth={opt_depth} opt_gain={opt_gain"}`,
+print(f"opt_depth={opt_depth} opt_gain={opt_gain}")`,
         checks: [
           { kind: "equal", task: "t2", name: "opt_depth", value: 4, tol: 1e-9, label: "`opt_depth` seharusnya 4", msg: "Kumulatif puncak 250 di desil 4; desil 5 (−20) mulai merusak." },
           { kind: "equal", task: "t2", name: "opt_gain", value: 250, tol: 1e-9, label: "`opt_gain` seharusnya 250", msg: "120+80+40+10 = 250 ribu Rp." },
@@ -298,7 +298,7 @@ print(f"opt_depth={opt_depth} opt_gain={opt_gain"}`,
         "Baca Qini sebagai kurva: target sampai puncak; AUUC untuk bandingkan model.",
         "Aksi murah → propensity; aksi mahal → uplift.",
       ],
-      next: { label: "MK12 — Atribusi", href: "/learn/mk12-attribution" },
+      next: { label: "MK12 — Atribusi", href: "/v2/learn/mk12-attribution" },
       quiz: [
         {
           q: "Bedanya sure things dan persuadables?",

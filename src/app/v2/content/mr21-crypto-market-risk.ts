@@ -300,7 +300,7 @@ export const mr21: V2Lesson = {
         "Rugi depeg = E × (1−p): skenario deterministik terpisah, bukan kuantil.",
         "Custody/exchange: FTX Nov 2022 — limit per exchange, kustodian terpisah, proof of reserves ≠ bukti solvabilitas.",
       ],
-      next: { label: "MR22 — Geopolitical Risk & Scenario Design", href: "/learn/mr22-geopolitical-risk" },
+      next: { label: "MR22 — Geopolitical Risk & Scenario Design", href: "/v2/learn/mr22-geopolitical-risk" },
       quiz: [
         {
           q: "UST runtuh Mei 2022 karena desainnya. Mekanisme keruntuhan yang tepat?",

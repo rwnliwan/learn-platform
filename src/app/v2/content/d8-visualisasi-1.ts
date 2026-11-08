@@ -171,7 +171,7 @@ export const d8_1: V2Lesson = {
       code: {
         starter: `import matplotlib\\nmatplotlib.use("Agg")  # backend non-interaktif\\nimport matplotlib.pyplot as plt\\nimport numpy as np\\n\\nbulan = ["Jan", "Feb", "Mar", "Apr", "Mei"]\\nnpl = np.array([3.1, 3.2, 3.15, 3.3, 3.6])  # persen\\n\\n# TULIS KODEMU: dua versi chart yang SAMA datanya, beda kejujurannya\\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))\\n\\nax1.plot(bulan, npl, marker="o")\\nax1.set_ylim( , )\\nax1.set_title("Versi menipu (sumbu dipotong)")\\n\\nax2.plot(bulan, npl, marker="o")\\nax2.set_ylim( , )\\nax2.set_title("Versi jujur (dari 0)")\\n\\n# Faktor pembesaran visual\\nrentang_menipu =\\nrentang_jujur =\\nfaktor =\\n\\ny0_menipu = ax1.get_ylim()[0]\\ny0_jujur = ax2.get_ylim()[0]\\nprint(f"y0_menipu={y0_menipu} y0_jujur={y0_jujur} faktor={faktor:.1f}x")\\n`,
         lockLines: 7,
-        solution: `import matplotlib\\nmatplotlib.use("Agg")  # backend non-interaktif\\nimport matplotlib.pyplot as plt\\nimport numpy as np\\n\\nbulan = ["Jan", "Feb", "Mar", "Apr", "Mei"]\\nnpl = np.array([3.1, 3.2, 3.15, 3.3, 3.6])  # persen\\n\\n# TULIS KODEMU: dua versi chart yang SAMA datanya, beda kejujurannya\\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))\\n\\nax1.plot(bulan, npl, marker="o")\\nax1.set_ylim(3.0, 3.7)\\nax1.set_title("Versi menipu (sumbu dipotong)")\\n\\nax2.plot(bulan, npl, marker="o")\\nax2.set_ylim(0, npl.max() * 1.2)\\nax2.set_title("Versi jujur (dari 0)")\\n\\n# Faktor pembesaran visual: berapa kali kemiringan terlihat lebih curam\\nrentang_menipu = 3.7 - 3.0\\nrentang_jujur = npl.max() * 1.2 - 0\\nfaktor = rentang_jujur / rentang_menipu\\n\\ny0_menipu = ax1.get_ylim()[0]\\ny0_jujur = ax2.get_ylim()[0]\\nprint(f"y0_menipu={y0_menipu} y0_jujur={y0_jujur} faktor={faktor:.1f}x")\\n`,
+        solution: `import matplotlib\nmatplotlib.use("Agg")  # backend non-interaktif\nimport matplotlib.pyplot as plt\nimport numpy as np\n\nbulan = ["Jan", "Feb", "Mar", "Apr", "Mei"]\nnpl = np.array([3.1, 3.2, 3.15, 3.3, 3.6])  # persen\n\n# TULIS KODEMU: dua versi chart yang SAMA datanya, beda kejujurannya\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))\n\nax1.plot(bulan, npl, marker="o")\nax1.set_ylim(3.0, 3.7)\nax1.set_title("Versi menipu (sumbu dipotong)")\n\nax2.plot(bulan, npl, marker="o")\nax2.set_ylim(0, npl.max() * 1.2)\nax2.set_title("Versi jujur (dari 0)")\n\n# Faktor pembesaran visual: berapa kali kemiringan terlihat lebih curam\nrentang_menipu = 3.7 - 3.0\nrentang_jujur = npl.max() * 1.2 - 0\nfaktor = rentang_jujur / rentang_menipu\n\ny0_menipu = ax1.get_ylim()[0]\ny0_jujur = ax2.get_ylim()[0]\nprint(f"y0_menipu={y0_menipu} y0_jujur={y0_jujur} faktor={faktor:.1f}x")\n`,
         checks: [
           { kind: "equal", task: "t2", name: "y0_menipu", value: 3.0, tol: 1e-09, label: "`y0_menipu` = 3.0", msg: "Sumbu kiri dipotong: set_ylim(3.0, 3.7)." },
           { kind: "equal", task: "t2", name: "y0_jujur", value: 0.0, tol: 1e-09, label: "`y0_jujur` = 0.0", msg: "Sumbu kanan jujur: mulai dari 0." },
@@ -248,7 +248,7 @@ export const d8_1: V2Lesson = {
         "1 pertanyaan = 1 chart. Maks 3-4 dimensi.",
         "Cek sumbu dulu saat membaca chart orang lain.",
       ],
-      next: { label: "D8-2 — Plotly", href: "/learn/d8-visualisasi-2" },
+      next: { label: "D8-2 — Plotly", href: "/v2/learn/d8-visualisasi-2" },
     },
   ],
 };

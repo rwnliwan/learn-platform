@@ -191,7 +191,7 @@ export const cr14b: V2Lesson = {
         "Backtest: |bias| <15% wajar; bias satu arah 3+ tahun = rekalibrasi, bukan overlay.",
         "Struktur pembayaran (balloon vs amortisasi) adalah parameter risiko EAD.",
       ],
-      next: { label: "CR15 — Risiko Portofolio", href: "/learn/cr15-risiko-portofolio" },
+      next: { label: "CR15 — Risiko Portofolio", href: "/v2/learn/cr15-risiko-portofolio" },
       quiz: [
         {
           q: "Urutan perhitungan ECL lifetime yang benar?",

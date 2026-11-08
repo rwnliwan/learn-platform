@@ -334,7 +334,7 @@ print(f"biaya=\${biaya:.6f}")`,
         "Keputusan arsitektur (API vs self-host vs ML klasik vs riset) adalah keputusan ekonomi dan regulasi.",
         "Total cost of ownership memasukkan biaya error — model murah dengan error tinggi bisa lebih mahal.",
       ],
-      next: { label: "AIE2 — Prompt Engineering Sistematis", href: "/learn/aie2-prompt" },
+      next: { label: "AIE2 — Prompt Engineering Sistematis", href: "/v2/learn/aie2-prompt" },
       quiz: [
         {
           q: "Apa pembeda utama AI Engineering dibanding ML klasik?",

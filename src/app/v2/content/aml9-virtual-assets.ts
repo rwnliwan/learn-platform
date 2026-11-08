@@ -236,7 +236,7 @@ export const aml9: V2Lesson = {
         "Blockchain pseudonim: jejak permanen & publik; identitas bocor di on/off-ramp.",
         "SAR VA wajib lampirkan hash transaksi + alamat sebagai identifier.",
       ],
-      next: { label: "AML10 — Institutional Risk Assessment", href: "/learn/aml10-ira" },
+      next: { label: "AML10 — Institutional Risk Assessment", href: "/v2/learn/aml10-ira" },
       quiz: [
         {
           q: "Mengapa mixer tidak membuat dana 'hilang'?",

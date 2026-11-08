@@ -526,7 +526,7 @@ for r in rows:
         "LAG/LEAD: intip tetangga — butuh ORDER BY di OVER.",
         "Jangan: hasil window di WHERE langsung.",
       ],
-      next: { label: "C9-2 — Window Functions (Agregat Berjalan)", href: "/learn/c9-window-functions-2" },
+      next: { label: "C9-2 — Window Functions (Agregat Berjalan)", href: "/v2/learn/c9-window-functions-2" },
       quiz: [
         {
           q: "Window function vs GROUP BY — bedanya?",

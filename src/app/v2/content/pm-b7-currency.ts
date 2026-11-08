@@ -293,7 +293,7 @@ export const pmb7: V2Lesson = {
         "Trilemma: kurs tetap / moneter independen / modal bebas — pilih 2.",
         "Aturan: IRP untuk pricing, PPP untuk jangkar panjang.",
       ],
-      next: { label: "PM-B8 — Faktor & Risiko: VaR, ES & Greeks", href: "/learn/pm-b8-faktor-risiko" },
+      next: { label: "PM-B8 — Faktor & Risiko: VaR, ES & Greeks", href: "/v2/learn/pm-b8-faktor-risiko" },
     },
   ],
 };

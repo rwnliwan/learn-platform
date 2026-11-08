@@ -196,14 +196,19 @@ def chi2(a, b, c, d):
 def is_signal(a, b, c, d):
     return a >= 3 and prr(a, b, c, d) >= 2 and chi2(a, b, c, d) >= 4
 
+prr_a = prr(120, 1880, 80, 19920)
+ror_a = ror(120, 1880, 80, 19920)
+chi2_a = chi2(120, 1880, 80, 19920)
+is_signal_a = is_signal(120, 1880, 80, 19920)
+
 for p in pairs:
     a, b, c, d = p["a"], p["b"], p["c"], p["d"]
     print(f'{p["nama"]}: PRR={prr(a,b,c,d):.2f} ROR={ror(a,b,c,d):.2f} chi2={chi2(a,b,c,d):.1f} sinyal={is_signal(a,b,c,d)}')`,
         checks: [
-          { kind: "equal", task: "t1", name: "prr", value: 15.0, tol: 0.01, label: "`prr` pasangan A harus 15,00", msg: "(120/2000)/(80/20000) = 0,06/0,004 = 15." },
-          { kind: "equal", task: "t2", name: "ror", value: 15.89, tol: 0.01, label: "`ror` pasangan A harus ±15,89", msg: "(120×19920)/(1880×80) ≈ 15,89." },
-          { kind: "equal", task: "t3", name: "chi2", value: 633.0, tol: 1.0, label: "`chi2` pasangan A harus ±633,0", msg: "N(ad−bc)²/((a+b)(c+d)(a+c)(b+d)) dengan N=22000." },
-          { kind: "equal", task: "t4", name: "is_signal", value: true, tol: 0, label: "`is_signal` pasangan A harus True", msg: "a=120≥3, PRR=15≥2, chi²≈633≥4 — ketiga syarat Evans terpenuhi." },
+          { kind: "equal", task: "t1", name: "prr_a", value: 15.0, tol: 0.01, label: "`prr_a` pasangan A harus 15,00", msg: "(120/2000)/(80/20000) = 0,06/0,004 = 15." },
+          { kind: "equal", task: "t2", name: "ror_a", value: 15.89, tol: 0.01, label: "`ror_a` pasangan A harus ±15,89", msg: "(120×19920)/(1880×80) ≈ 15,89." },
+          { kind: "equal", task: "t3", name: "chi2_a", value: 633.0, tol: 1.0, label: "`chi2_a` pasangan A harus ±633,0", msg: "N(ad−bc)²/((a+b)(c+d)(a+c)(b+d)) dengan N=22000." },
+          { kind: "equal", task: "t4", name: "is_signal_a", value: true, tol: 0, label: "`is_signal_a` pasangan A harus True", msg: "a=120≥3, PRR=15≥2, chi²≈633≥4 — ketiga syarat Evans terpenuhi." },
           { kind: "stdout_matches", task: "t5", pattern: "B\\+mual: PRR=1\\.33.*sinyal=False", label: "Pasangan B bukan sinyal", msg: "PRR 1,33 < 2 — gagal syarat Evans kedua." },
           { kind: "stdout_matches", task: "t5", pattern: "C\\+gagal_hati: PRR=3\\.20.*sinyal=True", label: "Pasangan C adalah sinyal", msg: "a=8≥3, PRR=3,2≥2, chi²≈11≥4 — sinyal walau hitungannya kecil." },
         ],

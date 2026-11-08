@@ -72,7 +72,7 @@ export const mle29: V2Lesson = {
       title: "Walk-forward multi-lipatan: wasit yang tidak bisa disogok",
       prose: [
         "Walk-forward satu lipatan, seperti di A3.9, menguji satu titik potong train dan test. Multi-lipatan mengulanginya empat kali dengan jendela train yang membesar: latih minggu 1 sampai 12 lalu uji minggu 13, latih 1 sampai 13 lalu uji minggu 14, dan seterusnya sampai minggu 16. Setiap lipatan mensimulasikan satu keputusan nyata: hari ini kamu hanya punya data sampai kemarin, dan harus meramal besok.",
-        "Metriknya dua. MAE adalah rata-rata nilai absolut error, satuannya sama dengan data — MAE 2,5 pada penjualan mingguan berarti meleset rata-rata 2,5 unit per minggu, kalimat yang langsung dimengerti gudang. MAPE adalah versi persen — enak untuk membandingkan antar SKU, tetapi tidak terdefinisi bila aktual nol dan menghukum under-forecast lebih berat daripada over-forecast. Aturan dari MLE15 tetap berlaku: MAE dulu untuk keputusan, MAPE untuk perbandingan, selalu dengan konteks.",
+        "Metriknya dua. MAE adalah rata-rata nilai absolut error, satuannya sama dengan data — MAE 2,5 pada penjualan mingguan berarti meleset rata-rata 2,5 unit per minggu, kalimat yang langsung dimengerti gudang. MAPE adalah versi persen — enak untuk membandingkan antar SKU, tetapi tidak terdefinisi bila aktual nol; dan untuk deviasi yang sama besar, under- dan over-forecast dihukum SAMA — klaim sebaliknya terbalik: MAPE under-forecast dibatasi 100 persen (saat prediksi nol), sementara over-forecast tidak terbatas, jadi bila ada asimetri, justru over-forecast yang bisa dihukum lebih berat. Aturan dari MLE15 tetap berlaku: MAE dulu untuk keputusan, MAPE untuk perbandingan, selalu dengan konteks.",
         "Data lab lesson ini: penjualan mingguan 16 minggu, yaitu 120, 132, 128, 145, 138, 152, 148, 163, 158, 172, 168, 183, 180, 190, 186, 205. Empat lipatan menguji minggu 13 sampai 16. Hasil yang akan kamu hitung di lab: naive MAE 9,0; seasonal naive MAE 20,0; moving average 4 minggu MAE 12,5; model lag-OLS — regresi linear di atas fitur lag 1 dan lag 4, proksi yang jujur untuk cara kerja XGBoost — MAE 2,50. Seasonal naive kalah telak di sini karena tren naik 5,05 unit per minggu membuat nilai empat minggu lalu selalu ketinggalan.",
       ],
       tasks: [],
@@ -119,7 +119,7 @@ export const mle29: V2Lesson = {
       eyebrow: "Langkah 7 · Mini-case",
       title: "Mini-case: pesan berapa untuk minggu 17?",
       prose: [
-        "Gudang bertanya: berapa unit kopi sachet yang dipesan untuk minggu 17? Model lag-OLS yang dilatih ulang pada seluruh 16 minggu memprediksi 200,50 unit — koefisiennya 16,05 plus 0,017 kali 205 (lag 1) plus 1,0053 kali 180 (lag 4). Stok pengaman ditetapkan dua kali MAE, yaitu 5 unit, sehingga pesanan menjadi 205,50, dibulatkan ke atas menjadi 206 unit.",
+        "Gudang bertanya: berapa unit kopi sachet yang dipesan untuk minggu 17? Model lag-OLS yang dilatih ulang pada seluruh 16 minggu memprediksi 200,50 unit — koefisiennya 16,05 plus 0,017 kali 205 (lag 1) plus 1,0053 kali 180 (lag 4). Stok pengaman ditetapkan — sebagai HEURISTIK lesson ini, bukan formula — dua kali MAE, yaitu 5 unit, sehingga pesanan menjadi 205,50, dibulatkan ke atas menjadi 206 unit. Aturan '2 × MAE' di sini adalah heuristik praktis: stok pengaman yang benar butuh distribusi error, lead time, dan service level yang ditargetkan.",
         "Mengapa bukan memakai seasonal naive yang lebih sederhana? Karena MAE-nya 20,00 — stok pengamannya saja sudah 40 unit, dan forecastnya bias ke bawah secara sistematis karena tren naik. Model yang bias tidak diperbaiki oleh stok pengaman; ia hanya ditambal.",
         "Dan mengapa forecast minggu 17 sebesar 200,50 justru di bawah aktual minggu 16 sebesar 205? Karena koefisien lag 4 mendominasi: model membaca minggu 13 sebesar 180 sebagai jangkar musiman, lalu menambah kenaikan tren. Bila direksi protes karena angkanya turun, jawabanmu adalah tabel MAE lab: model ini meleset rata-rata 2,50 unit, sementara naive meleset 9,00. Kepercayaan datang dari validasi, bukan dari arah angkanya.",
         "Keputusan akhir: pesan 206 unit, catat forecast 200,50 dan MAE 2,50 di lembar keputusan, dan jadwalkan evaluasi ulang setelah minggu 17 aktual masuk — satu lipatan walk-forward baru, gratis.",
@@ -127,7 +127,7 @@ export const mle29: V2Lesson = {
       tasks: [],
       note: {
         title: "Pembahasan",
-        body: "Forecast minggu 17 = 200,50; stok pengaman 2 kali MAE 2,50 = 5; pesanan 205,50 dibulatkan ke atas menjadi 206 unit. Seasonal naive ditolak karena MAE 20,00 dan bias ke bawah sistematis sebesar 20 unit per lipatan.",
+        body: "Forecast minggu 17 = 200,50; stok pengaman 2 kali MAE 2,50 = 5 (heuristik — lihat Langkah 7); pesanan 205,50 dibulatkan ke atas menjadi 206 unit. Seasonal naive ditolak karena MAE 20,00 dan bias ke bawah sistematis sebesar 20 unit per lipatan.",
       },
       reference: "Pesan 206 unit = forecast 200,50 plus pengaman 5. Validasi walk-forward adalah alasan keputusannya.",
     },

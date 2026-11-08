@@ -174,7 +174,7 @@ export const fr5: V2Lesson = {
         "Tuning = pilih ambang dengan detection maksimal pada budget alert ≤ kapasitas tim.",
         "Champion-challenger: challenger wajib shadow mode; promosi hanya jika detection ≥, hit rate aman, volume muat.",
       ],
-      next: { label: "FR6 — Feature Engineering", href: "/learn/fr6-feature-engineering" },
+      next: { label: "FR6 — Feature Engineering", href: "/v2/learn/fr6-feature-engineering" },
       quiz: [
         {
           q: "Mengapa setiap rule WAJIB punya expiry/review date?",

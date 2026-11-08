@@ -142,9 +142,9 @@ export const a17: V2Lesson = {
         "est_baik = 0.7*12 + 0.3*8",
       ],
       code: {
-        starter: `# sensitivity analysis: dua skenario untuk 30% non-responden\nresp = 12  # juta, rata-rata responden\n\n# TULIS KODEMU\nest_baik = \nest_buruk = \n\nprint(f"est_baik={est_baik}  est_buruk={est_buruk}")`,
+        starter: `# sensitivity analysis: dua skenario untuk 30% non-responden\nresp = 12  # juta, rata-rata responden\n\n# TULIS KODEMU\nest_baik = \nest_buruk = \n\nprint(f"est_baik={est_baik:.1f}  est_buruk={est_buruk:.1f}")`,
         lockLines: 2,
-        solution: `# sensitivity analysis: dua skenario untuk 30% non-responden\nresp = 12  # juta, rata-rata responden\n\n# TULIS KODEMU\nest_baik = 0.7*resp + 0.3*8\nest_buruk = 0.7*resp + 0.3*6\n\nprint(f"est_baik={est_baik}  est_buruk={est_buruk}")`,
+        solution: `# sensitivity analysis: dua skenario untuk 30% non-responden\nresp = 12  # juta, rata-rata responden\n\n# TULIS KODEMU\nest_baik = 0.7*resp + 0.3*8\nest_buruk = 0.7*resp + 0.3*6\n\nprint(f"est_baik={est_baik:.1f}  est_buruk={est_buruk:.1f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "est_baik", value: 10.8, tol: 1e-9, label: "`est_baik` seharusnya 10.8", msg: "0,7×12 + 0,3×8 = 10,8." },
           { kind: "equal", task: "t2", name: "est_buruk", value: 10.2, tol: 1e-9, label: "`est_buruk` seharusnya 10.2", msg: "0,7×12 + 0,3×6 = 10,2." },
@@ -220,7 +220,7 @@ export const a17: V2Lesson = {
         "Missing struktural jangan diimputasi — jadikan kategori sendiri.",
         "Kadang faktanya hilang adalah sinyal: kolom indikator missing bisa jadi feature terbaik.",
       ],
-      next: { label: "A1.8 — Visualisasi", href: "/learn/a18-visualisasi" },
+      next: { label: "A1.8 — Visualisasi", href: "/v2/learn/a18-visualisasi" },
       quiz: [
         {
           q: "Kolom gaji kosong lebih sering untuk jabatan direktur. Mekanisme apa?",

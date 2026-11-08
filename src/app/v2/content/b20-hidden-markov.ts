@@ -587,7 +587,7 @@ print(f"acc={acc:.3f}")`,
         "Kerjakan dalam log-space (log-sum-exp); Viterbi memberi jalur, bukan peluang — untuk peluang pakai forward-backward.",
         "Pilih K dengan BIC + keterinterpretasian; waspadai label-switching dan fase baru yang belum dilatih.",
       ],
-      next: { label: "B21 — A/B Testing Terapan", href: "/learn/b21-ab-testing-terapan" },
+      next: { label: "B21 — A/B Testing Terapan", href: "/v2/learn/b21-ab-testing-terapan" },
       quiz: [
         {
           q: "Apa beda fundamental rantai Markov biasa dengan Hidden Markov Model?",

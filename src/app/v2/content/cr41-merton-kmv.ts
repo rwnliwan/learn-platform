@@ -74,7 +74,7 @@ export const cr41: V2Lesson = {
       prose: [
         "Hitung d1, d2, distance-to-default, dan PD untuk dua perusahaan dengan suku bunga 3 persen dan tenor 1 tahun. Perusahaan A (sehat): nilai aset 150, utang 100, volatilitas aset 0,20. Perusahaan B (tertekan): nilai aset 110, utang 100, volatilitas aset 0,30. Nilai dalam Rp miliar; PD dihitung sebagai N(-d2) dengan fungsi distribusi normal dari math.erf.",
         "Hitung di kepala dulu untuk A: ln(150 dibagi 100) = 0,4055; r ditambah setengah sigma kuadrat = 0,03 + 0,02 = 0,05; d1 = (0,4055 + 0,05) dibagi 0,20 = 2,28; d2 = 2,28 - 0,20 = 2,08; PD = N(-2,08) = 1,89 persen. Untuk B: ln(1,1) = 0,0953; 0,03 + 0,045 = 0,075; d1 = 0,1703 dibagi 0,30 = 0,57; d2 = 0,27; PD = N(-0,27) = 39,45 persen.",
-        "Perhatikan sensitivitasnya: B hanya 10 persen di atas ambang utang, tetapi PD-nya 21 kali lipat A. PD struktural sangat sensitif di dekat ambang — penurunan aset 10 persen lagi (V = 99, di bawah utang) membuat default hampir pasti. Itulah kenapa monitoring DD harian lebih penting daripada laporan kuartalan.",
+        "Perhatikan sensitivitasnya: B hanya 10 persen di atas ambang utang, tetapi PD-nya 21 kali lipat A. PD struktural sangat sensitif di dekat ambang — penurunan aset 10 persen lagi (V = 99, di bawah utang) membuat PD naik menjadi 53,33 persen — d1 = 0,22, d2 = −0,08, PD = N(0,08) = 53,33 persen: lebih mungkin default daripada tidak, tetapi jauh dari 'hampir pasti'. Itulah kenapa monitoring DD harian lebih penting daripada laporan kuartalan.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `d1_a`, `d2_a`, `pd_a` untuk perusahaan A" },
@@ -156,7 +156,7 @@ export const cr41: V2Lesson = {
           q: "Apa perbedaan utama EDF KMV dengan PD Merton mentah?",
           options: [
             { text: "Tidak ada — keduanya dihitung dengan rumus yang sama", why: "Salah: PD Merton memakai N(-d2) dari distribusi normal; EDF memakai frekuensi default historis untuk DD yang sama." },
-            { text: "EDF memetakan DD ke frekuensi default historis yang benar-benar terjadi, sehingga tidak bergantung pada asumsi distribusi normal", why: "Tepat: distribusi normal meremehkan kejadian ekstrem. EDF dikalibrasi ke data nyata ribuan perusahaan.", correct: true },
+            { text: "EDF memetakan DD ke frekuensi default historis yang benar-benar terjadi, sehingga mengurangi ketergantungan pada asumsi normal untuk mengubah DD menjadi PD", why: "Tepat: distribusi normal meremehkan kejadian ekstrem, dan EDF dikalibrasi ke data nyata ribuan perusahaan — tetapi DD inputnya sendiri tetap dihitung dari kerangka Merton/KMV yang berasumsi model/distribusi, jadi ketergantungannya berkurang, bukan hilang.", correct: true },
             { text: "EDF hanya berlaku untuk perusahaan tidak terbuka", why: "Salah: kebalikannya — KMV butuh harga saham, jadi justru untuk perusahaan terbuka." },
             { text: "EDF mengabaikan volatilitas aset", why: "Salah: EDF diturunkan dari DD, dan DD sendiri memakai volatilitas aset." },
           ],

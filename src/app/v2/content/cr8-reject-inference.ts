@@ -223,7 +223,7 @@ export const cr8: V2Lesson = {
         "Kebenaran terbaik = sampel acak di bawah cut-off (observasi langsung). Alternatif murah = SLIK lookback.",
         "Aturan emas: mau ubah cut-off? Wajib reject inference dulu.",
       ],
-      next: { label: "CR9 — Behavioral Scorecard", href: "/learn/cr9-behavioral-scorecard" },
+      next: { label: "CR9 — Behavioral Scorecard", href: "/v2/learn/cr9-behavioral-scorecard" },
       quiz: [
         {
           q: "Apa itu selection bias dalam scorecard?",

@@ -234,7 +234,7 @@ export const a22: V2Lesson = {
         "Bias-variance tradeoff: shrinkage sengaja menambah bias untuk memangkas variansi.",
         "Estimasi titik tanpa ketidakpastian tidak layak untuk keputusan bisnis.",
       ],
-      next: { label: "A2.3 — Interval Kepercayaan", href: "/learn/a23-interval-kepercayaan" },
+      next: { label: "A2.3 — Interval Kepercayaan", href: "/v2/learn/a23-interval-kepercayaan" },
       quiz: [
         {
           q: "Manakah yang dimaksud 'estimator'?",

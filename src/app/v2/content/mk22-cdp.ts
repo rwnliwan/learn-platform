@@ -270,7 +270,7 @@ export const mk22: V2Lesson = {
         "Keputusan: rapikan capture dulu (<40% deterministik = belum siap CDP mahal); business case dalam rupiah dihemat (diskon ganda + ads waste vs biaya CDP); metrik sukses = % deterministik & rupiah, bukan jumlah profil.",
         "Arsitektur: composable (warehouse = kebenaran, reverse ETL) vs packaged (real-time, data ganda) — pilih sesuai latensi dan tim.",
       ],
-      next: { label: "MK23 — SQL untuk Marketing Data", href: "/learn/mk23-sql-marketing" },
+      next: { label: "MK23 — SQL untuk Marketing Data", href: "/v2/learn/mk23-sql-marketing" },
       quiz: [
         {
           q: "Perbedaan PALING mendasar CDP vs data warehouse:",

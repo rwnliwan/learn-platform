@@ -258,7 +258,7 @@ export const dm12: V2Lesson = {
         "UU PDP/GDPR: minimisasi, hak hapus, breach notification — engineer membangun kemampuannya.",
         "Jangan: samakan \"hapus nama\" dengan anonym; akses abadi; privasi sebagai tempelan.",
       ],
-      next: { label: "DM13 — Data, Risiko & Regulasi", href: "/learn/dm13-data-risiko-regulasi" },
+      next: { label: "DM13 — Data, Risiko & Regulasi", href: "/v2/learn/dm13-data-risiko-regulasi" },
       quiz: [
         {
           q: "Manajer Marketing bisa lihat gaji tim Engineering karena aturan \"manager boleh lihat gaji\". Ini kegagalan…",

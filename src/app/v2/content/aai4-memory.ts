@@ -238,7 +238,7 @@ def jaccard(a, b):
 
 skor = {}
 for cid, teks in CUPLIKAN.items():
-    skor[cid] = jaccard(QUERY, teks)
+    skor[cid] = round(jaccard(QUERY, teks), 3)
 
 peringkat = sorted(skor, key=skor.get, reverse=True)
 top1, top2 = peringkat[0], peringkat[1]
@@ -247,7 +247,7 @@ print(f"top2={top2} skor={skor[top2]:.3f}")`,
         checks: [
           { kind: "defined", task: "t1", name: "jaccard", label: "`jaccard` terdefinisi", msg: "Definisikan jaccard(a, b) = irisan / gabungan." },
           { kind: "equal", task: "t1", name: "skor", value: {"s1": 0.429, "s2": 0.0, "s3": 0.0, "s4": 0.0, "s5": 0.25}, label: "skor tiap cuplikan benar", msg: "s1: 3/7 = 0,429; s5: 2/8 = 0,25; sisanya 0." },
-          { kind: "equal", task: "t2", name: "top1", value: "s1", label: "`top1` = s1", msg: "Skor tertinggi 0,375." },
+          { kind: "equal", task: "t2", name: "top1", value: "s1", label: "`top1` = s1", msg: "Skor tertinggi 0,429." },
           { kind: "stdout_matches", task: "t2", pattern: "top1=s1 skor=0\\.429\\ntop2=s5 skor=0\\.250", label: "output dua baris sesuai format", msg: "Samakan format print dengan Hasil yang diharapkan." },
         ],
       },
@@ -270,7 +270,7 @@ print(f"top2={top2} skor={skor[top2]:.3f}")`,
         "Tiga racun memory: fakta basi, konteks salah, ringkasan palsu.",
         "Fakta kritis (identitas, larangan, prioritas) disimpan terpisah — jangan pernah jadi kandidat ringkasan.",
       ],
-      next: { label: "AAI5 — RAG sebagai Tool", href: "/learn/aai5-rag-agent" },
+      next: { label: "AAI5 — RAG sebagai Tool", href: "/v2/learn/aai5-rag-agent" },
       quiz: [
         {
           q: "Agen support salah prioritas karena fakta \u201CRina = Kepala Divisi\u201D terbenam di 40 pesan. Solusi PALING tepat?",

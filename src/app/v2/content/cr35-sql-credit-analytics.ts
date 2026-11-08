@@ -194,7 +194,7 @@ export const cr35: V2Lesson = {
         "Vintage memisahkan dosa lama dari kinerja baru; bandingkan pada umur yang sama.",
         "Konsentrasi sektor: biang masalah biasanya di satu baris teratas — batasi eksposur, bukan seluruh bank.",
       ],
-      next: { label: "CR36 — Python untuk Credit Risk Analytics", href: "/learn/cr36-python-credit-analytics" },
+      next: { label: "CR36 — Python untuk Credit Risk Analytics", href: "/v2/learn/cr36-python-credit-analytics" },
       quiz: [
         {
           q: "NPL bank naik dari 3,1% ke 3,4%. Langkah pertama yang benar adalah…",

@@ -239,7 +239,7 @@ print(f"p_setelah_rapid={p_setelah_rapid:.3f} p_setelah_konfirmasi={p_setelah_ko
         "SnNout (rule-out), SpPin (rule-in).",
         "Threshold = keputusan klinis (biaya FP vs FN), bukan statistik semata.",
       ],
-      next: { label: "HD10 — Kausalitas Observasional", href: "/learn/hd10-kausal-observasional" },
+      next: { label: "HD10 — Kausalitas Observasional", href: "/v2/learn/hd10-kausal-observasional" },
       quiz: [
         {
           q: "Tes 99%/99% pada prevalensi 0,1%. PPV ≈ …",

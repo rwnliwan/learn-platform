@@ -180,7 +180,7 @@ export const dm18: V2Lesson = {
         "Shuffle: operasi termahal — filter dulu, broadcast yang kecil, waspadai skew.",
         "Structured Streaming: stream = tabel tak terbatas; Kafka → Spark → Delta.",
       ],
-      next: { label: "DM19 — Capstone DWH", href: "/learn/dm19-capstone-dwh" },
+      next: { label: "DM19 — Capstone DWH", href: "/v2/learn/dm19-capstone-dwh" },
       quiz: [
         {
           q: "Bedanya transformasi vs aksi di Spark?",

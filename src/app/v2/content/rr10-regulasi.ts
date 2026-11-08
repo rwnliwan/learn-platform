@@ -231,7 +231,7 @@ export const rr10: V2Lesson = {
         "Keterlambatan: teguran → denda → pembatasan → catatan kesehatan bank.",
         "Selisih definisi wajib rekonsiliasi tertulis sebelum kirim.",
       ],
-      next: { label: "RR11 — Melaporkan Hasil Stress Test", href: "/learn/rr11-stress" },
+      next: { label: "RR11 — Melaporkan Hasil Stress Test", href: "/v2/learn/rr11-stress" },
       reference: "Acuan: POJK 18/POJK.03/2017 (SLIK) · POJK 11/POJK.03/2016 (KPMM) · POJK 42/POJK.03/2015 (LCR) · POJK 50/POJK.03/2017 (NSFR) · POJK 32/POJK.03/2018 (BMPK) · POJK 10/POJK.05/2022 (LPBBTI) · PBI 21/9/PBI/2019 (laporan terintegrasi BI). Teks peraturan: jdih.ojk.go.id dan peraturan.go.id.",
       quiz: [
         {

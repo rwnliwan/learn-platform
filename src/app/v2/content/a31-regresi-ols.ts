@@ -228,7 +228,7 @@ export const a31: V2Lesson = {
         "R kuadrat = kecocokan dalam sampel, bukan izin ekstrapolasi. p-value bukan besar efek, bukan kausalitas.",
         "Jangan pakai OLS untuk hubungan non-linear tanpa transformasi, prediksi jauh di luar rentang data, atau klaim sebab-akibat dari data observasional.",
       ],
-      next: { label: "A3.10 — Volatilitas", href: "/learn/a310-volatilitas" },
+      next: { label: "A3.10 — Volatilitas", href: "/v2/learn/a310-volatilitas" },
       quiz: [
         {
           q: "Manakah pernyataan yang tepat tentang estimator OLS?",

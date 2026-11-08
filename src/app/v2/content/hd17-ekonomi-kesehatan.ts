@@ -223,7 +223,7 @@ export const hd17: V2Lesson = {
         "LOS pendek + readmit naik = false economy.",
         "ICER titik tanpa PSA = tebakan berjas: pakai Monte Carlo → awan ICER → CEAC; pisahkan “worth it” (ICER) dari “mampu” (budget impact).",
       ],
-      next: { label: "HD18 — Privasi & Etika", href: "/learn/hd18-privasi-etika" },
+      next: { label: "HD18 — Privasi & Etika", href: "/v2/learn/hd18-privasi-etika" },
       quiz: [
         {
           q: "1 QALY artinya…",

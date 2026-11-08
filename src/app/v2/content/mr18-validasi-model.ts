@@ -217,7 +217,7 @@ export const mr18: V2Lesson = {
         "Lineage: kualitas = perkalian; titik bocor = mapping; anomali → lineage dulu.",
         "Override log = spesifikasi perbaikan yang ditulis pengguna.",
       ],
-      next: { label: "MR19 — Capstone VaR & ES", href: "/learn/mr19-capstone-var-es" },
+      next: { label: "MR19 — Capstone VaR & ES", href: "/v2/learn/mr19-capstone-var-es" },
       quiz: [
         {
           q: "Tiga pilar validasi model (SR 11-7)?",

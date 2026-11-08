@@ -206,7 +206,7 @@ export const e15: V2Lesson = {
         "LPS: jamin simpanan bank s.d. Rp2 M bersyarat (bunga ≤ penjaminan, tercatat).",
         "Bandingkan selalu neto setelah pajak: SBN 10% vs deposito 20%.",
       ],
-      next: { label: "E16 — Efisiensi Pasar", href: "/learn/e16-efisiensi-pasar" },
+      next: { label: "E16 — Efisiensi Pasar", href: "/v2/learn/e16-efisiensi-pasar" },
       quiz: [
         {
           q: "Butuh dana 2 tahun lagi, tidak mau pusing harga pasar. Pilih?",

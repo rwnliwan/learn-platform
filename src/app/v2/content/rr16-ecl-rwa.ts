@@ -233,7 +233,7 @@ export const rr16: V2Lesson = {
         "ECL menggerus modal (pembilang), risiko menggelembungkan RWA (penyebut) — baca berpasangan.",
         "Laporan: regulator = RWA per kategori + rekonsiliasi; direksi = CAR + jarak + sensitivitas.",
       ],
-      next: { label: "RR17 — BCBS 239: Risk Data Aggregation", href: "/learn/rr17-bcbs239" },
+      next: { label: "RR17 — BCBS 239: Risk Data Aggregation", href: "/v2/learn/rr17-bcbs239" },
       quiz: [
         {
           q: "PT Sinar Abadi Rp200 M pindah Stage 1→Stage 2 (PD 1,2%→12-month menjadi 15% lifetime, LGD 45%). ECL baru?",

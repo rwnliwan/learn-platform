@@ -309,7 +309,7 @@ for r in rows:
         "NTILE (bagi baris), % of total (OVER kosong), pangsa kumulatif (konsentrasi).",
         "Window lengkap — skill SQL nomor satu interview sudah di tanganmu.",
       ],
-      next: { label: "C10 — Dedupe, Pivot & YoY", href: "/learn/c10-dedupe-pivot-yoy" },
+      next: { label: "C10 — Dedupe, Pivot & YoY", href: "/v2/learn/c10-dedupe-pivot-yoy" },
       quiz: [
         {
           q: "`SUM(x) OVER (ORDER BY t)` vs `SUM(x) OVER ()` — bedanya?",

@@ -224,51 +224,7 @@ export const de24: V2Lesson = {
 `for doc, ch, skor in ranking[:3]:\n` +
 `    print(f"top: {doc} chunk{ch} skor={skor:.4f}")\n`,
         lockLines: 7,
-        solution: `# Knowledge base mini: 4 dokumen (simulasi arsip perusahaan)\n` +
-`docs = [\n` +
-`    {"id": "D1", "teks": "Prosedur pengajuan kredit usaha: nasabah mengisi formulir aplikasi, melampirkan KTP dan laporan keuangan, lalu tim analis melakukan scoring risiko."},\n` +
-`    {"id": "D2", "teks": "Kebijakan cuti karyawan: cuti tahunan dua belas hari kerja, pengajuan maksimal tiga hari sebelumnya, wajib persetujuan atasan langsung."},\n` +
-`    {"id": "D3", "teks": "Manajemen risiko kredit macet: pantau kolektibilitas debitur setiap bulan, lakukan restrukturisasi untuk debitur terdampak, hapus buku sesuai ketentuan regulator."},\n` +
-`    {"id": "D4", "teks": "Jadwal maintenance server: downtime setiap Minggu pukul dua sampai empat pagi, backup otomatis dijalankan sebelum maintenance dimulai."},\n` +
-`]\n` +
-`\n` +
-`# TUGAS 1: lengkapi chunking (potong teks per N kata)\n` +
-`def chunking(teks, ukuran=10):\n` +
-`    kata = teks.split()\n` +
-`    return [" ".join(kata[i:i+ukuran]) for i in range(0, len(kata), ukuran)]\n` +
-`\n` +
-`# TUGAS 2: lengkapi embed (JANGAN pakai hash() - tidak deterministik!)\n` +
-`def embed(teks, dim=8):\n` +
-`    vektor = [0] * dim\n` +
-`    for kata in teks.lower().split():\n` +
-`        ember = sum(ord(c) for c in kata) % dim\n` +
-`        vektor[ember] += 1\n` +
-`    return vektor\n` +
-`\n` +
-`import math\n` +
-`def cosine(a, b):\n` +
-`    dot = sum(x*y for x, y in zip(a, b))\n` +
-`    na = math.sqrt(sum(x*x for x in a))\n` +
-`    nb = math.sqrt(sum(y*y for y in b))\n` +
-`    return dot / (na * nb) if na and nb else 0.0\n` +
-`\n` +
-`# TUGAS 3: lengkapi n_chunks, lalu jalankan\n` +
-`chunks = []\n` +
-`for d in docs:\n` +
-`    for i, c in enumerate(chunking(d["teks"])):\n` +
-`        chunks.append({"doc": d["id"], "chunk": i, "teks": c, "vektor": embed(c)})\n` +
-`\n` +
-`query = "syarat pengajuan kredit usaha nasabah"\n` +
-`qv = embed(query)\n` +
-`ranking = sorted(\n` +
-`    ((c["doc"], c["chunk"], cosine(qv, c["vektor"])) for c in chunks),\n` +
-`    key=lambda r: r[2], reverse=True,\n` +
-`)\n` +
-`n_chunks = len(chunks)\n` +
-`print(f"query: {query}")\n` +
-`print(f"n_chunks={n_chunks}")\n` +
-`for doc, ch, skor in ranking[:3]:\n` +
-`    print(f"top: {doc} chunk{ch} skor={skor:.4f}")\n`,
+        solution: `# Knowledge base mini: 4 dokumen (simulasi arsip perusahaan)\ndocs = [\n    {"id": "D1", "teks": "Prosedur pengajuan kredit usaha: nasabah mengisi formulir aplikasi, melampirkan KTP dan laporan keuangan, lalu tim analis melakukan scoring risiko."},\n    {"id": "D2", "teks": "Kebijakan cuti karyawan: cuti tahunan dua belas hari kerja, pengajuan maksimal tiga hari sebelumnya, wajib persetujuan atasan langsung."},\n    {"id": "D3", "teks": "Manajemen risiko kredit macet: pantau kolektibilitas debitur setiap bulan, lakukan restrukturisasi untuk debitur terdampak, hapus buku sesuai ketentuan regulator."},\n    {"id": "D4", "teks": "Jadwal maintenance server: downtime setiap Minggu pukul dua sampai empat pagi, backup otomatis dijalankan sebelum maintenance dimulai."},\n]\n\n# TUGAS 1: lengkapi chunking (potong teks per N kata)\ndef chunking(teks, ukuran=10):\n    kata = teks.split()\n    return [" ".join(kata[i:i+ukuran]) for i in range(0, len(kata), ukuran)]\n\n# TUGAS 2: lengkapi embed (JANGAN pakai hash() - tidak deterministik!)\ndef embed(teks, dim=8):\n    vektor = [0] * dim\n    for kata in teks.lower().split():\n        ember = sum(ord(c) for c in kata) % dim\n        vektor[ember] += 1\n    return vektor\n\nimport math\ndef cosine(a, b):\n    dot = sum(x*y for x, y in zip(a, b))\n    na = math.sqrt(sum(x*x for x in a))\n    nb = math.sqrt(sum(y*y for y in b))\n    return dot / (na * nb) if na and nb else 0.0\n\n# TUGAS 3: lengkapi n_chunks, lalu jalankan\nchunks = []\nfor d in docs:\n    for i, c in enumerate(chunking(d["teks"])):\n        chunks.append({"doc": d["id"], "chunk": i, "teks": c, "vektor": embed(c)})\n\nquery = "syarat pengajuan kredit usaha nasabah"\nqv = embed(query)\nranking = sorted(\n    ((c["doc"], c["chunk"], cosine(qv, c["vektor"])) for c in chunks),\n    key=lambda r: r[2], reverse=True,\n)\nn_chunks = len(chunks)\nprint(f"query: {query}")\nprint(f"n_chunks={n_chunks}")\nfor doc, ch, skor in ranking[:3]:\n    print(f"top: {doc} chunk{ch} skor={skor:.4f}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "chunking", label: "fungsi `chunking` terdefinisi", msg: "Definisikan chunking(teks, ukuran=10) yang mengembalikan list potongan." },
           { kind: "equal", task: "t1", name: "n_chunks", value: 8, label: "`n_chunks` = 8 potongan", msg: "4 dokumen × 2 chunk (ukuran 10 kata) = 8." },
@@ -329,7 +285,7 @@ export const de24: V2Lesson = {
         "Vector store: ANN untuk kecepatan, metadata filter untuk presisi; pgvector cukup di bawah ±1 juta vektor, mesin khusus di atas itu.",
         "Dokumen butuh OCR + validasi + metadata sitasi; PII di-scrub SEBELUM chunking; dataset fine-tuning: 3.000 contoh bersih mengalahkan 200.000 contoh berisik, dengan eval set yang terpisah.",
       ],
-      next: { label: "DE25 — Vector Database Operasional", href: "/learn/de25-vector-database" },
+      next: { label: "DE25 — Vector Database Operasional", href: "/v2/learn/de25-vector-database" },
       quiz: [
         {
           q: "Chatbot RAG bank menjawab dengan angka suku bunga yang salah, padahal model LLM-nya sama dengan kompetitor yang akurat. Langkah pertama yang paling tepat?",

@@ -252,7 +252,7 @@ print(f"selesai={len(selesai)} gagal={len(gagal)} biaya=Rp{total_biaya}")`,
         "Observability tiga lapis: log terstruktur → trace per run → metrik & alert (durasi, biaya, error).",
         "Aturan 10 detik: p95 vs timeout? state di luar runtime? retry untuk transient? biaya per tugas selesai?",
       ],
-      next: { label: "AAI20 — Melayani Agen sebagai Service", href: "/learn/aai20-agen-sebagai-service" },
+      next: { label: "AAI20 — Melayani Agen sebagai Service", href: "/v2/learn/aai20-agen-sebagai-service" },
       quiz: [
         {
           q: "Agen RuangKerja mati di menit ke-15 di semua 200 tugas. Akar masalahnya?",

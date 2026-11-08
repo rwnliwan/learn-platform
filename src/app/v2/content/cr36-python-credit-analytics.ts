@@ -176,7 +176,7 @@ export const cr36: V2Lesson = {
         "Flag = pemicu penyelidikan, bukan vonis otomatis; 1 flag selidiki, 2+ flag rombak/tolak.",
         "Thin file (tanpa riwayat/agunan) butuh data alternatif — jangan loloskan buta.",
       ],
-      next: { label: "CR37 — Membaca Data Biro Kredit (SLIK/iDeb)", href: "/learn/cr37-slik-biro-kredit" },
+      next: { label: "CR37 — Membaca Data Biro Kredit (SLIK/iDeb)", href: "/v2/learn/cr37-slik-biro-kredit" },
       quiz: [
         {
           q: "Aplikasi dengan DTI 25% tetapi riwayat menunjukkan max DPD 60 hari. Keputusan yang benar…",

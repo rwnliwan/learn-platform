@@ -189,7 +189,7 @@ export const fr7: V2Lesson = {
         "Cost-sensitive: τ* = C_FP/(C_FP+C_FN) — threshold optimal = ambang termurah, bukan 0,5.",
         "Optimasi dengan kendala kapasitas — konfigurasi termurah di kertas bisa mati di dunia nyata.",
       ],
-      next: { label: "FR8 — Unsupervised", href: "/learn/fr8-unsupervised" },
+      next: { label: "FR8 — Unsupervised", href: "/v2/learn/fr8-unsupervised" },
       quiz: [
         {
           q: "Data 2 juta transaksi, 4.000 fraud. Nilai awal scale_pos_weight yang masuk akal?",

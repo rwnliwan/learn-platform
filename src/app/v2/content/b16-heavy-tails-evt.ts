@@ -238,7 +238,7 @@ export const b16: V2Lesson = {
         "\u201C1-in-m\u201D = peluang tahunan, bukan jadwal.",
         "Jangan ekstrapolasi Normal ke ekor; jangan anggap ekstrem sebagai anomali.",
       ],
-      next: { label: "B17 \u2014 Bayesian Praktis", href: "/learn/b17-bayesian-praktis" },
+      next: { label: "B17 \u2014 Bayesian Praktis", href: "/v2/learn/b17-bayesian-praktis" },
       quiz: [
         {
           q: "Kelebihan POT dibanding block maxima\u2026",

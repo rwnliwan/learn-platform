@@ -182,7 +182,7 @@ export const fr8: V2Lesson = {
         "Autoencoder: reconstruction error — wajib latih pada data bersih; untuk pola kompleks non-linear.",
         "Unsupervised = mesin kandidat, bukan vonis. Output terbaik: rule baru atau fitur baru untuk supervised.",
       ],
-      next: { label: "FR9 — Evaluasi", href: "/learn/fr9-evaluasi" },
+      next: { label: "FR9 — Evaluasi", href: "/v2/learn/fr9-evaluasi" },
       quiz: [
         {
           q: "Ide inti Isolation Forest dalam satu kalimat?",

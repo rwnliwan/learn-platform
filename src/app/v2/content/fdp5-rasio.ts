@@ -1,7 +1,7 @@
 import type { V2Lesson } from "../lib/types";
 
-// Diagram: 16 rasio dalam 4 keluarga.
-const RASIO_SVG = `<svg viewBox="0 0 640 240" role="img" aria-label="Enam belas rasio dalam empat keluarga: profitabilitas, likuiditas, solvabilitas, efisiensi.">
+// Diagram: 15 rasio dalam 4 keluarga.
+const RASIO_SVG = `<svg viewBox="0 0 640 240" role="img" aria-label="Lima belas rasio dalam empat keluarga: profitabilitas, likuiditas, solvabilitas, efisiensi.">
 <g font-family="var(--font-ui)" text-anchor="middle">
 <rect x="10" y="30" width="145" height="180" rx="10" fill="var(--c1)" opacity="0.22" stroke="var(--c1)" stroke-width="2"/>
 <text x="82" y="55" font-size="12" font-weight="700" fill="var(--text)">Profitabilitas</text>
@@ -36,17 +36,17 @@ export const fdp5: V2Lesson = {
   slug: "fdp5-rasio",
   track: "Financial Data Pipeline",
   module: "Mesin Rasio",
-  title: "FDP5 — Mesin Rasio: 16 Rasio Tanpa Sentuh Kalkulator",
+  title: "FDP5 — Mesin Rasio: 15 Rasio Tanpa Sentuh Kalkulator",
   estMinutes: 60,
   steps: [
     {
       id: "cerita",
       eyebrow: "Langkah 1 · Cerita",
-      title: "Spreadsheet 16 rasio yang tidak pernah selesai",
+      title: "Spreadsheet 15 rasio yang tidak pernah selesai",
       prose: [
-        "Sinta, analis junior, diberi tugas menghitung 16 rasio untuk 10 emiten — setiap kuartal. Ia membuka 10 filing PDF, copy-paste 160 angka ke spreadsheet, menulis 160 rumus, lalu menghabiskan dua hari memeriksa apakah rumusnya menunjuk sel yang benar. Kuartal berikutnya: ulangi semuanya dari nol, karena filing-nya baru.",
-        "Di kuartal ketiga, ia menemukan bahwa dua kuartal lalu ia salah menunjuk satu sel — net margin satu emiten tercatat 9,3% padahal seharusnya 9,9%. Laporan sudah terlanjur dikirim ke direksi. Bukan karena ia bodoh; karena pekerjaannya memang dirancang untuk gagal: 160 titik sentuh manusia, setiap kuartal.",
-        "Twist-nya: pekerjaan Sinta sebenarnya hanya dua baris logika — 'ambil angka X' dan 'bagi dengan Y'. Yang membuatnya mahal adalah 160 kali pengulangan manual atas dua baris itu. Lesson ini mengotomasi kedua baris tersebut: sekali tulis, berlaku untuk semua emiten, semua kuartal.",
+        "Sinta, analis junior, diberi tugas menghitung 15 rasio untuk 10 emiten — setiap kuartal. Ia membuka 10 filing PDF, copy-paste 150 angka ke spreadsheet, menulis 150 rumus, lalu menghabiskan dua hari memeriksa apakah rumusnya menunjuk sel yang benar. Kuartal berikutnya: ulangi semuanya dari nol, karena filing-nya baru.",
+        "Di kuartal ketiga, ia menemukan bahwa dua kuartal lalu ia salah menunjuk satu sel — net margin satu emiten tercatat 9,3% padahal seharusnya 9,9%. Laporan sudah terlanjur dikirim ke direksi. Bukan karena ia bodoh; karena pekerjaannya memang dirancang untuk gagal: 150 titik sentuh manusia, setiap kuartal.",
+        "Twist-nya: pekerjaan Sinta sebenarnya hanya dua baris logika — 'ambil angka X' dan 'bagi dengan Y'. Yang membuatnya mahal adalah 150 kali pengulangan manual atas dua baris itu. Lesson ini mengotomasi kedua baris tersebut: sekali tulis, berlaku untuk semua emiten, semua kuartal.",
         "Dan ada bonusnya: mesin tidak pernah salah menunjuk sel.",
       ],
       tasks: [],
@@ -62,9 +62,9 @@ export const fdp5: V2Lesson = {
       eyebrow: "Langkah 2 · Tujuan",
       title: "Tujuan pembelajaran",
       prose: [
-        "Setelah lesson ini, kamu bisa membangun fungsi yang menghitung 16 rasio non-bank dari tabel fakta kanonis secara otomatis.",
-        "(1) Memetakan concept XBRL ke 12 pos laporan keuangan yang dibutuhkan 16 rasio;",
-        "(2) Mengimplementasikan 16 rumus rasio dengan denominator dan annualisasi yang benar;",
+        "Setelah lesson ini, kamu bisa memetakan 15 rasio non-bank dari tabel fakta kanonis — dan mengimplementasikan 5 rasio kuncinya di lab (gross/net margin, ROE, coverage, CCC) sebagai pola yang berlaku untuk ke-15-nya.",
+        "(1) Memetakan concept XBRL ke 12 pos laporan keuangan yang dibutuhkan 15 rasio;",
+        "(2) Mengimplementasikan 5 rumus rasio kunci di lab (gross margin, net margin, ROE, interest coverage, CCC — CCC sendiri merangkum 3 sub-rumus hari) dengan denominator dan annualisasi yang benar — pola yang sama berlaku untuk ke-15 rasio;",
         "(3) Menerapkan konvensi annualisasi interim (bukan ×4 mentah) dan denominator rata-rata;",
         "(4) Menangani concept yang hilang via decision map fallback — tanpa crash, tanpa mengarang.",
       ],
@@ -73,9 +73,9 @@ export const fdp5: V2Lesson = {
     {
       id: "keluarga",
       eyebrow: "Langkah 3 · Konsep",
-      title: "16 Rasio, 4 Keluarga",
+      title: "15 Rasio, 4 Keluarga",
       prose: [
-        "Enam belas rasio non-bank FSA Lab terbagi dalam empat keluarga — masing-masing menjawab satu pertanyaan. Mesin rasio tidak menghafal 16 rumus acak; ia memahami 4 pertanyaan.",
+        "Lima belas rasio non-bank FSA Lab terbagi dalam empat keluarga — masing-masing menjawab satu pertanyaan. Mesin rasio tidak menghafal 15 rumus acak; ia memahami 4 pertanyaan.",
         "Keluarga Profitabilitas — 'untung?': gross margin (laba bruto ÷ penjualan), operating margin (laba usaha ÷ penjualan), net margin (laba bersih ÷ penjualan), ROE (laba bersih atribusional ÷ rata-rata ekuitas induk), ROA (laba bersih ÷ total aset). Keluarga Likuiditas — 'bisa bayar besok?': current ratio, quick ratio. Keluarga Solvabilitas — 'kuat menahan badai?': D/E, D/A, interest coverage (EBIT ÷ beban bunga). Keluarga Efisiensi — 'cepat?': asset turnover, receivable days, inventory days, payable days, dan CCC (siklus konversi kas).",
         "💡 Intuisi: rasio adalah kalimat, bukan angka. 'ROE 14,66%' adalah kalimat 'setiap Rp100 ekuitas menghasilkan Rp14,66 laba'. Mesin yang baik tidak mencetak angka — ia mencetak kalimat yang bisa diaudit: angka + rumus + sumber.",
         "Cara membaca: empat kotak keluarga, masing-masing berisi anggotanya dan pertanyaan yang dijawabnya.",
@@ -84,10 +84,10 @@ export const fdp5: V2Lesson = {
       figure: {
         svg: RASIO_SVG,
         alt: "Empat keluarga rasio: profitabilitas, likuiditas, solvabilitas, efisiensi, masing-masing dengan anggotanya.",
-        caption: "16 rasio = 4 pertanyaan. Mesin memahami pertanyaan, bukan menghafal rumus.",
+        caption: "15 rasio = 4 pertanyaan. Mesin memahami pertanyaan, bukan menghafal rumus.",
       },
       tasks: [],
-      reference: "4 keluarga: untung? bisa bayar? kuat? cepat? — 16 rasio menjawabnya.",
+      reference: "4 keluarga: untung? bisa bayar? kuat? cepat? — 15 rasio menjawabnya.",
     },
     {
       id: "annualisasi",
@@ -116,7 +116,7 @@ export const fdp5: V2Lesson = {
         "Fakta di bawah adalah angka KLBF FY2024 yang terverifikasi dari filing asli (satuan: Rupiah penuh). Tugasmu: lengkapi `compute_ratios()` yang mengembalikan 5 rasio kunci. Ini angka nyata — gross margin harus keluar 39,71, persis seperti di benchmark.",
         "Instruksi eksplorasi: setelah lolos, coba ubah `beban_bunga` menjadi 0 dan lihat apa yang terjadi pada interest coverage. Lalu kembalikan. Mesin yang baik tidak crash pada input aneh — ia memberi tahu.",
         "Cara membaca output: dict rasio dalam persen (margin ×2, ROE) dan kelipatan (coverage, hari untuk CCC).",
-        "Interpretasi: bila angkamu cocok dengan benchmark sampai 2 desimal, pipeline-mu sudah setara spreadsheet analis — tanpa 160 kali sentuh manusia.",
+        "Interpretasi: bila angkamu cocok dengan benchmark sampai 2 desimal, pipeline-mu sudah setara spreadsheet analis — tanpa 150 kali sentuh manusia.",
       ],
       tasks: [
         { id: "t1", text: "Lengkapi 5 rumus di `compute_ratios` (margin ×2, ROE, coverage, CCC)" },
@@ -191,7 +191,7 @@ export const fdp5: V2Lesson = {
       ],
       tasks: [],
       summary: [
-        "16 rasio = 4 keluarga (untung? bisa bayar? kuat? cepat?) — mesin memahami pertanyaan, bukan menghafal rumus.",
+        "15 rasio = 4 keluarga (untung? bisa bayar? kuat? cepat?) — mesin memahami pertanyaan, bukan menghafal rumus.",
         "Annualisasi interim = konvensi (faktor eksplisit) + denominator rata-rata; bukan ×4 buta.",
         "Interest coverage memakai laba USAHA ÷ beban bunga — bukan laba bersih.",
         "Denominator nol/negatif → label N/A yang jujur, bukan angka ajaib.",

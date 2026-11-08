@@ -265,7 +265,7 @@ export const mk26: V2Lesson = {
           ],
         },
       ],
-      next: { label: "MK27 — SEO Analytics: Mengukur Mesin Organik", href: "/learn/mk27-seo-analytics" },
+      next: { label: "MK27 — SEO Analytics: Mengukur Mesin Organik", href: "/v2/learn/mk27-seo-analytics" },
     },
   ],
 };

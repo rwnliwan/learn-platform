@@ -195,7 +195,7 @@ export const mr29: V2Lesson = {
       ],
       next: {
       label: "MR30 — P&L Attribution: Menjelaskan Setiap Rupiah",
-      href: "/learn/mr30-pl-attribution",
+      href: "/v2/learn/mr30-pl-attribution",
     },
     quiz: [
         {

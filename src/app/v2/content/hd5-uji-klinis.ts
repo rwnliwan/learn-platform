@@ -239,7 +239,7 @@ export const hd5: V2Lesson = {
         "Interim tanpa koreksi menggelembungkan alpha (5 intipan ≈ 23% positif palsu) — pakai alpha spending (O'Brien-Fleming) + DSMB independen.",
         "Adaptif sah = direncanakan sebelum melihat data; p-hacking = diputuskan setelah. Cek registrasi trial untuk outcome switching.",
       ],
-      next: { label: "HD6 — Kaplan-Meier & Cox", href: "/learn/hd6-survival" },
+      next: { label: "HD6 — Kaplan-Meier & Cox", href: "/v2/learn/hd6-survival" },
       quiz: [
         {
           q: "Keajaiban utama randomisasi adalah…",

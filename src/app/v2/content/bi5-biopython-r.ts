@@ -199,7 +199,7 @@ export const bi5: V2Lesson = {
         "Waspadai 1-based (R) vs 0-based (Python).",
         "Bangun snippet library pribadi dari tiap lesson.",
       ],
-      next: { label: "BI6 · Alignment & BLAST", href: "/learn/bi6-alignment" },
+      next: { label: "BI6 · Alignment & BLAST", href: "/v2/learn/bi6-alignment" },
       quiz: [
         {
           q: "Script memproses FASTQ 100 GB dengan `records = list(SeqIO.parse('data.fq', 'fastq'))` lalu mati setelah 40 menit tanpa pesan error jelas. Diagnosis?",

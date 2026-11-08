@@ -262,7 +262,7 @@ print(f"puncak KV cache: {kv_peak:.1f} MB (budget {budget:.1f} MB) -> {'MELEBIHI
         "Kuantisasi inferensi (INT8/FP8/AWQ) memangkas memori & biaya; ukur kualitas ulang.",
         "SLO dalam p95/p99 (TTFT & TPOT); scale dari KV utilization, bukan RPS.",
       ],
-      next: { label: "MLE28 — RAG & Agent Systems in Production", href: "/learn/mle28-rag-agent-production" },
+      next: { label: "MLE28 — RAG & Agent Systems in Production", href: "/v2/learn/mle28-rag-agent-production" },
       quiz: [
         {
           q: "Request 4.096 token, d=4.096, 32 layer, fp16. Perkiraan KV cache per request?",

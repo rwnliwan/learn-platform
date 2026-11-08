@@ -219,7 +219,7 @@ export const mr16: V2Lesson = {
         "NMRF: <24 obs/tahun → stress charge tanpa diversifikasi — sengaja mahal.",
         "FRTB = arsitektur insentif: model bagus = modal murah; data buruk = bayar mahal.",
       ],
-      next: { label: "MR17 — Limit & Laporan", href: "/learn/mr17-limit-laporan" },
+      next: { label: "MR17 — Limit & Laporan", href: "/v2/learn/mr17-limit-laporan" },
       quiz: [
         {
           q: "Inovasi utama Basel 2.5 dibanding Basel I/II untuk risiko pasar?",

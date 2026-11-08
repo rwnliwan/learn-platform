@@ -195,7 +195,7 @@ export const cr20: V2Lesson = {
         "Dashboard: traffic light + tren + drill-down + eskalasi otomatis.",
         "Appetite = janji direksi ke komisaris/OJK — pelanggaran 2 periode = eskalasi wajib.",
       ],
-      next: { label: "CR21 — Pricing Risiko", href: "/learn/cr21-pricing-risiko" },
+      next: { label: "CR21 — Pricing Risiko", href: "/v2/learn/cr21-pricing-risiko" },
       quiz: [
         {
           q: "Beban CKPN tahunan Rp 700 M, rata-rata total kredit Rp 50 T. Cost of risk?",

@@ -251,7 +251,7 @@ for r in rows:
         "ELT + dbt: SQL + test + lineage = standar modern.",
         "Analisis di warehouse, bukan produksi!",
       ],
-      next: { label: "C17 — Index & EXPLAIN", href: "/learn/c17-index-explain" },
+      next: { label: "C17 — Index & EXPLAIN", href: "/v2/learn/c17-index-explain" },
       quiz: [
         {
           q: "OLTP vs OLAP — yang benar?",

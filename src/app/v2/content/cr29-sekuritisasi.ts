@@ -257,7 +257,7 @@ export const cr29: V2Lesson = {
         "Credit enhancement: subordinasi, overcollateralization, excess spread, reserve fund — diuji saat stress korelasi.",
         "EBA Indonesia (termasuk EBA-SP, POJK 12/2026) = pasar muda — analis waterfall punya nilai di sini.",
       ],
-      next: { label: "CR30 — Specialised Lending & Slotting", href: "/learn/cr30-specialised-lending" },
+      next: { label: "CR30 — Specialised Lending & Slotting", href: "/v2/learn/cr30-specialised-lending" },
       quiz: [
         {
           q: "Kerugian pool Rp80 M (equity 50, mezzanine 100, senior 350). Rugi mezzanine?",

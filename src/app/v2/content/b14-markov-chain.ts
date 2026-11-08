@@ -87,7 +87,7 @@ export const b14: V2Lesson = {
       eyebrow: "Langkah 3 · Distribusi stasioner",
       title: "Takdir jangka panjang portofolio",
       prose: [
-        "\u03C0 = \u03C0P, \u03A3\u03C0_i = 1. \u201CDistribusi yang jika dicapai, tetap selamanya.\u201D Untuk rantai irreducible & aperiodik, apa pun awalnya \u2192 konvergen ke \u03C0 (unik!). Selesaikan untuk matriks di atas: \u03C0 \u2248 (0,86; 0,08; 0,06).",
+        "\u03C0 = \u03C0P, \u03A3\u03C0_i = 1. \u201CDistribusi yang jika dicapai, tetap selamanya.\u201D Untuk rantai irreducible & aperiodik, apa pun awalnya \u2192 konvergen ke \u03C0 (unik!). Selesaikan untuk matriks di atas: π ≈ (0,88; 0,07; 0,05).",
         "Artinya: dalam jangka panjang, portofolio stabil di 86% lancar, 8% telat, 6% macet \u2014 apa pun kondisi awal! \u03C0 adalah \u201Ckomposisi keseimbangan\u201D portofolio. Jika komposisi saat ini jauh dari \u03C0, ia akan \u201Cmelayang\u201D ke sana \u2014 prediksi struktural tanpa perlu forecast ekonomi!",
         "Cara mudah: iterasikan \u03C0^(n+1) = \u03C0^(n) P sampai stabil (50 iterasi cukup). Tidak perlu eigenvector manual.",
       ],
@@ -113,8 +113,7 @@ export const b14: V2Lesson = {
         lockLines: 7,
         solution: `P = [[0.95, 0.04, 0.01],\n     [0.60, 0.30, 0.10],\n     [0.10, 0.20, 0.70]]\n\ndef vec_mul(v, M):\n    return [sum(v[i]*M[i][j] for i in range(3)) for j in range(3)]\n\npi = [0.0, 1.0, 0.0]\n# TULIS KODEMU: iterasi 50x menuju stasioner\nfor _ in range(50):\n    pi = vec_mul(pi, P)\n\nprint(f"pi=[{pi[0]:.2f}, {pi[1]:.2f}, {pi[2]:.2f}]")`,
         checks: [
-          { kind: "equal", task: "t1", name: "pi[0]", value: 0.86, tol: 0.02, label: "\u03C0 lancar \u2248 0,86", msg: "Iterasi 50x harus konvergen ke ~0,86." },
-          { kind: "equal", task: "t1", name: "pi[2]", value: 0.06, tol: 0.02, label: "\u03C0 macet \u2248 0,06", msg: "Iterasi 50x harus konvergen ke ~0,06." },
+          { kind: "equal", task: "t1", name: "pi", value: [0.88, 0.07, 0.05], tol: 0.01, label: "π stasioner ≈ [0,88, 0,07, 0,05]", msg: "Iterasi 50x konvergen ke π ≈ (0,88; 0,07; 0,05) — solusi π = πP." },
           { kind: "stdout_matches", task: "t2", pattern: "pi=\\[0\\.8\\d, 0\\.0\\d, 0\\.0\\d\\]", label: "`print` menampilkan pi", msg: "Cetak dengan format pi=[..., ..., ...]." },
         ],
       },
@@ -239,7 +238,7 @@ export const b14: V2Lesson = {
         "Aplikasi: migrasi rating, roll rate; absorbing state untuk default.",
         "Jangan pakai matriks historis mentah \u2014 stress per rezim; jangan kuadratkan elemen (kalikan matriks!).",
       ],
-      next: { label: "B15 \u2014 Proses Stokastik", href: "/learn/b15-proses-stokastik" },
+      next: { label: "B15 \u2014 Proses Stokastik", href: "/v2/learn/b15-proses-stokastik" },
       quiz: [
         {
           q: "Distribusi stasioner \u03C0 memenuhi\u2026",

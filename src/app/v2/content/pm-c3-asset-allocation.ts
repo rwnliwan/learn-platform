@@ -239,7 +239,7 @@ export const pmc3: V2Lesson = {
         "60/40 \u2248 88% risiko dari saham \u2014 ukur kontribusi risiko, bukan bobot nominal.",
         "Rebalancing = contrarian otomatis (jual mahal, beli murah); drift yang dibiarkan adalah risiko diam-diam.",
       ],
-      next: { label: "C4 \u2014 Portfolio Construction", href: "/learn/pm-c4-portfolio-construction" },
+      next: { label: "C4 \u2014 Portfolio Construction", href: "/v2/learn/pm-c4-portfolio-construction" },
       quiz: [
         {
           q: "Portofolio target-vol 10%. Vol realized melonjak ke 25%. Aturan dinamis yang benar?",

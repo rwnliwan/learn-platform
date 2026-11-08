@@ -296,7 +296,7 @@ export const cr34: V2Lesson = {
         "Red flags: tanpa angka, sertifikasi meragukan, cherry-picking, offset pengganti, tanpa tenggat.",
         "Peran kreditur: transition finance, pricing insentif (SPT), pantau tenggat dan tegakkan konsekuensi.",
       ],
-      next: { label: "CR28 — Climate Risk Kredit", href: "/learn/cr28-climate-risk-kredit" },
+      next: { label: "CR28 — Climate Risk Kredit", href: "/v2/learn/cr28-climate-risk-kredit" },
       quiz: [
         {
           q: "Apa beda utama TKBI v2 dari v1?",

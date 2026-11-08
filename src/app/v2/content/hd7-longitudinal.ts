@@ -224,7 +224,7 @@ export const hd7: V2Lesson = {
         "Mixed model = level individu; GEE = level populasi.",
         "Waspadai drop-out selektif (MNAR) — analisis naif = survivorship bias.",
       ],
-      next: { label: "HD8 — Missing Data", href: "/learn/hd8-missing-data" },
+      next: { label: "HD8 — Missing Data", href: "/v2/learn/hd8-missing-data" },
       quiz: [
         {
           q: "50 pasien × 20 pengukuran, ICC=0,7. n efektif?",

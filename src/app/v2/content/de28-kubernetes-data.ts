@@ -211,52 +211,7 @@ export const de28: V2Lesson = {
 `print(f"tertunda: {tertunda}")\n` +
 `print(f"node jenuh: {jenuh}")\n`,
         lockLines: 14,
-        solution: `# Cluster: 3 node @ 4 CPU / 16 GB RAM\n` +
-`node = [\n` +
-`    {"cpu": 4.0, "ram": 16.0},\n` +
-`    {"cpu": 4.0, "ram": 16.0},\n` +
-`    {"cpu": 4.0, "ram": 16.0},\n` +
-`]\n` +
-`jobs = [\n` +
-`    {"nama": "j1", "cpu": 1.0, "ram": 4.0},\n` +
-`    {"nama": "j2", "cpu": 2.0, "ram": 8.0},\n` +
-`    {"nama": "j3", "cpu": 0.5, "ram": 2.0},\n` +
-`    {"nama": "j4", "cpu": 3.0, "ram": 12.0},\n` +
-`    {"nama": "j5", "cpu": 2.0, "ram": 10.0},\n` +
-`    {"nama": "j6", "cpu": 3.0, "ram": 14.0},\n` +
-`]\n` +
-`\n` +
-`# TUGAS 1: apakah job muat di sisa node?\n` +
-`def cocok(sisa_cpu, sisa_ram, job):\n` +
-`    return sisa_cpu >= job["cpu"] and sisa_ram >= job["ram"]\n` +
-`\n` +
-`# TUGAS 2: first-fit scheduling\n` +
-`def jadwalkan(node, jobs):\n` +
-`    sisa = [[n["cpu"], n["ram"]] for n in node]\n` +
-`    terjadwal = []\n` +
-`    tertunda = []\n` +
-`    for job in jobs:\n` +
-`        ditempatkan = False\n` +
-`        for i in range(len(node)):\n` +
-`            if cocok(sisa[i][0], sisa[i][1], job):\n` +
-`                terjadwal.append([job["nama"], i])\n` +
-`                sisa[i][0] -= job["cpu"]\n` +
-`                sisa[i][1] -= job["ram"]\n` +
-`                ditempatkan = True\n` +
-`                break\n` +
-`        if not ditempatkan:\n` +
-`            tertunda.append(job["nama"])\n` +
-`    return terjadwal, tertunda, sisa\n` +
-`\n` +
-`# TUGAS 3: node dengan sisa di bawah ambang\n` +
-`def node_jenuh(sisa):\n` +
-`    return [i for i, (c, r) in enumerate(sisa) if c < 1.0 or r < 4.0]\n` +
-`\n` +
-`terjadwal, tertunda, sisa = jadwalkan(node, jobs)\n` +
-`jenuh = node_jenuh(sisa)\n` +
-`print(f"terjadwal: {terjadwal}")\n` +
-`print(f"tertunda: {tertunda}")\n` +
-`print(f"node jenuh: {jenuh}")\n`,
+        solution: `# Cluster: 3 node @ 4 CPU / 16 GB RAM\nnode = [\n    {"cpu": 4.0, "ram": 16.0},\n    {"cpu": 4.0, "ram": 16.0},\n    {"cpu": 4.0, "ram": 16.0},\n]\njobs = [\n    {"nama": "j1", "cpu": 1.0, "ram": 4.0},\n    {"nama": "j2", "cpu": 2.0, "ram": 8.0},\n    {"nama": "j3", "cpu": 0.5, "ram": 2.0},\n    {"nama": "j4", "cpu": 3.0, "ram": 12.0},\n    {"nama": "j5", "cpu": 2.0, "ram": 10.0},\n    {"nama": "j6", "cpu": 3.0, "ram": 14.0},\n]\n\n# TUGAS 1: apakah job muat di sisa node?\ndef cocok(sisa_cpu, sisa_ram, job):\n    return sisa_cpu >= job["cpu"] and sisa_ram >= job["ram"]\n\n# TUGAS 2: first-fit scheduling\ndef jadwalkan(node, jobs):\n    sisa = [[n["cpu"], n["ram"]] for n in node]\n    terjadwal = []\n    tertunda = []\n    for job in jobs:\n        ditempatkan = False\n        for i in range(len(node)):\n            if cocok(sisa[i][0], sisa[i][1], job):\n                terjadwal.append([job["nama"], i])\n                sisa[i][0] -= job["cpu"]\n                sisa[i][1] -= job["ram"]\n                ditempatkan = True\n                break\n        if not ditempatkan:\n            tertunda.append(job["nama"])\n    return terjadwal, tertunda, sisa\n\n# TUGAS 3: node dengan sisa di bawah ambang\ndef node_jenuh(sisa):\n    return [i for i, (c, r) in enumerate(sisa) if c < 1.0 or r < 4.0]\n\nterjadwal, tertunda, sisa = jadwalkan(node, jobs)\njenuh = node_jenuh(sisa)\nprint(f"terjadwal: {terjadwal}")\nprint(f"tertunda: {tertunda}")\nprint(f"node jenuh: {jenuh}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "cocok", label: "fungsi `cocok` terdefinisi", msg: "Definisikan cocok(sisa_cpu, sisa_ram, job) yang mengembalikan True/False." },
           { kind: "equal", task: "t2", name: "terjadwal", value: [["j1", 0], ["j2", 0], ["j3", 0], ["j4", 1], ["j5", 2]], label: "`terjadwal` sesuai first-fit", msg: "Urutan first-fit: j1–j3 ke node 0, j4 ke node 1, j5 ke node 2." },
@@ -315,7 +270,7 @@ export const de28: V2Lesson = {
         "Pending = tidak ada node yang muat (request/kapasitas); OOMKilled = melewati limit (ukur ulang puncak).",
         "K8s masuk akal: >20 workload, butuh isolasi antar tim, atau workload cloud-native. Selain itu: managed/VM.",
       ],
-      next: { label: "DE29 — Semantic Layer & Metrics Store", href: "/learn/de29-semantic-layer" },
+      next: { label: "DE29 — Semantic Layer & Metrics Store", href: "/v2/learn/de29-semantic-layer" },
       quiz: [
         {
           q: "Job Spark mati OOMKilled di menit ke-237 padahal cluster sepi (200 GB menganggur). Diagnosis paling mungkin?",

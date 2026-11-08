@@ -261,7 +261,7 @@ for r in rows:
         "LIKE (%, _), IN (awas NULL di NOT IN), BETWEEN inklusif.",
         "CASE berurutan — lem super kategorisasi dan conditional aggregation.",
       ],
-      next: { label: "C3 — Agregasi & GROUP BY", href: "/learn/c3-agregasi-groupby" },
+      next: { label: "C3 — Agregasi & GROUP BY", href: "/v2/learn/c3-agregasi-groupby" },
       quiz: [
         {
           q: "`COUNT(*)` vs `COUNT(penghasilan)` pada data dengan 1 NULL — bedanya?",

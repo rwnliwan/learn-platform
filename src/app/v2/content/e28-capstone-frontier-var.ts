@@ -217,7 +217,7 @@ export const e28: V2Lesson = {
         "VaR 95% portofolio: historis 2,22% di atas parametrik 1,62% — asumsi normal meremehkan ekor.",
         "ES 95% = 2,92% — rata-rata keparahan saat VaR jebol; selalu di atas VaR; waspadai sampel ekor yang kecil.",
       ],
-      next: { label: "E29 — Nonprofit & Finance for Public Purpose", href: "/learn/e29-nonprofit-finance" },
+      next: { label: "E29 — Nonprofit & Finance for Public Purpose", href: "/v2/learn/e29-nonprofit-finance" },
       quiz: [
         {
           q: "Minimum-variance portfolio dari grid (data ilustratif) punya vol 1,26%, sedangkan tiap aset bervol 1,84–2,21%. Apa artinya?",

@@ -247,7 +247,7 @@ export const hd6: V2Lesson = {
         "HR 0,65 = hazard 35% lebih rendah, bukan “65% sembuh”.",
         "Competing risk >10% → CIF/Fine-Gray, bukan KM biasa.",
       ],
-      next: { label: "HD7 — Data Longitudinal", href: "/learn/hd7-longitudinal" },
+      next: { label: "HD7 — Data Longitudinal", href: "/v2/learn/hd7-longitudinal" },
       quiz: [
         {
           q: "Pasien tersensor di bulan 5 diperlakukan dalam KM sebagai…",

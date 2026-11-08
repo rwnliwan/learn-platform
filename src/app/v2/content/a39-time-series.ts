@@ -206,7 +206,7 @@ export const a39: V2Lesson = {
         "Interval forecast melebar ~ akar(h) — wajib sertakan; forecast jauh hampir tak informatif.",
         "Validasi walk-forward; random CV dilarang. Lengkapi dengan stress test untuk keputusan modal.",
       ],
-      next: { label: "B1 — Aksioma Peluang", href: "/learn/b1-aksioma-peluang" },
+      next: { label: "B1 — Aksioma Peluang", href: "/v2/learn/b1-aksioma-peluang" },
       quiz: [
         {
           q: "ADF t-stat = -1,5 (nilai kritis -2,86). Tindakan?",

@@ -148,7 +148,7 @@ print(f"Aset melewati band {band:.1%}: {n_flag} -> {'REBALANCE' if n_flag else '
           { kind: "equal", task: "t1", name: "total", value: 100_000_000, tol: 1, label: "`total` = Rp100jt", msg: "Jumlah seluruh nilai pasar." },
           { kind: "equal", task: "t2", name: "drift_max", value: 0.03, tol: 0.005, label: "`drift_max` ≈ 3,0%", msg: "ASII: |18% − 15%| = 3pp — satu-satunya pelanggar band." },
           { kind: "equal", task: "t3", name: "n_flag", value: 1, tol: 0, label: "`n_flag` = 1", msg: "Hanya ASII yang drift-nya > 2,5pp." },
-          { kind: "contains", task: "t3", name: "flag", label: "`flag` terdefinisi", msg: "Daftar True/False per aset, sejalan dengan bobot." },
+          { kind: "defined", task: "t3", name: "flag", label: "`flag` terdefinisi", msg: "Daftar True/False per aset, sejalan dengan bobot." },
           { kind: "stdout_matches", task: "t3", pattern: "Drift maksimum: 3\\.00% pada ASII", label: "`print` menampilkan drift maksimum", msg: "Samakan format dengan Hasil yang diharapkan." },
         ],
       },
@@ -210,7 +210,7 @@ print(f"Aset melewati band {band:.1%}: {n_flag} -> {'REBALANCE' if n_flag else '
         "Alur kerja harian: ekspor → bobot → drift = |w − target| → flag bila > band → verifikasi → eksekusi.",
         "Pilih alat berdasar kebutuhan jejak & kompleksitas: terminal untuk data beraudit, spreadsheet untuk rutin sederhana, bangun sendiri untuk logika kompleks.",
       ],
-      next: { label: "D12 — WMI & Kerangka POJK bagi Manajer Investasi", href: "/learn/pm-d12-wmi-regulasi-mi" },
+      next: { label: "D12 — WMI & Kerangka POJK bagi Manajer Investasi", href: "/v2/learn/pm-d12-wmi-regulasi-mi" },
       quiz: [
         {
           q: "Manajer meminta analis 'membuktikan angka itu benar'. Yang ia minta sebenarnya adalah…",

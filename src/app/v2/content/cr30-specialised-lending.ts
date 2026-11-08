@@ -239,7 +239,7 @@ export const cr30: V2Lesson = {
         "Lima faktor: finansial, politik/hukum, transaksi, sponsor, pengaman — terdokumentasi.",
         "Tanpa histori → slotting; jangan paksakan scorecard.",
       ],
-      next: { label: "CR31 — Low Default Portfolios", href: "/learn/cr31-low-default-portfolio" },
+      next: { label: "CR31 — Low Default Portfolios", href: "/v2/learn/cr31-low-default-portfolio" },
       quiz: [
         {
           q: "Tol Trans Rp3 triliun dinilai satisfactory (115%). RWA-nya?",

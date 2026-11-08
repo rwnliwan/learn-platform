@@ -315,7 +315,7 @@ n_sandbox = sum(1 for v in keputusan.values() if v == "sandbox")`,
         "Mitigasi dulu (block pola/rollback), pahami kemudian; kill switch = rem darurat.",
         "KPI: MTTD/MTTR + block rate per kategori, direview tiap kuartal.",
       ],
-      next: { label: "LLMOps10 — Deploy: Canary & Rollback untuk LLM", href: "/learn/llmops10-deploy" },
+      next: { label: "LLMOps10 — Deploy: Canary & Rollback untuk LLM", href: "/v2/learn/llmops10-deploy" },
       quiz: [
         {
           q: "Dalam lab, 3 serangan lolos: bahasa daerah, base64, parafrasa. Apa pola umumnya?",

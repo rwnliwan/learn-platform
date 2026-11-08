@@ -179,7 +179,7 @@ export const fr12: V2Lesson = {
         "Fitur graf (degree, % tetangga fraud) = sinyal untuk model, bukan vonis.",
         "Guilt by association bisa salah sasaran — korban terlihat terhubung juga.",
       ],
-      next: { label: "FR13 — Real-Time", href: "/learn/fr13-realtime" },
+      next: { label: "FR13 — Real-Time", href: "/v2/learn/fr13-realtime" },
       quiz: [
         {
           q: "2.300 pengajuan pinjaman dari 41 device. Apa kesimpulannya?",

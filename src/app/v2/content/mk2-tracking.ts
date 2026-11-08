@@ -277,7 +277,7 @@ export const mk2: V2Lesson = {
         "Pisahkan observed vs modeled; keputusan ireversibel butuh jangkar eksperimen.",
         "Dedup butuh event_id yang sama di semua jalur + jendela 48 jam.",
       ],
-      next: { label: "MK3 — Deskriptif", href: "/learn/mk3-deskriptif" },
+      next: { label: "MK3 — Deskriptif", href: "/v2/learn/mk3-deskriptif" },
       quiz: [
         {
           q: "Mana nama event yang benar menurut taksonomi?",

@@ -269,7 +269,7 @@ export const mlops11: V2Lesson = {
         "K8s butuh operator; tanpa itu pilih managed/serverless.",
         "Hybrid cerdas: tiap beban di rumah termurahnya.",
       ],
-      next: { label: "MLOps12 — Capstone: Pipeline MLOps End-to-End", href: "/learn/mlops12-capstone" },
+      next: { label: "MLOps12 — Capstone: Pipeline MLOps End-to-End", href: "/v2/learn/mlops12-capstone" },
       quiz: [
         {
           q: "Kasus MajuML: utilisasi 30%, antrean berminggu-minggu. Diagnosis tepat?",

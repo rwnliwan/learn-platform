@@ -242,7 +242,7 @@ export const mr31: V2Lesson = {
         "Ingat angka lab: FX 105,6% breach; Rates 97,5% watchlist — dua ambang, bukan satu.",
       ],
       reference: "Cermin yang jujur: star schema + SUM/SUM + refresh sejaman + RLS.",
-      next: { label: "MR32 — Market Data Management: Kurva, Vol Surface & Data Busuk", href: "/learn/mr32-market-data-management" },
+      next: { label: "MR32 — Market Data Management: Kurva, Vol Surface & Data Busuk", href: "/v2/learn/mr32-market-data-management" },
     },
   ],
 };

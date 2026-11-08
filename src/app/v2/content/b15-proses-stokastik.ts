@@ -79,7 +79,7 @@ export const b15: V2Lesson = {
         { id: "t2", text: "Hitung `p_rugi` = P(S1 < S0) via z-score log-return" },
         { id: "t3", text: "Cetak ketiganya" },
       ],
-      expected: "mean1=11052  median1=10566  p_rugi=43.2%",
+      expected: "mean1=11052  median1=10565  p_rugi=42.7%",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -96,9 +96,9 @@ export const b15: V2Lesson = {
         solution: `import math\nS0, mu, sigma = 10_000, 0.10, 0.30\nPhi = lambda z: 0.5*(1+math.erf(z/math.sqrt(2)))\n\n# TULIS KODEMU: mean, median, P(rugi) GBM 1 tahun\nmean1 = S0 * math.exp(mu)\nmedian1 = S0 * math.exp((mu - 0.5*sigma**2))\np_rugi = Phi((0 - (mu - 0.5*sigma**2)) / sigma)\n\nprint(f"mean1={mean1:.0f}  median1={median1:.0f}  p_rugi={p_rugi:.1%}")`,
         checks: [
           { kind: "equal", task: "t1", name: "mean1", value: 11052, tol: 2, label: "`mean1` seharusnya \u2248 11052", msg: "10.000\u00D7e^0,1 \u2248 11052." },
-          { kind: "equal", task: "t1", name: "median1", value: 10566, tol: 2, label: "`median1` seharusnya \u2248 10566", msg: "10.000\u00D7e^0,055 \u2248 10566." },
-          { kind: "equal", task: "t2", name: "p_rugi", value: 0.4325, tol: 0.005, label: "`p_rugi` seharusnya \u2248 43,3%", msg: "\u03A6(\u22120,183) \u2248 0,427\u20130,433." },
-          { kind: "stdout_matches", task: "t3", pattern: "mean1=11052\\s+median1=10566\\s+p_rugi=4", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "median1", value: 10565, tol: 2, label: "`median1` seharusnya ≈ 10565", msg: "10.000×e^0,055 ≈ 10565." },
+          { kind: "equal", task: "t2", name: "p_rugi", value: 0.4273, tol: 0.005, label: "`p_rugi` seharusnya ≈ 42,7%", msg: "\u03A6(\u22120,183) \u2248 0,427\u20130,433." },
+          { kind: "stdout_matches", task: "t3", pattern: "mean1=11052\\s+median1=10565\\s+p_rugi=4", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "GBM: bedakan mean vs median (Jensen!) \u2014 laporkan keduanya.",
@@ -116,7 +116,7 @@ export const b15: V2Lesson = {
         { id: "t2", text: "Hitung `m_mean`, `m_median`, `q5` (kuantil 5%)" },
         { id: "t3", text: "Cetak ketiganya" },
       ],
-      expected: "mean\u224811052  median\u224810566",
+      expected: "mean\u224811052  median≈10565",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -230,7 +230,7 @@ export const b15: V2Lesson = {
         "OU: mean-reverting (suku bunga); Poisson: event; jump-diffusion: keduanya.",
         "Jangan skala vol linear dengan waktu; jangan pakai satu model untuk semua deret.",
       ],
-      next: { label: "B16 \u2014 Heavy Tails & EVT", href: "/learn/b16-heavy-tails-evt" },
+      next: { label: "B16 \u2014 Heavy Tails & EVT", href: "/v2/learn/b16-heavy-tails-evt" },
       quiz: [
         {
           q: "Var(S_n) untuk random walk \u00B11 adalah\u2026",

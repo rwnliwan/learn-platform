@@ -292,7 +292,7 @@ export const pmb8: V2Lesson = {
         "Greeks: delta (arah), gamma (perubahan delta), theta (waktu), vega (vol).",
         "Aturan: VaR + ES + stress; FF3 sebelum kagum alpha; kalibrasi krisis untuk badai.",
       ],
-      next: { label: "PM-B9 — Intercorporate", href: "/learn/pm-b9-intercorporate" },
+      next: { label: "PM-B9 — Intercorporate", href: "/v2/learn/pm-b9-intercorporate" },
     },
   ],
 };

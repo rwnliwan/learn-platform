@@ -223,7 +223,7 @@ export const mr3: V2Lesson = {
         "Scaling: VaR(T) = VaR(1d)√T hanya sah jika i.i.d. — sebutkan asumsinya.",
         "VaR bukan kerugian maksimal dan diam tentang kedalaman ekor → butuh Expected Shortfall (rata-rata kerugian di ekor terburuk) + stress test (simulasi skenario ekstrem) + backtest (pengujian akurasi model dengan data nyata).",
       ],
-      next: { label: "MR4 — VaR Lanjut", href: "/learn/mr4-var-lanjut" },
+      next: { label: "MR4 — VaR Lanjut", href: "/v2/learn/mr4-var-lanjut" },
       quiz: [
         {
           q: "\u201CVaR 99%/10-hari = Rp5 M (Historical)\u201D. Interpretasi tepat?",

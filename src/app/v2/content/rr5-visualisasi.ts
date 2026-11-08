@@ -245,7 +245,7 @@ export const rr5: V2Lesson = {
         "Tren = garis, kategori = batang, komposisi = stacked, distribusi = histogram.",
         "Judul chart adalah keputusan editorial — tulis dengan jujur.",
       ],
-      next: { label: "RR6 — Narasi & Storytelling Data", href: "/learn/rr6-narasi" },
+      next: { label: "RR6 — Narasi & Storytelling Data", href: "/v2/learn/rr6-narasi" },
       quiz: [
         {
           q: "Chart NPL 2,8→3,4 dengan sumbu 2,5–3,5 punya lie factor 9,3. Artinya?",

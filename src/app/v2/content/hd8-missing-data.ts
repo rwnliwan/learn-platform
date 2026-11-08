@@ -226,7 +226,7 @@ export const hd8: V2Lesson = {
         "MICE: m dataset + aturan Rubin (tambah variansi antar-imputasi).",
         "MNAR: tidak bisa diverifikasi — pakai tipping-point / analisis sensitivitas.",
       ],
-      next: { label: "HD9 — Uji Diagnostik", href: "/learn/hd9-uji-diagnostik" },
+      next: { label: "HD9 — Uji Diagnostik", href: "/v2/learn/hd9-uji-diagnostik" },
       quiz: [
         {
           q: "Pasien yang paling sakit tidak mengisi skor nyeri. Mekanisme?",

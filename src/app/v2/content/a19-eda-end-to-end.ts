@@ -250,7 +250,7 @@ export const a19: V2Lesson = {
         "Laporkan besaran efek (4,5× lipat), bukan sekadar signifikan; missing prediktif = sinyal, bukan sampah.",
         "Akhiri dengan kalimat bisnis: siapa → apa → kapan → dampak. EDA menemukan asosiasi, bukan kausalitas.",
       ],
-      next: { label: "A2.1 — Sampling & Bias", href: "/learn/a21-sampling-bias" },
+      next: { label: "A2.1 — Sampling & Bias", href: "/v2/learn/a21-sampling-bias" },
       quiz: [
         {
           q: "Ditemukan: missing penghasilan punya default rate 22% (vs 9% rata-rata). Tindakan tepat?",

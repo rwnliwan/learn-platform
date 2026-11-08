@@ -239,7 +239,7 @@ export const b11: V2Lesson = {
         "Fondasi: survei \u00B13%, interval kepercayaan, uji hipotesis, A/B testing, Monte Carlo.",
         "Jangan paksa CLT untuk n kecil + data liar \u2014 dan jangan samakan \u201Cdata normal\u201D dengan \u201Crata-rata normal\u201D.",
       ],
-      next: { label: "B12 \u2014 Monte Carlo", href: "/learn/b12-monte-carlo" },
+      next: { label: "B12 \u2014 Monte Carlo", href: "/v2/learn/b12-monte-carlo" },
       quiz: [
         {
           q: "CLT: yang menjadi (mendekati) normal adalah\u2026",

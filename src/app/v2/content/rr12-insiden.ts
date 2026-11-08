@@ -253,7 +253,7 @@ export const rr12: V2Lesson = {
         "Near-miss = pelajaran gratis; rayakan pelapornya.",
         "Klasifikasi: insiden / near-miss / observasi / sistemik.",
       ],
-      next: { label: "RR13 — KPI vs KRI", href: "/learn/rr13-kri" },
+      next: { label: "RR13 — KPI vs KRI", href: "/v2/learn/rr13-kri" },
       quiz: [
         {
           q: "Mengapa laporan insiden harus blameless?",

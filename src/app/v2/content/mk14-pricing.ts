@@ -331,7 +331,7 @@ print(f"inkremental={inkremental} net={net}")`,
         "Eksperimen harga via geo/fenced test; nilai by profit, bukan quantity.",
         "Evaluasi promo per portofolio: inkremental - kanibalisasi - pull-forward.",
       ],
-      next: { label: "MK15 — Forecasting", href: "/learn/mk15-forecasting" },
+      next: { label: "MK15 — Forecasting", href: "/v2/learn/mk15-forecasting" },
       quiz: [
         {
           q: "Harga Rp10rb→Rp8rb, Q 10.000→16.000, margin Rp3rb→Rp1rb. Kenapa profit turun?",

@@ -206,7 +206,7 @@ export const a38: V2Lesson = {
         "Effective challenge (SR 11-7): challenger independen menguji apakah kompleksitas justified.",
         "Pipeline benar: split dulu, fit (scaler/imputasi/seleksi) hanya di train.",
       ],
-      next: { label: "A3.9 — Time Series", href: "/learn/a39-time-series" },
+      next: { label: "A3.9 — Time Series", href: "/v2/learn/a39-time-series" },
       quiz: [
         {
           q: "PSI = 0,31 untuk distribusi skor PD bulan ini vs training. Tindakan?",

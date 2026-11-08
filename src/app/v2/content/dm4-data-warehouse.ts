@@ -175,7 +175,7 @@ export const dm4: V2Lesson = {
         "Parquet: columnar = baca sedikit kolom, bayar sedikit (di cloud).",
         "Delta/Iceberg: ACID + time travel + upsert di atas format terbuka.",
       ],
-      next: { label: "DM5 — Orkestrasi dbt", href: "/learn/dm5-orkestrasi-dbt" },
+      next: { label: "DM5 — Orkestrasi dbt", href: "/v2/learn/dm5-orkestrasi-dbt" },
       quiz: [
         {
           q: "Perbedaan fundamental ETL vs ELT adalah…",

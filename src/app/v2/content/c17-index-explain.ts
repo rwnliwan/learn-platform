@@ -252,7 +252,7 @@ for r in cur.execute("SELECT sql FROM sqlite_master WHERE type='index' AND tbl_n
         "Jangan: index jaga-jaga; fungsi di kolom; optimasi prematur.",
         "Index = investasi: bayar di tulis, panen di baca.",
       ],
-      next: { label: "C18 — Transaksi & ACID", href: "/learn/c18-transaksi-acid" },
+      next: { label: "C18 — Transaksi & ACID", href: "/v2/learn/c18-transaksi-acid" },
       quiz: [
         {
           q: "Terlalu banyak index berakibat?",

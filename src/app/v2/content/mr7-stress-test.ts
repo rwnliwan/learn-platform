@@ -197,7 +197,7 @@ export const mr7: V2Lesson = {
         "Reverse stress: tetapkan ambang kematian → cari pemicu → prioritaskan yang paling plausible → mitigasi.",
         "Stress test yang tidak mengubah keputusan = ritual, bukan manajemen risiko.",
       ],
-      next: { label: "MR8 — Risiko Suku Bunga", href: "/learn/mr8-risiko-suku-bunga" },
+      next: { label: "MR8 — Risiko Suku Bunga", href: "/v2/learn/mr8-risiko-suku-bunga" },
       quiz: [
         {
           q: "Perbedaan fundamental stress test vs VaR 99,9%?",

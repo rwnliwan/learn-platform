@@ -339,7 +339,7 @@ print(f"net_B={net['B']:.1f}  rantai={len(rantai)}  top={ringkasan['top_addr']}(
           ],
         },
       ],
-      next: { label: "BCD24 — Menulis Riset Kripto Berkualitas Institusional", href: "/learn/bcd24-riset-institusional" },
+      next: { label: "BCD24 — Menulis Riset Kripto Berkualitas Institusional", href: "/v2/learn/bcd24-riset-institusional" },
     },
   ],
 };

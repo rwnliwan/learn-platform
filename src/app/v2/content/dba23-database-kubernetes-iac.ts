@@ -344,7 +344,7 @@ print("Waktu pulih layanan: %d dtk | Pod pending: %d" % (waktu_pulih, len(pendin
         "Terraform: plan → review → apply; state di remote backend; secret di secret manager.",
         "Keputusan platform: managed DB tanpa tim platform; operator bila butuh kontrol; jangan over-engineering untuk dev.",
       ],
-      next: { label: "DBA24 — ETL sebagai Kompetensi DBA", href: "/learn/dba24-etl-untuk-dba" },
+      next: { label: "DBA24 — ETL sebagai Kompetensi DBA", href: "/v2/learn/dba24-etl-untuk-dba" },
       quiz: [
         {
           q: "Pod Postgres di Deployment di-evict dan datanya hilang. Akar masalahnya?",

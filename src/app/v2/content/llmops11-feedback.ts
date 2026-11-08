@@ -216,7 +216,7 @@ export const llmops11: V2Lesson = {
         "80% feedback → fix operasi (template/RAG/guardrail), bukan training model.",
         "Loop tertutup = ada ukur ulang; SLA per severity; rayakan feedback yang ditindaklanjuti.",
       ],
-      next: { label: "LLMOps12 — Capstone: LLMOps Asisten Produksi", href: "/learn/llmops12-capstone" },
+      next: { label: "LLMOps12 — Capstone: LLMOps Asisten Produksi", href: "/v2/learn/llmops12-capstone" },
       quiz: [
         {
           q: "2.000 thumbs-down tanpa alasan. Masalah utamanya?",

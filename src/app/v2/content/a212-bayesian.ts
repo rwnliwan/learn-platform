@@ -218,7 +218,7 @@ export const a212: V2Lesson = {
         "Credible interval 95% = 95% peluang θ di interval itu — benar secara harfiah.",
         "Prior penting untuk n kecil (laporkan sensitivitas); data besar menghapus perbedaan prior.",
       ],
-      next: { label: "A2.13 — Berpikir Kausal", href: "/learn/a213-kausalitas" },
+      next: { label: "A2.13 — Berpikir Kausal", href: "/v2/learn/a213-kausalitas" },
       quiz: [
         {
           q: "Tes 99% akurat, hasil positif, tapi penyakitnya 1/10.000. Peluang benar-benar sakit?",

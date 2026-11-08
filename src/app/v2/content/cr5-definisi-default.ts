@@ -209,7 +209,7 @@ export const cr5: V2Lesson = {
         "Right-censoring: keluarkan yang belum teramati penuh dari penyebut default rate.",
         "Definisi default = target model PD = kontrak modal — jangan diubah diam-diam.",
       ],
-      next: { label: "CR6 — Analisis Portofolio", href: "/learn/cr6-analisis-portofolio" },
+      next: { label: "CR6 — Analisis Portofolio", href: "/v2/learn/cr6-analisis-portofolio" },
       quiz: [
         {
           q: "Debitur telat 12 hari tapi pabriknya kebakaran total tanpa asuransi. Status default (Basel)?",

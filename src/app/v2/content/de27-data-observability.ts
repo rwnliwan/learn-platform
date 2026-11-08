@@ -210,53 +210,7 @@ export const de27: V2Lesson = {
 `print(f"rata-rata nominal: {mean_A:.2f} jt -> {mean_B:.2f} jt (shift {shift:+.1%})")\n` +
 `print(f"vonis: {vonis_hasil} - skema berubah dan volume anjlok, jangan percaya dashboard")\n`,
         lockLines: 8,
-        solution: `# Dua snapshot tabel kredit_harian (angka dalam juta rupiah; waktu = jam)\n` +
-`NOW = 1000\n` +
-`kolom_A = ["id", "cabang", "status", "nominal", "updated_at"]\n` +
-`kolom_B = ["id", "cabang", "status_kredit", "nominal", "updated_at"]\n` +
-`nom_A = [5.0, 5.2, 5.1, 5.3, 4.9, 5.4, 5.2, 5.1, 5.3, 5.0, 5.2, 5.4, 4.9, 5.1, 5.3, 5.2, 5.0, 5.4, 5.1, 5.2]\n` +
-`upd_A = [990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999]\n` +
-`nom_B = [9.6, 10.0, 9.8, 9.5, 10.1, 9.8]\n` +
-`upd_B = [920, 922, 924, 925, 927, 928]\n` +
-`\n` +
-`# TUGAS 1: metrik volume & freshness\n` +
-`def metrik_volume(a, b):\n` +
-`    return (len(a) - len(b)) / len(a)\n` +
-`\n` +
-`def metrik_freshness(rows):\n` +
-`    return NOW - max(rows)\n` +
-`\n` +
-`# TUGAS 2: deteksi skema & pergeseran distribusi\n` +
-`def deteksi_skema(kolom_lama, kolom_baru):\n` +
-`    hilang = [c for c in kolom_lama if c not in kolom_baru]\n` +
-`    baru = [c for c in kolom_baru if c not in kolom_lama]\n` +
-`    return hilang, baru\n` +
-`\n` +
-`def pergeseran(nom_lama, nom_baru):\n` +
-`    mean_lama = sum(nom_lama) / len(nom_lama)\n` +
-`    mean_baru = sum(nom_baru) / len(nom_baru)\n` +
-`    return (mean_baru - mean_lama) / mean_lama\n` +
-`\n` +
-`# TUGAS 3: vonis berlapis\n` +
-`def vonis(vd, hilang, stale, shift):\n` +
-`    if vd > 0.5 or hilang:\n` +
-`        return "INSIDEN"\n` +
-`    if stale > 24 or abs(shift) > 0.3:\n` +
-`        return "DEGRADASI"\n` +
-`    return "SEHAT"\n` +
-`\n` +
-`vol_drop = metrik_volume(nom_A, nom_B)\n` +
-`stale = metrik_freshness(upd_B)\n` +
-`hilang, baru = deteksi_skema(kolom_A, kolom_B)\n` +
-`shift = pergeseran(nom_A, nom_B)\n` +
-`vonis_hasil = vonis(vol_drop, hilang, stale, shift)\n` +
-`mean_A = sum(nom_A) / len(nom_A)\n` +
-`mean_B = sum(nom_B) / len(nom_B)\n` +
-`print(f"volume: {len(nom_A)} -> {len(nom_B)} (drop {vol_drop:.1%})")\n` +
-`print(f"kolom hilang: {hilang} | kolom baru: {baru}")\n` +
-`print(f"stale: {NOW - max(upd_A)} jam -> {stale} jam")\n` +
-`print(f"rata-rata nominal: {mean_A:.2f} jt -> {mean_B:.2f} jt (shift {shift:+.1%})")\n` +
-`print(f"vonis: {vonis_hasil} - skema berubah dan volume anjlok, jangan percaya dashboard")\n`,
+        solution: `# Dua snapshot tabel kredit_harian (angka dalam juta rupiah; waktu = jam)\nNOW = 1000\nkolom_A = ["id", "cabang", "status", "nominal", "updated_at"]\nkolom_B = ["id", "cabang", "status_kredit", "nominal", "updated_at"]\nnom_A = [5.0, 5.2, 5.1, 5.3, 4.9, 5.4, 5.2, 5.1, 5.3, 5.0, 5.2, 5.4, 4.9, 5.1, 5.3, 5.2, 5.0, 5.4, 5.1, 5.2]\nupd_A = [990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999]\nnom_B = [9.6, 10.0, 9.8, 9.5, 10.1, 9.8]\nupd_B = [920, 922, 924, 925, 927, 928]\n\n# TUGAS 1: metrik volume & freshness\ndef metrik_volume(a, b):\n    return (len(a) - len(b)) / len(a)\n\ndef metrik_freshness(rows):\n    return NOW - max(rows)\n\n# TUGAS 2: deteksi skema & pergeseran distribusi\ndef deteksi_skema(kolom_lama, kolom_baru):\n    hilang = [c for c in kolom_lama if c not in kolom_baru]\n    baru = [c for c in kolom_baru if c not in kolom_lama]\n    return hilang, baru\n\ndef pergeseran(nom_lama, nom_baru):\n    mean_lama = sum(nom_lama) / len(nom_lama)\n    mean_baru = sum(nom_baru) / len(nom_baru)\n    return (mean_baru - mean_lama) / mean_lama\n\n# TUGAS 3: vonis berlapis\ndef vonis(vd, hilang, stale, shift):\n    if vd > 0.5 or hilang:\n        return "INSIDEN"\n    if stale > 24 or abs(shift) > 0.3:\n        return "DEGRADASI"\n    return "SEHAT"\n\nvol_drop = metrik_volume(nom_A, nom_B)\nstale = metrik_freshness(upd_B)\nhilang, baru = deteksi_skema(kolom_A, kolom_B)\nshift = pergeseran(nom_A, nom_B)\nvonis_hasil = vonis(vol_drop, hilang, stale, shift)\nmean_A = sum(nom_A) / len(nom_A)\nmean_B = sum(nom_B) / len(nom_B)\nprint(f"volume: {len(nom_A)} -> {len(nom_B)} (drop {vol_drop:.1%})")\nprint(f"kolom hilang: {hilang} | kolom baru: {baru}")\nprint(f"stale: {NOW - max(upd_A)} jam -> {stale} jam")\nprint(f"rata-rata nominal: {mean_A:.2f} jt -> {mean_B:.2f} jt (shift {shift:+.1%})")\nprint(f"vonis: {vonis_hasil} - skema berubah dan volume anjlok, jangan percaya dashboard")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "metrik_volume", label: "fungsi `metrik_volume` terdefinisi", msg: "Definisikan metrik_volume(a, b) yang mengembalikan fraksi hilang." },
           { kind: "equal", task: "t1", name: "vol_drop", value: 0.7, tol: 0.001, label: "`vol_drop` = 0,7", msg: "(20 − 6) / 20 = 0,7 — 70% data hilang." },
@@ -320,7 +274,7 @@ export const de27: V2Lesson = {
       ],
       next: {
         label: "DE28 — Kubernetes untuk Workload Data",
-        href: "/learn/de28-kubernetes-data",
+        href: "/v2/learn/de28-kubernetes-data",
       },
       quiz: [
         {

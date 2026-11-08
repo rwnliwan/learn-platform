@@ -302,7 +302,7 @@ print(f"Kelengkapan: {laporan} | rata-rata {skor_rata:.1f}%")`,
         "Skor kelengkapan = field terisi / field wajib; kejar ≥ 75% untuk tabel terpakai dulu.",
         "Katalog memantulkan disiplin metadata — ukur kelengkapan & adopsi, bukan jumlah aset.",
       ],
-      next: { label: "DM25 — Great Expectations & Automated Data Quality", href: "/learn/dm25-great-expectations" },
+      next: { label: "DM25 — Great Expectations & Automated Data Quality", href: "/v2/learn/dm25-great-expectations" },
       quiz: [
         {
           q: "Katalog berisi 4.200 aset, 11% berdeskripsi. Diagnosis yang tepat?",

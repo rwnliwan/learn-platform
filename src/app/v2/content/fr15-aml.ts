@@ -207,7 +207,7 @@ export const fr15: V2Lesson = {
         "STR = penilaian (kecurigaan beralasan), bukan ambang otomatis; tipping-off = pidana.",
         "Di AML tidak ada korban yang melapor — sistem bank satu-satunya pertahanan.",
       ],
-      next: { label: "FR16 — Anomali Time Series", href: "/learn/fr16-anomali-time-series" },
+      next: { label: "FR16 — Anomali Time Series", href: "/v2/learn/fr16-anomali-time-series" },
       quiz: [
         {
           q: "6 setoran Rp470–495 juta (ambang Rp500 juta). Apa kesimpulannya?",

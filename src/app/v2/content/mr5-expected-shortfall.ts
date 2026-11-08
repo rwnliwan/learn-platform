@@ -195,7 +195,7 @@ export const mr5: V2Lesson = {
         "Bukti angka: VaR gabungan 100 > 0+0 (melanggar); ES gabungan 103,2 ≤ 160 (tidak).",
         "Modal FRTB dan alokasi → ES 97,5%. Monitoring harian → VaR (mudah di-backtest). Praktik terbaik: laporkan keduanya.",
       ],
-      next: { label: "MR6 — Backtesting", href: "/learn/mr6-backtesting" },
+      next: { label: "MR6 — Backtesting", href: "/v2/learn/mr6-backtesting" },
       quiz: [
         {
           q: "ES 99% = Rp28 M. Artinya?",

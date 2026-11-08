@@ -203,7 +203,7 @@ export const bi12: V2Lesson = {
         "PRS = Σ efek×alel: stratifikasi populasi, bukan diagnosis.",
         "Waspadai transferabilitas PRS lintas populasi.",
       ],
-      next: { label: "BI13 · Epigenomik", href: "/learn/bi13-epigenomik" },
+      next: { label: "BI13 · Epigenomik", href: "/v2/learn/bi13-epigenomik" },
       quiz: [
         {
           q: "PCA struktur populasi dilakukan tanpa LD pruning pada data dengan inversi besar 8 Mb. Risikonya?",

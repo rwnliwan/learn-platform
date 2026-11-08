@@ -243,7 +243,7 @@ export const b1: V2Lesson = {
         "Independen \u2260 saling lepas \u2014 saling lepas justru pasti tidak independen.",
         "Peluang = frekuensi jangka panjang, bukan janji untuk kejadian berikutnya.",
       ],
-      next: { label: "B2 \u2014 Kombinatorik", href: "/learn/b2-kombinatorik" },
+      next: { label: "B2 \u2014 Kombinatorik", href: "/v2/learn/b2-kombinatorik" },
       quiz: [
         {
           q: "Ruang sampel lempar dua koin yang benar adalah\u2026",

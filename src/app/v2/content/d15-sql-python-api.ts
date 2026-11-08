@@ -148,7 +148,7 @@ export const d15: V2Lesson = {
       code: {
         starter: `import sqlite3\\n\\ncon = sqlite3.connect(":memory:")\\ncur = con.cursor()\\ncur.execute("CREATE TABLE nasabah (id TEXT, nama TEXT, kota TEXT)")\\ncur.executemany("INSERT INTO nasabah VALUES (?,?,?)",\\n                [("A01", "Sari", "Jakarta"),\\n                 ("A02", "Budi", "Bandung"),\\n                 ("A03", "Rina", "Jakarta")])\\nprint("tabel siap: 3 baris")\\n\\n# simulasi input dari user / API (JANGAN PERCAYA INPUT INI)\\nmasukan = '" OR "1"="1'\\n\\n# TULIS KODEMU: dua cara query — berbahaya vs aman\\n# CARA BERBAHAYA: f-string — input menjadi BAGIAN query\\nq_bahaya =\\nn_bahaya = len(cur.execute(q_bahaya).fetchall())\\n\\n# CARA AMAN: parameterized — input hanya DATA, tidak pernah kode\\nn_aman = len(cur.execute(\\n    "SELECT * FROM nasabah WHERE id = ?", ).fetchall())\\n\\nprint(f"n_bahaya={n_bahaya} n_aman={n_aman}")\\n`,
         lockLines: 13,
-        solution: `import sqlite3\\n\\ncon = sqlite3.connect(":memory:")\\ncur = con.cursor()\\ncur.execute("CREATE TABLE nasabah (id TEXT, nama TEXT, kota TEXT)")\\ncur.executemany("INSERT INTO nasabah VALUES (?,?,?)",\\n                [("A01", "Sari", "Jakarta"),\\n                 ("A02", "Budi", "Bandung"),\\n                 ("A03", "Rina", "Jakarta")])\\nprint("tabel siap: 3 baris")\\n\\n# simulasi input dari user / API (JANGAN PERCAYA INPUT INI)\\nmasukan = '" OR "1"="1'\\n\\n# TULIS KODEMU: dua cara query — berbahaya vs aman\\n# CARA BERBAHAYA: f-string — input menjadi BAGIAN query\\nq_bahaya = f'SELECT * FROM nasabah WHERE id = "{masukan}"'\\nn_bahaya = len(cur.execute(q_bahaya).fetchall())\\n\\n# CARA AMAN: parameterized — input hanya DATA, tidak pernah kode\\nn_aman = len(cur.execute(\\n    "SELECT * FROM nasabah WHERE id = ?", (masukan,)).fetchall())\\n\\nprint(f"n_bahaya={n_bahaya} n_aman={n_aman}")\\n`,
+        solution: `import sqlite3\n\ncon = sqlite3.connect(":memory:")\ncur = con.cursor()\ncur.execute("CREATE TABLE nasabah (id TEXT, nama TEXT, kota TEXT)")\ncur.executemany("INSERT INTO nasabah VALUES (?,?,?)",\n                [("A01", "Sari", "Jakarta"),\n                 ("A02", "Budi", "Bandung"),\n                 ("A03", "Rina", "Jakarta")])\nprint("tabel siap: 3 baris")\n\n# simulasi input dari user / API (JANGAN PERCAYA INPUT INI)\nmasukan = '" OR "1"="1'\n\n# TULIS KODEMU: dua cara query — berbahaya vs aman\n# CARA BERBAHAYA: f-string — input menjadi BAGIAN query\nq_bahaya = f'SELECT * FROM nasabah WHERE id = "{masukan}"'\nn_bahaya = len(cur.execute(q_bahaya).fetchall())\n\n# CARA AMAN: parameterized — input hanya DATA, tidak pernah kode\nn_aman = len(cur.execute(\n    "SELECT * FROM nasabah WHERE id = ?", (masukan,)).fetchall())\n\nprint(f"n_bahaya={n_bahaya} n_aman={n_aman}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "q_bahaya", label: "`q_bahaya` terdefinisi", msg: "Bangun query dengan f-string memakai variabel masukan." },
           { kind: "equal", task: "t1", name: "n_bahaya", value: 3, tol: 1e-09, label: "`n_bahaya` = 3", msg: "Injection ' OR '1'='1 membuat kondisi selalu benar — semua baris bocor." },
@@ -250,7 +250,7 @@ export const d15: V2Lesson = {
         "pd.read_sql menjembatani SQL ke pandas.",
         "Validasi respons API sebelum dipakai.",
       ],
-      next: { label: "E1 — Struktur Pasar", href: "/learn/e1-struktur-pasar" },
+      next: { label: "E1 — Struktur Pasar", href: "/v2/learn/e1-struktur-pasar" },
     },
   ],
 };

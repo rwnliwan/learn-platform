@@ -210,7 +210,7 @@ print(f"NAV={nav}  NAV/unit={nav_per_unit:.2f}  Selisih feed {selisih:.2%} -> fl
         "Empat sumber kesalahan klasik: harga basi, akrual terlewat, corporate action tidak tercatat, urutan unit yang salah — masing-masing punya kontrolnya.",
         "Kustodian = verifikator independen; NAV terbit hanya setelah empat gerbang lolos.",
       ],
-      next: { label: "DM1 — Data Lifecycle", href: "/learn/dm1-data-lifecycle" },
+      next: { label: "DM1 — Data Lifecycle", href: "/v2/learn/dm1-data-lifecycle" },
       quiz: [
         {
           q: "Urutan yang BENAR dalam siklus harian fund accounting?",

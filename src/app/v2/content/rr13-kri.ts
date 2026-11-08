@@ -242,7 +242,7 @@ export const rr13: V2Lesson = {
         "Setiap KRI wajib punya threshold + tindakan baku + pemilik.",
         "Vanity metric: selalu menenangkan, tak teruji, tak actionable — buang.",
       ],
-      next: { label: "RR14 — Capstone: Paket Laporan Bulanan CRO", href: "/learn/rr14-capstone" },
+      next: { label: "RR14 — Capstone: Paket Laporan Bulanan CRO", href: "/v2/learn/rr14-capstone" },
       quiz: [
         {
           q: "Mengapa NPL adalah KPI yang baik tetapi KRI yang buruk?",

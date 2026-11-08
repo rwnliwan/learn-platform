@@ -196,7 +196,7 @@ export const aie11: V2Lesson = {
         "Kepercayaan = fungsi kejujuran tentang ketidakpastian, bukan fungsi akurasi semata.",
         "Selalu sediakan feedback pengguna — downvote adalah data evaluasi gratis.",
       ],
-      next: { label: "AIE12 — Capstone: Aplikasi RAG Mini Produksi", href: "/learn/aie12-capstone" },
+      next: { label: "AIE12 — Capstone: Aplikasi RAG Mini Produksi", href: "/v2/learn/aie12-capstone" },
       quiz: [
         {
           q: "Apa fungsi utama sitasi pada jawaban RAG?",

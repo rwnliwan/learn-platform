@@ -110,7 +110,7 @@ export const dle5: V2Lesson = {
         "Satu blok Transformer lengkap: attention → residual + norm → feed-forward → residual + norm. Residual (x + Sublayer(x)) membiarkan gradien mengalir langsung — jawaban atas vanishing gradient di network dalam. Layer norm menstabilkan skala. Tumpuk 12–96 blok: itulah GPT, BERT, dan keluarga besarnya.",
         "💡 Intuisi: residual connection adalah jalan tol gradien. Tanpa +x, gradien harus lewat attention dan feed-forward yang dalam; dengan +x, ada jalur langsung. Network 96 lapis bisa dilatih justru karena setiap blok punya jalan pintas ini.",
         "Causal masking — attention untuk decoder. Saat menghasilkan kata ke-5, model TIDAK BOLEH mengintip kata ke-6 (bocoran masa depan!). Solusi: mask segitiga — skor posisi j>i diset −inf sebelum softmax (bobot = 0). Biaya: tidak ada (hanya masking); efek: training paralel TETAP bisa (tidak seperti RNN sekuensial!). Inilah mengapa GPT melatih miliaran token paralel sementara RNN tidak bisa. Satu mask = perbedaan arsitektur generatif modern.",
-        "KV-cache — matematika inference. Tanpa cache: tiap token baru menghitung ulang K, V untuk SEMUA token sebelumnya = O(n^2) per token. Dengan cache: simpan K, V lama, hitung hanya token baru = O(n) per token. Kontrak 4.096 token: cache = 2 (K,V) × 4096 × 12 layer × 12 head × 64 dim × 2 byte = 144 MB per sekuens! Batch 32 = 4,6 GB HANYA untuk cache. OOM saat serving sering dari KV-cache, bukan dari bobot. Hitung SEBELUM deploy.",
+        "KV-cache — matematika inference. Tanpa cache: tiap token baru menghitung ulang K, V untuk SEMUA token sebelumnya = O(n^2) per token. Dengan cache: simpan K, V lama, hitung hanya token baru = O(n) per token. Kontrak 4.096 token: cache = 2 (K,V) × 4096 × 12 layer × 12 head × 64 dim × 2 byte = 150.994.944 byte = 151 MB per sekuens (144 MiB biner)! Batch 32 = 4,8 GB HANYA untuk cache. Konvensi satuan lesson ini: MB/GB desimal (1 MB = 1.000.000 byte) — kecuali dinyatakan MiB. OOM saat serving sering dari KV-cache, bukan dari bobot. Hitung SEBELUM deploy.",
         "RoPE vs sinusoidal — posisi modern. Sinusoidal (asli): posisi absolut ditambahkan ke embedding. RoPE (dipakai Llama): posisi DIROTASI ke dalam Q, K (relative!) — model belajar “jarak 3 kata”, bukan “posisi 47”. Keuntungan: ekstrapolasi ke konteks LEBIH PANJANG dari training (dengan scaling). Untuk chatbot bank (konteks 4.096): RoPE standar cukup; untuk dokumen 100 ribu token: butuh YaRN scaling. Posisi = bukan detail kosmetik, melainkan penentu batas konteks.",
       ],
       formula: String.raw`\mathrm{head}_i = \mathrm{Attention}(QW_i^Q, KW_i^K, VW_i^V), \quad \mathrm{MultiHead} = \mathrm{Concat}(\mathrm{head}_1, \dots, \mathrm{head}_h)W^O`,
@@ -143,46 +143,8 @@ export const dle5: V2Lesson = {
       reference: "Pretrained > dari nol. Hitung biaya O(n²) sebelum janji panjang konteks.",
     },
     {
-      id: "minicase-konteks",
-      eyebrow: "Langkah 5 · Mini-case",
-      title: "Kontrak 4.096 token: berapa memori attention?",
-      prose: [
-        "Legal meminta model membaca kontrak 4.096 token sekaligus dengan 12 head. Sebelum menyetujui, hitung memori matriks skor attention: 4.096² = 16.777.216 skor per head; float32 = 4 byte → 67,11 MB per head; ×12 head = 805,32 MB — hanya untuk satu lapisan, satu sampel, belum termasuk value, gradien, dan aktivasi lain.",
-        "Dengan 24 lapisan, skor attention saja butuh ~19 GB — melebihi memori banyak GPU. Inilah mengapa panjang konteks adalah keputusan arsitektur termahal: tiap penggandaan n melipatgandakan memori 4×. Solusinya: chunking kontrak per pasal, atau attention efisien.",
-        "Pembahasan: hitungan 5 menit ini menghemat eksperimen Rp 50 juta yang gagal OOM di tengah jalan. Aturan: tidak ada janji panjang konteks tanpa hitungan memori di atas kertas.",
-        "FlashAttention — mengapa relevan untuk kasus ini. Attention standar: tulis matriks skor n×n ke memori (4.096^2 × 2 byte = 33,5 MB per head!) lalu baca lagi = 2x traffic memori. FlashAttention: hitung dalam blok TANPA menulis matriks penuh = 2–4x lebih cepat, memori O(n) bukan O(n^2). Untuk kontrak 4.096 token × 12 head: hemat ~300 MB traffic per layer. Jika deploy-mu OOM atau lambat: JANGAN kecilkan model dulu — aktifkan FlashAttention (1 baris config di sebagian framework). Optimasi gratis yang sering dilupakan.",
-        "Keputusan akhir minicase — rangkuman angka. Kebutuhan: 4.096 token, 12 head, 12 layer, FP16. Memori skor: 805 MB (dihitung di lab). KV-cache: 144 MB. Bobot model (~110M param): 220 MB. Total: ~1,2 GB — muat di GPU 8 GB dengan nyaman (batch 4 = ~2 GB). Kesimpulan: TIDAK PERLU GPU 80 GB; T4 16 GB (Rp8 ribu/jam) cukup. Aritmetika 5 menit menghemat Rp50 ribu/jam × 100 jam = Rp5 juta. Hitung dulu, sewa kemudian — selalu.",
-      ],
-      requires: ["numpy"],
-      tasks: [
-        { id: "t1", text: "Hitung `per_head` = memori skor attention per head (MB, 2 desimal)" },
-        { id: "t2", text: "Hitung `total` = untuk 12 head (MB, 2 desimal)" },
-      ],
-      expected: "per_head=67.11MB  total=805.32MB",
-      note: {
-        title: "💡 Intuisi: O(n²) dalam rupiah",
-        type: "risk",
-        body: "Menggandakan panjang konteks 4.096 → 8.192 melipatgandakan memori 4×: 805 MB → 3,2 GB per lapisan. Panjang konteks bukan parameter gratis — ia adalah pos biaya terbesar di arsitektur Transformer. Selalu hitung sebelum menjanjikan ke stakeholder.",
-      },
-      hints: [
-        "skor per head = n*n; byte = skor*4; MB = byte/1e6.",
-        "total = per_head * 12.",
-        "per_head = round(n*n*4/1e6, 2)",
-      ],
-      code: {
-        starter: `import numpy as np\nnp.random.seed(5)\n\nn, head = 4096, 12  # token, jumlah head\n\n# TULIS KODEMU\nper_head = \ntotal = \n\nprint(f"per_head={per_head}MB  total={total}MB")`,
-        lockLines: 4,
-        solution: `import numpy as np\nnp.random.seed(5)\n\nn, head = 4096, 12  # token, jumlah head\n\n# TULIS KODEMU\nper_head = round(n*n*4/1e6, 2)\ntotal = round(per_head*head, 2)\n\nprint(f"per_head={per_head}MB  total={total}MB")`,
-        checks: [
-          { kind: "equal", task: "t1", name: "per_head", value: 67.11, tol: 0.01, label: "`per_head` seharusnya 67.11", msg: "4096^2 x 4 byte / 1e6 = 67.11 MB." },
-          { kind: "equal", task: "t2", name: "total", value: 805.32, tol: 0.05, label: "`total` seharusnya 805.32", msg: "67.11 x 12 = 805.32 MB." },
-          { kind: "stdout_matches", task: "t2", pattern: "per_head=67\\.11MB\\s+total=805\\.32MB", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
-        ],
-      },
-      reference: "Memori skor = n^2 x 4 byte x head. Kuadratik = mahal.",
-    },    {
       id: "lab-self-attention",
-      eyebrow: "Langkah 6 · Lab",
+      eyebrow: "Langkah 5 · Lab",
       requires: ["numpy"],
       title: "Lab: self-attention 3 token, tangan vs kode",
       prose: [
@@ -247,6 +209,45 @@ print(f"out_0_1={O[0, 1]:.2f}")`,
       reference: "Attention = softmax(QK^T/akar(d)) @ V. Bobot tidak pernah 0 — selalu ada sedikit perhatian ke semua token.",
     },
 
+    {
+      id: "minicase-konteks",
+      eyebrow: "Langkah 6 · Mini-case",
+      title: "Kontrak 4.096 token: berapa memori attention?",
+      prose: [
+        "Legal meminta model membaca kontrak 4.096 token sekaligus dengan 12 head. Sebelum menyetujui, hitung memori matriks skor attention: 4.096² = 16.777.216 skor per head; float32 = 4 byte → 67,11 MB per head; ×12 head = 805,32 MB — hanya untuk satu lapisan, satu sampel, belum termasuk value, gradien, dan aktivasi lain.",
+        "Dengan 24 lapisan, skor attention saja butuh ~19 GB — melebihi memori banyak GPU. Inilah mengapa panjang konteks adalah keputusan arsitektur termahal: tiap penggandaan n melipatgandakan memori 4×. Solusinya: chunking kontrak per pasal, atau attention efisien.",
+        "Pembahasan: hitungan 5 menit ini menghemat eksperimen Rp 50 juta yang gagal OOM di tengah jalan. Aturan: tidak ada janji panjang konteks tanpa hitungan memori di atas kertas.",
+        "FlashAttention — mengapa relevan untuk kasus ini. Attention standar: tulis matriks skor n×n ke memori (4.096^2 × 2 byte = 33,5 MB per head!) lalu baca lagi = 2x traffic memori. FlashAttention: hitung dalam blok TANPA menulis matriks penuh = 2–4x lebih cepat, memori O(n) bukan O(n^2). Untuk kontrak 4.096 token × 12 head: hemat ~300 MB traffic per layer. Jika deploy-mu OOM atau lambat: JANGAN kecilkan model dulu — aktifkan FlashAttention (1 baris config di sebagian framework). Optimasi gratis yang sering dilupakan.",
+        "Keputusan akhir minicase — rangkuman angka. Kebutuhan: 4.096 token, 12 head, 12 layer, FP16. Memori skor: 805 MB (dihitung di lab di atas, per lapisan). KV-cache: 151 MB. Bobot model (~110M param): 220 MB. Total: ~1,2 GB — muat di GPU 8 GB dengan nyaman (batch 4 = ~4 GB: 4 × (805 + 151) + 220 ≈ 4.044 MB; angka ~2 GB hanya masuk akal bila FlashAttention aktif sehingga matriks skor tidak dimaterialisasi — tidak dipakai di hitungan ini). Kesimpulan: TIDAK PERLU GPU 80 GB; T4 16 GB (Rp8 ribu/jam) cukup. Aritmetika 5 menit menghemat Rp50 ribu/jam × 100 jam = Rp5 juta. Hitung dulu, sewa kemudian — selalu.",
+      ],
+      requires: ["numpy"],
+      tasks: [
+        { id: "t1", text: "Hitung `per_head` = memori skor attention per head (MB, 2 desimal)" },
+        { id: "t2", text: "Hitung `total` = untuk 12 head (MB, 2 desimal)" },
+      ],
+      expected: "per_head=67.11MB  total=805.32MB",
+      note: {
+        title: "💡 Intuisi: O(n²) dalam rupiah",
+        type: "risk",
+        body: "Menggandakan panjang konteks 4.096 → 8.192 melipatgandakan memori 4×: 805 MB → 3,2 GB per lapisan. Panjang konteks bukan parameter gratis — ia adalah pos biaya terbesar di arsitektur Transformer. Selalu hitung sebelum menjanjikan ke stakeholder.",
+      },
+      hints: [
+        "skor per head = n*n; byte = skor*4; MB = byte/1e6.",
+        "total = per_head * 12.",
+        "per_head = round(n*n*4/1e6, 2)",
+      ],
+      code: {
+        starter: `import numpy as np\nnp.random.seed(5)\n\nn, head = 4096, 12  # token, jumlah head\n\n# TULIS KODEMU\nper_head = \ntotal = \n\nprint(f"per_head={per_head}MB  total={total}MB")`,
+        lockLines: 4,
+        solution: `import numpy as np\nnp.random.seed(5)\n\nn, head = 4096, 12  # token, jumlah head\n\n# TULIS KODEMU\nper_head = round(n*n*4/1e6, 2)\ntotal = round(per_head*head, 2)\n\nprint(f"per_head={per_head}MB  total={total}MB")`,
+        checks: [
+          { kind: "equal", task: "t1", name: "per_head", value: 67.11, tol: 0.01, label: "`per_head` seharusnya 67.11", msg: "4096^2 x 4 byte / 1e6 = 67.11 MB." },
+          { kind: "equal", task: "t2", name: "total", value: 805.32, tol: 0.05, label: "`total` seharusnya 805.32", msg: "67.11 x 12 = 805.32 MB." },
+          { kind: "stdout_matches", task: "t2", pattern: "per_head=67\\.11MB\\s+total=805\\.32MB", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+        ],
+      },
+      reference: "Memori skor = n^2 x 4 byte x head. Kuadratik = mahal.",
+    },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

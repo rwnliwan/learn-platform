@@ -197,7 +197,7 @@ export const aie6: V2Lesson = {
         "Function calling: model mengusulkan struktur, sistem mengeksekusi dengan validasi dan otorisasi.",
         "99 persen valid = 100 error per hari di skala 10.000 request — ukur dalam angka absolut.",
       ],
-      next: { label: "AIE7 — Caching, Batching, Optimasi Biaya", href: "/learn/aie7-caching" },
+      next: { label: "AIE7 — Caching, Batching, Optimasi Biaya", href: "/v2/learn/aie7-caching" },
       quiz: [
         {
           q: "Mengapa 99 persen validitas JSON tidak cukup di produksi?",

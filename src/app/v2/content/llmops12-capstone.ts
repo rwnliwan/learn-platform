@@ -308,7 +308,7 @@ print(f"ci_gate={lolos}/4 lolos  verdict={gate}  margin_faithfulness={margin_fai
         "Anggaran operasi = risk appetite terkuantifikasi; buktikan dengan MTTD/MTTR, block rate, biaya/request.",
         "Gateway (LLMOps21) satu-satunya pintu masuk; evaluasi golden set + red-team + biaya adalah gerbang CI — satu gagal = rilis DITAHAN.",
       ],
-      next: { label: "LLMOps13 — Inference Self-Hosted (vLLM/TGI)", href: "/learn/llmops13-inference-selfhosted" },
+      next: { label: "LLMOps13 — Inference Self-Hosted (vLLM/TGI)", href: "/v2/learn/llmops13-inference-selfhosted" },
       quiz: [
         {
           q: "Chatbot live tanpa registry, golden set basi, guardrail = system prompt. Langkah pertama sebagai lead?",

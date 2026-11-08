@@ -260,7 +260,7 @@ export const aai2: V2Lesson = {
         "Pilih loop sesuai tugas: ReAct (pendek/murah), plan-and-execute (tool mahal), reflexion (kualitas), single-shot (bukan agen).",
         "Selalu pasang max_steps dan terminasi eksplisit — loop tanpa rem adalah bom token.",
       ],
-      next: { label: "AAI3 — Tool Use & Function Calling", href: "/learn/aai3-tool-use" },
+      next: { label: "AAI3 — Tool Use & Function Calling", href: "/v2/learn/aai3-tool-use" },
       quiz: [
         {
           q: "Dalam kasus Arsiparis, komponen mana yang menjadi akar kegagalan?",

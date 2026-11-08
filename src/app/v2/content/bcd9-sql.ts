@@ -225,7 +225,7 @@ export const bcd9: V2Lesson = {
         "Jebakan: duplikasi JOIN 1-ke-N, double counting token, jendela tak sinkron.",
         "WHERE waktu = keputusan analis — dokumentasikan alasannya.",
       ],
-      next: { label: "BCD10 — Graph Analysis Aliran Dana", href: "/learn/bcd10-graph" },
+      next: { label: "BCD10 — Graph Analysis Aliran Dana", href: "/v2/learn/bcd10-graph" },
       quiz: [
         {
           q: "Menghitung 'volume USDC minggu ini'. Query yang benar memakai…",

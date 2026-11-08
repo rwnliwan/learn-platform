@@ -325,7 +325,7 @@ for r in rows:
         "YTD: running total PARTITION BY tahun.",
         "Tiga pola = Senin pagi yang tenang.",
       ],
-      next: { label: "C11 — Cohort, Retention & Funnel", href: "/learn/c11-cohort-retention-funnel" },
+      next: { label: "C11 — Cohort, Retention & Funnel", href: "/v2/learn/c11-cohort-retention-funnel" },
       quiz: [
         {
           q: "Dedup “ambil terbaru per id”?",

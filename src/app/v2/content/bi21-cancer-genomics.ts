@@ -260,7 +260,7 @@ export const bi21: V2Lesson = {
         "WGS → signature; panel → TMB + driver; TMB ≥ 10 → imunoterapi; SBS3/SBS6 → terapi target.",
         "Signature asing = hipotesis sampai ada replikasi + validasi eksperimental.",
       ],
-      next: { label: "BI22 · Spatial Transcriptomics", href: "/learn/bi22-spatial-transcriptomics" },
+      next: { label: "BI22 · Spatial Transcriptomics", href: "/v2/learn/bi22-spatial-transcriptomics" },
       quiz: [
         {
           q: "Dua tumor sama-sama C>T-dominan. Kenapa belum tentu penyebabnya sama?",

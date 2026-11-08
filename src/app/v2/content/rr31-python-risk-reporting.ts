@@ -209,7 +209,7 @@ print("REKONSILIASI: 1 break (KREDIT, selisih 25) — di atas toleransi 10, waji
       ],
       next: {
         label: "RR32 — Excel Advanced untuk Risk Reporting",
-        href: "/learn/rr32-excel-advanced-risiko",
+        href: "/v2/learn/rr32-excel-advanced-risiko",
       },
       quiz: [
         {

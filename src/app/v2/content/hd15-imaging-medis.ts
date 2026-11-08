@@ -245,7 +245,7 @@ export const hd15: V2Lesson = {
         "Metrik klinis: sens/spes + PPV pada prevalensi target, bukan cuma akurasi.",
         "AI citra = second reader/triase; performa lab ≠ lapangan.",
       ],
-      next: { label: "HD16 — SIR & Deteksi Wabah", href: "/learn/hd16-surveilans-wabah" },
+      next: { label: "HD16 — SIR & Deteksi Wabah", href: "/v2/learn/hd16-surveilans-wabah" },
       quiz: [
         {
           q: "Shortcut learning pada model COVID-rontgen artinya…",

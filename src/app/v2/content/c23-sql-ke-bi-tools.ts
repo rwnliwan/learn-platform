@@ -272,7 +272,7 @@ export const c23: V2Lesson = {
         "Fan-out: JOIN 1-ke-banyak menggandakan kolom sisi-1 sebesar ×k — obatnya agregasi dulu, JOIN kemudian.",
         "Refresh besar = incremental + watermark: hanya baris baru yang dimuat; re-run tanpa filter = duplikat.",
       ],
-      next: { label: "C24 — dbt Hands-On: Model, Test, dan Dokumentasi", href: "/learn/c24-dbt-hands-on" },
+      next: { label: "C24 — dbt Hands-On: Model, Test, dan Dokumentasi", href: "/v2/learn/c24-dbt-hands-on" },
       quiz: [
         {
           q: "KPI “omzet harian per kategori”. Grain tabel agregat yang benar?",

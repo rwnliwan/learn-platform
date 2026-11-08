@@ -237,7 +237,7 @@ export const pmc8: V2Lesson = {
         "Core-satellite (80/20): beta murah + tembakan alpha terkendali + aturan pecat tertulis + rebalance.",
         "Aktif hanya jika terbukti: pasar kurang efisien, active share > 60%, alpha neto konsisten, fee < alpha.",
       ],
-      next: { label: "C9 \u2014 Derivatives Overlay", href: "/learn/pm-c9-derivatives-overlay" },
+      next: { label: "C9 \u2014 Derivatives Overlay", href: "/v2/learn/pm-c9-derivatives-overlay" },
       quiz: [
         {
           q: "Manajer mandat \u201Cvalue\u201D, tetapi regresi style menunjukkan 55% eksposur growth. Tindakan tepat?",

@@ -221,7 +221,7 @@ export const cr3: V2Lesson = {
         "Tuas menurunkan EL: seleksi (PD), agunan (LGD), limit (EAD); UL tinggi → diversifikasi.",
         "EL sama ≠ risiko sama — risiko sesungguhnya ada di sebaran (konsentrasi & korelasi).",
       ],
-      next: { label: "CR4A — Basel & RWA/KPMM", href: "/learn/cr4a-basel-rwa-kpmm" },
+      next: { label: "CR4A — Basel & RWA/KPMM", href: "/v2/learn/cr4a-basel-rwa-kpmm" },
       quiz: [
         {
           q: "KPR: PD 2%, LGD 45%, EAD Rp 500 jt. Berapa EL?",

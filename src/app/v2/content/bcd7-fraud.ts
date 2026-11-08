@@ -267,7 +267,7 @@ export const bcd7: V2Lesson = {
         "Flag = triase, bukan vonis — verifikasi manusia wajib sebelum tindak.",
         "Mixer = sinyal risiko (bukan bukti); screening sanksi = kontrol standar.",
       ],
-      next: { label: "BCD8 — MEV: Konsep & Deteksi", href: "/learn/bcd8-mev" },
+      next: { label: "BCD8 — MEV: Konsep & Deteksi", href: "/v2/learn/bcd8-mev" },
       quiz: [
         {
           q: "Token lolos audit keamanan. Apakah aman dari rug pull?",

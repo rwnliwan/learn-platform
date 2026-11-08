@@ -200,7 +200,7 @@ export const bi4: V2Lesson = {
         "Snakemake/Nextflow: pipeline sebagai DAG — paralel, resume, portabel.",
         "HPC/Slurm: submit ribuan job; test 1 sampel dulu.",
       ],
-      next: { label: "BI5 · Biopython & Bioconductor", href: "/learn/bi5-biopython-r" },
+      next: { label: "BI5 · Biopython & Bioconductor", href: "/v2/learn/bi5-biopython-r" },
       quiz: [
         {
           q: "`bwa mem ref.fa r1.fq r2.fq | samtools sort -o out.bam` selesai tanpa error, tapi out.bam hanya 2 MB untuk sampel 50 GB. Kemungkinan terbesar?",

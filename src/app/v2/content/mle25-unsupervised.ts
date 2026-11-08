@@ -289,7 +289,7 @@ print("inertia =", round(inertia, 4))`,
         "Evaluasi tanpa label: silhouette + stabilitas subsample + validasi domain (vonis akhir).",
         "Self-training: pseudo-label confidence tinggi + kalibrasi + validasi terkunci; waspadai confirmation bias.",
       ],
-      next: { label: "MLE26 — Fine-Tuning LLM: LoRA, QLoRA, dan DPO", href: "/learn/mle26-fine-tuning-llm" },
+      next: { label: "MLE26 — Fine-Tuning LLM: LoRA, QLoRA, dan DPO", href: "/v2/learn/mle26-fine-tuning-llm" },
       quiz: [
         {
           q: "Data dua bulan sabit yang saling mengait. K-means k=2 memberi hasil buruk. Langkah paling tepat?",

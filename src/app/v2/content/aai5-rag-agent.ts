@@ -311,7 +311,7 @@ print(f"bocor: jawab={jawab_bocor} rantai={len(rantai_bocor)}")`,
         "Dokumen basi ditolak jujur — jangan jawab dari arsip kedaluwarsa.",
         "Retrieve-buta membeli presisi semu: ukur confusion matrix gerbangmu.",
       ],
-      next: { label: "AAI6 — Multi-Agent: Orkestrasi & Komunikasi", href: "/learn/aai6-multi-agent" },
+      next: { label: "AAI6 — Multi-Agent: Orkestrasi & Komunikasi", href: "/v2/learn/aai6-multi-agent" },
       quiz: [
         {
           q: "Query: \u201CApakah BI menaikkan suku bunga bulan ini?\u201D (confidence internal 0,4; τ = 0,7). Tindakan tepat?",

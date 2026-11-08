@@ -272,7 +272,7 @@ print("Kesimpulan: m besar = efisien saat mulus, bunuh diri saat gap.")`,
         "Gap risk: lompatan harga melewatkan rebalance → floor jebol; m ≤ 1/(lompatan terburuk yang ditoleransi).",
         "Pilih proteksi dengan jujur: butuh kepastian kontraktual → beli put; tanpa pasar opsi → CPPI konservatif + ungkapkan gap risk; jangan sebut “dijamin” tanpa “kecuali gap”.",
       ],
-      next: { label: "D10 — Rebalancing: Kalender, Threshold & Tax-Aware", href: "/learn/pm-d10-rebalancing" },
+      next: { label: "D10 — Rebalancing: Kalender, Threshold & Tax-Aware", href: "/v2/learn/pm-d10-rebalancing" },
       quiz: [
         {
           q: "V = 100, F = 90, m = 5 (contoh klasik). Eksposur aset berisiko?",

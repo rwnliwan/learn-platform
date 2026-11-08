@@ -198,7 +198,7 @@ export const fr9: V2Lesson = {
         "Net rupiah = (TP x loss) − (FP x review) − (FN x loss) — metrik direksi.",
         "Model yang membunuh tim investigasi = model gagal, apapun AUC-nya.",
       ],
-      next: { label: "FR10 — Drift", href: "/learn/fr10-drift" },
+      next: { label: "FR10 — Drift", href: "/v2/learn/fr10-drift" },
       quiz: [
         {
           q: "Model: 50.000 normal, 100 fraud, 1.000 FP. FPR = 2% terlihat kecil. Masalahnya?",

@@ -282,7 +282,7 @@ for r in rows:
         "Aman: batas kedalaman selalu; UNION untuk graf ber-cycle.",
         "Rekursi tak butuh tabel — anchor bisa literal (deret, Fibonacci).",
       ],
-      next: { label: "C13 — DPD, Roll Rate & Vintage", href: "/learn/c13-risiko-dpd-rollrate" },
+      next: { label: "C13 — DPD, Roll Rate & Vintage", href: "/v2/learn/c13-risiko-dpd-rollrate" },
       quiz: [
         {
           q: "Tiga bagian recursive CTE?",

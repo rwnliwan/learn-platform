@@ -272,7 +272,7 @@ export const aml25: V2Lesson = {
         "Uji cepat: gambar graf 5 node dengan satu siklus dan satu fan-in tanpa catatan.",
         "Ingat: centrality = prioritas; siklus = sinyal terkeras; aturan = saringan cepat.",
       ],
-      next: { label: "AML26 — Trade-Based Money Laundering: ML untuk Manipulasi Invoice", href: "/learn/aml26-trade-based-ml" },
+      next: { label: "AML26 — Trade-Based Money Laundering: ML untuk Manipulasi Invoice", href: "/v2/learn/aml26-trade-based-ml" },
       reference: "Lihat struktur, bukan transaksi.",
     },
   ],

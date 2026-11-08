@@ -215,7 +215,7 @@ export const rr3: V2Lesson = {
         "Metrik mengikuti keputusan: direksi, komite, ALCO, regulator butuh set berbeda.",
         "Sajikan definisi resmi sebagai headline, definisi alternatif sebagai baris kedua.",
       ],
-      next: { label: "RR4 — QA Data Laporan", href: "/learn/rr4-data-quality" },
+      next: { label: "RR4 — QA Data Laporan", href: "/v2/learn/rr4-data-quality" },
       quiz: [
         {
           q: "Mengapa dua tim mendapat NPL berbeda (3,4% vs 5,2%)?",

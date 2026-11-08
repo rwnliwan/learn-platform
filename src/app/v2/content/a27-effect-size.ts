@@ -194,7 +194,7 @@ export const a27: V2Lesson = {
         "t = d·√(n/2): n raksasa membuat efek debu pun signifikan.",
         "Keputusan bisnis = effect size × skala − biaya, bukan p-value.",
       ],
-      next: { label: "A2.8 — Multiple Testing", href: "/learn/a28-multiple-testing" },
+      next: { label: "A2.8 — Multiple Testing", href: "/v2/learn/a28-multiple-testing" },
       quiz: [
         {
           q: "Studi n=100.000 menemukan efek 'sangat signifikan' (p < 0,001) dengan d = 0,02. Reaksi tepat?",

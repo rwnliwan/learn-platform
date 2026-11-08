@@ -267,7 +267,7 @@ export const b9: V2Lesson = {
         "Varians portofolio ditentukan korelasi \u2014 dan korelasi naik saat krisis.",
         "Jangan percaya diversifikasi tanpa stress korelasi; jangan simpulkan independensi dari korelasi nol.",
       ],
-      next: { label: "B10 \u2014 Copula", href: "/learn/b10-copula" },
+      next: { label: "B10 \u2014 Copula", href: "/v2/learn/b10-copula" },
       quiz: [
         {
           q: "Dari tabel joint, P(telat)=0,08 didapat dengan\u2026",

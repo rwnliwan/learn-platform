@@ -285,7 +285,7 @@ print(f"sinergi_impas={sinergi_impas/1e9:.1f}M")`,
         "M&A: premi 30–50% = taruhan sinergi. Tes akresi/dilusi = aritmetika; tes sesungguhnya = sinergi terealisasi vs premi. Sinergi biaya > sinergi pendapatan (kepercayaan).",
         "Chinese wall & lock-up: pahami insentif dan kalendernya sebelum bertransaksi di sekitar IPO/M&A.",
       ],
-      next: { label: "E22 — Reksa Dana & ETF", href: "/learn/e22-reksa-dana-etf" },
+      next: { label: "E22 — Reksa Dana & ETF", href: "/v2/learn/e22-reksa-dana-etf" },
       quiz: [
         {
           q: "Apa fungsi greenshoe dalam IPO?",

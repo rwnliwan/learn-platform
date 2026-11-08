@@ -160,7 +160,7 @@ export const dm6: V2Lesson = {
         "CDC: baca WAL → replikasi ringan, real-time, lengkap. Pola standar OLTP → warehouse.",
         "Semantik: at-least-once + idempoten ≈ exactly-once (murah). Exactly-once sejati = mahal.",
       ],
-      next: { label: "DM7 — Kualitas Data", href: "/learn/dm7-kualitas-data" },
+      next: { label: "DM7 — Kualitas Data", href: "/v2/learn/dm7-kualitas-data" },
       quiz: [
         {
           q: "Kapan streaming wajib dipilih dibanding batch?",

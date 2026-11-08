@@ -261,7 +261,7 @@ print(f"total={sum(TAGIHAN)}")`,
         "Retry hanya untuk error transient (maks 2–3×); error validasi diperbaiki, bukan di-retry.",
         "E[biaya] = c/(1−p): turunkan p dengan validasi, batasi ekor dengan retry terbatas.",
       ],
-      next: { label: "AAI4 — Memory: Ingatan Jangka Pendek & Panjang", href: "/learn/aai4-memory" },
+      next: { label: "AAI4 — Memory: Ingatan Jangka Pendek & Panjang", href: "/v2/learn/aai4-memory" },
       quiz: [
         {
           q: "Tool OCR menolak argumen \u201C47.500\u201D dengan error validasi. Respons TEPAT agen?",

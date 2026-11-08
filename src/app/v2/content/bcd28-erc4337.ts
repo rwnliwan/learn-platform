@@ -274,7 +274,7 @@ export const bcd28: V2Lesson = {
         "Uji cepat: jelaskan alur UserOp → alt mempool → bundler → EntryPoint dengan menyebut siapa membayar gas di tiap skenario.",
         "Ingat: biaya = (call + verify + pre) × maxFee; sponsored ≠ organik; satu bundler 92% = titik gagal tunggal.",
       ],
-      next: { label: "BCD29 — Mikrostruktur Pasar Kripto", href: "/learn/bcd29-mikrostruktur-pasar" },
+      next: { label: "BCD29 — Mikrostruktur Pasar Kripto", href: "/v2/learn/bcd29-mikrostruktur-pasar" },
       reference: "Baca formulirnya, pisahkan segmennya, uji subsidinya.",
     },
   ],

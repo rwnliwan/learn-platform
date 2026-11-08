@@ -294,7 +294,7 @@ for r in rows:
         "Vintage: cohort kredit — diagnosis underwriting vs collection vs ekonomi.",
         "Bedah tiga dimensi = dari “berapa” ke “kenapa” ke “apa yang dilakukan”.",
       ],
-      next: { label: "C14 — Velocity & Fraud", href: "/learn/c14-fraud-velocity" },
+      next: { label: "C14 — Velocity & Fraud", href: "/v2/learn/c14-fraud-velocity" },
       quiz: [
         {
           q: "NPL ratio naik. Yang harus dicek dulu?",

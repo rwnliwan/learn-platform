@@ -365,7 +365,7 @@ print(f"kasus2: {hasil2.get('guard', '-')} | tool_calls={hasil2['tool_calls']}")
           ],
         },
       ],
-      next: { label: "AIE21 — Eval & Observability dalam Praktik Engineer", href: "/learn/aie21-eval-observability-praktik" },
+      next: { label: "AIE21 — Eval & Observability dalam Praktik Engineer", href: "/v2/learn/aie21-eval-observability-praktik" },
     },
   ],
 };

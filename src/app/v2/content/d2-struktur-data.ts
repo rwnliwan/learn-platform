@@ -260,7 +260,7 @@ export const d2: V2Lesson = {
         "try/except untuk parsing toleran (jadi None); if/raise untuk validasi ketat.",
         "Fungsi cleaning mengembalikan (nilai, status) untuk laporan kualitas.",
       ],
-      next: { label: "D3 — NumPy", href: "/learn/d3-numpy" },
+      next: { label: "D3 — NumPy", href: "/v2/learn/d3-numpy" },
     },
   ],
 };

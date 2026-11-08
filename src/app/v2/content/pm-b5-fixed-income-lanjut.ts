@@ -312,7 +312,7 @@ print(f"dpct_krd={dpct_krd:.1f}%  dpct_salah={dpct_salah:.1f}%")`,
         "MBS: prepayment risk, negative convexity; bandingkan via OAS.",
         "Pelajaran 2008: risiko kredit = risiko korelasi; model \u2260 wilayah.",
       ],
-      next: { label: "PM-B6 — Valuasi Derivatif: Binomial & Black-Scholes", href: "/learn/pm-b6-valuasi-derivatif" },
+      next: { label: "PM-B6 — Valuasi Derivatif: Binomial & Black-Scholes", href: "/v2/learn/pm-b6-valuasi-derivatif" },
     },
   ],
 };

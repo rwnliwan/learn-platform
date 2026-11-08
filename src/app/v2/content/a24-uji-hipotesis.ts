@@ -59,14 +59,14 @@ export const a24: V2Lesson = {
         body: "Gagal menolak H0 berarti H0 benar. Salah — tidak terbukti bersalah bukan terbukti tidak bersalah. Uji hipotesis tidak pernah membuktikan H1; ia hanya mengukur apakah data tidak konsisten dengan H0.",
       },
       hints: [
-        "z = (0.61 - 0.5) / 0.05.",
+        "z = round((0.61 - 0.5) / 0.05, 2).",
         "p dua sisi = 2*(1 - 0.5*(1+math.erf(z/math.sqrt(2)))).",
         "Bulatkan 3 desimal.",
       ],
       code: {
         starter: `import math\n\n# TULIS KODEMU\nz = \np_value = \n\nprint(f"z={z}  p_value={p_value}")`,
         lockLines: 1,
-        solution: `import math\n\n# TULIS KODEMU\nz = (0.61 - 0.5) / 0.05\np_value = round(2*(1 - 0.5*(1 + math.erf(z/math.sqrt(2)))), 3)\n\nprint(f"z={z}  p_value={p_value}")`,
+        solution: `import math\n\n# TULIS KODEMU\nz = round((0.61 - 0.5) / 0.05, 2)\np_value = round(2*(1 - 0.5*(1 + math.erf(z/math.sqrt(2)))), 3)\n\nprint(f"z={z}  p_value={p_value}")`,
         checks: [
           { kind: "equal", task: "t1", name: "z", value: 2.2, tol: 1e-9, label: "`z` seharusnya 2.2", msg: "(0,61 − 0,5)/0,05 = 2,2." },
           { kind: "equal", task: "t2", name: "p_value", value: 0.028, tol: 0.001, label: "`p_value` seharusnya 0.028", msg: "p dua sisi ≈ 0,028 < 0,05 → tolak H0." },
@@ -196,7 +196,7 @@ export const a24: V2Lesson = {
         "Power = 1 − β; ditentukan effect size, n, α, variansi.",
         "Hasil tidak signifikan dari studi underpowered bukan bukti tidak ada efek.",
       ],
-      next: { label: "A2.5 — Uji-t & ANOVA", href: "/learn/a25-uji-t-anova" },
+      next: { label: "A2.5 — Uji-t & ANOVA", href: "/v2/learn/a25-uji-t-anova" },
       quiz: [
         {
           q: "p-value = 0,03. Pernyataan yang TEPAT?",

@@ -217,7 +217,7 @@ export const cr39: V2Lesson = {
         "Override: tercatat, <10%, dimonitor arahnya.",
         "IRS yang rapi = fondasi Basel IRB; IRS miring = modal salah hitung.",
       ],
-      next: { label: "CR40 — Loan Structuring: Merancang Fasilitas yang Selamat", href: "/learn/cr40-loan-structuring" },
+      next: { label: "CR40 — Loan Structuring: Merancang Fasilitas yang Selamat", href: "/v2/learn/cr40-loan-structuring" },
       quiz: [
         {
           q: "Grade C: PD teramati 50% vs kalibrasi 4%, n=6. Respons pertama yang benar…",

@@ -238,7 +238,7 @@ export const b4: V2Lesson = {
         "Posterior hari ini = prior besok \u2014 belajar sekuensial (fondasi B17).",
         "Jangan menafsirkan akurasi tes sebagai kepercayaan hasil \u2014 dan jangan blokir otomatis dari posterior 9%.",
       ],
-      next: { label: "B5 \u2014 Variabel Acak & Ekspektasi", href: "/learn/b5-variabel-acak-ekspektasi" },
+      next: { label: "B5 \u2014 Variabel Acak & Ekspektasi", href: "/v2/learn/b5-variabel-acak-ekspektasi" },
       quiz: [
         {
           q: "Tes 99% akurat, penyakit 0,1%. Hasil positif \u2192 peluang benar-benar sakit sekitar\u2026",

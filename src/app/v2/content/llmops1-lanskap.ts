@@ -208,7 +208,7 @@ export const llmops1: V2Lesson = {
         "Prompt butuh version control, review, dan test seperti kode; edit langsung di dashboard produksi = edit kode di server produksi.",
         "Biaya incident LLM tersebar (call center, lembur, churn) — kumpulkan menjadi satu angka agar investasinya defensibel.",
       ],
-      next: { label: "LLMOps2 — Prompt Management & Versioning", href: "/learn/llmops2-prompt-mgmt" },
+      next: { label: "LLMOps2 — Prompt Management & Versioning", href: "/v2/learn/llmops2-prompt-mgmt" },
       quiz: [
         {
           q: "Prompt identik dikirim 20 kali ke LLM (temperature 0,7) menghasilkan 5 varian jawaban. Penjelasan yang tepat?",

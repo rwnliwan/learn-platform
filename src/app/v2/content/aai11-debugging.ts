@@ -330,7 +330,7 @@ print(f"hemat={hemat_persen:.2f}%")`,
         "Debug divergensi PERTAMA, bukan ledakan terakhir.",
         "max_steps = perban; deteksi pola = obat. Replay trace untuk verifikasi perbaikan.",
       ],
-      next: { label: "AAI12 — Capstone: SQL Analyst Agent + Server MCP", href: "/learn/aai12-capstone" },
+      next: { label: "AAI12 — Capstone: SQL Analyst Agent + Server MCP", href: "/v2/learn/aai12-capstone" },
       quiz: [
         {
           q: "State (search, \u201Claporan Q3 final\u201D) muncul di langkah 4, 5, 7, 10 dari 12 langkah. R dan keputusan?",

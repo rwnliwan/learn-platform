@@ -312,7 +312,7 @@ print(f"vif_tinggi={vif_tinggi:.1f}  vif_rendah={vif_rendah:.1f}  drop={drop}")`
         "OVB: koefisien \u201cmencuri\u201d efek variabel hilang — kontrol dulu sebelum klaim.",
         "Plot residual selalu. Diagnostik = analisisnya.",
       ],
-      next: { label: "PM-B2 — Time Series: AR, Unit Root & GARCH", href: "/learn/pm-b2-timeseries" },
+      next: { label: "PM-B2 — Time Series: AR, Unit Root & GARCH", href: "/v2/learn/pm-b2-timeseries" },
     },
   ],
 };

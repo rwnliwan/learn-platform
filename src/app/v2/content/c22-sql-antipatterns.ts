@@ -324,7 +324,7 @@ export const c22: V2Lesson = {
         "COUNT(*) menghitung baris, COUNT(kolom) menghitung nilai non-NULL — salah pilih = salah angka, bukan sekadar lambat.",
         "Urutan perbaikan: benar dulu, aman-skala kedua, cepat ketiga — query cepat yang salah angka lebih berbahaya dari query lambat yang benar.",
       ],
-      next: { label: "C23 — Dari SQL ke Power BI/Tableau", href: "/learn/c23-sql-ke-bi-tools" },
+      next: { label: "C23 — Dari SQL ke Power BI/Tableau", href: "/v2/learn/c23-sql-ke-bi-tools" },
       quiz: [
         {
           q: "Query SELECT * FROM transaksi (80 kolom) dipakai di dashboard produksi. Risiko terbesar saat skala membesar?",

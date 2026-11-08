@@ -230,7 +230,7 @@ export const d3: V2Lesson = {
         "Random: default_rng(seed) — simulasi selalu reproduksibel.",
         "NumPy adalah mesin di dalam pandas.",
       ],
-      next: { label: "D4 — pandas Dasar", href: "/learn/d4-pandas-dasar" },
+      next: { label: "D4 — pandas Dasar", href: "/v2/learn/d4-pandas-dasar" },
     },
   ],
 };

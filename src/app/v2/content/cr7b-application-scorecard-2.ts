@@ -202,7 +202,7 @@ export const cr7b: V2Lesson = {
         "Monitoring: PSI >0,25, Gini turun >10 poin, bad rate per skor bergeser = alarm.",
         "Rebuild tiap 1–2 tahun; cut-off = keputusan risiko, bukan sales.",
       ],
-      next: { label: "CR8 — Reject Inference", href: "/learn/cr8-reject-inference" },
+      next: { label: "CR8 — Reject Inference", href: "/v2/learn/cr8-reject-inference" },
       quiz: [
         {
           q: "PDO 20 artinya?",

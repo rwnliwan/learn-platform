@@ -259,7 +259,7 @@ export const aml14: V2Lesson = {
         "Adverse media: cocok × bobot × kredibilitas — skor = alasan verifikasi, bukan bukti.",
         "Batas: buta pola baru, bias segmen, keputusan SAR tetap manusia.",
       ],
-      next: { label: "AML15 — Sanctions Evasion Methods", href: "/learn/aml15-sanctions-evasion" },
+      next: { label: "AML15 — Sanctions Evasion Methods", href: "/v2/learn/aml15-sanctions-evasion" },
       quiz: [
         {
           q: "Model: 100 kasus nyata, 400 alert, TP 80. Precision dan recall?",

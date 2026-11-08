@@ -222,7 +222,7 @@ export const a34: V2Lesson = {
         "Separasi sempurna (beta meledak) = alarm leakage, bukan prestasi.",
         "GLM: bentuk target menentukan keluarga — Poisson untuk count, Gamma untuk severity, ordered logit untuk rating.",
       ],
-      next: { label: "A3.5 — Metrik Klasifikasi", href: "/learn/a35-metrik-klasifikasi" },
+      next: { label: "A3.5 — Metrik Klasifikasi", href: "/v2/learn/a35-metrik-klasifikasi" },
       quiz: [
         {
           q: "Koefisien MLE meledak (beta = 18, SE = 4000). Diagnosis paling mungkin?",

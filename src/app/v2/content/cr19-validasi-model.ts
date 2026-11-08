@@ -211,7 +211,7 @@ export const cr19: V2Lesson = {
         "PSI: <0,10 OK; 0,10–0,25 waspada; >0,25 bergeser signifikan.",
         "Validator independen (SR 11-7) — wasit tidak boleh dari tim yang bertanding.",
       ],
-      next: { label: "CR20 — Monitoring & KRI", href: "/learn/cr20-monitoring-kri" },
+      next: { label: "CR20 — Monitoring & KRI", href: "/v2/learn/cr20-monitoring-kri" },
       quiz: [
         {
           q: "Vendor melaporkan Gini 0,68 dari data training. Reaksimu?",

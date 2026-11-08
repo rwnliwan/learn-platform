@@ -351,7 +351,7 @@ print(f"r2_level={r2_level:.2f}  t_level={t_level:.1f}  r2_diff={r2_diff:.2f}  t
         "GARCH(1,1): \u03c3\u00b2 = \u03c9 + \u03b1\u03b5\u00b2 + \u03b2\u03c3\u00b2; clustering volatilitas untuk risk.",
         "Aturan: stasionerkan dulu, baru model. Forecast AR meluruh ke mean.",
       ],
-      next: { label: "PM-B3 — Machine Learning: untuk Investasi", href: "/learn/pm-b3-ml-investasi" },
+      next: { label: "PM-B3 — Machine Learning: untuk Investasi", href: "/v2/learn/pm-b3-ml-investasi" },
     },
   ],
 };

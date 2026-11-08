@@ -213,7 +213,7 @@ export const cr23: V2Lesson = {
         "KPMM = modal/ATMR; target internal > minimum OJK; KPMM = rem pertumbuhan.",
         "SLIK 3+ di bank lain = tolak/verifikasi mendalam. Regulasi = minimum, bukan ideal.",
       ],
-      next: { label: "CR24 — Fairness & Explainability", href: "/learn/cr24-fairness-explainability" },
+      next: { label: "CR24 — Fairness & Explainability", href: "/v2/learn/cr24-fairness-explainability" },
       quiz: [
         {
           q: "Bank modal Rp 10 T. Maksimal kredit ke satu debitur TIDAK terkait?",

@@ -220,7 +220,7 @@ export const bi15: V2Lesson = {
         "Multi-omics (MOFA/network): faktor bersama lintas lapisan.",
         "Desain: sampel sama lintas omics; koreksi batch per lapisan.",
       ],
-      next: { label: "BI16 · Machine Learning untuk Biologi", href: "/learn/bi16-ml-bio" },
+      next: { label: "BI16 · Machine Learning untuk Biologi", href: "/v2/learn/bi16-ml-bio" },
       quiz: [
         {
           q: "pLDDT 45 pada suatu region AlphaFold artinya…",

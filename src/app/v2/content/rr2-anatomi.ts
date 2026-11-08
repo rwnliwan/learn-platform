@@ -364,7 +364,7 @@ print(f"SEHAT={sehat} REVIEW={perlu_review} PENSIUN={pensiun} | TANPA_PEMILIK={t
         "Rekomendasi = tindakan spesifik + pemilik + tenggat, maksimal 3.",
         "Panjang laporan ∝ besar keputusan × kontroversi temuan.",
       ],
-      next: { label: "RR3 — Metrik Kunci & Definisi Konsisten", href: "/learn/rr3-metrik" },
+      next: { label: "RR3 — Metrik Kunci & Definisi Konsisten", href: "/v2/learn/rr3-metrik" },
       quiz: [
         {
           q: "Apa pekerjaan utama lapis headline eksekutif?",

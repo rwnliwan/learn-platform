@@ -156,7 +156,7 @@ export const dm16: V2Lesson = {
         "Desain jujur: sumbu tidak terpotong, ada konteks & timestamp, 5–7 KPI.",
         "Jangan: 47 dashboard liar; CSV email untuk direksi; vanity metric sebagai KPI.",
       ],
-      next: { label: "DM17 — Strategi Data", href: "/learn/dm17-strategi-data" },
+      next: { label: "DM17 — Strategi Data", href: "/v2/learn/dm17-strategi-data" },
       quiz: [
         {
           q: "\"Total download kumulatif sejak 2019\" sebagai KPI utama. Penilaianmu?",

@@ -279,7 +279,7 @@ print(f"musnah: {len(daftar_musnah)} dataset, {total_tb_musnah} TB dibebaskan")`
         "Biaya retensi = volume × biaya/TB × tahun; risiko litigasi sebanding dengan data yang disimpan melewati masa retensi.",
         "Setiap data yang masuk arsip membawa tanggal keluarnya; uji kebangkitan dari backup tiap kuartal.",
       ],
-      next: { label: "DM24 — Katalog Data Hands-On", href: "/learn/dm24-katalog-data-hands-on" },
+      next: { label: "DM24 — Katalog Data Hands-On", href: "/v2/learn/dm24-katalog-data-hands-on" },
       quiz: [
         {
           q: "Fungsi utama jadwal retensi?",

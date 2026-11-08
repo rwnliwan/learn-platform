@@ -186,7 +186,7 @@ rets = [0.05, 0.04, 0.06, 0.03, -0.15, -0.25, -0.18, 0.02, 0.03, 0.04]
 wealth = [100.0]
 for r in rets:
     wealth.append(wealth[-1] * (1 + r))
-peak = wealth[0]
+wealth_akhir = wealth[-1]\nwealth_akhir = wealth[-1]\nwealth_akhir = wealth[-1]\nwealth_akhir = wealth[-1]\npeak = wealth[0]
 max_dd = 0.0
 for w in wealth:
     peak = max(peak, w)
@@ -196,9 +196,9 @@ print(f"Kekayaan akhir: Rp{wealth[-1]:,.1f}jt dari Rp100jt")
 print(f"Max drawdown: {max_dd:.1%}")
 print("Tanya: sanggupkah kamu hold saat -48%? Itulah 'harga' premia momentum.")`,
         checks: [
-          { kind: "equal", task: "t1", name: "wealth", value: 68.10, tol: 0.5, label: "`wealth` akhir ≈ Rp68,1jt", msg: "100 × Π(1+r) untuk 10 bulan." },
+          { kind: "equal", task: "t1", name: "wealth_akhir", value: 68.1, tol: 0.5, label: "`wealth_akhir` ≈ Rp68,1jt", msg: "100 × Π(1+r) untuk 10 bulan." },
           { kind: "equal", task: "t2", name: "max_dd", value: -0.4772, tol: 0.01, label: "`max_dd` ≈ −47,7%", msg: "Drawdown terdalam dari peak Rp119,2jt ke Rp62,3jt." },
-          { kind: "stdout_matches", task: "t2", pattern: "Max drawdown: -47", label: "`print` menampilkan drawdown −45%", msg: "Samakan format dengan Hasil yang diharapkan." },
+          { kind: "stdout_matches", task: "t2", pattern: "Max drawdown: -47", label: "`print` menampilkan drawdown −47,7%", msg: "Samakan format dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Crash 2009 nyata: strategi momentum AS kehilangan sekitar 40% dalam hitungan bulan.",
@@ -251,7 +251,7 @@ print("Tanya: sanggupkah kamu hold saat -48%? Itulah 'harga' premia momentum.")`
         "Ukur eksposur via regresi; tolak faktor tanpa teori ekonomi, out-of-sample, dan ketahanan biaya (zoo of factors).",
         "Bangun portofolio nyata: diversifikasi antar faktor berkorelasi negatif, hitung net-of-cost, sizing = toleransi rasa sakit, tulis kontrak kapan menyerah.",
       ],
-      next: { label: "D8 — Risk Parity & Risk Budgeting", href: "/learn/pm-d8-risk-parity-budgeting" },
+      next: { label: "D8 — Risk Parity & Risk Budgeting", href: "/v2/learn/pm-d8-risk-parity-budgeting" },
       quiz: [
         {
           q: "Pada model Fama-French, h = 0,5 dan HML tahun itu = 4%. Kontribusi faktor value ke return?",

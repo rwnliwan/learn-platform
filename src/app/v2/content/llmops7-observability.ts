@@ -271,7 +271,7 @@ export const llmops7: V2Lesson = {
         "Sampling: 100% metadata + 1–5% full-text + 100% kasus bermasalah.",
         "Alert hanya untuk yang butuh manusia sekarang; sisanya dashboard.",
       ],
-      next: { label: "LLMOps8 — Operasional Fine-Tuning", href: "/learn/llmops8-finetune" },
+      next: { label: "LLMOps8 — Operasional Fine-Tuning", href: "/v2/learn/llmops8-finetune" },
       quiz: [
         {
           q: "Tim tidak bisa mereproduksi komplain `jawaban ngaco` karena hanya mencatat pertanyaan + jawaban. Apa yang hilang?",

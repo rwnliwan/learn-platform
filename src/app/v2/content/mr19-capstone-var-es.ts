@@ -223,7 +223,7 @@ export const mr19: V2Lesson = {
         "MR17–MR18: limit berlapis + eskalasi; 3 pilar validasi + lineage.",
         "MR19: engine → backtest → stress → laporan. Judgment > hafalan.",
       ],
-      next: { label: "FR1 — Lanskap Fraud", href: "/learn/fr1-lanskap-fraud" },
+      next: { label: "FR1 — Lanskap Fraud", href: "/v2/learn/fr1-lanskap-fraud" },
       quiz: [
         {
           q: "Mengapa backtest capstone WAJIB out-of-sample?",

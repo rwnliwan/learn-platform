@@ -216,7 +216,7 @@ export const a314: V2Lesson = {
         "Tiga definisi fairness bisa bertengkar (impossibility theorem); memilih definisi = keputusan nilai dan hukum.",
         "Mitigasi: pre/in/post-processing. Threshold beda per grup butuh konsultasi legal.",
       ],
-      next: { label: "A3.15 — Tree & Boosting", href: "/learn/a315-tree-boosting" },
+      next: { label: "A3.15 — Tree & Boosting", href: "/v2/learn/a315-tree-boosting" },
       quiz: [
         {
           q: "Model terkalibrasi sempurna per grup (sufficiency terpenuhi) tapi tingkat penolakan grup B 2x grup A (parity dilanggar). Mungkin?",

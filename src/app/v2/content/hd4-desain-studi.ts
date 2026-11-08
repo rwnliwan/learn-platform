@@ -193,7 +193,7 @@ export const hd4: V2Lesson = {
         "RCT tak etis bukan berarti tak ada bukti — triangulasi observasional bisa memvonis.",
         "DAG: kontrol confounder (blokir backdoor), jangan sentuh mediator & collider; E-value = seberapa kuat confounder tak terukur harus ada untuk meruntuhkan temuan.",
       ],
-      next: { label: "HD5 — RCT, ITT & Non-Inferiority", href: "/learn/hd5-uji-klinis" },
+      next: { label: "HD5 — RCT, ITT & Non-Inferiority", href: "/v2/learn/hd5-uji-klinis" },
       quiz: [
         {
           q: "Studi merekrut 200 pasien TB dan 200 kontrol sehat, lalu menelusuri riwayat merokok. Ini desain…",

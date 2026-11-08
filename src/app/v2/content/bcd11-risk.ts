@@ -208,7 +208,7 @@ export const bcd11: V2Lesson = {
         "Ambang dikalibrasi dari data sendiri — tidak transferable.",
         "Padanan AML: CDD→screening, EDD→telusuri hop, STR→lapor+graf. 80% skill transferable.",
       ],
-      next: { label: "BCD12 — Capstone: Investigasi Aliran Dana", href: "/learn/bcd12-capstone" },
+      next: { label: "BCD12 — Capstone: Investigasi Aliran Dana", href: "/v2/learn/bcd12-capstone" },
       quiz: [
         {
           q: "0xw1 skor 72,5 karena mixer langsung. Tindakan yang benar?",

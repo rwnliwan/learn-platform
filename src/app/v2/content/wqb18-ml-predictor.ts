@@ -267,7 +267,7 @@ export const wqb18: V2Lesson = {
         "RF menang di tabular kecil (bias induktif cocok, efisien sampel); MLP menutup celah saat data membesar.",
         "Retrain tiap wave/+100 sim; evaluasi ulang MLP tiap kelipatan 1.000 sim; waspada leakage.",
       ],
-      next: { label: "WQB19 — Triage Berlapis: Dari 600 Kandidat ke Antrean Submit", href: "/learn/wqb19-triage-berlapis" },
+      next: { label: "WQB19 — Triage Berlapis: Dari 600 Kandidat ke Antrean Submit", href: "/v2/learn/wqb19-triage-berlapis" },
       quiz: [
         {
           q: "Precision = 0,8 dan recall = 0,6. F1 = …",

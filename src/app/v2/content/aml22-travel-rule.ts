@@ -292,7 +292,7 @@ export const aml22: V2Lesson = {
         "Uji cepat: sebutkan 3 komponen paket originator + 2 komponen paket beneficiary tanpa catatan.",
         "Ingat urutan vonis: lengkap → KIRIM; tak lengkap + kooperatif → TAHAN; tak lengkap + sunrise → TOLAK; sanksi → BEKU.",
       ],
-      next: { label: "AML23 — Operasional Pelaporan PPATK", href: "/learn/aml23-operasional-ppatk" },
+      next: { label: "AML23 — Operasional Pelaporan PPATK", href: "/v2/learn/aml23-operasional-ppatk" },
       reference: "Data ikut bepergian, atau uang tidak jalan.",
     },
   ],

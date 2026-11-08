@@ -388,7 +388,7 @@ print(f"max drawdown BTC={dd_btc:.1%} ALT={dd_alt:.1%}")`,
           ],
         },
       ],
-      next: { label: "BCD23 — Python untuk Analisis On-Chain", href: "/learn/bcd23-python-onchain" },
+      next: { label: "BCD23 — Python untuk Analisis On-Chain", href: "/v2/learn/bcd23-python-onchain" },
     },
   ],
 };

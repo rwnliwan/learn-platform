@@ -222,7 +222,7 @@ export const pmc9: V2Lesson = {
         "Overlay ≠ alokasi: lindungi sementara tanpa ubah SAA; beli asuransi saat tenang (VIX rendah).",
         "Lima prinsip: pertahankan SAA, bayar untuk tenang, pisahkan keputusan, pahami sebelum pakai, komunikasikan sebelum beli.",
       ],
-      next: { label: "C10 \u2014 Trading & Execution", href: "/learn/pm-c10-trading-execution" },
+      next: { label: "C10 \u2014 Trading & Execution", href: "/v2/learn/pm-c10-trading-execution" },
       quiz: [
         {
           q: "Portofolio Rp50M, beta 1,1, target beta 0,5, nilai kontrak Rp1,5M. Berapa kontrak short?",

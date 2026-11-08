@@ -220,7 +220,7 @@ export const aie2: V2Lesson = {
         "Eskalasi: zero-shot → few-shot → chain-of-thought → fine-tune; naik tingkat hanya bila terbukti mentok.",
         "Bandingkan total biaya bulanan (token + error), bukan harga per request.",
       ],
-      next: { label: "AIE3 — RAG: Chunking, Embedding, Retrieval", href: "/learn/aie3-rag" },
+      next: { label: "AIE3 — RAG: Chunking, Embedding, Retrieval", href: "/v2/learn/aie3-rag" },
       quiz: [
         {
           q: "Prompt yang lengkap dan bisa diuji terdiri dari…",

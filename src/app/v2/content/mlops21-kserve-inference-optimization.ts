@@ -330,7 +330,7 @@ print(f"FP16={mem_fp16:.1f}GB INT8={mem_int8:.1f}GB hemat={hemat_gb:.1f}GB (50%)
       ],
       next: {
         label: "MLOps22 — Distributed Training: DDP, FSDP & Ray Train",
-        href: "/learn/mlops22-distributed-training",
+        href: "/v2/learn/mlops22-distributed-training",
       },
     },
   ],

@@ -199,7 +199,7 @@ export const pmd2: V2Lesson = {
         "Robust: resampling, shrinkage, risk parity; 1/N sering menang saat input buruk (DeMiguel).",
         "Aturan: sensitivitas selalu, round 5%, diversifikasi model. Optimisasi melayani, bukan memerintah.",
       ],
-      next: { label: "D3 \u2014 Regresi Faktor", href: "/learn/pm-d3-regresi-faktor" },
+      next: { label: "D3 \u2014 Regresi Faktor", href: "/v2/learn/pm-d3-regresi-faktor" },
       quiz: [
         {
           q: "MV murni memberi 147% satu saham. Diagnosis?",

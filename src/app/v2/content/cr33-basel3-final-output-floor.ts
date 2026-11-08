@@ -278,7 +278,7 @@ export const cr33: V2Lesson = {
         "Phase-in 2023 (50%) → 2028 (72,5%); UE mulai 2025 dengan transisi s/d 2032.",
         "Dampak: KPMM bank IRB yang binding turun tanpa kerugian riil; bank SA murni tak kena floor.",
       ],
-      next: { label: "CR4a — Basel, RWA & KPMM", href: "/learn/cr4a-basel-rwa-kpmm" },
+      next: { label: "CR4a — Basel, RWA & KPMM", href: "/v2/learn/cr4a-basel-rwa-kpmm" },
       quiz: [
         {
           q: "RWA_IRB = 60, RWA_SA = 100, floor 72,5%. RWA final?",

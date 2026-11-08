@@ -68,7 +68,7 @@ export const e11: V2Lesson = {
         "Theta (Θ) = penurunan nilai opsi per hari — opsi = es batu dijemur, meleleh tiap hari, makin cepat dekat kedaluwarsa. Vega = “opsi naik berapa jika volatilitas naik 1%” — selalu positif untuk pembeli opsi. Hitung keempatnya untuk opsi di langkah 1.",
       ],
       formula: String.raw`\Delta = N(d_1) \qquad \Theta = \frac{\partial C}{\partial t} < 0 \ \text{(long)} \qquad \text{Vega} = \frac{\partial C}{\partial \sigma} > 0`,
-      formulaNote: "Δ (delta) = perubahan harga opsi per Rp1 perubahan harga saham — call 0 s.d. 1 (ATM ≈ 0,5). Γ (gamma) = kecepatan delta berubah — terbesar saat at-the-money menjelang kedaluwarsa. Θ (theta) = “bocor” nilai per hari — negatif bagi pembeli (opsi = es batu dijemur). Vega = sensitivitas ke volatilitas — selalu positif bagi pembeli. Contoh: vega 0,35 → IV naik 1% menaikkan harga opsi 0,35.",
+      formulaNote: "Δ (delta) = perubahan harga opsi per Rp1 perubahan harga saham — call 0 s.d. 1 (ATM ≈ 0,5). Γ (gamma) = kecepatan delta berubah — terbesar saat at-the-money menjelang kedaluwarsa. Θ (theta) = “bocor” nilai per hari — negatif bagi pembeli (opsi = es batu dijemur). Vega = sensitivitas ke volatilitas — selalu positif bagi pembeli. Contoh: vega 0,35 per 1 poin persen σ → IV naik 1% menaikkan harga opsi 0,35. (Vega lab 37,52 dihitung per 100% σ — 37,52/100 ≈ 0,38 per 1% — konvensi yang sama, skala berbeda.)",
       tasks: [
         { id: "t1", text: "Hitung `delta` dan `gamma`" },
         { id: "t2", text: "Hitung `theta_harian` (bocor per hari) dan `vega`" },
@@ -205,7 +205,7 @@ export const e11: V2Lesson = {
         "Theta = bocor waktu (pembeli membayar, penjual memanen). Vega = sensitivitas ke volatilitas.",
         "Trader opsi profesional berpikir dalam Greeks — bukan sekadar “naik/turun”.",
       ],
-      next: { label: "E12 — Kurs & Suku Bunga", href: "/learn/e12-fx-suku-bunga" },
+      next: { label: "E12 — Kurs & Suku Bunga", href: "/v2/learn/e12-fx-suku-bunga" },
       quiz: [
         {
           q: "Implied volatility (IV) 60% artinya…",

@@ -207,7 +207,7 @@ export const cr38: V2Lesson = {
         "Baca KRI per segmen — agregat bisa menyembunyikan segmen berdarah.",
         "3 jebakan: evergreening, definisi berubah diam-diam, dilihat tapi tidak dibaca.",
       ],
-      next: { label: "CR39 — Internal Rating System: Arsitektur & Kalibrasi", href: "/learn/cr39-internal-rating-system" },
+      next: { label: "CR39 — Internal Rating System: Arsitektur & Kalibrasi", href: "/v2/learn/cr39-internal-rating-system" },
       quiz: [
         {
           q: "NPL turun dari 5% ke 3% setelah bank menghapus buku Rp50 miliar kredit macet. Interpretasi yang benar…",

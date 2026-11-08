@@ -203,7 +203,7 @@ export const e7: V2Lesson = {
         "Sortino — seperti Sharpe tapi hanya menghukum downside. MaxDD — luka terdalam dari puncak; ukur juga durasi pemulihannya.",
         "Rugi 50% butuh untung 100% untuk pulih — lindungi downside dulu.",
       ],
-      next: { label: "E8 — Markowitz", href: "/learn/e8-markowitz" },
+      next: { label: "E8 — Markowitz", href: "/v2/learn/e8-markowitz" },
       quiz: [
         {
           q: "Portofolio return 12%, vol 10%, risk-free 5%. Sharpe?",

@@ -77,7 +77,7 @@ export const bi3: V2Lesson = {
         { id: "t2", text: "Terapkan filter QUAL≥30 dan DP≥10" },
         { id: "t3", text: "Hitung rasio Ts/Tv dari varian yang lolos" },
       ],
-      expected: "3 varian lolos · Ts/Tv = 2/1",
+      expected: "3 varian lolos · Ts/Tv = 2/0",
       hints: [
         "DP ada di dalam string info: int(info.split('=')[1]).",
         "Transisi = {(A,G),(G,A),(C,T),(T,C)}; hanya untuk SNP 1-basa.",
@@ -89,7 +89,7 @@ export const bi3: V2Lesson = {
         solution: `vcf = [\n    ('chr1', 12345, 'A', 'G', 99, 'DP=30', '0/1'),\n    ('chr1', 67890, 'CT', 'C', 45, 'DP=22', '1/1'),\n    ('chr2', 11111, 'G', 'T', 12, 'DP=5', '0/1'),\n    ('chr2', 22222, 'C', 'T', 80, 'DP=40', '0/0'),\n]\ntransisi = {('A','G'),('G','A'),('C','T'),('T','C')}\n\n# TULIS KODEMU: filter + Ts/Tv\nlolos = []\nfor chrom, pos, ref, alt, qual, info, gt in vcf:\n    dp = int(info.split('=')[1])\n    if qual >= 30 and dp >= 10:\n        lolos.append((ref, alt))\n        print(f'{chrom}:{pos} {ref}->{alt} Q={qual} {info} GT={gt} LOLOS')\n    else:\n        print(f'{chrom}:{pos} {ref}->{alt} Q={qual} {info} GT={gt} SARING')\n\nts = sum(1 for r, a in lolos if (r, a) in transisi and len(r) == len(a) == 1)\ntv = sum(1 for r, a in lolos if (r, a) not in transisi and len(r) == len(a) == 1)\nprint(f'Ts/Tv = {ts}/{tv} (harapan ~2.0 untuk WGS)')`,
         checks: [
           { kind: "equal", task: "t2", name: "lolos", value: [["A", "G"], ["CT", "C"], ["C", "T"]], label: "3 varian lolos filter", msg: "QUAL≥30 dan DP≥10: baris 1 (99/30), 2 (45/22), 4 (80/40) lolos; baris 3 (12/5) tersaring." },
-          { kind: "stdout_matches", task: "t3", pattern: "Ts/Tv = 2/1", label: "`print` Ts/Tv benar", msg: "A→G dan C→T = transisi; indel CT→C tidak dihitung." },
+          { kind: "stdout_matches", task: "t3", pattern: "Ts/Tv = 2/0", label: "`print` Ts/Tv benar", msg: "A→G dan C→T = transisi; indel CT→C tidak dihitung." },
         ],
       },
       reference: "VCF: QUAL, DP, GT. Filter QUAL≥30, DP≥10. Ts/Tv ~2 = QC manusia.",
@@ -199,7 +199,7 @@ export const bi3: V2Lesson = {
         "Jangan buka di Excel; parse dengan library; stream file besar.",
         "Ts/Tv ~2 sebagai QC variant calling manusia.",
       ],
-      next: { label: "BI4 · Terminal, Git & Nextflow", href: "/learn/bi4-command-line" },
+      next: { label: "BI4 · Terminal, Git & Nextflow", href: "/v2/learn/bi4-command-line" },
       quiz: [
         {
           q: "Read dengan flag 4 dan MAPQ 255 muncul di BAM-mu. Artinya?",

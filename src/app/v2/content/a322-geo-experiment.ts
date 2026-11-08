@@ -357,7 +357,7 @@ print(f"vonis={vonis}")`,
           ],
         },
       ],
-      next: { label: "A323 — Statistical Process Control: Control Chart", href: "/learn/a323-spc-control-chart" },
+      next: { label: "A323 — Statistical Process Control: Control Chart", href: "/v2/learn/a323-spc-control-chart" },
     },
   ],
 };

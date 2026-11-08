@@ -172,7 +172,7 @@ export const d6: V2Lesson = {
       code: {
         starter: `import pandas as pd\\n\\nnasabah = pd.DataFrame({\\n    "id": ["A01", "A02", "A03", "A04"],\\n    "nama": ["Sari", "Budi", "Rina", "Agus"],\\n    "kota": ["Jakarta", "Bandung", "Jakarta", "Medan"],\\n})\\ntransaksi = pd.DataFrame({\\n    "id": ["A01", "A01", "A02", "A03", "A99"],\\n    "nominal": [500_000, 750_000, 300_000, 900_000, 100_000],\\n})\\nprint("nasabah:", nasabah.shape, "| transaksi:", transaksi.shape)\\n\\n# TULIS KODEMU: merge aman + audit\\ngab = \\n\\nn_match = \\nn_hilang = \\n\\nprint(f"match={n_match} hilang={n_hilang} baris={len(gab)}")\\n`,
         lockLines: 13,
-        solution: `import pandas as pd\\n\\nnasabah = pd.DataFrame({\\n    "id": ["A01", "A02", "A03", "A04"],\\n    "nama": ["Sari", "Budi", "Rina", "Agus"],\\n    "kota": ["Jakarta", "Bandung", "Jakarta", "Medan"],\\n})\\ntransaksi = pd.DataFrame({\\n    "id": ["A01", "A01", "A02", "A03", "A99"],\\n    "nominal": [500_000, 750_000, 300_000, 900_000, 100_000],\\n})\\nprint("nasabah:", nasabah.shape, "| transaksi:", transaksi.shape)\\n\\n# TULIS KODEMU: merge dengan validasi + audit indicator\\ngab = pd.merge(transaksi, nasabah, on="id", how="left",\\n               validate="many_to_one", indicator=True)\\n\\nn_match = (gab["_merge"] == "both").sum()\\nn_hilang = (gab["_merge"] == "left_only").sum()\\n\\nprint(f"match={n_match} hilang={n_hilang} baris={len(gab)}")\\n`,
+        solution: `import pandas as pd\n\nnasabah = pd.DataFrame({\n    "id": ["A01", "A02", "A03", "A04"],\n    "nama": ["Sari", "Budi", "Rina", "Agus"],\n    "kota": ["Jakarta", "Bandung", "Jakarta", "Medan"],\n})\ntransaksi = pd.DataFrame({\n    "id": ["A01", "A01", "A02", "A03", "A99"],\n    "nominal": [500_000, 750_000, 300_000, 900_000, 100_000],\n})\nprint("nasabah:", nasabah.shape, "| transaksi:", transaksi.shape)\n\n# TULIS KODEMU: merge dengan validasi + audit indicator\ngab = pd.merge(transaksi, nasabah, on="id", how="left",\n               validate="many_to_one", indicator=True)\n\nn_match = (gab["_merge"] == "both").sum()\nn_hilang = (gab["_merge"] == "left_only").sum()\n\nprint(f"match={n_match} hilang={n_hilang} baris={len(gab)}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "gab", label: "`gab` terdefinisi", msg: "Simpan hasil merge di variabel gab." },
           { kind: "equal", task: "t2", name: "n_match", value: 4, tol: 1e-09, label: "`n_match` = 4", msg: "4 transaksi punya id yang dikenal (A01 x2, A02, A03)." },
@@ -249,7 +249,7 @@ export const d6: V2Lesson = {
         "Fan-out: cek duplikat key; dedup/agregat dulu baru merge.",
         "SQL ke pandas: konsep sama, sintaks beda.",
       ],
-      next: { label: "D7 — Datetime & Time Series", href: "/learn/d7-datetime-timeseries" },
+      next: { label: "D7 — Datetime & Time Series", href: "/v2/learn/d7-datetime-timeseries" },
     },
   ],
 };

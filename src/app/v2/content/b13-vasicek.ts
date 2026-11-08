@@ -262,7 +262,7 @@ export const b13: V2Lesson = {
         "Batas: Gaussian (tanpa tail dependence), \u03C1 konstan, homogen \u2014 stress & validasi selalu.",
         "\u03C1_aset \u2260 korelasi default. Selalu tanyakan: korelasi apa?",
       ],
-      next: { label: "B14 \u2014 Markov Chain", href: "/learn/b14-markov-chain" },
+      next: { label: "B14 \u2014 Markov Chain", href: "/v2/learn/b14-markov-chain" },
       quiz: [
         {
           q: "Vasicek mengubah ekspektasi kerugian portofolio?",

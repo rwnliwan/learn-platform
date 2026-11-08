@@ -198,7 +198,7 @@ export const mr10: V2Lesson = {
         "EVE vs NII bisa berbeda arah karena beda horizon — untuk solvabilitas, EVE menang.",
         "Gap nol ≠ aman: masih ada basis risk, yield curve risk, option risk.",
       ],
-      next: { label: "MR11 — Options Risk", href: "/learn/mr11-options-risk" },
+      next: { label: "MR11 — Options Risk", href: "/v2/learn/mr11-options-risk" },
       quiz: [
         {
           q: "ΔEVE = −18% dari Tier 1 pada skenario paralel +200bp. Status bank menurut Basel?",

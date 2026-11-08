@@ -215,7 +215,7 @@ export const mr17: V2Lesson = {
         "Laporan: 1 halaman keputusan; >15 menit untuk paham inti = gagal.",
         "IPV: 2% × Rp5T = Rp100M fiktif — data benar > model canggih.",
       ],
-      next: { label: "MR18 — Validasi Model", href: "/learn/mr18-validasi-model" },
+      next: { label: "MR18 — Validasi Model", href: "/v2/learn/mr18-validasi-model" },
       quiz: [
         {
           q: "Total limit desk (530) > appetite board (500). Ini?",

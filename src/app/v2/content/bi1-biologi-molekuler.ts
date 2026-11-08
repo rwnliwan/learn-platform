@@ -52,9 +52,9 @@ export const bi1: V2Lesson = {
         "Ambil asam amino dari dict kodon; jika 'STOP', break dari loop.",
       ],
       code: {
-        starter: `kodon = {'AUG':'Met','UUU':'Phe','UUC':'Phe','CCC':'Pro','UAA':'STOP',\n         'UAG':'STOP','UGA':'STOP','GGG':'Gly','AAA':'Lys','CGU':'Arg'}\ndna = 'ATGTTTCCCTAA'\n\n# TULIS KODEMU: transkripsi (T -> U), lalu translasi per kodon\nmrna = \nprotein = []\nfor i in range(0, len(mrna), 3):\n    k = mrna[i:i+3]\n    aa = kodon.get(k, '?')\n    protein.append(aa)\n    if aa == 'STOP':\n        break\n\nprint('DNA    :', dna)\nprint('mRNA   :', mrna)\nprint('Protein:', '-'.join(protein))`,
+        starter: `kodon = {'AUG':'Met','UUU':'Phe','UUC':'Phe','CCC':'Pro','UAA':'STOP',\n         'UAG':'STOP','UGA':'STOP','GGG':'Gly','AAA':'Lys','CGU':'Arg'}\ndna = 'ATGTTTCCCTAA'\n\n# TULIS KODEMU: transkripsi (T -> U), lalu translasi per kodon\nmrna = \nprotein = []\nfor i in range(0, len(mrna), 3):\n    k = mrna[i:i+3]\n    aa = kodon.get(k, '?')\n    if aa == 'STOP':\n        break\n    protein.append(aa)\n\nprint('DNA    :', dna)\nprint('mRNA   :', mrna)\nprint('Protein:', '-'.join(protein))`,
         lockLines: 4,
-        solution: `kodon = {'AUG':'Met','UUU':'Phe','UUC':'Phe','CCC':'Pro','UAA':'STOP',\n         'UAG':'STOP','UGA':'STOP','GGG':'Gly','AAA':'Lys','CGU':'Arg'}\ndna = 'ATGTTTCCCTAA'\n\n# TULIS KODEMU: transkripsi (T -> U), lalu translasi per kodon\nmrna = dna.replace('T', 'U')\nprotein = []\nfor i in range(0, len(mrna), 3):\n    k = mrna[i:i+3]\n    aa = kodon.get(k, '?')\n    protein.append(aa)\n    if aa == 'STOP':\n        break\n\nprint('DNA    :', dna)\nprint('mRNA   :', mrna)\nprint('Protein:', '-'.join(protein))`,
+        solution: `kodon = {'AUG':'Met','UUU':'Phe','UUC':'Phe','CCC':'Pro','UAA':'STOP',\n         'UAG':'STOP','UGA':'STOP','GGG':'Gly','AAA':'Lys','CGU':'Arg'}\ndna = 'ATGTTTCCCTAA'\n\n# TULIS KODEMU: transkripsi (T -> U), lalu translasi per kodon\nmrna = dna.replace('T', 'U')\nprotein = []\nfor i in range(0, len(mrna), 3):\n    k = mrna[i:i+3]\n    aa = kodon.get(k, '?')\n    if aa == 'STOP':\n        break\n    protein.append(aa)\n\nprint('DNA    :', dna)\nprint('mRNA   :', mrna)\nprint('Protein:', '-'.join(protein))`,
         checks: [
           { kind: "defined", task: "t1", name: "mrna", label: "`mrna` terdefinisi", msg: "Buat variabel mrna dari dna dengan T diganti U." },
           { kind: "equal", task: "t2", name: "protein", value: ["Met", "Phe", "Pro"], label: "`protein` = [Met, Phe, Pro]", msg: "AUG=Met, UUU=Phe, CCC=Pro, UAA=STOP (berhenti, tidak ikut)." },
@@ -205,7 +205,7 @@ export const bi1: V2Lesson = {
         "Filter diagnosis: frekuensi populasi → dampak protein → kesesuaian klinis.",
         "Sifat kompleks itu poligenik: satu gen → satu sifat hanya untuk penyakit Mendel langka.",
       ],
-      next: { label: "BI2 · Database Biologi", href: "/learn/bi2-database" },
+      next: { label: "BI2 · Database Biologi", href: "/v2/learn/bi2-database" },
       quiz: [
         {
           q: "Satu gen bisa menghasilkan belasan isoform karena alternative splicing. Implikasinya untuk analisis RNA-seq?",

@@ -244,7 +244,7 @@ print(f"RTO estimasi: {rto_menit} menit")`,
         "AWR/ASH: AAS = DB Time / elapsed; diagnosis mulai dari AAS → top wait events → SQL pelaku.",
         "RPO/RTO ditulis dalam angka sebelum memilih teknologi — dan ditandatangani oleh yang menanggung risikonya.",
       ],
-      next: { label: "DBA22 — SQL Server: Always On & T-SQL untuk DBA", href: "/learn/dba22-sql-server-always-on" },
+      next: { label: "DBA22 — SQL Server: Always On & T-SQL untuk DBA", href: "/v2/learn/dba22-sql-server-always-on" },
       quiz: [
         {
           q: "Job backup RMAN “completed successfully” tiap malam selama 3 tahun, tak pernah restore-test. Vonis DBA yang tepat?",

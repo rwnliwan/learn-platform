@@ -253,7 +253,7 @@ export const cr31: V2Lesson = {
         "Bayesian: prior Beta + data → posterior; Beta(1,99)+200 bersih → mean 0,33%.",
         "Laporkan selalu: PD + n + metode. Untuk modal pakai batas; untuk pricing boleh titik.",
       ],
-      next: { label: "CR26 — Private Credit", href: "/learn/cr26-private-credit" },
+      next: { label: "CR26 — Private Credit", href: "/v2/learn/cr26-private-credit" },
       quiz: [
         {
           q: "200 obligor-tahun tanpa default. Klaim 'PD = 0%' salah karena?",

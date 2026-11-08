@@ -205,7 +205,7 @@ export const hd3: V2Lesson = {
         "Selalu tanya angka absolut di balik persen relatif.",
         "P ≈ I × D̄: prevalensi naik bisa berarti obatnya bagus (stok), bukan penularan naik (aliran); evaluasi skrining pakai mortalitas — waspadai lead-time & length bias.",
       ],
-      next: { label: "HD4 — Kohort vs Case-Control", href: "/learn/hd4-desain-studi" },
+      next: { label: "HD4 — Kohort vs Case-Control", href: "/v2/learn/hd4-desain-studi" },
       quiz: [
         {
           q: "Insidens mengukur…",

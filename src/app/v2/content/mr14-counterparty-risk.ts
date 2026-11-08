@@ -220,7 +220,7 @@ export const mr14: V2Lesson = {
         "Wrong-way risk: exposure & PD naik bersamaan — specific WWR ditolak; CVA standar underestimate.",
         "SA-CCR: EAD = 1,4×(RC+PFE) — wajib tanpa IMM, floor untuk yang ber-IMM.",
       ],
-      next: { label: "MR15 — Model Stokastik", href: "/learn/mr15-model-stokastik" },
+      next: { label: "MR15 — Model Stokastik", href: "/v2/learn/mr15-model-stokastik" },
       quiz: [
         {
           q: "Swap bernilai nol hari ini. Apakah ada risiko counterparty?",

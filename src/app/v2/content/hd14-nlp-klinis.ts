@@ -229,7 +229,7 @@ export const hd14: V2Lesson = {
         "LLM: kuat untuk draf/ekstraksi awal; halusinasi = wajib human-in-the-loop.",
         "Evaluasi NER: F1 per tipe entitas + definisi kecocokan eksplisit (strict vs lenient); akurasi token menipu.",
       ],
-      next: { label: "HD15 — DICOM & Klasifikasi Citra", href: "/learn/hd15-imaging-medis" },
+      next: { label: "HD15 — DICOM & Klasifikasi Citra", href: "/v2/learn/hd15-imaging-medis" },
       quiz: [
         {
           q: "Kalimat “tidak ada sesak napas”. Kesalahan NER naif?",

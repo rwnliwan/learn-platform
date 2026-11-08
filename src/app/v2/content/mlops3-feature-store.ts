@@ -199,7 +199,7 @@ export const mlops3: V2Lesson = {
         "Leakage tidak menimbulkan error — ia menimbulkan kepercayaan diri palsu.",
         "Butuh feature store saat fitur dihitung di ≥2 tempat atau definisi sulit dilacak.",
       ],
-      next: { label: "MLOps4 — Model Registry & Versioning", href: "/learn/mlops4-registry" },
+      next: { label: "MLOps4 — Model Registry & Versioning", href: "/v2/learn/mlops4-registry" },
       quiz: [
         {
           q: "Kasus Bank Mini: AUC training 0,89 tapi produksi 0,71. Penyebab paling mungkin?",

@@ -345,7 +345,7 @@ print(f"skor_asersi={skor_asersi:.2f} (3/5 lolos)")`,
           ],
         },
       ],
-      next: { label: "AIE22 — Cloud AI Deployment: Bedrock, Vertex AI, Azure AI", href: "/learn/aie22-cloud-ai-deployment" },
+      next: { label: "AIE22 — Cloud AI Deployment: Bedrock, Vertex AI, Azure AI", href: "/v2/learn/aie22-cloud-ai-deployment" },
     },
   ],
 };

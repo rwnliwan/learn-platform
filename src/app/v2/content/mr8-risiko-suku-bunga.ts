@@ -200,7 +200,7 @@ export const mr8: V2Lesson = {
         "Key-rate duration: sensitivitas per titik kurva; jumlahnya = D_mod; netralkan per bucket untuk hedge tahan twist.",
         "Duration-netral ≠ hedged. Obligasi callable punya negative convexity.",
       ],
-      next: { label: "MR9 — Kurva Yield", href: "/learn/mr9-kurva-yield" },
+      next: { label: "MR9 — Kurva Yield", href: "/v2/learn/mr9-kurva-yield" },
       quiz: [
         {
           q: "Obligasi P=Rp1 M, D_mod=7,5. Yield naik 50bp. Estimasi ΔP?",

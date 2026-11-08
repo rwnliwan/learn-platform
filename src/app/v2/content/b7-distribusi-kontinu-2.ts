@@ -231,7 +231,7 @@ export const b7_2: V2Lesson = {
         "Pareto: hukum pangkat; \u03B1\u22642 \u2192 varians \u221E; \u03B1\u22641 \u2192 mean \u221E \u2014 jangan perlakukan seperti Normal.",
         "Jangan buang \u201Coutlier\u201D ekor tebal \u2014 mereka adalah risikonya.",
       ],
-      next: { label: "B8 \u2014 Fitting Distribusi", href: "/learn/b8-fitting-distribusi" },
+      next: { label: "B8 \u2014 Fitting Distribusi", href: "/v2/learn/b8-fitting-distribusi" },
       quiz: [
         {
           q: "Beta(5,95) lalu amati 16 gagal dari 200. Posterior?",

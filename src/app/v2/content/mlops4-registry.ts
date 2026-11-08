@@ -209,7 +209,7 @@ export const mlops4: V2Lesson = {
         "Versioning mayor.minor.patch memberi tahu seberapa berani perubahan.",
         "Otomatis untuk rutin/minor; manual untuk mayor/baru — ukur dengan biaya kesalahan.",
       ],
-      next: { label: "MLOps5 — CI/CD untuk Model", href: "/learn/mlops5-cicd" },
+      next: { label: "MLOps5 — CI/CD untuk Model", href: "/v2/learn/mlops5-cicd" },
       quiz: [
         {
           q: "Apa yang MEMBEDAKAN registry dari sekadar folder berisi file model?",

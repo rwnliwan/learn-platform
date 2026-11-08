@@ -211,7 +211,7 @@ export const bi6: V2Lesson = {
         "Cek identitas + coverage + konteks sebelum vonis.",
         "MSA: kolom konservatif = posisi fungsional.",
       ],
-      next: { label: "BI7 · Filogenetika & k-mer", href: "/learn/bi7-filogenetika" },
+      next: { label: "BI7 · Filogenetika & k-mer", href: "/v2/learn/bi7-filogenetika" },
       quiz: [
         {
           q: "Dua analis mengalignment sekuens yang sama dan mendapat “alignment optimal” yang berbeda. Penjelasan paling mungkin?",

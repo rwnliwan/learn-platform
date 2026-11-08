@@ -256,7 +256,7 @@ print(f"k_min_1={k_min_1} k_min_2={k_min_2} lolos_k3={lolos_k3}")`,
         "Federated learning: data diam, model jalan — tetap butuh DP + etik.",
         "UU PDP: data kesehatan = data pribadi spesifik. Minimisasi agresif.",
       ],
-      next: { label: "HD19 — Pelaporan Klinis", href: "/learn/hd19-pelaporan-klinis" },
+      next: { label: "HD19 — Pelaporan Klinis", href: "/v2/learn/hd19-pelaporan-klinis" },
       quiz: [
         {
           q: "Kasus Sweeney (Gubernur teridentifikasi) membuktikan…",

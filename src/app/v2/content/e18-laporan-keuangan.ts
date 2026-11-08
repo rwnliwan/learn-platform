@@ -206,7 +206,7 @@ export const e18: V2Lesson = {
         "DuPont: ROE = margin × turnover × leverage — bedakan ROE berkualitas vs ROE utang.",
         "Lima red flags; tiga red flag = tinggalkan. Pinjamkan pada arus kas, bukan cerita.",
       ],
-      next: { label: "CR1 — Produk Kredit", href: "/learn/cr1-produk-kredit" },
+      next: { label: "CR1 — Produk Kredit", href: "/v2/learn/cr1-produk-kredit" },
       quiz: [
         {
           q: "Piutang naik 80% sementara penjualan naik 25%. Kemungkinan?",

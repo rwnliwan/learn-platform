@@ -324,7 +324,7 @@ print(f"wape={wape:.3f} mape={mape:.3f} bias={bias:.0f}")`,
         "Rekonsiliasi: pola beda -> bottom-up; data tipis -> top-down; satu angka konsisten.",
         "Evaluasi: WAPE + bias + coverage interval; MAPE berbahaya untuk slow-mover.",
       ],
-      next: { label: "MK16 — Iklan Digital", href: "/learn/mk16-digital-ads" },
+      next: { label: "MK16 — Iklan Digital", href: "/v2/learn/mk16-digital-ads" },
       quiz: [
         {
           q: "α = 0,9 vs α = 0,1 dalam SES. Bedanya?",

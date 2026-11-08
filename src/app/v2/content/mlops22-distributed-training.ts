@@ -174,24 +174,7 @@ export const mlops22: V2Lesson = {
 `n_optimal = None\n` +
 `print(f"optimal: {n_optimal} GPU")\n`,
         lockLines: 4,
-        solution: `# Model eksperimen WarungPintar: T1 = 120 mnt, pajak komunikasi k = 6 mnt/GPU\n` +
-`T1 = 120.0\n` +
-`K = 6.0\n` +
-`GPU_LIST = [1, 2, 4, 8, 16]\n` +
-`\n` +
-`# TUGAS 1: model waktu & efisiensi scaling\n` +
-`def waktu_epoch(n):\n` +
-`    return T1 / n + K * (n - 1)\n` +
-`\n` +
-`def efisiensi(n):\n` +
-`    return T1 / (n * waktu_epoch(n))\n` +
-`\n` +
-`# TUGAS 2 & 3: tabel + titik optimal\n` +
-`t4 = waktu_epoch(4)\n` +
-`for n in GPU_LIST:\n` +
-`    print(f"n={n}: {waktu_epoch(n):.1f} mnt (efisiensi {efisiensi(n):.2f})")\n` +
-`n_optimal = min(GPU_LIST, key=waktu_epoch)\n` +
-`print(f"optimal: {n_optimal} GPU")\n`,
+        solution: `# Model eksperimen WarungPintar: T1 = 120 mnt, pajak komunikasi k = 6 mnt/GPU\nT1 = 120.0\nK = 6.0\nGPU_LIST = [1, 2, 4, 8, 16]\n\n# TUGAS 1: model waktu & efisiensi scaling\ndef waktu_epoch(n):\n    return T1 / n + K * (n - 1)\n\ndef efisiensi(n):\n    return T1 / (n * waktu_epoch(n))\n\n# TUGAS 2 & 3: tabel + titik optimal\nt4 = waktu_epoch(4)\nfor n in GPU_LIST:\n    print(f"n={n}: {waktu_epoch(n):.1f} mnt (efisiensi {efisiensi(n):.2f})")\nn_optimal = min(GPU_LIST, key=waktu_epoch)\nprint(f"optimal: {n_optimal} GPU")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "waktu_epoch", label: "fungsi `waktu_epoch` terdefinisi", msg: "Definisikan waktu_epoch(n) = T1/n + K*(n-1)." },
           { kind: "equal", task: "t1", name: "t4", value: 48.0, tol: 0.01, label: "`waktu_epoch(4)` = 48.0", msg: "120/4 + 6*3 = 30 + 18 = 48 — titik tercepat." },

@@ -31,9 +31,9 @@ export const a13: V2Lesson = {
         "range_g = max(glodok) - min(glodok)",
       ],
       code: {
-        starter: `harmoni = [2.8, 3.1, 2.9, 3.2, 3.0]\nglodok  = [0.5, 0.8, 1.2, 2.0, 10.5]\n\n# TULIS KODEMU\nrata_h = \nrata_g = \nrange_h = \nrange_g = \n\nprint(f"rata_h={rata_h}  rata_g={rata_g}  range_h={range_h}  range_g={range_g}")`,
+        starter: `harmoni = [2.8, 3.1, 2.9, 3.2, 3.0]\nglodok  = [0.5, 0.8, 1.2, 2.0, 10.5]\n\n# TULIS KODEMU\nrata_h = \nrata_g = \nrange_h = \nrange_g = \n\nprint(f"rata_h={rata_h:.1f}  rata_g={rata_g:.1f}  range_h={range_h:.1f}  range_g={range_g:.1f}")`,
         lockLines: 2,
-        solution: `harmoni = [2.8, 3.1, 2.9, 3.2, 3.0]\nglodok  = [0.5, 0.8, 1.2, 2.0, 10.5]\n\n# TULIS KODEMU\nrata_h = sum(harmoni)/len(harmoni)\nrata_g = sum(glodok)/len(glodok)\nrange_h = max(harmoni)-min(harmoni)\nrange_g = max(glodok)-min(glodok)\n\nprint(f"rata_h={rata_h}  rata_g={rata_g}  range_h={range_h}  range_g={range_g}")`,
+        solution: `harmoni = [2.8, 3.1, 2.9, 3.2, 3.0]\nglodok  = [0.5, 0.8, 1.2, 2.0, 10.5]\n\n# TULIS KODEMU\nrata_h = sum(harmoni)/len(harmoni)\nrata_g = sum(glodok)/len(glodok)\nrange_h = max(harmoni)-min(harmoni)\nrange_g = max(glodok)-min(glodok)\n\nprint(f"rata_h={rata_h:.1f}  rata_g={rata_g:.1f}  range_h={range_h:.1f}  range_g={range_g:.1f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "rata_h", value: 3.0, tol: 1e-9, label: "`rata_h` seharusnya 3.0", msg: "Harmoni: 15,0/5 = 3,0." },
           { kind: "equal", task: "t1", name: "rata_g", value: 3.0, tol: 1e-9, label: "`rata_g` seharusnya 3.0", msg: "Glodok: 15,0/5 = 3,0 — sama persis dengan Harmoni." },
@@ -285,7 +285,7 @@ export const a13: V2Lesson = {
         "IQR (+ median) dan MAD robust untuk data kotor; MAD standar deteksi anomali.",
         "CV untuk bandingkan volatilitas beda skala; semi-deviation untuk downside risk.",
       ],
-      next: { label: "A1.4 — Skewness & Kurtosis", href: "/learn/a14-skewness-kurtosis" },
+      next: { label: "A1.4 — Skewness & Kurtosis", href: "/v2/learn/a14-skewness-kurtosis" },
       quiz: [
         {
           q: "Dua reksadana: A (mean 10%, SD 2%), B (mean 10%, SD 8%). Mana lebih berisiko?",

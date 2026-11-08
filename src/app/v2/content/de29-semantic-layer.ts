@@ -193,38 +193,7 @@ export const de29: V2Lesson = {
 `print(f"selisih: {gap}")\n` +
 `print(f"kanonis \\u2014 finance: {fin} | product: {prod}")\n`,
         lockLines: 9,
-        solution: `import sqlite3\n` +
-`\n` +
-`db = sqlite3.connect(":memory:")\n` +
-`cur = db.cursor()\n` +
-`cur.execute("CREATE TABLE orders (order_id INTEGER, amount REAL, status TEXT)")\n` +
-`cur.executemany("INSERT INTO orders VALUES (?, ?, ?)", [(1, 100.0, "paid"), (2, 250.0, "paid"), (3, 50.0, "refunded"), (4, 400.0, "paid"), (5, 75.0, "cancelled"), (6, 200.0, "paid")])\n` +
-`# Dua definisi "revenue" yang berbeda — sumber konflik finance vs product\n` +
-`cur.execute("CREATE VIEW v_revenue_a AS SELECT SUM(amount) AS revenue FROM orders")\n` +
-`cur.execute("CREATE VIEW v_revenue_b AS SELECT SUM(amount) AS revenue FROM orders WHERE status = 'paid'")\n` +
-`\n` +
-`# TUGAS 1: ambil revenue dari sebuah view\n` +
-`def revenue_dari(view):\n` +
-`    return cur.execute(f"SELECT revenue FROM {view}").fetchone()[0]\n` +
-`\n` +
-`# TUGAS 2: besar konflik dua definisi\n` +
-`def selisih(a, b):\n` +
-`    return abs(a - b)\n` +
-`\n` +
-`# TUGAS 3: definisi resmi — SATU pintu untuk semua konsumen\n` +
-`def buat_kanonis():\n` +
-`    cur.execute("CREATE VIEW m_revenue AS SELECT SUM(amount) AS revenue FROM orders WHERE status = 'paid'")\n` +
-`\n` +
-`rev_a = revenue_dari("v_revenue_a")\n` +
-`rev_b = revenue_dari("v_revenue_b")\n` +
-`gap = selisih(rev_a, rev_b)\n` +
-`buat_kanonis()\n` +
-`fin = revenue_dari("m_revenue")\n` +
-`prod = revenue_dari("m_revenue")\n` +
-`print(f"finance (view A): {rev_a}")\n` +
-`print(f"product (view B): {rev_b}")\n` +
-`print(f"selisih: {gap}")\n` +
-`print(f"kanonis \\u2014 finance: {fin} | product: {prod}")\n`,
+        solution: `import sqlite3\n\ndb = sqlite3.connect(":memory:")\ncur = db.cursor()\ncur.execute("CREATE TABLE orders (order_id INTEGER, amount REAL, status TEXT)")\ncur.executemany("INSERT INTO orders VALUES (?, ?, ?)", [(1, 100.0, "paid"), (2, 250.0, "paid"), (3, 50.0, "refunded"), (4, 400.0, "paid"), (5, 75.0, "cancelled"), (6, 200.0, "paid")])\n# Dua definisi "revenue" yang berbeda — sumber konflik finance vs product\ncur.execute("CREATE VIEW v_revenue_a AS SELECT SUM(amount) AS revenue FROM orders")\ncur.execute("CREATE VIEW v_revenue_b AS SELECT SUM(amount) AS revenue FROM orders WHERE status = 'paid'")\n\n# TUGAS 1: ambil revenue dari sebuah view\ndef revenue_dari(view):\n    return cur.execute(f"SELECT revenue FROM {view}").fetchone()[0]\n\n# TUGAS 2: besar konflik dua definisi\ndef selisih(a, b):\n    return abs(a - b)\n\n# TUGAS 3: definisi resmi — SATU pintu untuk semua konsumen\ndef buat_kanonis():\n    cur.execute("CREATE VIEW m_revenue AS SELECT SUM(amount) AS revenue FROM orders WHERE status = 'paid'")\n\nrev_a = revenue_dari("v_revenue_a")\nrev_b = revenue_dari("v_revenue_b")\ngap = selisih(rev_a, rev_b)\nbuat_kanonis()\nfin = revenue_dari("m_revenue")\nprod = revenue_dari("m_revenue")\nprint(f"finance (view A): {rev_a}")\nprint(f"product (view B): {rev_b}")\nprint(f"selisih: {gap}")\nprint(f"kanonis \\u2014 finance: {fin} | product: {prod}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "revenue_dari", label: "fungsi `revenue_dari` terdefinisi", msg: "Definisikan revenue_dari(view) yang mengembalikan angka revenue." },
           { kind: "equal", task: "t1", name: "rev_a", value: 1075.0, tol: 0.01, label: "`rev_a` = 1075.0", msg: "SUM semua 6 order = 1075.0 (termasuk refunded & cancelled)." },
@@ -282,7 +251,7 @@ export const de29: V2Lesson = {
         "Governance: pemilik bernama, tangga sandbox → certified, nama metrik yang jujur (gross vs net).",
         "Bangun layer saat: konsumen > 3, angka resmi/regulator, atau agent ikut query.",
       ],
-      next: { label: "DE30 — AI Coding Tools untuk Data Engineer", href: "/learn/de30-ai-coding-tools" },
+      next: { label: "DE30 — AI Coding Tools untuk Data Engineer", href: "/v2/learn/de30-ai-coding-tools" },
       quiz: [
         {
           q: "Finance: Rp4,2 M. Product: Rp3,7 M. Keduanya benar menurut definisinya. Akar masalahnya?",

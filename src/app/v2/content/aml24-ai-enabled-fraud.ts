@@ -287,7 +287,7 @@ export const aml24: V2Lesson = {
       ],
       next: {
         label: "AML25 — Graph Analytics: Memburu Jaringan Pencucian",
-        href: "/learn/aml25-graph-analytics-laundering",
+        href: "/v2/learn/aml25-graph-analytics-laundering",
       },
       reference: "AI meniru bukti; lapisan mengalahkan peniru.",
     },

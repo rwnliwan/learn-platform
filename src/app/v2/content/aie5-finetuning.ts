@@ -181,7 +181,7 @@ export const aie5: V2Lesson = {
         "Waspadai catastrophic forgetting: eval kemampuan lama sebelum dan sesudah fine-tune.",
         "Keputusan RAG vs fine-tune adalah perhitungan ekonomi (capex vs opex, break-even) — tulis bobotnya.",
       ],
-      next: { label: "AIE6 — Structured Output dan Function Calling", href: "/learn/aie6-structured" },
+      next: { label: "AIE6 — Structured Output dan Function Calling", href: "/v2/learn/aie6-structured" },
       quiz: [
         {
           q: "Kapan RAG lebih tepat daripada fine-tuning?",

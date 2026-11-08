@@ -247,7 +247,7 @@ export const rr11: V2Lesson = {
         "Nada: netral, kuantitatif, berorientasi aksi — tanpa fear-mongering/comfort palsu.",
         "Skenario ekstrem wajib ditemani probabilitas kasar + rencana aksi.",
       ],
-      next: { label: "RR12 — Pelaporan Insiden & Near-Miss", href: "/learn/rr12-insiden" },
+      next: { label: "RR12 — Pelaporan Insiden & Near-Miss", href: "/v2/learn/rr12-insiden" },
       quiz: [
         {
           q: "Apa angka terpenting dalam laporan stress test?",

@@ -275,7 +275,7 @@ print(f"checksum: {sum(r['omzet'] for r in silver)} == {sum(emas.values())}")`,
         "Fabric masuk akal bila: ekosistem Microsoft + banyak tim + definisi berselisih; jika tidak, terapkan disiplinnya dulu.",
         "Teknologi bagian mudah; negosiasi definisi antar-tim adalah bagian sulit.",
       ],
-      next: { label: "BI25 — Report Automation: Dashboard yang Memperbarui Dirinya", href: "/learn/biz25-report-automation" },
+      next: { label: "BI25 — Report Automation: Dashboard yang Memperbarui Dirinya", href: "/v2/learn/biz25-report-automation" },
       quiz: [
         {
           q: "Akar masalah “tiga angka pendapatan” di cerita adalah…",

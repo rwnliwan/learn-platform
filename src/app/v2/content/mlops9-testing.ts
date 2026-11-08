@@ -201,7 +201,7 @@ export const mlops9: V2Lesson = {
         "Model tests: invariansi, slice, robustness + golden dataset berisi edge case.",
         "Piramida: basis terluas = data tests; kegagalan lahir paling sering di basis.",
       ],
-      next: { label: "MLOps10 — Governance: Audit & Lineage", href: "/learn/mlops10-governance" },
+      next: { label: "MLOps10 — Governance: Audit & Lineage", href: "/v2/learn/mlops10-governance" },
       quiz: [
         {
           q: "Kasus 'dua puluh lima': kenapa tidak ada error padahal data rusak?",

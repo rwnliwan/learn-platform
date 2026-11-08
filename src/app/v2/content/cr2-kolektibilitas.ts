@@ -275,7 +275,7 @@ print(f"npl_gross={npl_gross:.2f} n_dpk={n_dpk}")`,
         "Hapus buku ≠ hapus tagih ≠ menyerah. Restrukturisasi tanpa perbaikan fundamental = evergreening.",
         "NPL adalah rasio — bedah pembilang (write-off, debitur) dan penyebut (pertumbuhan kredit).",
       ],
-      next: { label: "CR3 — PD, LGD, EAD", href: "/learn/cr3-pd-lgd-ead" },
+      next: { label: "CR3 — PD, LGD, EAD", href: "/v2/learn/cr3-pd-lgd-ead" },
       quiz: [
         {
           q: "Cicilan jatuh tempo 15 September belum dibayar. Hari ini 13 Oktober. DPD dan kolektibilitasnya?",

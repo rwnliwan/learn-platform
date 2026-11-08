@@ -248,7 +248,7 @@ export const mr30: V2Lesson = {
         "Ingat angka lab: terjelaskan 57,65 dari aktual 59,65 — kolom 2,0 itulah yang dijaga setiap hari.",
       ],
       reference: "Atribusi = tagihan rinci; unexplained = EKG model.",
-      next: { label: "MR31 — Power BI untuk Pelaporan Risiko Pasar", href: "/learn/mr31-powerbi-risiko" },
+      next: { label: "MR31 — Power BI untuk Pelaporan Risiko Pasar", href: "/v2/learn/mr31-powerbi-risiko" },
     },
   ],
 };

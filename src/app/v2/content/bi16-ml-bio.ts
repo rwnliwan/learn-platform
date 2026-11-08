@@ -216,7 +216,7 @@ export const bi16: V2Lesson = {
         "Evaluasi final hanya di test tak tersentuh.",
         "Mulai sederhana; naikkan kompleksitas bila validasi mendukung.",
       ],
-      next: { label: "BI17 · Reprodusibilitas & Etika", href: "/learn/bi17-reprodusibilitas" },
+      next: { label: "BI17 · Reprodusibilitas & Etika", href: "/v2/learn/bi17-reprodusibilitas" },
       quiz: [
         {
           q: "Model train 99%, test 52%. Diagnosis?",

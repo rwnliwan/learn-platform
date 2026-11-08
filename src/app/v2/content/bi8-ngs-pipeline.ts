@@ -221,7 +221,7 @@ export const bi8: V2Lesson = {
         "Coverage >30–50x diminishing return (germline).",
         "Validasi kandidat kunci: IGV + orthogonal.",
       ],
-      next: { label: "BI9 · RNA-seq: Gen Apa yang Berubah", href: "/learn/bi9-rna-seq" },
+      next: { label: "BI9 · RNA-seq: Gen Apa yang Berubah", href: "/v2/learn/bi9-rna-seq" },
       quiz: [
         {
           q: "Sampel WGS menunjukkan duplikasi 35% dan Q30 hanya 70%. Tindakan paling tepat?",

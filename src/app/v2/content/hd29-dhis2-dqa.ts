@@ -332,7 +332,7 @@ print(f"terlemah={terlemah} (rata-rata {min(rata_c, rata_t):.1f}%)")`,
       ],
       next: {
         label: "Stata, SPSS & SAS untuk Analis Kesehatan",
-        href: "/learn/hd30-stata-spss-sas",
+        href: "/v2/learn/hd30-stata-spss-sas",
       },
     },
   ],

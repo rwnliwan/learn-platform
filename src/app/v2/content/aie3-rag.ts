@@ -194,7 +194,7 @@ export const aie3: V2Lesson = {
         "Retrieval buruk tidak bisa diselamatkan model besar — perbaiki retrieval dulu.",
         "Ekonomi RAG: embedding sekali bayar (murah); konteks per request bayar terus (mahal).",
       ],
-      next: { label: "AIE4 — Evaluasi LLM", href: "/learn/aie4-eval" },
+      next: { label: "AIE4 — Evaluasi LLM", href: "/v2/learn/aie4-eval" },
       quiz: [
         {
           q: "Mengapa chunking menentukan kualitas RAG?",

@@ -221,7 +221,7 @@ export const wqb13: V2Lesson = {
         "Zona: < 0,5 aman; 0,5–0,7 waspada + uji ulang tiap poles; 0,7–0,9 diferensiasi; > 0,9 buang.",
         "Diferensiasi: delay, universe, operator inti, campur family ortogonal — bukan tambah noise.",
       ],
-      next: { label: "WQB14 — Overfitting & Plafon Satu Family", href: "/learn/wqb14-overfitting" },
+      next: { label: "WQB14 — Overfitting & Plafon Satu Family", href: "/v2/learn/wqb14-overfitting" },
       quiz: [
         {
           q: "Kandidat A (Sharpe 2,38, fitness Excellent, self-corr 0,94) vs B (Sharpe 3,00, fitness Average, self-corr 0,31). Mana lolos?",

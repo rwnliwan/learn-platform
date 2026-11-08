@@ -301,7 +301,7 @@ print(f"burn_jam1={burn1:.1f}x -> {aksi1}  burn_jam2={burn2:.1f}x -> {aksi2}  bu
         "Drift = sinyal investigasi, bukan perintah retrain otomatis.",
         "Burn rate: burn di atas 2x = page, 1–2x = tiket; metrik per versi model, validasi di serving, sampling 100% error + 1% sukses. Kelanjutan dari MLE6 (ME14, monitoring dasar).",
       ],
-      next: { label: "MLOps8 — Strategi Retraining", href: "/learn/mlops8-retraining" },
+      next: { label: "MLOps8 — Strategi Retraining", href: "/v2/learn/mlops8-retraining" },
       quiz: [
         {
           q: "Kasus PayLancar: kenapa dashboard hijau 3 bulan padahal rugi naik 34%?",

@@ -306,7 +306,7 @@ print(f"jebakan: {jebakan}")`,
         "CAP adalah kerangka trade-off saat partisi (bukan “pilih 2 dari 3” yang kaku); W+R>N membayar konsistensi kuat dengan latensi.",
         "Polyglot sehat = tiap mesin punya medan, harga tertulis, pemilik jelas, dan satu sumber kebenaran per fakta.",
       ],
-      next: { label: "DBA20 — pgvector: Vector Search di PostgreSQL", href: "/learn/dba20-pgvector" },
+      next: { label: "DBA20 — pgvector: Vector Search di PostgreSQL", href: "/v2/learn/dba20-pgvector" },
       quiz: [
         {
           q: "Tim ingin memindahkan laporan keuangan ke document store demi “fleksibilitas”. Respons DBA yang tepat?",

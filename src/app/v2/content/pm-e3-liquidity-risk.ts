@@ -200,7 +200,7 @@ print(f"Cair {batas_hari} hari: Rp{cair_5_hari:.0f}M vs redemption Rp{redemption
         "Liquidity spiral: penarikan → forced selling → NAV jatuh → penarikan; gating melindungi yang tinggal.",
         "Liquidity bucketing di IPS + pantau DTL mingguan = risiko likuiditas yang dikelola, bukan didoakan.",
       ],
-      next: { label: "PME4 — Deliverable Institusi: Laporan yang Dibaca Komite", href: "/learn/pm-e4-deliverable-institusi" },
+      next: { label: "PME4 — Deliverable Institusi: Laporan yang Dibaca Komite", href: "/v2/learn/pm-e4-deliverable-institusi" },
       quiz: [
         {
           q: "Posisi Rp60 miliar, ADV Rp25 miliar/hari, ρ = 0,2. DTL?",

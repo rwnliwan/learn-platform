@@ -252,7 +252,7 @@ export const cr25: V2Lesson = {
         "Keputusan harus tahan skenario stres yang masuk akal — bukan hanya skenario baik.",
         "Integritas = satu-satunya aset analis. Rekomendasi di depan, jujur soal risiko.",
       ],
-      next: { label: "MR1 — Trading Book", href: "/learn/mr1-trading-book" },
+      next: { label: "MR1 — Trading Book", href: "/v2/learn/mr1-trading-book" },
       quiz: [
         {
           q: "DER 2,1 → 3,2 dalam 3 tahun. Sinyal utama?",

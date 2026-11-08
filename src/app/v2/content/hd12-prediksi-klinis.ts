@@ -217,7 +217,7 @@ export const hd12: V2Lesson = {
         "Cegah leakage: prediction time eksplisit, fitur dibekukan sebelumnya.",
         "Threshold dari biaya klinis; waspadai drift; lapor sesuai TRIPOD.",
       ],
-      next: { label: "HD13 — Fairness di Kesehatan", href: "/learn/hd13-fairness-kesehatan" },
+      next: { label: "HD13 — Fairness di Kesehatan", href: "/v2/learn/hd13-fairness-kesehatan" },
       quiz: [
         {
           q: "Perbedaan kalibrasi vs diskriminasi?",

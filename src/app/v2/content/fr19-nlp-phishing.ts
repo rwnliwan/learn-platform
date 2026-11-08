@@ -192,7 +192,7 @@ export const fr19: V2Lesson = {
         "ROI 640x = phishing abadi; pertahanan = pajak atas ROI.",
         "5 lapis: filter → perilaku → takedown → edukasi → autentikasi kuat.",
       ],
-      next: { label: "FR20 — Capstone", href: "/learn/fr20-capstone" },
+      next: { label: "FR20 — Capstone", href: "/v2/learn/fr20-capstone" },
       quiz: [
         {
           q: "Undangan nikah LLM: tata bahasa sempurna, personal. Mengapa filter lama lolos?",

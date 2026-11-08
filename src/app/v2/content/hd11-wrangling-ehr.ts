@@ -231,7 +231,7 @@ export const hd11: V2Lesson = {
         "Waspadai target leakage dan label berisik sebelum percaya AUC.",
         "Linkage: bobot Fellegi-Sunter log2(m/u); ambang dikalibrasi + zona abu-abu ke review manual; identitas = hipotesis.",
       ],
-      next: { label: "HD12 — TRIPOD & Kalibrasi", href: "/learn/hd12-prediksi-klinis" },
+      next: { label: "HD12 — TRIPOD & Kalibrasi", href: "/v2/learn/hd12-prediksi-klinis" },
       quiz: [
         {
           q: "Fenotipe komputabel adalah…",

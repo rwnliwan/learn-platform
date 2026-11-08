@@ -309,7 +309,7 @@ print("ada_null:", ada_null)`,
         "Correlated: kuat tapi per-baris — waspadai di data besar.",
         "Query kompleks = komposisi pola sederhana.",
       ],
-      next: { label: "C7 — CTE", href: "/learn/c7-cte" },
+      next: { label: "C7 — CTE", href: "/v2/learn/c7-cte" },
       quiz: [
         {
           q: "Derived table (subquery di FROM) wajib?",

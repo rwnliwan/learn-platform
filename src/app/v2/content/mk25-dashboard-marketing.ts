@@ -272,7 +272,7 @@ export const mk25: V2Lesson = {
       ],
       next: {
         label: "MK26 — CRM Ops: Braze, MoEngage, HubSpot dalam Praktik",
-        href: "/learn/mk26-crm-ops",
+        href: "/v2/learn/mk26-crm-ops",
       },
     },
   ],

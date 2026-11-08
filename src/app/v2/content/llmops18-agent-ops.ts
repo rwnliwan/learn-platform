@@ -321,7 +321,7 @@ print(f"loop_A mulai langkah={pemicu_A}")`,
         "Least privilege tool, HIL untuk tak terbalikkan, sandbox; prompt aman saja tidak cukup.",
         "Insiden: loop → hentikan; bakar token → perbaiki strategi; liar → kill switch per agen.",
       ],
-      next: { label: "LLMOps19 — MCP: Model Context Protocol dalam Praktik", href: "/learn/llmops19-mcp" },
+      next: { label: "LLMOps19 — MCP: Model Context Protocol dalam Praktik", href: "/v2/learn/llmops19-mcp" },
       quiz: [
         {
           q: "Agen memesan tepung 400x dalam semalam; tiap langkah log-nya `berhasil`. Apa akar masalah operasionalnya?",

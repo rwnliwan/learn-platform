@@ -278,7 +278,7 @@ export const cr26: V2Lesson = {
         "Risiko level dana: konsentrasi (sedikit borrower, satu tema) + likuiditas (capital call, bukan bank run).",
         "Ironi: bank memodali fund via subscription line/NAV loan — risiko masuk lewat pintu belakang.",
       ],
-      next: { label: "CR27 — Fintech Lending 2026", href: "/learn/cr27-fintech-lending" },
+      next: { label: "CR27 — Fintech Lending 2026", href: "/v2/learn/cr27-fintech-lending" },
       quiz: [
         {
           q: "Mengapa bank konvensional kalah bersaing dengan dana private credit untuk leveraged buyout?",

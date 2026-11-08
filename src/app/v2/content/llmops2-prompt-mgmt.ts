@@ -205,7 +205,7 @@ export const llmops2: V2Lesson = {
         "Hotfix = versi baru yang dipromosikan cepat, bukan edit versi lama.",
         "Aturan 10 detik: kalau user bisa merasakannya, itu rilis — butuh versi, review, test.",
       ],
-      next: { label: "LLMOps3 — Evaluasi Berkelanjutan", href: "/learn/llmops3-eval" },
+      next: { label: "LLMOps3 — Evaluasi Berkelanjutan", href: "/v2/learn/llmops3-eval" },
       quiz: [
         {
           q: "Apa saja komponen wajib dalam satu versi prompt?",

@@ -199,7 +199,7 @@ export const a16: V2Lesson = {
         "r = 0 hanya berarti tidak ada hubungan linear — cek scatterplot untuk pola non-linear.",
         "Korelasi ≠ kausalitas; waspadai Anscombe, Simpson, spurious, dan breakdown saat krisis.",
       ],
-      next: { label: "A1.7 — Missing Data", href: "/learn/a17-missing-data" },
+      next: { label: "A1.7 — Missing Data", href: "/v2/learn/a17-missing-data" },
       quiz: [
         {
           q: "Hubungan y = x² untuk x positif. Korelasi yang paling tepat?",

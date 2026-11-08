@@ -307,7 +307,7 @@ print(f"t_c={t_c:.2f} tpr_c={rate(pos_c, t_c):.3f} gap={gap_sesudah:.3f} fpr_c={
         "Threshold per grup = post-processing terakhir: setarakan TPR dengan harga FPR naik, butuh dasar hukum yang jelas.",
         "Lab mitigasi: threshold per grup menutup gap TPR 37,5 → ~1 poin dengan harga FPR_C 7% → 31%.",
       ],
-      next: { label: "HD14 — NLP Klinis", href: "/learn/hd14-nlp-klinis" },
+      next: { label: "HD14 — NLP Klinis", href: "/v2/learn/hd14-nlp-klinis" },
       quiz: [
         {
           q: "Menghapus variabel etnis dari fitur membuat model adil. Benar atau salah?",

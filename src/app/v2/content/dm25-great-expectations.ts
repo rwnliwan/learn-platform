@@ -130,7 +130,7 @@ export const dm25: V2Lesson = {
       title: "Lab — Validator ala-GX atas data pengajuan",
       prose: [
         "Waktunya jadi satpam datanya. Di bawah ada 6 baris pengajuan kredit sintetis — beberapa kotor. Tugasmu: (1) implementasikan lima fungsi expectation (id unik, tenor tidak null, tenor 6–60, format kode cabang, nominal positif); (2) evaluasi semuanya menjadi dict hasil; (3) hitung skor = lolos/total dan tentukan status (≥0,9 SEHAT; ≥0,7 WASPADA; selainnya KRITIS); (4) cetak laporannya.",
-        "Coba: setelah lolos, ubah tenor baris A02 dari 72 menjadi 48 dan nominal A03 menjadi positif — perhatikan skor naik dan status berubah. Lalu tanya: expectation mana yang seharusnya critical (tahan batch) vs warning? Tulis alasanmu di komentar.",
+        "Coba: setelah lolos, ubah tenor baris A02 dari 72 menjadi 48 dan nominal A03 menjadi positif — perhatikan skor naik dari 20% menjadi 60% tetapi status tetap KRITIS — id_unik dan tenor_tidak_null masih gagal, dan 60% masih di bawah ambang WASPADA 70%. Lalu tanya: expectation mana yang seharusnya critical (tahan batch) vs warning? Tulis alasanmu di komentar.",
       ],
       tasks: [
         { id: "t1", text: "Lengkapi lima fungsi expectation: cek_unik, cek_tidak_null, cek_rentang, cek_format, cek_positif" },
@@ -309,7 +309,7 @@ print(f"Gagal: {', '.join(gagal)}")`,
         "Skor batch: ≥0,9 SEHAT; 0,7–0,9 WASPADA; <0,7 KRITIS. Critical gagal = tahan; warning = catat.",
         "Jangan hapus baris kotor diam-diam — karantina dan laporkan.",
       ],
-      next: { label: "DM26 — Sertifikasi CDMP/DCAM & Regulasi Data 2026", href: "/learn/dm26-sertifikasi-regulasi-2026" },
+      next: { label: "DM26 — Sertifikasi CDMP/DCAM & Regulasi Data 2026", href: "/v2/learn/dm26-sertifikasi-regulasi-2026" },
       quiz: [
         {
           q: "Pipeline membuang baris dengan tenor NULL secara diam-diam. Expectation yang paling tepat menangkapnya?",

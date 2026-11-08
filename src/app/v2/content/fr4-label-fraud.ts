@@ -221,7 +221,7 @@ export const fr4: V2Lesson = {
         "PU learning: koreksi \"peluang berlabel\" menjadi \"peluang fraud sejati\"; waspadai asumsi SCAR.",
         "Label = produk sampingan proses bisnis, bukan kebenaran objektif. Tanya selalu: label ini lahir dari proses apa?",
       ],
-      next: { label: "FR5 — Rule-Based", href: "/learn/fr5-rule-based" },
+      next: { label: "FR5 — Rule-Based", href: "/v2/learn/fr5-rule-based" },
       quiz: [
         {
           q: "Chargeback lag median 45 hari. Kamu ekstrak training data kemarin. Apa masalah terbesarnya?",

@@ -268,7 +268,7 @@ for b in basis_uji:
         "Warna: sekuensial/divergen/kategorikal sesuai data; jangan andalkan merah\u2013hijau saja (buta warna).",
         "Judul bagan = kesimpulan; tinta untuk data, bukan dekorasi; tiap bagan lolos uji 10 detik.",
       ],
-      next: { label: "BI23 — Python untuk Analis BI", href: "/learn/biz23-python-analis-bi" },
+      next: { label: "BI23 — Python untuk Analis BI", href: "/v2/learn/biz23-python-analis-bi" },
       quiz: [
         {
           q: "Menurut hierarki saluran visual, cara PALING akurat mengkodekan nilai adalah…",

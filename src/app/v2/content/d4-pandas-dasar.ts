@@ -253,7 +253,7 @@ export const d4: V2Lesson = {
         "read_csv: sep, parse_dates, dtype, na_values — lalu cek dtypes.",
         "Kekuatan tanpa visibilitas = footgun: ukur sebelum drop atau ubah.",
       ],
-      next: { label: "D5 — Data Cleaning", href: "/learn/d5-data-cleaning" },
+      next: { label: "D5 — Data Cleaning", href: "/v2/learn/d5-data-cleaning" },
     },
   ],
 };

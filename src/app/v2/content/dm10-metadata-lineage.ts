@@ -168,7 +168,7 @@ export const dm10: V2Lesson = {
         "Lineage: dua arah (dampak & akar), dihasilkan otomatis, kolom-level untuk audit.",
         "Jangan: beli tool tanpa isi; definisi puitis; diagram lineage manual yang basi.",
       ],
-      next: { label: "DM11 — Master Data", href: "/learn/dm11-master-data" },
+      next: { label: "DM11 — Master Data", href: "/v2/learn/dm11-master-data" },
       quiz: [
         {
           q: "Tiga jenis metadata dan contohnya?",

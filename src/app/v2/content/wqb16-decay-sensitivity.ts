@@ -249,7 +249,7 @@ export const wqb16: V2Lesson = {
         "Kurva U-terbalik itu normal: over-smoothing membunuh sinyal cepat.",
         "Optimum = Sharpe tertinggi di antara yang lolos S ≥ 1,25, F ≥ 1, TO ≤ 0,4.",
       ],
-      next: { label: "WQB17 — Merancang Wave: Kolam Puncak, Kolam Lebar, Kolam Penyelamatan", href: "/learn/wqb17-merancang-wave" },
+      next: { label: "WQB17 — Merancang Wave: Kolam Puncak, Kolam Lebar, Kolam Penyelamatan", href: "/v2/learn/wqb17-merancang-wave" },
       quiz: [
         {
           q: "Family slow-reversal mencapai Sharpe terbaik pada decay berapa?",

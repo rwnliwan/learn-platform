@@ -283,7 +283,7 @@ print(f"klaim_kosong={klaim_kosong}  overclaim={overclaim}  skor={skor}/6")`,
           ],
         },
       ],
-      next: { label: "E1 — Struktur Pasar", href: "/learn/e1-struktur-pasar" },
+      next: { label: "E1 — Struktur Pasar", href: "/v2/learn/e1-struktur-pasar" },
     },
   ],
 };

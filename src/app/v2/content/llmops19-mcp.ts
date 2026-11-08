@@ -260,7 +260,7 @@ for h in HASIL:
         "Dispatch server: kenal? → lengkap? → eksekusi; validasi makna di handler, bukan dispatch.",
         "MCP untuk interoperabilitas & dipakai-ulang; direct call untuk latensi kritis & kontrol penuh.",
       ],
-      next: { label: "LLMOps20 — Evaluasi LLM & RAG", href: "/learn/llmops20-evaluasi-llm-rag" },
+      next: { label: "LLMOps20 — Evaluasi LLM & RAG", href: "/v2/learn/llmops20-evaluasi-llm-rag" },
       quiz: [
         {
           q: "Dua server MCP mendaftarkan tool bernama `baca_saldo`. Agen kadang memanggil yang salah. Apa nama serangan/pola ini dan pertahanan pertamanya?",

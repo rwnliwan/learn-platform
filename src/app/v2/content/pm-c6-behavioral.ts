@@ -232,7 +232,7 @@ export const pmc6: V2Lesson = {
         "Mitigasi: IPS tertulis, jurnal, stop-loss otomatis, cooling-off 72 jam, automasi, nudge \u2014 sistem > tekad.",
         "Behavioral finance untuk pertahanan (tidak merugikan diri), bukan penyerangan (sok mengalahkan pasar).",
       ],
-      next: { label: "C7 \u2014 Fixed Income Portfolio", href: "/learn/pm-c7-fixed-income-portfolio" },
+      next: { label: "C7 \u2014 Fixed Income Portfolio", href: "/v2/learn/pm-c7-fixed-income-portfolio" },
       quiz: [
         {
           q: "Portofolio Rp1M: seharusnya 60/40 (E(R) 9%) tetapi karena takut gejolak jadi 20/80 (E(R) 6,5%). Ini contoh?",

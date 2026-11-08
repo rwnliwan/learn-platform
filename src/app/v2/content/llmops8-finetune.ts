@@ -215,7 +215,7 @@ export const llmops8: V2Lesson = {
         "Registry: nama, base, hash data, skor per kategori, status (termasuk retired + alasan).",
         "Berhenti fine-tune saat 2 siklus gagal gerbang — masalahnya di tempat lain.",
       ],
-      next: { label: "LLMOps9 — Safety Ops", href: "/learn/llmops9-safety" },
+      next: { label: "LLMOps9 — Safety Ops", href: "/v2/learn/llmops9-safety" },
       quiz: [
         {
           q: "Pengetahuan produk berubah tiap bulan. Pendekatan yang benar?",

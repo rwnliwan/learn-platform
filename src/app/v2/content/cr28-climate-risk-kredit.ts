@@ -251,7 +251,7 @@ export const cr28: V2Lesson = {
         "Coverage = EBITDA / (emisi × harga karbon); < 1 = distress. Peringkat coverage, bukan emisi absolut.",
         "Keputusan: >3x monitor, 1–3x watchlist + pricing, <1 batasi + exit plan.",
       ],
-      next: { label: "CR29 — Sekuritisasi & Risiko Kredit Terstruktur", href: "/learn/cr29-sekuritisasi" },
+      next: { label: "CR29 — Sekuritisasi & Risiko Kredit Terstruktur", href: "/v2/learn/cr29-sekuritisasi" },
       quiz: [
         {
           q: "Perbedaan utama risiko fisik vs transisi bagi analis kredit?",

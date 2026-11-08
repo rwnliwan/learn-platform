@@ -330,7 +330,7 @@ print(f"korelasi_kanal={korel:.2f}")`,
       ],
       next: {
         label: "A322 — Geo-Experiment: Uji Pasar Saat Randomisasi Mustahil",
-        href: "/learn/a322-geo-experiment",
+        href: "/v2/learn/a322-geo-experiment",
       },
     },
   ],

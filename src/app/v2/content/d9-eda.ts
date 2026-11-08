@@ -109,7 +109,7 @@ export const d9: V2Lesson = {
       eyebrow: "Langkah 4 · Bivariat",
       title: "Hubungan — lalu curigai",
       prose: [
-        "Korelasi plafon-dpd = -0,38: hubungan negatif lemah-sedang. NPL per kota (count): Jakarta 50%, Surabaya 50%, Bandung 0%, Medan 0%. Tapi n per kota hanya 2-5 — insight pertama wajib dicurigai.",
+        "Korelasi plafon-dpd = -0,42: hubungan negatif lemah-sedang. NPL per kota (count): Jakarta 60%, Surabaya 50%, Bandung 33%, Medan 0%. Tapi n per kota hanya 2-5 — insight pertama wajib dicurigai.",
         "Teknik 5 Whys untuk data: NPL tinggi — kenapa? (bucket menumpuk) — kenapa? (vintage tertentu) — kenapa? Setiap 'kenapa' adalah 1 analisis lanjutan. Dan setiap temuan menarik wajib lolos 3 cek: sumbu kategorikal vs kontinu, duplikat, stratifikasi grup.",
       ],
       requires: ["pandas"],
@@ -117,7 +117,7 @@ export const d9: V2Lesson = {
         { id: "t1", text: "Hitung `kor` = korelasi plafon-dpd" },
         { id: "t2", text: "Hitung NPL rate per kota, ambil `npl_jkt`" },
       ],
-      expected: "kor=-0.38  npl_jkt=50.0",
+      expected: "kor=-0.42  npl_jkt=60.0",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -133,9 +133,9 @@ export const d9: V2Lesson = {
         lockLines: 4,
         solution: `import pandas as pd, io\n\ncsv = """${CSV_KREDIT}"""\ndf = pd.read_csv(io.StringIO(csv))\n\n# TULIS KODEMU\nkor = df['plafon'].corr(df['dpd'])\nnpl = df.assign(npl=df['kolektibilitas'] >= 3).groupby('kota')['npl'].mean()\nnpl_jkt = npl['Jakarta'] * 100\n\nprint(f"kor={kor:.2f}  npl_jkt={npl_jkt:.1f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "kor", value: -0.384, tol: 0.01, label: "`kor` sekitar -0.38", msg: "Korelasi plafon-dpd dari data." },
-          { kind: "equal", task: "t2", name: "npl_jkt", value: 50.0, tol: 1e-9, label: "`npl_jkt` = 50.0", msg: "Jakarta: 2 dari 4 macet (kolektibilitas >= 3)." },
-          { kind: "stdout_matches", task: "t2", pattern: "kor=-0\\.38\\s+npl_jkt=50\\.0", label: "`print` menampilkan keduanya", msg: "Samakan format dengan hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "kor", value: -0.417, tol: 0.01, label: "`kor` sekitar -0.42", msg: "Korelasi plafon-dpd dari data." },
+          { kind: "equal", task: "t2", name: "npl_jkt", value: 60.0, tol: 1e-09, label: "`npl_jkt` = 60.0", msg: "Jakarta: 3 dari 5 macet (kolektibilitas >= 3)." },
+          { kind: "stdout_matches", task: "t2", pattern: "kor=-0\\.42\\s+npl_jkt=60\\.0", label: "`print` menampilkan keduanya", msg: "Samakan format dengan hasil yang diharapkan." },
         ],
       },
       reference: "groupby untuk hubungan kategori; corr untuk numerik. Curigai insight pertama.",
@@ -187,7 +187,7 @@ export const d9: V2Lesson = {
       code: {
         starter: `import pandas as pd\\nimport numpy as np\\n\\nrng = np.random.default_rng(33)\\nn = 5000\\nsegmen = rng.choice(["mikro", "ritel", "korporat"], n, p=[0.5, 0.35, 0.15])\\npendapatan = rng.normal(8_000_000, 2_000_000, n).clip(1_000_000)\\n# pola TERSTRUKTUR: 40% pendapatan segmen mikro hilang (MNAR: yang tak dilaporkan)\\nhilang = (segmen == "mikro") & (rng.random(n) < 0.4)\\npendapatan = np.where(hilang, np.nan, pendapatan)\\ndf = pd.DataFrame({"segmen": segmen, "pendapatan": pendapatan})\\nprint("baris:", len(df))\\n\\n# TULIS KODEMU: buktikan missing-nya terstruktur, bukan acak\\nmiss_total =\\nmiss_per_segmen =\\nmiss_mikro =\\nmiss_ritel =\\n\\npola = "MNAR-terstruktur" if miss_mikro > 0.3 and miss_ritel < 0.01 else "acak"\\nprint(f"miss_total={miss_total:.3f}")\\nprint(miss_per_segmen.round(3).to_dict())\\nprint(f"miss_mikro={miss_mikro:.3f} pola={pola}")\\n`,
         lockLines: 13,
-        solution: `import pandas as pd\\nimport numpy as np\\n\\nrng = np.random.default_rng(33)\\nn = 5000\\nsegmen = rng.choice(["mikro", "ritel", "korporat"], n, p=[0.5, 0.35, 0.15])\\npendapatan = rng.normal(8_000_000, 2_000_000, n).clip(1_000_000)\\n# pola TERSTRUKTUR: 40% pendapatan segmen mikro hilang (MNAR: yang tak dilaporkan)\\nhilang = (segmen == "mikro") & (rng.random(n) < 0.4)\\npendapatan = np.where(hilang, np.nan, pendapatan)\\ndf = pd.DataFrame({"segmen": segmen, "pendapatan": pendapatan})\\nprint("baris:", len(df))\\n\\n# TULIS KODEMU: buktikan missing-nya terstruktur, bukan acak\\nmiss_total = df["pendapatan"].isna().mean()\\nmiss_per_segmen = df["pendapatan"].isna().groupby(df["segmen"]).mean()\\nmiss_mikro = miss_per_segmen["mikro"]\\nmiss_ritel = miss_per_segmen["ritel"]\\n\\npola = "MNAR-terstruktur" if miss_mikro > 0.3 and miss_ritel < 0.01 else "acak"\\nprint(f"miss_total={miss_total:.3f}")\\nprint(miss_per_segmen.round(3).to_dict())\\nprint(f"miss_mikro={miss_mikro:.3f} pola={pola}")\\n`,
+        solution: `import pandas as pd\nimport numpy as np\n\nrng = np.random.default_rng(33)\nn = 5000\nsegmen = rng.choice(["mikro", "ritel", "korporat"], n, p=[0.5, 0.35, 0.15])\npendapatan = rng.normal(8_000_000, 2_000_000, n).clip(1_000_000)\n# pola TERSTRUKTUR: 40% pendapatan segmen mikro hilang (MNAR: yang tak dilaporkan)\nhilang = (segmen == "mikro") & (rng.random(n) < 0.4)\npendapatan = np.where(hilang, np.nan, pendapatan)\ndf = pd.DataFrame({"segmen": segmen, "pendapatan": pendapatan})\nprint("baris:", len(df))\n\n# TULIS KODEMU: buktikan missing-nya terstruktur, bukan acak\nmiss_total = df["pendapatan"].isna().mean()\nmiss_per_segmen = df["pendapatan"].isna().groupby(df["segmen"]).mean()\nmiss_mikro = miss_per_segmen["mikro"]\nmiss_ritel = miss_per_segmen["ritel"]\n\npola = "MNAR-terstruktur" if miss_mikro > 0.3 and miss_ritel < 0.01 else "acak"\nprint(f"miss_total={miss_total:.3f}")\nprint(miss_per_segmen.round(3).to_dict())\nprint(f"miss_mikro={miss_mikro:.3f} pola={pola}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "miss_per_segmen", label: "`miss_per_segmen` terdefinisi", msg: "Groupby segmen atas boolean isna, lalu mean." },
           { kind: "equal", task: "t1", name: "miss_mikro", value: 0.4, tol: 0.03, label: "`miss_mikro` sekitar 0.40", msg: "40% pendapatan segmen mikro hilang (sesuai desain data)." },
@@ -263,7 +263,7 @@ export const d9: V2Lesson = {
         "Lapor: 3 temuan + 1 rekomendasi + batasan (jujur!).",
         "n kecil = tidak konklusif: laporkan n bersama rate.",
       ],
-      next: { label: "D10 — Feature Engineering", href: "/learn/d10-feature-engineering" },
+      next: { label: "D10 — Feature Engineering", href: "/v2/learn/d10-feature-engineering" },
     },
   ],
 };

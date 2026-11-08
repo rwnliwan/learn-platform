@@ -160,7 +160,7 @@ export const dm8: V2Lesson = {
         "Breaking vs non-breaking: hapus/rename/ubah tipe = breaking → versi baru + transisi + umumkan.",
         "Jangan: ubah skema diam-diam; obral SLA; pakai SELECT * di produksi.",
       ],
-      next: { label: "DM9 — Data Governance", href: "/learn/dm9-governance" },
+      next: { label: "DM9 — Data Governance", href: "/v2/learn/dm9-governance" },
       quiz: [
         {
           q: "Bedanya SLI, SLO, dan SLA?",

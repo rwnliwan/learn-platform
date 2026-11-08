@@ -192,7 +192,7 @@ export const pmd1: V2Lesson = {
         "Sinkronisasi: samakan timestamp antar-pasar (UTC); konsisten mata uang (kurs tepat).",
         "Ritual: curiga dulu \u2014 plot, cek lompatan, daftar CA \u2014 sebelum model. Tidak ada data bersih.",
       ],
-      next: { label: "D2 \u2014 Optimisasi", href: "/learn/pm-d2-optimisasi" },
+      next: { label: "D2 \u2014 Optimisasi", href: "/v2/learn/pm-d2-optimisasi" },
       quiz: [
         {
           q: "Split 2:1, harga Rp10.000. Harga adjusted histori?",

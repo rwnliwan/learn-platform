@@ -268,7 +268,7 @@ export const mk24: V2Lesson = {
           ],
         },
       ],
-      next: { label: "MK25 — Membangun Dashboard Marketing", href: "/learn/mk25-dashboard-marketing" },
+      next: { label: "MK25 — Membangun Dashboard Marketing", href: "/v2/learn/mk25-dashboard-marketing" },
     },
   ],
 };

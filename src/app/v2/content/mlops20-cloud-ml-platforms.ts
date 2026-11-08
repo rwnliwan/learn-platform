@@ -319,7 +319,7 @@ print(f"24/7=\${biaya_247:.2f}/bln vs seperlunya=\${biaya_seperlunya:.2f}/bln he
         "Migrasi: shadow → strangler per workload → decommission setelah 2 siklus billing; data dulu, paralel <3 bulan.",
         "S = Σ w·s; lab: SageMaker 3,8 menang; 24/7 = $648 vs seperlunya $90 — hemat $558/bulan.",
       ],
-      next: { label: "MLOps21 — KServe & Optimasi Inferensi", href: "/learn/mlops21-kserve-inference-optimization" },
+      next: { label: "MLOps21 — KServe & Optimasi Inferensi", href: "/v2/learn/mlops21-kserve-inference-optimization" },
     },
   ],
 };

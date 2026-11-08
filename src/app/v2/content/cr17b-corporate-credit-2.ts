@@ -183,7 +183,7 @@ export const cr17b: V2Lesson = {
         "Aturan emas memo: rekomendasi di depan, jujur soal risiko, angka + narasi.",
         "Waiver bersyarat + berbayar — waiver gratis = covenant tanpa wibawa.",
       ],
-      next: { label: "CR18 — Risiko Industri & Negara", href: "/learn/cr18-industry-country-risk" },
+      next: { label: "CR18 — Risiko Industri & Negara", href: "/v2/learn/cr18-industry-country-risk" },
       quiz: [
         {
           q: "EBITDA Rp 162 M, tetapi setelah pajak + modal kerja + capex + utang, sisa negatif. Pelajaran?",

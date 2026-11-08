@@ -180,7 +180,7 @@ export const dm3b: V2Lesson = {
         "CAP: saat partition, pilih Consistency atau Availability. Keputusan per fitur, bukan label abadi.",
         "Polyglot: banyak DB untuk banyak kekuatan; tiap tambahan harus \"membayar sewa\".",
       ],
-      next: { label: "DM4 — Data Warehouse", href: "/learn/dm4-data-warehouse" },
+      next: { label: "DM4 — Data Warehouse", href: "/v2/learn/dm4-data-warehouse" },
       quiz: [
         {
           q: "Kenapa database relasional klasik sulit scale-out (tambah banyak server)?",

@@ -314,7 +314,7 @@ print(f"biaya_1000=Rp{int(biaya_1000)}")`,
         "Biaya: C_1000 = ((T_in + T_out)/1000) × P × 1000; tuas = rampingkan token, semantic cache, routing model kecil/besar.",
         "Lab: v1 = 4,33 vs v2 = 3,89 (delta −0,44 → REGRESI); biaya Rp180.000/1.000 request.",
       ],
-      next: { label: "MLOps20 — Managed Cloud ML", href: "/learn/mlops20-cloud-ml-platforms" },
+      next: { label: "MLOps20 — Managed Cloud ML", href: "/v2/learn/mlops20-cloud-ml-platforms" },
     },
   ],
 };

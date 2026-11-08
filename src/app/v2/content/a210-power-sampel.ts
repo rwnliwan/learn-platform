@@ -198,7 +198,7 @@ export const a210: V2Lesson = {
         "MDE dari bisnis (break-even), bukan optimisme; n ∝ 1/MDE².",
         "Jebakan: observed power sirkular, peeking menggelembungkan α, pilot underpowered → winner's curse.",
       ],
-      next: { label: "A2.11 — A/B Testing", href: "/learn/a211-ab-testing" },
+      next: { label: "A2.11 — A/B Testing", href: "/v2/learn/a211-ab-testing" },
       quiz: [
         {
           q: "Dengan rumus n ∝ 1/δ²: MDE diperkecil dari 2 pp menjadi 1 pp. Apa yang terjadi pada n?",

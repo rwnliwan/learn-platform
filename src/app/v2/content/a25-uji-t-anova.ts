@@ -216,7 +216,7 @@ export const a25: V2Lesson = {
         "Data berpasangan → uji-t pada selisih; jangan perlakukan sebagai independen.",
         "Banyak kelompok → ANOVA dulu (jaga error 5%), baru post-hoc Tukey.",
       ],
-      next: { label: "A2.6 — Uji Nonparametrik", href: "/learn/a26-nonparametrik" },
+      next: { label: "A2.6 — Uji Nonparametrik", href: "/v2/learn/a26-nonparametrik" },
       quiz: [
         {
           q: "Kapan uji-z (bukan uji-t) yang tepat dipakai?",

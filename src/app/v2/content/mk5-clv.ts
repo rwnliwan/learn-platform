@@ -299,7 +299,7 @@ export const mk5: V2Lesson = {
         "BG/NBD berdiri di 5 asumsi; asumsi independensi paling sering dilanggar — validasi per decile recency.",
         "CLV mengabaikan referral, biaya retensi, dan opsi — batas CAC = CLV/3 adalah buffernya.",
       ],
-      next: { label: "MK6 — Churn", href: "/learn/mk6-churn" },
+      next: { label: "MK6 — Churn", href: "/v2/learn/mk6-churn" },
       quiz: [
         {
           q: "Komponen mana yang PALING menggerakkan CLV di bisnis subscription?",

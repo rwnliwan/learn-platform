@@ -257,7 +257,7 @@ export const b10: V2Lesson = {
         "Alur: fit marginal \u2192 ke uniform \u2192 pilih copula sesuai ekor \u2192 validasi di ekor.",
         "Jangan samakan korelasi dengan dependensi \u2014 dan jangan validasi model krisis dengan data masa tenang.",
       ],
-      next: { label: "B11 \u2014 LLN & CLT", href: "/learn/b11-lln-clt" },
+      next: { label: "B11 \u2014 LLN & CLT", href: "/v2/learn/b11-lln-clt" },
       quiz: [
         {
           q: "Teorema Sklar: H(x,y) = C(F(x), G(y)). Artinya\u2026",

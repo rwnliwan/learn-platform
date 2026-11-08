@@ -201,7 +201,7 @@ export const mlops2: V2Lesson = {
         "Retry butuh backoff eksponensial + batas + alert; retry tanpa batas menutupi bug sistemik.",
         "Pilih alat sesuai rasa sakit: cron, orchestrator, managed, atau event-driven.",
       ],
-      next: { label: "MLOps3 — Feature Store", href: "/learn/mlops3-feature-store" },
+      next: { label: "MLOps3 — Feature Store", href: "/v2/learn/mlops3-feature-store" },
       quiz: [
         {
           q: "Kasus Dimas: apa kegagalan sebenarnya?",

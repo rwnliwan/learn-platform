@@ -65,14 +65,14 @@ export const a35: V2Lesson = {
       title: "Metrik ranking tanpa threshold",
       prose: [
         "Kurva ROC memplot TPR vs FPR untuk semua threshold; AUC = luas di bawahnya. Interpretasi yang tepat: AUC 0,85 berarti jika ambil 1 default dan 1 lancar acak, 85 persen model memberi skor lebih tinggi ke yang default. Bukan persen akurasi, bukan recall.",
-        "AUC buta terhadap kalibrasi: kalikan semua probabilitas dengan 0,1 — ranking tak berubah, AUC tetap sama (0,822), padahal probabilitasnya kini bohong. Itulah kenapa AUC saja tidak cukup untuk pricing.",
+        "AUC buta terhadap kalibrasi: kalikan semua probabilitas dengan 0,1 — ranking tak berubah, AUC tetap sama (0,831), padahal probabilitasnya kini bohong. Itulah kenapa AUC saja tidak cukup untuk pricing.",
         "Di bawah, hitung AUC model bagus vs model acak dari skor yang sudah disiapkan.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `auc_good` dan `auc_rand` via `auc_from_scores`" },
         { id: "t2", text: "Cetak keduanya dengan `print`" },
       ],
-      expected: "auc_good=0.822 auc_rand=0.508",
+      expected: "auc_good=0.831 auc_rand=0.505",
       note: {
         title: "Sering salah",
         body: "Membaca AUC 0,85 sebagai model 85 persen akurat. AUC = probabilitas ranking benar untuk pasangan acak — bukan akurasi, bukan recall, dan buta kalibrasi.",
@@ -87,9 +87,9 @@ export const a35: V2Lesson = {
         lockLines: 20,
         solution: `import random, math\nrandom.seed(21)\n\ndef auc_from_scores(y, s):\n    pos = [sc for a, sc in zip(y, s) if a == 1]\n    neg = [sc for a, sc in zip(y, s) if a == 0]\n    win = tie = 0\n    for p in pos:\n        for q in neg:\n            if p > q: win += 1\n            elif p == q: tie += 1\n    return (win + 0.5*tie)/(len(pos)*len(neg))\n\nn = 2000\ns_good = [random.gauss(0,1) for _ in range(n)]\ny = [1 if random.random() < 1/(1+math.exp(1.0 + 1.5*s)) else 0 for s in s_good]\np_good = [1/(1+math.exp(1.0 + 1.5*s)) for s in s_good]\np_rand = [random.random() for _ in range(n)]\n\n# TULIS KODEMU\nauc_good = auc_from_scores(y, p_good)\nauc_rand = auc_from_scores(y, p_rand)\n\nprint(f"auc_good={auc_good:.3f} auc_rand={auc_rand:.3f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "auc_good", value: 0.822, tol: 0.01, label: "`auc_good` sekitar 0.822", msg: "Model bagus me-ranking dengan benar 82% pasangan." },
-          { kind: "equal", task: "t1", name: "auc_rand", value: 0.508, tol: 0.02, label: "`auc_rand` sekitar 0.5", msg: "Model acak = 0,5 — tidak lebih baik dari koin." },
-          { kind: "stdout_matches", task: "t2", pattern: "auc_good=0\\.822\\s+auc_rand=0\\.50", label: "`print` menampilkan kedua AUC", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "auc_good", value: 0.831, tol: 0.01, label: "`auc_good` sekitar 0.831", msg: "Model bagus me-ranking dengan benar 83% pasangan." },
+          { kind: "equal", task: "t1", name: "auc_rand", value: 0.505, tol: 0.02, label: "`auc_rand` sekitar 0.5", msg: "Model acak = 0,5 — tidak lebih baik dari koin." },
+          { kind: "stdout_matches", task: "t2", pattern: "auc_good=0\\.831\\s+auc_rand=0\\.50", label: "`print` menampilkan kedua AUC", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "AUC = P(skor+ > skor-). Buta kalibrasi: ranking sama, angka bisa bohong.",
@@ -202,7 +202,7 @@ export const a35: V2Lesson = {
         "Threshold dipilih dari expected cost, bukan dari AUC atau akurasi.",
         "Untuk ECL/pricing: butuh probabilitas jujur (Brier rendah), bukan cuma ranking bagus.",
       ],
-      next: { label: "A3.6 — Kalibrasi", href: "/learn/a36-kalibrasi" },
+      next: { label: "A3.6 — Kalibrasi", href: "/v2/learn/a36-kalibrasi" },
       quiz: [
         {
           q: "Semua probabilitas model dikali 0,1 (jadi jauh kekecilan). Apa yang terjadi dengan AUC dan Brier?",

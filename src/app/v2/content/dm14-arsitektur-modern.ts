@@ -179,7 +179,7 @@ export const dm14: V2Lesson = {
         "Feature store: satu definisi fitur untuk training & serving — bunuh skew.",
         "Jangan: mesh untuk tim kecil; mesh tanpa standar; samakan cepat dengan konsisten.",
       ],
-      next: { label: "DM15 — Cloud & DataOps", href: "/learn/dm15-cloud-dataops" },
+      next: { label: "DM15 — Cloud & DataOps", href: "/v2/learn/dm15-cloud-dataops" },
       quiz: [
         {
           q: "Empat prinsip data mesh?",

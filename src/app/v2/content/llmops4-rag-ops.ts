@@ -216,7 +216,7 @@ export const llmops4: V2Lesson = {
         "Pengetahuan berubah → RAG; perilaku/format → prompt/fine-tune; ukur retrieval dan generation terpisah.",
         "Simpan triple (query, dokumen, jawaban) untuk jawaban sensitif sebagai bukti audit.",
       ],
-      next: { label: "LLMOps5 — Guardrail Operasional", href: "/learn/llmops5-guardrail" },
+      next: { label: "LLMOps5 — Guardrail Operasional", href: "/v2/learn/llmops5-guardrail" },
       quiz: [
         {
           q: "Chatbot RAG menjawab dengan angka polis lama padahal retrieval-nya `benar`. Diagnosisnya?",

@@ -312,7 +312,7 @@ export const a18: V2Lesson = {
         "Pie maksimal 5 slice; selebihnya stacked bar — mata akurat pada panjang, buruk pada sudut.",
         "Dual axis bisa membuktikan apa saja lewat skala; bukti hubungan = scatterplot + ukuran efek.",
       ],
-      next: { label: "A1.9 — EDA End-to-End", href: "/learn/a19-eda-end-to-end" },
+      next: { label: "A1.9 — EDA End-to-End", href: "/v2/learn/a19-eda-end-to-end" },
       quiz: [
         {
           q: "Bandingkan penjualan 15 produk. Chart terbaik?",

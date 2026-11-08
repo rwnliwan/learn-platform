@@ -332,7 +332,7 @@ else:
         "PCA untuk QC/struktur global; UMAP untuk klaster (jarak antar-klaster tak bermakna).",
         "Power: hitung sebelum eksperimen dengan m terkoreksi.",
       ],
-      next: { label: "BI11 · Single-Cell RNA-seq", href: "/learn/bi11-single-cell" },
+      next: { label: "BI11 · Single-Cell RNA-seq", href: "/v2/learn/bi11-single-cell" },
       quiz: [
         {
           q: "GWAS 8 juta SNP pada populasi Afrika memakai ambang 5×10⁻⁸ dan menemukan nol sinyal. Evaluasi ambangnya?",

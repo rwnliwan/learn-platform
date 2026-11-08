@@ -31,7 +31,7 @@ export const d13: V2Lesson = {
         { id: "t1", text: "Jumlahkan 100.000 nilai per chunk 10.000 → `total`, `n`" },
         { id: "t2", text: "Hitung `rata` = total / n" },
       ],
-      expected: "total=49957670697.2  n=100000  rata=499576.7",
+      expected: "total=49995703707.6  n=100000  rata=499957.0",
       note: {
         title: "Sering salah",
         body: "Menjumlahkan float dalam urutan berbeda memberi hasil sedikit berbeda (floating point tidak asosiatif). Untuk uang, pertimbangkan Decimal atau hitung dalam satuan terkecil (sen). Di sini toleransi kecil wajar.",
@@ -46,10 +46,10 @@ export const d13: V2Lesson = {
         lockLines: 3,
         solution: `import numpy as np\n\nrng = np.random.default_rng(3)\n\n# TULIS KODEMU: jumlahkan 100.000 transaksi per chunk\ntotal = 0.0\nn = 0\nfor _ in range(10):\n    chunk = rng.uniform(1000, 1000000, 10_000)\n    total += chunk.sum()\n    n += len(chunk)\nrata = total / n\n\nprint(f"total={total:.1f}  n={n}  rata={rata:.1f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "total", value: 49957670697.2, tol: 1.0, label: "`total` sekitar 49957670697.2", msg: "Jumlah 100.000 transaksi uniform." },
+          { kind: "equal", task: "t1", name: "total", value: 49995703707.6, tol: 1.0, label: "`total` sekitar 49995703707.6", msg: "Jumlah 100.000 transaksi uniform." },
           { kind: "equal", task: "t1", name: "n", value: 100000, tol: 1e-9, label: "`n` = 100000", msg: "10 chunk x 10.000." },
-          { kind: "equal", task: "t2", name: "rata", value: 499576.7, tol: 1.0, label: "`rata` sekitar 499576.7", msg: "Rata-rata uniform(1000, 1000000) ~ 500.500." },
-          { kind: "stdout_matches", task: "t2", pattern: "total=49957670697\\.2\\s+n=100000\\s+rata=499576\\.7", label: "`print` menampilkan ketiganya", msg: "Samakan format dengan hasil yang diharapkan." },
+          { kind: "equal", task: "t2", name: "rata", value: 499957.0, tol: 1.0, label: "`rata` sekitar 499957.0", msg: "Rata-rata uniform(1000, 1000000) ~ 500.500." },
+          { kind: "stdout_matches", task: "t2", pattern: "total=49995703707\\.6\\s+n=100000\\s+rata=499957\\.0", label: "`print` menampilkan ketiganya", msg: "Samakan format dengan hasil yang diharapkan." },
         ],
       },
       reference: "for di atas array = bau. Vectorize (numpy/pandas); chunk jika tak muat RAM.",
@@ -123,7 +123,7 @@ export const d13: V2Lesson = {
       code: {
         starter: `import time\\nimport numpy as np\\n\\nrng = np.random.default_rng(9)\\na = rng.normal(0, 1, 200_000)  # 200 ribu angka\\nprint("n:", len(a))\\n\\n# TULIS KODEMU: bandingkan loop Python vs vektorisasi numpy\\n# VERSI LAMBAT: loop Python (pola yang ditemukan profiler di hotspot)\\nt0 = time.perf_counter()\\ntotal = 0.0\\n\\nt_loop = time.perf_counter() - t0\\n\\n# VERSI CEPAT: vektorisasi — satu operasi atas seluruh array\\nt0 = time.perf_counter()\\ntotal_v =\\nt_vec = time.perf_counter() - t0\\n\\nlebih_cepat = t_vec < t_loop\\nspeedup = t_loop / t_vec\\nsama = abs(total - total_v) < 1e-6\\nprint(f"loop={t_loop:.3f}s vektor={t_vec:.3f}s speedup={speedup:.0f}x")\\nprint(f"lebih_cepat={lebih_cepat} hasil_sama={sama}")\\n`,
         lockLines: 6,
-        solution: `import time\\nimport numpy as np\\n\\nrng = np.random.default_rng(9)\\na = rng.normal(0, 1, 200_000)  # 200 ribu angka\\nprint("n:", len(a))\\n\\n# TULIS KODEMU: bandingkan loop Python vs vektorisasi numpy\\n# VERSI LAMBAT: loop Python (pola yang ditemukan profiler di hotspot)\\nt0 = time.perf_counter()\\ntotal = 0.0\\nfor x in a:\\n    total += x * x\\nt_loop = time.perf_counter() - t0\\n\\n# VERSI CEPAT: vektorisasi — satu operasi atas seluruh array\\nt0 = time.perf_counter()\\ntotal_v = float(np.sum(a * a))\\nt_vec = time.perf_counter() - t0\\n\\nlebih_cepat = t_vec < t_loop\\nspeedup = t_loop / t_vec\\nsama = abs(total - total_v) < 1e-6\\nprint(f"loop={t_loop:.3f}s vektor={t_vec:.3f}s speedup={speedup:.0f}x")\\nprint(f"lebih_cepat={lebih_cepat} hasil_sama={sama}")\\n`,
+        solution: `import time\nimport numpy as np\n\nrng = np.random.default_rng(9)\na = rng.normal(0, 1, 200_000)  # 200 ribu angka\nprint("n:", len(a))\n\n# TULIS KODEMU: bandingkan loop Python vs vektorisasi numpy\n# VERSI LAMBAT: loop Python (pola yang ditemukan profiler di hotspot)\nt0 = time.perf_counter()\ntotal = 0.0\nfor x in a:\n    total += x * x\nt_loop = time.perf_counter() - t0\n\n# VERSI CEPAT: vektorisasi — satu operasi atas seluruh array\nt0 = time.perf_counter()\ntotal_v = float(np.sum(a * a))\nt_vec = time.perf_counter() - t0\n\nlebih_cepat = t_vec < t_loop\nspeedup = t_loop / t_vec\nsama = abs(total - total_v) < 1e-6\nprint(f"loop={t_loop:.3f}s vektor={t_vec:.3f}s speedup={speedup:.0f}x")\nprint(f"lebih_cepat={lebih_cepat} hasil_sama={sama}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "t_loop", label: "`t_loop` terdefinisi", msg: "Catat waktu loop dengan perf_counter sebelum/sesudah." },
           { kind: "equal", task: "t2", name: "lebih_cepat", value: true, tol: 0, label: "`lebih_cepat` = True", msg: "Vektorisasi numpy hampir selalu menang atas loop Python." },
@@ -156,7 +156,7 @@ export const d13: V2Lesson = {
       code: {
         starter: `import pandas as pd\\nimport numpy as np\\n\\nrng = np.random.default_rng(5)\\nn = 200_000\\ndf = pd.DataFrame({\\n    "id": rng.integers(0, 1_000_000, n),\\n    "gaji": rng.normal(9_000_000, 2_000_000, n),\\n    "kota": rng.choice(["Jakarta", "Bandung", "Surabaya", "Medan", "Makassar"], n),\\n})\\nmem_awal = df.memory_usage(deep=True).sum() / 1e6\\nprint(f"mem_awal={mem_awal:.1f}MB")\\nprint("dtypes awal:", dict(df.dtypes.astype(str)))\\n\\n# TULIS KODEMU: turunkan dtype tanpa mengubah makna data\\ndf["id"] =\\ndf["gaji"] =\\ndf["kota"] =\\n\\nmem_akhir = df.memory_usage(deep=True).sum() / 1e6\\nhemat = 1 - mem_akhir / mem_awal\\nprint(f"mem_akhir={mem_akhir:.1f}MB hemat={hemat:.0%}")\\nprint("dtypes akhir:", dict(df.dtypes.astype(str)))\\n`,
         lockLines: 12,
-        solution: `import pandas as pd\\nimport numpy as np\\n\\nrng = np.random.default_rng(5)\\nn = 200_000\\ndf = pd.DataFrame({\\n    "id": rng.integers(0, 1_000_000, n),\\n    "gaji": rng.normal(9_000_000, 2_000_000, n),\\n    "kota": rng.choice(["Jakarta", "Bandung", "Surabaya", "Medan", "Makassar"], n),\\n})\\nmem_awal = df.memory_usage(deep=True).sum() / 1e6\\nprint(f"mem_awal={mem_awal:.1f}MB")\\nprint("dtypes awal:", dict(df.dtypes.astype(str)))\\n\\n# TULIS KODEMU: turunkan dtype tanpa mengubah makna data\\ndf["id"] = pd.to_numeric(df["id"], downcast="integer")   # int64 -> int32\\ndf["gaji"] = pd.to_numeric(df["gaji"], downcast="float") # float64 -> float32/64\\ndf["kota"] = df["kota"].astype("category")               # object -> category\\n\\nmem_akhir = df.memory_usage(deep=True).sum() / 1e6\\nhemat = 1 - mem_akhir / mem_awal\\nprint(f"mem_akhir={mem_akhir:.1f}MB hemat={hemat:.0%}")\\nprint("dtypes akhir:", dict(df.dtypes.astype(str)))\\n`,
+        solution: `import pandas as pd\nimport numpy as np\n\nrng = np.random.default_rng(5)\nn = 200_000\ndf = pd.DataFrame({\n    "id": rng.integers(0, 1_000_000, n),\n    "gaji": rng.normal(9_000_000, 2_000_000, n),\n    "kota": rng.choice(["Jakarta", "Bandung", "Surabaya", "Medan", "Makassar"], n),\n})\nmem_awal = df.memory_usage(deep=True).sum() / 1e6\nprint(f"mem_awal={mem_awal:.1f}MB")\nprint("dtypes awal:", dict(df.dtypes.astype(str)))\n\n# TULIS KODEMU: turunkan dtype tanpa mengubah makna data\ndf["id"] = pd.to_numeric(df["id"], downcast="integer")   # int64 -> int32\ndf["gaji"] = pd.to_numeric(df["gaji"], downcast="float") # float64 -> float32/64\ndf["kota"] = df["kota"].astype("category")               # object -> category\n\nmem_akhir = df.memory_usage(deep=True).sum() / 1e6\nhemat = 1 - mem_akhir / mem_awal\nprint(f"mem_akhir={mem_akhir:.1f}MB hemat={hemat:.0%}")\nprint("dtypes akhir:", dict(df.dtypes.astype(str)))\n`,
         checks: [
           { kind: "defined", task: "t1", name: "mem_akhir", label: "`mem_akhir` terdefinisi", msg: "Hitung memory_usage(deep=True) setelah downcasting." },
           { kind: "stdout_matches", task: "t2", pattern: "hemat=82%", label: "Hemat 82% tercetak", msg: "14.4MB -> 2.6MB: downcasting + categorical." },
@@ -245,7 +245,7 @@ export const d13: V2Lesson = {
         "RAM: dtype hemat, usecols, chunksize.",
         "Paralel/numba = level terakhir.",
       ],
-      next: { label: "D14 — Rekayasa", href: "/learn/d14-rekayasa" },
+      next: { label: "D14 — Rekayasa", href: "/v2/learn/d14-rekayasa" },
     },
   ],
 };

@@ -202,7 +202,7 @@ export const pmc11: V2Lesson = {
         "Rating divergence (45\u201385, korelasi ~0,5): skor = starting point riset, bukan keputusan; waspadai provider shopping.",
         "Greenwashing: deteksi via vagueness, holdings vs klaim, voting nol; pertahanan = kebijakan tertulis + metrik + audit + transparansi.",
       ],
-      next: { label: "D1 \u2014 Data & Harga", href: "/learn/pm-d1-data-harga" },
+      next: { label: "D1 \u2014 Data & Harga", href: "/v2/learn/pm-d1-data-harga" },
       quiz: [
         {
           q: "Emiten tambang: DCF baseline Rp10T; skenario pajak karbon Rp75rb/ton \u00D7 8jt ton dari 2028 \u2192 PV biaya Rp3,2T. Keputusan integrasi ESG?",

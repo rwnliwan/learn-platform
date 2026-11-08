@@ -220,47 +220,7 @@ export const de26: V2Lesson = {
 `    print(f"window [{w},{w+5}): Rp{sums[w]} ribu")\n` +
 `print(f"terlambat: {terlambat} -> dibuang (watermark sudah lewat)")\n`,
         lockLines: 15,
-        solution: `# Flash sale 12.12: (id, event_time, arrival_time, amount Rp ribu)\n` +
-`# waktu = menit sejak 11:50 ; window 5 menit ; toleransi keterlambatan 2 menit\n` +
-`events = [\n` +
-`    ("E01", 5, 5, 100), ("E02", 6, 6, 200), ("E03", 7, 9, 150),\n` +
-`    ("E04", 8, 8, 300), ("E05", 9, 12, 250), ("E06", 10, 10, 400),\n` +
-`    ("E07", 11, 11, 350), ("E08", 12, 16, 500), ("E09", 13, 13, 250),\n` +
-`    ("E10", 6, 14, 180),\n` +
-`]\n` +
-`WINDOW = 5\n` +
-`LATENESS = 2\n` +
-`\n` +
-`def window_of(t):\n` +
-`    return (t // WINDOW) * WINDOW\n` +
-`\n` +
-`# TUGAS 1: pisahkan event tepat waktu vs terlambat (proses menurut waktu TIBA)\n` +
-`def tandai_terlambat(evts):\n` +
-`    by_arrival = sorted(evts, key=lambda e: e[2])\n` +
-`    max_et = -1\n` +
-`    tepat, telat = [], []\n` +
-`    for e in by_arrival:\n` +
-`        max_et = max(max_et, e[1])\n` +
-`        wm = max_et - LATENESS\n` +
-`        if e[1] < wm:\n` +
-`            telat.append(e[0])\n` +
-`        else:\n` +
-`            tepat.append(e)\n` +
-`    return tepat, telat\n` +
-`\n` +
-`# TUGAS 2: agregasi window tumbling menurut EVENT time (kolom kedua!)\n` +
-`def agregasi(evts):\n` +
-`    hasil = {}\n` +
-`    for e in evts:\n` +
-`        w = window_of(e[1])\n` +
-`        hasil[w] = hasil.get(w, 0) + e[3]\n` +
-`    return hasil\n` +
-`\n` +
-`tepat, terlambat = tandai_terlambat(events)\n` +
-`sums = agregasi(tepat)\n` +
-`for w in sorted(sums):\n` +
-`    print(f"window [{w},{w+5}): Rp{sums[w]} ribu")\n` +
-`print(f"terlambat: {terlambat} -> dibuang (watermark sudah lewat)")\n`,
+        solution: `# Flash sale 12.12: (id, event_time, arrival_time, amount Rp ribu)\n# waktu = menit sejak 11:50 ; window 5 menit ; toleransi keterlambatan 2 menit\nevents = [\n    ("E01", 5, 5, 100), ("E02", 6, 6, 200), ("E03", 7, 9, 150),\n    ("E04", 8, 8, 300), ("E05", 9, 12, 250), ("E06", 10, 10, 400),\n    ("E07", 11, 11, 350), ("E08", 12, 16, 500), ("E09", 13, 13, 250),\n    ("E10", 6, 14, 180),\n]\nWINDOW = 5\nLATENESS = 2\n\ndef window_of(t):\n    return (t // WINDOW) * WINDOW\n\n# TUGAS 1: pisahkan event tepat waktu vs terlambat (proses menurut waktu TIBA)\ndef tandai_terlambat(evts):\n    by_arrival = sorted(evts, key=lambda e: e[2])\n    max_et = -1\n    tepat, telat = [], []\n    for e in by_arrival:\n        max_et = max(max_et, e[1])\n        wm = max_et - LATENESS\n        if e[1] < wm:\n            telat.append(e[0])\n        else:\n            tepat.append(e)\n    return tepat, telat\n\n# TUGAS 2: agregasi window tumbling menurut EVENT time (kolom kedua!)\ndef agregasi(evts):\n    hasil = {}\n    for e in evts:\n        w = window_of(e[1])\n        hasil[w] = hasil.get(w, 0) + e[3]\n    return hasil\n\ntepat, terlambat = tandai_terlambat(events)\nsums = agregasi(tepat)\nfor w in sorted(sums):\n    print(f"window [{w},{w+5}): Rp{sums[w]} ribu")\nprint(f"terlambat: {terlambat} -> dibuang (watermark sudah lewat)")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "tandai_terlambat", label: "fungsi `tandai_terlambat` terdefinisi", msg: "Definisikan tandai_terlambat(evts) yang mengembalikan (tepat, id_terlambat)." },
           { kind: "equal", task: "t1", name: "terlambat", value: ["E10"], label: "`terlambat` = ['E10']", msg: "Hanya E10 yang tiba setelah watermark melewatinya." },
@@ -325,7 +285,7 @@ export const de26: V2Lesson = {
         "State + checkpoint = ingatan yang selamat dari restart; exactly-once = efek sekali via sink idempoten.",
         "Kafka = transport (jalan tol); Flink = mesin (pabrik). Micro-batch menjawab 'apa yang tiba', bukan 'apa yang terjadi'.",
       ],
-      next: { label: "DE27 — Data Observability: Mengetahui Data Rusak Sebelum Dashboard Berteriak", href: "/learn/de27-data-observability" },
+      next: { label: "DE27 — Data Observability: Mengetahui Data Rusak Sebelum Dashboard Berteriak", href: "/v2/learn/de27-data-observability" },
       quiz: [
         {
           q: "Dashboard GMV 'real-time' memakai micro-batch menurut waktu tiba. Apa risiko terbesarnya?",

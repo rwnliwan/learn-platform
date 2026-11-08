@@ -302,7 +302,7 @@ print(f"verdict={verdict} (signifikan={signifikan}, material={material})")`,
           ],
         },
       ],
-      next: { label: "B22 — Dari Regresi Logistik ke Credit Scorecard", href: "/learn/b22-regresi-scorecard" },
+      next: { label: "B22 — Dari Regresi Logistik ke Credit Scorecard", href: "/v2/learn/b22-regresi-scorecard" },
     },
   ],
 };

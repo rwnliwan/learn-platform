@@ -226,7 +226,7 @@ export const wqb11: V2Lesson = {
         "Check bersifat menggugurkan: 1 gagal = gagal total; gagal struktural → buang, jangan poles.",
         "Aturan 10 detik: Sharpe ≥ 1,25, sapu tujuh check, satu merah struktural = buang.",
       ],
-      next: { label: "WQB12 — Sub-Universe Sharpe: Ujian Ketat Kandidat Kuat", href: "/learn/wqb12-sub-universe" },
+      next: { label: "WQB12 — Sub-Universe Sharpe: Ujian Ketat Kandidat Kuat", href: "/v2/learn/wqb12-sub-universe" },
       quiz: [
         {
           q: "Kandidat Kilat: Sharpe 1,61 tapi turnover 0,91 dan long 88%. Keputusan benar?",

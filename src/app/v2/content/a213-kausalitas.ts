@@ -215,7 +215,7 @@ export const a213: V2Lesson = {
         "RCT = standar emas (menyeimbangkan confounder tak teramati); DiD butuh parallel trends.",
         "IV/RDD/matching mencari randomisasi alami; hanya korelasi → jangan klaim kausal.",
       ],
-      next: { label: "A2.2 — Estimasi & MLE", href: "/learn/a22-estimasi-mle" },
+      next: { label: "A2.2 — Estimasi & MLE", href: "/v2/learn/a22-estimasi-mle" },
       quiz: [
         {
           q: "Kampanye A menang agregat tapi kalah di tiap segmen. Penjelasan & tindakan?",

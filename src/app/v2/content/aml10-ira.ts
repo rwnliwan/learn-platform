@@ -236,7 +236,7 @@ export const aml10: V2Lesson = {
         "Action plan dipilih dengan cost-effectiveness = penurunan/biaya.",
         "Menerima risiko = keputusan tertulis direksi, bukan kelalaian.",
       ],
-      next: { label: "AML11 — Terrorist Financing Typologies", href: "/learn/aml11-terrorist-financing" },
+      next: { label: "AML11 — Terrorist Financing Typologies", href: "/v2/learn/aml11-terrorist-financing" },
       quiz: [
         {
           q: "Korporat berlapis: inherent 25, efektivitas kontrol 20%. Residual dan rating?",

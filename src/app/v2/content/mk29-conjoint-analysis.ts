@@ -70,7 +70,7 @@ export const mk29: V2Lesson = {
       formulaNote: "Rating profil = rata-rata umum + jumlah part-worth tiap levelnya. Importance = rentang atribut dibagi total rentang.",
       note: {
         title: "Prediksi profil baru",
-        body: "Model ini bisa memprediksi rating profil yang tidak diuji: profil Rp5 juta, baterai 6.000, kamera 108MP diprediksi 6,5 ditambah 0,0 ditambah 0,5 ditambah 1,0 sama dengan 8,0. Prediksi di atas 8 dari 10 untuk paket yang belum pernah ditawarkan — itulah alasan tim produk berani meluncurkan paket itu.",
+        body: "Model ini bisa memprediksi rating profil yang tidak diuji: profil Rp5 juta, baterai 6.000, kamera 108MP diprediksi 6,5 ditambah 0,0 ditambah 0,5 ditambah 1,0 sama dengan 8,0. Prediksi 8,0 dari 10 untuk paket yang belum pernah ditawarkan — itulah alasan tim produk berani meluncurkan paket itu.",
       },
       reference: "Part-worth = rata-rata level dikurangi rata-rata umum. WTP kamera Rp2.181.818; baterai Rp1.090.909.",
     },
@@ -133,7 +133,7 @@ export const mk29: V2Lesson = {
       title: "Mini-case: kamera naik atau harga turun?",
       prose: [
         "Kembali ke debat tim produk. Kubu harga turun mengusulkan Rp7 juta menjadi Rp5 juta: utility naik dari negatif 1,83 menjadi 0,0 — kenaikan 1,83. Kubu kamera naik mengusulkan kamera 48MP menjadi 108MP dengan harga tetap: utility naik dari negatif 1,0 menjadi positif 1,0 — kenaikan 2,0. Kenaikan utility kamera lebih besar daripada kenaikan utility turun harga — dan biaya menaikkan kamera jauh lebih kecil daripada memotong Rp2.000.000 dari harga tiap unit.",
-        "Keputusan: harga tetap Rp5 juta, kamera 108MP, baterai 6.000 mAh — profil yang diprediksi rating 8,0, tertinggi dari semua kombinasi yang diuji. WTP-nya membenarkan: pelanggan menilai kamera 108MP sebesar Rp2.181.818 dan baterai 6.000 mAh sebesar Rp1.090.909 — total nilai tambah Rp3.272.727 untuk paket yang biaya tambahannya hanya sebagian kecil dari itu.",
+        "Keputusan: harga tetap Rp5 juta, kamera 108MP, baterai 6.000 mAh — profil yang diprediksi rating 8,0. (Bukan yang tertinggi: kombinasi Rp3 juta–6.000–108MP diprediksi 6,5 + 1,83 + 0,5 + 1,0 = 9,83, dan satu profil yang diuji sudah mendapat rating 10.) WTP-nya membenarkan: pelanggan menilai kamera 108MP sebesar Rp2.181.818 dan baterai 6.000 mAh sebesar Rp1.090.909 — total nilai tambah Rp3.272.727 untuk paket yang biaya tambahannya hanya sebagian kecil dari itu.",
         "Tiga bulan setelah peluncuran, pangsa paket itu 34 persen dari penjualan — tertinggi di lini. Bukan karena conjoint meramal masa depan, melainkan karena conjoint mengukur trade-off sebelum uang dikeluarkan. Debat yang tadinya soal firasat berubah menjadi soal angka — dan angka itu bisa diuji ulang kapan pun.",
       ],
       tasks: [],
@@ -199,7 +199,7 @@ export const mk29: V2Lesson = {
         {
           q: "Profil baru Rp5 juta, baterai 6.000, kamera 108MP diprediksi rating 8,0. Apa yang TIDAK boleh disimpulkan?",
           options: [
-            { text: "Paket itu diprediksi paling disukai di antara kombinasi yang diuji", why: "Salah: itu boleh disimpulkan — 8,0 adalah prediksi tertinggi dari model." },
+            { text: "Paket itu diprediksi mendapat rating 8,0", why: "Salah: itu boleh disimpulkan — model memang memprediksi 8,0 (6,5 + 0,0 + 0,5 + 1,0). Yang TIDAK boleh disimpulkan adalah \"paling disukai\": kombinasi Rp3 juta–6.000–108MP diprediksi 9,83, dan satu profil yang diuji sudah mendapat rating 10." },
             { text: "80 persen pelanggan akan membeli paket itu", why: "Tepat: rating 8,0 dari 10 bukan probabilitas beli 80 persen. Pangsa pasar butuh CBC dengan opsi tidak membeli.", correct: true },
             { text: "Kamera dan baterai menambah utility dibanding profil dasar", why: "Salah: itu boleh disimpulkan — part-worth keduanya positif." },
             { text: "Harga Rp5 juta netral dalam model ini", why: "Salah: itu boleh disimpulkan — part-worth harga Rp5 juta adalah 0,0." },

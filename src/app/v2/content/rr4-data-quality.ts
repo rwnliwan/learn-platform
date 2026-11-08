@@ -332,7 +332,7 @@ for i in range(2, 6):
         "Checklist 7 item sebelum kirim; tanggal data paling sering gagal.",
         "Tidak bisa dijelaskan → tahan & eskalasi; terlanjur salah → koreksi resmi.",
       ],
-      next: { label: "RR5 — Visualisasi untuk Komite", href: "/learn/rr5-visualisasi" },
+      next: { label: "RR5 — Visualisasi untuk Komite", href: "/v2/learn/rr5-visualisasi" },
       quiz: [
         {
           q: "Mengapa kasus Rp15 miliar lolos tiga lapis review manusia?",

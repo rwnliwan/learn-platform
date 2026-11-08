@@ -269,7 +269,7 @@ export const mr28: V2Lesson = {
         "Uji cepat: untuk KURSIMU saat ini (atau yang kamu incar), apa kata kerjanya — dan sertifikasi apa yang mengikutinya?",
         "Ingat rumus kerja: kualitas laporan = akurasi × ketepatan waktu × keterjejakan.",
       ],
-      next: { label: "MR29 — XVA: CVA, FVA, dan Biaya Tersembunyi Derivatif", href: "/learn/mr29-xva" },
+      next: { label: "MR29 — XVA: CVA, FVA, dan Biaya Tersembunyi Derivatif", href: "/v2/learn/mr29-xva" },
       reference: "Pilih senjata sesuai kursi; lisensi dulu, relevansi selalu.",
     },
   ],

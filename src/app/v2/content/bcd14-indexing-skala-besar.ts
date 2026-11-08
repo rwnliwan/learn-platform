@@ -245,7 +245,7 @@ export const bcd14: V2Lesson = {
         "Indeks bernilai jika Q >= 3; Q = 1 = RPC langsung saja.",
         "Delay 12 blok untuk reorg; BigQuery delay 10–60 mnt = bukan untuk alerting.",
       ],
-      next: { label: "BCD15 — Oracle Literacy", href: "/learn/bcd15-oracle-literacy" },
+      next: { label: "BCD15 — Oracle Literacy", href: "/v2/learn/bcd15-oracle-literacy" },
     },
   ],
 };

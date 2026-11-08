@@ -211,7 +211,7 @@ print(f"titik_akhir=({x2_akhir:.4f}, {y2_akhir:.4f})")`,
             "kind": "stdout_matches",
             "task": "t1",
             "label": "`print` menampilkan selisih",
-            "pattern": "selisih=\\d\\.\\d\\de-\\d+",
+            "pattern": "selisih=\\d\\.\\d\\de[+-]\\d+",
             "msg": "Format: selisih={selisih:.2e}.",
           },
           {

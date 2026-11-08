@@ -203,7 +203,7 @@ export const bcd5: V2Lesson = {
         "Red flag: top-10 > 50%, insider > 40%, holder boneka, unlock dekat, vesting abal-abal.",
         "Gunakan fully diluted valuation, bukan circulating market cap.",
       ],
-      next: { label: "BCD6 — Data NFT: Wash Trading & Valuasi", href: "/learn/bcd6-nft" },
+      next: { label: "BCD6 — Data NFT: Wash Trading & Valuasi", href: "/v2/learn/bcd6-nft" },
       quiz: [
         {
           q: "Tim klaim 'hanya 5%', tetapi 40 address yang didanai deployer memegang 55%. Kepemilikan efektif tim?",

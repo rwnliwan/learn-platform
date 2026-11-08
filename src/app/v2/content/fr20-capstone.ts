@@ -190,7 +190,7 @@ export const fr20: V2Lesson = {
         "Pitch: angka dulu, metodologi kemudian.",
         "Kamu kini bisa merancang pertahanan fraud end-to-end.",
       ],
-      next: { label: "FR21 — SQL untuk Fraud", href: "/learn/fr21-sql-fraud" },
+      next: { label: "FR21 — SQL untuk Fraud", href: "/v2/learn/fr21-sql-fraud" },
       quiz: [
         {
           q: "Hari pertama sebagai Fraud Analyst. Apa langkah PERTAMA?",

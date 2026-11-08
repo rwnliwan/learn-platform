@@ -215,7 +215,7 @@ export const a310: V2Lesson = {
         "VaR adalah ambang (bukan maksimum); ES mengukur seberapa buruk saat jebol.",
         "Ekor tebal: tinggalkan kuantil normal, pakai kuantil t atau empiris. Breach bergerombol = estimator tuli.",
       ],
-      next: { label: "A3.11 — PCA & Clustering", href: "/learn/a311-pca-clustering" },
+      next: { label: "A3.11 — PCA & Clustering", href: "/v2/learn/a311-pca-clustering" },
       quiz: [
         {
           q: "VaR 99 persen jebol 12 kali dalam sebulan (ekspektasi sekitar 2 kali). Diagnosis?",

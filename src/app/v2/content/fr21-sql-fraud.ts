@@ -195,7 +195,7 @@ export const fr21: V2Lesson = {
         "HAVING = saring setelah agregat; WHERE = sebelum.",
         "Forensik: ikuti uangnya dengan GROUP BY + SUM + ORDER BY.",
       ],
-      next: { label: "FR22 — Chargeback", href: "/learn/fr22-chargeback" },
+      next: { label: "FR22 — Chargeback", href: "/v2/learn/fr22-chargeback" },
       quiz: [
         {
           q: "12 user 40–80 trx/jam ditemukan satu query. Apa query intinya?",

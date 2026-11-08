@@ -176,7 +176,7 @@ export const dm11: V2Lesson = {
         "Golden record: survivorship per kolom (otoritas > kebaruan) + jejak lengkap.",
         "MDM: registry → coexistence → centralized; mulai kecil.",
       ],
-      next: { label: "DM12 — Keamanan & Privasi", href: "/learn/dm12-keamanan-privasi" },
+      next: { label: "DM12 — Keamanan & Privasi", href: "/v2/learn/dm12-keamanan-privasi" },
       quiz: [
         {
           q: "Bedanya master data vs reference data vs transaksional?",

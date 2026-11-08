@@ -289,7 +289,7 @@ loss_akhir = riwayat[-1]`,
         "SavedModel = format standar → TF Serving, TFLite, TF.js, TPU.",
         "Pilih framework dari target deployment, bukan dari kenyamanan.",
       ],
-      next: { label: "DLE26 — Video CV: Multi-Object Tracking & Action Recognition", href: "/learn/dle26-video-tracking" },
+      next: { label: "DLE26 — Video CV: Multi-Object Tracking & Action Recognition", href: "/v2/learn/dle26-video-tracking" },
       quiz: [
         {
           q: "Arsitektur membutuhkan dua input (gambar + teks) yang digabung sebelum output. API Keras yang tepat?",

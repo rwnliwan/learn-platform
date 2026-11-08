@@ -185,7 +185,7 @@ export const cr17a: V2Lesson = {
         "Piutang tumbuh jauh di atas penjualan = akrual agresif / pelanggan tak membayar.",
         "Opini audit WTP = kewajaran penyajian — BUKAN jaminan sehat.",
       ],
-      next: { label: "CR17B — Kredit Korporasi 2", href: "/learn/cr17b-corporate-credit-2" },
+      next: { label: "CR17B — Kredit Korporasi 2", href: "/v2/learn/cr17b-corporate-credit-2" },
       quiz: [
         {
           q: "Laba naik 30% tetapi arus kas operasi negatif. Kesimpulan analis?",

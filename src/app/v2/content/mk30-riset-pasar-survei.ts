@@ -60,7 +60,7 @@ export const mk30: V2Lesson = {
       title: "Sampel, margin of error, dan nonresponse bias",
       prose: [
         "Ukuran sampel dihitung dari rumus: n sama dengan z kuadrat dikali p dikali satu dikurangi p, dibagi e kuadrat. Untuk tingkat kepercayaan 95 persen, z sama dengan 1,96. Untuk margin of error 5 persen, e sama dengan 0,05. Dengan p sama dengan 0,5 — nilai paling konservatif karena variansnya maksimum — n sama dengan 3,8416 dikali 0,25 dibagi 0,0025 sama dengan 384,16, dibulatkan ke atas menjadi 385 responden. Itulah asal angka 385 di cerita pembuka: bukan tebakan, melainkan hitungan.",
-        "Dua hal yang sering disalahpahami. Pertama, ukuran sampel hampir tidak bergantung pada ukuran populasi — populasi 20.000 atau 2.000.000 butuh sampel yang hampir sama untuk margin of error yang sama. Yang menentukan adalah margin of error yang diinginkan: mengecilkan margin dari 5 persen ke 3 persen menaikkan sampel dari 385 menjadi sekitar 1.067 — hampir tiga kali lipat. Kedua, margin of error hanya mengukur kesalahan sampling acak — ia tidak mengukur bias sama sekali.",
+        "Dua hal yang sering disalahpahami. Pertama, ukuran sampel hampir tidak bergantung pada ukuran populasi — populasi 20.000 atau 2.000.000 butuh sampel yang hampir sama untuk margin of error yang sama. Yang menentukan adalah margin of error yang diinginkan: mengecilkan margin dari 5 persen ke 3 persen menaikkan sampel dari 385 menjadi 1.068 — hampir tiga kali lipat. (1,96² × 0,25 / 0,03² = 1.067,11 — dibulatkan ke atas dengan math.ceil menjadi 1.068, sesuai aturan lesson ini.) Kedua, margin of error hanya mengukur kesalahan sampling acak — ia tidak mengukur bias sama sekali.",
         "Bias terbesar survei modern adalah nonresponse: yang menjawab berbeda dari yang tidak. Response rate 19,25 persen di cerita pembuka berarti 80,75 persen tidak menjawab — dan bila yang tidak menjawab adalah pelanggan yang kecewa, hasil survei terlalu manis. Cara mendeteksinya: bandingkan profil responden dengan profil populasi — umur, frekuensi kunjungan, nilai belanja. Bila pelanggan tua 70 persen populasi tetapi hanya 50 persen responden, ada bias — dan obatnya adalah pembobotan.",
         "Pembobotan bekerja dengan memberi bobot tiap segmen sama dengan pangsa populasi dibagi pangsa sampel. Segmen muda: pangsa populasi 30 persen dibagi pangsa sampel 50 persen sama dengan bobot 0,6. Segmen tua: 70 persen dibagi 50 persen sama dengan bobot 1,4. Kepuasan tertimbang: 0,3 dikali 4,2 ditambah 0,7 dikali 3,6 sama dengan 1,26 ditambah 2,52 sama dengan 3,78. Bandingkan dengan rata-rata mentah 3,9 — selisih 0,12 poin adalah harga bias yang tidak dikoreksi.",
       ],
@@ -81,7 +81,7 @@ export const mk30: V2Lesson = {
         "Lab ini membangun kalkulator survei: ukuran sampel, response rate, NPS, dan kepuasan tertimbang.",
         "Hitung dulu di kepala. Ukuran sampel: 1,96 kuadrat sama dengan 3,8416; dikali 0,5 dikali 0,5 sama dengan 0,9604; dibagi 0,05 kuadrat (0,0025) sama dengan 384,16 — dibulatkan ke atas menjadi 385. Response rate: 385 dibagi 2.000 dikali 100 sama dengan 19,25 persen. NPS dari 1.000 responden — promoter 520, pasif 300, detraktor 180: promoter 52 persen dikurangi detraktor 18 persen sama dengan 34. Kepuasan tertimbang: 0,3 dikali 4,2 ditambah 0,7 dikali 3,6 sama dengan 3,78.",
         "Tugas lab: tulis fungsi yang menerima parameter survei dan mencetak empat angka: n, response_rate, nps, kepuasan_tertimbang. Keempat angka ini adalah ringkasan satu halaman yang dibawa analis ke direksi — dengan metodologi yang bisa dipertahankan bila ditanya.",
-        "Setelah lolos, coba eksperimen: ubah margin of error menjadi 0,03 dan lihat n melonjak menjadi 1.067 — lalu tanyakan: apakah margin 3 persen sepadan dengan biaya hampir tiga kali lipat? Jawabannya ada di langkah berikutnya: tergantung keputusan apa yang akan diambil dari angka itu.",
+        "Setelah lolos, coba eksperimen: ubah margin of error menjadi 0,03 dan lihat n melonjak menjadi 1.068 — lalu tanyakan: apakah margin 3 persen sepadan dengan biaya hampir tiga kali lipat? Jawabannya ada di langkah berikutnya: tergantung keputusan apa yang akan diambil dari angka itu.",
       ],
       tasks: [
         { id: "t1", text: "Hitung ukuran sampel dari z, p, dan margin of error (bulatkan ke atas)" },
@@ -115,7 +115,7 @@ export const mk30: V2Lesson = {
       prose: [
         "Tiga metrik survei yang paling dipakai — dan paling disalahpahami. NPS (Net Promoter Score): dari pertanyaan 'seberapa mungkin Anda merekomendasikan kami, 0 sampai 10?', promoter adalah skor 9 sampai 10, pasif 7 sampai 8, detraktor 0 sampai 6. NPS sama dengan persen promoter dikurangi persen detraktor — rentangnya negatif 100 sampai positif 100. NPS 34 di cerita pembuka berarti promoter melebihi detraktor sebanyak 34 poin. Yang tidak boleh diklaim: NPS bukan probabilitas rekomendasi dan bukan pertumbuhan — ia korelasi, bukan sebab.",
         "CSAT (Customer Satisfaction): persen responden yang puas — biasanya skor 4 atau 5 dari 5. Sederhana, tetapi sensitif terhadap skala: CSAT dari skala 5 titik tidak bisa dibandingkan dengan CSAT dari skala 7 titik. CES (Customer Effort Score): seberapa mudah pelanggan menyelesaikan urusannya — 'seberapa mudah Anda menyelesaikan pesanan?' — dan terbukti memprediksi churn lebih baik daripada kepuasan umum, karena pelanggan yang harus berusaha keras adalah pelanggan yang pergi diam-diam.",
-        "Aturan pelaporan yang jujur: selalu laporkan metrik bersama n, response rate, dan periode. 'NPS 34 (n 1.000, response rate 19,25 persen, Januari 2026)' adalah klaim yang bisa diuji. 'NPS 34' sendirian adalah slogan. Dan selalu laporkan distribusi, bukan hanya rata-rata: kepuasan rata-rata 3,78 bisa berarti semua orang memberi 4 — atau separuh memberi 5 dan separuh memberi 2. Dua dunia yang sama sekali berbeda, dengan rata-rata yang sama.",
+        "Aturan pelaporan yang jujur: selalu laporkan metrik bersama n, response rate, dan periode. 'NPS 34 (n 1.000, response rate 19,25 persen, Januari 2026)' adalah klaim yang bisa diuji. 'NPS 34' sendirian adalah slogan. Dan selalu laporkan distribusi, bukan hanya rata-rata: kepuasan rata-rata 3,78 bisa berarti 78 persen memberi 4 dan 22 persen memberi 3 — atau 39 persen memberi 5 dan 61 persen memberi 3 (0,39 × 5 + 0,61 × 3 = 3,78). Dua dunia yang sama sekali berbeda, dengan rata-rata yang sama. (Bukan 'semua memberi 4' — itu rata-ratanya 4,0 — dan bukan 'separuh 5, separuh 2' — itu 3,5.)",
         "Satu peringatan terakhir: survei mengukur apa yang orang katakan, bukan apa yang orang lakukan. Pelanggan yang memberi skor 5 di survei tetapi tidak pernah kembali adalah data — bukan kontradiksi. Gabungkan survei dengan data perilaku (MK3, MK6): bila skor naik tetapi retensi turun, percayalah pada perilaku, dan selidiki kenapa kata-kata dan perbuatan berbeda.",
       ],
       tasks: [],
@@ -151,7 +151,7 @@ export const mk30: V2Lesson = {
       tasks: [],
       summary: [
         "Pertanyaan survei: netral, tunggal, skala seimbang dengan titik tengah yang jelas.",
-        "n = 385 untuk margin 5 persen, kepercayaan 95 persen; margin 3 persen butuh sekitar 1.067.",
+        "n = 385 untuk margin 5 persen, kepercayaan 95 persen; margin 3 persen butuh 1.068.",
         "Lab: n = 385; response rate 19,25 persen; NPS 34; kepuasan tertimbang 3,78.",
         "Bobot = pangsa populasi dibagi pangsa sampel; tanpa bobot, rata-rata mentah terlalu manis.",
         "NPS, CSAT, CES dilaporkan bersama n, response rate, dan periode — dan selalu bersama distribusi.",
@@ -171,7 +171,7 @@ export const mk30: V2Lesson = {
           q: "Ukuran sampel 385 untuk margin 5 persen. Berapa kira-kira sampel untuk margin 3 persen?",
           options: [
             { text: "Sekitar 231 — margin mengecil berarti sampel mengecil", why: "Salah: terbalik. Margin lebih kecil butuh sampel lebih besar, bukan lebih kecil." },
-            { text: "Sekitar 1.067 — hampir tiga kali lipat", why: "Tepat: n berbanding terbalik dengan kuadrat margin — (5/3) kuadrat sama dengan 2,78 kali lipat.", correct: true },
+            { text: "1.068 — hampir tiga kali lipat", why: "Tepat: n berbanding terbalik dengan kuadrat margin — (5/3) kuadrat sama dengan 2,78 kali lipat.", correct: true },
             { text: "Tetap 385 — ukuran sampel tidak bergantung pada margin", why: "Salah: margin of error adalah penentu utama ukuran sampel. Populasi yang hampir tidak berpengaruh." },
             { text: "Sekitar 770 — dua kali lipat, sebanding dengan margin", why: "Salah: hubungannya kuadrat, bukan linear. Setengah margin butuh empat kali sampel." },
           ],

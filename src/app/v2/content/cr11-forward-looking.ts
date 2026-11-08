@@ -222,7 +222,7 @@ export const cr11: V2Lesson = {
         "Bobot skenario = keputusan komite; sangat sensitif terhadap laba.",
         "Overlay sah jika spesifik, dihitung, disetujui, ada kedaluwarsa. Jika tidak = manipulasi.",
       ],
-      next: { label: "CR12 — LGD", href: "/learn/cr12-lgd" },
+      next: { label: "CR12 — LGD", href: "/v2/learn/cr12-lgd" },
       quiz: [
         {
           q: "Apa fungsi model satelit dalam rantai ECL?",

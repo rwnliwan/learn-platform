@@ -320,7 +320,7 @@ print(f"s2_last={s2[-1]:.4f}")`,
       ],
       next: {
         label: "B24 — Backtesting & Monitoring Model Probabilistik",
-        href: "/learn/b24-backtesting-monitoring-model",
+        href: "/v2/learn/b24-backtesting-monitoring-model",
       },
     },
   ],

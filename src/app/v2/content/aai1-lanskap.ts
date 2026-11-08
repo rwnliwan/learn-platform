@@ -244,7 +244,7 @@ print(f"selisih={selisih:.3f}")`,
         "Tidak semua tugas butuh agen: 1 langkah → chatbot; deterministik → skrip; tak pasti + verifikasi → agen.",
         "Kecepatan tanpa verifikasi memindahkan biaya ke klarifikasi — hitung total cost, bukan waktu mentah.",
       ],
-      next: { label: "AAI18 — Fondasi API LLM untuk Agen", href: "/learn/aai18-fondasi-api-llm" },
+      next: { label: "AAI18 — Fondasi API LLM untuk Agen", href: "/v2/learn/aai18-fondasi-api-llm" },
       quiz: [
         {
           q: "Apa pembeda UTAMA agen dari chatbot?",

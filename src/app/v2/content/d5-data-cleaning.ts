@@ -307,7 +307,7 @@ export const d5: V2Lesson = {
         "Outlier: deteksi IQR/z-score, investigasi sebelum tindakan.",
         "Laporkan % + audit trail. Jangan imputasi sebelum split.",
       ],
-      next: { label: "D6 — Wrangling", href: "/learn/d6-wrangling" },
+      next: { label: "D6 — Wrangling", href: "/v2/learn/d6-wrangling" },
     },
   ],
 };

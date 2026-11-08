@@ -190,7 +190,7 @@ export const cr37: V2Lesson = {
         "Vonis tiga kategori: noda lama = selidiki konteks; pola aktif = tunda/tolak; data rusak = stop.",
         "Data biro = data pribadi: consent, tujuan terbatas, akses berwenang, jejak audit.",
       ],
-      next: { label: "CR28 — Climate Risk Kredit", href: "/learn/cr28-climate-risk-kredit" },
+      next: { label: "CR28 — Climate Risk Kredit", href: "/v2/learn/cr28-climate-risk-kredit" },
       quiz: [
         {
           q: "Debitur SLIK-nya Kol 1 semua, tetapi inquiry 8 kali dalam 6 bulan dan utilisasi kartu 94%. Penilaian yang benar…",

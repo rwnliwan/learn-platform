@@ -226,7 +226,7 @@ export const wqb14: V2Lesson = {
         "Deteksi: slope 15 tweak terakhir < 0,002 = plafon → berhenti memoles, pindah family.",
         "Budget: mis. 25 tweak + 5 undian per family; kriteria berhenti ditulis SEBELUM memoles.",
       ],
-      next: { label: "WQB15 — Korelasi Antar-Alpha: Berpikir Klaster, Bukan Baris", href: "/learn/wqb15-korelasi-klaster" },
+      next: { label: "WQB15 — Korelasi Antar-Alpha: Berpikir Klaster, Bukan Baris", href: "/v2/learn/wqb15-korelasi-klaster" },
       quiz: [
         {
           q: "Analis mencoba 100 varian (p = 5% tiap varian terlihat bagus karena luck). Peluang minimal satu bintang palsu?",

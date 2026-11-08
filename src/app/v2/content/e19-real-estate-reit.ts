@@ -276,7 +276,7 @@ print(f"cicilan={cicilan/1e6:.2f}jt/bln  arus_kas={arus_kas/1e6:.1f}jt/thn  CoC=
         "REIT = eksposur properti likuid + dividen jumbo; dinilai dari FFO (laba + depresiasi non-kas), bukan laba bersih. Harga sahamnya tetap fluktuatif & sensitif bunga.",
         "Empat risiko: vacancy, suku bunga, likuiditas, konsentrasi. Stress-test: bunga +3%, kosong 6 bulan, harga −20%.",
       ],
-      next: { label: "E20 — Asuransi & Dana Pensiun", href: "/learn/e20-asuransi-dana-pensiun" },
+      next: { label: "E20 — Asuransi & Dana Pensiun", href: "/v2/learn/e20-asuransi-dana-pensiun" },
       quiz: [
         {
           q: "Kenapa analis REIT memakai FFO (laba bersih + depresiasi), bukan laba bersih?",

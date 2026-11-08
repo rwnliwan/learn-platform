@@ -260,7 +260,7 @@ export const aml13: V2Lesson = {
         "Jendela emas = sebelum mixer: bekukan di mule/exchange dalam hitungan jam.",
         "BEC: rekening baru + nominal aneh + via email → tahan + verifikasi kanal independen.",
       ],
-      next: { label: "AML14 — RegTech, AI & pKYC", href: "/learn/aml14-regtech-ai-pkyc" },
+      next: { label: "AML14 — RegTech, AI & pKYC", href: "/v2/learn/aml14-regtech-ai-pkyc" },
       quiz: [
         {
           q: "Korban transfer Rp50 juta × 10 kali dalam 2 bulan ke wallet baru, lalu berhenti total. Pola ini paling cocok dengan?",

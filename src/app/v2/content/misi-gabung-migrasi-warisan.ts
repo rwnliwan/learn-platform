@@ -93,8 +93,6 @@ export const misiGabungMigrasiWarisan: V2Mission = {
         task: "Audit 4 aturan validasi pada orders_mini: total negatif, tanggal masa depan (> 2026-10-15), pelanggan yatim (tidak ada di pelanggan_mini), status di luar daftar (baru, diproses, selesai, batal). Kembalikan order_id + label masalah, urut order_id lalu masalah.",
         schema: "CREATE TABLE pelanggan_mini (id INTEGER PRIMARY KEY, nama TEXT, email TEXT);\nCREATE TABLE orders_mini (id INTEGER PRIMARY KEY, pelanggan_id INTEGER, tanggal TEXT, total INTEGER, status TEXT);",
         seedData: [
-          "CREATE TABLE pelanggan_mini (id INTEGER PRIMARY KEY, nama TEXT, email TEXT);",
-          "CREATE TABLE orders_mini (id INTEGER PRIMARY KEY, pelanggan_id INTEGER, tanggal TEXT, total INTEGER, status TEXT);",
           "INSERT INTO pelanggan_mini VALUES",
           "(1,'Ayu','ayu@toko.id'),",
           "(2,'Budi','budi@toko.id'),",
@@ -171,8 +169,6 @@ const LANJUTAN_MIGRASI: V2Step[] = [
       task: "Buru dua pemboros: (1) full scan — operasi 'Seq Scan' DAN baris_dipindai = baris_total; (2) indeks hantu — dipakai_30_hari = 0. Kembalikan jenis + nama + detail, urut jenis lalu nama.",
       schema: "CREATE TABLE query_log_mini (query_id TEXT, teks TEXT, tabel TEXT, operasi TEXT, baris_dipindai INTEGER, baris_total INTEGER, ms INTEGER);\nCREATE TABLE indeks_mini (nama TEXT, tabel TEXT, kolom TEXT, dipakai_30_hari INTEGER, ukuran_kb INTEGER);",
       seedData: [
-        "CREATE TABLE query_log_mini (query_id TEXT, teks TEXT, tabel TEXT, operasi TEXT, baris_dipindai INTEGER, baris_total INTEGER, ms INTEGER);",
-        "CREATE TABLE indeks_mini (nama TEXT, tabel TEXT, kolom TEXT, dipakai_30_hari INTEGER, ukuran_kb INTEGER);",
         "INSERT INTO query_log_mini VALUES",
         "('Q1','cari order by id','orders','Index Scan',1,8012,12),",
         "('Q2','laporan status selesai','orders','Seq Scan',8012,8012,2340),",

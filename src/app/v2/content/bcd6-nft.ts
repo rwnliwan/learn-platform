@@ -220,7 +220,7 @@ export const bcd6: V2Lesson = {
         "Valuasi = median penjualan organik + haircut likuiditas; floor price = harga pajangan.",
         "Buang wash DULU, baru hitung metrik apa pun.",
       ],
-      next: { label: "BCD7 — Deteksi Fraud On-Chain", href: "/learn/bcd7-fraud" },
+      next: { label: "BCD7 — Deteksi Fraud On-Chain", href: "/v2/learn/bcd7-fraud" },
       quiz: [
         {
           q: "Pola A→B→C→A dalam 2 jam untuk satu NFT. Ini…",

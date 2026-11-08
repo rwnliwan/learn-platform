@@ -239,7 +239,7 @@ print(f"Untuk RPO = 0 pilih mode: {rpo_nol}")`,
       ],
       next: {
         label: "DBA23 — Database di Kubernetes & IaC untuk DBA",
-        href: "/learn/dba23-database-kubernetes-iac",
+        href: "/v2/learn/dba23-database-kubernetes-iac",
       },
       quiz: [
         {

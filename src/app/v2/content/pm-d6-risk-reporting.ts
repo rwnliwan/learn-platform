@@ -194,7 +194,7 @@ export const pmd6: V2Lesson = {
         "Komunikasi: 1 halaman, bahasa bisnis (Rp!), temuan → dampak → opsi → rekomendasi.",
         "Ukuran keberhasilan = keputusan yang diambil. Tulis untuk keputusan, bukan arsip.",
       ],
-      next: { label: "DM1 \u2014 Data Lifecycle", href: "/learn/dm1-data-lifecycle" },
+      next: { label: "DM1 \u2014 Data Lifecycle", href: "/v2/learn/dm1-data-lifecycle" },
       quiz: [
         {
           q: "VaR limit Rp1M, aktual Rp1,2M. Tindakan?",

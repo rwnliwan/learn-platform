@@ -112,7 +112,7 @@ export const dm3a: V2Lesson = {
       code: {
         starter: `import sqlite3\ncon = sqlite3.connect(":memory:")\ncur = con.cursor()\ncur.execute("CREATE TABLE nasabah (id INTEGER PRIMARY KEY, kota TEXT)")\ncur.executemany("INSERT INTO nasabah (kota) VALUES (?)",\n                [("Jakarta",)] * 5000 + [("Bandung",)] * 5000 + [("Surabaya",)] * 5000)\n\n# TULIS KODEMU\n\n\n\nprint(plan)`,
         lockLines: 6,
-        solution: `import sqlite3\ncon = sqlite3.connect(":memory:")\ncur = con.cursor()\ncur.execute("CREATE TABLE nasabah (id INTEGER PRIMARY KEY, kota TEXT)")\ncur.executemany("INSERT INTO nasabah (kota) VALUES (?)",\n                [("Jakarta",)] * 5000 + [("Bandung",)] * 5000 + [("Surabaya",)] * 5000)\n\n# TULIS KODEMU\ncur.execute("CREATE INDEX idx_kota ON nasabah(kota)")\nplan = cur.execute("EXPLAIN QUERY PLAN SELECT * FROM nasabah WHERE kota='Jakarta'").fetchall()\n\nprint(plan)`,
+        solution: `import sqlite3\ncon = sqlite3.connect(":memory:")\ncur = con.cursor()\ncur.execute("CREATE TABLE nasabah (id INTEGER PRIMARY KEY, kota TEXT)")\ncur.executemany("INSERT INTO nasabah (kota) VALUES (?)",\n                [("Jakarta",)] * 5000 + [("Bandung",)] * 5000 + [("Surabaya",)] * 5000)\n\n# TULIS KODEMU\ncur.execute("CREATE INDEX idx_kota ON nasabah(kota)")\nplan_rows = cur.execute("EXPLAIN QUERY PLAN SELECT * FROM nasabah WHERE kota='Jakarta'").fetchall()\nplan = "\\n".join(" | ".join(str(x) for x in r) for r in plan_rows)\n\nprint(plan)`,
         checks: [
           { kind: "defined", task: "t3", name: "plan", label: "`plan` terdefinisi", msg: "Simpan hasil EXPLAIN QUERY PLAN ke variabel plan." },
           { kind: "contains", task: "t1", name: "plan", value: "SEARCH", label: "plan memakai index (SEARCH)", msg: "Tanpa index, plan tertulis SCAN. Buat index dulu dengan CREATE INDEX." },
@@ -169,7 +169,7 @@ export const dm3a: V2Lesson = {
         "Index: O(n) → O(log n) untuk baca; pajak untuk tulis. EXPLAIN dulu sebelum menuduh.",
         "Jangan: campur OLAP berat di OLTP; index semua kolom; andalkan cek-di-aplikasi untuk konkruensi.",
       ],
-      next: { label: "DM3B — Database NoSQL", href: "/learn/dm3b-database-nosql" },
+      next: { label: "DM3B — Database NoSQL", href: "/v2/learn/dm3b-database-nosql" },
       quiz: [
         {
           q: "Server mati setelah debit tapi sebelum kredit. Properti ACID apa yang mencegah uang menguap?",

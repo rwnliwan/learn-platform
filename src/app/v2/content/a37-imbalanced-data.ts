@@ -208,7 +208,7 @@ export const a37: V2Lesson = {
         "SMOTE = interpolasi (bukan informasi baru), hanya di dalam fold latih.",
         "Threshold dari biaya/kapasitas; stratified CV wajib; group k-fold untuk data berkelompok.",
       ],
-      next: { label: "A3.8 — Validasi Model", href: "/learn/a38-validasi-model" },
+      next: { label: "A3.8 — Validasi Model", href: "/v2/learn/a38-validasi-model" },
       quiz: [
         {
           q: "Model butuh probabilitas untuk pricing (PD x LGD). Data imbalance 2%. Teknik yang aman?",

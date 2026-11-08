@@ -309,7 +309,7 @@ print(f"w0={w0:.4f} w1={w1:.4f} w2={w2:.4f}")`,
           ],
         },
       ],
-      next: { label: "B23 — Time-Series Terapan: Stationarity, ARIMA, dan GARCH", href: "/learn/b23-time-series-arima-garch" },
+      next: { label: "B23 — Time-Series Terapan: Stationarity, ARIMA, dan GARCH", href: "/v2/learn/b23-time-series-arima-garch" },
     },
   ],
 };

@@ -194,7 +194,7 @@ export const bi11: V2Lesson = {
         "Trajectory: urutan diferensiasi (inferensi!); RNA velocity: arah.",
         "Waspadai doublet menyamar sebagai “tipe sel baru”.",
       ],
-      next: { label: "BI12 · Genetika Populasi", href: "/learn/bi12-genomika-populasi" },
+      next: { label: "BI12 · Genetika Populasi", href: "/v2/learn/bi12-genomika-populasi" },
       quiz: [
         {
           q: "Eksperimen menargetkan 10.000 sel (10x). Estimasi doublet dan implikasinya?",

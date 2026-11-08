@@ -283,7 +283,7 @@ print("Tanya: lev naik 2x lipat — drawdown-nya ikut berapa kali lipat?")`,
         "RP murni return-nya rendah → butuh leverage murah & stabil ke target vol; leverage menggandakan drawdown & rapuh saat korelasi melonjak (2022).",
         "Risk budgeting (jatah risiko sesuai mandat) lebih cocok untuk kebanyakan kasus daripada parity buta; bobot risiko pun perlu direbalance.",
       ],
-      next: { label: "D9 — CPPI & Asuransi Portofolio", href: "/learn/pm-d9-cppi" },
+      next: { label: "D9 — CPPI & Asuransi Portofolio", href: "/v2/learn/pm-d9-cppi" },
       quiz: [
         {
           q: "Portofolio 60/40: σ_saham=16%, σ_obligasi=5%, ρ=0,2. Kontribusi risiko saham?",

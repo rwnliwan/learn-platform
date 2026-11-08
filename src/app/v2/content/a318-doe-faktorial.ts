@@ -272,7 +272,7 @@ print(f"terbaik={best}")`,
         "Blocking menyerap gangguan diketahui ke efek blok; Taguchi mengoptimalkan robustness (signal-to-noise), bukan rata-rata.",
         "Banyak faktor → faktorial fraksional untuk screening dulu; A/B berurutan = lambat, buta interaksi, tidak comparable.",
       ],
-      next: { label: "A319 — RFM & Cohort Analysis", href: "/learn/a319-rfm-cohort" },
+      next: { label: "A319 — RFM & Cohort Analysis", href: "/v2/learn/a319-rfm-cohort" },
       quiz: [
         {
           q: "A/B test tombol hijau menang 8%, tetapi setelah diluncurkan ke semua pengguna efeknya hilang. Penjelasan paling mungkin?",

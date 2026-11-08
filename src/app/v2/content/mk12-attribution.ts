@@ -49,7 +49,7 @@ export const mk12: V2Lesson = {
         solution: `# Journey: Sosmed -> Email -> Search, revenue Rp1jt\nrevenue = 1_000_000\nn_touch = 3\nbobot_pos = [0.4, 0.2, 0.4]\n\n# TULIS KODEMU: linear & position-based\nlinear = revenue / n_touch\npos = [w * revenue for w in bobot_pos]\n\nprint(f"linear={linear:.0f} pos={pos}")`,
         checks: [
           { kind: "equal", task: "t1", name: "linear", value: 333333, tol: 1, label: "`linear` seharusnya 333333", msg: "1.000.000 / 3." },
-          { kind: "equal", task: "t2", name: "pos", value: 400000, tol: 1, label: "`pos[0]` seharusnya 400000", msg: "0,4 × 1.000.000. Cek bobot position-based." },
+          { kind: "equal", task: "t2", name: "pos", value: [400000.0, 200000.0, 400000.0], tol: 1, label: "`pos` seharusnya [400000, 200000, 400000]", msg: "Bobot position-based 0,4/0,2/0,4 × Rp1jt." },
           { kind: "stdout_matches", task: "t2", pattern: "linear=333333", label: "`print` menampilkan linear", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
@@ -280,7 +280,7 @@ export const mk12: V2Lesson = {
         "Journey pendek: last-click cukup. Journey panjang: pilih model sesuai keputusan.",
         "Audit jebakan: viewability, retargeting harvesting, pergeseran DDA diam-diam.",
       ],
-      next: { label: "MK13 — MMM", href: "/learn/mk13-mmm" },
+      next: { label: "MK13 — MMM", href: "/v2/learn/mk13-mmm" },
       quiz: [
         {
           q: "Journey Sosmed→Email→Search Rp1jt. Kredit Email di tiap model?",

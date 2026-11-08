@@ -355,7 +355,7 @@ print(f"fp_peeking={fp_peeking:.2f}")`,
         "Intip legal = sequential testing: rencana tertulis + alpha spending + ambang ketat di awal.",
         "Guardrail (refund, NPS, revenue) ditulis di muka; merah = tahan rollout.",
       ],
-      next: { label: "MK10 — Inkrementalitas", href: "/learn/mk10-incrementality" },
+      next: { label: "MK10 — Inkrementalitas", href: "/v2/learn/mk10-incrementality" },
       quiz: [
         {
           q: "Kapan CUPED boleh dipakai?",

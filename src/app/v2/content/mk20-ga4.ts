@@ -243,7 +243,7 @@ export const mk20: V2Lesson = {
         "Pilih alat sesuai pertanyaan: antarmuka (rutin), Explore (ad-hoc), BigQuery (mentah/audit), tagging serius untuk event uang; angka revenue selalu rekonsiliasi tiga sumber.",
         "GA4 adalah bahasa: definisi event = keputusan bisnis; curigai angka terlalu bagus; alat mengikuti pertanyaan.",
       ],
-      next: { label: "MK21 — Server-Side Tracking", href: "/learn/mk21-server-side" },
+      next: { label: "MK21 — Server-Side Tracking", href: "/v2/learn/mk21-server-side" },
       quiz: [
         {
           q: "Di GA4, page_view dan purchase pada dasarnya adalah:",

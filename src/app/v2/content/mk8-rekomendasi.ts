@@ -292,7 +292,7 @@ export const mk8: V2Lesson = {
         "Offline (NDCG) untuk menyaring, A/B online untuk memutuskan; koreksi position bias.",
         "Sisihkan 5-10% slot untuk exploration; optimasi expected value, bukan klik.",
       ],
-      next: { label: "MK9 — Eksperimen", href: "/learn/mk9-eksperimen" },
+      next: { label: "MK9 — Eksperimen", href: "/v2/learn/mk9-eksperimen" },
       quiz: [
         {
           q: "Kenapa widget \u201Cterlaris\u201D CTR-nya hanya 0,3%?",

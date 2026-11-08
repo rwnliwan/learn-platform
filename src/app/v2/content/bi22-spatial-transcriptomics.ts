@@ -229,7 +229,7 @@ export const bi22: V2Lesson = {
         "Pilih teknologi dari pertanyaan, bukan dari kecanggihan: zona/sel/molekul.",
         "Kolokalisasi ≠ kausalitas — klaim interaksi butuh validasi fungsional.",
       ],
-      next: { label: "BI23 · Pharmacogenomics", href: "/learn/bi23-pharmacogenomics" },
+      next: { label: "BI23 · Pharmacogenomics", href: "/v2/learn/bi23-pharmacogenomics" },
       quiz: [
         {
           q: "Satu spot Visium berisi…",

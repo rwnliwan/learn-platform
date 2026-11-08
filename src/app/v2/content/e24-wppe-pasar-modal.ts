@@ -291,7 +291,7 @@ print(f"total={total_nilai}  settle={tgl_settle.isoformat()}  rantai={rantai}")`
           ],
         },
       ],
-      next: { label: "E25 — Menulis Research Note & Investment Memo", href: "/learn/e25-research-note" },
+      next: { label: "E25 — Menulis Research Note & Investment Memo", href: "/v2/learn/e25-research-note" },
     },
   ],
 };

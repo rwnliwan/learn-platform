@@ -212,7 +212,7 @@ export const llmops10: V2Lesson = {
         "Shadow untuk biaya/latency; blue-green untuk infra; canary untuk perilaku.",
         "Break-even pipeline canary = satu incident yang dicegah.",
       ],
-      next: { label: "LLMOps11 — Feedback Loop", href: "/learn/llmops11-feedback" },
+      next: { label: "LLMOps11 — Feedback Loop", href: "/v2/learn/llmops11-feedback" },
       quiz: [
         {
           q: "Mengapa error rate saja tidak cukup sebagai gerbang canary LLM?",

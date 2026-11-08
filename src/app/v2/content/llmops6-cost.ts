@@ -314,7 +314,7 @@ print(f"base={base_jt:.1f}jt  batch={batch_jt:.1f}jt  distill={distill_jt:.1f}jt
         "Budget guardrail: alert 80%, throttle 100%, per fitur sesuai prioritas bisnis.",
         "Batch API (~50% lebih murah, ilustratif) untuk beban non-interaktif; distilasi + parity gate di bawah 2 poin untuk trafik rutin — gabungan keduanya hemat 87,5% pada evaluasi offline.",
       ],
-      next: { label: "LLMOps7 — Observability", href: "/learn/llmops7-observability" },
+      next: { label: "LLMOps7 — Observability", href: "/v2/learn/llmops7-observability" },
       quiz: [
         {
           q: "Request 800 input + 400 output token. Model besar Rp40/1K in + Rp160/1K out. Biaya per request?",

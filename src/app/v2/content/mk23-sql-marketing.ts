@@ -270,7 +270,7 @@ export const mk23: V2Lesson = {
           ],
         },
       ],
-      next: { label: "MK24 — Excel & Google Sheets untuk Analis Marketing", href: "/learn/mk24-excel-sheets-marketing" },
+      next: { label: "MK24 — Excel & Google Sheets untuk Analis Marketing", href: "/v2/learn/mk24-excel-sheets-marketing" },
     },
   ],
 };

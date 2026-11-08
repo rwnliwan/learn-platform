@@ -232,7 +232,7 @@ export const hd2: V2Lesson = {
         "Kode billing dioptimasi untuk pembayaran — validasi silang sebelum jadi label klinis.",
         "Perubahan administratif (pelatihan coding, ganti tarif) meniru wabah/tren di data klaim.",
       ],
-      next: { label: "HD3 — Insidens, Prevalensi, RR", href: "/learn/hd3-epidemiologi" },
+      next: { label: "HD3 — Insidens, Prevalensi, RR", href: "/v2/learn/hd3-epidemiologi" },
       quiz: [
         {
           q: "E11 dalam ICD-10 adalah…",

@@ -276,7 +276,7 @@ print(f"qlora 4-bit: {'MUAT' if mem_gb(P, 0.5) <= GPU_GB else 'TIDAK MUAT'} di {
         "Catastrophic forgetting: lawan dengan replay + LR kecil + evaluasi dua arah.",
         "Aturan mulai: QLoRA r=16 dulu, naikkan bila terbukti underfit; ukur tiga angka evaluasi.",
       ],
-      next: { label: "MLE27 — LLM Serving at Scale", href: "/learn/mle27-llm-serving" },
+      next: { label: "MLE27 — LLM Serving at Scale", href: "/v2/learn/mle27-llm-serving" },
       quiz: [
         {
           q: "Matriks 4096×4096, LoRA r=8. Berapa parameter yang dilatih dan rasionya?",

@@ -280,7 +280,7 @@ export const cr27: V2Lesson = {
         "DSR ≤ 30%: capacity = sisa penghasilan, dinilai agregat lintas platform.",
         "Tiga horizon: DSR mencegah, TWP90 mendeteksi, pooling funds menanggung.",
       ],
-      next: { label: "CR28 — Climate Risk untuk Kredit", href: "/learn/cr28-climate-risk-kredit" },
+      next: { label: "CR28 — Climate Risk untuk Kredit", href: "/v2/learn/cr28-climate-risk-kredit" },
       quiz: [
         {
           q: "TWP90 ArusDana 4,8%, naik 0,15 poin/kuartal. Status yang tepat?",

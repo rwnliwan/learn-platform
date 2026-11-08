@@ -221,7 +221,7 @@ export const a23: V2Lesson = {
         "CI mean pakai t untuk n kecil; jangan tertukar dengan interval prediksi.",
         "Hitung sampel yang dibutuhkan sebelum mengumumkan hasil.",
       ],
-      next: { label: "A2.4 — Uji Hipotesis", href: "/learn/a24-uji-hipotesis" },
+      next: { label: "A2.4 — Uji Hipotesis", href: "/v2/learn/a24-uji-hipotesis" },
       quiz: [
         {
           q: "Interval kepercayaan 95% untuk PD adalah (2,1%, 4,3%). Interpretasi yang BENAR?",

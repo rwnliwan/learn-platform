@@ -65,11 +65,11 @@ export const mk6: V2Lesson = {
         "Bulan 3: 0,72 × (1 − 8/72) = 0,64.",
       ],
       code: {
-        starter: `# n = at-risk, d = churn per bulan\nn = [100, 90, 72]\nd = [10, 18, 8]\n\n# TULIS KODEMU: kurva survival Kaplan-Meier\nS = 1.0\nsurv = []\nfor ni, di in zip(n, d):\n    S =\n    surv.append(S)\n\nprint(surv)`,
+        starter: `# n = at-risk, d = churn per bulan\nn = [100, 90, 72]\nd = [10, 18, 8]\n\n# TULIS KODEMU: kurva survival Kaplan-Meier\nS = 1.0\nsurv = []\nfor ni, di in zip(n, d):\n    S =\n    surv.append(round(S, 4))\n\nprint(surv)`,
         lockLines: 3,
-        solution: `# n = at-risk, d = churn per bulan\nn = [100, 90, 72]\nd = [10, 18, 8]\n\n# TULIS KODEMU: kurva survival Kaplan-Meier\nS = 1.0\nsurv = []\nfor ni, di in zip(n, d):\n    S = S * (1 - di / ni)\n    surv.append(S)\n\nprint(surv)`,
+        solution: `# n = at-risk, d = churn per bulan\nn = [100, 90, 72]\nd = [10, 18, 8]\n\n# TULIS KODEMU: kurva survival Kaplan-Meier\nS = 1.0\nsurv = []\nfor ni, di in zip(n, d):\n    S = S * (1 - di / ni)\n    surv.append(round(S, 4))\n\nprint(surv)`,
         checks: [
-          { kind: "equal", task: "t1", name: "surv", value: 0.9, tol: 1e-9, label: "`surv[0]` seharusnya 0,9", msg: "Bulan 1: 1 × (1 − 10/100)." },
+          { kind: "equal", task: "t1", name: "surv", value: [0.9, 0.72, 0.64], tol: 1e-9, label: "`surv` seharusnya [0,9, 0,72, 0,64]", msg: "Bulan 1: 1 × (1 − 10/100)." },
           { kind: "contains", task: "t1", name: "surv", value: 0.64, label: "`surv` memuat 0,64", msg: "Bulan 3: 0,72 × (1 − 8/72) = 0,64." },
           { kind: "stdout_matches", task: "t2", pattern: "0\\.64", label: "`print` menampilkan 0,64", msg: "Pastikan list surv tercetak lengkap." },
         ],
@@ -293,7 +293,7 @@ print(f"r30={r30:.2f} r60={r60:.2f} r90={r90:.2f}")`,
         "Kontrak churn: X dari distribusi jeda; reaktivasi = outcome terpisah.",
         "Label leakage: fitur wajib punya tanggal ketersediaan ≤ tanggal prediksi; validasi time-travel.",
       ],
-      next: { label: "MK7 — Propensity", href: "/learn/mk7-propensity" },
+      next: { label: "MK7 — Propensity", href: "/v2/learn/mk7-propensity" },
       quiz: [
         {
           q: "Data censored (pelanggan belum churn di akhir observasi) harus diapakan?",

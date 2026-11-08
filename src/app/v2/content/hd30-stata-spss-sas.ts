@@ -332,7 +332,7 @@ print("SAS   : proc logistic data=rs; model dm(event='1') = usia laki; run;")`,
           ],
         },
       ],
-      next: { label: "HD31 — Metrik Mutu HEDIS & CMS Star Ratings", href: "/learn/hd31-hedis-cms" },
+      next: { label: "HD31 — Metrik Mutu HEDIS & CMS Star Ratings", href: "/v2/learn/hd31-hedis-cms" },
     },
   ],
 };

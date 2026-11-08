@@ -292,7 +292,7 @@ print(f"pemenang={pemenang}")`,
         "Desain di kertas dulu (node, edge, state) — pilih framework kemudian.",
         "Framework dinilai dari: eksplisit state, mudah resume, lengkap hooks.",
       ],
-      next: { label: "AAI11 — Debugging Agen: Tracing & Observability", href: "/learn/aai11-debugging" },
+      next: { label: "AAI11 — Debugging Agen: Tracing & Observability", href: "/v2/learn/aai11-debugging" },
       quiz: [
         {
           q: "Kapan kamu BENAR-BENAR butuh graph (bukan chain)?",

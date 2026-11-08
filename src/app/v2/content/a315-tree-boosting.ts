@@ -203,7 +203,7 @@ export const a315: V2Lesson = {
         "Feature importance = alat debugging; ID di top-3 = red flag leakage.",
         "Pilih model berdasar materialitas rupiah + disiplin validasi, bukan fanatisme algoritma.",
       ],
-      next: { label: "A3.2 — Diagnostik Regresi", href: "/learn/a32-diagnostik-regresi" },
+      next: { label: "A3.2 — Diagnostik Regresi", href: "/v2/learn/a32-diagnostik-regresi" },
       quiz: [
         {
           q: "Apa rahasia random forest yang sebenarnya menurunkan variance?",

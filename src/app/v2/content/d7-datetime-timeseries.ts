@@ -247,7 +247,7 @@ export const d7: V2Lesson = {
         "Lookahead: fitur hanya dari masa lalu — shift(1) pola aman.",
         "Bug waktu bersembunyi lama karena hasilnya masuk akal: pasang assert.",
       ],
-      next: { label: "D8-1 — Visualisasi matplotlib", href: "/learn/d8-visualisasi-1" },
+      next: { label: "D8-1 — Visualisasi matplotlib", href: "/v2/learn/d8-visualisasi-1" },
     },
   ],
 };

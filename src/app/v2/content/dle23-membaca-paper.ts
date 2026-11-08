@@ -273,7 +273,7 @@ print(f"Terverifikasi: {ok} | Gagal: {gagal} | Tidak terverifikasi: {hilang}")`,
         "Checklist 7 item: data, seed, hyperparameter, environment, kode vs reimplementasi, asumsi tersembunyi, budget tuning setara — lalu cek transferabilitas ke konteks sendiri.",
         "Keputusan adopsi: bukti lemah → baca saja; kuat tapi beda konteks → reproduksi mini 1–2 hari; lolos mini → implementasi penuh.",
       ],
-      next: { label: "DLE24 — RAG End-to-End: Implementasi & Evaluasi Retrieval", href: "/learn/dle24-rag-implementasi" },
+      next: { label: "DLE24 — RAG End-to-End: Implementasi & Evaluasi Retrieval", href: "/v2/learn/dle24-rag-implementasi" },
       quiz: [
         {
           q: "Urutan membaca paper yang benar menurut metode 3 putaran?",

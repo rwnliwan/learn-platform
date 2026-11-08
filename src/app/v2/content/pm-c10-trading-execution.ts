@@ -215,7 +215,7 @@ export const pmc10: V2Lesson = {
         "Instruksi spesifik (algo + horizon + limit + urgensi) + evaluasi vs arrival price, bukan VWAP.",
         "Net alpha = alpha bruto − IS; eksekusi buruk menghapus alpha manajer hebat.",
       ],
-      next: { label: "C11 \u2014 Ethics & ESG", href: "/learn/pm-c11-ethics-esg" },
+      next: { label: "C11 \u2014 Ethics & ESG", href: "/v2/learn/pm-c11-ethics-esg" },
       quiz: [
         {
           q: "Saham lapis tiga IDX, ADV Rp3 miliar. Order jual Rp600 juta. Taktik yang tepat?",

@@ -22,7 +22,7 @@ export const pmb6: V2Lesson = {
       eyebrow: "Langkah 1 · Binomial + chart",
       title: "Formula Rp nobelis — dan yang kolaps karenanya",
       prose: [
-        "1973: Black, Scholes & Merton menerbitkan formula harga opsi. 1997: Nobel Ekonomi. Di antaranya: LTCM (didirikan Scholes & Merton) kolaps 1998 — rugi USD 4,6 miliar. Twist-nya: formula benar secara matematis — tetapi asumsinya (volatilitas konstan, likuiditas selalu ada, return normal) salah di dunia nyata. LTCM bertaruh dengan leverage 25:1 pada asumsi itu. Model hebat + asumsi rapuh + leverage = bencana.",
+        "1973: Black & Scholes menerbitkan formula harga opsi (Merton menerbitkan paper pendamping di tahun yang sama). 1997: Nobel Ekonomi. Di antaranya: LTCM (didirikan John Meriwether; Scholes & Merton hanya partner) kolaps 1998 — rugi USD 4,6 miliar. Twist-nya: formula benar secara matematis — tetapi asumsinya (volatilitas konstan, likuiditas selalu ada, return normal) salah di dunia nyata. LTCM bertaruh dengan leverage 25:1 pada asumsi itu. Model hebat + asumsi rapuh + leverage = bencana.",
         "Binomial 1-periode: saham naik ke S_u atau turun ke S_d. Replikasi: \u0394 saham + pinjaman = payoff opsi di kedua state \u2192 harga opsi = biaya replikasi. Risk-neutral probability: \u03c0 = [(1+r) \u2212 d]/(u \u2212 d); harga = [\u03c0\u00d7C_u + (1\u2212\u03c0)\u00d7C_d]/(1+r). Hedge ratio \u0394 = (C_u \u2212 C_d)/(S_u \u2212 S_d) — inilah delta.",
         "\u03c0 risk-neutral \u2260 probabilitas aktual. Ia alat hitung replikasi, bukan ramalan — \u201cprobabilitas risk-neutral 70% \u2192 saham 70% akan naik\u201d adalah SALAH.",
         "Cara membaca: pohon dibaca kiri ke kanan — tiap node menunjukkan harga saham (S) dan nilai opsi call (C) di titik itu, dengan probabilitas risk-neutral π = 0,75.",
@@ -102,7 +102,7 @@ export const pmb6: V2Lesson = {
       hints: [
         "d1 = [ln(S/X) + (r + \u03c3\u00b2/2)T] / (\u03c3\u221aT).",
         "d2 = d1 \u2212 \u03c3\u221aT.",
-        "call = S\u00d7N(d1) \u2212 X\u00d7e^(­rT)\u00d7N(d2).",
+        "call = S\u00d7N(d1) \u2212 X\u00d7e^(rT)\u00d7N(d2).",
       ],
       code: {
         starter: `import math\ns, x, r, sig, t = 100, 105, 0.05, 0.30, 1\nN = lambda z: 0.5*(1+math.erf(z/math.sqrt(2)))\n# TULIS KODEMU\nd1 = \nd2 = \ncall = \n\nprint(f"d1={d1:.3f}  d2={d2:.3f}  call={call:.2f}")`,
@@ -162,10 +162,10 @@ export const pmb6: V2Lesson = {
         "Nilai swap (terima tetap) = 10.632.759 \u2212 10.000.000 = +Rp632.759. Positif = menguntungkan penerima tetap — karena suku bunga turun sejak swap dibuat (kaki tetap makin berharga).",
         "Aturan arah: bayar-fixed + rate pasar turun \u2192 MTM negatif (terkunci bayar mahal) = liabilitas + collateral.",
       ],
-      formula: String.raw`V_{\text{swap}} = PV(\text{floating}) - PV(\text{fixed})`,
+      formula: String.raw`V_{\text{swap}} = PV(\text{fixed}) - PV(\text{floating})`,
       formulaNote: "V_swap = nilai swap bagi penerima tetap; trik praktisi: kaki floating ≈ par (notional) pada tanggal reset — tidak perlu hitung detail. Contoh: 10.632.759 − 10.000.000 = +Rp632.759 (positif = menguntungkan penerima tetap karena rate turun). Bayar-fixed + rate turun → MTM negatif = liabilitas.",
       tasks: [
-        { id: "t1", text: "Hitung `v` = PV floating \u2212 PV fixed (PV fixed sudah dihitung)" },
+        { id: "t1", text: "Hitung `v` = PV fixed − PV floating (PV fixed sudah dihitung) — nilai bagi penerima tetap" },
         { id: "t2", text: "Cetak dalam ribuan rupiah 2 desimal" },
       ],
       expected: "v_rb=632.76",
@@ -175,14 +175,14 @@ export const pmb6: V2Lesson = {
         body: "Menghitung PV kaki floating dari nol dengan detail. Trik: kaki floating selalu \u2248 par (notional) pada tanggal reset — hemat waktu, ini yang dipakai praktisi.",
       },
       hints: [
-        "v = pv_float \u2212 pv_fixed.",
+        "v = pv_fixed - pv_float.",
         "Cetak ribuan: bagi 1000.",
-        "v = pv_float - pv_fixed",
+        "v = pv_fixed - pv_float",
       ],
       code: {
         starter: `pv_fixed = 600000/1.025 + 10600000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = \n\nprint(f"v_rb={v/1000:.2f}")`,
         lockLines: 2,
-        solution: `pv_fixed = 600000/1.025 + 10600000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = pv_float - pv_fixed\n\nprint(f"v_rb={v/1000:.2f}")`,
+        solution: `pv_fixed = 600000/1.025 + 10600000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = pv_fixed - pv_float\n\nprint(f"v_rb={v/1000:.2f}")`,
         checks: [
           { kind: "equal", task: "t1", name: "v", value: 632759, tol: 50, label: "`v` sekitar 632759", msg: "10.632.759 \u2212 10.000.000 = 632.759. Tanda = untuk penerima tetap." },
           { kind: "stdout_matches", task: "t2", pattern: "v_rb=632\\.76", label: "`print` menampilkan ribuan", msg: "Format: v_rb=632.76 (ribuan rupiah)." },
@@ -213,8 +213,8 @@ export const pmb6: V2Lesson = {
       eyebrow: "Langkah 7 · Mini-case",
       title: "Nobelis yang kolaps: framework risiko",
       prose: [
-        "LTCM: didirikan peraih Nobel (Scholes & Merton), model arbitrase tercanggih, return 40%+/tahun 1994\u201397. Leverage 25:1. Agustus 1998 (krisis Rusia): likuiditas kering, korelasi \u2192 1, vol meledak — asumsi BS jebol serentak. Rugi USD 4,6 miliar; The Fed memediasi bailout.",
-        "Yang salah = pemakaian, bukan model. Tiga asumsi yang jebol: vol konstan (meledak), likuiditas selalu ada (pasar bekU), return normal (ekor tebal). Plus leverage 25:1 = tidak ada ruang salah.",
+        "LTCM: didirikan John Meriwether (Scholes & Merton sebagai partner, bukan pendiri), model arbitrase tercanggih, return tahunan 1994–97 sekitar 20% / 43% / 41% / 17% (19,9%; 42,8%; 40,8%; 17,1%). Leverage 25:1. Agustus 1998 (krisis Rusia): likuiditas kering, korelasi \u2192 1, vol meledak — asumsi BS jebol serentak. Rugi USD 4,6 miliar; The Fed memediasi bailout.",
+        "Yang salah = pemakaian, bukan model. Tiga asumsi yang jebol: vol konstan (meledak), likuiditas selalu ada (pasar beku), return normal (ekor tebal). Plus leverage 25:1 = tidak ada ruang salah.",
         "Framework desk derivatif: (1) leverage cap (\u2264 5x untuk strategi konvergensi); (2) stress test asumsi (vol 3x, likuiditas NOL, korelasi \u2192 1); (3) stop-loss modal (drawdown 20% = potong posisi); (4) buffer likuiditas untuk margin call; (5) komite risiko independen. LTCM gagal di kelimanya.",
       ],
       tasks: [],
@@ -230,7 +230,7 @@ export const pmb6: V2Lesson = {
       eyebrow: "Langkah 8 · Paritas & basis risk",
       title: "Arbitrase tercepat dan hedge yang bocor",
       prose: [
-        "Put-call parity (Eropa, non-dividen): C + PV(X) = P + S — call + kas = put + saham (payoff identik). Contoh: S = 100, X = 100, r = 5%, T = 1, C = 12 → P wajar = 12 + 95,12 − 100 = 7,12. Pasar quote P = 9 → put kemahalan: jual put, beli synthetic put murah (beli call + jual saham + pinjam PV(X)) → kantongi selisih. Praktik: pelanggaran parity = sinyal mispricing, ekspektasi dividen yang salah, atau biaya pinjam saham (hard-to-borrow). Untuk opsi Amerika, parity melemah jadi pertidaksamaan — jangan arbitrase buta.",
+        "Put-call parity (Eropa, non-dividen): C + PV(X) = P + S — call + kas = put + saham (payoff identik). Contoh: S = 100, X = 100, r = 5%, T = 1, C = 12 → P wajar = 12 + 95,12 − 100 = 7,12. Pasar quote P = 9 → put kemahalan: jual put, beli synthetic put murah (beli call + jual saham + pinjamkan/investasikan PV(X)) → kantongi selisih sekitar 9 − 7,12 = 1,88. Praktik: pelanggaran parity = sinyal mispricing, ekspektasi dividen yang salah, atau biaya pinjam saham (hard-to-borrow). Untuk opsi Amerika, parity melemah jadi pertidaksamaan — jangan arbitrase buta.",
         "Vol smile — recap: pasar memberi implied vol lebih tinggi untuk put OTM (proteksi crash mahal) — smile membuktikan asumsi vol konstan BS salah di dunia nyata. Praktisi tidak memakai satu σ melainkan vol surface per strike & tenor. Konsekuensi: harga BS dengan σ tunggal = benchmark bahasa pasar, bukan kebenaran — untuk hedging, pakai vol surface.",
         "Basis risk saat hedging: hedge pakai futures ≠ hedge spot — basis = spot − futures bisa bergerak. Contoh: lindungi Rp10M saham LQ45 dengan futures indeks; saat krisis basis melebar 2% → hedge bocor Rp200jt. Cross-hedge (obligasi IDR di-hedge futures USD) = basis risk maksimal. Aturan: hedge ratio optimal = ρ × (σ_spot / σ_futures) — bukan 1; makin lemah korelasi, makin kecil hedge yang jujur. Hedge yang tidak bisa dieksekusi saat dibutuhkan = tidak ada hedge.",
       ],
@@ -293,10 +293,10 @@ export const pmb6: V2Lesson = {
         "Binomial: harga = PV ekspektasi risk-neutral; \u03c0 \u2260 ramalan.",
         "BS: C = S\u00d7N(d1) \u2212 PV(X)\u00d7N(d2); \u03c3 = input tak terlihat (implied vol).",
         "Greeks: delta/gamma/vega/theta = panel instrumen trader.",
-        "Swap: V = PV(floating) \u2212 PV(fixed); floating \u2248 par.",
+        "Swap (terima tetap): V = PV(fixed) − PV(floating); (bayar tetap: kebalikannya). Floating ≈ par.",
         "LTCM: hormati asumsi; leverage \u2264 error model; stress-test asumsi.",
       ],
-      next: { label: "PM-B7 — Currency: Paritas & Carry Trade", href: "/learn/pm-b7-currency" },
+      next: { label: "PM-B7 — Currency: Paritas & Carry Trade", href: "/v2/learn/pm-b7-currency" },
     },
   ],
 };

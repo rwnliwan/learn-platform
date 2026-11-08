@@ -268,7 +268,7 @@ export const aai6: V2Lesson = {
         "S(n) = n/(1+c(n−1)): multi-agent dibenarkan spesialisasi/nilai waktu, bukan kecepatan mentah.",
         "Gambar diagram sekuens sebelum coding — deadlock terlihat di kertas.",
       ],
-      next: { label: "AAI7 — Prompt Engineering untuk Agen", href: "/learn/aai7-prompt" },
+      next: { label: "AAI7 — Prompt Engineering untuk Agen", href: "/v2/learn/aai7-prompt" },
       quiz: [
         {
           q: "Penulis menunggu fakta yang \u201Csudah dikirim\u201D, Peneliti menunggu konfirmasi. Ini contoh…",

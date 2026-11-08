@@ -210,7 +210,7 @@ export const llmops3: V2Lesson = {
         "Baca hasil per kategori; ambang kategori kritis tidak bisa dikompensasi kategori lain.",
         "LLM-as-judge untuk nuansa (ranking), checker aturan untuk yang deterministik (keputusan).",
       ],
-      next: { label: "LLMOps4 — Operasional RAG", href: "/learn/llmops4-rag-ops" },
+      next: { label: "LLMOps4 — Operasional RAG", href: "/v2/learn/llmops4-rag-ops" },
       quiz: [
         {
           q: "Mengapa exact string match buruk sebagai checker golden set?",

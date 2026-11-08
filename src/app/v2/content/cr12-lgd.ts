@@ -197,7 +197,7 @@ export const cr12: V2Lesson = {
         "Downturn LGD untuk modal: max(rata-rata, downturn) — PD & LGD naik bersamaan saat resesi.",
         "Distribusi LGD bimodal: rata-rata menipu untuk kasus individual — model dua tahap.",
       ],
-      next: { label: "CR13 — EAD & CCF", href: "/learn/cr13-ead-ccf" },
+      next: { label: "CR13 — EAD & CCF", href: "/v2/learn/cr13-ead-ccf" },
       quiz: [
         {
           q: "EAD Rp 500 jt, recovery bersih didiskonto Rp 390 jt. LGD?",

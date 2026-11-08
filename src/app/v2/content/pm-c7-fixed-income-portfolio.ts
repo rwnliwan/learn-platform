@@ -221,7 +221,7 @@ export const pmc7: V2Lesson = {
         "Aktif: rate anticipation, rotasi spread/kredit \u2014 simetris dan butuh keyakinan tinggi; default = pasif.",
         "Batas imunisasi: hanya parallel shift; twist dan drift duration = gagal. Komunikasikan batasnya.",
       ],
-      next: { label: "C8 \u2014 Equity Portfolio", href: "/learn/pm-c8-equity-portfolio" },
+      next: { label: "C8 \u2014 Equity Portfolio", href: "/v2/learn/pm-c8-equity-portfolio" },
       quiz: [
         {
           q: "Dua portofolio berduration 7,5. Kurva twist: yield 2thn +100bp, 10thn \u221250bp. Apa yang terjadi?",

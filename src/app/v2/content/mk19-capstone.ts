@@ -309,7 +309,7 @@ export const mk19: V2Lesson = {
         "Fase 0 tidak boleh dilewatkan: definisi + tracking + anomali + kontrak metrik.",
         "Hindari 5 jebakan: tanpa keputusan, rata-rata, tanpa guardrail, risiko-bukan-uplift, tanpa interval.",
       ],
-      next: { label: "HD1 — Sistem Kesehatan", href: "/learn/hd1-sistem-kesehatan" },
+      next: { label: "HD1 — Sistem Kesehatan", href: "/v2/learn/hd1-sistem-kesehatan" },
       quiz: [
         {
           q: "Urutan fase capstone dan kenapa?",

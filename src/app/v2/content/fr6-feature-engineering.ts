@@ -190,7 +190,7 @@ export const fr6: V2Lesson = {
         "Recency (umur akun/device/kredensial) + velocity = pasangan wajib lawan warming/farming.",
         "Satu fitur tepat > 40 fitur basi. Untuk tabel fraud: fitur pakar + GBM masih raja.",
       ],
-      next: { label: "FR7 — Supervised ML", href: "/learn/fr7-supervised-ml" },
+      next: { label: "FR7 — Supervised ML", href: "/v2/learn/fr7-supervised-ml" },
       quiz: [
         {
           q: "Bu Ani (rata-rata Rp400 rb, SD Rp150 rb) transfer Rp4,5 juta. Berapa z-score personalnya?",

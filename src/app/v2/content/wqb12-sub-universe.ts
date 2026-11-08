@@ -236,7 +236,7 @@ export const wqb12: V2Lesson = {
         "Keputusan: ≥ 1,2 kuat; 1,0–1,2 lolos bersyarat; satu segmen 0,7–1,0 investigasi akar; < 0,7 buang.",
         "Uji sub-universe sejak prototipe; simpan peta kekuatan tiap kandidat lolos.",
       ],
-      next: { label: "WQB13 — Self-Correlation: Gerbang Submit yang Sebenarnya", href: "/learn/wqb13-self-correlation" },
+      next: { label: "WQB13 — Self-Correlation: Gerbang Submit yang Sebenarnya", href: "/v2/learn/wqb13-self-correlation" },
       quiz: [
         {
           q: "Kandidat: keseluruhan 1,9; segmen 2,2 / 1,9 / 1,7 / 0,6 / 1,5. Sub-universe Sharpe dan keputusan?",

@@ -271,7 +271,7 @@ print("Pemenang: %s" % pemenang)`,
         "Jebakan load: indeks saat load, statistik basi, FK check per baris.",
         "Kontrak DBA–DE: T_lock dihitung dulu, lag CDC tertulis, pemiliknya bernama.",
       ],
-      next: { label: "DBA25 — Jalur Sertifikasi DBA: Oracle & Azure", href: "/learn/dba25-sertifikasi-oracle-azure" },
+      next: { label: "DBA25 — Jalur Sertifikasi DBA: Oracle & Azure", href: "/v2/learn/dba25-sertifikasi-oracle-azure" },
       quiz: [
         {
           q: "Load 20 ribu baris baris-per-baris dengan commit tiap baris. Komponen biaya dominannya?",

@@ -236,7 +236,7 @@ export const dm9: V2Lesson = {
         "RACI: satu A per keputusan. Kebijakan = kode, bukan PDF.",
         "Maturity: naik 1 level/tahun; mulai dari 1 domain.",
       ],
-      next: { label: "DM10 — Metadata & Lineage", href: "/learn/dm10-metadata-lineage" },
+      next: { label: "DM10 — Metadata & Lineage", href: "/v2/learn/dm10-metadata-lineage" },
       quiz: [
         {
           q: "Bedanya data governance vs data management?",

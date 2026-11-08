@@ -257,7 +257,7 @@ export const aml21: V2Lesson = {
         "Tujuh red flags bank; PF tidak difilter nominal — komponen dual-use murah bisa kritis; temuan = SAR bernarasi PF (barang + tipologi + pihak + kaitan resolusi PBB).",
         "Standar lapor = kecurigaan beralasan, bukan pembuktian; biaya miss (fasilitasi WMD + pidana) jauh melampaui biaya false positive.",
       ],
-      next: { label: "AML22 — Travel Rule (FATF Recommendation 16)", href: "/learn/aml22-travel-rule" },
+      next: { label: "AML22 — Travel Rule (FATF Recommendation 16)", href: "/v2/learn/aml22-travel-rule" },
       quiz: [
         {
           q: "Perbedaan utama proliferation financing vs terrorist financing:",

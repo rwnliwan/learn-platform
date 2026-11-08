@@ -356,7 +356,7 @@ print(f"r1 ok={ok1} hasil={n1} | r2 ok={ok2} hasil={n2} | r3 ok={ok3} | r4 ok={o
         "Interaktif → streaming + timeout; tugas berat → async + webhook; lonjakan → antrean + rate limit.",
         "Retry hanya untuk kegagalan independen; kegagalan sistematis butuh perbaikan akar, bukan pengulangan.",
       ],
-      next: { label: "AIE11 — UX untuk AI", href: "/learn/aie11-ux" },
+      next: { label: "AIE11 — UX untuk AI", href: "/v2/learn/aie11-ux" },
       quiz: [
         {
           q: "Mengapa timeout penting di aplikasi LLM?",

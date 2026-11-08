@@ -207,7 +207,7 @@ export const cr14a: V2Lesson = {
         "ECL lifetime = Σ(PD_t × LGD_t × EAD_t)/(1+r)^t — 'film', bukan 'foto × tenor'.",
         "Kolek 2 vs Stage 2 tidak 1:1 — fasih dua bahasa dengan rekonsiliasi.",
       ],
-      next: { label: "CR14B — ECL: Perhitungan", href: "/learn/cr14b-ecl-perhitungan" },
+      next: { label: "CR14B — ECL: Perhitungan", href: "/v2/learn/cr14b-ecl-perhitungan" },
       quiz: [
         {
           q: "Kredit: PD awal 1,5%, PD kini 1,8%, DPD 35. Stage?",

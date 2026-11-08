@@ -267,7 +267,7 @@ print(f"cr_a={cr_a*100:.1f}%  uw_a={uw_a:.0f}  total_b={total_b:.0f}")`,
         "Dana pensiun DB = manfaat pasti (risiko pengelola); DC = iuran pasti (risiko kamu). Funding ratio = aset/kewajiban; < 80% = kritis.",
         "Beli asuransi untuk bencana yang tak sanggup ditanggung; risiko kecil tanggung sendiri. Unit-link: pisahkan proteksi dan investasi.",
       ],
-      next: { label: "E21 — Investment Banking", href: "/learn/e21-investment-banking" },
+      next: { label: "E21 — Investment Banking", href: "/v2/learn/e21-investment-banking" },
       quiz: [
         {
           q: "Apa itu float dalam bisnis asuransi?",

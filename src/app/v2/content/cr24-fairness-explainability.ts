@@ -214,7 +214,7 @@ export const cr24: V2Lesson = {
         "Adverse action notice: 2–3 alasan spesifik, actionable.",
         "Explainability = kontrol kualitas: model yang tak bisa dijelaskan tak bisa diaudit.",
       ],
-      next: { label: "CR25 — Capstone", href: "/learn/cr25-capstone" },
+      next: { label: "CR25 — Capstone", href: "/v2/learn/cr25-capstone" },
       quiz: [
         {
           q: "Approval A 70%, B 52%. Rasio 0,74. Artinya?",

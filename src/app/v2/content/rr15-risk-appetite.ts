@@ -236,7 +236,7 @@ export const rr15: V2Lesson = {
         "Breach: T+0 lapor, T+1 rencana, T+5 tutup/pengecualian; yang dilarang = breach diam-diam.",
         "Approved breach = pengecualian sementara dengan mitigasi + tenggat, bukan pelanggaran.",
       ],
-      next: { label: "RR16 — ECL & RWA Reporting", href: "/learn/rr16-ecl-rwa" },
+      next: { label: "RR16 — ECL & RWA Reporting", href: "/v2/learn/rr16-ecl-rwa" },
       quiz: [
         {
           q: "Apa beda RAS dengan limit?",

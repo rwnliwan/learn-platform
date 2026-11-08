@@ -281,7 +281,7 @@ export const mk21: V2Lesson = {
         "Keputusan: iOS→CAPI, adblocker→server GTM, offline→MP, budget kecil→integrasi bawaan; angka yang turun karena metode membaik adalah kabar baik — scale berdasar metrik jujur.",
         "Operasional: audit event_id, timestamp MP, dan uptime server GTM setiap bulan — 4 YA = sehat.",
       ],
-      next: { label: "MK22 — CDP & Identity Resolution", href: "/learn/mk22-cdp" },
+      next: { label: "MK22 — CDP & Identity Resolution", href: "/v2/learn/mk22-cdp" },
       quiz: [
         {
           q: "Mengapa ROAS pixel-only bisa 'semu' (terlalu tinggi)?",

@@ -222,7 +222,7 @@ export const e3: V2Lesson = {
         "NPV > 0 → terima. IRR = diskonto saat NPV=0; cacat (skala, reinvestasi); saat konflik dengan NPV, NPV menang.",
         "Jangan pernah menjumlahkan/membandingkan uang dari waktu berbeda tanpa PV-kan dulu.",
       ],
-      next: { label: "E4 — Obligasi", href: "/learn/e4-obligasi" },
+      next: { label: "E4 — Obligasi", href: "/v2/learn/e4-obligasi" },
       quiz: [
         {
           q: "Dalam rumus anuitas KPR, kesalahan paling umum adalah…",

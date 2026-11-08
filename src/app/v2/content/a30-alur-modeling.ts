@@ -225,7 +225,7 @@ export const a30: V2Lesson = {
         "Baseline dan challenger wajib sebelum klaim bagus. Kompleksitas harus membayar dirinya.",
         "Fitur lebih penting dari algoritma. Pertanyaan dulu, mesin kemudian.",
       ],
-      next: { label: "A3.1 — Regresi Linear OLS", href: "/learn/a31-regresi-ols" },
+      next: { label: "A3.1 — Regresi Linear OLS", href: "/v2/learn/a31-regresi-ols" },
       quiz: [
         {
           q: "Model XGBoost AUC 0,851 vs baseline logistik AUC 0,848. Keputusan?",

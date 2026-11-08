@@ -197,7 +197,7 @@ export const e17: V2Lesson = {
         "Indikator: leading (spread, PMI) untuk prakiraan; lagging (pengangguran) hanya konfirmasi.",
         "Respons = penyesuaian bertahap, bukan all-in/all-out. Hormati sinyal sebagai update probabilitas.",
       ],
-      next: { label: "E18 — Laporan Keuangan", href: "/learn/e18-laporan-keuangan" },
+      next: { label: "E18 — Laporan Keuangan", href: "/v2/learn/e18-laporan-keuangan" },
       quiz: [
         {
           q: "Respons tepat saat kurva terinversi?",

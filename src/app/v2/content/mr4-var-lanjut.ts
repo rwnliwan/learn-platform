@@ -199,7 +199,7 @@ export const mr4: V2Lesson = {
         "Stressed VaR (Basel 2.5): VaR krisis + VaR normal — modal menutupi dua kondisi.",
         "Aturan 10 detik: rezim berubah → filter; non-linear → orde-2; multi-desk → bedah kontribusi.",
       ],
-      next: { label: "MR5 — Expected Shortfall", href: "/learn/mr5-expected-shortfall" },
+      next: { label: "MR5 — Expected Shortfall", href: "/v2/learn/mr5-expected-shortfall" },
       quiz: [
         {
           q: "Dalam Filtered HS, r*_t = (σ_T/σ_t)·r_t. Jika σ_T > σ_t, apa yang terjadi pada return historis hari-t?",

@@ -299,7 +299,7 @@ print(f"overlap={overlap} turun_poin={turun_poin} rel_pct={rel_pct:.1f}")`,
         "Batang dari nol; judul grafik = satu kalimat pesan.",
         "Reproducible: kode + versi data + seed + lingkungan.",
       ],
-      next: { label: "HD20 — Capstone: Model Readmission", href: "/learn/hd20-capstone-readmission" },
+      next: { label: "HD20 — Capstone: Model Readmission", href: "/v2/learn/hd20-capstone-readmission" },
       quiz: [
         {
           q: "Judul grafik yang baik?",

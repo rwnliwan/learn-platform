@@ -202,7 +202,7 @@ export const mr13: V2Lesson = {
         "LCR = HQLA/outflow ≥ 100% (30 hari); NSFR = ASF/RSF ≥ 100% (1 tahun). Ukur ketahanan, bukan laba.",
         "LCR hanya sekuat skenario & kualitas HQLA-nya — selalu uji dengan skenario internal.",
       ],
-      next: { label: "MR14 — Counterparty Risk", href: "/learn/mr14-counterparty-risk" },
+      next: { label: "MR14 — Counterparty Risk", href: "/v2/learn/mr14-counterparty-risk" },
       quiz: [
         {
           q: "Perbedaan market liquidity vs funding liquidity?",

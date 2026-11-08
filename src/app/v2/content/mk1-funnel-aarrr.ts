@@ -288,7 +288,7 @@ export const mk1: V2Lesson = {
         "Jebakan komposisi: funnel blended bisa turun karena bauran cohort, bukan produk — selalu pecah per cohort.",
         "Leverage buta kualitas: perbaiki funnel lalu hitung ulang unit economics per cohort yang berubah.",
       ],
-      next: { label: "MK2 — Tracking", href: "/learn/mk2-tracking" },
+      next: { label: "MK2 — Tracking", href: "/v2/learn/mk2-tracking" },
       quiz: [
         {
           q: "Funnel KopiKilat: activation 15%, referral 20% (dari 200 → 40). Kenaikan 5 poin di tahap mana memberi tambahan pelanggan terbanyak?",

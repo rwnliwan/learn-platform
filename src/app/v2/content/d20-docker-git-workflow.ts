@@ -458,7 +458,7 @@ print("main:", riwayat["main"])`,
       ],
       next: {
         label: "D21 — PySpark: Saat Pandas Menyerah",
-        href: "/learn/d21-pyspark",
+        href: "/v2/learn/d21-pyspark",
       },
     },
   ],

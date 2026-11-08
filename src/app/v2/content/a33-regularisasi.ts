@@ -224,7 +224,7 @@ export const a33: V2Lesson = {
         "Standarkan dulu sebelum penalti. Lambda dari CV (kurva U, one-SE rule), bukan error latih.",
         "Elastic Net untuk kelompok berkorelasi; OLS saja jika tidak ada masalah variance.",
       ],
-      next: { label: "A3.4 — Regresi Logistik & GLM", href: "/learn/a34-logistic-glm" },
+      next: { label: "A3.4 — Regresi Logistik & GLM", href: "/v2/learn/a34-logistic-glm" },
       quiz: [
         {
           q: "Kenapa prediktor wajib distandarkan sebelum Ridge/Lasso?",

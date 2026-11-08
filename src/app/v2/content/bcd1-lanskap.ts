@@ -319,7 +319,7 @@ risiko_q03_z1 = tabel[0.3][0]`,
         "Angka on-chain bisa menipu (wash volume, TVL ganda); definisikan metrik secara defensif.",
         "Mulai dari pertanyaan, bukan dari unduhan data.",
       ],
-      next: { label: "BCD2 — Membaca Data Chain", href: "/learn/bcd2-data" },
+      next: { label: "BCD2 — Membaca Data Chain", href: "/v2/learn/bcd2-data" },
       quiz: [
         {
           q: "Mengapa blockchain disebut pseudonim, bukan anonim?",

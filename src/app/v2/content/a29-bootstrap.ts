@@ -175,7 +175,7 @@ export const a29: V2Lesson = {
         "Bootstrap gagal: n sangat kecil, statistik ekstrem, data dependen (pakai block).",
         "Bootstrap untuk estimasi (CI); permutasi untuk pengujian (p-value).",
       ],
-      next: { label: "A3.0 — Alur Modeling", href: "/learn/a30-alur-modeling" },
+      next: { label: "A3.0 — Alur Modeling", href: "/v2/learn/a30-alur-modeling" },
       quiz: [
         {
           q: "Apa ide inti bootstrap dalam satu kalimat?",

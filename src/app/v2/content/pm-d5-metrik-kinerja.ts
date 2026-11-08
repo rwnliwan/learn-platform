@@ -197,7 +197,7 @@ export const pmd5: V2Lesson = {
         "Satu metrik = satu kebohongan: paket minimal Sharpe + skew + MaxDD + CVaR + stress.",
         "Bandingkan apel vs apel: periode & benchmark sama, net fee, risk-adjusted.",
       ],
-      next: { label: "D6 \u2014 Risk Reporting", href: "/learn/pm-d6-risk-reporting" },
+      next: { label: "D6 \u2014 Risk Reporting", href: "/v2/learn/pm-d6-risk-reporting" },
       quiz: [
         {
           q: "Rp = 12%, Rf = 3%, σp = 15%. Sharpe?",

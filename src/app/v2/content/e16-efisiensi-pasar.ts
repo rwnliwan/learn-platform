@@ -215,7 +215,7 @@ export const e16: V2Lesson = {
         "Lima dosa backtest: look-ahead, survivorship, overfitting, biaya diabaikan, data snooping.",
         "Musuh terbesarmu bukan pasar — otakmu sendiri.",
       ],
-      next: { label: "E17 — Makro & Siklus", href: "/learn/e17-makro-siklus" },
+      next: { label: "E17 — Makro & Siklus", href: "/v2/learn/e17-makro-siklus" },
       quiz: [
         {
           q: "Saham turun 40% dari harga belimu. Respons bebas anchoring?",

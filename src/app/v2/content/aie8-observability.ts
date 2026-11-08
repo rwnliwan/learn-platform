@@ -264,7 +264,7 @@ export const aie8: V2Lesson = {
         "Log sensitif: redact PII, retensi pendek, agregat 100 persen + sampel trace yang hemat.",
         "Eval kontinu (sampel harian) menangkap penurunan kualitas dalam hitungan hari.",
       ],
-      next: { label: "AIE9 — Safety: Prompt Injection dan Red Teaming", href: "/learn/aie9-safety" },
+      next: { label: "AIE9 — Safety: Prompt Injection dan Red Teaming", href: "/v2/learn/aie9-safety" },
       quiz: [
         {
           q: "Mengapa log prompt dan response penting?",

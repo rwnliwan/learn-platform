@@ -267,7 +267,7 @@ for tgl, tot in alerts:
       ],
       next: {
         label: "BI26 — Statistik Terapan untuk Analis BI",
-        href: "/learn/biz26-statistik-terapan-bi",
+        href: "/v2/learn/biz26-statistik-terapan-bi",
       },
       quiz: [
         {

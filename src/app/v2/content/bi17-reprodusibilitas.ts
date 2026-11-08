@@ -235,7 +235,7 @@ export const bi17: V2Lesson = {
         "Genomik = identifier; akses terkontrol + consent.",
         "Dual-use: sekuens patogen = risiko biosecurity.",
       ],
-      next: { label: "BI18 · Capstone: Mini-Proyek DE", href: "/learn/bi18-capstone-de" },
+      next: { label: "BI18 · Capstone: Mini-Proyek DE", href: "/v2/learn/bi18-capstone-de" },
       quiz: [
         {
           q: "Yang TIDAK termasuk syarat reproduksibilitas komputasional?",

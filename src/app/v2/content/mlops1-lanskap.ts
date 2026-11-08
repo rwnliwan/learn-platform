@@ -198,7 +198,7 @@ export const mlops1: V2Lesson = {
         "Model membusuk karena dunia berubah; pantau input & output hari ini, bukan menunggu label.",
         "Skala MLOps mengikuti skala risiko: prototipe ≠ batch mingguan ≠ real-time finansial.",
       ],
-      next: { label: "MLOps2 — Pipeline & Orchestration", href: "/learn/mlops2-pipeline" },
+      next: { label: "MLOps2 — Pipeline & Orchestration", href: "/v2/learn/mlops2-pipeline" },
       quiz: [
         {
           q: "Kasus KreditKu: apa akar masalah sebenarnya?",

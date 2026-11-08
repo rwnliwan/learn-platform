@@ -77,7 +77,7 @@ export const fdp1: V2Lesson = {
         "(1) Membedakan taksonomi (kamus) dari instance document (surat bertag); (2) Menyebutkan empat komponen setiap fakta XBRL: concept, context, unit, period;",
         "(3) Membedakan period instant vs duration dan memasangkannya dengan benar ke stock vs flow; (4) Menjelaskan perbedaan taksonomi us-gaap vs IDX — termasuk batasan jujur IDX;",
         "(5) Mengekstrak fakta dari snippet XBRL dengan Python.",
-        "Prasyarat: track ini mengasumsikan kamu bisa menulis Python dasar (variabel, dict, loop) — bila belum, pelajari dulu track Python, mulai dari D1 Python Dasar (/learn/d1-python-dasar). Lab di browser memakai data sampel; fetch real memakai Colab (lihat FDP2).",
+        "Prasyarat: track ini mengasumsikan kamu bisa menulis Python dasar (variabel, dict, loop) — bila belum, pelajari dulu track Python, mulai dari D1 Python Dasar (/v2/learn/d1-python-dasar). Lab di browser memakai data sampel; fetch real memakai Colab (lihat FDP2).",
       ],
       tasks: [],
     },

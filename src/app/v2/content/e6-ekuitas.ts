@@ -203,7 +203,7 @@ export const e6: V2Lesson = {
         "P/E = harga/laba; murah/mahal hanya relatif terhadap pertumbuhan ekspektasi. Gordon: P₀ = D₁/(r−g).",
         "Waspada value trap: P/E rendah + fundamental memburuk = jebakan, bukan diskon.",
       ],
-      next: { label: "E7 — Return & Risiko", href: "/learn/e7-return-risiko" },
+      next: { label: "E7 — Return & Risiko", href: "/v2/learn/e7-return-risiko" },
       quiz: [
         {
           q: "Gordon: D1=Rp500, r=12%, g=5%. Harga wajar?",

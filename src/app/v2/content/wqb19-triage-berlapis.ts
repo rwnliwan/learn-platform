@@ -252,7 +252,7 @@ export const wqb19: V2Lesson = {
         "Antrean deterministik: bersih dulu (F menurun), lalu berpenalti.",
         "Budget sim: alokasikan per kolam sebelum wave jalan; 62 dari 164 sim wave WQB17 (37,8 persen) adalah harga eksplorasi — jatah habis = riset kertas, bukan turun ambang.",
       ],
-      next: { label: "WQB20 — Strategi Cadangan Era Research Consultant", href: "/learn/wqb20-strategi-cadangan" },
+      next: { label: "WQB20 — Strategi Cadangan Era Research Consultant", href: "/v2/learn/wqb20-strategi-cadangan" },
       quiz: [
         {
           q: "Kandidat S=1,30, F=1,05, TO=0,31. Labelnya?",

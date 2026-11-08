@@ -209,7 +209,7 @@ export const bi14: V2Lesson = {
         "Asosiasi ≠ kausalitas; kontrol obat/diet.",
         "Strain menentukan (probiotik vs patogen).",
       ],
-      next: { label: "BI15 · Proteomik & Multi-Omics", href: "/learn/bi15-proteomik" },
+      next: { label: "BI15 · Proteomik & Multi-Omics", href: "/v2/learn/bi15-proteomik" },
       quiz: [
         {
           q: "Kapan shotgun dipilih atas 16S?",

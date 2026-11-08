@@ -221,7 +221,7 @@ print(f"Dukungan={dukungan:.0%}  Tak terdukung: {tak_terdukung}")`,
         "Dukungan = N_terverifikasi / N_total; di bawah 80% = tulis ulang.",
         "Nilai AI ada di kecepatan draf; nilai analis ada di verifikasi — memo ke komite harus 100% terdukung.",
       ],
-      next: { label: "PME2 — ESG dalam Praktik: Skor, Greenwashing, Integrasi", href: "/learn/pm-e2-esg-praktis" },
+      next: { label: "PME2 — ESG dalam Praktik: Skor, Greenwashing, Integrasi", href: "/v2/learn/pm-e2-esg-praktis" },
       quiz: [
         {
           q: "Dita menemukan angka 34% di memo AI yang tidak ada di laporan. Ini contoh dari…",

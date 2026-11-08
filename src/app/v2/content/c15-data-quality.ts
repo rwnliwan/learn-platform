@@ -267,7 +267,7 @@ for r in rows:
         "Komunikasi: skor + dampak Rp — bukan keluhan.",
         "Quality = asuransi karir.",
       ],
-      next: { label: "C16 — Data Modeling", href: "/learn/c16-data-modeling" },
+      next: { label: "C16 — Data Modeling", href: "/v2/learn/c16-data-modeling" },
       quiz: [
         {
           q: "Cek pertama untuk tabel baru?",

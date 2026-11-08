@@ -221,7 +221,7 @@ export const cr16: V2Lesson = {
         "Reverse stress test: dari dampak fatal → cari skenario penyebab → tetapkan appetite.",
         "Jepitan dua sisi: hitung modal DAN RWA — satu sisi = optimis 1+ poin.",
       ],
-      next: { label: "CR17A — Kredit Korporasi 1", href: "/learn/cr17a-corporate-credit-1" },
+      next: { label: "CR17A — Kredit Korporasi 1", href: "/v2/learn/cr17a-corporate-credit-1" },
       quiz: [
         {
           q: "Syarat skenario stress test yang baik?",

@@ -259,7 +259,7 @@ export const a15: V2Lesson = {
         "Pagar Tukey = Q1/Q3 ± 1,5×IQR (konvensi, bukan hukum); 3,0 untuk anomali sangat ekstrem.",
         "MAD kebal masking — pilihan untuk data kotor dan deteksi fraud; terdeteksi ≠ dibuang.",
       ],
-      next: { label: "A1.6 — Korelasi", href: "/learn/a16-korelasi" },
+      next: { label: "A1.6 — Korelasi", href: "/v2/learn/a16-korelasi" },
       quiz: [
         {
           q: "Q1=20, Q3=40. Berapa batas atas outlier (metode IQR)?",

@@ -171,7 +171,7 @@ export const dm15: V2Lesson = {
         "FinOps: tagihan = metrik teknik per tim; tuas terbesar = compute (desain, bukan diskon).",
         "DR: RPO/RTO dari bisnis; biaya proteksi < ekspektasi rugi; test restore!",
       ],
-      next: { label: "DM16 — BI & Analytics Engineering", href: "/learn/dm16-bi-analytics-engineering" },
+      next: { label: "DM16 — BI & Analytics Engineering", href: "/v2/learn/dm16-bi-analytics-engineering" },
       quiz: [
         {
           q: "Komponen tagihan cloud data yang biasanya terbesar dan tuas utamanya?",

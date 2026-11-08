@@ -219,7 +219,7 @@ export const e1: V2Lesson = {
         "Pelaku: emiten, investor, broker, market maker, underwriter. Wasit: OJK (pasar modal), BI (moneter/pasar uang).",
         "Biaya trading = fee broker + spread + market impact — bukan cuma fee.",
       ],
-      next: { label: "E2 — Instrumen Keuangan", href: "/learn/e2-instrumen" },
+      next: { label: "E2 — Instrumen Keuangan", href: "/v2/learn/e2-instrumen" },
       quiz: [
         {
           q: "Deposito 6 bulan termasuk…",

@@ -249,7 +249,7 @@ export const rr1: V2Lesson = {
         "Empat jenis laporan: periodik, adhoc, insiden, regulasi — beda pemicu, kecepatan, format.",
         "NPL selalu dibaca berpasangan dengan coverage ratio.",
       ],
-      next: { label: "RR2 — Anatomi Laporan Risiko yang Baik", href: "/learn/rr2-anatomi" },
+      next: { label: "RR2 — Anatomi Laporan Risiko yang Baik", href: "/v2/learn/rr2-anatomi" },
       quiz: [
         {
           q: "Mengapa laporan 60 halaman Bank Artha Dana disebut \u201Cmenyesatkan\u201D padahal angkanya benar?",

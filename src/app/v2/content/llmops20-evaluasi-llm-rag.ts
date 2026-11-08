@@ -245,7 +245,7 @@ print(f"kasus perlu perbaikan: {gagal}")`,
         "RAGAS = metrik untuk CI; DeepEval = baterai termasuk; LangSmith = tracing + evaluasi terpadu.",
         "Evaluasi = pajak tiap rilis; judge tidak pernah mengalahkan metrik terhitung.",
       ],
-      next: { label: "LLMOps21 — Gateway LLM & Semantic Caching", href: "/learn/llmops21-gateway-semantic-caching" },
+      next: { label: "LLMOps21 — Gateway LLM & Semantic Caching", href: "/v2/learn/llmops21-gateway-semantic-caching" },
       quiz: [
         {
           q: "Jawaban RAG: 4 klaim, hanya 1 yang didukung konteks. Faithfulness-nya dan vonisnya?",

@@ -190,7 +190,7 @@ export const e13: V2Lesson = {
         "Backtest = poligraf model; traffic light hijau/kuning/merah; uji independensi juga.",
         "Stress test (historis/hipotetis/reverse) — untuk kiamat yang tak tertangkap statistik.",
       ],
-      next: { label: "E14 — Pasar Uang", href: "/learn/e14-money-market" },
+      next: { label: "E14 — Pasar Uang", href: "/v2/learn/e14-money-market" },
       quiz: [
         {
           q: "Backtest 250 hari (VaR 99%): 12 pelanggaran. Zona?",

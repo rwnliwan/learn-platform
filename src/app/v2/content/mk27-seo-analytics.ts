@@ -268,7 +268,7 @@ export const mk27: V2Lesson = {
           ],
         },
       ],
-      next: { label: "MK28 — MMP & Atribusi Mobile Pasca-ATT", href: "/learn/mk28-mmp-mobile-attribution" },
+      next: { label: "MK28 — MMP & Atribusi Mobile Pasca-ATT", href: "/v2/learn/mk28-mmp-mobile-attribution" },
     },
   ],
 };

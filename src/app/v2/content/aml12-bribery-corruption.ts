@@ -228,7 +228,7 @@ export const aml12: V2Lesson = {
         "Pola pembayaran (bundar, tanpa rincian, rek pribadi) = radar, bukan vonis.",
         "Success fee per keputusan pejabat = desain insentif suap.",
       ],
-      next: { label: "AML13 — Cybercrime-Enabled Laundering", href: "/learn/aml13-cybercrime-laundering" },
+      next: { label: "AML13 — Cybercrime-Enabled Laundering", href: "/v2/learn/aml13-cybercrime-laundering" },
       quiz: [
         {
           q: "Mana yang BUKAN bribery tetapi BISA jadi corruption?",

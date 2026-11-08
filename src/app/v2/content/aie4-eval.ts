@@ -195,7 +195,7 @@ export const aie4: V2Lesson = {
         "Flip rate adalah tes kesehatan termurah untuk judge-mu.",
         "Sampling yang dirancang (n = z²p(1-p)/e²) mengalahkan sensus yang melelahkan dan mahal.",
       ],
-      next: { label: "AIE5 — Fine-Tuning: Kapan dan Bagaimana", href: "/learn/aie5-finetuning" },
+      next: { label: "AIE5 — Fine-Tuning: Kapan dan Bagaimana", href: "/v2/learn/aie5-finetuning" },
       quiz: [
         {
           q: "Mengapa 'akurasi 95 persen di 20 contoh buatan sendiri' menipu?",

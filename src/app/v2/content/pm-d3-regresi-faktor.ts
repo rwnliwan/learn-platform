@@ -190,7 +190,7 @@ export const pmd3: V2Lesson = {
         "Style analysis: monitor konsistensi mandat; drift = pelanggaran kontrak.",
         "Bayar hanya untuk alpha net yang signifikan; R² 0,95 + alpha kecil = closet indexer.",
       ],
-      next: { label: "D4 \u2014 Backtesting", href: "/learn/pm-d4-backtesting" },
+      next: { label: "D4 \u2014 Backtesting", href: "/v2/learn/pm-d4-backtesting" },
       quiz: [
         {
           q: "R fund 12%, Rf 3%, Rm 10%, β 1,2. Alpha?",

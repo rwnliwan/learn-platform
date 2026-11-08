@@ -168,7 +168,7 @@ export const e26: V2Lesson = {
         "CDO = tranche dari tranche; synthetic CDO = tranche dari CDS, tanpa obligasi.",
         "Keamanan senior bertumpu pada asumsi korelasi rendah; Gaussian copula merangkum ketergantungan dalam satu angka.",
       ],
-      next: { label: "E27 — Regulasi Keuangan sebagai Sistem", href: "/learn/e27-regulasi-keuangan" },
+      next: { label: "E27 — Regulasi Keuangan sebagai Sistem", href: "/v2/learn/e27-regulasi-keuangan" },
       quiz: [
         {
           q: "KPR pokok Rp500 juta, bunga 9% p.a., tenor 20 tahun. Cicilan bulanan sekitar?",

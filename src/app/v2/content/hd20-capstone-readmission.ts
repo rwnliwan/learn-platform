@@ -323,7 +323,7 @@ print(f"bulan_breach={bulan_breach} tren={tren}")`,
         "Tahap 3: empat lensa — diskriminasi, kalibrasi, utilitas, fairness.",
         "Tahap 4: TRIPOD + slide direksi + repo + monitoring. Deploy = tengah proyek.",
       ],
-      next: { label: "BI1 — Biologi Molekuler", href: "/learn/bi1-biologi-molekuler" },
+      next: { label: "BI1 — Biologi Molekuler", href: "/v2/learn/bi1-biologi-molekuler" },
       quiz: [
         {
           q: "Langkah PERTAMA proyek model klinis yang benar?",

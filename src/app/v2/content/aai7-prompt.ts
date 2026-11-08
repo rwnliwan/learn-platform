@@ -246,7 +246,7 @@ print(f"tambah_600_muat={muat_tambah}")`,
         "Few-shot: contoh kasus GAGAL 2× lebih berharga dari contoh sukses.",
         "Ukur IFR; prompt gemuk dipangkas, bukan ditambah.",
       ],
-      next: { label: "AAI8 — Evaluasi Agen", href: "/learn/aai8-evaluasi" },
+      next: { label: "AAI8 — Evaluasi Agen", href: "/v2/learn/aai8-evaluasi" },
       quiz: [
         {
           q: "Prompt \u201Cbuatkan ringkasan yang bagus\u201D gagal karena…",

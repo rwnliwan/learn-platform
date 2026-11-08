@@ -178,7 +178,7 @@ export const a28: V2Lesson = {
         "BH: kendalikan FDR — untuk eksplorasi skala besar.",
         "Melaporkan hanya yang menarik tanpa menyebut m = p-hacking.",
       ],
-      next: { label: "A2.9 — Bootstrap", href: "/learn/a29-bootstrap" },
+      next: { label: "A2.9 — Bootstrap", href: "/v2/learn/a29-bootstrap" },
       quiz: [
         {
           q: "20 uji independen pada α=5%, semua H0 benar. Peluang ≥1 false positive?",

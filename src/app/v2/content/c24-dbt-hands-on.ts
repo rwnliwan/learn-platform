@@ -275,7 +275,7 @@ export const c24: V2Lesson = {
         "schema.yml = dokumentasi yang tidak basi: manusia membaca, mesin menjalankan test-nya.",
         "Satu model = satu kalimat tanggung jawab; monolit 800 baris = bom waktu yang ditakuti semua orang.",
       ],
-      next: { label: "C25 — Dialek Warehouse Cloud: BigQuery, Snowflake, dan Biaya Query", href: "/learn/c25-dialek-warehouse-cloud" },
+      next: { label: "C25 — Dialek Warehouse Cloud: BigQuery, Snowflake, dan Biaya Query", href: "/v2/learn/c25-dialek-warehouse-cloud" },
       quiz: [
         {
           q: "Apa fungsi {{ ref('stg_pesanan') }} dalam model dbt?",

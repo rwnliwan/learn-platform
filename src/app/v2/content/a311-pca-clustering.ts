@@ -208,7 +208,7 @@ export const a311: V2Lesson = {
         "Anomali bukan vonis fraud: skor adalah prioritas antrean, review manusia wajib.",
         "Pipeline lengkap: PCA merampingkan, clustering memberi konteks, anomali dinilai relatif terhadap cluster-nya.",
       ],
-      next: { label: "A3.12 — Survival Analysis", href: "/learn/a312-survival-analysis" },
+      next: { label: "A3.12 — Survival Analysis", href: "/v2/learn/a312-survival-analysis" },
       quiz: [
         {
           q: "K-means dengan k=5 pada data acak murni (tanpa struktur). Apa yang terjadi?",

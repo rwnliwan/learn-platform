@@ -245,7 +245,7 @@ export const bcd13: V2Lesson = {
         "Lanjut jika C ≥30% atau nilai > biaya; unmatched = temuan, bukan error.",
         "Selalu cari `sisa` (dust, relayer) — titik pantau permanen.",
       ],
-      next: { label: "BCD14 — Indexing Skala Besar", href: "/learn/bcd14-indexing-skala-besar" },
+      next: { label: "BCD14 — Indexing Skala Besar", href: "/v2/learn/bcd14-indexing-skala-besar" },
     },
   ],
 };

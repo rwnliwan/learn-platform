@@ -102,7 +102,7 @@ export const e2: V2Lesson = {
         { id: "t1", text: "Hitung `akhir_02` (fee 0,2%) dan `akhir_20` (fee 2%)" },
         { id: "t2", text: "Hitung `selisih` antara keduanya" },
       ],
-      expected: "selisih=645563169",
+      expected: "selisih=645963169",
       note: {
         title: "Sering salah",
         body: "“Reksa dana pasti lebih aman dari saham langsung.” Reksa dana saham isinya saham — risikonya mengikuti isi portofolionya, bukan bungkusnya. Cek fund fact sheet.",
@@ -119,8 +119,8 @@ export const e2: V2Lesson = {
         checks: [
           { kind: "equal", task: "t1", name: "akhir_02", value: 1652228858, tol: 1, label: "`akhir_02` ≈ Rp1,65 M", msg: "100jt × 1,098^30. Return neto = 10% − 0,2% = 9,8%." },
           { kind: "equal", task: "t1", name: "akhir_20", value: 1006265689, tol: 1, label: "`akhir_20` ≈ Rp1,01 M", msg: "100jt × 1,08^30. Return neto = 10% − 2% = 8%." },
-          { kind: "equal", task: "t2", name: "selisih", value: 645563169, tol: 1, label: "`selisih` ≈ Rp646 jt", msg: "Fee 1,8%/tahun selama 30 tahun = pajak senyap ratusan juta." },
-          { kind: "stdout_matches", task: "t2", pattern: "selisih=645563169", label: "`print` menampilkan selisih", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t2", name: "selisih", value: 645963169, tol: 1, label: "`selisih` ≈ Rp646 jt", msg: "Fee 1,8%/tahun selama 30 tahun = pajak senyap ratusan juta." },
+          { kind: "stdout_matches", task: "t2", pattern: "selisih=645963169", label: "`print` menampilkan selisih", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Fee = pajak majemuk. Untuk investasi pasif, fee = prediktor return bersih terbaik.",
@@ -202,7 +202,7 @@ export const e2: V2Lesson = {
         "Reksa dana/ETF = paket diversifikasi; cek isinya dan waspadai fee — fee kecil × puluhan tahun = besar.",
         "Tidak ada return tinggi tanpa risiko tinggi.",
       ],
-      next: { label: "E3 — Time Value of Money", href: "/learn/e3-tvm" },
+      next: { label: "E3 — Time Value of Money", href: "/v2/learn/e3-tvm" },
       quiz: [
         {
           q: "Perbedaan utama ETF vs reksa dana konvensional?",

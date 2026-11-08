@@ -265,7 +265,7 @@ export const d21: V2Lesson = {
         "DataFrame API (deklaratif, dioptimalkan) untuk analis; RDD hanya bila perlu kontrol level rendah.",
         "Pindah ke Spark bila data > RAM / runtime jam-an / butuh fault tolerance; selain itu pandas menang.",
       ],
-      next: { label: "D22 — BigQuery & Snowflake dari Python", href: "/learn/d22-bigquery-snowflake" },
+      next: { label: "D22 — BigQuery & Snowflake dari Python", href: "/v2/learn/d22-bigquery-snowflake" },
       quiz: [
         {
           q: "Strategi A (partisi by id, skew 1,0) vs B (by kota, skew 2,0) untuk agregasi per kota. Mana lebih cepat dan kenapa?",

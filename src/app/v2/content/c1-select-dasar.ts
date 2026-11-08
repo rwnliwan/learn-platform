@@ -250,7 +250,7 @@ for r in rows:
         "DISTINCT untuk unik; alias untuk keterbacaan; jangan keduanya untuk jaga-jaga.",
         "Jangan: SELECT * di produksi; LIMIT tanpa ORDER BY; AND/OR campuran tanpa kurung.",
       ],
-      next: { label: "C2 — NULL & Logika", href: "/learn/c2-null-logika" },
+      next: { label: "C2 — NULL & Logika", href: "/v2/learn/c2-null-logika" },
       quiz: [
         {
           q: "Urutan EKSEKUSI query yang benar?",

@@ -195,7 +195,7 @@ export const mr1: V2Lesson = {
         "P&L explain: ΔV ≈ Σ S_i Δf_i — unexplained besar adalah undangan investigasi.",
         "Agregasi risiko per faktor dengan korelasi, jangan jumlah mentah.",
       ],
-      next: { label: "MR2 — Volatilitas & Kovarians", href: "/learn/mr2-volatilitas" },
+      next: { label: "MR2 — Volatilitas & Kovarians", href: "/v2/learn/mr2-volatilitas" },
       quiz: [
         {
           q: "Bank memindahkan obligasi Rp500 M dari banking book ke trading book. Dampak paling langsung ke pengukuran risiko?",

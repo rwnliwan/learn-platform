@@ -372,7 +372,7 @@ kode = [s1[0], s2[0], s3[0], s4[0]]`,
         "Kapasitas sebelum go-live: L = λ × W (hukum Little); hitung worker dari laju dan waktu respons.",
         "Keputusan: REST untuk program-ke-program yang sering; file untuk bulanan; >30 detik → 202 + background; validasi selalu di pintu.",
       ],
-      next: { label: "D19 — Apache Airflow: Orkestrasi Pipeline", href: "/learn/d19-apache-airflow" },
+      next: { label: "D19 — Apache Airflow: Orkestrasi Pipeline", href: "/v2/learn/d19-apache-airflow" },
     },
   ],
 };

@@ -86,10 +86,10 @@ export const e12: V2Lesson = {
       code: {
         starter: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil\nriil = {}\n\nprint(f"riil_2022={riil['Deposito 2022']:.4f}  riil_sbn={riil['SBN ritel 2024']:.4f}")`,
         lockLines: 6,
-        solution: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil\nriil = {}\nfor nama, nom, inf in data:\n    riil[nama] = (1 + nom) / (1 + inf) - 1\n\nprint(f"riil_2022={riil['Deposito 2022']:.4f}  riil_sbn={riil['SBN ritel 2024']:.4f}")`,
+        solution: `# (nama, bunga nominal, inflasi)\ndata = [\n    ("Deposito 2023", 0.045, 0.026),\n    ("Deposito 2022", 0.040, 0.055),\n    ("SBN ritel 2024", 0.064, 0.016),\n]\n\n# TULIS KODEMU: bunga riil tiap produk, simpan di dict riil\nriil = {}\nfor nama, nom, inf in data:\n    riil[nama] = (1 + nom) / (1 + inf) - 1\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\nriil_2022 = riil["Deposito 2022"]\nriil_sbn = riil["SBN ritel 2024"]\n\nprint(f"riil_2022={riil['Deposito 2022']:.4f}  riil_sbn={riil['SBN ritel 2024']:.4f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "riil", value: {"Deposito 2022": -0.0142}, label: "`riil_2022` sekitar −0,0142", msg: "(1,04/1,055) − 1 = −1,42%. Daya beli TURUN meski nominal naik." },
-          { kind: "equal", task: "t2", name: "riil", value: {"SBN ritel 2024": 0.0472}, label: "`riil_sbn` sekitar 0,0472", msg: "(1,064/1,016) − 1 = 4,72%. Bandingkan ini, bukan angka brosur." },
+          { kind: "equal", task: "t1", name: "riil_2022", value: -0.0142, tol: 0.0001, label: "`riil_2022` sekitar −0,0142", msg: "(1,04/1,055) − 1 = −1,42%. Daya beli TURUN meski nominal naik." },
+          { kind: "equal", task: "t2", name: "riil_sbn", value: 0.0472, tol: 0.0001, label: "`riil_sbn` sekitar 0,0472", msg: "(1,064/1,016) − 1 = 4,72%. Bandingkan ini, bukan angka brosur." },
         ],
       },
       reference: "Bunga riil = kebenaran pahit di balik brosur. Nominal menipu saat inflasi tinggi.",
@@ -202,7 +202,7 @@ export const e12: V2Lesson = {
         "BI-Rate = rem/gas ekonomi: naik → inflasi & rupiah dijaga, pertumbuhan dikorbankan.",
         "Bunga riil = (1+r_nom)/(1+π) − 1 — kebenaran pahit di balik brosur.",
       ],
-      next: { label: "E13 — Market Risk", href: "/learn/e13-market-risk" },
+      next: { label: "E13 — Market Risk", href: "/v2/learn/e13-market-risk" },
       quiz: [
         {
           q: "BI menaikkan BI-Rate. Efek berantainya…",

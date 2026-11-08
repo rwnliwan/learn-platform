@@ -240,7 +240,7 @@ export const bcd4: V2Lesson = {
         "LP untung hanya jika fee terkumpul > |IL|.",
         "x×y=k: pool otomatis menjual saat harga naik — mekanisme di balik IL.",
       ],
-      next: { label: "BCD5 — Tokenomics & Distribusi", href: "/learn/bcd5-token" },
+      next: { label: "BCD5 — Tokenomics & Distribusi", href: "/v2/learn/bcd5-token" },
       quiz: [
         {
           q: "ETH $3.000 → $6.000 (r=2) di pool 50/50. IL-nya?",

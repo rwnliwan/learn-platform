@@ -206,7 +206,7 @@ export const a36: V2Lesson = {
         "Kalibrasi ulang wajib di data terpisah — bukan data latih.",
         "Oversampling tanpa koreksi prior = probabilitas bias. AUC tinggi bukan izin pakai angka mentah.",
       ],
-      next: { label: "A3.7 — Imbalanced Data", href: "/learn/a37-imbalanced-data" },
+      next: { label: "A3.7 — Imbalanced Data", href: "/v2/learn/a37-imbalanced-data" },
       quiz: [
         {
           q: "Kenapa kalibrasi ulang tidak boleh di-fit di data latih model?",

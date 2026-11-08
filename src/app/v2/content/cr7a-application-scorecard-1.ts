@@ -198,7 +198,7 @@ export const cr7a: V2Lesson = {
         "Regresi logistik + sigmoid: peluang selalu 0–100%.",
         "Dua variabel kuat yang berkorelasi tinggi → pilih satu (hindari double counting).",
       ],
-      next: { label: "CR7B — Application Scorecard 2", href: "/learn/cr7b-application-scorecard-2" },
+      next: { label: "CR7B — Application Scorecard 2", href: "/v2/learn/cr7b-application-scorecard-2" },
       quiz: [
         {
           q: "Bin penghasilan '<3 jt': WoE = −0,89. Artinya?",

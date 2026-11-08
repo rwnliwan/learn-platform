@@ -292,7 +292,7 @@ for r in rows:
         "Jangan: fungsi di kolom ter-index (WHERE); tanggal sebagai string; abaikan timezone.",
         "“Query jalan” ≠ “query benar” ≠ “query cepat” — tiga dimensi yang berbeda.",
       ],
-      next: { label: "C5 — JOIN", href: "/learn/c5-join" },
+      next: { label: "C5 — JOIN", href: "/v2/learn/c5-join" },
       quiz: [
         {
           q: "`SELECT 'A' || NULL` menghasilkan?",

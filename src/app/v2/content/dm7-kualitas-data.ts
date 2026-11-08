@@ -235,7 +235,7 @@ export const dm7: V2Lesson = {
         "Observability: CCTV untuk anomali tak terduga (freshness, volume, distribution, schema, lineage).",
         "1-10-100: perbaiki di hulu. Jangan auto-fix diam-diam; jangan campur NULL dan 0.",
       ],
-      next: { label: "DM8 — Data Contract", href: "/learn/dm8-data-contract" },
+      next: { label: "DM8 — Data Contract", href: "/v2/learn/dm8-data-contract" },
       quiz: [
         {
           q: "Umur 250 tahun di tabel nasabah melanggar dimensi…",

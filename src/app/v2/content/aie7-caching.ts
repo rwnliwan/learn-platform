@@ -195,7 +195,7 @@ export const aie7: V2Lesson = {
         "Routing/cascade: model kecil dulu, naik bila ragu — hemat struktural untuk tugas campuran.",
         "Cache butuh TTL dan isolasi pengguna; optimasi biaya berpikir dalam tumpukan, bukan trik tunggal.",
       ],
-      next: { label: "AIE8 — Observability untuk Aplikasi LLM", href: "/learn/aie8-observability" },
+      next: { label: "AIE8 — Observability untuk Aplikasi LLM", href: "/v2/learn/aie8-observability" },
       quiz: [
         {
           q: "Mengapa semantic cache membutuhkan threshold yang dikalibrasi?",

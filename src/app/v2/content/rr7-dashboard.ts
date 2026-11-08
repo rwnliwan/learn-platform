@@ -246,7 +246,7 @@ export const rr7: V2Lesson = {
         "Alert sehat: threshold berbasis data + pemilik + aksi baku + anti-spam.",
         "Tile = status, chart = pola, tabel = nilai persis.",
       ],
-      next: { label: "RR8 — Otomasi Pipeline Laporan", href: "/learn/rr8-otomasi" },
+      next: { label: "RR8 — Otomasi Pipeline Laporan", href: "/v2/learn/rr8-otomasi" },
       quiz: [
         {
           q: "Mengapa dashboard 47 tile gagal menangkap kenaikan NPL 6 minggu?",

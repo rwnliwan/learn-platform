@@ -72,15 +72,15 @@ export const pmc13: V2Lesson = {
       eyebrow: "Langkah 5 · Lab",
       title: "Lab: scorecard tiga finalis dan fee drag",
       prose: [
-        "Hitung skor tertimbang tiga finalis dengan bobot tujuh pilar: track record 20 persen, alpha bersih 20 persen, information ratio 15 persen, proses 15 persen, tim 10 persen, kapasitas 10 persen, fee 10 persen. Skor tiap pilar 1 sampai 5. Finalis A: 5, 4, 3, 3, 4, 2, 2. Finalis B: 4, 4, 5, 5, 5, 4, 4. Finalis C: 3, 3, 3, 4, 3, 5, 5.",
-        "Hitung di kepala dulu: A = 1,00 + 0,80 + 0,45 + 0,45 + 0,40 + 0,20 + 0,20 = 3,50. B = 0,80 + 0,80 + 0,75 + 0,75 + 0,50 + 0,40 + 0,40 = 4,40. C = 0,60 + 0,60 + 0,45 + 0,60 + 0,30 + 0,50 + 0,50 = 3,55. Pemenangnya B — bukan yang return-nya tertinggi, melainkan yang proses dan timnya paling kuat.",
+        "Hitung skor tertimbang tiga finalis dengan bobot tujuh pilar: track record 20 persen, alpha bersih 20 persen, information ratio 15 persen, proses 15 persen, tim 10 persen, kapasitas 10 persen, fee 10 persen. Skor tiap pilar 1 sampai 5. Finalis A: 5, 4, 3, 3, 4, 2, 2. Finalis B: 4, 4, 5, 5, 5, 4, 4. Finalis C: 3, 3, 3, 4, 3, 2, 5. (Skor kapasitas C = 2 — konsisten dengan 'kapasitasnya nyaris penuh' di cerita; skor 5 akan berarti kapasitas longgar.)",
+        "Hitung di kepala dulu: A = 1,00 + 0,80 + 0,45 + 0,45 + 0,40 + 0,20 + 0,20 = 3,50. B = 0,80 + 0,80 + 0,75 + 0,75 + 0,50 + 0,40 + 0,40 = 4,40. C = 0,60 + 0,60 + 0,45 + 0,60 + 0,30 + 0,20 + 0,50 = 3,25. Pemenangnya B — bukan yang return-nya tertinggi, melainkan yang proses dan timnya paling kuat.",
         "Lalu hitung fee drag: modal Rp10 miliar, return kotor 8 persen, 10 tahun, fee 2 persen vs 0,5 persen. Nilai akhir 17,91 vs 20,61 miliar — selisih Rp2,70 miliar. Setelah lolos, coba ubah bobot fee menjadi 20 persen (dan turunkan bobot track record menjadi 10 persen) dan lihat apakah pemenangnya berubah — itulah sensitivitas keputusan terhadap bobot.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `skor_a`, `skor_b`, `skor_c` dari bobot dan skor pilar" },
         { id: "t2", text: "Hitung `nilai_fee2`, `nilai_fee05`, dan `fee_drag_miliar`, lalu cetak semuanya" },
       ],
-      expected: "skor A=3.50 B=4.40 C=3.55 | fee 2 persen -> 17.91 | fee 0,5 persen -> 20.61 | drag=2.70 miliar",
+      expected: "skor A=3.50 B=4.40 C=3.25 | fee 2 persen -> 17.91 | fee 0,5 persen -> 20.61 | drag=2.70 miliar",
       hints: [
         "Skor = jumlah bobot × skor pilar; bobot: 0,20, 0,20, 0,15, 0,15, 0,10, 0,10, 0,10.",
         "Nilai akhir = 10 × (1 + 0,08 - fee) pangkat 10, dalam Rp miliar.",
@@ -88,18 +88,18 @@ export const pmc13: V2Lesson = {
         "Pemenang = skor tertinggi — jangan tertipu return tertinggi.",
       ],
       code: {
-        starter: `# Scorecard 3 finalis (skor pilar 1-5) + fee drag 10 tahun\nbobot = [0.20, 0.20, 0.15, 0.15, 0.10, 0.10, 0.10]\nA = [5, 4, 3, 3, 4, 2, 2]\nB = [4, 4, 5, 5, 5, 4, 4]\nC = [3, 3, 3, 4, 3, 5, 5]\n\n# TULIS KODEMU\nskor_a = \nskor_b = \nskor_c = \n\n# TULIS KODEMU: fee drag (modal 10 miliar, gross 8 persen, 10 tahun)\nnilai_fee2 = \nnilai_fee05 = \nfee_drag_miliar = \n\nprint(f"skor A={skor_a:.2f} B={skor_b:.2f} C={skor_c:.2f} | fee 2 persen -> {nilai_fee2:.2f} | fee 0,5 persen -> {nilai_fee05:.2f} | drag={fee_drag_miliar:.2f} miliar")`,
+        starter: `# Scorecard 3 finalis (skor pilar 1-5) + fee drag 10 tahun\nbobot = [0.20, 0.20, 0.15, 0.15, 0.10, 0.10, 0.10]\nA = [5, 4, 3, 3, 4, 2, 2]\nB = [4, 4, 5, 5, 5, 4, 4]\nC = [3, 3, 3, 4, 3, 2, 5]\n\n# TULIS KODEMU\nskor_a = \nskor_b = \nskor_c = \n\n# TULIS KODEMU: fee drag (modal 10 miliar, gross 8 persen, 10 tahun)\nnilai_fee2 = \nnilai_fee05 = \nfee_drag_miliar = \n\nprint(f"skor A={skor_a:.2f} B={skor_b:.2f} C={skor_c:.2f} | fee 2 persen -> {nilai_fee2:.2f} | fee 0,5 persen -> {nilai_fee05:.2f} | drag={fee_drag_miliar:.2f} miliar")`,
         lockLines: 5,
-        solution: `# Scorecard 3 finalis (skor pilar 1-5) + fee drag 10 tahun\nbobot = [0.20, 0.20, 0.15, 0.15, 0.10, 0.10, 0.10]\nA = [5, 4, 3, 3, 4, 2, 2]\nB = [4, 4, 5, 5, 5, 4, 4]\nC = [3, 3, 3, 4, 3, 5, 5]\n\n# TULIS KODEMU\nskor_a = sum(b * s for b, s in zip(bobot, A))\nskor_b = sum(b * s for b, s in zip(bobot, B))\nskor_c = sum(b * s for b, s in zip(bobot, C))\n\n# TULIS KODEMU: fee drag (modal 10 miliar, gross 8 persen, 10 tahun)\nnilai_fee2 = 10 * (1 + 0.08 - 0.02) ** 10\nnilai_fee05 = 10 * (1 + 0.08 - 0.005) ** 10\nfee_drag_miliar = nilai_fee05 - nilai_fee2\n\nprint(f"skor A={skor_a:.2f} B={skor_b:.2f} C={skor_c:.2f} | fee 2 persen -> {nilai_fee2:.2f} | fee 0,5 persen -> {nilai_fee05:.2f} | drag={fee_drag_miliar:.2f} miliar")`,
+        solution: `# Scorecard 3 finalis (skor pilar 1-5) + fee drag 10 tahun\nbobot = [0.20, 0.20, 0.15, 0.15, 0.10, 0.10, 0.10]\nA = [5, 4, 3, 3, 4, 2, 2]\nB = [4, 4, 5, 5, 5, 4, 4]\nC = [3, 3, 3, 4, 3, 2, 5]\n\n# TULIS KODEMU\nskor_a = sum(b * s for b, s in zip(bobot, A))\nskor_b = sum(b * s for b, s in zip(bobot, B))\nskor_c = sum(b * s for b, s in zip(bobot, C))\n\n# TULIS KODEMU: fee drag (modal 10 miliar, gross 8 persen, 10 tahun)\nnilai_fee2 = 10 * (1 + 0.08 - 0.02) ** 10\nnilai_fee05 = 10 * (1 + 0.08 - 0.005) ** 10\nfee_drag_miliar = nilai_fee05 - nilai_fee2\n\nprint(f"skor A={skor_a:.2f} B={skor_b:.2f} C={skor_c:.2f} | fee 2 persen -> {nilai_fee2:.2f} | fee 0,5 persen -> {nilai_fee05:.2f} | drag={fee_drag_miliar:.2f} miliar")`,
         checks: [
           { kind: "equal", task: "t1", name: "skor_a", value: 3.5, tol: 0.01, label: "`skor_a` = 3,50", msg: "Return tertinggi tidak menyelamatkan proses dan kapasitas yang lemah." },
           { kind: "equal", task: "t1", name: "skor_b", value: 4.4, tol: 0.01, label: "`skor_b` = 4,40", msg: "Proses dan tim yang kuat mengangkat B ke puncak." },
-          { kind: "equal", task: "t1", name: "skor_c", value: 3.55, tol: 0.01, label: "`skor_c` = 3,55", msg: "Murah saja tidak cukup — track record pendek dan IR biasa." },
+          { kind: "equal", task: "t1", name: "skor_c", value: 3.25, tol: 0.01, label: "`skor_c` = 3,25", msg: "Murah saja tidak cukup — track record pendek, IR biasa, dan kapasitas nyaris penuh (skor kapasitas 2)." },
           { kind: "equal", task: "t2", name: "fee_drag_miliar", value: 2.7, tol: 0.01, label: "`fee_drag_miliar` = 2,70", msg: "20,61 dikurangi 17,91 = 2,70 miliar selama 10 tahun." },
-          { kind: "stdout_matches", task: "t2", pattern: "skor A=3\\.50 B=4\\.40 C=3\\.55", label: "`print` menampilkan skor tiga finalis", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "stdout_matches", task: "t2", pattern: "skor A=3\\.50 B=4\\.40 C=3\\.25", label: "`print` menampilkan skor tiga finalis", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Skor: A 3,50, B 4,40, C 3,55 — pemenang B. Fee drag Rp2,70 miliar selama 10 tahun.",
+      reference: "Skor: A 3,50, B 4,40, C 3,25 — pemenang B. Fee drag Rp2,70 miliar selama 10 tahun.",
     },
     {
       id: "mini-case",
@@ -127,7 +127,7 @@ export const pmc13: V2Lesson = {
       tasks: [],
       summary: [
         "Tujuh pilar: track record, alpha bersih fee, information ratio, proses, tim, kapasitas, fee.",
-        "Lab: skor A 3,50, B 4,40, C 3,55 — pemenang B, bukan yang return-nya tertinggi.",
+        "Lab: skor A 3,50, B 4,40, C 3,25 — pemenang B, bukan yang return-nya tertinggi.",
         "Fee drag: fee 2 persen vs 0,5 persen selama 10 tahun di Rp10 miliar = selisih Rp2,70 miliar.",
         "Empat red flag membatalkan hire: key-person tanpa suksesi, kapasitas penuh, style drift, track record tak terverifikasi.",
         "Due diligence tidak berhenti saat kontrak ditandatangani — ia berlanjut sebagai monitoring kuartalan.",
@@ -139,7 +139,7 @@ export const pmc13: V2Lesson = {
           options: [
             { text: "A — return tertinggi adalah bukti paling kuat", why: "Salah: return 5 tahun bisa datang dari satu taruhan beruntung. Skor total menilai proses, tim, dan kapasitas — bukan hanya return." },
             { text: "B — skor tertimbang tujuh pilar lebih tinggi; proses dan tim yang kuat lebih bisa diulang daripada return masa lalu", why: "Tepat: due diligence memilih proses yang menghasilkan return berikutnya, bukan return yang sudah terjadi.", correct: true },
-            { text: "C — fee paling murah selalu menang", why: "Salah: C memang murah, tetapi track record pendek dan IR biasa — skornya hanya 3,55." },
+            { text: "C — fee paling murah selalu menang", why: "Salah: C memang murah, tetapi track record pendek dan IR biasa — skornya hanya 3,25." },
             { text: "Tidak ada — skor di bawah 4,50 semuanya ditolak", why: "Salah: tidak ada ambang universal 4,50. Yang dibandingkan adalah skor relatif antar finalis dan red flag." },
           ],
         },

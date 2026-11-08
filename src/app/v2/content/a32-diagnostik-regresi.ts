@@ -51,7 +51,7 @@ export const a32: V2Lesson = {
         { id: "t1", text: "Hitung `r2b, lm_b` skenario B via `simulate(hetero=True)`" },
         { id: "t2", text: "Tentukan `tolak` = apakah LM > 3.84, lalu `print`" },
       ],
-      expected: "lm_b=37.76 tolak=True",
+      expected: "lm_b=25.88 tolak=True",
       note: {
         title: "Sering salah",
         body: "Setelah BP menolak, membuang variabel yang tidak signifikan. Heteroskedastisitas tidak membiaskan koefisien — yang rusak hanya ukuran ketidakpastiannya. Koefisien tetap dipakai; SE, t, p-value, CI dihitung ulang dengan robust SE.",
@@ -62,13 +62,13 @@ export const a32: V2Lesson = {
         "r2b, lm_b = simulate(hetero=True)",
       ],
       code: {
-        starter: `import random\nrandom.seed(42)\n\ndef simulate(hetero=False, n=200):\n    xs, res2 = [], []\n    for i in range(n):\n        x = random.uniform(1, 10)\n        sigma = (0.5 + 0.5*x) if hetero else 1.0\n        e = random.gauss(0, sigma)\n        xs.append(x); res2.append(e**2)\n    mx = sum(xs)/n; my = sum(res2)/n\n    sxy = sum((a-mx)*(b-my) for a, b in zip(xs, res2))\n    sxx = sum((a-mx)**2 for x in xs)\n    b1 = sxy/sxx\n    pred = [my + b1*(a-mx) for a in xs]\n    ssr = sum((b-p)**2 for b, p in zip(res2, pred))\n    sst = sum((b-my)**2 for b in res2)\n    r2 = 1 - ssr/sst\n    lm = n * r2\n    return r2, lm\n\n# TULIS KODEMU: statistik LM skenario B + keputusan (kritis 3.84)\nr2b, lm_b = \ntolak = \n\nprint(f"lm_b={lm_b:.2f} tolak={tolak}")`,
+        starter: `import random\nrandom.seed(42)\n\ndef simulate(hetero=False, n=200):\n    xs, res2 = [], []\n    for i in range(n):\n        x = random.uniform(1, 10)\n        sigma = (0.5 + 0.5*x) if hetero else 1.0\n        e = random.gauss(0, sigma)\n        xs.append(x); res2.append(e**2)\n    mx = sum(xs)/n; my = sum(res2)/n\n    sxy = sum((a-mx)*(b-my) for a, b in zip(xs, res2))\n    sxx = sum((x-mx)**2 for x in xs)\n    b1 = sxy/sxx\n    pred = [my + b1*(a-mx) for a in xs]\n    ssr = sum((b-p)**2 for b, p in zip(res2, pred))\n    sst = sum((b-my)**2 for b in res2)\n    r2 = 1 - ssr/sst\n    lm = n * r2\n    return r2, lm\n\n# TULIS KODEMU: statistik LM skenario B + keputusan (kritis 3.84)\nr2b, lm_b = \ntolak = \n\nprint(f"lm_b={lm_b:.2f} tolak={tolak}")`,
         lockLines: 20,
-        solution: `import random\nrandom.seed(42)\n\ndef simulate(hetero=False, n=200):\n    xs, res2 = [], []\n    for i in range(n):\n        x = random.uniform(1, 10)\n        sigma = (0.5 + 0.5*x) if hetero else 1.0\n        e = random.gauss(0, sigma)\n        xs.append(x); res2.append(e**2)\n    mx = sum(xs)/n; my = sum(res2)/n\n    sxy = sum((a-mx)*(b-my) for a, b in zip(xs, res2))\n    sxx = sum((a-mx)**2 for x in xs)\n    b1 = sxy/sxx\n    pred = [my + b1*(a-mx) for a in xs]\n    ssr = sum((b-p)**2 for b, p in zip(res2, pred))\n    sst = sum((b-my)**2 for b in res2)\n    r2 = 1 - ssr/sst\n    lm = n * r2\n    return r2, lm\n\n# TULIS KODEMU: statistik LM skenario B + keputusan (kritis 3.84)\nr2b, lm_b = simulate(hetero=True)\ntolak = lm_b > 3.84\n\nprint(f"lm_b={lm_b:.2f} tolak={tolak}")`,
+        solution: `import random\nrandom.seed(42)\n\ndef simulate(hetero=False, n=200):\n    xs, res2 = [], []\n    for i in range(n):\n        x = random.uniform(1, 10)\n        sigma = (0.5 + 0.5*x) if hetero else 1.0\n        e = random.gauss(0, sigma)\n        xs.append(x); res2.append(e**2)\n    mx = sum(xs)/n; my = sum(res2)/n\n    sxy = sum((a-mx)*(b-my) for a, b in zip(xs, res2))\n    sxx = sum((x-mx)**2 for x in xs)\n    b1 = sxy/sxx\n    pred = [my + b1*(a-mx) for a in xs]\n    ssr = sum((b-p)**2 for b, p in zip(res2, pred))\n    sst = sum((b-my)**2 for b in res2)\n    r2 = 1 - ssr/sst\n    lm = n * r2\n    return r2, lm\n\n# TULIS KODEMU: statistik LM skenario B + keputusan (kritis 3.84)\nr2b, lm_b = simulate(hetero=True)\ntolak = lm_b > 3.84\n\nprint(f"lm_b={lm_b:.2f} tolak={tolak}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "lm_b", value: 37.76, tol: 0.05, label: "`lm_b` sekitar 37.76", msg: "LM = n x R_kuadrat regresi residual-kuadrat. Jauh di atas 3,84." },
-          { kind: "equal", task: "t2", name: "tolak", value: true, tol: 1e-9, label: "`tolak` seharusnya True", msg: "37,76 > 3,84 berarti tolak homoskedastisitas." },
-          { kind: "stdout_matches", task: "t2", pattern: "lm_b=37\\.76\\s+tolak=True", label: "`print` menampilkan keputusan", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "lm_b", value: 25.88, tol: 0.05, label: "`lm_b` sekitar 25.88", msg: "LM = n x R_kuadrat regresi residual-kuadrat. Jauh di atas 3,84." },
+          { kind: "equal", task: "t2", name: "tolak", value: true, tol: 1e-9, label: "`tolak` seharusnya True", msg: "25,88 > 3,84 berarti tolak homoskedastisitas." },
+          { kind: "stdout_matches", task: "t2", pattern: "lm_b=25\\.88\\s+tolak=True", label: "`print` menampilkan keputusan", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "LM = n*R2_aux ~ chi-square(1). Kritis 5% = 3.84.",
@@ -217,7 +217,7 @@ export const a32: V2Lesson = {
         "DW jauh dari 2 = autokorelasi: butuh Newey-West atau model dinamis.",
         "R kuadrat tinggi dari model yang salah spesifikasi adalah ilusi — perbaiki bentuknya dulu.",
       ],
-      next: { label: "A3.3 — Regularisasi", href: "/learn/a33-regularisasi" },
+      next: { label: "A3.3 — Regularisasi", href: "/v2/learn/a33-regularisasi" },
       quiz: [
         {
           q: "Titik dengan leverage tinggi tapi residual kecil. Berbahaya?",

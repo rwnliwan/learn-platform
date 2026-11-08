@@ -201,7 +201,7 @@ export const mr12: V2Lesson = {
         "h* = ρ·σ_S/σ_F dari data — bukan asumsi 1:1. Laporkan sisa basis risk sebagai angka.",
         "Pasti → forward; belum pasti → opsi; korelasi rendah → terima risiko + buffer; siapkan likuiditas margin.",
       ],
-      next: { label: "MR13 — Risiko Likuiditas", href: "/learn/mr13-risiko-likuiditas" },
+      next: { label: "MR13 — Risiko Likuiditas", href: "/v2/learn/mr13-risiko-likuiditas" },
       quiz: [
         {
           q: "Piutang USD 10 juta pasti jatuh tempo 90 hari. Instrumen hedge tepat?",

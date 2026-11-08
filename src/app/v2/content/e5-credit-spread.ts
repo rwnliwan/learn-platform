@@ -203,7 +203,7 @@ export const e5: V2Lesson = {
         "Spread ≈ PD × LGD → baca pikiran pasar, tantang dengan analisismu. Berbeda dan benar = alpha.",
         "Risiko kredit tidak hanya default: ada risiko spread dan risiko likuiditas.",
       ],
-      next: { label: "E6 — Ekuitas", href: "/learn/e6-ekuitas" },
+      next: { label: "E6 — Ekuitas", href: "/v2/learn/e6-ekuitas" },
       quiz: [
         {
           q: "Batas investment grade vs junk berada di…",

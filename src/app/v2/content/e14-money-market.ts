@@ -189,7 +189,7 @@ export const e14: V2Lesson = {
         "Waterfall: rugi dari equity ke atas; kas dibayar dari senior ke bawah.",
         "Tranche senior “aman” hanya sebagus asumsi korelasinya — 2008 = buktinya.",
       ],
-      next: { label: "E15 — Konteks Indonesia", href: "/learn/e15-indonesia" },
+      next: { label: "E15 — Konteks Indonesia", href: "/v2/learn/e15-indonesia" },
       quiz: [
         {
           q: "Fungsi utama pasar uang bagi bank?",

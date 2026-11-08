@@ -293,7 +293,7 @@ print(f"anomali: {anomali}")`,
         "Kegagalan harus bersuara: alert + tahan terbit lebih baik daripada angka yang tampak normal.",
         "Definisi bersama hidup di satu tempat (semantic model), bukan tersebar di skrip tiap analis.",
       ],
-      next: { label: "BI24 — Microsoft Fabric: Power BI Naik Kelas ke Lakehouse", href: "/learn/biz24-microsoft-fabric" },
+      next: { label: "BI24 — Microsoft Fabric: Power BI Naik Kelas ke Lakehouse", href: "/v2/learn/biz24-microsoft-fabric" },
       quiz: [
         {
           q: "Pekerjaan mana yang PALING tepat dipindah ke Python?",

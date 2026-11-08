@@ -204,7 +204,7 @@ export const e4: V2Lesson = {
         "Duration = % perubahan harga per 1% perubahan yield. Tenor panjang + kupon kecil = sensitif.",
         "Yield curve: normal = sehat; inverted = waspada resesi; flat = transisi.",
       ],
-      next: { label: "E5 — Credit Spread", href: "/learn/e5-credit-spread" },
+      next: { label: "E5 — Credit Spread", href: "/v2/learn/e5-credit-spread" },
       quiz: [
         {
           q: "Obligasi kupon 6% diperdagangkan di harga DISKON (di bawah nominal). Apa artinya?",

@@ -53,7 +53,7 @@ export const cr6: V2Lesson = {
         { id: "t2", text: "Hitung `rasio_mob12` = v2024[11] / v2023[11]" },
         { id: "t3", text: "Cetak keduanya dengan `print`" },
       ],
-      expected: "selisih=2.5 rasio=2.0",
+      expected: "selisih=2.4 rasio=1.9",
       note: {
         title: "Sering salah",
         type: "pitfall",
@@ -69,9 +69,9 @@ export const cr6: V2Lesson = {
         lockLines: 2,
         solution: `v2023 = [0.3,0.5,0.8,1.1,1.5,1.8,2.1,2.2,2.4,2.5,2.5,2.6,2.6,2.6,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7,2.7]\nv2024 = [0.5,0.9,1.4,2.0,2.6,3.2,3.8,4.1,4.5,4.7,4.8,5.0,5.0,5.1,5.1,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2]\n\n# TULIS KODEMU: bandingkan di MOB 12 (indeks 11)\nselisih_mob12 = v2024[11] - v2023[11]\nrasio_mob12 = v2024[11] / v2023[11]\n\nprint(f"selisih={selisih_mob12:.1f} rasio={rasio_mob12:.1f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "selisih_mob12", value: 2.5, tol: 0.05, label: "`selisih_mob12` seharusnya 2.5", msg: "5.0 − 2.5 = 2.5." },
-          { kind: "equal", task: "t2", name: "rasio_mob12", value: 2.0, tol: 0.05, label: "`rasio_mob12` seharusnya 2.0", msg: "5.0 / 2.5 = 2.0 — vintage 2024 dua kali lipat 2023." },
-          { kind: "stdout_matches", task: "t3", pattern: "selisih=2\\.5\\s+rasio=2\\.0", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t1", name: "selisih_mob12", value: 2.4, tol: 0.05, label: "`selisih_mob12` seharusnya 2.4", msg: "5.0 − 2.6 = 2.4." },
+          { kind: "equal", task: "t2", name: "rasio_mob12", value: 1.92, tol: 0.05, label: "`rasio_mob12` seharusnya 1.92", msg: "5.0 / 2.6 ≈ 1,92 — vintage 2024 hampir dua kali lipat 2023." },
+          { kind: "stdout_matches", task: "t3", pattern: "selisih=2\\.4\\s+rasio=1\\.9", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Coba: bandingkan 2025 MOB 6 (1,9%) vs 2024 MOB 6 (3,2%) — membaik, tetapi selidiki sebabnya.",
@@ -212,13 +212,13 @@ export const cr6: V2Lesson = {
         "Flow rate = alarm dini (berbunyi sebelum NPL); static pool = akuarium tertutup untuk LGD/validasi.",
         "NPL stabil tidak berarti sehat — baca sebab (flow, roll, vintage), bukan cuma akibat.",
       ],
-      next: { label: "CR7A — Application Scorecard 1", href: "/learn/cr7a-application-scorecard-1" },
+      next: { label: "CR7A — Application Scorecard 1", href: "/v2/learn/cr7a-application-scorecard-1" },
       quiz: [
         {
           q: "Vintage 2024 di MOB 12 = 5,1% macet; vintage 2023 di MOB 12 = 2,5%. Kesimpulan terbaik?",
           options: [
             { text: "2024 lebih buruk — indikasi underwriting 2024 lebih longgar (bandingkan di MOB sama)", why: "Perbandingan di MOB yang SAMA menunjukkan kualitas origination. 2× lipat = sidik jari underwriting, bukan ekonomi.", correct: true },
-            { text: "2024 lebih baik", why: "Angkanya justru dua kali lipat lebih buruk." },
+            { text: "2024 lebih baik", why: "Angkanya justru hampir dua kali lipat lebih buruk." },
             { text: "Tidak bisa dibandingkan beda tahun", why: "Justru bisa — itulah gunanya membandingkan di MOB yang sama." },
             { text: "Ekonomi 2024 lebih buruk", why: "Kalau ekonomi penyebabnya, vintage 2023 ikut naik di MOB 18–24 — faktanya tidak." },
           ],

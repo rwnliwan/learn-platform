@@ -299,7 +299,7 @@ export const mr20: V2Lesson = {
         "Validasi statistik tidak cukup untuk AI: data drift, opacity, retraining/vendor. PSI = alarm asap (<0,10 stabil; 0,10–0,25 waspada; >0,25 beku).",
         "NIST AI RMF 1.0 (26 Jan 2023): Govern–Map–Measure–Manage; CFPB 2022: kompleksitas bukan pembelaan.",
       ],
-      next: { label: "MR21 — Crypto Market Risk", href: "/learn/mr21-crypto-market-risk" },
+      next: { label: "MR21 — Crypto Market Risk", href: "/v2/learn/mr21-crypto-market-risk" },
       quiz: [
         {
           q: "SR 11-7 diterbitkan oleh siapa, kapan?",

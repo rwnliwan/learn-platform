@@ -204,7 +204,7 @@ export const fr17: V2Lesson = {
         "Reason code: top-3 SHAP dalam bahasa manusia (spesifik, verifikabel).",
         "Empat audiens butuh empat lapisan penjelasan.",
       ],
-      next: { label: "FR18 — MLOps", href: "/learn/fr18-mlops" },
+      next: { label: "FR18 — MLOps", href: "/v2/learn/fr18-mlops" },
       quiz: [
         {
           q: "Hakim bertanya 'mengapa rekening dibekukan?' Jawaban yang benar?",

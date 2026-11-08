@@ -161,7 +161,7 @@ export const dm5: V2Lesson = {
         "Idempotency f(f(x))=f(x): prasyarat retry dan backfill yang aman.",
         "Retry untuk gagal transien (dengan backoff + batas); backfill untuk perbaiki masa lalu.",
       ],
-      next: { label: "DM6 — Batch vs Streaming", href: "/learn/dm6-batch-streaming" },
+      next: { label: "DM6 — Batch vs Streaming", href: "/v2/learn/dm6-batch-streaming" },
       quiz: [
         {
           q: "Kenapa cron tidak cukup untuk pipeline produksi?",

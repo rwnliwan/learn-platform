@@ -281,7 +281,7 @@ print(f"pct: {pct}")`,
         "Conditional aggregation (CASE dalam agregat) = pola nomor satu interview.",
         "Jangan: andalkan urutan GROUP BY; lupakan cek duplikat & NULL; rata-rata dari rata-rata.",
       ],
-      next: { label: "C4 — Fungsi Tanggal & String", href: "/learn/c4-fungsi-tanggal-string" },
+      next: { label: "C4 — Fungsi Tanggal & String", href: "/v2/learn/c4-fungsi-tanggal-string" },
       quiz: [
         {
           q: "AVG(penghasilan) dengan 1 NULL dari 10 baris = ?",

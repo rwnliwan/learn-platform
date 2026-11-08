@@ -275,7 +275,7 @@ export const cr32: V2Lesson = {
         "Kegunaan: hedging bank (RWA turun, nasabah tetap), posisi kredit, CDO sintetis.",
         "Risiko sendiri: counterparty — proteksi hanya sekuat penjualnya; waspadai double default.",
       ],
-      next: { label: "CR29 — Sekuritisasi", href: "/learn/cr29-sekuritisasi" },
+      next: { label: "CR29 — Sekuritisasi", href: "/v2/learn/cr29-sekuritisasi" },
       quiz: [
         {
           q: "Bank membeli proteksi CDS Rp100 miliar, spread 150 bp. Berapa premi per triwulan?",

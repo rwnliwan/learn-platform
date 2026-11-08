@@ -204,7 +204,7 @@ print(f"{n_tidak} dari {len(skenario)} skenario melanggar -> {'ESKALASI KE COMPL
         "Segitiga MI–kustodian–OJK: MI mengelola tanpa memegang dana; kustodian menyimpan + verifikasi independen; OJK mengatur + memeriksa + sanksi.",
         "Kepatuhan = keunggulan kompetitif: kepercayaan publik adalah aset industri yang paling mahal.",
       ],
-      next: { label: "D13 — Fund Accounting & NAV", href: "/learn/pm-d13-fund-accounting-nav" },
+      next: { label: "D13 — Fund Accounting & NAV", href: "/v2/learn/pm-d13-fund-accounting-nav" },
       quiz: [
         {
           q: "Kenapa lisensi WMI bersifat personal (tidak bisa dipinjamkan)?",

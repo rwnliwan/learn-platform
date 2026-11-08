@@ -282,7 +282,7 @@ print(f"memori indeks: {mem_mb:.2f} MB")`,
         "Memori indeks: M = N × (d × 4 + o); hitung SEBELUM memilih indeks.",
         "pgvector menang saat butuh filter SQL/JOIN/ACID serumah dengan vektor; vector DB khusus untuk skala miliaran atau SLA ekstrem.",
       ],
-      next: { label: "DBA21 — Oracle: RMAN, Data Guard, dan AWR", href: "/learn/dba21-oracle-rman-data-guard" },
+      next: { label: "DBA21 — Oracle: RMAN, Data Guard, dan AWR", href: "/v2/learn/dba21-oracle-rman-data-guard" },
       quiz: [
         {
           q: "Query `ORDER BY embedding <=> '[...]' LIMIT 5` artinya?",

@@ -233,7 +233,7 @@ export const cr15: V2Lesson = {
         "Korelasi menebalkan ekor distribusi kerugian — ρ menentukan kebutuhan modal.",
         "Vasicek → VaR → UL → modal: mesin Pilar 1 Basel untuk IRB.",
       ],
-      next: { label: "CR16 — Stress Testing", href: "/learn/cr16-stress-testing" },
+      next: { label: "CR16 — Stress Testing", href: "/v2/learn/cr16-stress-testing" },
       quiz: [
         {
           q: "Dua portofolio Rp 1 M: 100 debitur vs 5 debitur. PD, LGD sama. Mana benar?",

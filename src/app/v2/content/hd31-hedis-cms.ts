@@ -316,7 +316,7 @@ print(f"skor poor-control = {skor:.1f}% → {bintang} bintang")`,
           ],
         },
       ],
-      next: { label: "HD32 — Deployment Real-Time: Streaming & Alert Klinis", href: "/learn/hd32-deployment-realtime" },
+      next: { label: "HD32 — Deployment Real-Time: Streaming & Alert Klinis", href: "/v2/learn/hd32-deployment-realtime" },
     },
   ],
 };

@@ -156,7 +156,7 @@ export const e27: V2Lesson = {
         "Internasional: BCBS (standar modal bank), FSB (stabilitas global), IOSCO (standar pasar modal).",
         "Pasca-krisis: Volcker rule, SIFI, Basel III (CAR, LCR, NSFR), dan stress test.",
       ],
-      next: { label: "E28 — Capstone: Efficient Frontier App + VaR/ES", href: "/learn/e28-capstone-frontier-var" },
+      next: { label: "E28 — Capstone: Efficient Frontier App + VaR/ES", href: "/v2/learn/e28-capstone-frontier-var" },
       quiz: [
         {
           q: "Mengapa pasar keuangan butuh regulasi? Alasan PALING mendasar?",

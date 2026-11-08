@@ -190,7 +190,7 @@ export const pmd4: V2Lesson = {
         "Walk-forward: train-test geser → OOS murni + deteksi decay; lalu paper trading.",
         "Aturan: catat semua trial, asumsikan biaya 2×, haircut 50%, skeptis selalu.",
       ],
-      next: { label: "D5 \u2014 Metrik Kinerja", href: "/learn/pm-d5-metrik-kinerja" },
+      next: { label: "D5 \u2014 Metrik Kinerja", href: "/v2/learn/pm-d5-metrik-kinerja" },
       quiz: [
         {
           q: "Sinyal beli pakai laporan Q1 final (Mei) untuk \u2018trading\u2019 Januari. Backtest Sharpe 3,0. Masalah?",

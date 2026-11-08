@@ -208,7 +208,7 @@ export const bcd3: V2Lesson = {
         "False merge lebih mahal daripada missed merge: saat ragu, jangan gabungkan.",
         "Label butuh sumber + timestamp + dua sumber independen.",
       ],
-      next: { label: "BCD4 — Analisis DeFi", href: "/learn/bcd4-defi" },
+      next: { label: "BCD4 — Analisis DeFi", href: "/v2/learn/bcd4-defi" },
       quiz: [
         {
           q: "Transaksi UTXO punya input dari address A, B, C. Menurut heuristik common-input…",

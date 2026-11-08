@@ -207,7 +207,7 @@ export const e10: V2Lesson = {
         "Breakeven call = K + premi; put = K − premi.",
         "Put-call parity: C + PV(K) = P + S — mesin arbitrase dan sintesis posisi.",
       ],
-      next: { label: "E11 — Black-Scholes", href: "/learn/e11-black-scholes" },
+      next: { label: "E11 — Black-Scholes", href: "/v2/learn/e11-black-scholes" },
       quiz: [
         {
           q: "Keunggulan futures dibanding forward OTC?",

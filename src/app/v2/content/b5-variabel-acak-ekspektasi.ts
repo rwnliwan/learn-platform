@@ -242,7 +242,7 @@ export const b5: V2Lesson = {
         "Jensen: fungsi cembung \u2192 E[f(X)] \u2265 f(E[X]) \u2014 jangan colok rata-rata ke fungsi melengkung.",
         "Jangan tafsirkan ekspektasi sebagai prediksi kejadian tunggal.",
       ],
-      next: { label: "B6.1 \u2014 Distribusi Diskret 1", href: "/learn/b6-distribusi-diskret-1" },
+      next: { label: "B6.1 \u2014 Distribusi Diskret 1", href: "/v2/learn/b6-distribusi-diskret-1" },
       quiz: [
         {
           q: "E[X] = 3,5 untuk dadu. Artinya\u2026",

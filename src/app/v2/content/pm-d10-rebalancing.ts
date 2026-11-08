@@ -265,7 +265,7 @@ print("Tanya: rugi 30jt > gain 25jt — sisa rugi 5jt bisa dibawa ke tahun depan
         "Tax-aware: urutan = arus kas → panen rugi (tax-loss harvesting) → jual secukupnya; asset location menaruh aset boros-pajak di akun pajak-tangguh.",
         "Akun kena pajak = band lebih lebar + rebalance ke tepi band; tulis SEMUA aturan di IPS — rebalance diskresioner = market timing.",
       ],
-      next: { label: "D11 — Terminal & VBA: Mesin Harian Analis Portofolio", href: "/learn/pm-d11-tooling-vendor-vba" },
+      next: { label: "D11 — Terminal & VBA: Mesin Harian Analis Portofolio", href: "/v2/learn/pm-d11-tooling-vendor-vba" },
       quiz: [
         {
           q: "Target saham 60%, band ±5pp absolut. Bobot aktual 66%. Tindakan?",

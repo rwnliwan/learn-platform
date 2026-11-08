@@ -330,7 +330,7 @@ print(f"MoE95={moe:.3f}")`,
           ],
         },
       ],
-      next: { label: "A321 — Marketing Mix Modeling", href: "/learn/a321-marketing-mix-modeling" },
+      next: { label: "A321 — Marketing Mix Modeling", href: "/v2/learn/a321-marketing-mix-modeling" },
     },
   ],
 };

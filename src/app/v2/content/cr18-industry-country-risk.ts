@@ -210,7 +210,7 @@ export const cr18: V2Lesson = {
         "Risiko konversi: utang dolar + pendapatan rupiah = DSCR jebol saat depresiasi.",
         "Risiko transisi ESG: tenor panjang terpapar kebijakan iklim masa depan.",
       ],
-      next: { label: "CR19 — Validasi Model", href: "/learn/cr19-validasi-model" },
+      next: { label: "CR19 — Validasi Model", href: "/v2/learn/cr19-validasi-model" },
       quiz: [
         {
           q: "Debitur tekstil terbaik (DSCR 2,0) vs debitur teknologi biasa (DSCR 1,5). Mana berisiko lebih tinggi?",

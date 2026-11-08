@@ -261,7 +261,7 @@ export const c25: V2Lesson = {
       ],
       next: {
         label: "Stored Procedure, Function & Trigger",
-        href: "/learn/c26-stored-procedure",
+        href: "/v2/learn/c26-stored-procedure",
       },
       quiz: [
         {

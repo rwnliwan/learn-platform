@@ -201,7 +201,7 @@ export const mr15: V2Lesson = {
         "EWMA = GARCH dengan ω=0, α=1−λ, β=λ (tanpa mean-reversion vol).",
         "Pilih model dari properti yang dibutuhkan — bukan dari kemudahan rumusnya.",
       ],
-      next: { label: "MR16 — Regulasi FRTB", href: "/learn/mr16-regulasi-frtb" },
+      next: { label: "MR16 — Regulasi FRTB", href: "/v2/learn/mr16-regulasi-frtb" },
       quiz: [
         {
           q: "Dalam GBM, suku −½σ² dalam solusi eksak adalah?",

@@ -202,7 +202,7 @@ export const e8: V2Lesson = {
         "Efficient frontier = return max per level risiko; portofolio di bawahnya tidak efisien.",
         "Waspada correlation breakdown — uji portofolio dengan korelasi krisis.",
       ],
-      next: { label: "E9 — CAPM", href: "/learn/e9-capm" },
+      next: { label: "E9 — CAPM", href: "/v2/learn/e9-capm" },
       quiz: [
         {
           q: "Dua aset identik (σ=20%), bobot 50/50, korelasi −1. Volatilitas portofolio?",

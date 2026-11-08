@@ -199,7 +199,7 @@ export const fr11: V2Lesson = {
         "Triage: review dari skor tertinggi; 3 zona (auto-block/review/auto-approve+sampling).",
         "Auto-block butuh banding cepat + pengecualian segmen sensitif.",
       ],
-      next: { label: "FR12 — Graph Analytics", href: "/learn/fr12-graph-analytics" },
+      next: { label: "FR12 — Graph Analytics", href: "/v2/learn/fr12-graph-analytics" },
       quiz: [
         {
           q: "Mengapa threshold default 0,5 berbahaya untuk fraud?",

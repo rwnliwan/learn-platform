@@ -226,7 +226,7 @@ print(f"Selisih rata-rata: {selisih_rata:.2f} poin | Beda peringkat maks: {beda_
         "Greenwashing dideteksi dari kesenjangan klaim vs data (tren emisi, capex, target interim), bukan dari bahasa iklan.",
         "Empat alat integrasi: eksklusi, tilting, best-in-class, engagement — dipilih berdasarkan mandat, dan label tanpa proses = greenwashing.",
       ],
-      next: { label: "PME3 — Liquidity Risk: Saat Portofolio Tak Bisa Dijual", href: "/learn/pm-e3-liquidity-risk" },
+      next: { label: "PME3 — Liquidity Risk: Saat Portofolio Tak Bisa Dijual", href: "/v2/learn/pm-e3-liquidity-risk" },
       quiz: [
         {
           q: "Dua provider memberi skor 78 dan 32 untuk emiten yang sama. Penjelasan paling tepat?",

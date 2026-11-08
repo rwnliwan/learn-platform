@@ -199,7 +199,7 @@ export const cr4b: V2Lesson = {
         "Cliff effect: pindah Stage 1→2 melonjak 4–8× — ambang SICR sangat politis.",
         "ECL procyclical; waspadai manipulasi staging dan overlay tanpa dasar.",
       ],
-      next: { label: "CR5 — Definisi Default", href: "/learn/cr5-definisi-default" },
+      next: { label: "CR5 — Definisi Default", href: "/v2/learn/cr5-definisi-default" },
       quiz: [
         {
           q: "Perbedaan fundamental PSAK 239 (dulu PSAK 55) vs PSAK 109 (dulu PSAK 71)?",

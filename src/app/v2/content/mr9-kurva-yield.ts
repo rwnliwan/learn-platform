@@ -200,7 +200,7 @@ export const mr9: V2Lesson = {
         "PCA: 3 komponen (level/slope/curvature) menjelaskan 95%+ — fondasi simulasi VaR suku bunga.",
         "Untuk kurva menanjak: zero rate > par yield di tenor yang sama.",
       ],
-      next: { label: "MR10 — IRRBB", href: "/learn/mr10-irrbb" },
+      next: { label: "MR10 — IRRBB", href: "/v2/learn/mr10-irrbb" },
       quiz: [
         {
           q: "Kurva inverted (2Y > 10Y) secara ekonomi berarti?",

@@ -256,7 +256,7 @@ export const b8: V2Lesson = {
         "Alur: diagnosis \u2192 MLE \u2192 banding \u2192 cek ekor khusus \u2192 validasi out-of-sample.",
         "Jangan anggap \u201Clolos uji\u201D = \u201Cbenar\u201D \u2014 terutama untuk ekor.",
       ],
-      next: { label: "B9 \u2014 Joint & Kovarians", href: "/learn/b9-joint-kovarians" },
+      next: { label: "B9 \u2014 Joint & Kovarians", href: "/v2/learn/b9-joint-kovarians" },
       quiz: [
         {
           q: "QQ-plot titik-titik melengkung ke atas di ujung kanan. Artinya\u2026",

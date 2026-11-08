@@ -262,7 +262,7 @@ export const bcd12: V2Lesson = {
         "Laporan: fakta vs opini terpisah, metodologi eksplisit, rekomendasi ber-SLA.",
         "Seluruh track dalam satu kasus: cluster → DeFi → tokenomics → fraud → MEV → SQL → graph → risk.",
       ],
-      next: { label: "BCD13 — Cross-Chain & Bridge Tracing", href: "/learn/bcd13-cross-chain" },
+      next: { label: "BCD13 — Cross-Chain & Bridge Tracing", href: "/v2/learn/bcd13-cross-chain" },
       quiz: [
         {
           q: "Mengapa analis pendahulu (trace 2 hop) menulis 'bersih' sementara kamu menemukan mixer?",

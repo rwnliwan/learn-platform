@@ -278,7 +278,7 @@ export const bcd10: V2Lesson = {
         "Titik terang: exchange (bekukan), mixer (pantau), sink (tunggu).",
         "Darurat: kecepatan > kelengkapan; dokumentasikan metodologi hop.",
       ],
-      next: { label: "BCD11 — Risk Scoring Wallet & AML On-Chain", href: "/learn/bcd11-risk" },
+      next: { label: "BCD11 — Risk Scoring Wallet & AML On-Chain", href: "/v2/learn/bcd11-risk" },
       quiz: [
         {
           q: "BFS tanpa batas hop dari address yang pernah transaksi dengan exchange besar. Masalahnya?",

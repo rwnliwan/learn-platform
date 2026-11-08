@@ -268,7 +268,7 @@ export const fr23: V2Lesson = {
         "Mencegah 5x lebih murah daripada mengobati.",
         "Track selesai: FR1 (lanskap) → FR23 (regulasi) — kamu siap jadi analis fraud.",
       ],
-      next: { label: "PM-A1 — Ethics", href: "/learn/pm-a1-ethics" },
+      next: { label: "PM-A1 — Ethics", href: "/v2/learn/pm-a1-ethics" },
       quiz: [
         {
           q: "3 STR telat 14/21/30 hari. Denda Rp1,2 M (4x kerugian fraud Rp300 jt). Pelajaran?",

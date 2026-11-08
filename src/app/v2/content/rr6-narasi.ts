@@ -238,7 +238,7 @@ export const rr6: V2Lesson = {
         "Insight density target > 60% untuk narasi eksekutif.",
         "Satu paragraf = satu insight; kata kerja penanda insight: didorong, berisiko, perlu.",
       ],
-      next: { label: "RR7 — Merancang Dashboard Risiko", href: "/learn/rr7-dashboard" },
+      next: { label: "RR7 — Merancang Dashboard Risiko", href: "/v2/learn/rr7-dashboard" },
       quiz: [
         {
           q: "Urutan piramida Minto yang benar?",

@@ -286,7 +286,7 @@ export const aai9: V2Lesson = {
         "E[L] = p_err × dampak × (1−p_cegat): kejar p_cegat tinggi untuk dampak besar.",
         "Waspadai alert fatigue: <30 approval/hari; jika 99% di-ACC, tier salah setel.",
       ],
-      next: { label: "AAI10 — Framework: LangChain/LangGraph & Alternatif", href: "/learn/aai10-framework" },
+      next: { label: "AAI10 — Framework: LangChain/LangGraph & Alternatif", href: "/v2/learn/aai10-framework" },
       quiz: [
         {
           q: "Agen butuh tool \u201Chapus massal arsip\u201D. Keputusan arsitektur TEPAT?",

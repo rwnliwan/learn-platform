@@ -329,7 +329,7 @@ export const a12: V2Lesson = {
         "Kecepatan rata-rata pakai harmonic mean; data berbobot pakai weighted mean.",
         "Selalu laporkan pemusatan bersama sebaran. Mean tanpa SD hanya setengah cerita.",
       ],
-      next: { label: "A1.3 — Ukuran Sebaran", href: "/learn/a13-sebaran" },
+      next: { label: "A1.3 — Ukuran Sebaran", href: "/v2/learn/a13-sebaran" },
       quiz: [
         {
           q: "Data: 5, 5, 5, 5, 100. Mana yang paling mewakili \u201Ctipikal\u201D?",

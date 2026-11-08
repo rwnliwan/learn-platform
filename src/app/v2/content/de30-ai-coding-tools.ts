@@ -190,44 +190,7 @@ export const de30: V2Lesson = {
 `print(f"faktor inflasi: {fi}x")\n` +
 `print(f"filter AI melewatkan: {hilang} (rugi Rp{rugi} tercatat)")\n`,
         lockLines: 12,
-        solution: `# Dataset kecil dengan jawaban yang bisa dihitung manual\n` +
-`orders = [\n` +
-`    {"id": "o1", "amount": 100.0, "utc": "2025-12-31 18:00:00", "biz": "2026-01-01"},\n` +
-`    {"id": "o2", "amount": 200.0, "utc": "2026-01-02 10:00:00", "biz": "2026-01-02"},\n` +
-`    {"id": "o3", "amount": 150.0, "utc": "2025-12-30 20:00:00", "biz": "2025-12-31"},\n` +
-`    {"id": "o4", "amount": 300.0, "utc": "2026-01-05 08:00:00", "biz": "2026-01-05"},\n` +
-`    {"id": "o5", "amount": 250.0, "utc": "2026-01-01 02:00:00", "biz": "2026-01-01"},\n` +
-`]\n` +
-`# Hasil join orders -> order_items VERSI QUERY AI (fan-out: amount ikut terganda)\n` +
-`joined = [\n` +
-`    ("o1", 100.0), ("o1", 100.0), ("o2", 200.0), ("o3", 150.0),\n` +
-`    ("o3", 150.0), ("o3", 150.0), ("o4", 300.0), ("o5", 250.0),\n` +
-`]\n` +
-`\n` +
-`# TUGAS 1: dua versi revenue\n` +
-`def revenue_ai():\n` +
-`    return sum(a for _, a in joined)\n` +
-`\n` +
-`def revenue_benar():\n` +
-`    return sum(o["amount"] for o in orders)\n` +
-`\n` +
-`# TUGAS 2: seberapa besar penggandaannya?\n` +
-`def faktor_inflasi():\n` +
-`    return revenue_ai() / revenue_benar()\n` +
-`\n` +
-`# TUGAS 3: filter AI (kolom UTC) vs filter benar (tanggal bisnis WIB)\n` +
-`def order_hilang():\n` +
-`    return [o["id"] for o in orders if o["biz"] >= "2026-01-01" and not (o["utc"] >= "2026-01-01")]\n` +
-`\n` +
-`ra = revenue_ai()\n` +
-`rb = revenue_benar()\n` +
-`fi = faktor_inflasi()\n` +
-`hilang = order_hilang()\n` +
-`rugi = sum(o["amount"] for o in orders if o["id"] in hilang)\n` +
-`print(f"revenue AI (fan-out): {ra}")\n` +
-`print(f"revenue benar: {rb}")\n` +
-`print(f"faktor inflasi: {fi}x")\n` +
-`print(f"filter AI melewatkan: {hilang} (rugi Rp{rugi} tercatat)")\n`,
+        solution: `# Dataset kecil dengan jawaban yang bisa dihitung manual\norders = [\n    {"id": "o1", "amount": 100.0, "utc": "2025-12-31 18:00:00", "biz": "2026-01-01"},\n    {"id": "o2", "amount": 200.0, "utc": "2026-01-02 10:00:00", "biz": "2026-01-02"},\n    {"id": "o3", "amount": 150.0, "utc": "2025-12-30 20:00:00", "biz": "2025-12-31"},\n    {"id": "o4", "amount": 300.0, "utc": "2026-01-05 08:00:00", "biz": "2026-01-05"},\n    {"id": "o5", "amount": 250.0, "utc": "2026-01-01 02:00:00", "biz": "2026-01-01"},\n]\n# Hasil join orders -> order_items VERSI QUERY AI (fan-out: amount ikut terganda)\njoined = [\n    ("o1", 100.0), ("o1", 100.0), ("o2", 200.0), ("o3", 150.0),\n    ("o3", 150.0), ("o3", 150.0), ("o4", 300.0), ("o5", 250.0),\n]\n\n# TUGAS 1: dua versi revenue\ndef revenue_ai():\n    return sum(a for _, a in joined)\n\ndef revenue_benar():\n    return sum(o["amount"] for o in orders)\n\n# TUGAS 2: seberapa besar penggandaannya?\ndef faktor_inflasi():\n    return revenue_ai() / revenue_benar()\n\n# TUGAS 3: filter AI (kolom UTC) vs filter benar (tanggal bisnis WIB)\ndef order_hilang():\n    return [o["id"] for o in orders if o["biz"] >= "2026-01-01" and not (o["utc"] >= "2026-01-01")]\n\nra = revenue_ai()\nrb = revenue_benar()\nfi = faktor_inflasi()\nhilang = order_hilang()\nrugi = sum(o["amount"] for o in orders if o["id"] in hilang)\nprint(f"revenue AI (fan-out): {ra}")\nprint(f"revenue benar: {rb}")\nprint(f"faktor inflasi: {fi}x")\nprint(f"filter AI melewatkan: {hilang} (rugi Rp{rugi} tercatat)")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "revenue_ai", label: "fungsi `revenue_ai` terdefinisi", msg: "Definisikan revenue_ai() yang men-SUM baris hasil join." },
           { kind: "equal", task: "t1", name: "ra", value: 1400.0, tol: 0.01, label: "`ra` = 1400.0", msg: "SUM 8 baris join = 1400 — inilah angka 'AI'." },

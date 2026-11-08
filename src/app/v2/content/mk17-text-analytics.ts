@@ -46,11 +46,11 @@ export const mk17: V2Lesson = {
         "Jika ya: b = -b. \u201Ctidak cepat\u201D → −2; \u201Clama\u201D tetap −2.",
       ],
       code: {
-        starter: `lexicon = {"cepat": 2, "lama": -2, "bagus": 2, "parah": -3, "ramah": 2}\nnegasi = {"tidak", "nggak", "gak", "bukan"}\n\ndef skor(teks):\n    kata = teks.lower().split()\n    total = 0\n    for i in range(len(kata)):\n        w = kata[i].strip(",.!?")\n        if w in lexicon:\n            b = lexicon[w]\n            # TULIS KODEMU: balik b jika kata TEPAT sebelumnya adalah negasi\n            total += b\n    return total\n\nprint("U1=", skor("driver cepat dan ramah"))\nprint("U2=", skor("tidak cepat, lama parah"))`,
+        starter: `lexicon = {"cepat": 2, "lama": -2, "bagus": 2, "parah": -3, "ramah": 2}\nnegasi = {"tidak", "nggak", "gak", "bukan"}\n\ndef skor(teks):\n    kata = teks.lower().split()\n    total = 0\n    for i in range(len(kata)):\n        w = kata[i].strip(",.!?")\n        if w in lexicon:\n            b = lexicon[w]\n            # TULIS KODEMU: balik b jika kata TEPAT sebelumnya adalah negasi\n            total += b\n    return total\n\nskor_u1 = skor("driver cepat dan ramah")\nskor_u2 = skor("tidak cepat, lama parah")\nprint(f"U1={skor_u1}")\nprint(f"U2={skor_u2}")`,
         lockLines: 3,
-        solution: `lexicon = {"cepat": 2, "lama": -2, "bagus": 2, "parah": -3, "ramah": 2}\nnegasi = {"tidak", "nggak", "gak", "bukan"}\n\ndef skor(teks):\n    kata = teks.lower().split()\n    total = 0\n    for i in range(len(kata)):\n        w = kata[i].strip(",.!?")\n        if w in lexicon:\n            b = lexicon[w]\n            if i > 0 and kata[i-1].strip(",.!?") in negasi:\n                b = -b\n            total += b\n    return total\n\nprint("U1=", skor("driver cepat dan ramah"))\nprint("U2=", skor("tidak cepat, lama parah"))`,
+        solution: `lexicon = {"cepat": 2, "lama": -2, "bagus": 2, "parah": -3, "ramah": 2}\nnegasi = {"tidak", "nggak", "gak", "bukan"}\n\ndef skor(teks):\n    kata = teks.lower().split()\n    total = 0\n    for i in range(len(kata)):\n        w = kata[i].strip(",.!?")\n        if w in lexicon:\n            b = lexicon[w]\n            if i > 0 and kata[i-1].strip(",.!?") in negasi:\n                b = -b\n            total += b\n    return total\n\nskor_u1 = skor("driver cepat dan ramah")\nskor_u2 = skor("tidak cepat, lama parah")\nprint(f"U1={skor_u1}")\nprint(f"U2={skor_u2}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "skor", value: 4, tol: 1e-9, label: "`skor` U1 seharusnya 4", msg: "\u201Ccepat\u201D +2, \u201Cramah\u201D +2. Tidak ada negasi." },
+          { kind: "equal", task: "t1", name: "skor_u1", value: 4, tol: 1e-9, label: "`skor_u1` U1 seharusnya 4", msg: "\u201Ccepat\u201D +2, \u201Cramah\u201D +2. Tidak ada negasi." },
           { kind: "stdout_matches", task: "t2", pattern: "U2=\\s*-7", label: "`print` menampilkan U2=-7", msg: "\u201Ctidak\u201D membalik \u201Ccepat\u201D: −2−2−3 = −7." },
         ],
       },
@@ -124,9 +124,9 @@ export const mk17: V2Lesson = {
       code: {
         starter: `ulasan_neg = ["driver lama parah", "driver lama banget",\n               "aplikasi lemot", "driver tidak ramah", "lama parah"]\n\n# TULIS KODEMU: frekuensi kata, tampilkan 3 teratas\nfreq = {}\nfor u in ulasan_neg:\n    for w in u.split():\n        freq[w] =\n\ntop3 =\nprint(top3)`,
         lockLines: 2,
-        solution: `ulasan_neg = ["driver lama parah", "driver lama banget",\n               "aplikasi lemot", "driver tidak ramah", "lama parah"]\n\n# TULIS KODEMU: frekuensi kata, tampilkan 3 teratas\nfreq = {}\nfor u in ulasan_neg:\n    for w in u.split():\n        freq[w] = freq.get(w, 0) + 1\n\ntop3 = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:3]\nprint(top3)`,
+        solution: `ulasan_neg = ["driver lama parah", "driver lama banget",\n               "aplikasi lemot", "driver tidak ramah", "lama parah"]\n\n# TULIS KODEMU: frekuensi kata, tampilkan 3 teratas\nfreq = {}\nfor u in ulasan_neg:\n    for w in u.split():\n        freq[w] = freq.get(w, 0) + 1\n\nfreq_driver = freq["driver"]\nfreq_driver = freq["driver"]\nfreq_driver = freq["driver"]\nfreq_driver = freq["driver"]\ntop3 = sorted(freq.items(), key=lambda x: x[1], reverse=True)[:3]\nprint(top3)`,
         checks: [
-          { kind: "equal", task: "t1", name: "freq", value: 3, tol: 1e-9, label: "`freq['driver']` seharusnya 3", msg: "\u201Cdriver\u201D muncul di ulasan 1, 2, 4." },
+          { kind: "equal", task: "t1", name: "freq_driver", value: 3, tol: 1e-9, label: "`freq['driver']` seharusnya 3", msg: "\u201Cdriver\u201D muncul di ulasan 1, 2, 4." },
           { kind: "stdout_matches", task: "t2", pattern: "driver", label: "`print` menampilkan driver", msg: "Pastikan top3 tercetak." },
           { kind: "stdout_matches", task: "t2", pattern: "parah", label: "`print` menampilkan parah", msg: "Top 3: driver, lama, parah." },
         ],
@@ -272,7 +272,7 @@ export const mk17: V2Lesson = {
         "Ulasan = sampel termotivasi (kurva U): pakai tren, waspadai ulasan palsu.",
         "Keberhasilan = insight yang jadi aksi: alert -> tiket -> ukur (closing the loop).",
       ],
-      next: { label: "MK18 — Etika", href: "/learn/mk18-etika" },
+      next: { label: "MK18 — Etika", href: "/v2/learn/mk18-etika" },
       quiz: [
         {
           q: "68% negatif tentang driver, 12% tentang UI. Prioritas?",

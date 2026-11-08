@@ -316,7 +316,7 @@ print(f"vonis_T5={vonis['T5']}  structuring={struct}")`,
       ],
       next: {
         label: "BCD26 — MEV Lanjutan: Sandwich, Arbitrase & Ekstraksi Nilai",
-        href: "/learn/bcd26-mev-lanjutan",
+        href: "/v2/learn/bcd26-mev-lanjutan",
       },
     },
   ],

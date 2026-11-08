@@ -199,7 +199,7 @@ export const fr1: V2Lesson = {
         "Satu senjata tidak membunuh semua musuh — tiap tipe butuh pendekatan deteksi berbeda.",
         "Fraud yang terlihat = puncak gunung es; sajikan angka terkonfirmasi dan terestimasi.",
       ],
-      next: { label: "FR2 — Fraud vs AML", href: "/learn/fr2-fraud-vs-aml" },
+      next: { label: "FR2 — Fraud vs AML", href: "/v2/learn/fr2-fraud-vs-aml" },
       quiz: [
         {
           q: "Transaksi Rp15 juta memakai kartu curian untuk beli emas batangan, dikirim ke alamat kos. Ini tipe fraud apa?",

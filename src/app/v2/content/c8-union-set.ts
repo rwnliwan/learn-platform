@@ -270,7 +270,7 @@ for r in rows:
         "UNION = tumpuk baris (vertikal); JOIN = sambung kolom (horizontal).",
         "EXCEPT bekerja pada himpunan baris, bukan angka.",
       ],
-      next: { label: "C9-1 — Window Functions (Ranking)", href: "/learn/c9-window-functions-1" },
+      next: { label: "C9-1 — Window Functions (Ranking)", href: "/v2/learn/c9-window-functions-1" },
       quiz: [
         {
           q: "UNION vs UNION ALL — bedanya?",

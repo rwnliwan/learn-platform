@@ -247,7 +247,7 @@ export const mk18: V2Lesson = {
         "Cookie pihak ketiga mati: migrasi ke first-party + server-side + MMM/eksperimen.",
         "Ukur tanpa mengintip: agregat + noise + clean room sesuai sensitivitas data.",
       ],
-      next: { label: "MK19 — Capstone", href: "/learn/mk19-capstone" },
+      next: { label: "MK19 — Capstone", href: "/v2/learn/mk19-capstone" },
       quiz: [
         {
           q: "Penawaran baik: mayoritas 40%, minoritas 18%. DI ratio dan artinya?",

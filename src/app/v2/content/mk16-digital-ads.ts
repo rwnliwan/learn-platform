@@ -275,7 +275,7 @@ export const mk16: V2Lesson = {
         "Kenali cuaca lelang: target musiman +-30%; evaluasi YoY, bukan MoM.",
         "Satu sumber kebenaran internal; jangan jumlahkan klaim antar-platform.",
       ],
-      next: { label: "MK17 — Text Analytics", href: "/learn/mk17-text-analytics" },
+      next: { label: "MK17 — Text Analytics", href: "/v2/learn/mk17-text-analytics" },
       quiz: [
         {
           q: "Kenapa SepatuLari CPA-nya turun 40% setelah menurunkan bid?",

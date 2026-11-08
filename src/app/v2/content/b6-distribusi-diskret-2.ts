@@ -243,7 +243,7 @@ export const b6_2: V2Lesson = {
         "\u201CDari n\u201D \u2192 Binomial; \u201Cper periode\u201D \u2192 Poisson; \u201Csampai\u201D \u2192 Geometrik/NB.",
         "Jangan pakai rata-rata untuk kapasitas \u2014 pakai distribusi.",
       ],
-      next: { label: "B7.1 \u2014 Distribusi Kontinu 1", href: "/learn/b7-distribusi-kontinu-1" },
+      next: { label: "B7.1 \u2014 Distribusi Kontinu 1", href: "/v2/learn/b7-distribusi-kontinu-1" },
       quiz: [
         {
           q: "Poisson(\u03BB=4): yang benar\u2026",

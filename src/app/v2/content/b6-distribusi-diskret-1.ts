@@ -142,9 +142,9 @@ export const b6_1: V2Lesson = {
       code: {
         starter: `import math\n\ndef pmf(n, p, k):\n    # TULIS KODEMU: rumus pmf Binomial\n    return \n\nfor k in range(11):\n    print(f"k={k:>2}  pmf={pmf(10, 0.2, k):.4f}")`,
         lockLines: 1,
-        solution: `import math\n\ndef pmf(n, p, k):\n    # TULIS KODEMU: rumus pmf Binomial\n    return math.comb(n, k) * (p ** k) * ((1 - p) ** (n - k))\n\nfor k in range(11):\n    print(f"k={k:>2}  pmf={pmf(10, 0.2, k):.4f}")`,
+        solution: `import math\n\ndef pmf(n, p, k):\n    # TULIS KODEMU: rumus pmf Binomial\n    return math.comb(n, k) * (p ** k) * ((1 - p) ** (n - k))\n\np_puncak = pmf(10, 0.2, 2)\n\nfor k in range(11):\n    print(f"k={k:>2}  pmf={pmf(10, 0.2, k):.4f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "pmf(10, 0.2, 2)", value: 0.302, tol: 0.001, label: "pmf(10, 0.2, 2) \u2248 0,302", msg: "C(10,2)\u00D70,2\u00B2\u00D70,8\u2078 \u2248 0,3020 \u2014 puncaknya." },
+          { kind: "equal", task: "t1", name: "p_puncak", value: 0.302, tol: 0.001, label: "p_puncak = pmf(10, 0.2, 2) ≈ 0,302", msg: "C(10,2)\u00D70,2\u00B2\u00D70,8\u2078 \u2248 0,3020 \u2014 puncaknya." },
           { kind: "stdout_matches", task: "t2", pattern: "k=\\s*2\\s+pmf=0\\.3020", label: "`print` menampilkan puncak di k=2", msg: "Loop k=0..10 dan cetak pmf 4 desimal." },
         ],
       },
@@ -234,7 +234,7 @@ export const b6_1: V2Lesson = {
         "Ekor untuk sinyal: realisasi > E+3SD = anomali, bukan noise.",
         "Jangan samakan Var Binomial (np(1\u2212p)) dengan Poisson (\u03BB).",
       ],
-      next: { label: "B6.2 \u2014 Distribusi Diskret 2", href: "/learn/b6-distribusi-diskret-2" },
+      next: { label: "B6.2 \u2014 Distribusi Diskret 2", href: "/v2/learn/b6-distribusi-diskret-2" },
       quiz: [
         {
           q: "Binomial(5; 0,05): P(X=2) memakai suku C(5,2) karena\u2026",

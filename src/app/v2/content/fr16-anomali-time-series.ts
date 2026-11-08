@@ -239,7 +239,7 @@ export const fr16: V2Lesson = {
         "Empat pola: spike, level shift, burst berulang, testing.",
         "Testing mendahului serangan besar — tangkap testing = cegah serangan.",
       ],
-      next: { label: "FR17 — Explainability", href: "/learn/fr17-explainability" },
+      next: { label: "FR17 — Explainability", href: "/v2/learn/fr17-explainability" },
       quiz: [
         {
           q: "Rp180 ribu (promo siang) lolos, Rp45 ribu (jam 3 pagi) ditahan. Mengapa benar?",

@@ -315,7 +315,7 @@ export const rr8: V2Lesson = {
         "Kontrol: log tiap run, alert kegagalan, audit trail, snapshot data.",
         "Regulator = selalu ada review manusia sebelum kirim.",
       ],
-      next: { label: "RR9 — Menjawab Permintaan Adhoc dalam 2 Jam", href: "/learn/rr9-adhoc" },
+      next: { label: "RR9 — Menjawab Permintaan Adhoc dalam 2 Jam", href: "/v2/learn/rr9-adhoc" },
       quiz: [
         {
           q: "Apa beda utama \u201Cscript di laptop\u201D dengan otomasi sejati?",

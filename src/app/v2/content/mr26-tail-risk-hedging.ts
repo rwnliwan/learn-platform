@@ -248,7 +248,7 @@ export const mr26: V2Lesson = {
         "Harga: payoff = maks(K − S_T, 0); drag premi 1-3%/tahun pasti; expected value biasanya negatif — pembelian dibenarkan logika survival (seperti asuransi kebakaran), bukan return.",
         "Keputusan: beli saat tenang + kewajiban panjang + premi murah (VIX rendah); tolak/tunda saat premi mahal, portofolio kecil, atau investor memang pemburu risiko; aturan 10 detik: skenario? drag bisa dijelaskan? premi murah?",
       ],
-      next: { label: "MR27 — SQL & Otomatisasi Laporan Market Risk", href: "/learn/mr27-sql-otomatisasi-laporan" },
+      next: { label: "MR27 — SQL & Otomatisasi Laporan Market Risk", href: "/v2/learn/mr27-sql-otomatisasi-laporan" },
       quiz: [
         {
           q: "Mengapa diversifikasi BUKAN pengganti tail hedge?",

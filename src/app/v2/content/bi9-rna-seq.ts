@@ -201,7 +201,7 @@ export const bi9: V2Lesson = {
         "Volcano: baca efek DAN signifikansi bersamaan.",
         "Desain: batch dalam formula; PCA sebelum DE.",
       ],
-      next: { label: "BI10 · FDR & Batch Effect", href: "/learn/bi10-statistik-bioinfo" },
+      next: { label: "BI10 · FDR & Batch Effect", href: "/v2/learn/bi10-statistik-bioinfo" },
       quiz: [
         {
           q: "Dua sampel: gen X ber-RPKM 100 di keduanya. Sampel B punya satu gen outlier yang sangat terekspresi. Kesimpulan “ekspresi X sama”?",

@@ -201,7 +201,7 @@ export const cr9: V2Lesson = {
         "Collection = triase: maksimalkan peluang × outstanding − biaya.",
         "Tiga pertanyaan: application (layak diberi?) · behavioral (masih sehat?) · collection (bagaimana menagih?).",
       ],
-      next: { label: "CR10 — PD Modeling", href: "/learn/cr10-pd-modeling" },
+      next: { label: "CR10 — PD Modeling", href: "/v2/learn/cr10-pd-modeling" },
       quiz: [
         {
           q: "Apa keunggulan utama behavioral scorecard dibanding application scorecard?",

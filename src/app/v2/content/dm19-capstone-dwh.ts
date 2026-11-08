@@ -159,7 +159,7 @@ export const dm19: V2Lesson = {
         "Rubrik ≥10/14; di bawah itu ulangi fase yang bolong.",
         "Portofolio = bukti berpikir, bukan daftar tool.",
       ],
-      next: { label: "MK1 — Funnel AARRR", href: "/learn/mk1-funnel-aarrr" },
+      next: { label: "MK1 — Funnel AARRR", href: "/v2/learn/mk1-funnel-aarrr" },
       quiz: [
         {
           q: "Kenapa staging (Bronze) harus menerima data mentah, bukan langsung dibersihkan?",

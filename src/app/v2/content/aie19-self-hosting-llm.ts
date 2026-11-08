@@ -295,7 +295,7 @@ for v in VOLUME:
         "Autoscaling GPU butuh menit (cold start); rancang fallback API + antrean dari hari pertama.",
         "Utilisasi rendah adalah pembunuh ekonomi self-host: GPU idle 24/7 tetap ditagih penuh.",
       ],
-      next: { label: "AIE20 — LangChain & LangGraph Hands-On", href: "/learn/aie20-langchain-langgraph" },
+      next: { label: "AIE20 — LangChain & LangGraph Hands-On", href: "/v2/learn/aie20-langchain-langgraph" },
       quiz: [
         {
           q: "Model 70B FP16: komponen VRAM terbesar adalah…",

@@ -232,7 +232,7 @@ export const cr10: V2Lesson = {
         "Lifetime PD = 1 − Π(1−PD_t) — bukan PD × tenor (double counting).",
         "Memakai PIT untuk modal = procyclical: memperparah krisis.",
       ],
-      next: { label: "CR11 — Forward-Looking", href: "/learn/cr11-forward-looking" },
+      next: { label: "CR11 — Forward-Looking", href: "/v2/learn/cr11-forward-looking" },
       quiz: [
         {
           q: "PD TTC vs PIT — pasangan yang benar?",

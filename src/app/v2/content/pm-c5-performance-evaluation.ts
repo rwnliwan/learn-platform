@@ -219,7 +219,7 @@ export const pmc5: V2Lesson = {
         "GIPS: composite penuh, pengungkapan gross/net, verifikasi independen \u2014 anti cherry-picking dan survivorship bias.",
         "Angka return tanpa konteks (metrik, bruto/neto, benchmark, risiko) = pemasaran, bukan bukti.",
       ],
-      next: { label: "C6 \u2014 Behavioral Finance", href: "/learn/pm-c6-behavioral" },
+      next: { label: "C6 \u2014 Behavioral Finance", href: "/v2/learn/pm-c6-behavioral" },
       quiz: [
         {
           q: "Strategi menjual opsi rutin: Sharpe 1,8 tetapi 2 tahun dari 10 rugi besar. Ukuran yang paling jujur?",

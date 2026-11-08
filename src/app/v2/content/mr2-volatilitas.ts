@@ -203,7 +203,7 @@ export const mr2: V2Lesson = {
         "Shrinkage (Ledoit-Wolf): Σ* = δF + (1−δ)S — kompromi bias vs estimation error; wajib untuk banyak-aset + data-pendek.",
         "Trade-off abadi: kecepatan adaptasi vs stabilitas — pilih sesuai tujuan, atau pakai keduanya.",
       ],
-      next: { label: "MR3 — Value at Risk", href: "/learn/mr3-var" },
+      next: { label: "MR3 — Value at Risk", href: "/v2/learn/mr3-var" },
       quiz: [
         {
           q: "EWMA dengan λ=0,94 vs λ=0,99. Mana yang lebih cepat menyadari krisis?",

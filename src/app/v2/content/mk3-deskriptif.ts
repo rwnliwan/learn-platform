@@ -67,7 +67,7 @@ export const mk3: V2Lesson = {
         lockLines: 2,
         solution: `# (akuisisi, aktif di bulan-1) per kohor\nkohor = {"Jan": (1000, 550), "Jun": (1000, 180)}\n\n# TULIS KODEMU: retention = aktif / akuisisi\nretensi = {}\nfor k, (akuisisi, aktif) in kohor.items():\n    retensi[k] = aktif / akuisisi\n\nprint(retensi)`,
         checks: [
-          { kind: "equal", task: "t1", name: "retensi", value: 0.55, tol: 1e-9, label: "`retensi` Jan seharusnya 0,55", msg: "550 / 1000 = 0,55. Itu cohort yang sehat." },
+          { kind: "equal", task: "t1", name: "retensi", value: { "Jan": 0.55, "Jun": 0.18 }, tol: 1e-9, label: "`retensi` = {Jan: 0,55, Jun: 0,18}", msg: "550 / 1000 = 0,55. Itu cohort yang sehat." },
           { kind: "contains", task: "t1", name: "retensi", value: "Jun", label: "`retensi` memuat cohort Jun", msg: "Hitung untuk semua key di kohor, bukan hanya Jan." },
           { kind: "stdout_matches", task: "t2", pattern: "0\\.18", label: "`print` menampilkan 0,18", msg: "Cohort Jun = 180/1000 = 0,18. Pastikan tercetak." },
         ],
@@ -277,7 +277,7 @@ export const mk3: V2Lesson = {
         "Survivorship bias: metrik dari yang selamat selalu terlihat bagus — hitung versi semua-yang-mulai.",
         "Kontrak metrik: definisi + pembagi + periode + segmen + anti-gaming, ditulis sebelum menghitung.",
       ],
-      next: { label: "MK4 — Segmentasi", href: "/learn/mk4-segmentasi" },
+      next: { label: "MK4 — Segmentasi", href: "/v2/learn/mk4-segmentasi" },
       quiz: [
         {
           q: "Total conversion naik 5% → 5,3% tapi tiap channel turun. Penjelasan?",

@@ -186,7 +186,7 @@ export const bi7: V2Lesson = {
         "HMM: pola posisi-spesifik untuk homologi jauh.",
         "Bootstrap <70 = runtuhkan; satu gen ≠ sejarah spesies.",
       ],
-      next: { label: "BI8 · Pipeline NGS", href: "/learn/bi8-ngs-pipeline" },
+      next: { label: "BI8 · Pipeline NGS", href: "/v2/learn/bi8-ngs-pipeline" },
       quiz: [
         {
           q: "Pohon menempatkan dua parasit berevolusi cepat sebagai saudara dengan bootstrap 98%. Kecurigaan utama?",

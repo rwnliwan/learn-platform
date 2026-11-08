@@ -42,12 +42,12 @@ export const dle29: V2Lesson = {
       title: "Gelombang, sampling, dan spektrogram",
       prose: [
         "Audio mentah adalah gelombang: satu angka per sampel, sebanyak sample rate per detik. Telepon memakai 8.000 sampel per detik, asisten suara memakai 16.000, musik studio memakai 44.100. Teorema Nyquist menetapkan batasnya: frekuensi tertinggi yang bisa ditangkap adalah setengah sample rate — 8.000 Hz untuk asisten suara, 4.000 Hz untuk telepon. Suara manusia sebagian besar hidup di 300 sampai 3.400 Hz, sehingga telepon masih cukup — tetapi bunyi s dan f di atas 4.000 Hz hilang, dan itulah kenapa suara telepon terdengar mendengung.",
-        "Gelombang sepanjang waktu sulit dibaca model, maka ia dipotong menjadi frame: 25 milidetik per frame, geser 10 milidetik — frame saling tumpang tindih supaya tidak ada informasi yang jatuh di sela. Klip 2,5 detik pada 16.000 Hz berisi 40.000 sampel; tiap frame 400 sampel; jumlah frame-nya 1 ditambah (40.000 minus 400) dibagi 160, yaitu 248 frame. Tiap frame diubah menjadi spektrum lewat STFT — transformasi Fourier singkat — sehingga satu klip menjadi gambar dua dimensi: waktu di sumbu horizontal, frekuensi di sumbu vertikal, intensitas sebagai warna. Inilah spektrogram, dan inilah alasan CNN dan transformer bisa dipakai untuk audio: gambar bisa dibaca seperti citra.",
-        "Dari spektrogram, ada dua penyederhanaan standar. Mel filterbank mengelompokkan frekuensi ke 40 pita skala mel — skala yang meniru telinga manusia, yang lebih peka pada frekuensi rendah. MFCC mengambil 13 koefisien pertama dari log mel spektrum — representasi ringkas yang membuang detail pitch dan menyimpan bentuk saluran vokal. Harganya: MFCC membuang informasi nada, sehingga ia bagus untuk mengenali kata, tetapi buruk untuk mengenali siapa yang bicara atau lagu apa yang dimainkan.",
+        "Gelombang sepanjang waktu sulit dibaca model, maka ia dipotong menjadi frame: 25 milidetik per frame, geser 10 milidetik — frame saling tumpang tindih supaya tidak ada informasi yang jatuh di sela. Klip 2,5 detik pada 16.000 Hz berisi 40.000 sampel; tiap frame 400 sampel; jumlah frame-nya ceil((40.000 minus 400) dibagi 160) sama dengan ceil(247,5) sama dengan 248 frame. Tiap frame diubah menjadi spektrum lewat STFT — transformasi Fourier singkat — sehingga satu klip menjadi gambar dua dimensi: waktu di sumbu horizontal, frekuensi di sumbu vertikal, intensitas sebagai warna. Inilah spektrogram, dan inilah alasan CNN dan transformer bisa dipakai untuk audio: gambar bisa dibaca seperti citra.",
+        "Dari spektrogram, ada dua penyederhanaan standar. Mel filterbank mengelompokkan frekuensi ke 40 pita skala mel — skala yang meniru telinga manusia, yang lebih peka pada frekuensi rendah. MFCC mengambil 13 koefisien pertama dari DCT atas log mel spektrum (DCT atas log-mel filterbank — tanpa DCT itu baru log-mel, bukan MFCC) — representasi ringkas yang membuang detail pitch dan menyimpan bentuk saluran vokal. Harganya: MFCC membuang informasi nada, sehingga ia bagus untuk mengenali kata, tetapi tidak optimal sendirian untuk mengenali siapa yang bicara atau lagu apa yang dimainkan — MFCC meredam pitch/prosodi, dan justru itulah yang banyak menentukan identitas pembicara.",
       ],
       tasks: [],
       formula: String.raw`f_{\text{Nyquist}} = \frac{f_s}{2} \qquad N_{\text{frame}} = 1 + \frac{N - L}{H}`,
-      formulaNote: "f_Nyquist = frekuensi tertinggi yang bisa ditangkap, setengah dari sample rate f_s. N_frame = jumlah frame; N = jumlah sampel; L = panjang frame; H = hop atau geseran. Contoh lab: 2,5 detik pada 16.000 Hz, frame 400, hop 160, maka 248 frame.",
+      formulaNote: "f_Nyquist = frekuensi tertinggi yang bisa ditangkap, setengah dari sample rate f_s. N_frame = jumlah frame; N = jumlah sampel; L = panjang frame; H = hop atau geseran. Contoh lab: 2,5 detik pada 16.000 Hz, frame 400, hop 160, maka ceil(39.600/160) = ceil(247,5) = 248 frame (39.600/160 = 247,5 — tidak habis dibagi; setara dengan 1 + floor(247,5) karena 247,5 bukan bilangan bulat).",
       reference: "Nyquist = setengah sample rate. Frame 25 ms, hop 10 ms. Spektrogram = audio yang diubah menjadi gambar.",
     },
     {
@@ -97,17 +97,17 @@ export const dle29: V2Lesson = {
       ],
       expected: "wer=20.00%",
       hints: [
-        "Jumlah frame = 1 + (40.000 - 400) / 160 = 248 — pembagian bulat, karena 39.600 habis dibagi 160.",
+        "Jumlah frame = ceil((40.000 - 400) / 160) = ceil(247,5) = 248 — 39.600 dibagi 160 = 247,5, TIDAK habis dibagi; frame terakhir hanya terisi sebagian, jadi dibulatkan ke atas (ceiling), bukan ke bawah.",
         "DFT naive: jumlahkan x[n] kali exp(-2j pi b n / 8) untuk tiap bin b; magnitudo terbesar ada di bin 1.",
         "WER: isi tabel jarak edit dengan min dari tiga tetangga — substitusi, delesi, insersi — lalu bagi dengan 10 kata.",
       ],
       code: {
         starter: `import cmath\nimport math\n\n# TULIS KODEMU: (1) jumlah frame klip 2,5 detik, 16.000 Hz, frame 400, hop 160.\n# (2) DFT 8 titik dari sinus 1000 Hz pada 8000 Hz; frekuensi dominan.\n# (3) WER referensi 10 kata vs hipotesis 9 kata.\n\nref = ["saya", "pergi", "ke", "pasar", "membeli", "beras", "lima", "kilo", "untuk", "ibu"]\nhyp = ["saya", "pergi", "ke", "pasar", "membeli", "beras", "kilo", "buat", "ibu"]\n\nframes = 0\ndominant = 0\nwer = 0.0\n\nprint(f"frames={frames}")\nprint(f"dominant={dominant} Hz")\nprint(f"wer={wer:.2f}%")`,
         lockLines: 7,
-        solution: `import cmath\nimport math\n\nref = ["saya", "pergi", "ke", "pasar", "membeli", "beras", "lima", "kilo", "untuk", "ibu"]\nhyp = ["saya", "pergi", "ke", "pasar", "membeli", "beras", "kilo", "buat", "ibu"]\n\nframes = 1 + (40000 - 400) // 160\n\nsinyal = [math.sin(math.pi * n / 4) for n in range(8)]\nmags = []\nfor b in range(8):\n    total = sum(sinyal[n] * cmath.exp(-2j * math.pi * b * n / 8) for n in range(8))\n    mags.append(round(abs(total), 2))\ndominant = max(range(8), key=lambda b: mags[b]) * 8000 // 8\n\nbaris = [[0] * 10 for _ in range(11)]\nfor i in range(11):\n    baris[i][0] = i\nfor j in range(10):\n    baris[0][j] = j\nfor i in range(1, 11):\n    for j in range(1, 10):\n        biaya = 0 if ref[i - 1] == hyp[j - 1] else 1\n        baris[i][j] = min(baris[i - 1][j] + 1, baris[i][j - 1] + 1, baris[i - 1][j - 1] + biaya)\njarak = baris[10][9]\nwer = round(jarak / 10 * 100, 2)\n\nprint(f"frames={frames}")\nprint(f"dominant={dominant} Hz")\nprint(f"wer={wer:.2f}%")`,
+        solution: `import cmath\nimport math\n\nref = ["saya", "pergi", "ke", "pasar", "membeli", "beras", "lima", "kilo", "untuk", "ibu"]\nhyp = ["saya", "pergi", "ke", "pasar", "membeli", "beras", "kilo", "buat", "ibu"]\n\nframes = math.ceil((40000 - 400) / 160)\n\nsinyal = [math.sin(math.pi * n / 4) for n in range(8)]\nmags = []\nfor b in range(8):\n    total = sum(sinyal[n] * cmath.exp(-2j * math.pi * b * n / 8) for n in range(8))\n    mags.append(round(abs(total), 2))\ndominant = max(range(8), key=lambda b: mags[b]) * 8000 // 8\n\nbaris = [[0] * 10 for _ in range(11)]\nfor i in range(11):\n    baris[i][0] = i\nfor j in range(10):\n    baris[0][j] = j\nfor i in range(1, 11):\n    for j in range(1, 10):\n        biaya = 0 if ref[i - 1] == hyp[j - 1] else 1\n        baris[i][j] = min(baris[i - 1][j] + 1, baris[i][j - 1] + 1, baris[i - 1][j - 1] + biaya)\njarak = baris[10][9]\nwer = round(jarak / 10 * 100, 2)\n\nprint(f"frames={frames}")\nprint(f"dominant={dominant} Hz")\nprint(f"wer={wer:.2f}%")`,
         checks: [
           { kind: "stdout_matches", task: "t3", pattern: "frames=248\\ndominant=1000 Hz\\nwer=20\\.00%", label: "Frame, frekuensi dominan, dan WER sesuai hitungan", msg: "Frames 248; dominan 1.000 Hz (bin 1, magnitudo 4,0); WER 20,00 persen (1 substitusi + 1 delesi dari 10 kata)." },
-          { kind: "equal", task: "t1", name: "frames", value: 248, tol: 0.01, label: "`frames` = 248", msg: "1 + (40.000 - 400) / 160 = 248 frame." },
+          { kind: "equal", task: "t1", name: "frames", value: 248, tol: 0.01, label: "`frames` = 248", msg: "ceil((40.000 - 400) / 160) = ceil(247,5) = 248 frame." },
           { kind: "equal", task: "t3", name: "wer", value: 20.0, tol: 0.01, label: "`wer` = 20.00", msg: "Jarak edit 2 (1 substitusi + 1 delesi) dibagi 10 kata = 20,00 persen." },
           { kind: "uses", task: "t2", token: "exp", label: "DFT naive dihitung", msg: "Hitung DFT dengan penjumlahan langsung memakai cmath.exp." },
         ],
@@ -119,7 +119,7 @@ export const dle29: V2Lesson = {
       eyebrow: "Langkah 7 · Mini-case",
       title: "Mini-case: asisten suara warung lolos gerbang atau tidak?",
       prose: [
-        "Tim warung menetapkan tiga gerbang sebelum asisten suara boleh live: sample rate 16.000 Hz supaya Nyquist 8.000 Hz menutup seluruh rentang suara manusia; WER di bawah 10 persen pada data uji; dan WER dilaporkan per aksen, bukan satu angka global.",
+        "Tim warung menetapkan tiga gerbang sebelum asisten suara boleh live: sample rate 16.000 Hz supaya Nyquist 8.000 Hz menutup rentang utama ucapan yang dibutuhkan aplikasi (pendengaran manusia mencapai ~20 kHz — 8.000 Hz tidak menutup seluruhnya); WER di bawah 10 persen pada data uji; dan WER dilaporkan per aksen, bukan satu angka global.",
         "Hasil uji: WER global 20,00 persen — sama seperti lab — dengan perincian aksen Jakarta 8 persen, aksen Makassar 32 persen, dan aksen Medan 24 persen. Angka globalnya menutupi masalah: aksen Jakarta sudah lolos gerbang 10 persen, tetapi dua aksen lain gagal jauh. Keputusan: TIDAK lolos live. Bukan karena modelnya buruk secara umum, melainkan karena data latihnya tidak mewakili pelanggan yang sebenarnya datang.",
         "Perbaikan yang diperintahkan: tambah 200 jam rekaman aksen Makassar dan Medan dengan noise warung asli, lalu uji ulang dengan gerbang per aksen. Bila WER Makassar turun dari 32 menjadi 12 persen, masih gagal — gerbangnya 10 persen, bukan hampir 10 persen. Dan satu larangan: jangan menurunkan gerbang supaya lolos — gerbang yang digeser setelah melihat hasil bukan gerbang, melainkan hiasan.",
         "Pelajaran untuk sintesis: suara balasan asisten memakai diffusion paralel supaya latensi di bawah 300 milidetik — WaveNet autoregresif murni tidak lolos batas itu untuk klip sepanjang respons pesanan.",
@@ -158,11 +158,11 @@ export const dle29: V2Lesson = {
           ],
         },
         {
-          q: "Kenapa MFCC bagus untuk mengenali kata tetapi buruk untuk mengenali siapa yang bicara?",
+          q: "Kenapa MFCC bagus untuk mengenali kata tetapi tidak optimal sendirian untuk mengenali siapa yang bicara?",
           options: [
             { text: "Karena MFCC hanya memakai 13 koefisien — terlalu sedikit untuk kata sekalipun", why: "Salah: 13 koefisien cukup untuk kata karena kata ditentukan bentuk saluran vokal, bukan detail pitch." },
-            { text: "Karena MFCC membuang informasi nada dan menyimpan bentuk saluran vokal", why: "Tepat: kata ditentukan bentuk saluran vokal; identitas pembicara banyak ditentukan nada yang dibuang MFCC.", correct: true },
-            { text: "Karena MFCC tidak memakai spektrogram sama sekali", why: "Salah: MFCC justru diturunkan dari log mel spektrum — ia memakai spektrogram, lalu menyederhanakannya." },
+            { text: "Karena MFCC membuang informasi nada dan menyimpan bentuk saluran vokal", why: "Tepat: kata ditentukan bentuk saluran vokal; identitas pembicara banyak ditentukan nada yang diredam MFCC — MFCC tetap fitur klasik speaker recognition (GMM-UBM/i-vector/x-vector), hanya tidak optimal bila dipakai sendirian.", correct: true },
+            { text: "Karena MFCC tidak memakai spektrogram sama sekali", why: "Salah: MFCC justru diturunkan dari log mel spektrum lewat DCT — ia memakai spektrogram, lalu menyederhanakannya." },
             { text: "Karena MFCC hanya bekerja pada musik, bukan suara", why: "Salah: MFCC adalah representasi standar speech recognition, bukan musik." },
           ],
         },

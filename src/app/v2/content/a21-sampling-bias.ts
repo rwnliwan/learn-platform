@@ -204,7 +204,7 @@ export const a21: V2Lesson = {
         "SE = s/√n; hukum akar kuadrat: SE/2 butuh 4× sampel. SE ≠ SD.",
         "Pilih metode sesuai medan: acak sederhana, stratifikasi, klaster, sistematis — dan laporkan batasannya.",
       ],
-      next: { label: "A2.10 — Power & Ukuran Sampel", href: "/learn/a210-power-sampel" },
+      next: { label: "A2.10 — Power & Ukuran Sampel", href: "/v2/learn/a210-power-sampel" },
       quiz: [
         {
           q: "Literary Digest (2,4 jt responden) salah total, Gallup (50 rb) benar. Pelajaran utamanya?",

@@ -305,7 +305,7 @@ print("s1:", s1)`,
         "Pilih: 1 langkah → subquery; 2+ → CTE; lintas query → temp table.",
         "Keterbacaan = maintainability = uang.",
       ],
-      next: { label: "C8 — UNION & Operasi Himpunan", href: "/learn/c8-union-set" },
+      next: { label: "C8 — UNION & Operasi Himpunan", href: "/v2/learn/c8-union-set" },
       quiz: [
         {
           q: "Keunggulan utama CTE dibanding subquery bersarang?",

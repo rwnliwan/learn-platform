@@ -191,7 +191,7 @@ export const fr2: V2Lesson = {
         "Siklus fraud berputar: output serangan ini = modal serangan berikutnya. Analisis aliran, bukan titik.",
         "Kasus irisan butuh meja bersama dengan urutan: selamatkan uang → tutup vektor → susun laporan.",
       ],
-      next: { label: "FR3 — Data Fraud", href: "/learn/fr3-data-fraud" },
+      next: { label: "FR3 — Data Fraud", href: "/v2/learn/fr3-data-fraud" },
       quiz: [
         {
           q: "Model recall 99%, FPR 1%, base rate fraud 0,2%. Berapa presisi alert (P(fraud|alert))?",

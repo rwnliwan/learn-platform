@@ -325,7 +325,7 @@ print(f"vonis: {vonis}")`,
         "Reranker (cross-encoder) memperbaiki presisi urutan, tidak bisa menemukan chunk yang tak terambil.",
         "Kegagalan umum: chunk boundary, stale index, query-chunk mismatch, konteks berlebih — kenali gejalanya.",
       ],
-      next: { label: "DLE25 — TensorFlow & Keras untuk Deep Learning Engineer", href: "/learn/dle25-tensorflow-keras" },
+      next: { label: "DLE25 — TensorFlow & Keras untuk Deep Learning Engineer", href: "/v2/learn/dle25-tensorflow-keras" },
       quiz: [
         {
           q: "Strategi A (tanpa overlap) memberi recall@2 = 0,0 sedangkan B (overlap) = 1,0 untuk query yang sama. Kesimpulan yang tepat?",

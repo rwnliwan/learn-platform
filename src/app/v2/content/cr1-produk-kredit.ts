@@ -222,7 +222,7 @@ export const cr1: V2Lesson = {
         "Siklus 6 tahap; macet lahir di origination/underwriting, baru ketahuan di collection. Underwriting menolak sebagian aplikan = sehat.",
         "NPL portofolio = rata-rata tertimbang porsi — segmen kecil ber-NPL tinggi bisa mendominasi total.",
       ],
-      next: { label: "CR2 — Kolektibilitas", href: "/learn/cr2-kolektibilitas" },
+      next: { label: "CR2 — Kolektibilitas", href: "/v2/learn/cr2-kolektibilitas" },
       quiz: [
         {
           q: "Dari 5C, mana yang disebut 'raja' dan mengapa?",

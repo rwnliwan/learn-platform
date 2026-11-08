@@ -137,7 +137,7 @@ export const a211: V2Lesson = {
       title: "Hakim tiga dokumen: p-value, CI, MDE",
       prose: [
         "Uji dua proporsi memberi p-value (apakah nyata?), tapi keputusan dibaca dari CI lift vs MDE (apakah cukup?). Seluruh CI > MDE → ship. CI mencakup 0 tapi batas atas > MDE → belum konklusif. Seluruh CI di (0, MDE) → jangan ship: signifikan tapi di bawah break-even. CI mencakup negatif besar → kill.",
-        "Contoh: kontrol 12,0% (3.360/28.000), varian 13,1% (3.668/28.000). Lift = 1,1 pp. SE = √(0,12×0,88/28.000 × 2) ≈ 0,27 pp → 95% CI = 1,1 ± 0,54 = (0,56, 1,64). p = 0,004 signifikan — tapi seluruh CI di bawah MDE 1,5 pp kecuali ujungnya. Vonis: signifikan tapi tidak penting — jangan ship penuh.",
+        "Contoh: kontrol 12,0% (3.360/28.000), varian 13,1% (3.668/28.000). Lift = 1,1 pp. SE = √(0,12×0,88/28.000 × 2) ≈ 0,27 pp → 95% CI = 1,1 ± 0,53 = (0,57, 1,63). p = 0,004 signifikan — tapi seluruh CI di bawah MDE 1,5 pp kecuali ujungnya. Vonis: signifikan tapi tidak penting — jangan ship penuh.",
       ],
       formula: String.raw`z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}`,
       formulaNote: "z = statistik uji beda dua proporsi; p-hat_1, p-hat_2 = konversi teramati tiap varian; p-hat = konversi gabungan (pooled); n_1, n_2 = ukuran tiap varian; penyebut = standard error selisih.",
@@ -146,7 +146,7 @@ export const a211: V2Lesson = {
         { id: "t2", text: "Hitung `se_pp` = √(2×0,12×0,88/28000) × 100 (2 desimal)" },
         { id: "t3", text: "Hitung `ci_bawah` = lift − 1,96×se_pp (2 desimal)" },
       ],
-      expected: "lift=1.1  se_pp=0.27  ci_bawah=0.56",
+      expected: "lift=1.1  se_pp=0.27  ci_bawah=0.57",
       note: {
         title: "Sering salah",
         type: "pitfall",
@@ -164,8 +164,8 @@ export const a211: V2Lesson = {
         checks: [
           { kind: "equal", task: "t1", name: "lift", value: 1.1, tol: 0.01, label: "`lift` seharusnya 1.1", msg: "13,1 − 12,0 = 1,1 pp." },
           { kind: "equal", task: "t2", name: "se_pp", value: 0.27, tol: 0.01, label: "`se_pp` sekitar 0.27", msg: "√(2×0,12×0,88/28.000) × 100 ≈ 0,27 pp." },
-          { kind: "equal", task: "t3", name: "ci_bawah", value: 0.56, tol: 0.02, label: "`ci_bawah` sekitar 0.56", msg: "1,1 − 1,96×0,27 ≈ 0,56." },
-          { kind: "stdout_matches", task: "t3", pattern: "lift=1\\.1\\s+se_pp=0\\.27\\s+ci_bawah=0\\.56", label: "`print` menampilkan ketiganya", msg: "Format: lift=...  se_pp=...  ci_bawah=... ." },
+          { kind: "equal", task: "t3", name: "ci_bawah", value: 0.57, tol: 0.02, label: "`ci_bawah` sekitar 0.57", msg: "1,1 − 1,96×0,27 ≈ 0,57." },
+          { kind: "stdout_matches", task: "t3", pattern: "lift=1\\.1\\s+se_pp=0\\.27\\s+ci_bawah=0\\.57", label: "`print` menampilkan ketiganya", msg: "Format: lift=...  se_pp=...  ci_bawah=... ." },
         ],
       },
       reference: "Bandingkan batas bawah CI dengan MDE — bukan titik estimasi dengan nol.",
@@ -192,7 +192,7 @@ export const a211: V2Lesson = {
       title: "Redesign alur pengajuan kredit: signifikan tapi tidak penting",
       prose: [
         "DanaKita mendesain ulang alur pengajuan (5 langkah → 3 langkah). Baseline konversi 12%, MDE 1,5 pp (break-even Rp800 jt), trafik 4.000/hari → durasi 7 hari. Primer: konversi cair; guardrail: NPL 30 hari & komplain. Hasil hari ke-7: kontrol 12,0% (3.360/28.000), varian 13,1% (3.668/28.000). p = 0,004. Guardrail aman. SRM lolos.",
-        "(a) Lift = 1,1 pp, 95% CI (0,56, 1,64), lift relatif ≈ +9%. (b) Keputusan: belum ship penuh. p signifikan TAPI seluruh CI di bawah MDE 1,5 pp kecuali ujungnya — efeknya nyata tapi kemungkinan di bawah break-even. Opsi: rollout bertahap 50% sambil pantau, atau terima redesign baik tapi tidak cukup baik dan cari ide berikutnya. Ini textbook signifikan tapi tidak penting.",
+        "(a) Lift = 1,1 pp, 95% CI (0,57, 1,63), lift relatif ≈ +9%. (b) Keputusan: belum ship penuh. p signifikan TAPI seluruh CI di bawah MDE 1,5 pp kecuali ujungnya — efeknya nyata tapi kemungkinan di bawah break-even. Opsi: rollout bertahap 50% sambil pantau, atau terima redesign baik tapi tidak cukup baik dan cari ide berikutnya. Ini textbook signifikan tapi tidak penting.",
         "(c) Pasca-ship: waspadai novelty effect — pantau 4 minggu, apakah lift bertahan? Dan NPL jangka panjang — guardrail 30 hari belum menangkap kualitas kredit yang sebenarnya.",
       ],
       tasks: [],
@@ -218,7 +218,7 @@ export const a211: V2Lesson = {
         "Jangan intip primer; pantau guardrail & SRM. Novelty effect butuh 2+ minggu untuk memudar.",
         "Satu primer ditulis di awal; metrik sekunder dikoreksi Holm. Trafik kecil → jangan A/B test.",
       ],
-      next: { label: "A2.12 — Bayesian Dasar", href: "/learn/a212-bayesian" },
+      next: { label: "A2.12 — Bayesian Dasar", href: "/v2/learn/a212-bayesian" },
       quiz: [
         {
           q: "SRM check menunjukkan split 57/43 (dirancang 50/50), p < 0,001, dengan hasil varian menang signifikan. Tindakan tepat?",
@@ -230,7 +230,7 @@ export const a211: V2Lesson = {
           ],
         },
         {
-          q: "Hasil: lift 1,1 pp, 95% CI (0,56, 1,64), MDE = 1,5 pp, p = 0,004. Keputusan?",
+          q: "Hasil: lift 1,1 pp, 95% CI (0,57, 1,63), MDE = 1,5 pp, p = 0,004. Keputusan?",
           options: [
             { text: "Ship — p signifikan", why: "p hanya bilang efeknya nyata, bukan cukup besar." },
             { text: "Jangan ship penuh: signifikan tapi CI seluruhnya di bawah MDE — efek nyata tapi kemungkinan di bawah break-even", why: "Inti keputusan: CI vs MDE, bukan p-value.", correct: true },

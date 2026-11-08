@@ -254,7 +254,7 @@ print(f"lulus={lulus}")`,
         "LLM-as-judge: rubrik tertulis + kalibrasi manusia; waspadai verbosity & self-preference bias.",
         "Simpan trajectory selalu — replay adalah alat diagnosis masa depan.",
       ],
-      next: { label: "AAI9 — Guardrail & Human-in-the-Loop", href: "/learn/aai9-guardrail" },
+      next: { label: "AAI9 — Guardrail & Human-in-the-Loop", href: "/v2/learn/aai9-guardrail" },
       quiz: [
         {
           q: "Agen C: 9 sukses dari 10 tugas (90%). Klaim \u201Cterbaik\u201D…",

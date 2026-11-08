@@ -199,7 +199,7 @@ export const mr6: V2Lesson = {
         "HPL mengisolasi model; APL = model + trading. PLA (RTPL vs aktual) = alarm dini lokasi kesalahan model.",
         "Backtest = syarat perlu, bukan cukup: tidak menguji krisis unprecedented (butuh stress test) atau kedalaman ekor (butuh ES).",
       ],
-      next: { label: "MR7 — Stress Test", href: "/learn/mr7-stress-test" },
+      next: { label: "MR7 — Stress Test", href: "/v2/learn/mr7-stress-test" },
       quiz: [
         {
           q: "VaR 99%, 250 hari, 7 pelanggaran. Uji Kupiec (5%)?",

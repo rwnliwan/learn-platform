@@ -234,7 +234,7 @@ export const a110: V2Lesson = {
         "Pipeline: agregasi di SQL, analisis di Python; n kecil menyesatkan — selalu tulis n di samping persentase.",
         "Laporan 1 halaman: pertanyaan, temuan, rekomendasi, batasan, jejak audit; rubrik nilai diri target 7 dari 8.",
       ],
-      next: { label: "E1 — Struktur Pasar", href: "/learn/e1-struktur-pasar" },
+      next: { label: "E1 — Struktur Pasar", href: "/v2/learn/e1-struktur-pasar" },
       quiz: [
         {
           q: "Dataset capstone: satu baris sama dengan satu transaksi, satu nasabah bisa punya banyak transaksi. Bila kamu menghitung rata-rata transaksi per nasabah dari 10 baris dan 5 nasabah, hasilnya?",

@@ -56,7 +56,7 @@ export const mk4: V2Lesson = {
         lockLines: 4,
         solution: `import statistics as st\n\numur  = [25, 27, 45, 47]\nsaldo = [5, 7, 80, 85]  # juta Rp\n\n# TULIS KODEMU: z-score tiap kolom, lalu jarak titik 0-1\nmean_u, sd_u = st.mean(umur), st.stdev(umur)\nmean_s, sd_s = st.mean(saldo), st.stdev(saldo)\nz_umur = [(x - mean_u) / sd_u for x in umur]\nz_saldo = [(x - mean_s) / sd_s for x in saldo]\nd01 = ((z_umur[0] - z_umur[1])**2 + (z_saldo[0] - z_saldo[1])**2) ** 0.5\n\nprint(f"z_umur_0={z_umur[0]:.2f} d01={d01:.2f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "z_umur", value: -0.948, tol: 0.01, label: "`z_umur[0]` sekitar -0,95", msg: "(25 - 36) / 11,60. Cek mean dan stdev kolom umur." },
+          { kind: "equal", task: "t1", name: "z_umur", value: [-0.948, -0.776, 0.776, 0.948], tol: 0.01, label: "`z_umur` ≈ [-0,95, -0,78, 0,78, 0,95]", msg: "(25 - 36) / 11,60. Cek mean dan stdev kolom umur." },
           { kind: "equal", task: "t2", name: "d01", value: 0.178, tol: 0.02, label: "`d01` sekitar 0,18", msg: "Dua nasabah muda-saldo-kecil memang dekat di ruang z." },
           { kind: "stdout_matches", task: "t3", pattern: "z_umur_0=-0\\.95", label: "`print` menampilkan z_umur_0", msg: "Format: z_umur_0=... d01=... ." },
         ],
@@ -279,7 +279,7 @@ export const mk4: V2Lesson = {
         "Ukur Alive dengan overlap Jaccard antar-periode: di bawah 0,6 = artefak.",
         "Pilih fitur dari aksi yang bisa dieksekusi; alokasikan budget by EV per kontak.",
       ],
-      next: { label: "MK5 — CLV", href: "/learn/mk5-clv" },
+      next: { label: "MK5 — CLV", href: "/v2/learn/mk5-clv" },
       quiz: [
         {
           q: "Kenapa standardisasi wajib sebelum k-means?",

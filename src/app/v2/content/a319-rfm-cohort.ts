@@ -386,7 +386,7 @@ for i, cb in enumerate(bln):
           ],
         },
       ],
-      next: { label: "A320 — Desain Survei", href: "/learn/a320-desain-survei" },
+      next: { label: "A320 — Desain Survei", href: "/v2/learn/a320-desain-survei" },
     },
   ],
 };

@@ -299,7 +299,7 @@ export const rr17: V2Lesson = {
         "Tepat waktu = umur data ≤ SLA; agregasi manual = tidak adaptif.",
         "Dua angka beda = tetapkan golden source minggu ini + rekonsiliasi tertulis.",
       ],
-      next: { label: "RR18 — Market Risk Reporting (VaR)", href: "/learn/rr18-market-risk" },
+      next: { label: "RR18 — Market Risk Reporting (VaR)", href: "/v2/learn/rr18-market-risk" },
       quiz: [
         {
           q: "Dua laporan menampilkan NPL berbeda (3,4% vs 3,5%). Akar masalah menurut BCBS 239?",

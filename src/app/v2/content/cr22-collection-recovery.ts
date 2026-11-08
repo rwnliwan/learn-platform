@@ -204,7 +204,7 @@ export const cr22: V2Lesson = {
         "Recovery curve = input empiris LGD (CR12).",
         "Collection = operasi data, bukan operasi otot. Nol toleransi pelanggaran etika.",
       ],
-      next: { label: "CR23 — Regulasi Indonesia", href: "/learn/cr23-regulasi-indonesia" },
+      next: { label: "CR23 — Regulasi Indonesia", href: "/v2/learn/cr23-regulasi-indonesia" },
       quiz: [
         {
           q: "Cure rate DPD 1-30 = 85%, DPD 180+ = 8%. Implikasi operasional?",

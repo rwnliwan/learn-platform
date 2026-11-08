@@ -199,7 +199,7 @@ export const mlops8: V2Lesson = {
         "Biaya berbentuk U: terlalu sering & terlalu jarang sama-sama mahal — hitung.",
         "Interval minimum yang masuk akal = waktu kematangan label.",
       ],
-      next: { label: "MLOps9 — Testing: Data & Model Validation", href: "/learn/mlops9-testing" },
+      next: { label: "MLOps9 — Testing: Data & Model Validation", href: "/v2/learn/mlops9-testing" },
       quiz: [
         {
           q: "Kasus PayLancar: kenapa retrain bulanan justru meracuni model?",

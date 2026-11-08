@@ -245,58 +245,7 @@ export const de25: V2Lesson = {
 `print(f"top approx: {approx3}")\n` +
 `print(f"recall={recall:.4f}")\n`,
         lockLines: 25,
-        solution: `# Katalog produk TaniKlik: 12 produk, embedding mainan 4 dimensi\n` +
-`import numpy as np\n` +
-`items = [\n` +
-`    ("P01", "pestisida", [4, 1, 0, 1]),\n` +
-`    ("P02", "pestisida", [4, -2, 1, 1]),\n` +
-`    ("P03", "pestisida", [5, 0, 1, 2]),\n` +
-`    ("P04", "pupuk", [-1, 4, 1, 0]),\n` +
-`    ("P05", "pupuk", [0, -5, 0, 1]),\n` +
-`    ("P06", "pupuk", [1, -3, 2, 1]),\n` +
-`    ("P07", "benih", [0, 1, 5, 1]),\n` +
-`    ("P08", "benih", [-1, 0, 4, 2]),\n` +
-`    ("P09", "benih", [2, 1, 3, 0]),\n` +
-`    ("P10", "pestisida", [4, -3, 0, 0]),\n` +
-`    ("P11", "pupuk", [2, 2, 2, 2]),\n` +
-`    ("P12", "benih", [0, -2, 2, 4]),\n` +
-`]\n` +
-`query = [5, 1, 1, 1]\n` +
-`\n` +
-`def cosine(a, b):\n` +
-`    a = np.array(a, dtype=float)\n` +
-`    b = np.array(b, dtype=float)\n` +
-`    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))\n` +
-`\n` +
-`def bucket(v):\n` +
-`    return (1 if v[0] >= 0 else -1, 1 if v[1] >= 0 else -1)\n` +
-`\n` +
-`# TUGAS 1: lengkapi brute_topk (eksak: periksa SEMUA item)\n` +
-`def brute_topk(q, k):\n` +
-`    skor = sorted(items, key=lambda it: cosine(it[2], q), reverse=True)\n` +
-`    return [it[0] for it in skor[:k]]\n` +
-`\n` +
-`# TUGAS 2: lengkapi filtered_topk (saring kategori DULU)\n` +
-`def filtered_topk(q, kategori, k):\n` +
-`    calon = [it for it in items if it[1] == kategori]\n` +
-`    skor = sorted(calon, key=lambda it: cosine(it[2], q), reverse=True)\n` +
-`    return [it[0] for it in skor[:k]]\n` +
-`\n` +
-`# TUGAS 3: lengkapi approx_topk (hanya ember yang sama dengan query)\n` +
-`def approx_topk(q, k):\n` +
-`    ember_q = bucket(q)\n` +
-`    calon = [it for it in items if bucket(it[2]) == ember_q]\n` +
-`    skor = sorted(calon, key=lambda it: cosine(it[2], q), reverse=True)\n` +
-`    return [it[0] for it in skor[:k]]\n` +
-`\n` +
-`brute3 = brute_topk(query, 3)\n` +
-`filt2 = filtered_topk(query, "pestisida", 2)\n` +
-`approx3 = approx_topk(query, 3)\n` +
-`recall = len(set(brute3) & set(approx3)) / 3\n` +
-`print(f"top brute: {brute3}")\n` +
-`print(f"top filter(pestisida): {filt2}")\n` +
-`print(f"top approx: {approx3}")\n` +
-`print(f"recall={recall:.4f}")\n`,
+        solution: `# Katalog produk TaniKlik: 12 produk, embedding mainan 4 dimensi\nimport numpy as np\nitems = [\n    ("P01", "pestisida", [4, 1, 0, 1]),\n    ("P02", "pestisida", [4, -2, 1, 1]),\n    ("P03", "pestisida", [5, 0, 1, 2]),\n    ("P04", "pupuk", [-1, 4, 1, 0]),\n    ("P05", "pupuk", [0, -5, 0, 1]),\n    ("P06", "pupuk", [1, -3, 2, 1]),\n    ("P07", "benih", [0, 1, 5, 1]),\n    ("P08", "benih", [-1, 0, 4, 2]),\n    ("P09", "benih", [2, 1, 3, 0]),\n    ("P10", "pestisida", [4, -3, 0, 0]),\n    ("P11", "pupuk", [2, 2, 2, 2]),\n    ("P12", "benih", [0, -2, 2, 4]),\n]\nquery = [5, 1, 1, 1]\n\ndef cosine(a, b):\n    a = np.array(a, dtype=float)\n    b = np.array(b, dtype=float)\n    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))\n\ndef bucket(v):\n    return (1 if v[0] >= 0 else -1, 1 if v[1] >= 0 else -1)\n\n# TUGAS 1: lengkapi brute_topk (eksak: periksa SEMUA item)\ndef brute_topk(q, k):\n    skor = sorted(items, key=lambda it: cosine(it[2], q), reverse=True)\n    return [it[0] for it in skor[:k]]\n\n# TUGAS 2: lengkapi filtered_topk (saring kategori DULU)\ndef filtered_topk(q, kategori, k):\n    calon = [it for it in items if it[1] == kategori]\n    skor = sorted(calon, key=lambda it: cosine(it[2], q), reverse=True)\n    return [it[0] for it in skor[:k]]\n\n# TUGAS 3: lengkapi approx_topk (hanya ember yang sama dengan query)\ndef approx_topk(q, k):\n    ember_q = bucket(q)\n    calon = [it for it in items if bucket(it[2]) == ember_q]\n    skor = sorted(calon, key=lambda it: cosine(it[2], q), reverse=True)\n    return [it[0] for it in skor[:k]]\n\nbrute3 = brute_topk(query, 3)\nfilt2 = filtered_topk(query, "pestisida", 2)\napprox3 = approx_topk(query, 3)\nrecall = len(set(brute3) & set(approx3)) / 3\nprint(f"top brute: {brute3}")\nprint(f"top filter(pestisida): {filt2}")\nprint(f"top approx: {approx3}")\nprint(f"recall={recall:.4f}")\n`,
         checks: [
           { kind: "defined", task: "t1", name: "brute_topk", label: "fungsi `brute_topk` terdefinisi", msg: "Definisikan brute_topk(q, k) yang mengembalikan list id." },
           { kind: "equal", task: "t1", name: "brute3", value: ["P01", "P03", "P02"], label: "`brute3` = P01, P03, P02", msg: "Tiga produk paling mirip query menurut cosine." },
@@ -357,7 +306,7 @@ export const de25: V2Lesson = {
         "Dimensi adalah tuas biaya termurah: turunkan dimensi dan ukur recall sebelum membeli mesin.",
         "Operasional: refresh terjadwal, monitoring recall mingguan, re-embed berversi dengan rollback.",
       ],
-      next: { label: "DE26 — Apache Flink: Stream Processing yang Stateful", href: "/learn/de26-apache-flink" },
+      next: { label: "DE26 — Apache Flink: Stream Processing yang Stateful", href: "/v2/learn/de26-apache-flink" },
       quiz: [
         {
           q: "Korpus 300 ribu dokumen, tim sudah memakai Postgres, SLA 2 detik. Pilihan paling rasional?",

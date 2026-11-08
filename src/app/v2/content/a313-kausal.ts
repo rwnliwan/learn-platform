@@ -209,7 +209,7 @@ export const a313: V2Lesson = {
         "DiD butuh parallel trends (uji di pra-periode). RDD = efek lokal di cutoff. IV bertumpu pada exclusion yang tak-teruji.",
         "Jangan kontrol collider atau mediator. Kontrol yang benar = confounder.",
       ],
-      next: { label: "A3.14 — Explainability", href: "/learn/a314-explainability" },
+      next: { label: "A3.14 — Explainability", href: "/v2/learn/a314-explainability" },
       quiz: [
         {
           q: "Peserta program default 18%, non-peserta 9%. Klaim program menyebabkan default 2x lipat — masalah?",

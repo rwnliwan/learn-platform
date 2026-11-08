@@ -196,7 +196,7 @@ export const mlops6: V2Lesson = {
         "Cold start membuat autoscaling reaktif gagal untuk lonjakan tiba-tiba — butuh proaktif.",
         "Default mulai dari batch; naik kelas hanya jika angka menuntut.",
       ],
-      next: { label: "MLOps7 — Monitoring & Alerting", href: "/learn/mlops7-monitoring" },
+      next: { label: "MLOps7 — Monitoring & Alerting", href: "/v2/learn/mlops7-monitoring" },
       quiz: [
         {
           q: "Model 20ms tapi p99 8 detik saat Harbolnas. Penyebab utama?",

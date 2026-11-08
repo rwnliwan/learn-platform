@@ -210,7 +210,7 @@ export const bi13: V2Lesson = {
         "Metilasi: bisulfite; beta untuk presentasi, M-value untuk statistik.",
         "DMR: region beda metilasi — biomarker kanker potensial.",
       ],
-      next: { label: "BI14 · Metagenomik", href: "/learn/bi14-metagenomik" },
+      next: { label: "BI14 · Metagenomik", href: "/v2/learn/bi14-metagenomik" },
       quiz: [
         {
           q: "Promoter gen supresor tumor yang hipermetilasi mengakibatkan…",

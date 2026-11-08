@@ -249,7 +249,7 @@ export const aml16: V2Lesson = {
         "PPATK meluncurkan 3 NRA pada 28 Agustus 2026 untuk persiapan MER 2029; rantai: NRA → SRA → kebijakan institusi.",
         "Peta jalan: selaraskan dengan NRA, kejar area terlemah dulu, bangun pipa data efektivitas, mock evaluation 12 bulan sebelumnya.",
       ],
-      next: { label: "AML17 — Fraud–AML–Cyber Fusion Center", href: "/learn/aml17-fusion-center" },
+      next: { label: "AML17 — Fraud–AML–Cyber Fusion Center", href: "/v2/learn/aml17-fusion-center" },
       quiz: [
         {
           q: "Bagaimana perjalanan status Indonesia di FATF?",

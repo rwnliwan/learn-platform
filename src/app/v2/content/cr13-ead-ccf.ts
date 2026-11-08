@@ -221,7 +221,7 @@ export const cr13: V2Lesson = {
         "Bom tidur: limit jumbo + utilisasi kecil + kondisi memburuk. Diet EAD termurah = pangkas limit tidur.",
         "Fasilitas standby korporasi: waspadai penarikan penuh sebelum default — wajib MAC clause.",
       ],
-      next: { label: "CR14A — ECL & Staging", href: "/learn/cr14a-ecl-staging" },
+      next: { label: "CR14A — ECL & Staging", href: "/v2/learn/cr14a-ecl-staging" },
       quiz: [
         {
           q: "Kartu kredit: limit Rp 100 jt, outstanding Rp 60 jt, CCF 35%. EAD?",

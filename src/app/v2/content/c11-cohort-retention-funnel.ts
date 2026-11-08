@@ -315,7 +315,7 @@ for r in rows:
         "Gaps-and-islands: tanggal − row_number = konstan.",
         "Kombinasi cohort × funnel = diagnosis perilaku lengkap.",
       ],
-      next: { label: "C12 — Recursive CTE", href: "/learn/c12-recursive-cte" },
+      next: { label: "C12 — Recursive CTE", href: "/v2/learn/c12-recursive-cte" },
       quiz: [
         {
           q: "Funnel menjawab pertanyaan?",

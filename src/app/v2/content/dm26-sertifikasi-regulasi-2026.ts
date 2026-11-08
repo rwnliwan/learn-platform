@@ -288,7 +288,7 @@ print(f"Prioritas belajar: {prioritas}")`,
       ],
       next: {
         label: "DM27 — SAP MDG & MDM Enterprise",
-        href: "/learn/dm27-sap-mdg",
+        href: "/v2/learn/dm27-sap-mdg",
       },
       quiz: [
         {

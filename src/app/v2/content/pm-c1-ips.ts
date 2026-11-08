@@ -238,7 +238,7 @@ export const pmc1: V2Lesson = {
         "Institusi dimulai dari kewajiban: DB pension memakai LDI dan funded ratio; endowment memakai spending rule.",
         "IPS adalah dokumen hidup: review tahunan dan setiap life event; melanggarnya adalah pelanggaran fidusia.",
       ],
-      next: { label: "C2 \u2014 Capital Market Expectations", href: "/learn/pm-c2-capital-market-expectations" },
+      next: { label: "C2 \u2014 Capital Market Expectations", href: "/v2/learn/pm-c2-capital-market-expectations" },
       quiz: [
         {
           q: "dr. Sinta: Rp2 miliar harus menjadi Rp8 miliar dalam 20 tahun. Required return nominal?",

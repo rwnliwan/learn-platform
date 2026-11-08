@@ -268,7 +268,7 @@ export const bcd8: V2Lesson = {
         "Profit sandwich dihitung dengan simulasi x×y=k sesuai urutan blok.",
         "Lindungi order besar: fragmentasi + slippage limit + private mempool.",
       ],
-      next: { label: "BCD9 — SQL untuk Data Chain (Gaya Dune)", href: "/learn/bcd9-sql" },
+      next: { label: "BCD9 — SQL untuk Data Chain (Gaya Dune)", href: "/v2/learn/bcd9-sql" },
       quiz: [
         {
           q: "Mengapa bot bisa 'mendahului' transaksi Sari secara legal?",

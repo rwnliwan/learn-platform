@@ -302,7 +302,7 @@ export const a11: V2Lesson = {
         "Tulis grain dulu — satu baris = ___ — sebelum query agregasi apa pun.",
         "Dashboard ordinal: tampilkan median, % per bucket, dan top-2-box — jangan tampilkan mean skor sebagai KPI.",
       ],
-      next: { label: "A1.3 — Ukuran Sebaran", href: "/learn/a13-sebaran" },
+      next: { label: "A1.3 — Ukuran Sebaran", href: "/v2/learn/a13-sebaran" },
       quiz: [
         {
           q: "Kolom kode_pos berisi 10110, 20112, 30114. Skala apa ini?",

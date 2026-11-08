@@ -205,7 +205,7 @@ export const cr4a: V2Lesson = {
         "KPMM = modal/RWA; batas OJK 8% + buffer. Krisis = jepitan dua sisi (RWA naik, modal tergerus).",
         "Margin tinggi tidak otomatis lebih baik — ukur per unit modal (RAROC).",
       ],
-      next: { label: "CR4B — IFRS 9 / PSAK 109", href: "/learn/cr4b-ifrs9-psak71" },
+      next: { label: "CR4B — IFRS 9 / PSAK 109", href: "/v2/learn/cr4b-ifrs9-psak71" },
       quiz: [
         {
           q: "Bank punya: Kas Rp 100 M (0%), SBN Rp 200 M (0%), KPR Rp 300 M (35%), Korporasi Rp 400 M (100%). Berapa RWA?",

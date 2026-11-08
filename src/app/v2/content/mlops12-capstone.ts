@@ -447,7 +447,7 @@ print(f"pembakar_terbesar={terbesar} ({per_kat[terbesar]} menit)")`,
         "K8s butuh operator; rancangan dinilai dari jawaban operasional, bukan ketebalan dokumen.",
         "Deploy pertama di kind/minikube: 4 syarat (image ter-pin, readiness probe, limit, replika minimal 2) — latihan lokal, prod tetap managed.",
       ],
-      next: { label: "MLOps13 — Experiment Tracking & DVC", href: "/learn/mlops13-experiment-tracking" },
+      next: { label: "MLOps13 — Experiment Tracking & DVC", href: "/v2/learn/mlops13-experiment-tracking" },
       quiz: [
         {
           q: "DompetKu: SLA 300ms p99, tim 6 orang tanpa operator K8s, budget Rp400 jt/bulan. Pilihan infra?",

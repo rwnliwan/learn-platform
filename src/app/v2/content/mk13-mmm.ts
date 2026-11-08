@@ -64,7 +64,7 @@ export const mk13: V2Lesson = {
         lockLines: 6,
         solution: `spend = [10_000_000, 0, 0, 5_000_000]\nlam = 0.7\nk = 5_000_000\n\n# TULIS KODEMU: deret adstock, lalu saturasi Hill dari A[0]\nA = []\na = 0\nfor s in spend:\n    a = s + lam * a\n    A.append(a)\nhill = A[0]**2 / (A[0]**2 + k**2)\n\nprint(f"A3={A[2]:.0f} hill={hill:.2f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "A", value: 4900000, tol: 1, label: "`A[2]` seharusnya 4900000", msg: "0 + 0,7 × 7jt = 4,9jt. Efek minggu 1 masih separuh di minggu 3." },
+          { kind: "equal", task: "t1", name: "A", value: [10000000.0, 7000000.0, 4900000.0, 8430000.0], tol: 1, label: "`A` seharusnya [10jt, 7jt, 4,9jt, 8,43jt]", msg: "0 + 0,7 × 7jt = 4,9jt. Efek minggu 1 masih separuh di minggu 3." },
           { kind: "equal", task: "t2", name: "hill", value: 0.8, tol: 1e-9, label: "`hill` seharusnya 0,8", msg: "(1e7)² / ((1e7)² + (5e6)²) = 0,8." },
           { kind: "stdout_matches", task: "t2", pattern: "A3=4900000", label: "`print` menampilkan A3", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
@@ -246,11 +246,11 @@ h = 1_000_000
 marg = {}
 for nama, (vmax, a, k, spend) in channels.items():
     marg[nama] = (respons(spend + h, vmax, a, k) - respons(spend, vmax, a, k)) / h
-pemenang = max(marg, key=marg.get)
+marg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\nmarg_tv = marg["TV"]\npemenang = max(marg, key=marg.get)
 
 print(f"pemenang={pemenang} marg_TV={marg['TV']:.2f} marg_Digital={marg['Digital']:.2f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "marg", value: 0.57, tol: 0.02, label: "`marg['TV']` sekitar 0,57", msg: "TV sudah jenuh — rupiah berikutnya tidak produktif." },
+          { kind: "equal", task: "t1", name: "marg_tv", value: 0.57, tol: 0.02, label: "`marg['TV']` sekitar 0,57", msg: "TV sudah jenuh — rupiah berikutnya tidak produktif." },
           { kind: "equal", task: "t2", name: "pemenang", value: "Digital", label: "`pemenang` seharusnya Digital", msg: "Marginal 1,78 > 0,57. Rp100jt berikutnya ke Digital." },
           { kind: "stdout_matches", task: "t2", pattern: "pemenang=Digital", label: "`print` menampilkan pemenang", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
@@ -341,7 +341,7 @@ print(f"pemenang={pemenang} marg_TV={marg['TV']:.2f} marg_Digital={marg['Digital
         "Kalibrasi eksperimen wajib: paksa MMM setuju dengan jangkar kausal.",
         "Lambda diestimasi via validasi + uji sensitivitas; sesuaikan horizon dengan channel.",
       ],
-      next: { label: "MK14 — Pricing", href: "/learn/mk14-pricing" },
+      next: { label: "MK14 — Pricing", href: "/v2/learn/mk14-pricing" },
       quiz: [
         {
           q: "Kenapa memotong TV by ROI 0,8 menghancurkan RasaNusa?",

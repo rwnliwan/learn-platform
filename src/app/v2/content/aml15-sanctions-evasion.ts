@@ -256,7 +256,7 @@ export const aml15: V2Lesson = {
         "Uji dokumen: harga (±50%), rute (ekonomis?), konsistensi (fisika vs kertas).",
         "Bobot terbesar untuk bukti tersulit dipalsukan.",
       ],
-      next: { label: "AML16 — Indonesia Anggota Penuh FATF", href: "/learn/aml16-fatf-greylist-indonesia" },
+      next: { label: "AML16 — Indonesia Anggota Penuh FATF", href: "/v2/learn/aml16-fatf-greylist-indonesia" },
       quiz: [
         {
           q: "Kapal AIS mati 60 jam, muncul dengan draf naik 2 meter. Kesimpulan analis?",

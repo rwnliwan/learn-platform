@@ -199,7 +199,7 @@ export const mr11: V2Lesson = {
         "Delta-hedge: P&L ≈ theta − biaya gamma aktual; tak pernah sempurna (diskrit, biaya, vol salah, jump).",
         "Delta-neutral ≠ aman. Short gamma + short vega = bom waktu.",
       ],
-      next: { label: "MR12 — FX & Komoditas", href: "/learn/mr12-fx-komoditas" },
+      next: { label: "MR12 — FX & Komoditas", href: "/v2/learn/mr12-fx-komoditas" },
       quiz: [
         {
           q: "Portofolio delta-neutral, short gamma besar, short vega besar. Profil risikonya?",

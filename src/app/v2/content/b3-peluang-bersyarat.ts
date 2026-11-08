@@ -130,7 +130,7 @@ export const b3: V2Lesson = {
         { id: "t2", text: "Hitung `p_umum` dan `p_given` (jumlah 12 | jumlah > 8)" },
         { id: "t3", text: "Cetak keduanya dengan 4 desimal" },
       ],
-      expected: "umum\u22480.0278  given\u22480.1000",
+      expected: "umum=0.0270  given=0.0964",
       note: {
         title: "Sering salah",
         body: "Penyebut untuk P(12 | jumlah > 8) tetap 36. Penyebutnya dunia yang menyusut \u2014 hanya lemparan dengan jumlah > 8 \u2014 sehingga peluangnya 1/10, bukan 1/36.",
@@ -147,7 +147,7 @@ export const b3: V2Lesson = {
         checks: [
           { kind: "equal", task: "t2", name: "p_umum", value: 1 / 36, tol: 0.02, label: "`p_umum` mendekati 1/36", msg: "Dengan seed 21, frekuensi harus dekat 0,0278." },
           { kind: "equal", task: "t2", name: "p_given", value: 0.10, tol: 0.05, label: "`p_given` mendekati 0,10", msg: "Dengan seed 21, frekuensi bersyarat harus dekat 0,10." },
-          { kind: "stdout_matches", task: "t3", pattern: "umum=0\\.0\\d+\\s+given=0\\.1", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "stdout_matches", task: "t3", pattern: "umum=0\\.0270\\s+given=0\\.0964", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Syarat memangkas dunia 36 hasil \u2192 10 hasil. Peluang naik 3,6x.",
@@ -242,7 +242,7 @@ export const b3: V2Lesson = {
         "Hukum peluang total: pecah per bucket, lalu rata-rata tertimbang.",
         "Jangan pakai peluang umum untuk keputusan individual \u2014 selalu cari peluang bersyarat yang relevan.",
       ],
-      next: { label: "B4 \u2014 Teorema Bayes", href: "/learn/b4-bayes" },
+      next: { label: "B4 \u2014 Teorema Bayes", href: "/v2/learn/b4-bayes" },
       quiz: [
         {
           q: "P(gagal | telat 30 hari) = 35% artinya\u2026",

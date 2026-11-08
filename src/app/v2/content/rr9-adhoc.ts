@@ -250,7 +250,7 @@ export const rr9: V2Lesson = {
         "Kirim 80% tepat waktu + caveat 3 kalimat; susul 100%.",
         "Tulis asumsimu — asumsi tertulis bisa dikoreksi.",
       ],
-      next: { label: "RR10 — Dasar Regulasi Pelaporan OJK/BI", href: "/learn/rr10-regulasi" },
+      next: { label: "RR10 — Dasar Regulasi Pelaporan OJK/BI", href: "/v2/learn/rr10-regulasi" },
       quiz: [
         {
           q: "Kesalahan utama Andi dalam cerita pembuka?",

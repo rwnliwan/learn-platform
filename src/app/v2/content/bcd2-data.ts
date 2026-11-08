@@ -283,7 +283,7 @@ export const bcd2: V2Lesson = {
         "gasUsed adalah sidik jari kompleksitas: 21.000 = transfer biasa.",
         "Audit biaya = jumlahkan fee per transaksi, bukan rata-rata × N.",
       ],
-      next: { label: "BCD3 — Address Clustering & Entity Labeling", href: "/learn/bcd3-address" },
+      next: { label: "BCD3 — Address Clustering & Entity Labeling", href: "/v2/learn/bcd3-address" },
       quiz: [
         {
           q: "Transaksi: value = 0 ETH, fee = 0,0029 ETH. Interpretasi paling tepat?",

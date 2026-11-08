@@ -222,7 +222,7 @@ export const b7_1: V2Lesson = {
         "Eksponensial(\u03BB): waktu antar kejadian; E=1/\u03BB; memoryless; pasangan Poisson.",
         "Jangan pakai Normal untuk data positif miring kanan \u2014 dan jangan tanya peluang \u201Ctepat\u201D pada kontinu.",
       ],
-      next: { label: "B7.2 \u2014 Distribusi Kontinu 2", href: "/learn/b7-distribusi-kontinu-2" },
+      next: { label: "B7.2 \u2014 Distribusi Kontinu 2", href: "/v2/learn/b7-distribusi-kontinu-2" },
       quiz: [
         {
           q: "Untuk X kontinu, P(X = 5,0) = 0 karena\u2026",

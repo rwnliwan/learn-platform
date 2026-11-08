@@ -264,7 +264,7 @@ export const b2: V2Lesson = {
         "Peluang = favorable/total \u2014 hitung keduanya dengan aturan yang sama + asumsi equally likely.",
         "Brute force skenario meledak eksponensial \u2014 butuh sampling cerdas (Monte Carlo, B12).",
       ],
-      next: { label: "B3 \u2014 Peluang Bersyarat", href: "/learn/b3-peluang-bersyarat" },
+      next: { label: "B3 \u2014 Peluang Bersyarat", href: "/v2/learn/b3-peluang-bersyarat" },
       quiz: [
         {
           q: "PIN 4 digit (boleh ulang). Banyak kemungkinan?",

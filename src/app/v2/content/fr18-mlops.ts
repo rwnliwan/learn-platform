@@ -196,7 +196,7 @@ export const fr18: V2Lesson = {
         "Monitor 4 lapis: input, output, performa, bisnis — tiap metrik ada pemilik + runbook.",
         "Retrain berpemicu (metrik + investigasi), bukan jadwal kalender.",
       ],
-      next: { label: "FR19 — NLP & Phishing", href: "/learn/fr19-nlp-phishing" },
+      next: { label: "FR19 — NLP & Phishing", href: "/v2/learn/fr19-nlp-phishing" },
       quiz: [
         {
           q: "Model baru siap. Langkah deploy pertama yang benar?",

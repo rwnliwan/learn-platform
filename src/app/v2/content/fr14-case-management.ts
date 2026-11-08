@@ -182,7 +182,7 @@ export const fr14: V2Lesson = {
         "Disagreement 10–20% normal — ukur dan kalibrasi, jangan asumsikan nol.",
         "Label terstruktur (jenis fraud) → feedback loop → model masa depan.",
       ],
-      next: { label: "FR15 — AML", href: "/learn/fr15-aml" },
+      next: { label: "FR15 — AML", href: "/v2/learn/fr15-aml" },
       quiz: [
         {
           q: "Antrian FIFO: 40 kasus Rp200rb diteliti pagi, kasus Rp200jt baru disentuh jam 5 sore. Masalahnya?",

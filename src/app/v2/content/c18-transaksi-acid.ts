@@ -288,7 +288,7 @@ for suffix in ("", "-journal", "-wal"):
         "Pipeline: atomik + swap + idempoten; laporan dari snapshot.",
         "Track C selesai — 19 lesson! Lanjut D: Python.",
       ],
-      next: { label: "D1 — Python Dasar", href: "/learn/d1-python-dasar" },
+      next: { label: "D1 — Python Dasar", href: "/v2/learn/d1-python-dasar" },
       quiz: [
         {
           q: "SAVEPOINT berguna untuk?",

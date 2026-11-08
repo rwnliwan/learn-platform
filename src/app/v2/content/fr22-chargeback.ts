@@ -199,7 +199,7 @@ export const fr22: V2Lesson = {
         "Lawan jika w x L > Rp150rb — ekspektasi, bukan nominal.",
         "Win rate = fungsi bukti. Arsipkan segalanya.",
       ],
-      next: { label: "FR23 — Regulasi", href: "/learn/fr23-regulasi-indonesia" },
+      next: { label: "FR23 — Regulasi", href: "/v2/learn/fr23-regulasi-indonesia" },
       quiz: [
         {
           q: "1.000 chargeback, 65% tidak dilawan. 400 yang dilawan menang 152 (Rp167 jt). Pelajaran?",

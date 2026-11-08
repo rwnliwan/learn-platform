@@ -328,7 +328,7 @@ print(f"acc_bocor={acc_bocor:.1f}%  acc_jujur={acc_jujur:.1f}%")`,
         "Clustering = regime detection; PCA = reduksi fitur.",
         "Waspadai data leakage dan concept drift. Ukur net of cost.",
       ],
-      next: { label: "PM-B4 — Valuasi Ekuitas: DDM, FCFF & Multiples", href: "/learn/pm-b4-valuasi-ekuitas" },
+      next: { label: "PM-B4 — Valuasi Ekuitas: DDM, FCFF & Multiples", href: "/v2/learn/pm-b4-valuasi-ekuitas" },
     },
   ],
 };

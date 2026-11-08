@@ -320,7 +320,7 @@ export const d1: V2Lesson = {
         "SQL + Python pasangan komplementer: SQL ambil data, Python olah data.",
         "Fungsi bisnis selalu validasi input: raise ValueError untuk yang tidak valid.",
       ],
-      next: { label: "D2 — Struktur Data", href: "/learn/d2-struktur-data" },
+      next: { label: "D2 — Struktur Data", href: "/v2/learn/d2-struktur-data" },
     },
   ],
 };

@@ -194,7 +194,7 @@ export const fr3: V2Lesson = {
         "Skor risiko = opini analis yang dikuantifikasi — kalibrasi sebelum dianggap probabilitas.",
         "Satu sinyal = gosip; tiga sinyal independen = bukti. Kasus jaringan butuh agregat lintas akun.",
       ],
-      next: { label: "FR4 — Label Fraud", href: "/learn/fr4-label-fraud" },
+      next: { label: "FR4 — Label Fraud", href: "/v2/learn/fr4-label-fraud" },
       quiz: [
         {
           q: "40 akun baru dari 3 device yang sama, aktif jam 2–4 pagi. Sinyal apa yang PALING menentukan ini serangan terkoordinasi?",

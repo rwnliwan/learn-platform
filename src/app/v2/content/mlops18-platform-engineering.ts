@@ -296,7 +296,7 @@ export const mlops18: V2Lesson = {
         "Keputusan: JANGAN bangun bila tim kecil & hemat_bersih negatif (pakai managed service); bangun ringan untuk tim 10–40; IDP penuh untuk enterprise teregulasi.",
         "R_plat = (C_tiket − C_ss)/C_ss; lab: hemat Rp329,6 jt/bln, lead time 112x lebih cepat — angka untuk negosiasi anggaran.",
       ],
-      next: { label: "MLOps19 — LLMOps End-to-End: Dari Prompt ke Produksi", href: "/learn/mlops19-llmops-end-to-end" },
+      next: { label: "MLOps19 — LLMOps End-to-End: Dari Prompt ke Produksi", href: "/v2/learn/mlops19-llmops-end-to-end" },
     },
   ],
 };

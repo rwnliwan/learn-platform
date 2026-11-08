@@ -256,7 +256,7 @@ export const a14: V2Lesson = {
         "Log transform menjinakkan right skew positif; tidak untuk left skew, model tree-based, atau laporan ke direksi tanpa terjemahan balik.",
         "Right-skewed + leptokurtik pada loss = kombinasi paling berbahaya.",
       ],
-      next: { label: "A1.5 — Outlier", href: "/learn/a15-kuantil-outlier" },
+      next: { label: "A1.5 — Outlier", href: "/v2/learn/a15-kuantil-outlier" },
       quiz: [
         {
           q: "Data loss kredit: kebanyakan kecil, sedikit sangat besar. Skewness-nya?",

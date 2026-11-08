@@ -240,7 +240,7 @@ export const rr20: V2Lesson = {
         "Early warning = tren + breach ladder (120/110/100); tren turun ≥5 hari = eskalasi.",
         "Lapor tiga baris: HQLA tercatat, HQLA efektif (unencumbered), gap jatuh tempo; penerima: treasury harian, ALCO mingguan, direksi bulanan, regulator berkala.",
       ],
-      next: { label: "RR21 — Sustainability/ISSB Reporting", href: "/learn/rr21-sustainability-reporting" },
+      next: { label: "RR21 — Sustainability/ISSB Reporting", href: "/v2/learn/rr21-sustainability-reporting" },
       quiz: [
         {
           q: "Bank punya HQLA: Level 1 Rp1.200 M, Level 2A Rp400 M, Level 2B Rp150 M (haircut 50%). Berapa HQLA efektif?",

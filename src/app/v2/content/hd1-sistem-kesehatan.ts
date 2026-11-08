@@ -214,7 +214,7 @@ export const hd1: V2Lesson = {
         "Big data mengecilkan sampling error, tidak menghilangkan bias sistematis.",
         "Tulis grain dalam satu kalimat sebelum melaporkan angka apa pun.",
       ],
-      next: { label: "HD2 — ICD, SNOMED, FHIR", href: "/learn/hd2-standar" },
+      next: { label: "HD2 — ICD, SNOMED, FHIR", href: "/v2/learn/hd2-standar" },
       quiz: [
         {
           q: "Tujuan asli data klaim BPJS dikumpulkan adalah…",

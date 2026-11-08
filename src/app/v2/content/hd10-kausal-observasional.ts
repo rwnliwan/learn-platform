@@ -253,7 +253,7 @@ print(f"did={did:.0f} pra_tren_paralel={pra_tren_paralel}")`,
         "Target trial: time zero sama; IPTW + cek balance + akui asumsi.",
         "Immortal time bias & surveillance bias = bias desain, bukan bias model.",
       ],
-      next: { label: "HD11 — Wrangling EHR", href: "/learn/hd11-wrangling-ehr" },
+      next: { label: "HD11 — Wrangling EHR", href: "/v2/learn/hd11-wrangling-ehr" },
       quiz: [
         {
           q: "Obat terlihat meningkatkan mortalitas (22% vs 10%), tapi di tiap strata keparahan obat sedikit lebih baik. Ini…",

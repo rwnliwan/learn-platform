@@ -209,7 +209,7 @@ export const a312: V2Lesson = {
         "S(t) untuk laporan, h(t) untuk modeling dan pricing.",
         "Jalur keluar ganda (lunas vs default) = competing risks, bukan sensor biasa.",
       ],
-      next: { label: "A3.13 — Inferensi Kausal", href: "/learn/a313-kausal" },
+      next: { label: "A3.13 — Inferensi Kausal", href: "/v2/learn/a313-kausal" },
       quiz: [
         {
           q: "70 persen nasabah belum default di akhir window. Analis membuang mereka lalu menghitung rata-rata waktu default dari sisanya. Masalah?",

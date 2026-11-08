@@ -223,7 +223,7 @@ export const cr21: V2Lesson = {
         "Limit untuk yang tak bisa di-harga-kan: single-name, konsentrasi sektor.",
         "Modal terbatas = alokasikan ke RAROC tertinggi.",
       ],
-      next: { label: "CR22 — Collection & Recovery", href: "/learn/cr22-collection-recovery" },
+      next: { label: "CR22 — Collection & Recovery", href: "/v2/learn/cr22-collection-recovery" },
       quiz: [
         {
           q: "Komponen bunga kredit yang PALING sering diremehkan?",

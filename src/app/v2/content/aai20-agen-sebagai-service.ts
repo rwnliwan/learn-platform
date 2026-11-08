@@ -271,7 +271,7 @@ print(f"diterima={len(diterima)} yatim={len(yatim)} ditolak={len(ditolak)} tick=
         "CI/CD: test → build → staging + smoke test tugas nyata → canary; health check + graceful shutdown (drain).",
         "Aturan 10 detik: selesai sebelum klien menyerah? kirim 3× aman? secrets di mana? container mati tiba-tiba?",
       ],
-      next: { label: "AAI21 — Automation Platforms", href: "/learn/aai21-automation-platforms" },
+      next: { label: "AAI21 — Automation Platforms", href: "/v2/learn/aai21-automation-platforms" },
       quiz: [
         {
           q: "Notula memproses rapat 40 menit lewat endpoint sinkron; aplikasi timeout di 30 detik dan mengirim ulang. Apa yang terjadi?",

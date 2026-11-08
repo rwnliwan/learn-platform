@@ -227,7 +227,7 @@ export const pmc2: V2Lesson = {
         "Format jujur: skenario + probabilitas + rentang; obat bias = skenario, pre-mortem, base rate.",
         "Konsensus adalah herding; historis tanpa penyesuaian valuasi dan rezim bukan jawaban.",
       ],
-      next: { label: "C3 \u2014 Asset Allocation", href: "/learn/pm-c3-asset-allocation" },
+      next: { label: "C3 \u2014 Asset Allocation", href: "/v2/learn/pm-c3-asset-allocation" },
       quiz: [
         {
           q: "Volatilitas tahunan 20%, data 50 tahun, rata-rata historis 10%. SE estimasi mean dan implikasinya?",

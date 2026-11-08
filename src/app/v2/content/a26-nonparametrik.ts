@@ -202,7 +202,7 @@ export const a26: V2Lesson = {
         "Chi-square untuk tabel kategori; expected ≥ 5 atau pakai Fisher exact.",
         "KS membandingkan seluruh bentuk distribusi, bukan cuma lokasi.",
       ],
-      next: { label: "A2.7 — Effect Size", href: "/learn/a27-effect-size" },
+      next: { label: "A2.7 — Effect Size", href: "/v2/learn/a27-effect-size" },
       quiz: [
         {
           q: "Mengapa Mann-Whitney kebal terhadap outlier Rp400 juta dalam contoh bonus?",

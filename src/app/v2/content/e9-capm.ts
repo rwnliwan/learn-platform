@@ -204,7 +204,7 @@ export const e9: V2Lesson = {
         "Fama-French menambah faktor size (SMB) & value (HML) — return = kompensasi multi-risiko.",
         "CAPM = kompas, bukan GPS: beta tak stabil, pasar tak terobservasi sempurna.",
       ],
-      next: { label: "E10 — Derivatif", href: "/learn/e10-derivatif" },
+      next: { label: "E10 — Derivatif", href: "/v2/learn/e10-derivatif" },
       quiz: [
         {
           q: "Manajer return 24% (β=1,8), manajer lain 15% (β=0,9). Rf=6%, Rm=14%. Mana alpha lebih besar?",

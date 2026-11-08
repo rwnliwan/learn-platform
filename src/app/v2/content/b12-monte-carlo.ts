@@ -53,7 +53,7 @@ export const b12: V2Lesson = {
       title: "10.000 butir: \u03C0 \u00B1 berapa?",
       prose: [
         "10.000 butir, 7.854 di lingkaran \u2192 \u03C0\u0302 = 3,1416. Berapa presisinya? Tiap butir ~ Bernoulli(p=\u03C0/4\u22480,785). SE(p\u0302) = \u221A(0,7854\u00D70,2146/10000) \u2248 0,0041. \u03C0\u0302 = 4p\u0302 \u2192 SE(\u03C0\u0302) = 4 \u00D7 0,0041 = 0,0164. IK95%: 3,1416 \u00B1 0,032.",
-        "Monte Carlo selalu datang dengan SE-nya sendiri (\u221D 1/\u221AN). Tanpa SE, angka Monte Carlo = tebakan tanpa ukuran ketidakpastian. Rumus menentukan N: mau error \u03B5 dengan keyakinan 95% \u2192 N \u2248 (1,96\u03C3/\u03B5)\u00B2. \u03C0 \u00B1 0,001 \u2192 N \u2248 650 ribu. Jangan pilih N dari \u201Cangka bulat yang enak\u201D.",
+        "Monte Carlo selalu datang dengan SE-nya sendiri (\u221D 1/\u221AN). Tanpa SE, angka Monte Carlo = tebakan tanpa ukuran ketidakpastian. Rumus menentukan N: mau error \u03B5 dengan keyakinan 95% \u2192 N \u2248 (1,96\u03C3/\u03B5)\u00B2. π ± 0,001 → N ≈ 10,4 juta. (σ yang benar untuk π̂ adalah σ(π̂) = 4 × σ(p̂) = 4 × 0,4106 = 1,64 — bukan 0,4106: N ≈ (1,96 × 1,64 / 0,001)² ≈ 10,4 juta. Memakai 0,4106 langsung memberi 650 ribu, 16× terlalu kecil — faktor 4 yang hilang, dikuadratkan.) Jangan pilih N dari \u201Cangka bulat yang enak\u201D.",
         "Monte Carlo adalah \u201Cpekerja kasar yang jujur\u201D \u2014 tidak pintar (error turun lambat), tapi tidak pernah berbohong tentang errornya dan bisa mengerjakan apa pun yang bisa disimulasikan.",
       ],
       tasks: [
@@ -237,7 +237,7 @@ export const b12: V2Lesson = {
         "Variance reduction: antithetic, control variate, importance sampling \u2014 \u201CN gratis\u201D.",
         "Jangan MC untuk yang ada rumus eksaknya; selalu set seed + laporkan SE; model harus jujur.",
       ],
-      next: { label: "B13 \u2014 Model Vasicek", href: "/learn/b13-vasicek" },
+      next: { label: "B13 \u2014 Model Vasicek", href: "/v2/learn/b13-vasicek" },
       quiz: [
         {
           q: "SE Monte Carlo = \u03C3/\u221AN. Untuk error 10x lebih kecil, N harus\u2026",

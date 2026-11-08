@@ -169,7 +169,7 @@ export const dm1: V2Lesson = {
         "OLTP vs OLAP: kasir (transaksi real-time) vs analis (agregasi historis) — pisahkan, jangan campur.",
         "Peran: owner (akuntabilitas) vs steward (operasional) — setiap dataset butuh keduanya tertulis.",
       ],
-      next: { label: "DM2 — Pemodelan Data", href: "/learn/dm2-pemodelan-data" },
+      next: { label: "DM2 — Pemodelan Data", href: "/v2/learn/dm2-pemodelan-data" },
       quiz: [
         {
           q: "Kenapa query analitik berat (scan 100 juta baris) tidak boleh dijalankan di database OLTP operasional?",

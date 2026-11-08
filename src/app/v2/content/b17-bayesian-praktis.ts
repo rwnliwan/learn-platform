@@ -168,7 +168,7 @@ export const b17: V2Lesson = {
         { id: "t2", text: "Hitung `p10` = P(PD>10%) dan `p7` = P(PD>7%)" },
         { id: "t3", text: "Cetak keduanya sebagai persen" },
       ],
-      expected: "p10\u22480.03%  p7\u224814%",
+      expected: "p10≈0.00%  p7≈1.48%",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
@@ -185,7 +185,7 @@ export const b17: V2Lesson = {
         solution: `import random\nrandom.seed(172)\na, b, N = 53, 957, 5000\n\n# TULIS KODEMU: sampel Beta lalu P(PD>10%) dan P(PD>7%)\nsamp = [random.gammavariate(a,1)/(random.gammavariate(a,1)+random.gammavariate(b,1)) for _ in range(N)]\np10 = sum(1 for s in samp if s > 0.10) / N\np7 = sum(1 for s in samp if s > 0.07) / N\n\nprint(f"p10={p10:.2%}  p7={p7:.2%}")`,
         checks: [
           { kind: "equal", task: "t2", name: "p10", value: 0.0003, tol: 0.0015, label: "`p10` mendekati 0,03%", msg: "Ekor jauh Beta(53,957) \u2014 harus sangat kecil." },
-          { kind: "equal", task: "t2", name: "p7", value: 0.14, tol: 0.03, label: "`p7` mendekati ~14%", msg: "Mean posterior 5,25% < 7% \u2014 p7 harus belasan persen." },
+          { kind: "equal", task: "t2", name: "p7", value: 0.015, tol: 0.01, label: "`p7` mendekati ~1,5%", msg: "Mean posterior 5,25% < 7% — p7 hanya sekitar 1,5% (ekor Beta(53,957) tipis)." },
           { kind: "stdout_matches", task: "t3", pattern: "p10=\\d+\\.\\d\\d%\\s+p7=", label: "`print` menampilkan keduanya", msg: "Cetak dengan format p10=...  p7=... ." },
         ],
       },
@@ -244,7 +244,7 @@ export const b17: V2Lesson = {
         "Credible interval: P(\u03B8 di interval | data) \u2014 bahasa keputusan.",
         "Data kecil/hierarkis/live \u2192 Bayesian; data besar/standar \u2192 frekuentis cukup.",
       ],
-      next: { label: "C1 \u2014 SELECT Dasar", href: "/learn/c1-select-dasar" },
+      next: { label: "C1 \u2014 SELECT Dasar", href: "/v2/learn/c1-select-dasar" },
       quiz: [
         {
           q: "Posterior Beta setelah prior Beta(50,950) + 3 gagal dari 10\u2026",

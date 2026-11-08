@@ -269,7 +269,7 @@ print(f"tracking_error={tracking_error*100:.2f}%")`,
         "Mayoritas dana aktif kalah dari indeksnya karena fee — bukan karena manajer bodoh. Pilih aktif hanya dengan tesis spesifik + monitoring.",
         "Return masa lalu ≠ ramalan; fee masa depan = kepastian. Cek TER dulu, return kemudian.",
       ],
-      next: { label: "E1 — Struktur Pasar", href: "/learn/e1-struktur-pasar" },
+      next: { label: "E1 — Struktur Pasar", href: "/v2/learn/e1-struktur-pasar" },
       quiz: [
         {
           q: "Apa beda utama transaksi reksa dana konvensional vs ETF?",

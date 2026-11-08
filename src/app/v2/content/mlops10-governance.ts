@@ -199,7 +199,7 @@ export const mlops10: V2Lesson = {
         "Maker-checker: yang melatih tidak approve sendirian.",
         "Jenjang governance mengikuti daya rusak model; uji koran/sidang.",
       ],
-      next: { label: "MLOps11 — Kubernetes untuk ML", href: "/learn/mlops11-k8s" },
+      next: { label: "MLOps11 — Kubernetes untuk ML", href: "/v2/learn/mlops11-k8s" },
       quiz: [
         {
           q: "OJK bertanya versi model penolakan 14 Maret; tim menjawab 'kayaknya v3'. Masalahnya?",

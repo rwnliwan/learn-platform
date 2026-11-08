@@ -317,7 +317,7 @@ print(f"selisih: {selisih}")`,
         "Pola aman: agregasi dulu (subquery/CTE), baru join; COUNT(*) sebelum vs sesudah.",
         "Jangan: lupa ON (CROSS JOIN meledak); DISTINCT untuk menutupi fan-out.",
       ],
-      next: { label: "C6 — Subquery", href: "/learn/c6-subquery" },
+      next: { label: "C6 — Subquery", href: "/v2/learn/c6-subquery" },
       quiz: [
         {
           q: "Nasabah tanpa kredit pada INNER JOIN nasabah–kredit?",

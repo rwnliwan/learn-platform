@@ -237,7 +237,7 @@ print(f"eps_proforma={eps_proforma:.1f}  akresi={akresi:.1f}%")`,
         "Translasi: current rate \u2192 CTA di OCI; temporal \u2192 selisih ke laba (volatil).",
         "Analis menerjemahkan akuntansi menjadi ekonomi: keluarkan non-kas, kurangkan NCI, waspadai utang tersembunyi JV dan goodwill jumbo.",
       ],
-      next: { label: "C1 \u2014 Investment Policy Statement", href: "/learn/pm-c1-ips" },
+      next: { label: "C1 \u2014 Investment Policy Statement", href: "/v2/learn/pm-c1-ips" },
       quiz: [
         {
           q: "Induk memiliki 40% anak. Anak laba Rp100 miliar, dividen Rp20 miliar. Berapa yang diakui Induk?",

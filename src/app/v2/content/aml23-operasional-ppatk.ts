@@ -295,7 +295,7 @@ export const aml23: V2Lesson = {
         "Uji cepat: sebutkan 5 gerbang + 3 keranjang laporan tanpa catatan.",
         "Ingat: pola > nominal; 100% atau kembali; tertulis, bukan lisan.",
       ],
-      next: { label: "AML24 — Fraud Berwajah AI", href: "/learn/aml24-ai-enabled-fraud" },
+      next: { label: "AML24 — Fraud Berwajah AI", href: "/v2/learn/aml24-ai-enabled-fraud" },
       reference: "Lapor yang benar, tepat waktu, dan bisa dibuktikan.",
     },
   ],

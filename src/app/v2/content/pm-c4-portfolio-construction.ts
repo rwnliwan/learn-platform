@@ -225,7 +225,7 @@ export const pmc4: V2Lesson = {
         "Implementasi: default pasif murah; hitung total cost (fee + turnover×spread + pajak), bukan cuma fee.",
         "Konstruksi terbaik = yang dijalankan dengan disiplin, bukan yang teorinya paling canggih.",
       ],
-      next: { label: "C5 \u2014 Performance Evaluation", href: "/learn/pm-c5-performance-evaluation" },
+      next: { label: "C5 \u2014 Performance Evaluation", href: "/v2/learn/pm-c5-performance-evaluation" },
       quiz: [
         {
           q: "Kapan Michaud resampling PALING membantu?",

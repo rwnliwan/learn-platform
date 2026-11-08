@@ -255,7 +255,7 @@ export const mlops5: V2Lesson = {
         "Error budget B = (1 − SLO) × N mengatur kapan otomasi harus berhenti.",
         "Otomatis untuk rutin bermargin; manual untuk kuning/mayor; beku saat budget habis.",
       ],
-      next: { label: "MLOps6 — Serving Infra", href: "/learn/mlops6-serving" },
+      next: { label: "MLOps6 — Serving Infra", href: "/v2/learn/mlops6-serving" },
       quiz: [
         {
           q: "Kasus TokoKilat: kenapa CI hijau tapi model mati 2 hari?",

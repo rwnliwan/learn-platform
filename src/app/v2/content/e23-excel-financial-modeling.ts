@@ -302,7 +302,7 @@ print(f"rev3={rev3:.2f}  ebit3={ebit3:.2f}  net3={net3:.2f}  eps3={eps3:.2f}  ke
           ],
         },
       ],
-      next: { label: "E24 — WPPE & Ekosistem Pasar Modal Indonesia", href: "/learn/e24-wppe-pasar-modal" },
+      next: { label: "E24 — WPPE & Ekosistem Pasar Modal Indonesia", href: "/v2/learn/e24-wppe-pasar-modal" },
     },
   ],
 };

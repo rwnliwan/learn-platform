@@ -377,7 +377,7 @@ print("total:", total, "menit")`,
         "Backfill = mesin waktu yang disiplin: bertahap, terverifikasi, dan dikomunikasikan.",
         "Keputusan: 1 task tanpa dependensi → cron; multi-langkah → Airflow; butuh detikan → streaming.",
       ],
-      next: { label: "D20 — Docker & Git: Workflow Produksi", href: "/learn/d20-docker-git-workflow" },
+      next: { label: "D20 — Docker & Git: Workflow Produksi", href: "/v2/learn/d20-docker-git-workflow" },
     },
   ],
 };

@@ -179,7 +179,7 @@ export const dm17: V2Lesson = {
         "Komunikasi: bahasa stakeholder (rupiah & cerita), bukan jargon.",
         "Karir 2026: SQL+Python → Airflow+dbt+1 cloud → portofolio produksi → streaming.",
       ],
-      next: { label: "DM18 — Spark & PySpark", href: "/learn/dm18-spark-pyspark" },
+      next: { label: "DM18 — Spark & PySpark", href: "/v2/learn/dm18-spark-pyspark" },
       quiz: [
         {
           q: "Prinsip #1 strategi data yang benar?",

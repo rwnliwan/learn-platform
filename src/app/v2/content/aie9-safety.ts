@@ -197,7 +197,7 @@ export const aie9: V2Lesson = {
         "Detektor pola murah tetapi dikalahkan parafrase — ia lapis pertama, bukan satu-satunya.",
         "Keamanan dinilai dari worst case, bukan rata-rata; red team sebelum launch adalah syarat rilis.",
       ],
-      next: { label: "AIE10 — Deploy Aplikasi LLM", href: "/learn/aie10-deploy" },
+      next: { label: "AIE10 — Deploy Aplikasi LLM", href: "/v2/learn/aie10-deploy" },
       quiz: [
         {
           q: "Apa itu prompt injection?",

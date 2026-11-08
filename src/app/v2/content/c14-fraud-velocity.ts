@@ -322,7 +322,7 @@ print("tercepat:", tercepat)`,
         "Trade-off: rule = screening; ukur false positive; alert harus actionable.",
         "Rule-based hari ini → fitur ML besok.",
       ],
-      next: { label: "C15 — Data Quality", href: "/learn/c15-data-quality" },
+      next: { label: "C15 — Data Quality", href: "/v2/learn/c15-data-quality" },
       quiz: [
         {
           q: "Velocity check memakai?",

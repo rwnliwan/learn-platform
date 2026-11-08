@@ -238,7 +238,7 @@ export const wqb17: V2Lesson = {
         "Kekurangan jumlah = rugi kesempatan; polusi bank = rugi kualitas yang menjalar.",
         "Aturan 10 detik: ambang ditetapkan sebelum skor dilihat; jumlah boleh kurang.",
       ],
-      next: { label: "WQB18 — ML Predictor: Mesin Penilai Kandidat", href: "/learn/wqb18-ml-predictor" },
+      next: { label: "WQB18 — ML Predictor: Mesin Penilai Kandidat", href: "/v2/learn/wqb18-ml-predictor" },
       quiz: [
         {
           q: "Kolam Puncak berisi…",
