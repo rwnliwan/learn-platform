@@ -50,14 +50,14 @@ export const b4: V2Lesson = {
       title: "Berpikir \u201Cdari 1.000\u2026\u201D, bukan persen",
       prose: [
         "Otak manusia (termasuk dokter dan analis!) jauh lebih akurat menalar frekuensi daripada persen bersyarat. Ulangi hitungan langkah 1 dengan frekuensi natural: dari 1.000 transaksi, 1 fraud \u2192 terdeteksi (99% \u2248 1 alarm benar); 999 bukan fraud \u2192 1% salah alarm \u2248 10 alarm palsu.",
-        "Total 11 alarm, 1 benar \u2192 1/11 \u2248 9,1%. Angka yang sama, tapi sekarang intuisimu ikut setuju. Ini juga trik komunikasi: jelaskan Bayes ke direksi dengan \u201Cdari 1.000\u2026\u201D, bukan dengan rumus.",
+        "Total 11 alarm, 1 benar \u2192 1/11 \u2248 9,1% (pembulatan kasar; nilai eksaknya 0,99/10,98 \u2248 9,02% \u2014 lihat lab). Angka yang sama, tapi sekarang intuisimu ikut setuju. Ini juga trik komunikasi: jelaskan Bayes ke direksi dengan \u201Cdari 1.000\u2026\u201D, bukan dengan rumus.",
         "Pelajaran operasional dari grafik lesson lama: alarm menaikkan keyakinan 90x lipat (0,1% \u2192 9%) \u2014 tesnya berguna! Tapi 9% \u2260 99%. Setiap alarm fraud masih 91% false positive \u2192 butuh investigasi, bukan blokir otomatis.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `alarm_benar` dan `alarm_palsu` dari 1.000 transaksi" },
         { id: "t2", text: "Hitung `p` = alarm_benar / total alarm, cetak sebagai persen" },
       ],
-      expected: "p=9.09%",
+      expected: "p=9.02%",
       note: {
         title: "Kaitan ke risk",
         type: "risk",
