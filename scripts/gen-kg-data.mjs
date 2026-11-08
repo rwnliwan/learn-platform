@@ -9,10 +9,12 @@
 //   ./node_modules/.bin/esbuild /tmp/kgentry.ts --bundle --format=esm \
 //   --outfile=/tmp/kgbundle.mjs --log-level=error && node scripts/gen-kg-data.mjs
 // <ENTRY> =
-// export { getV2Lessons } from "/home/hatch/workspace/learn-platform/src/app/v2/lib/registry";
-// export { PATHS, pathSteps, getV2Lesson as _gv } from "/home/hatch/workspace/learn-platform/src/app/v2/lib/paths";
+// export { getV2Lessons, getV2Lesson } from "/home/hatch/workspace/learn-platform/src/app/v2/lib/registry";
+// export { PATHS, pathSteps } from "/home/hatch/workspace/learn-platform/src/app/v2/lib/paths";
 // export { PROYEK_REGISTRY } from "/home/hatch/workspace/learn-platform/src/app/v2/lib/reg-proyek";
 // export { lessonSortKey } from "/home/hatch/workspace/learn-platform/src/app/v2/lib/career";
+// (getV2Lesson tinggal di registry.ts, BUKAN paths.ts — header lama salah alamat,
+//  membuat generator gagal "m.getV2Lesson is not a function"; diperbaiki 2026-11-08.)
 import { writeFileSync } from "node:fs";
 
 const m = await import("/tmp/kgbundle.mjs");
@@ -61,7 +63,7 @@ const proyek = Object.values(m.PROYEK_REGISTRY).map((p) => ({
 }));
 
 const out = {
-  generated: "2026-10-16",
+  generated: "2026-11-08",
   lessons: lessonMap,
   trackOrder,
   paths,
