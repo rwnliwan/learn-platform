@@ -84,7 +84,7 @@ export const a17: V2Lesson = {
       eyebrow: "Langkah 3 · MAR",
       title: "MAR: meninggalkan jejak di variabel teramati",
       prose: [
-        "MAR (Missing At Random): hilangnya berhubungan dengan variabel lain yang teramati — tapi tidak dengan nilai yang hilang itu sendiri setelah mengontrol variabel teramati. Contoh: direktur cenderung tidak mengisi kolom gaji. Data 500 karyawan: kolom gaji 12% kosong. Tabulasi % missing per jabatan: staff 3%, manager 8%, direktur 45%.",
+        "MAR (Missing At Random): hilangnya berhubungan dengan variabel lain yang teramati — tapi tidak dengan nilai yang hilang itu sendiri setelah mengontrol variabel teramati. Contoh: direktur cenderung tidak mengisi kolom gaji. Data 500 karyawan: kolom gaji 5,4% kosong (27 dari 500). Tabulasi % missing per jabatan: staff 3%, manager 8%, direktur 45% — totalnya 400×3% + 80×8% + 20×45% = 12 + 6,4 + 9 = 27,4 ≈ 27 karyawan.",
         "Pola jelas: missing berhubungan dengan jabatan (teramati). Kita bisa memprediksi siapa yang missing dari jabatan — dan mengimputasi gaji direktur dari pola gaji direktur lain, bukan dari rata-rata seluruh karyawan. MAR meninggalkan jejak; jejak itu cukup untuk merekonstruksi.",
       ],
       formula: String.raw`P(R \mid Y_{obs}, Y_{mis}) = P(R \mid Y_{obs})`,
@@ -206,6 +206,52 @@ export const a17: V2Lesson = {
       reference: "Kadang hilangnya itu sendiri adalah feature terbaik.",
     },
     {
+          id: "gap-r9-mice-rubin",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P1-G1)",
+          title: "MICE bukan sekali imputasi: pooling Rubin",
+          prose: [
+            "Langkah 3 menyebut MICE sebagai jawaban untuk MAR — dan klaimnya, “MICE mempertahankan variansi dan jujur soal ketidakpastian”, hanya benar bila MICE dipakai sebagaimana mestinya: menghasilkan m dataset imputasi yang BERBEDA, menganalisis tiap dataset secara terpisah, lalu MENGGABUNGKAN (pooling) hasilnya dengan aturan Rubin. MICE bukan satu kali imputasi yang diulang m kali dengan jawaban sama; ia adalah m dunia paralel yang berbeda — dan kejujurannya datang dari menggabungkan perbedaan antar-dunia itu.",
+            "Aturan Rubin: estimasi gabungan adalah rata-rata dari m estimasi (Q̄ = ΣQᵢ/m). Variansi totalnya punya DUA sumber: variansi DALAM imputasi W (rata-rata variansi tiap analisis) dan variansi ANTAR imputasi B (variansi antar-estimasi). Total T = W + (1 + 1/m)·B. Suku (1 + 1/m)·B inilah harga kejujuran: ia mengukur seberapa besar jawabanmu bergoyang karena datanya memang hilang. Mengambil satu dataset imputasi saja — atau merata-ratakan m dataset lalu menganalisis sekali — menghapus B, sehingga standard error kekecilan dan interval kepercayaan terlalu sempit: persis kesalahan imputasi mean dengan tampilan lebih canggih.",
+            "Contoh angka (m = 5, estimasi yang sama, variansi tiap analisis): Q = [10,2; 10,8; 10,5; 11,0; 10,6], var = [0,04; 0,05; 0,04; 0,06; 0,05]. Q̄ = 10,62. W = 0,048. B = 0,092 (variansi sampel dari lima estimasi). T = 0,048 + 1,2×0,092 = 0,1584 → SE gabungan = 0,398. Bandingkan dengan SE naif dari satu imputasi: √0,048 = 0,219 — hampir separuhnya. Tanpa pooling, kamu melaporkan presisi 1,8× lebih tinggi dari yang sebenarnya kamu punya.",
+          ],
+          formula: String.raw`\bar{Q} = \frac{1}{m}\sum_{i=1}^{m} Q_i \qquad T = W + \left(1 + \frac{1}{m}\right) B`,
+          formulaNote: "Q̄ = estimasi gabungan (rata-rata m estimasi). W = variansi dalam-imputasi (rata-rata variansi tiap analisis). B = variansi antar-imputasi (variansi dari m estimasi). T = variansi total = W + (1+1/m)·B; SE gabungan = √T. Contoh angka: m = 5, Q̄ = 10,62, W = 0,048, B = 0,092 → T = 0,1584, SE = 0,398 — vs SE naif satu imputasi 0,219.",
+          tasks: [
+            { id: "t1", text: "Hitung `pooled`, `W`, `B`, `T` (aturan Rubin, m = 5)" },
+            { id: "t2", text: "Hitung `se_pool` dan `se_naif`, bandingkan keduanya" },
+          ],
+          expected: "pooled=10.62 W=0.0480 B=0.0920 T=0.1584 se_pool=0.398 se_naif=0.219",
+          hints: [
+            "statistics.variance memakai pembagi n−1 — itulah B.",
+            "T = W + (1 + 1/m) * B; SE = akar dari variansi.",
+            "se_naif = akar W saja — tanpa suku antar-imputasi.",
+          ],
+          code: {
+            starter: `import statistics\nest = [10.2, 10.8, 10.5, 11.0, 10.6]\nvar = [0.04, 0.05, 0.04, 0.06, 0.05]\nm = len(est)\n\n# TULIS KODEMU: pooling Rubin\npooled = \nW = \nB = \nT = \nse_pool = \nse_naif = \n\nprint(f"pooled={pooled:.2f} W={W:.4f} B={B:.4f} T={T:.4f} se_pool={se_pool:.3f} se_naif={se_naif:.3f}")`,
+            lockLines: 6,
+            solution: `import statistics\nest = [10.2, 10.8, 10.5, 11.0, 10.6]\nvar = [0.04, 0.05, 0.04, 0.06, 0.05]\nm = len(est)\n\n# TULIS KODEMU: pooling Rubin\npooled = sum(est) / m\nW = sum(var) / m\nB = statistics.variance(est)\nT = W + (1 + 1 / m) * B\nse_pool = T ** 0.5\nse_naif = W ** 0.5\n\nprint(f"pooled={pooled:.2f} W={W:.4f} B={B:.4f} T={T:.4f} se_pool={se_pool:.3f} se_naif={se_naif:.3f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "pooled", value: 10.62, tol: 0.01, label: "`pooled` seharusnya 10,62", msg: "(10,2+10,8+10,5+11,0+10,6)/5 = 10,62." },
+              { kind: "equal", task: "t1", name: "W", value: 0.048, tol: 0.001, label: "`W` seharusnya 0,048", msg: "Rata-rata variansi dalam-imputasi." },
+              { kind: "equal", task: "t1", name: "B", value: 0.092, tol: 0.001, label: "`B` seharusnya 0,092", msg: "Variansi sampel dari lima estimasi." },
+              { kind: "equal", task: "t1", name: "T", value: 0.1584, tol: 0.001, label: "`T` seharusnya 0,1584", msg: "T = 0,048 + 1,2×0,092." },
+              { kind: "equal", task: "t2", name: "se_pool", value: 0.398, tol: 0.005, label: "`se_pool` seharusnya 0,398", msg: "√0,1584 ≈ 0,398." },
+              { kind: "stdout_matches", task: "t2", pattern: "pooled=10.62\\s+W=0.0480\\s+B=0.0920\\s+T=0.1584\\s+se_pool=0.398\\s+se_naif=0.219", label: "`print` menampilkan hasil pooling", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "MICE dengan m = 5 menghasilkan 5 estimasi. Apa yang terjadi bila kamu hanya memakai SATU dataset imputasi dan mengabaikan pooling Rubin?",
+              options: [
+                { text: "Standard error kekecilan — variansi antar-imputasi (B) hilang, interval terlalu sempit", why: "Benar: T = W + (1+1/m)·B; tanpa B kamu melaporkan presisi yang tidak kamu punya.", correct: true },
+                { text: "Estimasi titiknya menjadi bias", why: "Salah: satu imputasi bisa jadi estimasi titik yang wajar — yang rusak adalah ukuran ketidakpastiannya." },
+                { text: "Tidak ada yang berubah — m hanya soal kecepatan", why: "Salah: m justru mengukur ketidakpastian akibat data hilang." },
+              ],
+            },
+          ],
+          reference: "MICE = m imputasi + analisis terpisah + pooling Rubin (T = W + (1+1/m)·B); satu imputasi = SE kekecilan.",
+        },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -270,7 +316,7 @@ export const a17: V2Lesson = {
       ],
       note: {
         title: "Intuisi: data yang hilang tetap bercerita — lewat polanya",
-        body: "Lima heuristik. Satu: MCAR, MAR, dan MNAR tidak bisa dibedakan dari data saja — polanya butuh pengetahuan domain; uji statistik atas missingness hanya bisa menolak MCAR, tidak pernah membuktikan MAR. Dua: imputasi mean adalah ilusi presisi — semua tambalan identik sehingga variansi menyusut, standard error kekecilan, dan p-value terlalu optimis; kesimpulan signifikan yang lahir dari sini adalah palsu. Tiga: kolom indikator “apakah missing” sering lebih prediktif daripada nilai imputasinya — fakta bahwa penghasilan kosong memprediksi default 3 kali lipat adalah informasi, bukan masalah. Empat: untuk MNAR, jangan imputasi seolah tidak terjadi apa-apa — modelkan proses hilangnya, lakukan analisis sensitivitas, atau akui batasnya secara eksplisit; kejujuran mengalahkan kepalsuan yang rapi. Lima: laporkan persentase missing per kolom di setiap analisis — angka yang hilang dari laporan adalah masalah yang hilang dari kesadaran; Sinta membayarnya dengan model AUC 0,91 yang gagal di produksi. Enam: mulai dari yang sederhana — bila missing di bawah 5 persen dan terdiagnosis MCAR, hapus baris dan laporkan; jangan kerahkan MICE untuk masalah yang sebenarnya kecil.",
+        body: "Enam heuristik. Satu: MCAR, MAR, dan MNAR tidak bisa dibedakan dari data saja — polanya butuh pengetahuan domain; uji statistik atas missingness hanya bisa menolak MCAR, tidak pernah membuktikan MAR. Dua: imputasi mean adalah ilusi presisi — semua tambalan identik sehingga variansi menyusut, standard error kekecilan, dan p-value terlalu optimis; kesimpulan signifikan yang lahir dari sini adalah palsu. Tiga: kolom indikator “apakah missing” sering lebih prediktif daripada nilai imputasinya — fakta bahwa penghasilan kosong memprediksi default 3 kali lipat adalah informasi, bukan masalah. Empat: untuk MNAR, jangan imputasi seolah tidak terjadi apa-apa — modelkan proses hilangnya, lakukan analisis sensitivitas, atau akui batasnya secara eksplisit; kejujuran mengalahkan kepalsuan yang rapi. Lima: laporkan persentase missing per kolom di setiap analisis — angka yang hilang dari laporan adalah masalah yang hilang dari kesadaran; Sinta membayarnya dengan model AUC 0,91 yang gagal di produksi. Enam: mulai dari yang sederhana — bila missing di bawah 5 persen dan terdiagnosis MCAR, hapus baris dan laporkan; jangan kerahkan MICE untuk masalah yang sebenarnya kecil.",
       },
     },
   ],

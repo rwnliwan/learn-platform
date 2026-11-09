@@ -36,7 +36,7 @@ export const pmc6: V2Lesson = {
       ],
       note: {
         title: "Intuisi: bias tidak terlihat di cermin, terlihat di jurnal",
-        body: "Tiga heuristik praktisi behavioral. Pertama, kamu tidak akan “merasa” bias saat mengalaminya — bias terasa seperti akal sehat; itulah kenapa 90% supir merasa di atas rata-rata. Satu-satunya detektor yang andal adalah jejak tertulis: bandingkan alasan yang kamu tulis SEBELUM transaksi dengan hasil sesudahnya; pola “saya bilang hold karena analisis, ternyata karena takut rugi” akan muncul dalam 20–30 transaksi. Kedua, bedakan kesalahan yang mahal dari yang murah: anchoring pada harga beli merugikan ratusan juta (Bu Rina), sedangkan framing pada pilihan reksadana merugikan basis poin — alokasikan energi anti-bias ke keputusan besar (alokasi, timing masuk/keluar), bukan ke perfeksionisme receh. Ketiga, penasihat terbaik bukan yang paling pintar membaca pasar, melainkan yang paling konsisten mencegah kliennya menyabotase diri sendiri — Vanguard mengukurnya: behavioral coaching ≈ 1,5% per tahun, lebih besar dari kebanyakan alpha. Keempat, bias termahal bukan yang eksotis \u2014 melainkan tiga yang membosankan: tidak rebalance, menunda keputusan, dan mengecek terlalu sering; audit ketiganya dulu sebelum mempelajari bias ke-40. Kelima, pasang alarm perilaku: jika kamu membuka aplikasi trading lebih dari tiga kali sehari tanpa rencana transaksi, itu sinyal myopic loss aversion \u2014 tutup aplikasinya, buka IPS-mu.",
+        body: "Lima heuristik praktisi behavioral. Pertama, kamu tidak akan “merasa” bias saat mengalaminya — bias terasa seperti akal sehat; itulah kenapa 90% supir merasa di atas rata-rata. Satu-satunya detektor yang andal adalah jejak tertulis: bandingkan alasan yang kamu tulis SEBELUM transaksi dengan hasil sesudahnya; pola “saya bilang hold karena analisis, ternyata karena takut rugi” akan muncul dalam 20–30 transaksi. Kedua, bedakan kesalahan yang mahal dari yang murah: anchoring pada harga beli merugikan ratusan juta (Bu Rina), sedangkan framing pada pilihan reksadana merugikan basis poin — alokasikan energi anti-bias ke keputusan besar (alokasi, timing masuk/keluar), bukan ke perfeksionisme receh. Ketiga, penasihat terbaik bukan yang paling pintar membaca pasar, melainkan yang paling konsisten mencegah kliennya menyabotase diri sendiri — Vanguard mengukurnya: behavioral coaching ≈ 1,5% per tahun, lebih besar dari kebanyakan alpha. Keempat, bias termahal bukan yang eksotis \u2014 melainkan tiga yang membosankan: tidak rebalance, menunda keputusan, dan mengecek terlalu sering; audit ketiganya dulu sebelum mempelajari bias ke-40. Kelima, pasang alarm perilaku: jika kamu membuka aplikasi trading lebih dari tiga kali sehari tanpa rencana transaksi, itu sinyal myopic loss aversion \u2014 tutup aplikasinya, buka IPS-mu.",
       },
       tasks: [],
       reference: "Disposition effect = jual pemenang cepat + pegang pecundang lama.",
@@ -223,7 +223,7 @@ export const pmc6: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Prospect theory: λ ≈ 2,25; cekung saat untung (jual cepat), cembung saat rugi (pegang nekat) → disposition effect.",

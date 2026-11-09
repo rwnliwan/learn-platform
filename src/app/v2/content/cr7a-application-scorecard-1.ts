@@ -188,7 +188,7 @@ export const cr7a: V2Lesson = {
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

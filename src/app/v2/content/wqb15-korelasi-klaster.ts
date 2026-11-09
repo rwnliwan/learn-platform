@@ -82,7 +82,7 @@ export const wqb15: V2Lesson = {
       title: "Dua puluh baris, satu taruhan",
       prose: [
         "Tim itu bangga dengan spreadsheet-nya: 20 varian slow-reversal, semuanya Sharpe > 1,4, semuanya lolos enam IS checks pertama. 'Kita punya 20 kandidat submit,' kata koordinatornya. Mereka memasukkan semuanya ke antrean self-correlation check — dan 19 di antaranya gugur. Korelasi antar-varian: 0,83–0,95. Dua puluh baris spreadsheet ternyata satu taruhan yang ditulis dua puluh kali dengan kata yang sedikit berbeda.",
-        "Di sudut spreadsheet yang sama ada satu baris yang hampir terhapus: varian volatilitas dengan Sharpe 'hanya' 1,31 — tidak masuk 10 besar tim. Korelasinya terhadap semua varian reversal: 0,11–0,24. Ia lolos self-corr dalam sekali jalan. Akhir kuartal: dari 20+1 kandidat, yang disubmit = 1 reversal terbaik + 1 volatilitas. Yang 'terbaik' kedua puluh varian itu 19 di antaranya tidak pernah keluar dari spreadsheet.",
+        "Di sudut spreadsheet yang sama ada satu baris yang hampir terhapus: varian volatilitas dengan Sharpe 'hanya' 1,31 — tidak masuk 10 besar tim. Korelasinya terhadap semua varian reversal: 0,11–0,25. Ia lolos self-corr dalam sekali jalan. Akhir kuartal: dari 20+1 kandidat, yang disubmit = 1 reversal terbaik + 1 volatilitas. Yang 'terbaik' kedua puluh varian itu 19 di antaranya tidak pernah keluar dari spreadsheet.",
         "Twist-nya: tim mengira mereka mendiversifikasi karena punya BANYAK. Diversifikasi bukan soal jumlah baris — soal jumlah taruhan independen. Dua puluh kembar = satu taruhan; dua orang asing = dua taruhan. Spreadsheet 20 baris mereka bukan portofolio — ia satu foto yang dicetak 20 kali.",
         "Konteks singkat. Korelasi antar-alpha = korelasi return antara kandidat-kandidatmu (bukan vs yang sudah disubmit — itu WQB13; ini vs sesama kandidat). Klaster/family = kelompok alpha berlogika sejenis: reversal, momentum, volatilitas, volume, gap, fundamental. Family ortogonal = family yang logikanya tidak berhubungan (reversal vs volatilitas), sehingga korelasinya rendah secara struktural. Prasyarat: kamu bisa menghitung korelasi Pearson dan memahami ambang self-corr 0,7 — di sini ambang yang sama dipakai untuk memetakan kekerabatan. Setelah lesson ini kamu bisa: (1) membaca matriks korelasi dan mengidentifikasi klaster; (2) menghitung 'taruhan efektif' dari sekumpulan kandidat; (3) memutuskan kapan menambah varian vs membuka family baru; (4) merancang portofolio submit yang terdiversifikasi.",
       ],
@@ -162,7 +162,7 @@ export const wqb15: V2Lesson = {
         "Untuk kandidat baru: cari klaster dengan corr(wakil) >= 0.7; bila tidak ada → klaster baru.",
       ],
       code: {
-        starter: "# Matriks korelasi 6 kandidat (JANGAN UBAH). Urutan: rev-a, rev-b, rev-c, rev-d, vol-a, fnd-a.\nnama = [\"rev-a\", \"rev-b\", \"rev-c\", \"rev-d\", \"vol-a\", \"fnd-a\"]\nC = [[1.00, 0.91, 0.87, 0.83, 0.18, 0.09],\n     [0.91, 1.00, 0.89, 0.85, 0.22, 0.14],\n     [0.87, 0.89, 1.00, 0.90, 0.11, 0.16],\n     [0.83, 0.85, 0.90, 1.00, 0.25, 0.07],\n     [0.18, 0.22, 0.11, 0.25, 1.00, 0.19],\n     [0.09, 0.14, 0.16, 0.07, 0.19, 1.00]]\n\n# TULIS KODEMU: greedy clustering, ambang 0.7\nklaster = []  # list of list nama\nfor i, nm in enumerate(nama):\n    masuk = False\n    for k in klaster:\n        wakil = nama.index(k[0])\n        if C[i][wakil] >= 0.7:\n            k.append(nm); masuk = True; break\n    if not masuk:\n        klaster.append([nm])\n\nfor j, k in enumerate(klaster, 1):\n    print(f\"Klaster {j}: {k}\")\nprint(f\"Taruhan efektif: {len(klaster)} dari {len(nama)} kandidat\")\n",
+        starter: "# Matriks korelasi 6 kandidat (JANGAN UBAH). Urutan: rev-a, rev-b, rev-c, rev-d, vol-a, fnd-a.\nnama = [\"rev-a\", \"rev-b\", \"rev-c\", \"rev-d\", \"vol-a\", \"fnd-a\"]\nC = [[1.00, 0.91, 0.87, 0.83, 0.18, 0.09],\n     [0.91, 1.00, 0.89, 0.85, 0.22, 0.14],\n     [0.87, 0.89, 1.00, 0.90, 0.11, 0.16],\n     [0.83, 0.85, 0.90, 1.00, 0.25, 0.07],\n     [0.18, 0.22, 0.11, 0.25, 1.00, 0.19],\n     [0.09, 0.14, 0.16, 0.07, 0.19, 1.00]]\n\n# TULIS KODEMU: greedy clustering, ambang 0.7\nklaster = []  # list of list nama\n\nfor j, k in enumerate(klaster, 1):\n    print(f\"Klaster {j}: {k}\")\nprint(f\"Taruhan efektif: {len(klaster)} dari {len(nama)} kandidat\")\n",
         lockLines: 11,
         solution: "# Matriks korelasi 6 kandidat (JANGAN UBAH). Urutan: rev-a, rev-b, rev-c, rev-d, vol-a, fnd-a.\nnama = [\"rev-a\", \"rev-b\", \"rev-c\", \"rev-d\", \"vol-a\", \"fnd-a\"]\nC = [[1.00, 0.91, 0.87, 0.83, 0.18, 0.09],\n     [0.91, 1.00, 0.89, 0.85, 0.22, 0.14],\n     [0.87, 0.89, 1.00, 0.90, 0.11, 0.16],\n     [0.83, 0.85, 0.90, 1.00, 0.25, 0.07],\n     [0.18, 0.22, 0.11, 0.25, 1.00, 0.19],\n     [0.09, 0.14, 0.16, 0.07, 0.19, 1.00]]\n\n# TULIS KODEMU: greedy clustering, ambang 0.7\nklaster = []  # list of list nama\nfor i, nm in enumerate(nama):\n    masuk = False\n    for k in klaster:\n        wakil = nama.index(k[0])\n        if C[i][wakil] >= 0.7:\n            k.append(nm); masuk = True; break\n    if not masuk:\n        klaster.append([nm])\n\nfor j, k in enumerate(klaster, 1):\n    print(f\"Klaster {j}: {k}\")\nprint(f\"Taruhan efektif: {len(klaster)} dari {len(nama)} kandidat\")\n",
         checks: [
@@ -261,6 +261,47 @@ export const wqb15: V2Lesson = {
       },
       reference: "Pilih m1 + m4 + m5 (3 taruhan). m2, m3 = cadangan klaster, bukan sampah.",
     },
+    {
+          id: "gap-r9-taruhan-efektif",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P9-G4)",
+          title: "Dari korelasi pairwise ke risiko portofolio: taruhan efektif",
+          prose: [
+            "Lab Langkah 6 mengelompokkan 6 kandidat menjadi 3 klaster — tetapi belum menghitung BERAPA taruhan independen yang sebenarnya kamu pegang. Tiga alpha yang masing-masing berkorelasi 0,9 satu sama lain BUKAN tiga taruhan: mereka satu taruhan yang sama lewat faktor pasar umum (mis. ketiganya long beta pasar). Rumus taruhan efektif (untuk korelasi berpasangan seragam ρ): n_efektif = n / (1 + (n−1)·ρ).",
+            "Contoh angka: n = 3 alpha, ρ = 0,9 → n_efektif = 3 / (1 + 2×0,9) = 3/2,8 ≈ 1,07 — tiga alpha ≈ SATU taruhan. Bandingkan dengan ρ = 0: n_efektif = 3 (tiga taruhan sungguhan). Dan ρ = 0,5: n_efektif = 3/2 = 1,5. Inilah jembatan dari matriks korelasi pairwise ke risiko portofolio gabungan: varians portofolio (bobot sama) = σ²·(1 + (n−1)ρ)/n — dengan ρ = 0,9, diversifikasi hampir tidak mengurangi risiko (varians 0,93σ² vs 0,33σ² bila independen).",
+            "Kaitan ke lab: greedy clustering di Langkah 6 adalah VERSI OPERASIONAL dari ide ini — klaster = taruhan. Aturan: laporkan SELALU taruhan efektif bersama jumlah alpha; '20 alpha' dengan taruhan efektif 1,2 adalah satu taruhan yang dibungkus 20 kali.",
+          ],
+          formula: String.raw`n_{efektif} = \frac{n}{1 + (n-1)\\rho}`,
+          formulaNote: "Taruhan efektif: n_efektif = n/(1+(n−1)ρ). Contoh angka: n=3, ρ=0,9 → 3/2,8 ≈ 1,07 (tiga alpha ≈ satu taruhan); ρ=0 → 3; ρ=0,5 → 1,5. Varians portofolio = σ²(1+(n−1)ρ)/n.",
+          tasks: [
+            { id: "t1", text: "Hitung `n_efektif` (n=3, rho=0,9)" },
+            { id: "t2", text: "Cetak n_efektif" },
+          ],
+          expected: "n_efektif=1.07",
+          hints: [
+            "n_efektif = n / (1 + (n−1) × rho).",
+            "Perhatikan kurungnya.",
+          ],
+          code: {
+            starter: `n, rho = 3, 0.9\n\n# TULIS KODEMU: taruhan efektif (korelasi berpasangan rho)\nn_efektif = \n\nprint(f"n_efektif={n_efektif:.2f}")`,
+            lockLines: 3,
+            solution: `n, rho = 3, 0.9\n\n# TULIS KODEMU: taruhan efektif (korelasi berpasangan rho)\nn_efektif = n / (1 + (n - 1) * rho)\n\nprint(f"n_efektif={n_efektif:.2f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "n_efektif", value: 1.07, tol: 0.01, label: "`n_efektif` seharusnya 1,07", msg: "3/(1+2×0,9) = 3/2,8 ≈ 1,07." },
+              { kind: "stdout_matches", task: "t2", pattern: "n_efektif=1.07", label: "`print` menampilkan n_efektif", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Kamu punya 20 alpha; taruhan efektifnya 1,2. Apa artinya untuk sizing?",
+              options: [
+                { text: "Satu taruhan yang dibungkus 20 kali — sizing seperti 1 alpha, bukan 20", why: "Benar: risiko portofolio ditentukan taruhan efektif, bukan jumlah alpha.", correct: true },
+                { text: "20 taruhan independen — sizing bisa dibagi 20", why: "Salah: itulah yang terjadi bila ρ=0; dengan taruhan efektif 1,2, diversifikasinya ilusi." },
+                { text: "Tidak ada artinya — jumlah alpha yang penting", why: "Salah: jumlah alpha tanpa korelasi adalah vanity metric." },
+              ],
+            },
+          ],
+          reference: "n_efektif = n/(1+(n−1)ρ); klaster = taruhan; laporkan taruhan efektif bersama jumlah alpha.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

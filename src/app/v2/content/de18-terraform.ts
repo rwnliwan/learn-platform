@@ -273,7 +273,7 @@ print(f"aksi non-OK: {aksi}")`,
     },
     {
       id: "pendalaman-state-produksi",
-      eyebrow: "Langkah 7 · Pendalaman",
+      eyebrow: "Langkah 9 · Pendalaman",
       title: "State di produksi: locking, versioning modul, dan rahasia",
       prose: [
         "Remote backend yang benar — bukan 'nanti'. State WAJIB di remote sejak hari pertama: S3 dengan versioning + enkripsi + DynamoDB untuk locking, atau GCS (locking native), atau Terraform Cloud. Versioning bucket = riwayat state: salah apply bisa di-rollback ke versi state sebelumnya — tanpa versioning, tidak ada 'undo'. Enkripsi at rest bukan opsional: state MENYIMPAN nilai secret (password database, access key) dalam plaintext JSON! Migrasi state lokal→remote di tengah jalan adalah operasi berisiko (state mv antar backend sambil tim tetap apply) — alasan senior bersikeras backend dikonfigurasi sebelum resource pertama dibuat.",

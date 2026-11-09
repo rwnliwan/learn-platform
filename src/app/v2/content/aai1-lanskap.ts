@@ -234,7 +234,7 @@ print(f"selisih={selisih:.3f}")`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi menjelaskan alasannya — baca yang salah juga, di situlah jebakannya.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi menjelaskan alasannya — baca yang salah juga, di situlah jebakannya.",
       ],
       tasks: [],
       summary: [

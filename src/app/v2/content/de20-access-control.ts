@@ -251,7 +251,7 @@ print(f"skor risiko: {skor_risiko}")`,
     },
     {
       id: "pendalaman-pdp",
-      eyebrow: "Langkah 7 · Pendalaman",
+      eyebrow: "Langkah 9 · Pendalaman",
       title: "UU PDP Indonesia dan jebakan over-permission bertumpuk",
       prose: [
         "RBAC vs ABAC vs ReBAC — kapan naik tingkat. RBAC (role statis: analyst_finance, data_admin) menyelesaikan 90% kasus dengan biaya kognitif rendah. ABAC (Attribute-Based): keputusan akses dihitung dari ATRIBUT — mis. izinkan bila department(user) == owner(data) DAN clearance(user) >= klasifikasi(data) DAN dalam jam kerja — untuk aturan kompleks lintas dimensi yang akan meledakkan jumlah role (50+ role ad-hoc = RBAC yang gagal). ReBAC (Relationship-Based, model Google Zanzibar): 'dokumen yang dibagikan kepadaku' — untuk produk dengan sharing granular antar user. Aturan senior: mulai RBAC SELALU; naik ke ABAC bila matriks role tak terkendali; ReBAC hanya untuk kebutuhan sharing produk. Abstraksi yang lebih canggih dari kebutuhan = kompleksitas yang tidak diaudit.",

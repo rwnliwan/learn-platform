@@ -27,7 +27,7 @@ export const aie8: V2Lesson = {
         "Senin pagi, tim support NusaBank ramai: 'chatbot ngawur kemarin sore!' Engineer membuka dashboard — tidak ada log prompt, tidak ada jejak retrieval, hanya angka 'error rate naik'. Mereka menebak: modelnya? Datanya? Jaringannya? Tiga hari dihabiskan untuk menebak.",
         "Twist-nya: setelah logging darurat dipasang, jawabannya muncul dalam sejam — 6 dari 10 jawaban buruk berasal dari retrieval yang mengembalikan KOSONG (dokumen SOP sedang dimigrasi), bukan dari model. Tiga hari menebak vs satu jam data. Observability bukan kemewahan; ia adalah selisih antara menebak dan mengetahui.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang log prompt/response yang aman; (2) membangun trace per tahap pipeline; (3) menghitung p95 latensi, cost per request, dan error rate; (4) melakukan atribusi kegagalan per tahap; (5) merancang sampling log yang hemat dan patuh privasi.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita menebak — Langkah 2 · Logging dan trace — Langkah 3 · Lab: metrik dari log — Langkah 4 · Atribusi kegagalan — Langkah 5 · Lab: siapa biang kerok — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita menebak — Langkah 2 · Logging dan trace — Langkah 3 · Lab: metrik dari log — Langkah 4 · Atribusi kegagalan — Langkah 5 · Lab: siapa biang kerok — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Langkah 8 · Feedback loop — Langkah 9 · Pipeline feedback — Checkpoint.",
       ],
       tasks: [],
       reference: "Observability = log + trace + metrik. Tanpa ketiganya, debugging LLM adalah menebak.",

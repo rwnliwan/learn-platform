@@ -75,7 +75,7 @@ export const cr17b: V2Lesson = {
       eyebrow: "Langkah 4 · Covenant",
       title: "Sabuk pengaman kontrak",
       prose: [
-        "Covenant = janji debitur dalam perjanjian kredit. Tiga jenis: affirmative (harus dilakukan) — laporan keuangan kuartalan, asuransi aset, bayar pajak; negative (dilarang) — tidak boleh tambah utang melebihi X, tidak boleh jual aset inti, tidak boleh bagi dividen jika DSCR < Y; financial (angka) — DSCR min 1,3×, D/E maks 2,5×, current ratio min 1,2× — diuji tiap kuartal.",
+        "Covenant = janji debitur dalam perjanjian kredit. Tiga jenis: affirmative (harus dilakukan) — laporan keuangan kuartalan, asuransi aset, bayar pajak; negative (dilarang) — tidak boleh tambah utang melebihi X, tidak boleh jual aset inti, tidak boleh bagi dividen jika DSCR < Y; financial (angka) — DSCR min 1,3× (contoh ambang; tiap kredit menetapkan ambangnya sendiri — lihat langkah 7: batas pelanggaran finansial 1,2× vs stopper dividen 1,3× adalah dua peran berbeda), D/E maks 2,5×, current ratio min 1,2× — diuji tiap kuartal.",
         "Covenant seperti sensor sabuk pengaman mobil — tidak mencegah kecelakaan, tetapi berbunyi SEBELUM tabrakan (pelanggaran = hak bank untuk renegosiasi). Kredit tanpa covenant = mobil tanpa sensor: tahu ada masalah saat sudah menabrak.",
         "Saat dilanggar: bukan otomatis default — melainkan hak bank: menaikkan bunga, meminta pelunasan dipercepat, atau renegosiasi syarat. Ini daya tawar — momen bank paling kuat. Waiver harus bersyarat + berbayar (bunga naik, batas 12 bulan, roadmap penurunan D/E, larangan dividen/akuisisi) — waiver gratis = covenant tidak ada wibawanya.",
       ],
@@ -143,7 +143,7 @@ export const cr17b: V2Lesson = {
       prose: [
         "PT Sinar Abadi (tekstil, Bandung) mengajukan KMK Rp 50 M (tenor 1 tahun, revolving). Data: DSCR (EBITDA) 1,8×; DSCR (FCF) 1,35× — cukup, tidak lega; D/E 1,8×, tren stabil 3 tahun; arus kas operasi = 90% laba bersih (sehat!); kualitatif: direktur 20 tahun pengalaman, pelanggan tersebar (terbesar 15%), industri tekstil lesu (impor murah); agunan: persediaan + piutang (fidusia) + tanah pabrik (HT).",
         "Executive summary: \"Direkomendasikan ACC KMK Rp 50 M, 1 tahun revolving, dengan syarat covenant di bawah. DSCR FCF 1,35× mencukupi dengan buffer tipis; kualitas laba baik (kas operasi 90% laba); manajemen berpengalaman dengan diversifikasi pelanggan sehat. Risiko utama: industri tekstil lesu (impor) — dimitigasi dengan tenor pendek (1 tahun, review tahunan) dan covenant ketat. Pricing: bunga +0,5% di atas standar segmen sebagai kompensasi risiko industri.\"",
-        "3 covenant: (1) financial: DSCR (FCF) min 1,2×, diuji kuartalan. (2) Negative: larangan capex >Rp 10 M/tahun tanpa persetujuan + larangan dividen jika DSCR <1,3×. (3) Affirmative: laporan keuangan kuartalan + laporan umur piutang bulanan (monitoring modal kerja — titik lemahnya).",
+        "3 covenant: (1) financial: DSCR (FCF) min 1,2× (batas pelanggaran — di bawah ini bank berhak renegosiasi), diuji kuartalan. (2) Negative: larangan capex >Rp 10 M/tahun tanpa persetujuan + larangan dividen jika DSCR <1,3× (stopper dividen — ambang 1,3× sengaja LEBIH KETAT dari batas pelanggaran 1,2×, agar kas ditahan sebelum mencapai batas; keduanya peran berbeda, bukan inkonsistensi). (3) Affirmative: laporan keuangan kuartalan + laporan umur piutang bulanan (monitoring modal kerja — titik lemahnya).",
       ],
       tasks: [],
       reference: "Rekomendasi di depan, jujur soal risiko, angka + narasi.",
@@ -154,7 +154,7 @@ export const cr17b: V2Lesson = {
       title: "Headroom, waiver, dan jarak ke kematian",
       prose: [
         "Contoh terapan kedua — dari proyek infrastruktur Indonesia, di mana DSCR bukan angka melainkan JADWAL. PT Jalan Tol Nusantara mengajukan kredit proyek Rp 2 triliun, tenor 15 tahun. Kas proyek: tahun 1–3 konstruksi (kas negatif — belum ada tol), tahun 4–6 ramp-up (trafik 40% proyeksi), tahun 7+ stabil. DSCR rata-rata 1,5× terlihat aman — tetapi DSCR tahun ke-4 hanya 1,02× (ramp-up meleset 20% dari proyeksi). Satu tahun kemacetan konstruksi atau trafik di bawah proyeksi = default di tahun ke-4, walau \"rata-rata\" aman. Solusi industri: DSCR diuji PER TAHUN (bukan rata-rata), plus DSRA (Debt Service Reserve Account) — rekening cadangan 6–12 bulan cicilan yang wajib diisi sebelum dividen boleh keluar. Contoh: cicilan tahunan Rp 180 M → DSRA Rp 90–180 M menganggur sebagai bantal. Pelajarannya: untuk proyek, yang penting bukan DSCR rata-rata melainkan DSCR TERENDAH (minimum DSCR) — rantai putus di mata rantai terlemah, bukan di rata-ratanya.",
-        "Kontras cara salah vs benar membaca covenant. Cara salah: \"Covenant DSCR min 1,3× — debitur lolos 1,35×, aman, lanjut.\" Cara benar: tanyakan HEADROOM-nya — berapa guncangan yang bisa diserap sebelum melanggar? DSCR 1,35× dengan volatilitas EBITDA 25% (komoditas) vs DSCR 1,35× dengan volatilitas 8% (utilitas teregulasi) adalah dua dunia berbeda. Hitung: jika EBITDA turun 1 standar deviasi (25%), DSCR jatuh ke 1,01× — melanggar. Probabilitas pelanggaran dalam 1 tahun ≈ 30%. Bandingkan utilitas: turun 8% → DSCR 1,24× — masih lolos tipis. Aturan keputusan: covenant bukan garis lolos/gagal — ia garis yang jaraknya dari posisi saat ini harus diukur dengan volatilitas. Analis senior melaporkan \"DSCR 1,35× dengan headroom 0,5 standar deviasi — rapuh\" bukan \"lolos\". Angka yang sama, kesimpulan berlawanan — bedanya adalah volatilitas.",
+        "Kontras cara salah vs benar membaca covenant. Cara salah: \"Covenant DSCR min 1,3× — debitur lolos 1,35×, aman, lanjut.\" Cara benar: tanyakan HEADROOM-nya — berapa guncangan yang bisa diserap sebelum melanggar? DSCR 1,35× dengan volatilitas EBITDA 25% (komoditas) vs DSCR 1,35× dengan volatilitas 8% (utilitas teregulasi) adalah dua dunia berbeda. Hitung: headroom ke stopper dividen 1,3× hanya ≈0,15 SD — probabilitas pelanggaran dalam 1 tahun P ≈ 44%; headroom ke 1,0× ≈1,04 SD (P ≈ 15%). Jika EBITDA turun 1 standar deviasi (25%), DSCR jatuh ke 1,01× — melanggar stopper 1,3× dan nyaris menyentuh 1,0×. Bandingkan utilitas: turun 8% → DSCR 1,242 — DSCR 1,242 < covenant 1,3×, jadi tetap melanggar (meski masih di atas 1,0×, bank sudah berhak renegosiasi). Aturan keputusan: covenant bukan garis lolos/gagal — ia garis yang jaraknya dari posisi saat ini harus diukur dengan volatilitas. Analis senior melaporkan \"DSCR 1,35× dengan headroom ≈0,15 SD ke covenant 1,3× — rapuh\" bukan \"lolos\". Angka yang sama, kesimpulan berlawanan — bedanya adalah volatilitas.",
         "Mode kegagalan nyata: dividend recapitalization — debitur sehat yang \"dirampok\" pemiliknya sendiri. PT Sinar Abadi (dari mini-case) tiba-tiba mengajukan: tambah utang Rp 30 M untuk membayar dividen khusus ke pemegang saham. D/E naik 1,8 → 2,6; DSCR turun 1,35 → 1,05. Perusahaan tidak berubah — tetapi risikonya berubah total karena kas dikeluarkan untuk pemilik, bukan untuk buffer. Tanpa negative covenant (\"dilarang bagi dividen jika DSCR <1,3×\"), bank tidak bisa mencegahnya. Ini bukan teori: pola dividend recap marak di perusahaan private-equity-owned. Pertahanan: (1) negative covenant dividen yang terikat DSCR — otomatis, tidak butuh persetujuan bank tiap kali; (2) change-of-control clause — jika kepemilikan berubah >50%, bank berhak meminta pelunasan dipercepat (pemilik baru = risiko baru). Covenant yang baik mengantisipasi perilaku pemilik, bukan hanya kinerja perusahaan.",
         "Pendalaman sub-topik yang selama ini hanya disebut sekilas: sensitivitas FCF break-even. Analis senior tidak bertanya \"apakah DSCR cukup?\" — ia bertanya \"penjualan boleh turun berapa persen SEBELUM DSCR jebol?\" Contoh Sinar Abadi: EBITDA Rp 90 M, biaya variabel 60% dari penjualan Rp 300 M (Rp 180 M), biaya tetap Rp 30 M. DSCR-FCF 1,35× dengan debt service Rp 40 M → FCF Rp 54 M. Break-even: penjualan turun X% → EBITDA turun, FCF turun. Hitung kasar: tiap 10% penurunan penjualan (Rp 30 M) mengurangi EBITDA Rp 12 M (setelah biaya variabel) → FCF turun Rp 12 M. FCF Rp 54 M → butuh turun Rp 14 M untuk jebol 1,0× → penjualan boleh turun ~12%. Interpretasi: \"perusahaan ini mati jika penjualan turun 12%\" — kalimat yang jauh lebih berguna untuk komite daripada \"DSCR 1,35×\". Komite tidak merasakan 1,35; ia merasakan \"12%\". Selalu terjemahkan rasio menjadi jarak-ke-kematian.",
         "Aturan keputusan analis kredit korporasi senior. Satu: selalu hitung DSCR dua versi (EBITDA dan FCF) — jika bedanya >0,5×, ada masalah modal kerja/capex yang disembunyikan EBITDA. Dua: uji DSCR per tahun untuk proyek (minimum DSCR), bukan rata-rata. Tiga: ukur headroom covenant dalam standar deviasi, bukan dalam angka absolut. Empat: terjemahkan setiap rasio kunci menjadi \"jarak ke kematian\" (break-even %) untuk komite. Lima: negative covenant dividen + change-of-control clause adalah standar — debitur yang menolak keduanya sedang merencanakan sesuatu. Lima aturan ini membedakan analis yang \"menghitung rasio\" dari analis yang \"memahami risiko\".",
@@ -168,6 +168,48 @@ export const cr17b: V2Lesson = {
       },
       reference: "Terjemahkan setiap rasio kunci menjadi jarak-ke-kematian untuk komite.",
     },
+    {
+          id: "gap-r9-cross-default",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P3-G1)",
+          title: "Cross-default & negative pledge: satu jatuh, semua jatuh",
+          prose: [
+            "Langkah 4 menyebut negative covenant (larangan tambah utang, larangan jual aset inti, larangan dividen) — tetapi dua klausul yang paling menentukan nasib kredit grup belum diajarkan: cross-default dan negative pledge. Cross-default: bila debitur (atau SATU entitas dalam grupnya) default di SATU fasilitas, bank berhak menyatakan default di SEMUA fasilitasnya — meski fasilitas lain masih lancar. Negative pledge: debitur berjanji tidak menjaminkan asetnya ke kreditor lain tanpa persetujuan bank — agar agunan bank tidak tiba-tiba menjadi kreditor lapis kedua.",
+            "Mengapa ini penting? Karena risiko grup ≠ risiko entitas. PT Sinar Abadi (mini-case) tampak sehat sendiri (DSCR 1,35×) — tetapi bila anak usahanya default di bank lain dan perjanjian Sinar memuat cross-default, bankmu bisa menarik fasilitasnya besok pagi. Analis yang hanya membaca laporan keuangan entitas peminjam — tanpa membaca struktur grup dan klausul cross-default — sedang menilai separuh risiko. Selalu tanyakan: siapa saja entitas grupnya, di mana mereka berutang, dan apakah perjanjianmu memuat cross-default?",
+            "Contoh angka (grup 3 entitas, batas pelanggaran finansial DSCR 1,2×, default bila DSCR < 1,0×): DSCR entitas [1,4; 0,9; 1,1]. Entitas kedua sudah default (0,9 < 1,0) → cross-default terpicu: seluruh grup dianggap default, meski entitas pertama sehat (1,4×). Dua entitas di bawah floor 1,2× (0,9 dan 1,1) — bank berhak renegosiasi terhadap keduanya. Pelajarannya: satu angka DSCR entitas tidak pernah cukup; selalu hitung DSCR per entitas DAN vonis grupnya.",
+          ],
+          formula: String.raw`\text{cross-default} = \exists\, i: DSCR_i < 1,0 \Rightarrow \text{seluruh grup default}`,
+          formulaNote: "Cross-default: default SATU entitas grup (DSCR < 1,0×) memicu default seluruh grup — meski entitas lain sehat. Negative pledge: larangan menjaminkan aset ke kreditor lain tanpa persetujuan. Contoh angka: DSCR [1,4; 0,9; 1,1] → 1 default, 2 di bawah floor 1,2× → cross-default True.",
+          tasks: [
+            { id: "t1", text: "Hitung `n_default` (DSCR < 1,0) dan `n_di_bawah_floor` (DSCR < 1,2)" },
+            { id: "t2", text: "Tentukan `cross_default` dan cetak ketiganya" },
+          ],
+          expected: "default=1 di_bawah_floor=2 cross_default=True",
+          hints: [
+            "sum(1 for d in dscr if d < 1.0) menghitung entitas yang default.",
+            "cross_default = n_default > 0 — satu saja cukup.",
+          ],
+          code: {
+            starter: `dscr = [1.4, 0.9, 1.1]  # DSCR tiga entitas grup\nfloor = 1.2\n\n# TULIS KODEMU: vonis grup (cross-default)\nn_default = \nn_di_bawah_floor = \ncross_default = \n\nprint(f"default={n_default} di_bawah_floor={n_di_bawah_floor} cross_default={cross_default}")`,
+            lockLines: 4,
+            solution: `dscr = [1.4, 0.9, 1.1]  # DSCR tiga entitas grup\nfloor = 1.2\n\n# TULIS KODEMU: vonis grup (cross-default)\nn_default = sum(1 for d in dscr if d < 1.0)\nn_di_bawah_floor = sum(1 for d in dscr if d < floor)\ncross_default = n_default > 0\n\nprint(f"default={n_default} di_bawah_floor={n_di_bawah_floor} cross_default={cross_default}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "n_default", value: 1, label: "`n_default` seharusnya 1", msg: "Hanya entitas kedua (0,9) di bawah 1,0." },
+              { kind: "equal", task: "t1", name: "n_di_bawah_floor", value: 2, label: "`n_di_bawah_floor` seharusnya 2", msg: "0,9 dan 1,1 di bawah floor 1,2." },
+              { kind: "stdout_matches", task: "t2", pattern: "default=1\\s+di_bawah_floor=2\\s+cross_default=True", label: "`print` menampilkan vonis grup", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Entitas A (DSCR 1,4×) sehat, tetapi anak usahanya B default di bank lain dan perjanjian A memuat cross-default. Apa yang boleh dilakukan bankmu?",
+              options: [
+                { text: "Menyatakan default juga atas fasilitas A dan meminta pelunasan dipercepat / renegosiasi", why: "Benar: itulah fungsi cross-default — default satu entitas menular ke seluruh grup.", correct: true },
+                { text: "Tidak boleh apa-apa — A masih lancar", why: "Salah: cross-default justru dibuat untuk situasi ini." },
+                { text: "Hanya boleh menaikkan bunga B, bukan A", why: "Salah: cross-default berlaku ke fasilitas dalam perjanjian yang memuat klausul itu." },
+              ],
+            },
+          ],
+          reference: "Cross-default: 1 entitas default = grup default. Negative pledge: aset tidak boleh dijaminkan ke kreditor lain.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

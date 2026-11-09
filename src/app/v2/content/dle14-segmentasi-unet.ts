@@ -27,7 +27,7 @@ export const dle14: V2Lesson = {
         "Tim beralih ke segmentasi: tiap PIKSEL diklasifikasi (tumor/bukan) — keluar 'mask' yang mengikuti lekuk tumor persis. Arsitekturnya U-Net (2015): bentuk U dengan 'jalan pintas' (skip connections) dari encoder ke decoder. Dice score 0,89 — batasnya akurat hingga 2 piksel.",
         "Twist-nya: segmentasi = klasifikasi yang 'zoom in' ke tiap piksel. Masalah yang sama (klasifikasi), resolusi berbeda (piksel vs citra). U-Net lahir untuk citra medis (30 sampel cukup!) — bukti bahwa arsitektur yang tepat mengalahkan data besar. Lesson ini = U-Net, Dice, dan kapan kotak tidak cukup.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) membedakan deteksi vs segmentasi semantik vs instance; (2) menjelaskan arsitektur U-Net (encoder-decoder + skip); (3) menghitung Dice score; (4) memilih loss untuk class imbalance; (5) memutuskan kapan segmentasi vs deteksi.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Tiga jenis segmentasi — Langkah 3 · Lab: Dice & threshold — Langkah 4 · U-Net mendalam — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Tiga jenis segmentasi — Langkah 3 · Lab: Dice & threshold — Langkah 4 · U-Net mendalam — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Langkah 7 · Pendalaman — Checkpoint.",
       ],
       tasks: [],
       reference: "Deteksi = kotak. Segmentasi = mask per piksel. Beda presisi, beda kegunaan.",

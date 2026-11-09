@@ -400,7 +400,7 @@ print(f"rule=Rp{rule_cost:,}  ml=Rp{ml_cost:,}  tanpa_model=Rp{none_cost:,}  hem
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi menjelaskan alasannya.",
+        "Enam pertanyaan campuran dari semua langkah. Setiap opsi menjelaskan alasannya.",
       ],
       tasks: [
       ],

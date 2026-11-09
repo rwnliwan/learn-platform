@@ -8,8 +8,8 @@ const THRESH_SVG = `<svg viewBox="0 0 480 280" role="img" aria-label="Perbanding
 <text x="360" y="252" fill="var(--chart-text)">ambang 0,90</text>
 </g>
 <g>
-<rect x="120" y="90" width="120" height="120" fill="var(--c2)"/><rect x="120" y="150" width="120" height="60" fill="var(--c1)"/>
-<rect x="300" y="120" width="120" height="90" fill="var(--c2)"/><rect x="300" y="150" width="120" height="60" fill="var(--c1)"/>
+<rect x="120" y="120" width="120" height="90" fill="var(--c2)"/><rect x="120" y="90" width="120" height="30" fill="var(--c1)"/>
+<rect x="300" y="120" width="120" height="90" fill="var(--c2)"/>
 </g>
 <g font-size="12" font-family="var(--font-ui)" text-anchor="middle" fill="var(--text)">
 <text x="180" y="140">4 flagged</text><text x="180" y="185">3 TP + 1 FP</text>
@@ -34,7 +34,7 @@ export const aml4: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "Satu huruf vokal yang harganya denda",
       prose: [
-        "Transfer keluar Rp1,2 miliar atas nama \"Mohammad Al-Sayed\" lewat screening bank dengan mulus: exact-match ke daftar sanksi menghasilkan \"tidak ditemukan.\" Tiga bulan kemudian regulator datang dengan daftar OFAC: di sana tertulis \"Muhammad Al Sayyid\" — orang yang sama, ejaan transliterasi berbeda. Bank didenda karena \"sistem screening tidak memadai.\"",
+        "Transfer keluar Rp1,2 miliar atas nama \"Mohammad Al-Sayed\" lewat screening bank dengan mulus: exact-match ke daftar sanksi menghasilkan \"tidak ditemukan.\" Tiga bulan kemudian regulator datang dengan daftar OFAC: di sana tertulis \"Muhammad Al Sayyid\" — ejaan transliterasi yang berbeda dari nama yang lolos screening. Bank didenda karena \"sistem screening tidak memadai.\"",
         "Twist-nya: tim IT bank bersikeras sistem mereka \"bekerja sesuai spesifikasi.\" Dan memang benar — spesifikasinya yang salah. Regulator tidak menghukum karena ada typo; ia menghukum karena bank menganggap kewajiban screening = pencocokan string persis. Putusannya tajam: \"Kewajibanmu adalah menemukan, bukan mengeja dengan persis.\"",
         "Screening sanksi adalah pertahanan paling hitam-putih di AML: kalau nama ada di list PBB/OFAC/UE (atau DTTOT Indonesia), transaksinya wajib diblokir dan dilaporkan. Tidak ada \"mungkin.\" Lesson ini tentang membangun penyaring yang menemukan walau ejaannya bergeser — dan menyetelnya agar tidak menenggelamkan analis dalam false match.",
         "Setelah lesson ini kamu bisa: menjelaskan cara kerja fuzzy matching nama, menghitung precision pada dua ambang, membedakan true vs false match, dan memutuskan kapan threshold perlu dituning ulang.",
@@ -64,7 +64,7 @@ export const aml4: V2Lesson = {
       eyebrow: "Langkah 3 · Fuzzy matching",
       title: "Mengukur kemiripan, bukan kesamaan",
       prose: [
-        "Fuzzy matching mengubah \"sama/tidak\" menjadi skor 0-1. Metode klasik: jarak Levenshtein d(a,b) = jumlah edit minimum (tambah/hapus/ganti huruf) untuk mengubah a menjadi b. Normalisasi: sim = 1 − d / max(panjang). \"Mohammad Al-Sayed\" vs \"Muhammad Al Sayyid\": setelah normalisasi (kapital, buang tanda baca) jaraknya kecil → sim ≈ 0,87 ≥ ambang 0,80 → flagged. Exact-match akan memberi 0.",
+        "Fuzzy matching mengubah \"sama/tidak\" menjadi skor 0-1. Metode klasik: jarak Levenshtein d(a,b) = jumlah edit minimum (tambah/hapus/ganti huruf) untuk mengubah a menjadi b. Normalisasi: sim = 1 − d / max(panjang). \"Mohammad Al-Sayed\" vs \"Muhammad Al Sayyid\": setelah normalisasi (kapital, buang tanda baca) jaraknya kecil → sim = 0,8125 ≥ ambang 0,80 → flagged (hanya 0,0125 di atas ambang). Exact-match akan memberi 0.",
         "Ambang (threshold) adalah kenop trade-off: ambang rendah (0,70) menangkap lebih banyak varian ejaan tapi membanjiri analis dengan false match (nama pasaran seperti \"Ahmad Hidayat\"); ambang tinggi (0,95) bersih tapi meloloskan \"Muhammad Al Sayyid\" versi vokal-beda. Tidak ada ambang benar global — ada ambang yang tepat untuk volume dan kapasitas timmu.",
         "Cara membaca diagram: dua kolom = dua ambang. Tinggi total = jumlah flagged; hijau = true match, biru = false match. Interpretasi: ambang 0,80 menangkap 4 (3 benar + 1 salah → precision 75%); ambang 0,90 menangkap 3 dan semuanya benar (precision 100%). Kenaikan ambang membuang tepat 1 false match di data ini — tapi ingat, di data nyata ambang tinggi juga bisa membuang true match yang ejaannya jauh.",
       ],
@@ -78,7 +78,7 @@ export const aml4: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi",
-        body: "Normalisasi sebelum membandingkan: uppercase semua, buang tanda baca/spasi ganda, dan — yang paling penting — normalisasi transliterasi (ou→u, ph→f). 80% \"kegagalan\" fuzzy matching sebenarnya kegagalan normalisasi, bukan kegagalan algoritma jaraknya.",
+        body: "Normalisasi sebelum membandingkan: uppercase semua, buang tanda baca/spasi ganda, dan — yang paling penting — normalisasi transliterasi (ou→u, ph→f).",
       },
       reference: "Tune ambang dari data adjudikasi historis, bukan dari firasat. Plot precision per ambang tiap kuartal.",
     },
@@ -87,7 +87,7 @@ export const aml4: V2Lesson = {
       eyebrow: "Langkah 4 · Lab screening",
       title: "Setel ambangmu sendiri",
       prose: [
-        "Sepuluh nama kandidat, tiga entri daftar sanksi. Tiga di antaranya adalah true match (varian ejaan dari entri list). Implementasikan jarak Levenshtein + kemiripan ternormalisasi, lalu evaluasi dua ambang: 0,80 dan 0,90. Hitung precision-nya.",
+        "Sepuluh nama kandidat, tiga entri daftar sanksi. Tiga di antaranya adalah true match — ketiganya exact pasca-normalisasi (sim 1,0), BUKAN varian ejaan; varian ejaan \"Mohammad Al-Sayed\" justru dilabeli FP. Implementasikan jarak Levenshtein + kemiripan ternormalisasi, lalu evaluasi dua ambang: 0,80 dan 0,90. Hitung precision-nya.",
         "Setelah selesai, bereksperimenlah: turunkan ambang ke 0,70 — siapa yang ikut ke-flag? (Petunjuk: \"Chen Way\".) Naikkan ke 0,95 — siapa yang lolos? Itulah harga tiap kenop.",
       ],
       tasks: [
@@ -123,7 +123,7 @@ export const aml4: V2Lesson = {
       eyebrow: "Pendalaman · Recall",
       title: "Harga precision 100%: recall yang bocor",
       prose: [
-        "Lab lesson ini menunjukkan ambang 0,90 → precision 100%. Terlihat sempurna — sampai mini-case: K4 (true match, skor 0,82) lolos di kedua ambang. Precision tidak melihat yang lolos; recall yang melihat: recall = tertangkap / total true. Di data lab yang diperkaya K4 (3 true match dari 10 nama): ambang 0,80 menangkap 3 dari 3 → recall 100%, precision 75%; ambang 0,90 menangkap 2 dari 3 → recall 67%, precision 100%.",
+        "Lab lesson ini menunjukkan ambang 0,90 → precision 100%. Terlihat sempurna — sampai mini-case: K4 (true match, skor 0,82) tertangkap di 0,80 (0,82 ≥ 0,80) dan lolos hanya di 0,90. Precision tidak melihat yang lolos; recall yang melihat: recall = tertangkap / total true. Di data lab yang diperkaya K4 (3 true match dari 10 nama): ambang 0,80 menangkap 3 dari 3 → recall 100%, precision 75%; ambang 0,90 menangkap 2 dari 3 → recall 67%, precision 100%.",
         "F1 menggabungkan keduanya: 2×P×R/(P+R). Ambang 0,80: P=75%, R=100% → F1 0,857. Ambang 0,90: P=100%, R=67% → F1 0,800. Di data ini 0,80 menang. Tetapi F1 mengasumsikan FP dan FN sama mahalnya — untuk sanksi, asumsi itu salah: satu dana teroris yang lolos (FN) jauh lebih mahal daripada 100 false match (FP).",
         "Implikasinya: untuk screening sanksi, recall lebih penting daripada precision. Pilih ambang yang lebih rendah (0,80 atau 0,75), terima banjir FP, lalu redam dengan whitelist nama pasaran + adjudikasi cepat. 'Precision 100%' yang membanggakan bisa berarti 'recall 50%' yang berbahaya.",
         "Lab menghitung P/R/F1 kedua ambang. Eksperimen: turunkan ke 0,70 — recall tetap 100% (3/3), precision turun ke 60% (3 benar dari 5 flagged). Itulah harga recall penuh: analis mengadjudikasi 2 FP tambahan per 10 nama. Untuk sanksi, harga itu layak dibayar.",
@@ -151,21 +151,21 @@ export const aml4: V2Lesson = {
           { kind: "stdout_matches", task: "t2", label: "Recall 0,90 = 67%", msg: "K4 lolos di ambang tinggi.", pattern: "Ambang 0\\.9: precision 100%, recall 67%, F1 0\\.800" }
         ],
       },
-      reference: "Sanksi = recall dulu. Precision 100% bisa menyembunyikan recall 67%, precision 100%.",
+      reference: "Sanksi = recall dulu. Precision 100% bisa menyembunyikan recall 67%.",
     },
     {
       id: "pendalaman-2",
       eyebrow: "Pendalaman 2 · Harga salah putus",
       title: "Precision 100% yang mahal",
       prose: [
-        "Lab pertama menunjukkan ambang 0,9 memberi precision 100% tetapi recall 67%. Lab ini menempelkan harga: false positive (tahan orang tak bersalah) = Rp50 juta biaya review; false negative (sanksi lolos) = Rp2 miliar denda + reputasi. Dengan harga ini, satu FN sama mahalnya dengan 40 FP.",
-        "Hasilnya: ambang 0,8 (3 FP, 0 FN) berbayar Rp150 juta; ambang 0,9 (0 FP, 1 FN) berbayar Rp2 miliar. Precision sempurna ternyata 13x lebih mahal. Inilah mengapa compliance memakai ambang longgar + review manusia, bukan ambang ketat otomatis.",
+        "Pendalaman tadi menunjukkan ambang 0,9 memberi precision 100% tetapi recall 67% (K4, skor 0,82, lolos) — lab pertama sendiri memberi recall 100% di 0,90, karena datanya tidak memuat kasus batas seperti K4. Lab ini menempelkan harga: false positive (tahan orang tak bersalah) = Rp50 juta biaya review; false negative (sanksi lolos) = Rp2 miliar denda + reputasi. Dengan harga ini, satu FN sama mahalnya dengan 40 FP.",
+        "Hasilnya: ambang 0,8 (1 FP, 0 FN) berbayar Rp50 juta; ambang 0,9 (0 FP, 1 FN) berbayar Rp2 miliar. Precision sempurna ternyata 40× lebih mahal. Inilah mengapa compliance memakai ambang longgar + review manusia, bukan ambang ketat otomatis.",
       ],
       tasks: [
         { id: "t1", text: "Hitung biaya = FP*50 + FN*2000 (Rp jt)" },
         { id: "t2", text: "Jalankan dan bandingkan kedua ambang" },
       ],
-      expected: "ambang 0.8: FP=3, FN=0 -> biaya Rp150 jt\nambang 0.9: FP=0, FN=1 -> biaya Rp2000 jt",
+      expected: "ambang 0.8: FP=1, FN=0 -> biaya Rp50 jt\nambang 0.9: FP=0, FN=1 -> biaya Rp2000 jt",
       note: {
         title: "Precision bukan tujuan.",
         type: "pitfall",
@@ -173,14 +173,14 @@ export const aml4: V2Lesson = {
       },
       hints: [
         "biaya = fp*50 + fn*2000, dalam Rp juta.",
-        "Bandingkan: 150 vs 2000 — mana yang lebih murah?",
+        "Bandingkan: 50 vs 2000 — mana yang lebih murah?",
       ],
       code: {
-        starter: "# (FP, FN) per ambang. JANGAN UBAH.\nhasil = {\"ambang 0.8\": (3, 0), \"ambang 0.9\": (0, 1)}\n\n# TULIS KODEMU: biaya = FP*50 + FN*2000 (Rp jt)\nfor ambang, (fp, fn) in hasil.items():\n    biaya = \n    print(f\"{ambang}: FP={fp}, FN={fn} -> biaya Rp{biaya} jt\")",
+        starter: "# (FP, FN) per ambang. JANGAN UBAH.\nhasil = {\"ambang 0.8\": (1, 0), \"ambang 0.9\": (0, 1)}\n\n# TULIS KODEMU: biaya = FP*50 + FN*2000 (Rp jt)\nfor ambang, (fp, fn) in hasil.items():\n    biaya = \n    print(f\"{ambang}: FP={fp}, FN={fn} -> biaya Rp{biaya} jt\")",
         lockLines: 4,
-        solution: "# (FP, FN) per ambang. JANGAN UBAH.\nhasil = {\"ambang 0.8\": (3, 0), \"ambang 0.9\": (0, 1)}\n\n# TULIS KODEMU: biaya = FP*50 + FN*2000 (Rp jt)\nfor ambang, (fp, fn) in hasil.items():\n    biaya = fp*50 + fn*2000\n    print(f\"{ambang}: FP={fp}, FN={fn} -> biaya Rp{biaya} jt\")",
+        solution: "# (FP, FN) per ambang. JANGAN UBAH.\nhasil = {\"ambang 0.8\": (1, 0), \"ambang 0.9\": (0, 1)}\n\n# TULIS KODEMU: biaya = FP*50 + FN*2000 (Rp jt)\nfor ambang, (fp, fn) in hasil.items():\n    biaya = fp*50 + fn*2000\n    print(f\"{ambang}: FP={fp}, FN={fn} -> biaya Rp{biaya} jt\")",
         checks: [
-          { kind: "stdout_matches", task: "t2", label: "Biaya ambang 0.8", msg: "3 FP × Rp50 jt = Rp150 jt.", pattern: "ambang 0\.8: FP=3, FN=0 -\> biaya Rp150 jt" },
+          { kind: "stdout_matches", task: "t2", label: "Biaya ambang 0.8", msg: "1 FP × Rp50 jt = Rp50 jt.", pattern: "ambang 0\.8: FP=1, FN=0 -\> biaya Rp50 jt" },
           { kind: "stdout_matches", task: "t2", label: "Biaya ambang 0.9", msg: "1 FN × Rp2 M = Rp2000 jt.", pattern: "ambang 0\.9: FP=0, FN=1 -\> biaya Rp2000 jt" }
         ],
       },
@@ -216,6 +216,91 @@ export const aml4: V2Lesson = {
       tasks: [],
       reference: "Precision tanpa recall = setengah cerita. Ukur keduanya dari data adjudikasi.",
     },
+    {
+          id: "gap-r9-pep-ubo",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P5-G2)",
+          title: "PEP & UBO: screening sampai ke pemilik sebenarnya",
+          prose: [
+            "Lesson ini menscreening NAMA terhadap daftar sanksi — tetapi dua pemeriksaan yang wajib menyertainya belum diajarkan: PEP dan UBO. PEP (Politically Exposed Person) adalah pejabat publik (dan keluarga/orang dekatnya) yang karena jabatannya berisiko korupsi/penyuapan. UBO (Ultimate Beneficial Owner) adalah pemilik manfaat AKHIR dari sebuah badan hukum — orang yang benar-benar mengendalikan perusahaan, bukan nama direktur di atas kertas.",
+            "Aturan kuncinya: PEP → EDD (Enhanced Due Diligence), BUKAN blokir otomatis. Menjadi PEP bukan kejahatan — tetapi transaksinya harus dipahami sumber dananya (source of wealth/funds) dengan bukti lebih dalam. Sebaliknya, UBO yang tidak teridentifikasi adalah red flag tersendiri: perusahaan cangkang (shell company) dengan nominee director dan UBO tersembunyi adalah kendaraan klasik pencucian uang. Screening yang berhenti di nama rekening — tanpa menelusuri UBO — sedang memeriksa topeng, bukan wajah.",
+            "Contoh angka (5 nasabah badan hukum): PEP = [ya, tidak, tidak, ya, tidak] (2 orang); UBO teridentifikasi = [ya, ya, tidak, ya, tidak] — nasabah ke-3 UBO-nya TIDAK teridentifikasi. EDD wajib untuk: semua PEP (2) + nasabah UBO tak teridentifikasi (1) = 3 nasabah. Catatan: nasabah ke-4 adalah PEP sekaligus UBO teridentifikasi — tetap EDD karena PEP, tetapi bukan karena UBO. Screening yang baik menghitung UNION-nya, bukan menjumlahkan daftarnya.",
+          ],
+          formula: String.raw`\text{EDD} = \text{PEP} \cup \text{UBO tak teridentifikasi}`,
+          formulaNote: "PEP → EDD (bukan blokir). UBO = pemilik manfaat akhir; UBO tak teridentifikasi = red flag. Contoh angka: 5 nasabah → PEP 2, UBO tak teridentifikasi 1, EDD 3 (union, bukan jumlah).",
+          tasks: [
+            { id: "t1", text: "Hitung `pep`, `ubo_hilang`, dan `edd` (union) dari 5 nasabah" },
+            { id: "t2", text: "Cetak ketiganya" },
+          ],
+          expected: "pep=2 ubo_hilang=1 edd=3",
+          hints: [
+            "edd = nasabah yang PEP ATAU UBO-nya hilang — hitung union-nya.",
+            "Nasabah ke-4 PEP + UBO ada = 1 EDD, bukan 2.",
+          ],
+          code: {
+            starter: `# (is_pep, ubo_teridentifikasi) per nasabah\nnasabah = [(True, True), (False, True), (False, False), (True, True), (False, True)]\n\n# TULIS KODEMU: hitung EDD (PEP atau UBO hilang)\npep = \nubo_hilang = \nedd = \n\nprint(f"pep={pep} ubo_hilang={ubo_hilang} edd={edd}")`,
+            lockLines: 4,
+            solution: `# (is_pep, ubo_teridentifikasi) per nasabah\nnasabah = [(True, True), (False, True), (False, False), (True, True), (False, True)]\n\n# TULIS KODEMU: hitung EDD (PEP atau UBO hilang)\npep = sum(1 for p, _ in nasabah if p)\nubo_hilang = sum(1 for _, u in nasabah if not u)\nedd = sum(1 for p, u in nasabah if p or not u)\n\nprint(f"pep={pep} ubo_hilang={ubo_hilang} edd={edd}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "pep", value: 2, label: "`pep` seharusnya 2", msg: "Nasabah 1 dan 4 adalah PEP." },
+              { kind: "equal", task: "t1", name: "ubo_hilang", value: 1, label: "`ubo_hilang` seharusnya 1", msg: "Hanya nasabah 3 UBO-nya tak teridentifikasi." },
+              { kind: "equal", task: "t1", name: "edd", value: 3, label: "`edd` seharusnya 3", msg: "Union PEP dan UBO-hilang: nasabah 1, 3, 4." },
+              { kind: "stdout_matches", task: "t2", pattern: "pep=2\\s+ubo_hilang=1\\s+edd=3", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Nasabah adalah PEP (pejabat) dengan sumber dana jelas dan terdokumentasi. Tindakan yang benar?",
+              options: [
+                { text: "EDD — periksa lebih dalam, tetapi jangan blokir otomatis", why: "Benar: PEP → EDD, bukan blokir; menjadi PEP bukan kejahatan.", correct: true },
+                { text: "Blokir rekening — PEP terlalu berisiko", why: "Salah: PEP bukan daftar sanksi; pemblokiran tanpa dasar adalah pelanggaran." },
+                { text: "Perlakukan seperti nasabah biasa", why: "Salah: PEP wajib EDD — sumber dana harus dipahami lebih dalam." },
+              ],
+            },
+          ],
+          reference: "PEP → EDD (bukan blokir). UBO tak teridentifikasi = red flag. EDD = union keduanya.",
+        },
+    {
+          id: "gap-r9-validasi-independen",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P5-G3)",
+          title: "Validasi independen: jangan tune ambang di data yang sama",
+          prose: [
+            "Lesson ini men-tune ambang dari data adjudikasi — tetapi belum mengajarkan pemisahan yang membuat tuning itu sah: data TUNE dan data TEST harus BERBEDA. Ambang yang dipilih karena bekerja baik di data yang sama tempat ia diuji adalah ambang yang overfit: ia menghafal noise adjudikasi, bukan menangkap pola sanksi. Aturan: bagi label adjudikasi menjadi set tune (pilih ambang) dan set test independen (konfirmasi) — dan JANGAN PERNAH mengintip set test sebelum ambang dikunci.",
+            "Contoh angka: set tune (data lesson ini) memberi ambang 0,80 biaya Rp50 jt (1 FP, 0 FN) vs ambang 0,90 biaya Rp2.000 jt (0 FP, 1 FN) — 0,80 menang telak. Tetapi di set test independen (100 nama baru yang diadjudikasi terpisah), ambang 0,80 memberi FP=2, FN=1 → biaya 2×50 + 1×2.000 = Rp2.100 jt; ambang 0,90 memberi FP=0, FN=2 → Rp4.000 jt. Urutannya sama (0,80 tetap menang), tetapi BIAYA nyatanya 42× lipat dari perkiraan tune-set (Rp50 jt → Rp2.100 jt). Tanpa test independen, kamu akan menjanjikan direksi biaya Rp50 jt — dan membayar Rp2.100 jt.",
+            "Aturan praktis: (1) kunci ambang di tune-set; (2) laporkan metrik FINAL hanya dari test-set; (3) bila test-set jauh lebih buruk, ambangmu overfit — ulangi dengan tune-set lebih besar, bukan dengan mengintip test-set lalu me-retune (itu hanya memindahkan overfit satu langkah). Validasi independen bukan birokrasi — ia satu-satunya cara mengetahui ambangmu bekerja di dunia nyata.",
+          ],
+          formula: String.raw`\text{biaya} = FP \times 50 + FN \times 2000 \quad (\text{Rp jt}) \qquad \text{tune} \neq \text{test}`,
+          formulaNote: "Tune ambang di set tune, konfirmasi di set test independen — jangan pernah retune dari test-set. Contoh angka: tune-set 0,80 = Rp50 jt; test-set 0,80 = Rp2.100 jt (FP=2, FN=1), 0,90 = Rp4.000 jt (FP=0, FN=2).",
+          tasks: [
+            { id: "t1", text: "Hitung `biaya_080` dan `biaya_090` di SET TEST (FP×50 + FN×2000)" },
+            { id: "t2", text: "Cetak keduanya" },
+          ],
+          expected: "biaya_080=2100 biaya_090=4000",
+          hints: [
+            "biaya = fp*50 + fn*2000 (Rp jt).",
+            "Test-set: 0,80 → FP=2, FN=1; 0,90 → FP=0, FN=2.",
+          ],
+          code: {
+            starter: `# (FP, FN) di SET TEST independen\ntest = {"ambang 0.80": (2, 1), "ambang 0.90": (0, 2)}\n\n# TULIS KODEMU: biaya test-set per ambang\nbiaya_080 = \nbiaya_090 = \n\nprint(f"biaya_080={biaya_080} biaya_090={biaya_090}")`,
+            lockLines: 4,
+            solution: `# (FP, FN) di SET TEST independen\ntest = {"ambang 0.80": (2, 1), "ambang 0.90": (0, 2)}\n\n# TULIS KODEMU: biaya test-set per ambang\nbiaya_080 = test["ambang 0.80"][0] * 50 + test["ambang 0.80"][1] * 2000\nbiaya_090 = test["ambang 0.90"][0] * 50 + test["ambang 0.90"][1] * 2000\n\nprint(f"biaya_080={biaya_080} biaya_090={biaya_090}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "biaya_080", value: 2100, label: "`biaya_080` seharusnya Rp2.100 jt", msg: "2×50 + 1×2.000 = 2.100." },
+              { kind: "equal", task: "t1", name: "biaya_090", value: 4000, label: "`biaya_090` seharusnya Rp4.000 jt", msg: "0×50 + 2×2.000 = 4.000." },
+              { kind: "stdout_matches", task: "t2", pattern: "biaya_080=2100\\s+biaya_090=4000", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Ambang 0,80 menang di tune-set (Rp50 jt) tetapi di test-set biayanya Rp2.100 jt. Apa yang harus dilakukan?",
+              options: [
+                { text: "Terima biaya test-set sebagai estimasi jujur; retune hanya dengan tune-set yang lebih besar", why: "Benar: test-set adalah cermin dunia nyata; mengintipnya lalu me-retune hanya memindahkan overfit.", correct: true },
+                { text: "Retune ambang sampai test-set memberi Rp50 jt lagi", why: "Salah: itu overfit ke test-set — metriknya menjadi fiksi." },
+                { text: "Buang test-set — tune-set sudah cukup membuktikan", why: "Salah: tanpa test independen kamu tidak tahu ambangmu bekerja di luar data tune." },
+              ],
+            },
+          ],
+          reference: "Tune ≠ test: kunci ambang di tune-set, laporkan metrik final dari test-set.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

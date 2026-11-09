@@ -179,8 +179,8 @@ export const cr17a: V2Lesson = {
             "Perusahaan yang sama, DSCR 1,62 → 0,96 — dari 'aman' menjadi 'tidak sanggup bayar' — hanya karena definisinya berubah. EBITDA melebih-lebihkan kas yang tersedia: ia mengabaikan pajak yang wajib dibayar, capex pemeliharaan yang tidak bisa ditunda (mesin yang tidak dirawat berhenti), dan lease yang secara ekonomi adalah utang. CFADS lebih jujur, tetapi lebih sulit dihitung — dan tiap covenant mendefinisikan komponennya sendiri-sendiri. ICR pun sama: EBITDA/bunga = 2,70×, tetapi bila lease dihitung sebagai beban bunga, 162/(60+12) = 2,25×.",
             "Disiplin analis: JANGAN pernah menulis 'DSCR 1,62×' telanjang. Tulis 'DSCR (EBITDA) 1,62×' atau 'DSCR (CFADS, lease di penyebut) 0,96×' — dan saat membaca covenant, baca DEFINISINYA dulu sebelum angkanya. Pertanyaan pertama saat bank lain memamerkan DSCR debitur: 'DSCR versi siapa?'",
           ],
-          formula: String.raw`\text{DSCR}_{\text{EBITDA}} = \frac{\text{EBITDA}}{\text{bunga} + \text{cicilan}} \qquad \text{DSCR}_{\text{CFADS}} = \frac{\text{EBITDA} - \text{pajak} - \text{capex} - \text{lease}}{\text{bunga} + \text{cicilan} + \text{lease}}`,
-          formulaNote: "Maju Jaya: DSCR EBITDA 1,62×; DSCR CFADS 1,07×; DSCR CFADS (lease di penyebut) 0,96×; ICR (lease sebagai bunga) 2,25×.",
+          formula: String.raw`\text{DSCR}_{\text{EBITDA}} = \frac{\text{EBITDA}}{\text{bunga} + \text{cicilan}} \qquad \text{DSCR}_{\text{CFADS\_LEASE}} = \frac{\text{EBITDA} - \text{pajak} - \text{capex} - \text{lease}}{\text{bunga} + \text{cicilan} + \text{lease}}`,
+          formulaNote: "Maju Jaya: DSCR EBITDA 1,62×; DSCR CFADS 1,07×; DSCR_CFADS_LEASE 0,96× (lease di penyebut); ICR (lease sebagai bunga) 2,25×.",
           tasks: [
             { id: "t1", text: "Hitung `dscr_ebitda`, `dscr_cfads`, `dscr_cfads_lease` (2 desimal)" },
             { id: "t2", text: "Hitung `icr_lease` = EBITDA/(bunga+lease) (2 desimal)" },

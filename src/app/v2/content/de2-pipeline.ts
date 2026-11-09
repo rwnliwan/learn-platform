@@ -203,7 +203,7 @@ export const de2: V2Lesson = {
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran. Perhatikan jebakan 'skala vs kecepatan'.",
+        "Tujuh pertanyaan campuran. Perhatikan jebakan 'skala vs kecepatan'.",
       ],
       tasks: [],
       summary: [

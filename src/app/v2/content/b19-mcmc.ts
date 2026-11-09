@@ -133,7 +133,7 @@ export const b19: V2Lesson = {
         { id: "t4", text: "Hitung `acc_rate` = n_accept / n_iter, lalu cetak ringkasannya" },
       ],
       requires: ["numpy"],
-      expected: "mean_est=-0.5753 (benar -0.5)\nacc_rate=0.6296",
+      expected: "mean_est=-0.5753 (benar −0,5)\nacc_rate=0.6296",
       code: {
         starter: `import numpy as np
 rng = np.random.default_rng(19)
@@ -165,7 +165,7 @@ for i in range(n_iter):
 mean_est =
 acc_rate =
 
-print(f"mean_est={mean_est:.4f} (benar -0.5)")
+print(f"mean_est={mean_est:.4f} (benar −0,5)")
 print(f"acc_rate={acc_rate:.4f}")`,
         lockLines: 16,
         solution: `import numpy as np
@@ -198,7 +198,7 @@ for i in range(n_iter):
 mean_est = float(np.mean(samples[burn:]))
 acc_rate = n_accept / n_iter
 
-print(f"mean_est={mean_est:.4f} (benar -0.5)")
+print(f"mean_est={mean_est:.4f} (benar −0,5)")
 print(f"acc_rate={acc_rate:.4f}")`,
         checks: [
           { kind: "equal", task: "t3", name: "mean_est", value: -0.5753, tol: 0.1, label: "`mean_est` ≈ −0,58", msg: "Rata-rata sampel pasca burn-in harus dekat mean benar −0,5 (campuran 2 punuk)." },
@@ -279,7 +279,7 @@ print(f"acc_rate={acc_rate:.4f}")`,
       tasks: [],
       note: {
         title: "Intuisi: membaca sampler seperti mekanik membaca mesin",
-        body: "Enam heuristik bengkel sampler. Pertama, laporkan ESS, bukan N — N adalah bahan bakar yang dibakar, ESS adalah jarak yang ditempuh. Kedua, R-hat dihitung untuk SEMUA parameter termasuk yang tidak kamu pedulikan; parameter yang tidak konvergen meracuni yang lain lewat korelasi. Ketiga, trace plot selalu dibuka SEBELUM angka dipercaya — 30 detik melihat ulat berbulu versus tren menghemat 3 jam debugging. Keempat, divergensi HMC adalah satu-satunya diagnosis yang hampir pasti berarti modelnya yang salah, bukan samplernya — prioritaskan reparametrisasi di atas menambah iterasi. Kelima, jangan pernah membandingkan dua model dengan selisih skor lebih kecil dari beberapa kali mcse-nya — itu noise, bukan kemenangan. Keenam, warmup bukan tempat menabung sampel: setelah adaptasi selesai, hentikan warmup dan mulai fase sampling yang bersih; warmup 10.000 + sampling 1.000 hampir selalu kalah dari warmup 1.000 + sampling 10.000. Ketujuh, untuk model hierarkis selalu curigai geometri corong LEBIH DULU ketika divergensi muncul — centered parameterization pada variansi grup kecil adalah penyebab nomor satu; non-centered hampir selalu menjadi obat pertama yang dicoba.",
+        body: "Tujuh heuristik bengkel sampler. Pertama, laporkan ESS, bukan N — N adalah bahan bakar yang dibakar, ESS adalah jarak yang ditempuh. Kedua, R-hat dihitung untuk SEMUA parameter termasuk yang tidak kamu pedulikan; parameter yang tidak konvergen meracuni yang lain lewat korelasi. Ketiga, trace plot selalu dibuka SEBELUM angka dipercaya — 30 detik melihat ulat berbulu versus tren menghemat 3 jam debugging. Keempat, divergensi HMC adalah satu-satunya diagnosis yang hampir pasti berarti modelnya yang salah, bukan samplernya — prioritaskan reparametrisasi di atas menambah iterasi. Kelima, jangan pernah membandingkan dua model dengan selisih skor lebih kecil dari beberapa kali mcse-nya — itu noise, bukan kemenangan. Keenam, warmup bukan tempat menabung sampel: setelah adaptasi selesai, hentikan warmup dan mulai fase sampling yang bersih; warmup 10.000 + sampling 1.000 hampir selalu kalah dari warmup 1.000 + sampling 10.000. Ketujuh, untuk model hierarkis selalu curigai geometri corong LEBIH DULU ketika divergensi muncul — centered parameterization pada variansi grup kecil adalah penyebab nomor satu; non-centered hampir selalu menjadi obat pertama yang dicoba.",
       },
       quiz: [
         {
@@ -312,6 +312,49 @@ print(f"acc_rate={acc_rate:.4f}")`,
       ],
       reference: "ESS = mata uang MCMC; R-hat ≤ 1,01 untuk semua parameter; divergensi = perbaiki model, bukan tambah iterasi.",
     },
+    {
+          id: "gap-r9-rhat",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P2-G2)",
+          title: "R-hat: apakah rantai-rantaimu sepakat?",
+          prose: [
+            "Langkah 9 mengajarkan ESS dan Monte Carlo standard error (mcse) — tetapi sebelum menghitung ESS dari SATU rantai, ada pertanyaan yang lebih mendasar: apakah beberapa rantai yang dijalankan dari titik awal berbeda sudah menuju distribusi yang SAMA? Itulah yang dijawab statistik R-hat (Gelman–Rubin). Idenya sederhana: bandingkan variansi ANTAR rantai dengan variansi DALAM rantai. Bila rantai-rantai belum sepakat, variansi antar-rantai besar dan R-hat jauh di atas 1; bila sudah konvergen, R-hat mendekati 1.",
+            "Rumusnya: R-hat = √(((n−1)/n·W + B/n) / W), dengan W = rata-rata variansi dalam-rantai dan B = n × variansi antar-mean-rantai (n = panjang tiap rantai). Ambang praktis modern: R-hat < 1,01 untuk semua parameter sebelum hasil dipercaya (ambang lama 1,1 sudah dianggap longgar). R-hat TIDAK menggantikan ESS: empat rantai bisa sepakat pada jawaban yang salah (mis. semua terjebak di satu modus dari distribusi bimodal lesson ini) — jadi pakai keduanya: R-hat untuk kesepakatan antar-rantai, ESS/mcse untuk presisi.",
+            "Contoh angka (4 rantai, masing-masing n = 1.000): mean rantai [0,10; 0,12; 0,09; 0,11], variansi dalam-rantai [0,04; 0,05; 0,04; 0,05]. W = 0,045. B = 1.000 × variansi([0,10; 0,12; 0,09; 0,11]) = 1.000 × 0,000167 = 0,167. V-hat = (999/1.000)×0,045 + 0,167/1.000 = 0,04512 → R-hat = √(0,04512/0,045) ≈ 1,0014 — jauh di bawah 1,01: keempat rantai sepakat. Sebaliknya, bila mean rantai tersebar [0,0; 0,5; 1,0; 1,5], B meledak dan R-hat ≫ 1,01 — jalankan lebih lama atau perbaiki proposal.",
+          ],
+          formula: String.raw`\hat{R} = \sqrt{\frac{\frac{n-1}{n}W + \frac{B}{n}}{W}} \qquad W = \bar{var}_{dalam}, \quad B = n \cdot var(\bar{x}_{rantai})`,
+          formulaNote: "R-hat (Gelman–Rubin): bandingkan variansi antar-rantai (B) dengan dalam-rantai (W). < 1,01 = sepakat (ambang modern); > 1,1 = belum konvergen. Contoh angka: W = 0,045, B = 0,167 → R-hat ≈ 1,0014.",
+          tasks: [
+            { id: "t1", text: "Hitung `W` (rata-rata variansi dalam) dan `B` (n × variansi antar-mean)" },
+            { id: "t2", text: "Hitung `Rhat` dan cetak ketiganya" },
+          ],
+          expected: "W=0.0450 B=0.1667 Rhat=1.0014",
+          hints: [
+            "statistics.variance memakai pembagi n−1 — untuk B, kalikan hasilnya dengan n.",
+            "Vhat = ((n−1)/n)*W + B/n; Rhat = akar(Vhat/W).",
+          ],
+          code: {
+            starter: `import statistics\nmeans = [0.10, 0.12, 0.09, 0.11]\nvars_in = [0.04, 0.05, 0.04, 0.05]\nn = 1000\n\n# TULIS KODEMU: R-hat Gelman-Rubin\nW = \nB = \nRhat = \n\nprint(f"W={W:.4f} B={B:.4f} Rhat={Rhat:.4f}")`,
+            lockLines: 6,
+            solution: `import statistics\nmeans = [0.10, 0.12, 0.09, 0.11]\nvars_in = [0.04, 0.05, 0.04, 0.05]\nn = 1000\n\n# TULIS KODEMU: R-hat Gelman-Rubin\nW = sum(vars_in) / len(vars_in)\nB = n * statistics.variance(means)\nVhat = ((n - 1) / n) * W + B / n\nRhat = (Vhat / W) ** 0.5\n\nprint(f"W={W:.4f} B={B:.4f} Rhat={Rhat:.4f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "W", value: 0.045, tol: 0.001, label: "`W` seharusnya 0,045", msg: "Rata-rata variansi dalam-rantai." },
+              { kind: "equal", task: "t1", name: "B", value: 0.1667, tol: 0.001, label: "`B` seharusnya 0,167", msg: "1.000 × variansi antar-mean rantai." },
+              { kind: "equal", task: "t2", name: "Rhat", value: 1.0014, tol: 0.001, label: "`Rhat` seharusnya 1,0014", msg: "√(Vhat/W) — jauh di bawah ambang 1,01." },
+              { kind: "stdout_matches", task: "t2", pattern: "W=0.0450\\s+B=0.1667\\s+Rhat=1.0014", label: "`print` menampilkan R-hat", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Empat rantai MCMC punya R-hat = 1,0008 untuk semua parameter, tetapi ESS hanya 120. Apa kesimpulannya?",
+              options: [
+                { text: "Rantai sepakat, tetapi presisi rendah — perpanjang rantai / kurangi autokorelasi", why: "Benar: R-hat menjawab kesepakatan antar-rantai, ESS menjawab presisi; keduanya harus lolos.", correct: true },
+                { text: "Hasil sudah bisa dipercaya penuh", why: "Salah: R-hat bagus tidak menebus ESS 120 — mcse masih besar." },
+                { text: "R-hat tidak valid bila ESS rendah", why: "Salah: keduanya mengukur hal berbeda dan saling melengkapi." },
+              ],
+            },
+          ],
+          reference: "R-hat = √(((n−1)/n·W + B/n)/W); < 1,01 = rantai sepakat; selalu pasangkan dengan ESS.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -367,7 +410,7 @@ print(f"acc_rate={acc_rate:.4f}")`,
         {
           q: "Dari 20.000 sampel MCMC (autokorelasi lag-1 = 0,95), analis melaporkan n=20.000 untuk interval kredibel. Masalahnya?",
           options: [
-            { text: "Sampel berkorelasi — effective sample size jauh di bawah 20.000; interval terlalu sempit (keyakinan palsu)", why: "Benar: dengan autokorelasi 0,95, ESS ≈ 20.000·(1−0,95)/(1+0,95) ≈ 513. Melaporkan n=20.000 melebih-lebihkan presisi ~40x lipat.", correct: true },
+            { text: "Sampel berkorelasi — effective sample size jauh di bawah 20.000; interval terlalu sempit (keyakinan palsu)", why: "Benar: dengan autokorelasi 0,95, ESS ≈ 20.000·(1−0,95)/(1+0,95) ≈ 513. Melaporkan n=20.000 melebih-lebihkan presisi ≈6,2× lipat (√(20.000/513) ≈ 6,2; angka 40× adalah rasio ukuran sampel N/ESS, bukan rasio presisi).", correct: true },
             { text: "Tidak ada masalah — 20.000 sampel tetap 20.000", why: "Salah: ergodic theorem menjamin konsistensi rata-rata, tetapi VARIANSI estimasi ditentukan ESS, bukan n mentah." },
             { text: "Harus thinning menjadi 513 sampel", why: "Salah: thinning membuang informasi tanpa manfaat untuk estimasi mean — yang benar adalah SESUAIKAN perhitungan SE dengan autokorelasi (pakai ESS), bukan membuang sampel." },
             { text: "MCMC tidak valid bila ada autokorelasi", why: "Salah: autokorelasi adalah sifat bawaan MCMC, bukan cacat — yang cacat adalah mengabaikannya." },

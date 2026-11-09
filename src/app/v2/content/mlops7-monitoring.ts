@@ -290,7 +290,7 @@ print(f"burn_jam1={burn1:.1f}x -> {aksi1}  burn_jam2={burn2:.1f}x -> {aksi2}  bu
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Enam pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

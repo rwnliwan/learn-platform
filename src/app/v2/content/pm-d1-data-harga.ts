@@ -183,7 +183,7 @@ export const pmd1: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah."],
+      prose: ["Tujuh pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Adjusted price: untuk return (split/dividen disesuaikan mundur); standar = total return.",

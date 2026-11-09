@@ -93,7 +93,7 @@ export const cr20: V2Lesson = {
       eyebrow: "Langkah 5 · Dashboard",
       title: "Dari angka ke keputusan",
       prose: [
-        "Prinsip dashboard yang baik: traffic light — hijau/kuning/merah vs appetite (otak memproses warna 60.000× lebih cepat dari angka); tren, bukan titik — 6–8 kuartal ke belakang (satu titik = tidak ada cerita); drill-down — klik NPL → per segmen → per vintage → per cabang (masalah selalu bersembunyi di detail); eskalasi otomatis — lampu merah 2 periode = wajib dibahas komite (bukan \"nanti\").",
+        "Prinsip dashboard yang baik: traffic light — hijau/kuning/merah vs appetite (warna dikenali sekilas sebelum angka dibaca — itulah gunanya lampu); tren, bukan titik — 6–8 kuartal ke belakang (satu titik = tidak ada cerita); drill-down — klik NPL → per segmen → per vintage → per cabang (masalah selalu bersembunyi di detail); eskalasi otomatis — lampu merah 2 periode = wajib dibahas komite (bukan \"nanti\").",
         "Contoh segmen: kartu kredit merah di NPL (9,5%) tetapi hijau di coverage (80%) — berisiko tetapi dicadangkan tebal. KTA merah di NPL (5,2%) + DPK tinggi (10,1%) + coverage rendah (55%) — triple merah: segmen paling berbahaya. Prioritas langsung terlihat tanpa membaca 50 halaman laporan.",
         "Dashboard terbaik menjawab tiga pertanyaan dalam 30 detik: (1) apa yang merah? (2) trennya ke mana? (3) siapa yang bertanggung jawab menindaklanjuti? Jika butuh 30 menit menjelaskan dashboard, dashboardnya gagal — bukan audiensnya.",
       ],
@@ -105,14 +105,14 @@ export const cr20: V2Lesson = {
       eyebrow: "Langkah 6 · Lab Traffic Light",
       title: "Otomatisasi penilaian",
       prose: [
-        "Aturan terkunci: hijau < appetite; kuning 1–1,2× appetite; merah >1,2× appetite (untuk coverage dibalik: hijau ≥ appetite). Lima KRI terkunci: NPL gross 2,8 (app 5,0); CoR 2,1 (app 1,5); coverage 68 (app 60); DPK 6,2 (app 8,0); konsentrasi sektor 22 (app 20). Tugasmu: hitung jumlah lampu merah dan putuskan eskalasi.",
+        "Aturan terkunci: hijau < appetite; kuning 1–1,2× appetite; merah >1,2× appetite (untuk coverage dibalik: hijau ≥ appetite). Lima KRI terkunci: NPL gross 2,8 (app 5,0); CoR 2,1 (app 1,5); coverage 68 (app 60); DPK 6,2 (app 8,0); konsentrasi sektor 22 (app 20). Tugasmu: hitung jumlah lampu merah dan putuskan eskalasi. Aturan eskalasi lesson ini: 2 lampu merah (atau 1 lampu merah 2 periode berturut-turut) = eskalasi ke komite; 1 lampu merah saja = waspada dan pantau — belum eskalasi.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `n_merah` dari `kris`" },
-        { id: "t2", text: "Tentukan `eskalasi` (True jika n_merah > 0)" },
+        { id: "t2", text: "Tentukan `eskalasi` (True jika n_merah >= 2)" },
         { id: "t3", text: "Cetak keduanya dengan `print`" },
       ],
-      expected: "merah=1 eskalasi=True",
+      expected: "merah=1 eskalasi=False",
       hints: [
         "Status tiap KRI adalah elemen ke-4 tuple.",
         "n_merah = sum(1 for _, _, _, st in kris if st == 'MERAH').",
@@ -121,11 +121,11 @@ export const cr20: V2Lesson = {
       code: {
         starter: `def traffic_light(nama, nilai, appetite, lebih_kecil_bagus=True):\n    if lebih_kecil_bagus:\n        if nilai <= appetite: status = "HIJAU"\n        elif nilai <= appetite*1.2: status = "KUNING"\n        else: status = "MERAH"\n    else:\n        if nilai >= appetite: status = "HIJAU"\n        elif nilai >= appetite*0.8: status = "KUNING"\n        else: status = "MERAH"\n    return nama, nilai, appetite, status\n\nkris = [\n    traffic_light("NPL gross (%)", 2.8, 5.0),\n    traffic_light("Cost of risk (%)", 2.1, 1.5),\n    traffic_light("Coverage (%)", 68, 60, lebih_kecil_bagus=False),\n    traffic_light("DPK (%)", 6.2, 8.0),\n    traffic_light("Konsentrasi sektor (%)", 22, 20),\n]\n\n# TULIS KODEMU\nn_merah = \neskalasi = \n\nprint(f"merah={n_merah} eskalasi={eskalasi}")`,
         lockLines: 16,
-        solution: `def traffic_light(nama, nilai, appetite, lebih_kecil_bagus=True):\n    if lebih_kecil_bagus:\n        if nilai <= appetite: status = "HIJAU"\n        elif nilai <= appetite*1.2: status = "KUNING"\n        else: status = "MERAH"\n    else:\n        if nilai >= appetite: status = "HIJAU"\n        elif nilai >= appetite*0.8: status = "KUNING"\n        else: status = "MERAH"\n    return nama, nilai, appetite, status\n\nkris = [\n    traffic_light("NPL gross (%)", 2.8, 5.0),\n    traffic_light("Cost of risk (%)", 2.1, 1.5),\n    traffic_light("Coverage (%)", 68, 60, lebih_kecil_bagus=False),\n    traffic_light("DPK (%)", 6.2, 8.0),\n    traffic_light("Konsentrasi sektor (%)", 22, 20),\n]\n\n# TULIS KODEMU\nn_merah = sum(1 for _, _, _, st in kris if st == "MERAH")\neskalasi = n_merah > 0\n\nprint(f"merah={n_merah} eskalasi={eskalasi}")`,
+        solution: `def traffic_light(nama, nilai, appetite, lebih_kecil_bagus=True):\n    if lebih_kecil_bagus:\n        if nilai <= appetite: status = "HIJAU"\n        elif nilai <= appetite*1.2: status = "KUNING"\n        else: status = "MERAH"\n    else:\n        if nilai >= appetite: status = "HIJAU"\n        elif nilai >= appetite*0.8: status = "KUNING"\n        else: status = "MERAH"\n    return nama, nilai, appetite, status\n\nkris = [\n    traffic_light("NPL gross (%)", 2.8, 5.0),\n    traffic_light("Cost of risk (%)", 2.1, 1.5),\n    traffic_light("Coverage (%)", 68, 60, lebih_kecil_bagus=False),\n    traffic_light("DPK (%)", 6.2, 8.0),\n    traffic_light("Konsentrasi sektor (%)", 22, 20),\n]\n\n# TULIS KODEMU\nn_merah = sum(1 for _, _, _, st in kris if st == "MERAH")\neskalasi = n_merah >= 2\n\nprint(f"merah={n_merah} eskalasi={eskalasi}")`,
         checks: [
           { kind: "equal", task: "t1", name: "n_merah", value: 1, label: "`n_merah` seharusnya 1", msg: "Hanya CoR yang merah (2,1 > 1,8). Konsentrasi 22 = kuning." },
-          { kind: "equal", task: "t2", name: "eskalasi", value: true, label: "`eskalasi` seharusnya True", msg: "1 lampu merah → ESKALASI KE KOMITE." },
-          { kind: "stdout_matches", task: "t3", pattern: "merah=1\\s+eskalasi=True", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+          { kind: "equal", task: "t2", name: "eskalasi", value: false, label: "`eskalasi` seharusnya False", msg: "Satu lampu merah saja belum eskalasi — butuh 2 lampu merah (atau 1 lampu merah 2 periode)." },
+          { kind: "stdout_matches", task: "t3", pattern: "merah=1\\s+eskalasi=False", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
       reference: "Lampu merah 2 periode = wajib dibahas komite. Appetite adalah janji, bukan hiasan.",
@@ -170,7 +170,7 @@ export const cr20: V2Lesson = {
         "Mode kegagalan nyata: waterbed effect (efek kasur air) — menekan NPL di satu tempat membuatnya menyembul di tempat lain. Bank Nusantara menekan NPL KTA dengan write-off agresif Rp 1,2 T — NPL turun 4,5% → 2,8%, direksi puas. Tetapi: (1) CKPN terkuras → coverage 75% → 55%; (2) tim collection dialihkan ke \"pembersihan\" → DPK naik 5% → 8% (tidak ada yang menjaga pintu masuk); (3) untuk \"mengganti\" portofolio yang di-write-off, tim bisnis menyalurkan KTA baru agresif ke segmen berisiko — vintage baru roll rate-nya 2× vintage lama. Setahun kemudian NPL kembali 4,2% dengan coverage lebih tipis dan CKPN lebih kecil. Menekan satu metrik tanpa melihat sistem = memencet kasur air. Pertahanan: setiap target perbaikan SATU KRI wajib disertai \"metrik penjaga\" yang tidak boleh memburuk (target: NPL turun; penjaga: coverage ≥60%, DPK ≤6%, roll rate vintage baru ≤ baseline). Tidak ada perbaikan yang gratis — pastikan harganya terlihat.",
         "Pendalaman sub-topik yang selama ini hanya disebut sekilas: vintage analysis. NPL agregat mencampur kredit yang dicairkan tahun 2022 (matang, polanya jelas) dengan yang dicairkan 2025 (masih bayi). Vintage analysis memisahkan per \"angkatan pencairan\" dan menggambar kurva default per umur kredit. Contoh: vintage 2023 KTA — default kumulatif bulan ke-6: 1,2%; bulan ke-12: 3,1%; bulan ke-18: 4,0% (mendatar). Vintage 2024 — bulan ke-6: 2,1% (sudah di atas 2023!); bulan ke-12: 5,2%. Kesimpulan: underwriting 2024 lebih longgar — masalahnya di ORIGINATION, bukan di ekonomi. Tanpa vintage, analis hanya melihat \"NPL naik\" dan menebak-nebak. Dengan vintage, ia tahu persis angkatan mana yang rusak dan siapa yang menyalurkannya. Aturan: setiap kenaikan NPL >0,5 poin wajib dibedah per vintage sebelum menyimpulkan apapun. NPL agregat adalah rata-rata yang menyembunyikan pelaku.",
         "Aturan keputusan monitoring untuk kepala risiko. Satu: dashboard direksi maksimal 8 KRI — lebih dari itu tidak dibaca (pilih yang leading + yang paling mahal jika salah). Dua: setiap KRI merah 2 periode = eskalasi otomatis ke komite dengan action plan tertulis — tanpa pengecualian \"mungkin musiman\". Tiga: setiap target perbaikan satu KRI wajib punya 2–3 metrik penjaga anti-waterbed. Empat: kenaikan NPL >0,5 poin = bedah vintage dulu, kesimpulan kemudian. Lima: appetite direview tahunan DARI strategi (bukan dari realisasi) — appetite yang digeser mengikuti realisasi adalah janji yang ditulis ulang setelah dilanggar. Lima aturan ini mengubah monitoring dari \"laporan bulanan\" menjadi \"sistem peringatan yang bekerja\".",
-        "Pendalaman leading indicator yang jarang diajarkan: migration matrix (matriks migrasi kolektibilitas). Bukan sekadar \"DPK 6,2%\", melainkan: dari Rp 100 miliar Kolek 1 bulan lalu, berapa yang bulan ini naik ke Kolek 2 (memburuk), turun ke Lancar (sembuh), atau bertahan? Contoh matriks Bank Nusantara (Rp M): dari Kolek 1 (1.000): 700 → Lancar, 180 bertahan, 120 → Kolek 2 (roll rate 12%). Dari Kolek 2 (500): 150 → Kolek 1 (sembuh), 200 bertahan, 150 → Kolek 3 (roll rate 30%). Dua angka ini — 12% dan 30% — adalah \"kecepatan\" menuju NPL. Jika roll rate Kolek 1→2 naik 12% → 20% sementara DPK total masih stabil, NPL 2 kuartal ke depan SUDAH bisa diproyeksikan naik — tanpa menunggu. Migration matrix mengubah DPK dari foto menjadi film: bukan \"berapa yang di ruang tunggu\", melainkan \"seberapa cepat mereka berjalan ke ruang operasi\". Bank yang hanya membaca level DPK seperti membaca jumlah antrean tanpa melihat kecepatannya.",
+        "Pendalaman leading indicator yang jarang diajarkan: migration matrix (matriks migrasi kolektibilitas). Bukan sekadar \"DPK 6,2%\", melainkan: dari Rp 100 miliar Kolek 1 (Lancar) bulan lalu, berapa yang bulan ini naik ke Kolek 2 (memburuk), lunas/ditutup, atau bertahan di Lancar? Contoh matriks Bank Nusantara (Rp M): dari Kolek 1 (1.000): 700 bertahan di Lancar (Kolek 1), 180 lunas/ditutup (keluar dari portofolio, bukan memburuk), 120 → Kolek 2 (roll rate 12%). Dari Kolek 2 (500): 150 → Kolek 1 (sembuh), 200 bertahan, 150 → Kolek 3 (roll rate 30%). Dua angka ini — 12% dan 30% — adalah \"kecepatan\" menuju NPL. Jika roll rate Kolek 1→2 naik 12% → 20% sementara DPK total masih stabil, NPL 2 kuartal ke depan SUDAH bisa diproyeksikan naik — tanpa menunggu. Migration matrix mengubah DPK dari foto menjadi film: bukan \"berapa yang di ruang tunggu\", melainkan \"seberapa cepat mereka berjalan ke ruang operasi\". Bank yang hanya membaca level DPK seperti membaca jumlah antrean tanpa melihat kecepatannya.",
         "Disiplin respons yang membedakan bank sehat: setiap KRI merah wajib dijawab dengan \"5 whys\" tertulis dalam 14 hari. Contoh: CoR merah 2,1% vs appetite 1,5%. Why 1: kenapa? Beban CKPN naik Rp 175 M/kuartal. Why 2: kenapa? NPL KTA naik. Why 3: kenapa? Vintage 2024 roll rate 2× normal. Why 4: kenapa? Tiga AO menyalurkan ke segmen yang sama tanpa verifikasi ganda. Why 5: kenapa? Insentif AO 100% berbasis volume tanpa komponen kualitas. Akar masalah: desain insentif — bukan \"ekonomi sulit\". Tanpa 5 whys, responsnya berhenti di why 2 (\"tambah CKPN\") dan masalah berulang tiap tahun. Aturan: laporan eskalasi KRI yang tidak mencantumkan why-ke-5 (akar masalah) = ditolak komite, kembalikan. Komite tidak butuh tahu angkanya merah — ia butuh tahu rantai sebabnya dan siapa yang memperbaikinya kapan.",
       ],
       tasks: [],
@@ -180,6 +180,49 @@ export const cr20: V2Lesson = {
       },
       reference: "Setiap KRI merah = 5 whys tertulis dalam 14 hari + metrik penjaga anti-waterbed.",
     },
+    {
+          id: "gap-r9-ecl-staging",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P3-G2)",
+          title: "Default 90 hari & staging ECL PSAK 109",
+          prose: [
+            "Lesson ini memakai KRI dan traffic light — tetapi belum mengajarkan kapan sebuah kredit RESMI disebut default dan bagaimana PSAK 109 (IFRS 9) mengklasifikasikannya. Aturan baku industri: default = tunggakan > 90 hari (90 days past due) — ambang yang dipakai regulator dan PSAK 109 untuk “credit-impaired”. Di bawah 90 hari, kredit belum default, tetapi PSAK 109 sudah membedakan: Stage 1 (DPD ≤ 30 hari, risiko belum naik signifikan) memakai ECL 12-bulan; Stage 2 (DPD 31–90 hari, risiko naik signifikan/SICR) memakai ECL lifetime; Stage 3 (DPD > 90 hari / default) memakai ECL lifetime dengan bunga atas nilai bersih (setelah CKPN).",
+            "Mengapa staging penting untuk monitoring? Karena Stage 2 adalah alarmnya — kredit yang pindah Stage 1 → Stage 2 memberi sinyal 1–2 kuartal SEBELUM menjadi NPL. Dashboard yang hanya menampilkan NPL (Stage 3) sedang membaca kematian; dashboard yang menampilkan migrasi staging sedang membaca penyakit. Analis yang baik memantau jumlah dan nilai Stage 2 seperti memantau pasien di ruang observasi.",
+            "Contoh angka (5 debitur, DPD dalam hari): [0, 15, 45, 95, 120] → Stage 1: 2 debitur (0 dan 15 hari), Stage 2: 1 debitur (45 hari — SICR, ECL lifetime), Stage 3: 2 debitur (95 dan 120 hari — default, > 90 hari). Dua Stage 3 dari lima debitur = portofolio ini sudah berdarah; satu Stage 2 = ada satu lagi yang sedang menuju ke sana. Catatan: 90 hari adalah ambang baku, tetapi PSAK 109 mengizinkan rebuttal bila ada bukti kuat (mis. agunan likuid yang sedang dieksekusi) — rebuttal harus didokumentasikan, bukan sekadar alasan.",
+          ],
+          formula: String.raw`\text{Stage 1: } DPD \leq 30 \quad \text{Stage 2: } 31 \leq DPD \leq 90 \quad \text{Stage 3: } DPD > 90 \ (\text{default})`,
+          formulaNote: "Staging ECL PSAK 109: Stage 1 (DPD ≤ 30, ECL 12-bulan), Stage 2 (31–90, SICR, ECL lifetime), Stage 3 (DPD > 90 = default, ECL lifetime). Contoh angka: DPD [0, 15, 45, 95, 120] → Stage 1: 2, Stage 2: 1, Stage 3: 2.",
+          tasks: [
+            { id: "t1", text: "Klasifikasikan tiap DPD ke Stage 1/2/3 (fungsi `stage(dpd)`)" },
+            { id: "t2", text: "Hitung `s1`, `s2`, `s3` dan cetak ketiganya" },
+          ],
+          expected: "stage1=2 stage2=1 stage3=2",
+          hints: [
+            "stage(d) = 1 jika d <= 30, 2 jika d <= 90, 3 jika tidak.",
+            "Hitung tiap stage dengan sum(1 for ...).",
+          ],
+          code: {
+            starter: `dpd = [0, 15, 45, 95, 120]  # hari tunggakan 5 debitur\n\n# TULIS KODEMU: staging ECL PSAK 109\ndef stage(d):\n    return \n\ns1 = \ns2 = \ns3 = \n\nprint(f"stage1={s1} stage2={s2} stage3={s3}")`,
+            lockLines: 3,
+            solution: `dpd = [0, 15, 45, 95, 120]  # hari tunggakan 5 debitur\n\n# TULIS KODEMU: staging ECL PSAK 109\ndef stage(d):\n    return 1 if d <= 30 else (2 if d <= 90 else 3)\n\ns1 = sum(1 for d in dpd if stage(d) == 1)\ns2 = sum(1 for d in dpd if stage(d) == 2)\ns3 = sum(1 for d in dpd if stage(d) == 3)\n\nprint(f"stage1={s1} stage2={s2} stage3={s3}")`,
+            checks: [
+              { kind: "equal", task: "t2", name: "s1", value: 2, label: "`s1` seharusnya 2", msg: "DPD 0 dan 15 hari = Stage 1." },
+              { kind: "equal", task: "t2", name: "s2", value: 1, label: "`s2` seharusnya 1", msg: "DPD 45 hari = Stage 2 (SICR)." },
+              { kind: "equal", task: "t2", name: "s3", value: 2, label: "`s3` seharusnya 2", msg: "DPD 95 dan 120 hari = Stage 3 (default > 90 hari)." },
+              { kind: "stdout_matches", task: "t2", pattern: "stage1=2\\s+stage2=1\\s+stage3=2", label: "`print` menampilkan staging", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Debitur menunggak 45 hari. Menurut PSAK 109, stage dan ECL-nya?",
+              options: [
+                { text: "Stage 2 — risiko naik signifikan (SICR), ECL lifetime", why: "Benar: 31–90 hari = Stage 2; ECL-nya lifetime, bukan 12-bulan.", correct: true },
+                { text: "Stage 1 — belum default, ECL 12-bulan", why: "Salah: 45 hari sudah melewati 30 hari — SICR sudah terjadi." },
+                { text: "Stage 3 — sudah default", why: "Salah: default baku di > 90 hari; 45 hari belum default." },
+              ],
+            },
+          ],
+          reference: "Default = DPD > 90 hari. Stage 1 (≤30, ECL 12-bln), Stage 2 (31–90, ECL lifetime), Stage 3 (>90, default).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

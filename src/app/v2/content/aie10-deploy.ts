@@ -26,7 +26,7 @@ export const aie10: V2Lesson = {
         "Demo chatbot NusaBank ke direksi: mulus, cepat, semua tepuk tangan. Hari pertama produksi: antrean macet. Penyebabnya tiga serangkai — provider LLM lambat di jam sibuk (timeout beruntun), satu request 30 detik menyumbat worker, dan saat provider down 10 menit, aplikasi ikut mati total karena tidak ada rencana cadangan.",
         "Twist-nya: solusinya bukan server yang lebih besar, melainkan desain yang lebih dewasa — timeout + retry dengan backoff, fallback berlapis (model cadangan → cache → jawaban degradasi yang sopan), dan antrean. Setelah itu, provider down 10 menit hanya menjadi 'mode hemat' yang tidak disadari pengguna. Demo menguji kebahagiaan; produksi menguji kedewasaan.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) merancang timeout dan retry yang aman; (2) menghitung kebutuhan kapasitas dengan Hukum Little; (3) merancang fallback berlapis; (4) memilih sync vs streaming vs batch; (5) menghindari retry storm.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita demo — Langkah 2 · Timeout dan retry — Langkah 3 · Lab: retry — Langkah 4 · Kapasitas dan Hukum Little — Langkah 5 · Lab: worker — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita demo — Langkah 2 · Timeout dan retry — Langkah 3 · Lab: retry — Langkah 4 · Kapasitas dan Hukum Little — Langkah 5 · Lab: worker — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Langkah 8 · Backend async — Langkah 9 · Auth & multi-tenancy — Checkpoint.",
       ],
       tasks: [],
       reference: "Deploy LLM = timeout + retry + fallback + kapasitas. Demo menguji kebahagiaan; produksi menguji kedewasaan.",

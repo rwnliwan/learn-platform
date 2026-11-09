@@ -36,7 +36,7 @@ export const pmc7: V2Lesson = {
       ],
       note: {
         title: "Intuisi: obligasi adalah janji yang diperdagangkan",
-        body: "Tiga heuristik praktisi fixed income. Pertama, selalu baca obligasi dari sisi kewajibannya dulu: “kapan uang ini harus ada, dalam mata uang apa, seberapa pasti?” — baru pilih obligasinya. Kebanyakan kesalahan FI datang dari membeli obligasi “menarik” (yield tinggi) lalu dipaksa menjual di waktu yang salah. Kedua, yield adalah janji bersyarat: YTM 7% hanya terealisasi jika (a) dipegang sampai jatuh tempo, (b) kupon direinvestasikan pada yield yang sama, (c) penerbit tidak default — tiga syarat yang jarang terpenuhi bersamaan, jadi perlakukan YTM sebagai skenario, bukan garansi. Ketiga, dalam obligasi, yang tidak terlihat lebih penting dari yang terlihat: risiko reinvestasi, opsi tersembunyi (callable), dan likuiditas saat krisis. Amatir membandingkan yield; profesional membandingkan yield setelah ketiga hal tak terlihat itu. Keempat, untuk setiap obligasi, tanyakan siapa yang menjual opsi ke siapa: callable = kamu menjual opsi ke penerbit; putable = kamu membeli opsi dari penerbit \u2014 harga wajarnya harus mencerminkan itu. Kelima, ladder bukan strategi pasif yang membosankan \u2014 ia adalah DCA-nya obligasi: ia menghilangkan kebutuhan menebak suku bunga, yang merupakan tebakan paling mahal di fixed income.",
+        body: "Lima heuristik praktisi fixed income. Pertama, selalu baca obligasi dari sisi kewajibannya dulu: “kapan uang ini harus ada, dalam mata uang apa, seberapa pasti?” — baru pilih obligasinya. Kebanyakan kesalahan FI datang dari membeli obligasi “menarik” (yield tinggi) lalu dipaksa menjual di waktu yang salah. Kedua, yield adalah janji bersyarat: YTM 7% hanya terealisasi jika (a) dipegang sampai jatuh tempo, (b) kupon direinvestasikan pada yield yang sama, (c) penerbit tidak default — tiga syarat yang jarang terpenuhi bersamaan, jadi perlakukan YTM sebagai skenario, bukan garansi. Ketiga, dalam obligasi, yang tidak terlihat lebih penting dari yang terlihat: risiko reinvestasi, opsi tersembunyi (callable), dan likuiditas saat krisis. Amatir membandingkan yield; profesional membandingkan yield setelah ketiga hal tak terlihat itu. Keempat, untuk setiap obligasi, tanyakan siapa yang menjual opsi ke siapa: callable = kamu menjual opsi ke penerbit; putable = kamu membeli opsi dari penerbit \u2014 harga wajarnya harus mencerminkan itu. Kelima, ladder bukan strategi pasif yang membosankan \u2014 ia adalah DCA-nya obligasi: ia menghilangkan kebutuhan menebak suku bunga, yang merupakan tebakan paling mahal di fixed income.",
       },
       tasks: [],
       reference: "Imunisasi = price risk vs reinvestment risk impas di duration.",
@@ -212,7 +212,7 @@ export const pmc7: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Imunisasi: D_aset = horizon kewajiban; price risk vs reinvestment risk impas \u2014 bukan maturity yang dicocokkan.",

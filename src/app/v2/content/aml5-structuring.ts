@@ -5,12 +5,12 @@ const HIST_SVG = `<svg viewBox="0 0 480 300" role="img" aria-label="Histogram 24
 <g stroke="var(--chart-grid)" stroke-width="1"><line x1="52" y1="30" x2="452" y2="30"/><line x1="52" y1="90" x2="452" y2="90"/><line x1="52" y1="150" x2="452" y2="150"/><line x1="52" y1="210" x2="452" y2="210"/></g>
 <g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="46" y="94">12</text><text x="46" y="154">8</text><text x="46" y="214">4</text><text x="46" y="264">0</text></g>
 <g font-size="10" font-family="var(--font-ui)" text-anchor="middle" fill="var(--chart-text)">
-<rect x="66" y="240" width="40" height="20" fill="var(--c2)"/><text x="86" y="276">0-49</text><text x="86" y="236" fill="var(--text)" font-weight="600">1</text>
-<rect x="116" y="220" width="40" height="40" fill="var(--c2)"/><text x="136" y="276">50-89</text><text x="136" y="216" fill="var(--text)" font-weight="600">2</text>
-<rect x="166" y="40" width="80" height="220" fill="var(--c4)"/><text x="206" y="276">90-99</text><text x="206" y="34" fill="var(--text)" font-weight="600">17</text>
-<rect x="266" y="180" width="40" height="80" fill="var(--c2)"/><text x="286" y="276">100-199</text><text x="286" y="176" fill="var(--text)" font-weight="600">2</text>
-<rect x="316" y="220" width="40" height="40" fill="var(--c2)"/><text x="336" y="276">200-299</text><text x="336" y="216" fill="var(--text)" font-weight="600">1</text>
-<rect x="366" y="240" width="40" height="20" fill="var(--c2)"/><text x="386" y="276">300+</text><text x="386" y="236" fill="var(--text)" font-weight="600">1</text>
+<rect x="66" y="245" width="40" height="15" fill="var(--c2)"/><text x="86" y="276">0-49</text><text x="86" y="241" fill="var(--text)" font-weight="600">1</text>
+<rect x="116" y="230" width="40" height="30" fill="var(--c2)"/><text x="136" y="276">50-89</text><text x="136" y="226" fill="var(--text)" font-weight="600">2</text>
+<rect x="166" y="5" width="80" height="255" fill="var(--c4)"/><text x="206" y="276">90-99</text><text x="206" y="22" fill="#ffffff" font-weight="600">17</text>
+<rect x="266" y="230" width="40" height="30" fill="var(--c2)"/><text x="286" y="276">100-199</text><text x="286" y="226" fill="var(--text)" font-weight="600">2</text>
+<rect x="316" y="245" width="40" height="15" fill="var(--c2)"/><text x="336" y="276">200-299</text><text x="336" y="241" fill="var(--text)" font-weight="600">1</text>
+<rect x="366" y="245" width="40" height="15" fill="var(--c2)"/><text x="386" y="276">300+</text><text x="386" y="241" fill="var(--text)" font-weight="600">1</text>
 </g>
 <line x1="256" y1="20" x2="256" y2="260" stroke="var(--c3)" stroke-width="2" stroke-dasharray="6 4"/>
 <text x="262" y="40" font-size="12" fill="var(--c3)" font-family="var(--font-ui)" font-weight="600">ambang 100</text>
@@ -29,9 +29,9 @@ export const aml5: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita",
       title: "24 setoran yang semuanya \"legal\"",
       prose: [
-        "Teller cabang Jakarta Selatan hafal wajahnya: \"Pak Dedi,\" selalu Selasa dan Kamis, selalu setoran tunai Rp92-99 juta. Tidak pernah Rp100 juta — ambang review internal bank. Enam minggu, 24 setoran, total Rp2,627 miliar. Setiap setoran diperiksa sistem: di bawah ambang, lolos. Tidak satu pun alert berbunyi.",
+        "Teller cabang Jakarta Selatan hafal wajahnya: \"Pak Dedi,\" selalu Selasa dan Kamis, selalu setoran tunai Rp92-99 juta. Tidak pernah Rp100 juta — ambang review internal bank (bukan ambang pelaporan resmi PPATK, yang jauh lebih tinggi; Rp100 jt di sini adalah ambang review internal bank ini). Enam minggu, 24 setoran, total Rp2,627 miliar. Setiap setoran diperiksa sistem: di bawah ambang, lolos. Tidak satu pun alert berbunyi.",
         "Twist-nya ada di undang-undangnya: structuring bukan tentang angka — melainkan tentang niat memecah transaksi untuk menghindari pelaporan. Tiap setoran Pak Dedi legal; polanya yang kriminal. Ketika investigator akhirnya mengagregat: 20 dari 24 setoran di bawah ambang, 17 di antaranya menumpuk di Rp90-99 juta. Peluang 17 dari 20 setoran acak jatuh tepat di band 10% itu? 1 banding 118 triliun. \"Kebetulan\" dengan peluang sekecil itu bukan kebetulan — ia bukti niat.",
-        "Dan Pak Dedi bukan satu-satunya: 3 \"Pak Dedi\" lain di 3 cabang berbeda, pola identik, nomor HP terdaftar sama. Itulah smurfing — structuring yang dikerjakan banyak orang (smurf) secara terkoordinasi. Lesson ini tentang melihat pola yang dirancang untuk tidak terlihat: agregat, bukan transaksi.",
+        "Dan Pak Dedi bukan satu-satunya: Bu Rina di Bekasi dan Pak Andi di Tangerang — 3 orang total, pola identik, nomor HP terdaftar sama. Itulah smurfing — structuring yang dikerjakan banyak orang (smurf) secara terkoordinasi. Lesson ini tentang melihat pola yang dirancang untuk tidak terlihat: agregat, bukan transaksi.",
         "Setelah lesson ini kamu bisa: menghitung metrik clustering di bawah ambang, menjelaskan beda structuring vs smurfing, dan memutuskan kapan pola agregat layak menjadi SAR.",
       ],
       tasks: [],
@@ -61,7 +61,7 @@ export const aml5: V2Lesson = {
       title: "Seberapa mustahil \"kebetulan\" ini?",
       prose: [
         "Uji binomial mengubah firasat menjadi angka. Asumsi nol: setoran acak uniform Rp0-100 juta. Peluang satu setoran jatuh di band Rp90-100 juta: p = 0,1. Peluang ≥17 dari 20 setoran jatuh di sana: jumlahkan suku binomial k=17..20.",
-        "Hasilnya: 8,5 × 10⁻¹⁵ — 1 banding 118 triliun. Untuk konteks: peluang memenangkan lotre 6/45 sekitar 1 banding 8 juta. Pola Pak Dedi 14 miliar kali lebih mustahil daripada menang lotre. Angka ini yang membuat SAR berdiri di depan reviewer dan hakim: bukan \"saya curiga,\" melainkan \"matematika menolak kebetulan.\"",
+        "Hasilnya: 8,5 × 10⁻¹⁵ — 1 banding 118 triliun. Untuk konteks: peluang memenangkan lotre 6/45 sekitar 1 banding 8 juta. Pola Pak Dedi ≈14,4 juta kali lebih mustahil daripada menang lotre. Angka ini yang membuat SAR berdiri di depan reviewer dan hakim: bukan \"saya curiga,\" melainkan \"matematika menolak kebetulan.\"",
         "Cara membaca histogram: sumbu X = nominal setoran, tinggi batang = jumlah. Garis putus-putus = ambang 100. Interpretasi: 17 dari 24 setoran menumpuk di satu batang sempit tepat di kiri garis — distribusi yang \"takut\" melewati garis. Nasabah normal menyebar; distribusi ini memiliki tepi yang terlalu tajam di ambang.",
       ],
       formula: String.raw`P(X = k) = \binom{n}{k} p^k (1-p)^{n-k} \qquad P(X \ge 17) = \sum_{k=17}^{20} \binom{20}{k} 0{,}1^k 0{,}9^{20-k} \approx 8{,}5 \times 10^{-15}`,
@@ -204,13 +204,55 @@ export const aml5: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Tiga cabang, satu nomor HP",
       prose: [
-        "Investigasi melebar dari Pak Dedi. Temuan: \"Pak Dedi\" (cabang Jakarta Selatan), \"Bu Rina\" (cabang Bekasi), \"Pak Andi\" (cabang Tangerang) — masing-masing 20-24 setoran Rp90-99 juta dalam 6 minggu. Total agregat: Rp7,9 miliar. Nomor HP terdaftar ketiganya: sama. Alamat KTP: tiga kota berbeda, tapi foto selfie liveness menunjukkan kemiripan wajah yang mencurigakan.",
+        "Investigasi melebar dari Pak Dedi. Temuan: \"Pak Dedi\" (cabang Jakarta Selatan), \"Bu Rina\" (cabang Bekasi), \"Pak Andi\" (cabang Tangerang) — masing-masing 24 setoran dalam 6 minggu — sebagian besar Rp90-99 juta, dengan beberapa setoran di atas Rp100 juta (seperti data Dedi: 120, 150, 250, 310) — total per orang ≈Rp2,627 miliar. Total agregat: Rp7,9 miliar. Nomor HP terdaftar ketiganya: sama. Alamat KTP: tiga kota berbeda, tapi foto selfie liveness menunjukkan kemiripan wajah yang mencurigakan.",
         "Pertanyaan: (a) Ini structuring atau smurfing? (b) Hitung peluang gabungan jika tiap individu punya pola 1 banding 118 triliun dan independen. (c) Langkah investigasi berikutnya apa?",
         "Pembahasan: (a) Smurfing — multi-orang terkoordinasi, dibuktikan atribut bersama (satu nomor HP untuk tiga \"orang asing\" = mustahil alami). (b) Peluang gabungan jauh lebih kecil dari 1 banding 118 triliun — dan independensi justru runtuh karena atribut bersama membuktikan koordinasi. (c) Bekukan analisis dulu: petakan jaringan (siapa koordinator? ke mana dana bermuara?), koordinasi dengan cabang lain, siapkan SAR jaringan — bukan tiga SAR individu. Pelajaran: smurfing yang dilaporkan sebagai tiga kasus terpisah = tiga SAR lemah; sebagai satu jaringan = satu SAR kuat.",
       ],
       tasks: [],
       reference: "Atribut bersama = benang merah. Satu nomor HP meruntuhkan tiga identitas palsu.",
     },
+    {
+          id: "gap-r9-non-tunai-lintas-institusi",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P5-G4)",
+          title: "Structuring non-tunai & agregasi lintas institusi",
+          prose: [
+            "Lesson ini memburu structuring TUNAI (setoran di bawah Rp100 jt) — tetapi pelaku yang sama bisa memecah TRANSFER/WIRE, e-wallet, bahkan kripto: 20 transfer Rp90 juta sama pidananya dengan 20 setoran tunai Rp90 juta, karena yang dilarang adalah NIAT memecah untuk menghindari ambang — bukan medianya. Bank yang hanya memantau tunai sedang menjaga satu pintu sementara tiga pintu lain terbuka.",
+            "Dan satu bank hanya melihat rekeningnya sendiri. Pelaku yang menyebar Rp90 juta ke Bank A, Rp85 juta ke Bank B, dan Rp95 juta ke e-wallet — masing-masing di bawah ambang — tampak bersih di tiap institusi. Yang melihat gambaran utuhnya adalah PPATK (agregasi lintas institusi) — dan bank yang baik meniru cara pandang itu secara internal: agregasikan per NASABAH lintas channel (tunai + wire + e-wallet) dan lintas produk, bukan per transaksi per channel.",
+            "Contoh angka: satu nasabah dalam sehari — tunai Rp90 jt, wire Rp85 jt, e-wallet Rp95 jt. Per channel: semua di bawah Rp100 jt, tidak ada alert. Agregat: 90 + 85 + 95 = Rp270 jt ≥ Rp100 jt → alert. Lintas bank: Bank A Rp90 jt + Bank B Rp85 jt = Rp175 jt — hanya terlihat bila ada agregasi lintas institusi (tugas PPATK; bank melaporkan LTKM/LTKT agar PPATK bisa melihatnya). Pelajarannya: ambang per transaksi adalah pagar rendah — agregasi adalah pagar yang sebenarnya.",
+          ],
+          formula: String.raw`\text{alert jika } \sum_{\text{channel}} \text{transaksi} \geq \text{ambang} \qquad \text{bukan per transaksi}`,
+          formulaNote: "Structuring non-tunai (wire/e-wallet/kripto) sama pidananya dengan tunai — yang dilarang niat memecah. Agregasi per nasabah lintas channel dan lintas institusi. Contoh angka: 90 + 85 + 95 = Rp270 jt ≥ 100 → alert; lintas bank 90 + 85 = Rp175 jt.",
+          tasks: [
+            { id: "t1", text: "Hitung `total` agregat lintas channel dan `lintas_bank` (A + B)" },
+            { id: "t2", text: "Tentukan `alert` (True bila total ≥ 100) dan cetak ketiganya" },
+          ],
+          expected: "total=270 lintas_bank=175 alert=True",
+          hints: [
+            "total = 90 + 85 + 95.",
+            "lintas_bank = 90 + 85; alert = total >= 100.",
+          ],
+          code: {
+            starter: `tunai, wire, ewallet = 90, 85, 95  # Rp jt, satu nasabah satu hari\nbank_a, bank_b = 90, 85\nAMBANG = 100\n\n# TULIS KODEMU: agregasi lintas channel + lintas bank\ntotal = \nlintas_bank = \nalert = \n\nprint(f"total={total} lintas_bank={lintas_bank} alert={alert}")`,
+            lockLines: 5,
+            solution: `tunai, wire, ewallet = 90, 85, 95  # Rp jt, satu nasabah satu hari\nbank_a, bank_b = 90, 85\nAMBANG = 100\n\n# TULIS KODEMU: agregasi lintas channel + lintas bank\ntotal = tunai + wire + ewallet\nlintas_bank = bank_a + bank_b\nalert = total >= AMBANG\n\nprint(f"total={total} lintas_bank={lintas_bank} alert={alert}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "total", value: 270, label: "`total` seharusnya Rp270 jt", msg: "90+85+95 = 270." },
+              { kind: "equal", task: "t1", name: "lintas_bank", value: 175, label: "`lintas_bank` seharusnya Rp175 jt", msg: "90+85 = 175." },
+              { kind: "stdout_matches", task: "t2", pattern: "total=270\\s+lintas_bank=175\\s+alert=True", label: "`print` menampilkan alert", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Nasabah mengirim 20 wire Rp90 juta (bukan tunai). Apakah itu structuring?",
+              options: [
+                { text: "Bisa — yang dilarang niat memecah untuk menghindari ambang, bukan medianya", why: "Benar: wire/e-wallet/kripto yang dipecah sama pidananya dengan tunai.", correct: true },
+                { text: "Tidak — structuring hanya berlaku untuk setoran tunai", why: "Salah: definisi structuring adalah pemecahan transaksi untuk menghindari ambang — medianya tidak relevan." },
+                { text: "Hanya bila totalnya di atas Rp100 juta dalam sehari", why: "Salah: ambang agregat berbeda-beda; niat memecah sudah cukup sebagai sinyal." },
+              ],
+            },
+          ],
+          reference: "Agregasi per nasabah lintas channel/institusi; non-tunai yang dipecah = structuring.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -265,7 +307,7 @@ export const aml5: V2Lesson = {
           ],
         },
         {
-          q: "Ambang pelaporan turun dari 100 ke 50. Apa yang harus dilakukan tim deteksi?",
+          q: "Ambang review internal turun dari 100 ke 50. Apa yang harus dilakukan tim deteksi?",
           options: [
             { text: "Tidak ada — sistem tetap jalan", why: "Pelaku membaca peraturan juga; mereka pindah ke bawah 50 dalam hitungan minggu." },
             { text: "Retune: geser band ke 45-50, backtest, ukur ulang FP — minggu ini", why: "Deteksi mengikuti ambang. Backtest memastikan tidak banjir FP.", correct: true },

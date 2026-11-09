@@ -192,7 +192,7 @@ export const rr16: V2Lesson = {
         "Format: f\"{tingkat:.1%}\".",
       ],
       code: {
-        starter: "# Migrasi dari Stage 1 (1000 debitur). JANGAN UBAH.\nawal = 1000\nke_s2 = 120\nke_s3 = 30\n\n# TULIS KODEMU: tingkat migrasi\nprint(f\"Stage 1 -> 2: {ke_s2}/{awal} = {ke_s2/awal:.1%}\")\nprint(f\"Stage 1 -> 3: {ke_s3}/{awal} = {ke_s3/awal:.1%}\")\nprint(f\"Total migrasi: {(ke_s2+ke_s3)/awal:.1%}\")",
+        starter: "# Migrasi dari Stage 1 (1000 debitur). JANGAN UBAH.\nawal = 1000\nke_s2 = 120\nke_s3 = 30\n\n# TULIS KODEMU: tingkat migrasi",
         lockLines: 4,
         solution: "# Migrasi dari Stage 1 (1000 debitur). JANGAN UBAH.\nawal = 1000\nke_s2 = 120\nke_s3 = 30\n\n# TULIS KODEMU: tingkat migrasi\nprint(f\"Stage 1 -> 2: {ke_s2}/{awal} = {ke_s2/awal:.1%}\")\nprint(f\"Stage 1 -> 3: {ke_s3}/{awal} = {ke_s3/awal:.1%}\")\nprint(f\"Total migrasi: {(ke_s2+ke_s3)/awal:.1%}\")",
         checks: [

@@ -194,6 +194,49 @@ export const bi14: V2Lesson = {
       reference: "Referensi = cepat tapi buta terhadap yang baru · de novo = berburu MAG · kontrol negatif = wajib.",
     },
     {
+          id: "gap-r9-dada2-rarefaction",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P8-G1)",
+          title: "DADA2 & ASV: dari read mentah ke tabel yang bisa dibandingkan",
+          prose: [
+            "Langkah 2 membandingkan 16S vs shotgun — tetapi belum mengajarkan PIPELINE 16S-nya: dari read mentah ke tabel hitung yang bisa dibandingkan antar-sampel. Dua langkah kuncinya: (1) DENOISING (DADA2): read mentah mengandung error sekuensing — DADA2 memodelkan error itu dan menyimpulkan sekuens ASLI (Amplicon Sequence Variant, ASV) di baliknya, sekaligus membuang chimera (read hibrida dari dua organisme). Beda dengan OTU lama yang mengelompokkan pada kemiripan 97%: ASV membedakan dua organisme yang berbeda SATU nukleotida — resolusi yang mustahil bagi OTU. (2) NORMALISASI KEDALAMAN (rarefaction): sampel dengan 12.000 read vs 5.000 read TIDAK bisa dibandingkan mentah-mentah — sampel yang lebih dalam selalu tampak lebih beragam. Rarefaction = subsample semua sampel ke kedalaman TERKECIL (di sini 5.000), sehingga perbandingan menjadi adil.",
+            "Contoh angka: 10.000 read mentah → setelah DADA2 tersisa 8.500 (retensi 0,85 — 15% dibuang sebagai error/chimera). Tiga sampel berkedalaman 12.000, 8.000, 5.000 → depth rarefaction = 5.000 (minimum); sampel terdalam membuang 12.000 − 5.000 = 7.000 read. Harga rarefaction: data dibuang — sampel yang dalam kehilangan informasi. Alternatifnya (dan perdebatan yang jujur): normalisasi proporsi atau transformasi CLR seperti lab Langkah 3 — yang TIDAK membuang data tetapi mengubah skala. McMurdie & Holmes (2014) terkenal menolak rarefaction karena membuang data; banyak praktisi tetap memakainya karena sederhana dan adil untuk indeks diversitas. Pilih dengan sadar, dan LAPORKAN pilihanmu.",
+            "Aturan praktis: laporkan SELALU tiga angka pipeline-mu — read mentah, read setelah denoising (retensi), dan depth rarefaction — karena ketiganya mengubah SEMUA angka hilir (Shannon, Bray-Curtis, korelasi CLR). Studi yang tidak melaporkannya tidak bisa direproduksi.",
+          ],
+          formula: String.raw`\text{retensi} = \frac{\text{read bersih}}{\text{read mentah}} \qquad \text{depth} = \min(\text{kedalaman sampel})`,
+          formulaNote: "DADA2: denoising + buang chimera → ASV (resolusi 1 nukleotida, bukan OTU 97%). Rarefaction: subsample ke kedalaman minimum. Contoh angka: 10.000 → 8.500 read (retensi 0,85); depth [12.000, 8.000, 5.000] → 5.000; sampel terdalam membuang 7.000 read.",
+          tasks: [
+            { id: "t1", text: "Hitung `retensi` (8.500/10.000) dan `depth` (minimum 3 sampel)" },
+            { id: "t2", text: "Hitung `buang` (12.000 − depth) dan cetak ketiganya" },
+          ],
+          expected: "retensi=0.85 depth=5000 buang=7000",
+          hints: [
+            "retensi = bersih / mentah.",
+            "depth = min(kedalaman); buang = 12.000 − depth.",
+          ],
+          code: {
+            starter: `mentah, bersih = 10000, 8500\nkedalaman = [12000, 8000, 5000]\n\n# TULIS KODEMU: retensi DADA2 + depth rarefaction\nretensi = \ndepth = \nbuang = \n\nprint(f"retensi={retensi:.2f} depth={depth} buang={buang}")`,
+            lockLines: 4,
+            solution: `mentah, bersih = 10000, 8500\nkedalaman = [12000, 8000, 5000]\n\n# TULIS KODEMU: retensi DADA2 + depth rarefaction\nretensi = bersih / mentah\ndepth = min(kedalaman)\nbuang = max(kedalaman) - depth\n\nprint(f"retensi={retensi:.2f} depth={depth} buang={buang}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "retensi", value: 0.85, tol: 0.01, label: "`retensi` seharusnya 0,85", msg: "8.500/10.000 = 0,85." },
+              { kind: "equal", task: "t1", name: "depth", value: 5000, label: "`depth` seharusnya 5.000", msg: "Minimum dari [12.000, 8.000, 5.000]." },
+              { kind: "equal", task: "t2", name: "buang", value: 7000, label: "`buang` seharusnya 7.000", msg: "12.000 − 5.000 = 7.000." },
+              { kind: "stdout_matches", task: "t2", pattern: "retensi=0.85\\s+depth=5000\\s+buang=7000", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua ASV berbeda 1 nukleotida. Dengan OTU 97%, apa yang terjadi — dan mengapa ASV lebih baik?",
+              options: [
+                { text: "OTU menggabungkannya (kemiripan >97%) — dua organisme berbeda jadi satu; ASV memisahkannya", why: "Benar: resolusi ASV adalah 1 nukleotida; OTU mengaburkan perbedaan strain yang bisa bermakna klinis.", correct: true },
+                { text: "OTU memisahkannya — 97% terlalu ketat", why: "Salah: 97% justru LONGGAR — sekuens yang 99% sama tetap digabung." },
+                { text: "Tidak ada bedanya — keduanya menghitung hal yang sama", why: "Salah: ASV dan OTU memberi jumlah taksa yang berbeda dan kesimpulan yang bisa berbeda." },
+              ],
+            },
+          ],
+          reference: "DADA2 → ASV (1 nukleotida); rarefaction ke depth minimum; laporkan retensi + depth.",
+        },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",

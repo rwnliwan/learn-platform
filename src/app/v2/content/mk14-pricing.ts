@@ -338,7 +338,7 @@ print(f"inkremental={inkremental} net={net}")`,
             lockLines: 4,
             solution: `kanibal = 6; total_promo = 40; baseline = 10; inkremental = 21\n\n# TULIS KODEMU: kanibalisasi dengan tiga penyebut + minicase-2\nkanibal_promo = round(kanibal / total_promo * 100, 1)\nkanibal_baseline = round(kanibal / baseline * 100, 1)\nkanibal_inkremental = round(kanibal / inkremental * 100, 1)\nkanibal_minicase2 = round(4000 / 28000 * 100, 1)\n\nprint(f"kanibal_promo={kanibal_promo} kanibal_baseline={kanibal_baseline} kanibal_inkremental={kanibal_inkremental} kanibal_minicase2={kanibal_minicase2}")`,
             checks: [
-              { kind: "equal", task: "t1", name: "kanibal_promo", value: 15.0, tol: 0.1, label: "`kanibal_promo` = 15,0%", msg: "6/40 = 15,0% — konvensi kanonis lesson ini (post-R8-fix; 62,5% lama tidak terlacak)." },
+              { kind: "equal", task: "t1", name: "kanibal_promo", value: 15.0, tol: 0.1, label: "`kanibal_promo` = 15,0%", msg: "6/40 = 15,0% — konvensi kanonis lesson ini." },
               { kind: "equal", task: "t1", name: "kanibal_baseline", value: 60.0, tol: 0.1, label: "`kanibal_baseline` = 60,0%", msg: "6/10 = 60,0% — terhadap baseline." },
               { kind: "equal", task: "t1", name: "kanibal_inkremental", value: 28.6, tol: 0.1, label: "`kanibal_inkremental` = 28,6%", msg: "6/21 ≈ 28,6% — terhadap inkremental." },
               { kind: "equal", task: "t2", name: "kanibal_minicase2", value: 14.3, tol: 0.1, label: "`kanibal_minicase2` = 14,3%", msg: "4.000/28.000 = 14,3% — konsisten dengan konvensi yang sama." },

@@ -19,7 +19,7 @@ export const bcd34: V2Lesson = {
       tasks: [],
       note: {
         title: "Yang sudah ada vs yang baru di sini",
-        body: "BCD16 punya satu langkah penuh 'Langkah 9 · CBDC' — definisi ritel vs grosir, tiga instrumen (CBDC vs stablecoin vs e-money), dan dilema privasi. Lesson ini TIDAK mengulang langkah itu: ia membangun CBDC sebagai sistem lengkap — model arsitektur (langsung/perantara/hibrida), pembayaran lintas negara, programmabilitas dan uang bersyarat, serta dampaknya pada peta data analis — dengan lab yang menghitung adopsi, pangsa, dan velositas dari angka mentah.",
+        body: "BCD16 punya satu langkah penuh tentang CBDC — definisi ritel vs grosir, tiga instrumen (CBDC vs stablecoin vs e-money), dan dilema privasi. Lesson ini TIDAK mengulang langkah itu: ia membangun CBDC sebagai sistem lengkap — model arsitektur (langsung/perantara/hibrida), pembayaran lintas negara, programmabilitas dan uang bersyarat, serta dampaknya pada peta data analis — dengan lab yang menghitung adopsi, pangsa, dan velositas dari angka mentah.",
       },
       reference: "Adopsi 12 persen (8,4 dari 70 juta); saldo 60 triliun = 4 persen dari uang primer; velositas 4,0 kali per bulan.",
     },

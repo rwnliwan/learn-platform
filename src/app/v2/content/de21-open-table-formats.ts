@@ -254,7 +254,7 @@ print(f"small files: {rasio_small:.1%}, compaction: {butuh_compaction}")`,
     },
     {
       id: "pendalaman-operasional",
-      eyebrow: "Langkah 7 · Pendalaman",
+      eyebrow: "Langkah 9 · Pendalaman",
       title: "Operasional format tabel: compaction, evolusi, dan ACID sungguhan",
       prose: [
         "Compaction — kenapa operasi background, bukan bagian tulis. Menggabungkan file kecil berarti me-rewrite data — mahal dan lambat; menaruhnya di critical path tulis akan membunuh latensi streaming. Karena itu compaction adalah TUGAS TERJADWAL (jam sepi), bukan bagian dari commit. Kapan dijalankan: rasio small files >30%, delete files menumpuk, atau file tidak ter-sort. Dua strategi: binpack (gabung file sekadar mencapai ukuran target — cepat, murah) vs sort/Z-order (tulis ulang dengan data terurut/clustered — mahal, tetapi query mendapat data skipping: file yang min/max-nya tak relevan dilewati tanpa dibaca). Jadwal senior: prioritaskan tabel TERPANAS (query per jam × ukuran) — compaction tabel yang jarang dibaca = biaya rewrite tanpa pengembalian. Otomatisasi: Delta auto-optimize, Iceberg rewrite_data_files terjadwal di orchestrator.",

@@ -41,7 +41,7 @@ export const pmc9: V2Lesson = {
       ],
       note: {
         title: "Intuisi: overlay adalah keputusan tentang apa yang TIDAK kamu lakukan",
-        body: "Tiga heuristik praktisi overlay. Pertama, nilai overlay diukur dari apa yang ia cegah, bukan dari apa yang ia hasilkan — put yang kedaluwarsa sia-sia 9 tahun lalu menyelamatkan dana di tahun ke-10; dewan yang menilai overlay dari P&L tahunan akan selalu membatalkannya tepat sebelum dibutuhkan. Kedua, overlay yang baik membuatmu berani memegang SAA yang benar: tanpa collar, komite takut alokasi 70% ekuitas; dengan collar, mereka berani — proteksi memungkinkan keberanian yang produktif. Ketiga, kompleksitas overlay harus berbanding terbalik dengan frekuensi review-nya: strategi yang butuh pantauan harian (portable alpha dengan margin) tidak cocok untuk komite yang rapat kuartalan — pilih overlay yang bisa “ditinggal tidur” sesuai governance-mu. Keempat, overlay termurah adalah yang tidak dipasang: sebelum membeli proteksi, hitung dulu biaya tidak melakukan apa-apa \u2014 untuk horizon 20 tahun, drawdown 30% yang pulih dalam tiga tahun berharga nol. Kelima, lindung nilai parsial yang konsisten mengalahkan lindung nilai penuh yang on-off mengikuti emosi \u2014 disiplin mengalahkan presisi.",
+        body: "Lima heuristik praktisi overlay. Pertama, nilai overlay diukur dari apa yang ia cegah, bukan dari apa yang ia hasilkan — put yang kedaluwarsa sia-sia 9 tahun lalu menyelamatkan dana di tahun ke-10; dewan yang menilai overlay dari P&L tahunan akan selalu membatalkannya tepat sebelum dibutuhkan. Kedua, overlay yang baik membuatmu berani memegang SAA yang benar: tanpa collar, komite takut alokasi 70% ekuitas; dengan collar, mereka berani — proteksi memungkinkan keberanian yang produktif. Ketiga, kompleksitas overlay harus berbanding terbalik dengan frekuensi review-nya: strategi yang butuh pantauan harian (portable alpha dengan margin) tidak cocok untuk komite yang rapat kuartalan — pilih overlay yang bisa “ditinggal tidur” sesuai governance-mu. Keempat, overlay termurah adalah yang tidak dipasang: sebelum membeli proteksi, hitung dulu biaya tidak melakukan apa-apa \u2014 untuk horizon 20 tahun, drawdown 30% yang pulih dalam tiga tahun berharga nol. Kelima, lindung nilai parsial yang konsisten mengalahkan lindung nilai penuh yang on-off mengikuti emosi \u2014 disiplin mengalahkan presisi.",
       },
       tasks: [],
       reference: "Derivatif = alat; tujuan yang menentukan.",
@@ -213,7 +213,7 @@ export const pmc9: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Equity overlay: put = asuransi, call = income, collar = koridor (sering zero-cost); proteksi selalu dibayar.",

@@ -29,7 +29,7 @@ export const mle19: V2Lesson = {
         "Tim menambahkan SHAP: tiap keputusan diurai menjadi kontribusi per fitur ('telat bayar 3x: −0,25; gaji: +0,10; ...'). Nasabah mendapat surat: 'ditolak terutama karena riwayat telat bayar'. OJK puas. Bonus tak terduga: SHAP menemukan fitur 'kode pos' berkontribusi besar = proksi diskriminasi wilayah! Fitur dibuang, model lebih adil.",
         "Twist-nya: interpretability bukan 'fitur tambahan' — untuk risk/finance ia adalah SYARAT REGULASI dan alat debug keadilan. Preferred di JD, krusial untuk konteks Septian (risk/finance). Lesson ini = SHAP, permutation importance, dan kapan 'cukup' dijelaskan.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan ide SHAP (nilai Shapley) dengan analogi; (2) menghitung permutation importance; (3) membaca force plot / summary plot; (4) membedakan interpretasi global vs lokal; (5) memutuskan kapan model harus bisa dijelaskan.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Tiga lensa interpretasi — Langkah 3 · Lab: permutation importance — Langkah 4 · SHAP mendalam — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Tiga lensa interpretasi — Langkah 3 · Lab: permutation importance — Langkah 4 · SHAP mendalam — Langkah 5 · TreeSHAP vs KernelSHAP — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
       ],
       tasks: [],
       reference: "'Komputer bilang begitu' bukan jawaban — untuk regulator maupun nasabah.",
@@ -236,7 +236,7 @@ print("ranking =", sorted(imp, key=imp.get, reverse=True))`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

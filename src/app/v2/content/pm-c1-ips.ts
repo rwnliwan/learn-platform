@@ -56,7 +56,7 @@ export const pmc1: V2Lesson = {
       },
       note: {
         title: "Intuisi: IPS adalah kontrak dengan dirimu yang panik",
-        body: "Praktisi senior menulis IPS bukan untuk klien yang tenang, melainkan untuk klien yang akan panik tiga tahun kemudian. Tiga heuristik yang dipakai di lapangan: pertama, IPS yang bagus dibaca dalam 10 menit oleh orang awam — kalau butuh gelar CFA untuk memahaminya, ia akan mati di laci. Kedua, bagian terpenting bukan target return-nya, melainkan aturan rebalancing dan kapan boleh dilanggar; klien jarang gagal karena targetnya salah, sering gagal karena tidak ada aturan saat pasar jatuh 25%. Ketiga, tulis IPS seolah klien akan menuntutmu: setiap kalimat harus bisa dipertahankan di depan arbiter — “risiko moderat” tidak bisa dipertahankan, “volatilitas tahunan di bawah 12% dengan drawdown maksimum 15%” bisa. IPS yang kabur melindungi ego penasihat; IPS yang tajam melindungi uang klien. Keempat, IPS yang tidak pernah dilanggar sekali pun dalam lima tahun kemungkinan terlalu longgar \u2014 pelanggaran sesekali yang tercatat dan dibahas justru bukti IPS-nya bekerja sebagai alat ukur, bukan pajangan. Kelima, untuk klien institusi, IPS harus menyebut nama siapa yang boleh mengubahnya dan dengan kuorum berapa; IPS yang bisa diubah satu orang via pesan singkat bukan IPS.",
+        body: "Praktisi senior menulis IPS bukan untuk klien yang tenang, melainkan untuk klien yang akan panik tiga tahun kemudian. Empat heuristik yang dipakai di lapangan: pertama, IPS yang bagus dibaca dalam 10 menit oleh orang awam — kalau butuh gelar CFA untuk memahaminya, ia akan mati di laci. Kedua, bagian terpenting bukan target return-nya, melainkan aturan rebalancing dan kapan boleh dilanggar; klien jarang gagal karena targetnya salah, sering gagal karena tidak ada aturan saat pasar jatuh 25%. Ketiga, tulis IPS seolah klien akan menuntutmu: setiap kalimat harus bisa dipertahankan di depan arbiter — “risiko moderat” tidak bisa dipertahankan, “volatilitas tahunan di bawah 12% dengan drawdown maksimum 15%” bisa. IPS yang kabur melindungi ego penasihat; IPS yang tajam melindungi uang klien. Keempat, IPS yang tidak pernah dilanggar sekali pun dalam lima tahun kemungkinan terlalu longgar \u2014 pelanggaran sesekali yang tercatat dan dibahas justru bukti IPS-nya bekerja sebagai alat ukur, bukan pajangan. Kelima, untuk klien institusi, IPS harus menyebut nama siapa yang boleh mengubahnya dan dengan kuorum berapa; IPS yang bisa diubah satu orang via pesan singkat bukan IPS.",
       },
       tasks: [],
       reference: "Objectives: return + risk (mampu vs mau). Constraints: likuiditas, horizon, pajak, legal, unique.",
@@ -229,7 +229,7 @@ export const pmc1: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "IPS = objectives (return terukur; risk: kemampuan vs kemauan, ikuti terendah) + lima constraints + disiplin rebalance dan review.",

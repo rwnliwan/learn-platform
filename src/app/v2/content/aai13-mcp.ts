@@ -27,7 +27,7 @@ export const aai13: V2Lesson = {
         "Lalu vendor keempat datang membawa asisten AI baru. Harganya menarik, fiturnya cocok — tetapi butuh 5 integrasi lagi dari nol. Dina menolak, bukan karena produknya jelek, melainkan karena biaya integrasinya. Di titik itulah ia menemukan MCP (Model Context Protocol): standar terbuka tempat setiap tool ditulis SEKALI sebagai MCP server, dan dipakai oleh SEMUA client yang mendukung MCP. 5 tool + 3 client = 8 koneksi, bukan 15. Vendor keempat? Tinggal sambung — 1 koneksi.",
         "Twist-nya: masalah Dina bukan kurangnya tool bagus, melainkan tidak adanya BAHASA BERSAMA. MCP adalah USB-C untuk AI: satu colokan, semua perangkat. Lesson ini mengajarkanmu membangun dan memakai server MCP — keterampilan yang muncul di belasan deskripsi pekerjaan 2026.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan arsitektur MCP (host, client, server) dengan kata-katamu sendiri; (2) menghitung penghematan integrasi N×M vs N+M; (3) mengimplementasikan dispatcher tools/list dan tools/call; (4) memilih kapan memakai MCP vs integrasi langsung; (5) menyebutkan tiga risiko keamanan MCP dan mitigasinya.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita Dina — Langkah 2 · Anatomi MCP — Langkah 3 · Lab: dispatcher MCP — Langkah 4 · Membangun server yang aman — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita Dina — Langkah 2 · Anatomi MCP — Langkah 3 · Lab: dispatcher MCP — Langkah 4 · Membangun server yang aman — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Langkah 7 · Produksi — Checkpoint.",
       ],
       tasks: [],
       reference: "MCP = USB-C untuk AI: tulis tool sekali, pakai di semua client.",

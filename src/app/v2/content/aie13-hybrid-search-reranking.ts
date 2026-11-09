@@ -32,7 +32,7 @@ export const aie13: V2Lesson = {
         "Insinyur senior menambahkan BM25 (pencocokan kata klasik dari era 1994): dokumen dengan kata persis 'bunga deposito' langsung terangkat. Tetapi BM25 gagal pada parafrase: 'berapa imbalan tabungan berjangka?' tidak cocok dengan 'bunga deposito'. Masing-masing benar di tempat yang lain salah.",
         "Twist-nya: jawabannya bukan memilih satu — melainkan MENGGABUNGKAN keduanya (hybrid) lalu me-rerank 50 kandidat teratas dengan model yang lebih teliti. Akurasi top-1 naik dari 71% (dense saja) ke 89% (hybrid + rerank). Lesson ini = pembeda RAG produksi vs demo, diminta eksplisit di job description 'hybrid retrieval architectures'.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan kapan dense gagal dan kapan BM25 gagal; (2) menghitung skor BM25 (TF-IDF + saturasi + normalisasi panjang); (3) menggabungkan ranking dengan RRF; (4) merancang pipeline retrieve → rerank; (5) mengukur kualitas retrieval (recall@k, MRR).",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · BM25 vs dense — Langkah 3 · Lab: RRF fusion — Langkah 4 · Reranking — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · BM25 vs dense — Langkah 3 · Lab: RRF fusion — Langkah 4 · Reranking — Langkah 5 · Fusi & evaluasi produksi — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
       ],
       tasks: [],
       reference: "Dense paham makna, BM25 paham kata kunci. Produksi butuh keduanya.",
@@ -324,7 +324,7 @@ print("rrf:", fused)`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

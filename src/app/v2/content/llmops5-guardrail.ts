@@ -447,7 +447,7 @@ print(f"temuan={temuan}  file_bocor={','.join(file_bocor)}  verdict={verdict}")`
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Enam pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

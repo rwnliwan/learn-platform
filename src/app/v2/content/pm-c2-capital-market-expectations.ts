@@ -133,7 +133,7 @@ export const pmc2: V2Lesson = {
       prose: ["Dua pertanyaan sebelum masuk ke jebakan forecasting."],
       note: {
         title: "Intuisi: praktisi memperlakukan ekspektasi sebagai beban bukti",
-        body: "Tiga heuristik dari meja investasi sungguhan. Pertama, beban bukti ada pada yang menyimpang dari base rate: kalau modelmu bilang saham Indonesia akan return 14% padahal base rate historisnya 10% dengan valuasi mahal kini, modelmulah yang harus membuktikan diri — bukan sebaliknya. Kedua, bedakan “ekspektasi untuk alokasi” dari “ekspektasi untuk timing”: yang pertama boleh kasar (urutan kelas aset yang benar sudah cukup), yang kedua menuntut presisi yang hampir tidak pernah ada — kebanyakan kerugian CME datang dari memakai ekspektasi alokasi untuk bertaruh timing. Ketiga, tulis tanggal kedaluwarsa di setiap angka: “E(R) 10,5% — berlaku selama valuasi dan rezim tidak berubah material; review tiap ada pergeseran yield 150bp atau lebih.” Ekspektasi tanpa tanggal kedaluwarsa adalah ramalan abadi yang diam-diam usang. Keempat, bedakan ketidakpastian yang informasinya bisa dibeli dari yang tidak: data positioning dan skew opsi memberi informasi soal sentimen jangka pendek \u2014 murah dan berguna untuk tilt taktis; tidak ada data yang memberi presisi soal return 10 tahun \u2014 jangan bayar mahal untuk itu. Kelima, dokumentasikan bukan hanya angkanya tetapi juga apa yang akan membuatmu mengubahnya; ekspektasi tanpa kondisi revisi adalah dogma.",
+        body: "Lima heuristik dari meja investasi sungguhan. Pertama, beban bukti ada pada yang menyimpang dari base rate: kalau modelmu bilang saham Indonesia akan return 14% padahal base rate historisnya 10% dengan valuasi mahal kini, modelmulah yang harus membuktikan diri — bukan sebaliknya. Kedua, bedakan “ekspektasi untuk alokasi” dari “ekspektasi untuk timing”: yang pertama boleh kasar (urutan kelas aset yang benar sudah cukup), yang kedua menuntut presisi yang hampir tidak pernah ada — kebanyakan kerugian CME datang dari memakai ekspektasi alokasi untuk bertaruh timing. Ketiga, tulis tanggal kedaluwarsa di setiap angka: “E(R) 10,5% — berlaku selama valuasi dan rezim tidak berubah material; review tiap ada pergeseran yield 150bp atau lebih.” Ekspektasi tanpa tanggal kedaluwarsa adalah ramalan abadi yang diam-diam usang. Keempat, bedakan ketidakpastian yang informasinya bisa dibeli dari yang tidak: data positioning dan skew opsi memberi informasi soal sentimen jangka pendek \u2014 murah dan berguna untuk tilt taktis; tidak ada data yang memberi presisi soal return 10 tahun \u2014 jangan bayar mahal untuk itu. Kelima, dokumentasikan bukan hanya angkanya tetapi juga apa yang akan membuatmu mengubahnya; ekspektasi tanpa kondisi revisi adalah dogma.",
       },
       tasks: [],
       quiz: [
@@ -218,7 +218,7 @@ export const pmc2: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "CME = ekspektasi 10+ tahun per kelas aset; rantai GDP \u2192 earnings \u2192 return; iklim, bukan cuaca.",

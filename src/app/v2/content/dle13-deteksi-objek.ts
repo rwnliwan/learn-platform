@@ -34,7 +34,7 @@ export const dle13: V2Lesson = {
         "Tim mencoba sliding window: potong citra jadi 1.000 keping, klasifikasikan satu per satu — 1.000 forward pass per foto = 40 detik. Tidak bisa produksi. Lalu YOLO: SATU forward pass, semua objek + kotaknya keluar sekaligus — 40 detik menjadi 0,03 detik. 1.300x lebih cepat.",
         "Twist-nya: deteksi objek bukan 'klasifikasi yang lebih sulit' — ia masalah yang BERBEDA: apa + di mana, sekaligus, dalam 1 pass. Separuh pekerjaan DL vision (kata lowongan SwiftMind) ada di sini. Lesson ini = arsitektur deteksi, IoU, NMS, mAP — dari 'ada kucing' ke 'kucing di koordinat itu'.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan perbedaan klasifikasi vs deteksi vs segmentasi; (2) menghitung IoU dua kotak; (3) mengimplementasikan NMS; (4) menjelaskan ide inti YOLO (grid + anchor); (5) membaca mAP dan memilih threshold.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Anatomi deteksi — Langkah 3 · Lab: IoU & NMS — Langkah 4 · YOLO & mAP — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Anatomi deteksi — Langkah 3 · Lab: IoU & NMS — Langkah 4 · YOLO & mAP — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Langkah 7 · Pendalaman — Checkpoint.",
       ],
       tasks: [],
       reference: "Klasifikasi = 'apa'. Deteksi = 'apa + di mana'. Beda masalah, beda arsitektur.",
@@ -224,7 +224,7 @@ print("nms_keep =", nms(boxes, scores))`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Delapan pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

@@ -66,7 +66,7 @@ export const cr22: V2Lesson = {
           { kind: "stdout_matches", task: "t3", pattern: "reminder=8460000\\s+hukum=1000000\\s+kunjungan=5380000", label: "`print` menampilkan nilai-nilainya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
         ],
       },
-      reference: "Untuk saldo Rp 2 jt: kunjungan & hukum RUGI — cukup reminder + write-off. Inilah segmentasi collection.",
+      reference: "Untuk saldo Rp 2 jt: kunjungan masih +Rp980.000 (0,55×Rp2 jt − Rp120 rb) — hanya hukum/lelang yang RUGI (−Rp1,4 jt: 0,30×Rp2 jt − Rp2 jt). Break-even kunjungan: saldo Rp218 rb pada cure 55%, atau cure 8% pada saldo Rp1,5 jt. Jadi untuk saldo kecil, pilih reminder/telepon — kunjungan hanya bila saldonya di atas Rp218 rb. Inilah segmentasi collection.",
     },
     {
       id: "strategi",
@@ -180,7 +180,7 @@ export const cr22: V2Lesson = {
         "Pendalaman sub-topik yang selama ini hanya disebut sekilas: segmentasi willingness vs ability. Dua dimensi, empat kuadran — tetapi eksekusinya butuh angka. Willingness diukur dari: riwayat janji-bayar hit rate, respons terhadap kontak (angkat telepon/tidak), histori DPD (pola \"bayar setelah diingatkan\" = willing tapi pelupa). Ability diukur dari: mutasi rekening 3 bulan, status pekerjaan (masih kerja/PHK), debt burden ratio. Kuadran \"mau tapi tidak mampu\" (PHK, hit rate janji 80%): restrukturisasi — ia akan bayar jika cicilannya masuk akal. Kuadran \"mampu tapi tidak mau\" (mutasi sehat, hit rate janji 10%): kunjungan tegas + opsi hukum — ia butuh alasan untuk memprioritaskanmu. Kuadran \"tidak mau & tidak mampu\": hentikan biaya collection setelah 2 upaya gagal — write-off/cessie. Kesalahan termahal: memperlakukan \"mampu tapi tidak mau\" dengan restrukturisasi lunak (ia tertawa dan tetap tidak bayar) atau \"mau tapi tidak mampu\" dengan ancaman hukum (ia menangis dan tetap tidak bisa bayar). Diagnosis dulu, obat kemudian — seperti dokter.",
         "Aturan keputusan kepala collection. Satu: 70% kapasitas ke DPD 1–30 — cegah, jangan padamkan. Dua: tidak ada kunjungan untuk saldo <Rp 5 juta (nilainya negatif — hitung dulu). Tiga: 2 janji bayar gagal = naik eskalasi otomatis. Empat: restrukturisasi adalah default untuk \"mau tapi tidak mampu\"; hukum adalah default untuk \"mampu tapi tidak mau\" yang tidak responsif. Lima: KPI = net recovery (recovery − biaya) + cure rate DPD awal — BUKAN jumlah file selesai atau janji tercatat. Enam: nol toleransi pelanggaran etik — 1 kasus terverifikasi = vendor diputus hari itu juga. Enam aturan ini mengubah collection dari \"preman bertelepon\" menjadi \"operasi data yang menghasilkan uang\".",
         "Pendalaman strategi keluar: cessie (jual piutang macet). Portofolio DPD 180+ senilai Rp 10 miliar (nilai buku setelah CKPN 60% = Rp 4 miliar). Distressed buyer menawar 12% dari nilai nominal = Rp 1,2 miliar. Terlihat rugi — tetapi hitung alternatifnya: workout sendiri 24 bulan dengan biaya Rp 800 juta menghasilkan recovery Rp 1,5 miliar (net Rp 700 juta, didiskonto 2 tahun ≈ Rp 580 juta) + tim collection tersita 2 tahun + risiko reputasi. Cessie Rp 1,2 miliar tunai HARI INI vs Rp 580 juta nilai kini + 2 tahun sakit kepala. Keputusan: jual — KECUALI ada agunan properti likuid (maka workout sendiri lebih untung). Aturan: cessie adalah harga pasar atas kegagalan collection-mu; jika harga cessie < 10% nominal, masalahnya bukan di buyer — melainkan kualitas origination 2 tahun lalu. Pakai harga cessie sebagai cermin, bukan sekadar transaksi.",
-        "Satu investasi collection dengan ROI tertinggi yang hampir selalu diremehkan: otomasi DPD awal. Blast WhatsApp/SMS otomatis H+1 jatuh tempo: biaya Rp 150/kontak × 50.000 akun = Rp 7,5 juta/bulan. Efek terukur: cure rate DPD 1–7 naik 68% → 79% — selisih 11% × 50.000 × rata-rata tunggakan Rp 2 juta × (probabilitas menjadi NPL yang dicegah ~30%) ≈ Rp 330 juta kerugian dicegah per bulan. ROI 44×. Bandingkan: menambah 10 collector (Rp 80 juta/bulan gaji + tunjangan) untuk mengejar DPD 90+ dengan cure 15%. Bank yang \"hemat\" tidak mau keluar Rp 7,5 juta/bulan untuk otomasi, tetapi rela keluar Rp 80 juta/bulan untuk hasil yang lebih kecil — karena otomasi tidak terlihat \"kerja\", sedangkan collector terlihat sibuk. Pelajarannya: dalam collection, yang terlihat sibuk belum tentu menghasilkan; yang tidak terlihat (sistem otomatis) sering menghasilkan paling banyak. Investasikan di mesin, bukan hanya di otot.",
+        "Satu investasi collection dengan ROI tertinggi yang hampir selalu diremehkan: otomasi DPD awal. Blast WhatsApp/SMS otomatis H+1 jatuh tempo: biaya Rp 150/kontak × 50.000 akun = Rp 7,5 juta/bulan. Efek terukur: cure rate DPD 1–7 naik 68% → 79% — selisih 11% × 50.000 × rata-rata tunggakan Rp 2 juta × (probabilitas menjadi NPL yang dicegah ~30%) ≈ Rp3,3 miliar/bulan kerugian dicegah. ROI 440×. Bandingkan: menambah 10 collector (Rp 80 juta/bulan gaji + tunjangan) untuk mengejar DPD 90+ dengan cure 15%. Bank yang \"hemat\" tidak mau keluar Rp 7,5 juta/bulan untuk otomasi, tetapi rela keluar Rp 80 juta/bulan untuk hasil yang lebih kecil — karena otomasi tidak terlihat \"kerja\", sedangkan collector terlihat sibuk. Pelajarannya: dalam collection, yang terlihat sibuk belum tentu menghasilkan; yang tidak terlihat (sistem otomatis) sering menghasilkan paling banyak. Investasikan di mesin, bukan hanya di otot.",
       ],
       tasks: [],
       note: {
@@ -189,6 +189,48 @@ export const cr22: V2Lesson = {
       },
       reference: "Tulis tiga angka sebelum bertindak: peluang, nominal, biaya.",
     },
+    {
+          id: "gap-r9-tahapan-hukum",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P3-G3)",
+          title: "Jalur hukum: somasi → gugatan → eksekusi → PKPU",
+          prose: [
+            "Langkah eskalasi menyebut hukum/lelang sebagai “senjata terakhir” — tetapi lesson ini belum menguraikan APA tahapan hukum itu, berapa lama, dan berapa yang bisa dipulihkan di tiap tahap. Jalur hukum penagihan di Indonesia berurutan: (1) somasi — surat teguran resmi dari pengacara (cepat, murah, sering cukup untuk debitur yang masih punya reputasi); (2) gugatan perdata — gugat ke pengadilan negeri bila somasi diabaikan; (3) eksekusi — putusan berkekuatan hukum tetap dieksekusi terhadap agunan/aset (lelang); (4) PKPU — bila debitur punya banyak kreditor dan terancam pailit, Penundaan Kewajiban Pembayaran Utang memberi ruang restrukturisasi di bawah pengawasan pengadilan.",
+            "Kuncinya: tiap tahap memulihkan sebagian dari SISA — bukan dari total awal. Somasi memulihkan 40% dari Rp100 jt (Rp40 jt); gugatan memulihkan 25% dari sisa Rp60 jt (Rp15 jt); eksekusi 15% dari sisa Rp45 jt (Rp6,75 jt); PKPU 10% dari sisa Rp38,25 jt (Rp3,83 jt). Total pulih Rp65,58 jt dari Rp100 jt — dan itu butuh 14 + 90 + 180 + 365 = 649 hari. Bandingkan dengan reminder DPD 5 hari yang memulihkan 85% dengan biaya Rp40 rb: hukum bukan hanya mahal, melainkan LAMBAT — nilai kini (present value) dari Rp65,58 jt yang datang 649 hari kemudian jauh lebih kecil.",
+            "Aturan keputusan: jangan masuk jalur hukum bila (a) tidak ada agunan/aset yang bisa dieksekusi, (b) biaya pengacara melebihi ekspektasi pulih, atau (c) debitur “tidak mau & tidak mampu” tanpa aset — di situ cessie (jual piutang) atau write-off lebih jujur. Jalur hukum adalah untuk debitur “mampu tapi tidak mau” yang punya aset: di situ ancaman eksekusi adalah tuas, bukan sekadar biaya.",
+          ],
+          formula: String.raw`\text{pulih} = \sum_{\text{tahap}} (\text{rate tahap} \times \text{sisa}) \qquad \text{total} = 14 + 90 + 180 + 365 = 649 \text{ hari}`,
+          formulaNote: "Jalur hukum berurutan: somasi (14 hari, 40% dari sisa), gugatan (90 hari, 25%), eksekusi (180 hari, 15%), PKPU (365 hari, 10%). Contoh angka: dari Rp100 jt → pulih Rp65,58 jt dalam 649 hari — lambat dan mahal dibanding reminder DPD awal.",
+          tasks: [
+            { id: "t1", text: "Hitung `total_hari` keempat tahap hukum" },
+            { id: "t2", text: "Hitung `pulih` dari Rp100 jt (tiap tahap % dari SISA) dan cetak keduanya" },
+          ],
+          expected: "total_hari=649 pulih=65.58",
+          hints: [
+            "total_hari = 14 + 90 + 180 + 365.",
+            "Sisa berkurang tiap tahap: pulih += rate * sisa; sisa -= pulih_tahap.",
+          ],
+          code: {
+            starter: `tahap = [("somasi", 14, 0.40), ("gugatan", 90, 0.25), ("eksekusi", 180, 0.15), ("pkpu", 365, 0.10)]\nsisa = 100.0  # Rp jt\n\n# TULIS KODEMU: total hari + pulih berurutan dari sisa\ntotal_hari = \npulih = \nfor nama, hari, rate in tahap:\n    dapat = \n    pulih += dapat\n    sisa -= dapat\n\nprint(f"total_hari={total_hari} pulih={pulih:.2f}")`,
+            lockLines: 4,
+            solution: `tahap = [("somasi", 14, 0.40), ("gugatan", 90, 0.25), ("eksekusi", 180, 0.15), ("pkpu", 365, 0.10)]\nsisa = 100.0  # Rp jt\n\n# TULIS KODEMU: total hari + pulih berurutan dari sisa\ntotal_hari = sum(h for _, h, _ in tahap)\npulih = 0.0\nfor nama, hari, rate in tahap:\n    dapat = rate * sisa\n    pulih += dapat\n    sisa -= dapat\n\nprint(f"total_hari={total_hari} pulih={pulih:.2f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "total_hari", value: 649, label: "`total_hari` seharusnya 649", msg: "14+90+180+365 = 649 hari." },
+              { kind: "equal", task: "t2", name: "pulih", value: 65.58, tol: 0.01, label: "`pulih` seharusnya 65,58 jt", msg: "40 + 15 + 6,75 + 3,83 = 65,58 (tiap tahap % dari sisa)." },
+              { kind: "stdout_matches", task: "t2", pattern: "total_hari=649\\s+pulih=65.58", label: "`print` menampilkan hasil", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Debitur “tidak mau & tidak mampu” tanpa aset, DPD 200+. Jalur mana yang paling jujur?",
+              options: [
+                { text: "Cessie / write-off — jalur hukum tidak punya aset untuk dieksekusi", why: "Benar: hukum hanya berguna bila ada aset atau tuas reputasi; tanpa keduanya, ia hanya biaya.", correct: true },
+                { text: "Gugatan perdata sampai PKPU — selalu ada yang bisa dipulihkan", why: "Salah: tanpa aset, putusan menang pun tidak bisa dieksekusi." },
+                { text: "Somasi berulang — murah dan pasti berhasil", why: "Salah: somasi bekerja pada debitur yang peduli reputasi; debitur tanpa aset dan tanpa reputasi mengabaikannya." },
+              ],
+            },
+          ],
+          reference: "Somasi → gugatan → eksekusi → PKPU: pulih % dari SISA; total contoh Rp65,58 jt / 649 hari.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

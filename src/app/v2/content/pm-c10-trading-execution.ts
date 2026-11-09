@@ -36,7 +36,7 @@ export const pmc10: V2Lesson = {
       ],
       note: {
         title: "Intuisi: meja trading adalah tempat alpha bocor atau terselamatkan",
-        body: "Tiga heuristik praktisi eksekusi. Pertama, setiap keputusan investasi punya dua harga: harga ide (saat diputuskan) dan harga realisasi (saat tereksekusi) — selisihnya adalah pajak yang kamu bayar ke pasar; manajer yang tidak mengukur selisih ini sedang berdonasi tanpa sadar. Kedua, urgensi adalah variabel keputusan yang paling diremehkan: ide yang sama bisa layak dieksekusi agresif (alpha memudar dalam jam) atau wajib sabar (rebalancing rutin) — instruksi tanpa urgensi yang dinyatakan memaksa trader menebak, dan tebakannya hampir selalu salah arah. Ketiga, likuiditas adalah barang musiman: 30 menit pertama dan terakhir perdagangan menampung >50% volume harian — order besar yang dieksekusi di jam sepi membayar premi ketidaksabaran; jadwalkan eksekusi mengikuti jam-jam likuid, bukan jam-jam nyaman. Keempat, trader terbaik bukan yang tercepat melainkan yang paling jujur melaporkan slippage-nya \u2014 budaya angka cantik di meja trading menyembunyikan biaya yang justru perlu diperbaiki. Kelima, untuk setiap strategi baru, jalankan paper trading eksekusi selama sebulan: ukur IS vs estimasi pre-trade; jika realisasi dua kali estimasi, model biayamu yang salah \u2014 perbaiki sebelum naik skala.",
+        body: "Lima heuristik praktisi eksekusi. Pertama, setiap keputusan investasi punya dua harga: harga ide (saat diputuskan) dan harga realisasi (saat tereksekusi) — selisihnya adalah pajak yang kamu bayar ke pasar; manajer yang tidak mengukur selisih ini sedang berdonasi tanpa sadar. Kedua, urgensi adalah variabel keputusan yang paling diremehkan: ide yang sama bisa layak dieksekusi agresif (alpha memudar dalam jam) atau wajib sabar (rebalancing rutin) — instruksi tanpa urgensi yang dinyatakan memaksa trader menebak, dan tebakannya hampir selalu salah arah. Ketiga, likuiditas adalah barang musiman: 30 menit pertama dan terakhir perdagangan menampung >50% volume harian — order besar yang dieksekusi di jam sepi membayar premi ketidaksabaran; jadwalkan eksekusi mengikuti jam-jam likuid, bukan jam-jam nyaman. Keempat, trader terbaik bukan yang tercepat melainkan yang paling jujur melaporkan slippage-nya \u2014 budaya angka cantik di meja trading menyembunyikan biaya yang justru perlu diperbaiki. Kelima, untuk setiap strategi baru, jalankan paper trading eksekusi selama sebulan: ukur IS vs estimasi pre-trade; jika realisasi dua kali estimasi, model biayamu yang salah \u2014 perbaiki sebelum naik skala.",
       },
       tasks: [],
       reference: "Alpha tanpa eksekusi = ilusi.",
@@ -206,7 +206,7 @@ export const pmc10: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah."],
+      prose: ["Tujuh pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Biaya trading = gunung es: implisit (spread, impact, delay, missed) sering 5\u201320× eksplisit.",

@@ -184,7 +184,7 @@ export const hd14: V2Lesson = {
       title: "Strict vs lenient: satu model, dua nilai",
       prose: [
         "Hitung F1 entity-level untuk satu set prediksi sintetis (span = (start, end, tipe)) dengan dua definisi kecocokan: strict (span persis sama) dan lenient (tumpang tindih + tipe sama). Rasakan sendiri bagaimana definisi mengubah nilai — dan bayangkan analis yang hanya melaporkan angka yang lebih besar.",
-        "Coba: setelah lolos, ubah prediksi keempat dari (80,88,\"PENYAKIT\") menjadi (70,75,\"OBAT\") (duplikat gold). Apa yang terjadi pada precision? Itulah kenapa evaluasi memakai SET — duplikat tidak dihitung ganda.",
+        "Coba: setelah lolos, ubah prediksi keempat dari (80,88,\"PENYAKIT\") menjadi (70,75,\"OBAT\") (duplikat gold) — lalu tambah SATU LAGI prediksi (70,75,\"OBAT\"). Berapa TP strict sekarang? Dengan matching satu-ke-satu, duplikat kedua TIDAK menambah TP (tetap 3) — itulah kenapa evaluasi memakai SET: duplikat tidak dihitung ganda.",
       ],
       tasks: [
         { id: "t1", text: "Lengkapi `f1(gold, pred, mode)`: TP strict = prediksi yang persis ada di gold; TP lenient = prediksi yang overlap + tipe sama" },
@@ -197,14 +197,14 @@ export const hd14: V2Lesson = {
         type: "pitfall",
       },
       hints: [
-        "Strict: tp = sum(1 for p in pred if p in gold).",
-        "Lenient: overlap bila p[0] < g[1] and g[0] < p[1], plus p[2] == g[2].",
+        "Strict: cocokkan satu-ke-satu — tiap gold hanya boleh dipakai sekali (used-set); duplikat pred tidak menambah TP.",
+        "Lenient: overlap bila p[0] < g[1] and g[0] < p[1], plus p[2] == g[2] — juga satu-ke-satu (tandai gold yang sudah terpakai).",
         "F1 = 2*P*R/(P+R); P = tp/(tp+fp); R = tp/(tp+fn).",
       ],
       code: {
         starter: `# Span entitas (start, end, tipe) — DATA SINTETIS untuk latihan\ngold = [(0,10,"GEJALA"), (25,36,"GEJALA"), (50,57,"OBAT"), (70,75,"OBAT")]\npred = [(0,10,"GEJALA"), (25,34,"GEJALA"), (50,57,"OBAT"), (80,88,"PENYAKIT")]\n\n# TULIS KODEMU: F1 entity-level strict vs lenient\ndef f1(gold, pred, mode):\n    \n\nf1_strict = f1(gold, pred, "strict")\nf1_lenient = f1(gold, pred, "lenient")\nprint(f"f1_strict={f1_strict:.3f}  f1_lenient={f1_lenient:.3f}")`,
         lockLines: 3,
-        solution: `# Span entitas (start, end, tipe) — DATA SINTETIS untuk latihan\ngold = [(0,10,"GEJALA"), (25,36,"GEJALA"), (50,57,"OBAT"), (70,75,"OBAT")]\npred = [(0,10,"GEJALA"), (25,34,"GEJALA"), (50,57,"OBAT"), (80,88,"PENYAKIT")]\n\n# TULIS KODEMU: F1 entity-level strict vs lenient\ndef f1(gold, pred, mode):\n    if mode == "strict":\n        tp = sum(1 for p in pred if p in gold)\n    else:\n        tp = sum(1 for p in pred\n                 if any(p[0] < g[1] and g[0] < p[1] and p[2] == g[2] for g in gold))\n    fp = len(pred) - tp\n    fn = len(gold) - tp\n    prec = tp/(tp+fp) if tp+fp else 0\n    rec = tp/(tp+fn) if tp+fn else 0\n    return 2*prec*rec/(prec+rec) if prec+rec else 0\n\nf1_strict = f1(gold, pred, "strict")\nf1_lenient = f1(gold, pred, "lenient")\nprint(f"f1_strict={f1_strict:.3f}  f1_lenient={f1_lenient:.3f}")`,
+        solution: `# Span entitas (start, end, tipe) — DATA SINTETIS untuk latihan\ngold = [(0,10,"GEJALA"), (25,36,"GEJALA"), (50,57,"OBAT"), (70,75,"OBAT")]\npred = [(0,10,"GEJALA"), (25,34,"GEJALA"), (50,57,"OBAT"), (80,88,"PENYAKIT")]\n\n# TULIS KODEMU: F1 entity-level strict vs lenient\ndef f1(gold, pred, mode):\n    used = set()\n    tp = 0\n    for p in pred:\n        for i, g in enumerate(gold):\n            if i in used:\n                continue\n            cocok = (p == g) if mode == "strict" else (p[0] < g[1] and g[0] < p[1] and p[2] == g[2])\n            if cocok:\n                used.add(i)\n                tp += 1\n                break\n    fp = len(pred) - tp\n    fn = len(gold) - tp\n    prec = tp/(tp+fp) if tp+fp else 0\n    rec = tp/(tp+fn) if tp+fn else 0\n    return 2*prec*rec/(prec+rec) if prec+rec else 0\n\nf1_strict = f1(gold, pred, "strict")\nf1_lenient = f1(gold, pred, "lenient")\nprint(f"f1_strict={f1_strict:.3f}  f1_lenient={f1_lenient:.3f}")`,
         checks: [
           { kind: "equal", task: "t2", name: "f1_strict", value: 0.5, tol: 1e-9, label: "`f1_strict` = 0.500", msg: "TP=2 (span persis), FP=2, FN=2 → P=R=0,5 → F1=0,5." },
           { kind: "equal", task: "t2", name: "f1_lenient", value: 0.75, tol: 1e-9, label: "`f1_lenient` = 0.750", msg: "TP=3 (overlap dihitung), FP=1, FN=1 → P=R=0,75 → F1=0,75." },
@@ -213,6 +213,48 @@ export const hd14: V2Lesson = {
       },
       reference: "Satu model, dua F1: strict 0,50 vs lenient 0,75. Definisinya wajib dilaporkan.",
     },
+    {
+          id: "gap-r9-protokol-faktualitas",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P8-G2)",
+          title: "Protokol faktualitas LLM: skala, sampel & adjudikasi dua-rater",
+          prose: [
+            "Lesson ini memperingatkan 'jangan percaya klaim tanpa training — ukur halusinasi span' — tetapi belum memberi PROTOKOL pengukurannya. Protokol operasional punya empat bagian: (1) SKALA — definisikan dulu apa yang dihitung: halusinasi span = entitas yang TIDAK ADA di teks sumber (bukan sekadar salah tipe — itu kesalahan klasifikasi, bukan halusinasi). (2) UKURAN SAMPEL — seperti golden set di aai15: n ≥ 200 span untuk margin ±7% pada CI 95%; di bawah itu, 'tingkat halusinasi 5%' tidak bermakna. (3) ADJUDIKASI DUA-RATER — dua klinisi menilai independen; yang tidak sepakat didiskusikan atau diputus rater ketiga. (4) METRIK — laporkan TIGA angka: tingkat halusinasi (span halusinasi / total span), kesepakatan antar-rater (Cohen's kappa), dan tingkat halusinasi per tipe entitas (obat vs diagnosis bisa jauh berbeda).",
+            "Contoh angka (200 span, 2 rater): keduanya sepakat 'halusinasi' pada 12 span, sepakat 'benar' pada 170, tidak sepakat pada 18 (9+9). Kesepakatan teramati Po = (12+170)/200 = 0,91. Kesepakatan harapan Pe = (21×21 + 179×179)/200² = 0,812. Kappa = (0,91 − 0,812)/(1 − 0,812) ≈ 0,52 — 'moderate' (Landis-Koch): cukup untuk pilot, BELUM cukup untuk klaim produksi (target κ ≥ 0,6). Bila kappa rendah, yang diperbaiki adalah RUBRIK-nya (definisi halusinasi diperjelas), bukan rater-nya.",
+            "Aturan: jangan pernah melaporkan tingkat halusinasi TANPA kappa — angka tanpa kesepakatan antar-rater adalah angka yang tidak tahu apakah ia bisa dipercaya. Dan halusinasi span diukur pada OUTPUT LLM, bukan pada data latih — ia soal apa yang model TAMBAHKAN, bukan apa yang ia hafal.",
+          ],
+          formula: String.raw`\kappa = \frac{P_o - P_e}{1 - P_e}`,
+          formulaNote: "Protokol faktualitas: definisi halusinasi span, n ≥ 200 span (±7%), dua-rater + adjudikasi, laporkan tingkat halusinasi + kappa + per-tipe. Contoh angka: Po=0,91, Pe=0,812 → κ≈0,52 (moderate; target produksi ≥0,6).",
+          tasks: [
+            { id: "t1", text: "Hitung `po` (kesepakatan teramati) dan `kappa` dari matriks 2-rater" },
+            { id: "t2", text: "Cetak keduanya" },
+          ],
+          expected: "Po=0.91 kappa=0.52",
+          hints: [
+            "Po = (sepakat_halusinasi + sepakat_benar) / total.",
+            "Pe = (baris1×kolom1 + baris2×kolom2) / total²; kappa = (Po−Pe)/(1−Pe).",
+          ],
+          code: {
+            starter: `# matriks 2-rater (200 span): a=dua-duanya halusinasi, d=dua-duanya benar\na, b, c, d = 12, 9, 9, 170\ntotal = a + b + c + d\n\n# TULIS KODEMU: Po + Cohen's kappa\npo = \npe = \nkappa = \n\nprint(f"Po={po:.2f} kappa={kappa:.2f}")`,
+            lockLines: 4,
+            solution: `# matriks 2-rater (200 span): a=dua-duanya halusinasi, d=dua-duanya benar\na, b, c, d = 12, 9, 9, 170\ntotal = a + b + c + d\n\n# TULIS KODEMU: Po + Cohen's kappa\npo = (a + d) / total\npe = ((a + b) * (a + c) + (c + d) * (b + d)) / total ** 2\nkappa = (po - pe) / (1 - pe)\n\nprint(f"Po={po:.2f} kappa={kappa:.2f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "po", value: 0.91, tol: 0.01, label: "`po` seharusnya 0,91", msg: "(12+170)/200 = 0,91." },
+              { kind: "equal", task: "t1", name: "kappa", value: 0.52, tol: 0.02, label: "`kappa` seharusnya ≈0,52", msg: "(0,91−0,812)/(1−0,812) ≈ 0,52." },
+              { kind: "stdout_matches", task: "t2", pattern: "Po=0.91\\s+kappa=0.52", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Tingkat halusinasi dilaporkan 5% tetapi kappa antar-rater 0,30. Apa masalahnya?",
+              options: [
+                { text: "Angkanya tidak bisa dipercaya — rater tidak sepakat apa itu halusinasi; perbaiki rubrik dulu", why: "Benar: κ=0,30 (fair) berarti definisinya kabur; 5% bisa jadi artefak rubrik.", correct: true },
+                { text: "Tidak ada masalah — 5% sudah cukup rendah", why: "Salah: tanpa kesepakatan rater, 5% tidak bermakna — rater lain bisa mendapat 15%." },
+                { text: "Ganti kedua rater dengan yang lebih teliti", why: "Salah: kappa rendah biasanya soal rubrik yang kabur, bukan rater yang ceroboh." },
+              ],
+            },
+          ],
+          reference: "Halusinasi span + n≥200 + dua-rater + kappa ≥0,6; laporkan tingkat + kappa + per-tipe.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

@@ -148,7 +148,7 @@ export const pmc3: V2Lesson = {
       ],
       note: {
         title: "Intuisi: alokasi adalah soal komitmen, bukan soal pintar",
-        body: "Tiga heuristik praktisi yang jarang tertulis di textbook. Pertama, alokasi terbaik adalah yang bisa dipertahankan klien saat krisis — portofolio “optimal” 80/20 yang dijual panik di dasar jauh lebih buruk dari 60/40 yang dipegang sampai akhir. Uji kejujurannya: tunjukkan skenario −30% ke klien SEBELUM ia tanda tangan; kalau ia pucat, turunkan ekuitasnya. Kedua, bedakan keputusan struktural dari keputusan siklikal: SAA diubah karena hidup klien berubah (pensiun, warisan), bukan karena berita berubah — siapa pun yang mengubah SAA tiap ada headline sebenarnya tidak punya SAA. Ketiga, biaya alokasi yang paling mahal bukan fee manajer, melainkan pajak dan perilaku: rebalancing yang memicu realisasi gain tiap kuartal di akun kena pajak bisa menghabiskan 1–2% per tahun — lebih besar dari fee reksa dana. Rebalance dengan arus kas baru dulu; jual hanya bila band terlampaui jauh. Keempat, waspadai portofolio model yang diganti tiap ada produk baru \u2014 SAA yang sehat itu membosankan: ia tidak berubah karena ada ETF tematik baru. Kelima, untuk dana keluarga, tulis pernyataan alokasi satu halaman yang ditandatangani semua pengambil keputusan; konflik tersembunyi antar ahli waris lebih merusak daripada pilihan aset yang salah.",
+        body: "Lima heuristik praktisi yang jarang tertulis di textbook. Pertama, alokasi terbaik adalah yang bisa dipertahankan klien saat krisis — portofolio “optimal” 80/20 yang dijual panik di dasar jauh lebih buruk dari 60/40 yang dipegang sampai akhir. Uji kejujurannya: tunjukkan skenario −30% ke klien SEBELUM ia tanda tangan; kalau ia pucat, turunkan ekuitasnya. Kedua, bedakan keputusan struktural dari keputusan siklikal: SAA diubah karena hidup klien berubah (pensiun, warisan), bukan karena berita berubah — siapa pun yang mengubah SAA tiap ada headline sebenarnya tidak punya SAA. Ketiga, biaya alokasi yang paling mahal bukan fee manajer, melainkan pajak dan perilaku: rebalancing yang memicu realisasi gain tiap kuartal di akun kena pajak bisa menghabiskan 1–2% per tahun — lebih besar dari fee reksa dana. Rebalance dengan arus kas baru dulu; jual hanya bila band terlampaui jauh. Keempat, waspadai portofolio model yang diganti tiap ada produk baru \u2014 SAA yang sehat itu membosankan: ia tidak berubah karena ada ETF tematik baru. Kelima, untuk dana keluarga, tulis pernyataan alokasi satu halaman yang ditandatangani semua pengambil keputusan; konflik tersembunyi antar ahli waris lebih merusak daripada pilihan aset yang salah.",
       },
       tasks: [],
       quiz: [
@@ -230,7 +230,7 @@ export const pmc3: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "SAA adalah policy portfolio jangka panjang dari IPS + CME + optimisasi; ia menjelaskan >90% variasi return.",

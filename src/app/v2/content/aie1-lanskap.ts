@@ -25,7 +25,7 @@ export const aie1: V2Lesson = {
         "Maret 2026. NusaBank meluncurkan chatbot customer service. Tim A mengejar model terbaru: tiap ada rilis baru mereka ganti model — tanpa catatan, tanpa pengujian. Demo ke direksi selalu memukau. Tiga bulan kemudian: CSAT chatbot 62 persen, tagihan API Rp68 juta per bulan, dan tidak ada yang tahu versi mana yang merusak apa.",
         "Tim B memakai model yang lebih kecil dan lebih murah. Bedanya: setiap prompt disimpan dengan nomor versi, setiap perubahan diuji pada 10 pertanyaan baku, dan setiap rilis dicatat skornya. Hasilnya: CSAT 89 persen, tagihan Rp19 juta per bulan. Twist-nya: model Tim A lebih canggih di atas kertas — tetapi Tim B menang, karena mereka memperlakukan AI sebagai sistem yang direkayasa, bukan sulap yang dicoba-coba.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan beda AI Engineering, ML klasik, dan riset AI; (2) mengukur kualitas prompt dengan golden set dan pass rate; (3) menghitung ekonomi token sebuah aplikasi LLM; (4) memilih pendekatan yang tepat (API, self-host, ML klasik, atau riset) untuk sebuah kasus.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita dua tim — Langkah 2 · Tiga disiplin — Langkah 3 · Lab: eval prompt berversi — Langkah 4 · Lab: ekonomi token — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita dua tim — Langkah 2 · Tiga disiplin — Langkah 3 · Lab: eval prompt berversi — Langkah 4 · Lab: ekonomi token — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Langkah 7 · Fondasi LLM — Langkah 8 · Fondasi LLM — Langkah 9 · Lisensi model — Langkah 10 · Design review — Checkpoint.",
       ],
       tasks: [],
       reference: "AI Engineering = membangun produk di atas model fondasi, dengan eval, versioning, observability, dan kendali biaya.",
@@ -324,7 +324,7 @@ print(f"biaya=\${biaya:.6f}")`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

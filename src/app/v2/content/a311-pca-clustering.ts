@@ -157,7 +157,7 @@ export const a311: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: unsupervised menemukan pola, bukan kebenaran",
-        body: "Tanpa label, tidak ada jawaban benar — yang ada hanya pola yang berguna vs pola yang tidak. Nilai sebuah cluster = tindakan bisnis yang ia mungkinkan. Tiga heuristik. Pertama: setiap metode unsupervised punya asumsi geometris — K-means = bola, DBSCAN = densitas, PCA = linear. Bila asumsinya salah, hasilnya fiksi yang rapi. Kenali asumsi sebelum percaya output. Kedua: stabilitas adalah pengganti akurasi. Cluster yang berubah total tiap run = cluster yang tidak ada — jangan bangun segmentasi bisnis di atasnya. Ketiga: standarisasi bukan opsional. Ia menentukan siapa pemenang SEBELUM algoritma berjalan — fitur bersatuan besar menang tanpa bertanding. Aturan praktis: selalu visualisasikan dalam 2D sebelum percaya angka. Mata menangkap struktur (cincin, bulan sabit, gugusan) yang metrik ringkas lewatkan — dan bentuknya langsung memberi tahu metode mana yang cocok.",
+        body: "Tanpa label, tidak ada jawaban benar — yang ada hanya pola yang berguna vs pola yang tidak. Nilai sebuah cluster = tindakan bisnis yang ia mungkinkan. Empat heuristik. Pertama: setiap metode unsupervised punya asumsi geometris — K-means = bola, DBSCAN = densitas, PCA = linear. Bila asumsinya salah, hasilnya fiksi yang rapi. Kenali asumsi sebelum percaya output. Kedua: stabilitas adalah pengganti akurasi. Cluster yang berubah total tiap run = cluster yang tidak ada — jangan bangun segmentasi bisnis di atasnya. Ketiga: standarisasi bukan opsional. Ia menentukan siapa pemenang SEBELUM algoritma berjalan — fitur bersatuan besar menang tanpa bertanding. Aturan praktis: selalu visualisasikan dalam 2D sebelum percaya angka. Mata menangkap struktur (cincin, bulan sabit, gugusan) yang metrik ringkas lewatkan — dan bentuknya langsung memberi tahu metode mana yang cocok.",
       },
       reference: "Banyak kolom -> PCA. Kelompok alami -> clustering. Tidak wajar -> anomali. Ketiganya -> pipeline.",
     },
@@ -198,7 +198,7 @@ export const a311: V2Lesson = {
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Empat pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

@@ -35,7 +35,7 @@ export const llmops15: V2Lesson = {
         "Postmortem-nya pahit karena datanya `baik-baik saja`. Dashboard tim menunjukkan latensi RATA-RATA 2,1 detik — di bawah SLO 4 detik yang mereka tetapkan. Tapi tidak ada yang memisah latensi menjadi dua komponen: TTFT (time to first token — berapa lama token PERTAMA muncul) dan TPOT (time per output token — kecepatan token-token berikutnya mengalir). Dan tidak ada yang menghitung kapasitas dengan benar: mereka tahu server `mampu 5 request per detik`, tapi tidak tahu bahwa 5 RPS × 3 detik latensi = 15 request yang harus hidup BERSAMAAN.",
         "Yang sebenarnya terjadi: TTFT mereka 400ms (bagus!), tapi TPOT 35ms × 250 token = 8,75 detik decode untuk jawaban panjang. Rata-rata 2,1 detik menutupi ekor distribusi: p95 mereka 4,6 detik — artinya 1 dari 20 pelanggan menunggu lebih dari 4,6 detik. Demo day hanya butuh SATU pelanggan sial untuk membunuh kepercayaan ruangan. Lesson ini membangun dua alat yang seharusnya mereka punya: bedah latensi TTFT/TPOT dan capacity planning dengan Little's Law.",
         "Prasyarat ringkas (dari LLMOps13, 2 kalimat): inference LLM = kirim prompt ke server GPU, server mengembalikan token. Prompt diproses sekaligus dalam fase prefill (cepat, compute-bound), lalu token keluar satu per satu dalam fase decode (lambat, memory-bound). Lesson ini menjawab: berapa LAMA tiap fase itu, dan berapa GPU yang kamu butuhkan untuk traffic-mu.",
-        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) mendefinisikan TTFT dan TPOT serta menghitung latensi total dari keduanya; (2) menjelaskan tradeoff latency-vs-throughput saat concurrency dinaikkan; (3) menulis SLO latensi yang benar (p50/p95, bukan rata-rata); (4) menghitung kebutuhan concurrency dan jumlah GPU dengan Little's Law; (5) memilih antara pay-per-token, provisioned throughput, dan autoscaling. Durasi 52 menit · 1 lab simulasi antrean · 6 kuis · 1 chart · 1 mini-case. Daftar isi: 1) Cerita PayNova · 2) TTFT vs TPOT · 3) Tradeoff latency-throughput · 4) Lab: simulator kapasitas · 5) Sizing & autoscaling · 6) Peta keputusan · 7) Mini-case: hitungan PayNova · 8) Checkpoint.",
+        "Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) mendefinisikan TTFT dan TPOT serta menghitung latensi total dari keduanya; (2) menjelaskan tradeoff latency-vs-throughput saat concurrency dinaikkan; (3) menulis SLO latensi yang benar (p50/p95, bukan rata-rata); (4) menghitung kebutuhan concurrency dan jumlah GPU dengan Little's Law; (5) memilih antara pay-per-token, provisioned throughput, dan autoscaling. Durasi 52 menit · 3 lab · 8 kuis · 1 chart · 1 mini-case. Daftar isi: 1) Cerita PayNova · 2) TTFT vs TPOT · 3) Tradeoff latency-throughput · 4) Lab: simulator kapasitas · 5) Sizing & autoscaling · 6) Peta keputusan · 7) Mini-case: hitungan PayNova · 8) Checkpoint.",
       ],
       tasks: [
       ],
@@ -53,19 +53,19 @@ export const llmops15: V2Lesson = {
       prose: [
         "Setiap request LLM menjalani DUA fase dengan fisika yang berbeda. Fase PREFILL: seluruh prompt (mis. 2.000 token) diproses SEKALIGUS dalam satu komputasi matriks besar — GPU bekerja penuh, compute-bound, selesai dalam ratusan milidetik. Fase DECODE: token dikeluarkan SATU PER SATU; setiap token mengharuskan GPU membaca SELURUH bobot model dari memori — memory-bound, lambat, berulang N kali untuk N token.",
         "Dari sinilah lahir dua metrik baku industri (definisi dari dokumentasi benchmark Databricks yang menjadi sumber lesson ini). TTFT — Time To First Token: waktu dari request dikirim sampai token PERTAMA muncul = waktu prefill + overhead. Ini yang dirasakan user sebagai `aplikasinya responsif atau lemot`. TPOT — Time Per Output Token: waktu rata-rata ANTAR token selama decode = seberapa cepat teks `mengalir` setelah mulai. User merasakan TPOT sebagai kecepatan mengetiknya AI.",
-        "Rumus totalnya sederhana dan wajib dihafal: Latency = TTFT + TPOT × (jumlah token output). Contoh PayNova: TTFT 400ms + 35ms × 250 token = 400 + 8.750 = 9.150ms ≈ 9,2 detik — persis angka demo day. Perhatikan asimetrinya: TTFT hanya 4% dari total! Tim yang mengoptimasi prefill selama 3 bulan (400ms → 200ms) hanya memangkas 2% latensi — mereka mengoptimasi komponen yang salah karena tidak pernah memisahnya.",
+        "Rumus totalnya sederhana dan wajib dihafal: Latency = TTFT + TPOT × (jumlah token output). Contoh PayNova: TTFT 400ms + 35ms × 250 token = 400 + 8.750 = 9.150ms ≈ 9,2 detik — persis angka demo day. Perhatikan asimetrinya: TTFT hanya 4% dari total! Tim yang mengoptimasi prefill selama 3 bulan (400ms → 200ms) hanya memangkas 2% latensi — mereka mengoptimasi komponen yang salah karena tidak pernah memisahnya. Catatan ketelitian: rumus ×N ini aproksimasi standar industri — secara ketat ada N−1 jeda antar-token setelah token pertama, jadi rumus eksak TTFT + TPOT×(N−1) = 400 + 35×249 = 9.115ms; selisih satu TPOT (35ms, 0,4%) tidak mengubah keputusan apa pun di lesson ini.",
         "Diagnosis dua menit: kalau user mengeluh `lama munculnya` → masalahmu TTFT (prefill lambat: prompt terlalu panjang, KV-cache penuh, GPU kecil). Kalau user mengeluh `teksnya tersendat-sendat` → masalahmu TPOT (decode lambat: batch terlalu besar, memory bandwidth jenuh). Obat yang salah untuk diagnosis yang salah = nol perbaikan + tiga bulan terbuang.",
         "Satu kalimat kunci untuk dibawa pulang: TTFT ditentukan oleh PANJANG PROMPT, TPOT ditentukan oleh PANJANG RESPONS — jadi ringkas prompt untuk responsivitas, batasi max_tokens untuk kelancaran.",
       ],
       formula: String.raw`L = T_{TTFT} + T_{TPOT} \times N`,
-      formulaNote: "L = latensi total; T_TTFT = time to first token (prefill + overhead); T_TPOT = waktu per token decode; N = jumlah token output. Contoh: 400ms + 35ms × 250 = 9.150ms. Ingat: TTFT ~ f(panjang prompt), TPOT ~ f(panjang respons).",
+      formulaNote: "L = latensi total; T_TTFT = time to first token (prefill + overhead); T_TPOT = waktu per token decode; N = jumlah token output. Contoh: 400ms + 35ms × 250 = 9.150ms (aproksimasi standar; eksak 400 + 35×249 = 9.115ms). Ingat: TTFT ~ f(panjang prompt), TPOT ~ f(panjang respons).",
       tasks: [
       ],
       note: {
         title: "💡 Intuisi: restoran cepat saji",
         body: "TTFT = waktu dari kamu pesan sampai burger PERTAMA di nampan (dapur memproses seluruh pesanan sekaligus = prefill). TPOT = jeda antar burger berikutnya keluar (satu per satu = decode). Restoran bisa cepat menyajikan pesanan pertama tapi lambat menyelesaikan 10 burger — dua kecepatan yang berbeda, dua masalah yang berbeda, dua solusi yang berbeda.",
       },
-      reference: "Latency = TTFT + TPOT × N. TTFT ~ panjang prompt; TPOT ~ panjang respons.",
+      reference: "Latency = TTFT + TPOT × N (aproksimasi standar; eksak ×(N−1)). TTFT ~ panjang prompt; TPOT ~ panjang respons.",
     },
     {
       id: "tradeoff",
@@ -83,7 +83,7 @@ export const llmops15: V2Lesson = {
       note: {
         title: "🚨 Mitos: `Tambah GPU = latensi turun`",
         type: "pitfall",
-        body: "Menambah GPU menaikkan KAPASITAS (RPS yang bisa ditangani), bukan menurunkan latensi per request — latensi satu request ditentukan TTFT/TPOT, bukan jumlah GPU menganggur. Kalau p95-mu 4,6 detik karena TPOT 35ms, menambah 10 GPU tetap menghasilkan p95 4,6 detik, hanya tagihan yang naik. Obati penyebabnya: kecilkan batch, percepat decode, atau batasi panjang respons.",
+        body: "Menambah GPU menaikkan KAPASITAS (RPS yang bisa ditangani), bukan menurunkan latensi per request — latensi satu request ditentukan TTFT/TPOT, bukan jumlah GPU menganggur. Kalau p95-mu 4,6 detik karena TPOT 35ms — dan antrean sudah bukan penyebabnya (sistem tidak jenuh, p95 murni waktu layanan) — menambah 10 GPU tetap menghasilkan p95 4,6 detik, hanya tagihan yang naik. Sebaliknya bila p95 membengkak karena antrean, tambah GPU justru menurunkan p95 karena antrean menyusut. Obati penyebabnya: kecilkan batch, percepat decode, atau batasi panjang respons.",
       },
       reference: "Concurrency rendah → latensi minimal. Concurrency tinggi → throughput maksimal. Pilih sesuai kasus.",
     },
@@ -193,6 +193,91 @@ export const llmops15: V2Lesson = {
       reference: "20 QPS × 2,85 dtk = 57 concurrency → 9 GPU (+buffer). Batas patah: 22,5 QPS.",
     },
     {
+          id: "gap-r9-kv-cache-sizing",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P7-G5)",
+          title: "KV-cache sizing: concurrency = fungsi VRAM",
+          prose: [
+            "Langkah 5 menghitung GPU dari QPS × latensi — tetapi belum menyebut BATAS yang paling sering menjerat serving LLM: KV-cache. Setiap request yang hidup menyimpan Key-Value untuk SEMUA token konteksnya di VRAM GPU. KV per token = 2 (K + V) × jumlah layer × hidden size × byte per angka. Bila VRAM habis, request baru tidak bisa masuk — concurrency-mu dibatasi MEMORI, bukan komputasi.",
+            "Contoh angka (model 32 layer, hidden 4.096, FP16 = 2 byte): KV per token = 2 × 32 × 4.096 × 2 = 524.288 byte ≈ 0,5 MB/token. Request dengan konteks 2.048 token → 524.288 × 2.048 = 1.073.741.824 byte = 1.024 MB ≈ 1 GB. Dengan 40 GB VRAM yang dialokasikan untuk KV-cache → concurrency maks = 40 GB / 1 GB = 40 request bersamaan. Naikkan konteks ke 8.192 token → per-request 4 GB → concurrency jatuh ke 10. Konteks panjang MEMAKAN concurrency.",
+            "Tiga tuas bila KV-cache menjadi bottleneck: (1) KUANTISASI KV (FP8/INT8 — setengah byte per token, concurrency naik ~2× dengan sedikit penurunan kualitas); (2) PREFIX CACHING (konteks awal yang sama dipakai ulang — lihat gap tuas TPOT); (3) PAGEDATTENTION (alokasi KV per blok, bukan per request penuh — mengurangi fragmentasi). Aturan: hitung KV DULU sebelum menambah GPU — GPU tambahan tidak membantu bila tiap GPU kehabisan KV-cache di concurrency 10.",
+          ],
+          formula: String.raw`\text{KV/token} = 2 \times L \times H \times b \qquad \text{conc}_{maks} = \frac{\text{VRAM}_{KV}}{\text{token} \times \text{KV/token}}`,
+          formulaNote: "KV-cache: per token = 2 × layer × hidden × byte. Contoh angka: 32 layer × 4.096 × FP16 → 524.288 byte/token; konteks 2.048 → 1.024 MB (≈1 GB)/request; 40 GB VRAM → concurrency maks 40. Konteks panjang memakan concurrency.",
+          tasks: [
+            { id: "t1", text: "Hitung `per_token` (byte) dan `per_req_mb` (konteks 2.048)" },
+            { id: "t2", text: "Hitung `conc` (VRAM KV 40 GB) dan cetak ketiganya" },
+          ],
+          expected: "per_token=524288 per_req_MB=1024 conc=40",
+          hints: [
+            "per_token = 2 × layer × hidden × byte.",
+            "per_req_mb = per_token × ctx // (1024 × 1024).",
+          ],
+          code: {
+            starter: `layers, hidden, byte = 32, 4096, 2\nvram_kv_gb, ctx = 40, 2048\n\n# TULIS KODEMU: KV/token, KV/request, concurrency maks\nper_token = \nper_req_mb = \nconc = \n\nprint(f"per_token={per_token} per_req_MB={per_req_mb} conc={conc}")`,
+            lockLines: 4,
+            solution: `layers, hidden, byte = 32, 4096, 2\nvram_kv_gb, ctx = 40, 2048\n\n# TULIS KODEMU: KV/token, KV/request, concurrency maks\nper_token = 2 * layers * hidden * byte\nper_req_mb = per_token * ctx // (1024 * 1024)\nconc = vram_kv_gb * 1024 // per_req_mb\n\nprint(f"per_token={per_token} per_req_MB={per_req_mb} conc={conc}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "per_token", value: 524288, label: "`per_token` seharusnya 524.288", msg: "2 × 32 × 4.096 × 2 = 524.288 byte." },
+              { kind: "equal", task: "t1", name: "per_req_mb", value: 1024, label: "`per_req_mb` seharusnya 1.024", msg: "524.288 × 2.048 / 1.048.576 = 1.024 MB." },
+              { kind: "equal", task: "t2", name: "conc", value: 40, label: "`conc` seharusnya 40", msg: "40 GB / 1 GB = 40." },
+              { kind: "stdout_matches", task: "t2", pattern: "per_token=524288\\s+per_req_MB=1024\\s+conc=40", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Konteks request naik dari 2.048 ke 8.192 token, VRAM KV tetap 40 GB. Concurrency maks?",
+              options: [
+                { text: "Turun 40 → 10 — KV per request naik 4×, concurrency jatuh 4×", why: "Benar: concurrency = VRAM / (token × KV/token); konteks 4× = concurrency ¼.", correct: true },
+                { text: "Tetap 40 — concurrency ditentukan QPS, bukan konteks", why: "Salah: QPS × latensi memberi concurrency yang DIBUTUHKAN; KV-cache memberi concurrency yang MUNGKIN." },
+                { text: "Naik ke 160 — konteks panjang = batching lebih efisien", why: "Salah: konteks panjang memakan KV-cache lebih banyak, bukan lebih sedikit." },
+              ],
+            },
+          ],
+          reference: "KV/token = 2×L×H×b; conc = VRAM_KV / (token×KV/token); kuantisasi KV / prefix caching / PagedAttention.",
+        },
+    {
+          id: "gap-r9-tuas-tpot",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P7-G6)",
+          title: "Lima tuas TPOT: kuantisasi, speculative, chunked, prefix, tensor",
+          prose: [
+            "Langkah 2–3 mengajarkan diagnosis TTFT/TPOT — tetapi belum memberi OBAT konkret untuk TPOT. Lima tuas baku industri: (1) KUANTISASI INT8/FP8 — bobot 8-bit (bukan 16-bit): decode yang memory-bandwidth-bound jadi ~2× lebih cepat karena separuh byte yang dibaca; harga: sedikit penurunan kualitas (ukur!). (2) SPECULATIVE DECODING — model kecil (draft) menebak beberapa token, model besar memverifikasi sekaligus: bila tebakan benar, beberapa token per langkah, bukan satu. (3) CHUNKED PREFILL — prompt panjang dipotong jadi chunk: TTFT tidak lagi menunggu seluruh prefill (latensi pertama turun, throughput terjaga). (4) PREFIX CACHING — system prompt / konteks awal yang sama dipakai ulang dari KV-cache: prefill yang berulang tidak dihitung dua kali. (5) TENSOR PARALLEL — model dibagi ke beberapa GPU: membantu TTFT (prefill paralel) lebih dari TPOT (decode tetap serial).",
+            "Contoh angka (TPOT baseline 35ms): INT8 (×0,6) → 35 × 0,6 = 21,0ms; tambah speculative decoding (×0,7) → 21 × 0,7 = 14,7ms — gabungan keduanya memangkas TPOT 58%. Perhatikan: pengali TIDAK selalu independen (INT8 + speculative bisa berinteraksi) — ukur kombinasi di workload-mu sendiri, jangan kalikan angka brosur.",
+            "Aturan memilih: TPOT tinggi + batch besar → kuantisasi dulu (bandwidth). TPOT tinggi + batch kecil → speculative decoding (latensi per token). TTFT tinggi + prompt berulang → prefix caching. TTFT tinggi + prompt panjang sekali-pakai → chunked prefill. Semua tuas gagal + model terlalu besar untuk satu GPU → tensor parallel. Dan selalu: ukur SEBELUM dan SESUDAH di p95, bukan rata-rata (lihat Langkah 3).",
+          ],
+          formula: String.raw`T_{TPOT}' = T_{TPOT} \times f_{kuant} \times f_{spec} \times \cdots`,
+          formulaNote: "Tuas TPOT: INT8/FP8 (×~0,6, bandwidth), speculative decoding (×~0,7, draft+verifikasi), chunked prefill (TTFT), prefix caching (prefill berulang), tensor parallel (TTFT, multi-GPU). Contoh angka: 35ms → INT8 21,0ms → +speculative 14,7ms (−58%). Pengali tidak selalu independen — ukur kombinasi.",
+          tasks: [
+            { id: "t1", text: "Hitung `int8` (35 × 0,6) dan `spec` (int8 × 0,7)" },
+            { id: "t2", text: "Cetak keduanya" },
+          ],
+          expected: "int8=21.0 spec=14.7",
+          hints: [
+            "int8 = tpot × 0,6.",
+            "spec = int8 × 0,7.",
+          ],
+          code: {
+            starter: `tpot = 35.0\n\n# TULIS KODEMU: TPOT setelah INT8 (x0,6) lalu speculative (x0,7)\nint8 = \nspec = \n\nprint(f"int8={int8:.1f} spec={spec:.1f}")`,
+            lockLines: 3,
+            solution: `tpot = 35.0\n\n# TULIS KODEMU: TPOT setelah INT8 (x0,6) lalu speculative (x0,7)\nint8 = tpot * 0.6\nspec = int8 * 0.7\n\nprint(f"int8={int8:.1f} spec={spec:.1f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "int8", value: 21.0, tol: 0.01, label: "`int8` seharusnya 21,0", msg: "35 × 0,6 = 21,0." },
+              { kind: "equal", task: "t1", name: "spec", value: 14.7, tol: 0.01, label: "`spec` seharusnya 14,7", msg: "21 × 0,7 = 14,7." },
+              { kind: "stdout_matches", task: "t2", pattern: "int8=21.0\\s+spec=14.7", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "TPOT 35ms, batch besar, decode memory-bandwidth-bound. Tuas pertama yang dicoba?",
+              options: [
+                { text: "Kuantisasi INT8/FP8 — separuh byte dibaca per token", why: "Benar: decode yang bandwidth-bound membaik paling besar dari kuantisasi.", correct: true },
+                { text: "Tensor parallel — bagi model ke 4 GPU", why: "Salah: tensor parallel membantu TTFT (prefill paralel) lebih dari TPOT yang serial." },
+                { text: "Chunked prefill — potong prompt jadi chunk", why: "Salah: chunked prefill obat TTFT, bukan TPOT." },
+              ],
+            },
+          ],
+          reference: "INT8/FP8, speculative decoding, chunked prefill, prefix caching, tensor parallel — ukur p95 sebelum/sesudah.",
+        },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -258,7 +343,7 @@ export const llmops15: V2Lesson = {
         },
       ],
       summary: [
-        "Latency = TTFT + TPOT × N: TTFT (prefill, ~panjang prompt) vs TPOT (decode, ~panjang respons) — diagnosis dimulai dari memisah keduanya.",
+        "Latency = TTFT + TPOT × N (aproksimasi; eksak ×(N−1)): TTFT (prefill, ~panjang prompt) vs TPOT (decode, ~panjang respons) — diagnosis dimulai dari memisah keduanya.",
         "Tradeoff abadi: concurrency rendah → latensi minimal; concurrency tinggi → throughput maksimal. Pilih sesuai ada/tidaknya manusia yang menunggu.",
         "SLO ditulis di persentil (p95/p99), bukan rata-rata — rata-rata menyembunyikan ekor yang membunuh demo.",
         "Little's Law: Required Concurrency = QPS × latensi (detik); GPU = ceil(concurrency / kapasitas-per-GPU) + buffer 20–30%.",

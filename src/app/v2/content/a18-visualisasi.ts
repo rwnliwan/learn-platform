@@ -12,7 +12,7 @@ export const a18: V2Lesson = {
       eyebrow: "Langkah 1 · Cerita pembuka",
       title: "Nasabah naik 180% — padahal 4,6%",
       prose: [
-        "Rapat direksi MajuBank. Kepala marketing membuka slide: Pertumbuhan Nasabah 180%! — bar chart dua batang. Batang kiri (Kuartal 1) pendek mungil, batang kanan (Kuartal 2) menjulang tiga kali lipat. Direksi bertepuk tangan. Kamu analis risiko di pojok zoom angka kecil di bawah chart: Kuartal 1 = 41.200, Kuartal 2 = 43.100 nasabah.",
+        "Rapat direksi MajuBank. Kepala marketing membuka slide: Pertumbuhan Nasabah 180%! — bar chart dua batang. Batang kiri (Kuartal 1) pendek mungil, batang kanan (Kuartal 2) menjulang 2,58 kali lipat (rasio tinggi batang (43.100−40.000)/(41.200−40.000) = 3.100/1.200 = 2,58× — bukan 3×). Direksi bertepuk tangan. Kamu analis risiko di pojok zoom angka kecil di bawah chart: Kuartal 1 = 41.200, Kuartal 2 = 43.100 nasabah.",
         "Kenaikan riil: 4,6%. Sumbu Y-nya mulai dari 40.000 — bukan nol. Tidak ada satu pun angka di slide itu yang salah. Yang berbohong bukan angkanya — melainkan kesan yang ditanamkan chart ke otak penonton. Otak manusia membaca tinggi batang, bukan membaca sumbu.",
       ],
       tasks: [
@@ -228,8 +228,8 @@ export const a18: V2Lesson = {
       eyebrow: "Langkah 7 · Mini-case",
       title: "Bedah slide direksi yang menipu",
       prose: [
-        "Kamu analis di Bank Sejahtera. Tim marketing mengirim slide untuk rapat direksi: judul Pertumbuhan Tabungan Melonjak 3× Lipat! Chart bar 3D dua batang — Q3 pendek vs Q4 menjulang ±3× lebih tinggi. Footnote kecil: Q3 = Rp485 M, Q4 = Rp505 M. Sumbu Y mulai dari Rp480 M. Hanya Q3–Q4 2025 yang ditampilkan.",
-        "Trik 1 — sumbu terpotong: Y mulai dari 480, bukan 0. Trik 2 — efek 3D: distorsi perspektif membuat batang depan tampak lebih besar. Trik 3 — cherry-picking periode: Q1–Q2 disembunyikan; mungkin Q4 hanya rebound dari Q3 yang anjlok. Lie factor: efek visual ≈ 200% (3× = +200%); efek data = (505−485)/485 ≈ 4,1%. LF ≈ 49 — distorsi berat.",
+        "Kamu analis di Bank Sejahtera. Tim marketing mengirim slide untuk rapat direksi: judul Pertumbuhan Tabungan Melonjak 3× Lipat! Chart bar 3D dua batang — Q3 pendek vs Q4 menjulang ±3× lebih tinggi. Footnote kecil: Q3 = Rp485 M, Q4 = Rp505 M. Sumbu Y mulai dari Rp475 M. Hanya Q3–Q4 2025 yang ditampilkan.",
+        "Trik 1 — sumbu terpotong: Y mulai dari 475, bukan 0. Dengan sumbu 475, rasio tinggi batang = (505−475)/(485−475) = 30/10 = 3× — klaim \"3×\" dan LF ≈ 49 di bawah ini konsisten dengan sumbu ini. Trik 2 — efek 3D: distorsi perspektif membuat batang depan tampak lebih besar. Trik 3 — cherry-picking periode: Q1–Q2 disembunyikan; mungkin Q4 hanya rebound dari Q3 yang anjlok. Lie factor: efek visual ≈ 200% (3× = +200%); efek data = (505−485)/485 ≈ 4,1%. LF ≈ 49 — distorsi berat.",
         "Kalimat koreksi untuk direksi: Tabungan naik 4,1% dari Rp485 M ke Rp505 M pada Q4 — pertumbuhan positif namun moderat, bukan tiga kali lipat; saya lampirkan versi sumbu-nol dan tren 4 kuartal.",
       ],
       tasks: [
@@ -362,7 +362,7 @@ export const a18: V2Lesson = {
       ],
       note: {
         title: "Intuisi: chart adalah argumen visual yang bisa berbohong tanpa angka yang salah",
-        body: "Lima heuristik. Satu: sumbu Y bar chart wajib dari nol — otak membaca perbandingan panjang secara proporsional; sumbu terpotong membuat kenaikan 4,6 persen terlihat 180 persen, dan lie factor mengukurnya. Dua: pilih chart dari pertanyaan, bukan kebiasaan — bandingkan pakai bar, tren pakai garis, distribusi pakai histogram, hubungan pakai scatterplot, komposisi pakai stacked bar; garis antar kategori acak adalah kebohongan visual. Tiga: dual axis adalah main api — dengan mengatur dua skala, deret acak mana pun bisa tampak bergerak bersama; bila terpaksa, kedua sumbu dari nol dan beri peringatan. Empat: pie di atas lima kategori adalah teka-teki sudut — manusia buruk membandingkan sudut; stacked bar membandingkan panjang dan selalu menang. Lima: sebelum percaya chart mana pun, baca sumbu, judul, dan periode — tiga detik yang menyelamatkan: sumbu terpotong, efek 3D, dan cherry-picking periode adalah tiga trik tertua di ruang rapat. Enam: satu chart satu pesan — slide yang memuat lima pesan tidak menyampaikan apa-apa; bila butuh lima pesan, buat lima chart.",
+        body: "Enam heuristik. Satu: sumbu Y bar chart wajib dari nol — otak membaca perbandingan panjang secara proporsional; sumbu terpotong membuat kenaikan 4,6 persen terlihat 180 persen, dan lie factor mengukurnya. Dua: pilih chart dari pertanyaan, bukan kebiasaan — bandingkan pakai bar, tren pakai garis, distribusi pakai histogram, hubungan pakai scatterplot, komposisi pakai stacked bar; garis antar kategori acak adalah kebohongan visual. Tiga: dual axis adalah main api — dengan mengatur dua skala, deret acak mana pun bisa tampak bergerak bersama; bila terpaksa, kedua sumbu dari nol dan beri peringatan. Empat: pie di atas lima kategori adalah teka-teki sudut — manusia buruk membandingkan sudut; stacked bar membandingkan panjang dan selalu menang. Lima: sebelum percaya chart mana pun, baca sumbu, judul, dan periode — tiga detik yang menyelamatkan: sumbu terpotong, efek 3D, dan cherry-picking periode adalah tiga trik tertua di ruang rapat. Enam: satu chart satu pesan — slide yang memuat lima pesan tidak menyampaikan apa-apa; bila butuh lima pesan, buat lima chart.",
       },
     },
   ],

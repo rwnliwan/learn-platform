@@ -144,7 +144,7 @@ export const cr29: V2Lesson = {
     },
     {
       id: "lab-waterfall",
-      eyebrow: "Langkah 4 · Lab",
+      eyebrow: "Langkah 5 · Lab",
       title: "Air terjun Rp80 miliar",
       prose: [
         "Pool Rp500 miliar, tranche: equity 50, mezzanine 100, senior 350 (Rp miliar). Kerugian pool Rp80 miliar. Hitung rugi tiap tranche dengan rumus alokasi — lalu tentukan persentase hangus tiap lapis.",
@@ -179,7 +179,7 @@ export const cr29: V2Lesson = {
     },
     {
       id: "lab-breakeven",
-      eyebrow: "Langkah 5 · Lab",
+      eyebrow: "Langkah 6 · Lab",
       title: "Titik pendarahan senior",
       prose: [
         "Investor senior bertanya: 'Kerugian pool berapa yang mulai melukai saya?' Hitung attachment point tiap tranche — rugi pool saat tranche mulai kena — dan detachment point — saat tranche habis total.",
@@ -211,7 +211,7 @@ export const cr29: V2Lesson = {
     },
     {
       id: "peta",
-      eyebrow: "Langkah 6 · Peta keputusan",
+      eyebrow: "Langkah 7 · Peta keputusan",
       title: "Beli, hindari, atau struktur ulang",
       prose: [
         "Satu: investor konservatif (dana pensiun) → senior dengan subordinasi ≥25% + excess spread positif; tolak bila attachment < 20%. Dua: return tinggi, paham risiko → mezzanine/equity; hitung skenario korelasi tinggi — di situlah equity bisa hangus 2x lebih cepat. Tiga: originator → pertahankan equity (skin in the game) untuk sinyal kualitas; menjual semua = sinyal buruk. Empat: analis struktur → uji dengan korelasi default 0,5 (bukan 0,2); bila senior mulai berdarah di korelasi wajar, struktur terlalu tipis. Lima: regulator/pengawas → minta pengungkapan sensitivitas korelasi + asumsi prepayment; struktur yang tidak bisa menjelaskan asumsinya = struktur yang tidak boleh diedarkan.",
@@ -227,7 +227,7 @@ export const cr29: V2Lesson = {
     },
     {
       id: "minicase",
-      eyebrow: "Langkah 7 · Mini-case",
+      eyebrow: "Langkah 8 · Mini-case",
       title: "Rating AAA yang dipertanyakan",
       prose: [
         "Struktur EBA: pool Rp500 M (KPR), senior Rp350 M berperingkat AAA, subordinasi 30%. Lembaga pemeringkat memakai asumsi korelasi default 0,2. Kamu, analis independen, menguji dengan korelasi 0,5 (krisis perumahan): kerugian pool melonjak ke Rp200 M.",

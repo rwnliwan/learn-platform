@@ -181,7 +181,7 @@ export const pmd3: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah."],
+      prose: ["Tujuh pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Regresi CAPM: pisahkan alpha (intersep) dari beta (slope); alpha tanpa t-stat = anecdote.",

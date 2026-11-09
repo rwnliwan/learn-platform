@@ -249,7 +249,7 @@ export const dm12: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
+      prose: ["Enam pertanyaan dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah."],
       tasks: [],
       summary: [
         "Akses: RBAC (sederhana) → ABAC (presisi); least privilege + kedaluwarsa + review.",

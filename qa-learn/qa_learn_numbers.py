@@ -1385,6 +1385,71 @@ FIXTURES = [
         ["ci_lo=0.92", "r_naif=0.02"],
         [],
     ),
+    # --- Fix ronde 9 (2026-11-09): angka kanonis yang dikoreksi ---
+    # b15 GBM (GG-5 — fix konten mendesak, kelas dieskalasi): E[S_t] tumbuh
+    # mu=8%, median tumbuh 6% (mu-1/2 sigma^2).
+    (
+        "b15-proses-stokastik.ts",
+        ["ekspektasi harga tumbuh 8%/tahun", "median yang tumbuh 6%/tahun",
+         "Rp10.565"],
+        ["ekspektasi harga tumbuh 6%/tahun, BUKAN 8%", "Rp10.566"],
+    ),
+    # mr7/mr8: 1000x + hedge.
+    (
+        "mr7-stress-test.ts",
+        ["Rp195 juta"],
+        ["Rp195 miliar"],
+    ),
+    (
+        "mr8-risiko-suku-bunga.ts",
+        ["Rp77 M", "+Rp32 M", "4,42"],
+        ["untung Rp12 M", "rugi Rp33 M", "Duration bersih = 0"],
+    ),
+    # cr22: rantai 10x + kunjungan.
+    (
+        "cr22-collection-recovery.ts",
+        ["Rp3,3 miliar/bulan", "440×", "Rp980.000"],
+        ["Rp330 juta", "ROI 44×", "Kunjungan RUGI"],
+    ),
+    # aml4/aml5: K4 + fixture + 1000x.
+    (
+        "aml4-sanctions.ts",
+        ["0,8125", "40×"],
+        # "lolos di kedua ambang" SENGAJA bukan must-not: kemunculan di
+        # mini-case :214 BENAR (ambang 0,85/0,90, keduanya > 0,82);
+        # regresi :126 dikunci qa_r9_recompute secara kontekstual.
+        ["13× lebih mahal", "Rp150 jt"],
+    ),
+    (
+        "aml5-structuring.ts",
+        ["14,4 juta kali"],
+        ["14 miliar kali"],
+    ),
+    # d11: prose basi vs lab (t/p/d, shapiro, chi2 x10 agar expected>=5).
+    (
+        "d11-scipy-statsmodels.ts",
+        ["chi2=16.00"],
+        ["t=4.234", "p=0.000046", "d=0.78", "p=0.948", "chi2=4.43"],
+    ),
+    # mle16: successive halving 405 vs 6561 (16,2x).
+    (
+        "mle16-hyperparameter-tuning.ts",
+        ["405", "6.561", "16,2×"],
+        ["324 epoch", "2.187", "7x hemat"],
+    ),
+    # a18: sumbu dipindah ke 475 agar klaim 3x/LF 49 konsisten (opsi verifier);
+    # rasio batang Q2/Q1 = 2,58x (bukan 3x).
+    (
+        "a18-visualisasi.ts",
+        ["Rp475 M", "2,58 kali lipat"],
+        ["Rp480 M", "menjulang tiga kali lipat"],
+    ),
+    # mk15: Q* 460 (skenario B, Cu 8rb/Co 3rb -> 72,7%).
+    (
+        "mk15-forecasting.ts",
+        ["72,7%", "460"],
+        ["120 → 120 → 123"],
+    ),
 ]
 
 

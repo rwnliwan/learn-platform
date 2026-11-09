@@ -70,10 +70,10 @@ export const b15: V2Lesson = {
       prose: [
         "Harga tidak boleh negatif dan return-nya yang acak (bukan perubahan absolut) \u2192 pakai eksponensial dari Brown: dS_t = \u03BCS_t dt + \u03C3S_t dW_t. Solusinya (It\u00F4): S_t = S_0\u00B7exp((\u03BC\u2212\u00BD\u03C3\u00B2)t + \u03C3W_t).",
         "\u2212\u00BD\u03C3\u00B2 adalah koreksi It\u00F4 \u2014 Jensen (B5!) beraksi: E[S_t] = S_0\u00B7e^(\u03BCt), tapi median = S_0\u00B7e^((\u03BC\u2212\u03C3\u00B2/2)t). Log-return normal \u2192 harga lognormal (B7.1!).",
-        "Contoh: S0=Rp10.000, \u03BC=10%/thn, \u03C3=30%/thn. ln(S1/S0) ~ N(0,055; 0,09). Median S1 = 10.000\u00D7e^0,055 \u2248 Rp10.566. E[S1] = 10.000\u00D7e^0,1 \u2248 Rp11.052 (lebih tinggi \u2014 Jensen!). P(S1 < S0) \u2248 43% \u2014 meski ekspektasi +10%! Investor \u201Ctipikal\u201D (median) tidak mendapat 10%.",
+        "Contoh: S0=Rp10.000, \u03BC=10%/thn, \u03C3=30%/thn. ln(S1/S0) ~ N(0,055; 0,09). Median S1 = 10.000\u00D7e^0,055 \u2248 Rp10.565. E[S1] = 10.000\u00D7e^0,1 \u2248 Rp11.052 (lebih tinggi \u2014 Jensen!). P(S1 < S0) \u2248 43% \u2014 meski ekspektasi +10%! Investor \u201Ctipikal\u201D (median) tidak mendapat 10%.",
       ],
       formula: String.raw`dS_t = \mu S_t\,dt + \sigma S_t\,dW_t \qquad S_t = S_0\, e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t}`,
-      formulaNote: "S_t = harga di waktu t; μ = expected return (drift); σ = volatilitas; dW_t = guncangan Brown. dS_t = μS_t·dt + σS_t·dW_t: perubahan PROPOSIONAL terhadap harga — yang acak adalah return-nya, bukan perubahan rupiahnya, sehingga harga tidak pernah negatif. Solusinya S_t = S_0·e^((μ−½σ²)t + σW_t): −½σ² adalah koreksi Itô. Contoh angka: μ = 8%, σ = 20% → drift efektif harga = 8% − ½×0,04 = 6% — angka ini artinya ekspektasi harga tumbuh 6%/tahun, BUKAN 8%: volatilitas memakan 2 poin lewat koreksi Itô. Median tumbuh lebih lambat lagi. Mengabaikan −½σ² berarti melebih-lebihkan ekspektasi harga secara sistematis.",
+      formulaNote: "S_t = harga di waktu t; μ = expected return (drift); σ = volatilitas; dW_t = guncangan Brown. dS_t = μS_t·dt + σS_t·dW_t: perubahan PROPOSIONAL terhadap harga — yang acak adalah return-nya, bukan perubahan rupiahnya, sehingga harga tidak pernah negatif. Solusinya S_t = S_0·e^((μ−½σ²)t + σW_t): −½σ² adalah koreksi Itô. Contoh angka: μ = 8%, σ = 20% → drift log-harga = 8% − ½×0,04 = 6% — angka ini artinya median yang tumbuh 6%/tahun (dan E[log S_t] tumbuh 6%/tahun); ekspektasi harga tumbuh 8%/tahun (E[S_t] = S_0·e^(0,08t)): koreksi Itô −½σ² berlaku pada drift log/median, BUKAN pada mean harga. Median tumbuh lebih lambat dari mean — itulah volatility drag. Mengabaikan −½σ² berarti melebih-lebihkan MEDIAN harga secara sistematis.",
       tasks: [
         { id: "t1", text: "Hitung `mean1` = E[S1] dan `median1` (S0=10000, \u03BC=10%, \u03C3=30%)" },
         { id: "t2", text: "Hitung `p_rugi` = P(S1 < S0) via z-score log-return" },
@@ -108,7 +108,7 @@ export const b15: V2Lesson = {
       eyebrow: "Langkah 4 · Lab GBM",
       title: "Simulasikan 2.000 path harga setahun",
       prose: [
-        "S_T = S0\u00B7exp((\u03BC\u2212\u00BD\u03C3\u00B2)T + \u03C3\u221AT\u00B7Z), Z~N(0,1). Simulasikan 2.000 path (cukup untuk browser), hitung mean, median, dan kuantil 5% (= VaR 95%!). Verifikasi mean \u2248 11.052 dan median \u2248 10.566 dari langkah 3.",
+        "S_T = S0\u00B7exp((\u03BC\u2212\u00BD\u03C3\u00B2)T + \u03C3\u221AT\u00B7Z), Z~N(0,1). Simulasikan 2.000 path (cukup untuk browser), hitung mean, median, dan kuantil 5% (= VaR 95%!). Verifikasi mean \u2248 11.052 dan median \u2248 10.565 dari langkah 3.",
         "Perhatikan: mean > median \u2014 selalu, untuk GBM. Dan VaR langsung terbaca dari kuantil simulasi.",
       ],
       tasks: [
@@ -212,6 +212,50 @@ export const b15: V2Lesson = {
       reference: "Aturan skala = alat cepat, bukan kebenaran. Cek asumsi.",
     },
     {
+          id: "gap-r9-euler-maruyama",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P2-G1)",
+          title: "Dari rumus ke simulasi: skema Euler–Maruyama",
+          prose: [
+            "Langkah 5 memperkenalkan proses Ornstein–Uhlenbeck dan Poisson sebagai blok bangun — tetapi lesson ini belum menunjukkan cara mensimulasikan SDE secara numerik. Skema Euler–Maruyama (EM) adalah cara paling dasar: diskretkan waktu menjadi langkah dt, lalu majukan harga dengan S(t+dt) ≈ S(t) + μ·S(t)·dt + σ·S(t)·√dt·Z, dengan Z ~ N(0,1). Ini adalah versi stokastik dari metode Euler yang kamu kenal dari ODE — bedanya, suku difusi membawa √dt, bukan dt.",
+            "Mengapa √dt? Karena variansi inkremen Wiener selama dt adalah dt, sehingga simpangan bakunya √dt. Suku inilah yang membuat EM konvergen LAMBAT: galat kuatnya berorde √dt (bukan dt seperti Euler deterministik) — memperkecil dt 100× hanya mengurangi galat ~10×. Untuk dt = 1/252 (satu hari trading), galat relatif terhadap solusi eksak GBM pada satu path biasanya di bawah 1% — cukup untuk latihan, tetapi untuk pricing opsi yang sensitif, skema orde lebih tinggi (mis. Milstein) sering diperlukan.",
+            "Lab ini membandingkan EM dengan solusi eksak GBM pada PATH YANG SAMA (Z yang sama di tiap langkah) — ini uji konvergensi kuat. Perhatikan: EM di sini memakai drift μ penuh (0,08) pada harga, bukan drift log 6% — karena yang disimulasikan adalah S, bukan log S. Koreksi Itô −½σ² muncul dengan sendirinya di solusi eksak melalui suku (μ − ½σ²)·dt di eksponen; EM tidak menulisnya eksplisit, tetapi mendekatinya lewat akumulasi suku difusi. Bila kedua hasil berbeda jauh (> 2% pada path ini), periksa apakah suku difusimu memakai √dt — kesalahan paling umum adalah memakai dt.",
+          ],
+          formula: String.raw`S_{t+dt} \approx S_t + \mu S_t\,dt + \sigma S_t\sqrt{dt}\,Z \qquad Z \sim N(0,1)`,
+          formulaNote: "Euler–Maruyama untuk GBM: drift μ·S·dt, difusi σ·S·√dt·Z. Galat kuat berorde √dt. Lab memakai seed 15, 252 langkah (dt = 1/252), S₀ = 100, μ = 8%, σ = 20% — bandingkan dengan solusi eksak pada Z yang sama.",
+          tasks: [
+            { id: "t1", text: "Simulasikan `S_em` (Euler–Maruyama) dan `S_ex` (eksak) dengan Z yang sama" },
+            { id: "t2", text: "Hitung `err` = |S_em − S_ex| / S_ex dan cetak ketiganya" },
+          ],
+          expected: "S_em=93.14 S_ex=93.40 err=0.0027",
+          hints: [
+            "random.gauss(0, 1) dipanggil SEKALI per langkah — pakai Z yang sama untuk kedua update.",
+            "Eksak: S *= exp((mu − 0.5*sigma**2)*dt + sigma*sqrt(dt)*z).",
+            "EM: S += mu*S*dt + sigma*S*sqrt(dt)*z.",
+          ],
+          code: {
+            starter: `import math, random\nrandom.seed(15)\nS0, mu, sigma, N = 100, 0.08, 0.20, 252\ndt = 1 / N\n\n# TULIS KODEMU: Euler-Maruyama vs solusi eksak (Z yang sama)\nS_em = S0\nS_ex = S0\nfor _ in range(N):\n    z = random.gauss(0, 1)\n    S_em += \n    S_ex *= \nerr = \n\nprint(f"S_em={S_em:.2f} S_ex={S_ex:.2f} err={err:.4f}")`,
+            lockLines: 5,
+            solution: `import math, random\nrandom.seed(15)\nS0, mu, sigma, N = 100, 0.08, 0.20, 252\ndt = 1 / N\n\n# TULIS KODEMU: Euler-Maruyama vs solusi eksak (Z yang sama)\nS_em = S0\nS_ex = S0\nfor _ in range(N):\n    z = random.gauss(0, 1)\n    S_em += mu * S_em * dt + sigma * S_em * math.sqrt(dt) * z\n    S_ex *= math.exp((mu - 0.5 * sigma ** 2) * dt + sigma * math.sqrt(dt) * z)\nerr = abs(S_em - S_ex) / S_ex\n\nprint(f"S_em={S_em:.2f} S_ex={S_ex:.2f} err={err:.4f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "S_em", value: 93.1425, tol: 0.05, label: "`S_em` seharusnya 93.14", msg: "EM dengan seed 15, 252 langkah." },
+              { kind: "equal", task: "t1", name: "S_ex", value: 93.3989, tol: 0.05, label: "`S_ex` seharusnya 93.40", msg: "Solusi eksak dengan Z yang sama." },
+              { kind: "equal", task: "t2", name: "err", value: 0.0027, tol: 0.0005, label: "`err` seharusnya 0.0027", msg: "Galat relatif EM vs eksak pada path ini." },
+              { kind: "stdout_matches", task: "t2", pattern: "S_em=93.14\\s+S_ex=93.40\\s+err=0.0027", label: "`print` menampilkan perbandingan", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Mengapa suku difusi Euler–Maruyama memakai √dt, bukan dt?",
+              options: [
+                { text: "Variansi inkremen Wiener selama dt adalah dt, jadi simpangan bakunya √dt", why: "Benar: itulah alasan galat kuat EM berorde √dt — lebih lambat dari Euler deterministik.", correct: true },
+                { text: "Agar rumusnya simetris dengan suku drift", why: "Salah: √dt datang dari sifat Wiener, bukan estetika rumus." },
+                { text: "Karena dt < 1 sehingga √dt > dt dan simulasinya lebih stabil", why: "Salah: kestabilan bukan alasannya — √dt adalah skala stokastik yang benar." },
+              ],
+            },
+          ],
+          reference: "EM: S += μ·S·dt + σ·S·√dt·Z; galat kuat O(√dt); bandingkan dengan solusi eksak pada Z yang sama.",
+        },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
@@ -221,7 +265,7 @@ export const b15: V2Lesson = {
       tasks: [],
       note: {
         title: "Intuisi: waktu empat kali lipat, risiko hanya dua kali lipat",
-        body: "Risiko menyebar dengan akar waktu, bukan linear. VaR 10 hari adalah VaR 1 hari dikali √10 ≈ 3,16 — bukan dikali 10. Praktisi yang mengalikan linear melebih-lebihkan risiko horizon panjang hampir tiga kali lipat; yang mengabaikan akar waktu meremehkannya. Akar ini datang dari varians yang bertambah linear: setiap hari menambah ketidakpastian yang independen, dan simpangan baku adalah akarnya. Aturan keputusannya: skala waktu pakai √t untuk difusi murni; curigai jika ada tren atau autokorelasi — keduanya merusak akar. Dua koreksi praktisi yang sering dilupakan: pertama, dalam GBM bekerjalah dalam log-return, karena yang acak adalah return-nya, bukan perubahan harganya — dan ingat koreksi Itô −½σ²: harga ekspektasian tumbuh lebih lambat dari μ karena volatilitas memakan sebagian. Kedua, untuk suku bunga atau spread, mean-reversion berarti guncangan meluruh — jangan ekstrapolasi deviasi hari ini secara linear ke depan. Waktu menyembuhkan sebagian guncangan, dan model yang baik tahu seberapa cepat: itulah θ. Hafalkan pasangannya: varians linear, simpangan baku akar — tertukar keduanya berarti salah kuadrat.",
+        body: "Risiko menyebar dengan akar waktu, bukan linear. VaR 10 hari adalah VaR 1 hari dikali √10 ≈ 3,16 — bukan dikali 10. Praktisi yang mengalikan linear melebih-lebihkan risiko horizon panjang hampir tiga kali lipat; yang mengabaikan akar waktu meremehkannya. Akar ini datang dari varians yang bertambah linear: setiap hari menambah ketidakpastian yang independen, dan simpangan baku adalah akarnya. Aturan keputusannya: skala waktu pakai √t untuk difusi murni; curigai jika ada tren atau autokorelasi — keduanya merusak akar. Dua koreksi praktisi yang sering dilupakan: pertama, dalam GBM bekerjalah dalam log-return, karena yang acak adalah return-nya, bukan perubahan harganya — dan ingat koreksi Itô −½σ²: median harga tumbuh lebih lambat dari μ (μ−½σ²) karena volatilitas memakan sebagian — ekspektasi harga sendiri tetap tumbuh μ. Kedua, untuk suku bunga atau spread, mean-reversion berarti guncangan meluruh — jangan ekstrapolasi deviasi hari ini secara linear ke depan. Waktu menyembuhkan sebagian guncangan, dan model yang baik tahu seberapa cepat: itulah θ. Hafalkan pasangannya: varians linear, simpangan baku akar — tertukar keduanya berarti salah kuadrat.",
       },
       summary: [
         "Random walk: Var \u221D t, SD \u221D \u221At \u2014 aturan skala volatilitas.",
@@ -267,7 +311,7 @@ export const b15: V2Lesson = {
         {
           q: "S0=50, \u03BC=5%, \u03C3=40%, t=2. Volatility drag per tahun?",
           options: [
-            { text: "8% \u2014 menghapus seluruh drift 5%", why: "Benar: drag = \u00BD\u03C3\u00B2 = 8%/tahun. Investor tipikal bahkan negatif!", correct: true },
+            { text: "8% \u2014 menghapus seluruh drift 5%", why: "Benar: drag = \u00BD\u03C3\u00B2 = 8%/tahun \u2014 dengan \u03C3=40% di soal ini (bukan \u03C3=20% contoh formula). Median tumbuh 5% \u2212 8% = \u22123%/tahun: investor tipikal bahkan negatif!", correct: true },
             { text: "5%", why: "Salah: itu drift-nya, bukan drag-nya." },
             { text: "0%", why: "Salah: volatilitas selalu menggerogoti median." },
           ],

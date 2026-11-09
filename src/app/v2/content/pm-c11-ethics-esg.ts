@@ -36,7 +36,7 @@ export const pmc11: V2Lesson = {
       ],
       note: {
         title: "Intuisi: etika adalah satu-satunya keunggulan yang tidak bisa ditiru",
-        body: "Tiga heuristik praktisi senior. Pertama, reputasi punya asimetri yang brutal: dibangun 20 tahun, hancur 20 hari — maka setiap keputusan abu-abu harus diuji dengan “skenario headline”: bagaimana jika keputusan ini jadi berita utama besok pagi dengan namaku di judulnya? Kedua, dalam ESG, skeptisisme adalah layanan profesional: klien membayar manajer bukan untuk mengulang brosur emiten, melainkan untuk membedahnya — manajer yang menelan skor ESG mentah sedang menagih fee untuk pekerjaan yang tidak dilakukan. Ketiga, konflik kepentingan tidak pernah “diselesaikan” — hanya dikelola lewat disclosure + persetujuan: siapa pun yang bilang “sudah beres, tidak ada konflik” biasanya belum mencari dengan cukup keras. Etika bukan tentang menjadi orang baik; ini tentang membangun sistem di mana menjadi tidak baik itu sulit dan ketahuan. Keempat, dalam ESG, tanyakan selalu siapa yang diuntungkan klaim ini: provider rating dibayar emiten yang dinilai, manajer dibayar dari fee produk hijau \u2014 struktur insentif menjelaskan separuh greenwashing. Kelima, whistleblowing yang efektif selalu tertulis dan berjenjang: laporan lisan = tidak pernah terjadi; email ke compliance dengan tembusan = jejak yang melindungimu.",
+        body: "Lima heuristik praktisi senior. Pertama, reputasi punya asimetri yang brutal: dibangun 20 tahun, hancur 20 hari — maka setiap keputusan abu-abu harus diuji dengan “skenario headline”: bagaimana jika keputusan ini jadi berita utama besok pagi dengan namaku di judulnya? Kedua, dalam ESG, skeptisisme adalah layanan profesional: klien membayar manajer bukan untuk mengulang brosur emiten, melainkan untuk membedahnya — manajer yang menelan skor ESG mentah sedang menagih fee untuk pekerjaan yang tidak dilakukan. Ketiga, konflik kepentingan tidak pernah “diselesaikan” — hanya dikelola lewat disclosure + persetujuan: siapa pun yang bilang “sudah beres, tidak ada konflik” biasanya belum mencari dengan cukup keras. Etika bukan tentang menjadi orang baik; ini tentang membangun sistem di mana menjadi tidak baik itu sulit dan ketahuan. Keempat, dalam ESG, tanyakan selalu siapa yang diuntungkan klaim ini: provider rating dibayar emiten yang dinilai, manajer dibayar dari fee produk hijau \u2014 struktur insentif menjelaskan separuh greenwashing. Kelima, whistleblowing yang efektif selalu tertulis dan berjenjang: laporan lisan = tidak pernah terjadi; email ke compliance dengan tembusan = jejak yang melindungimu.",
       },
       tasks: [],
       reference: "Integritas = strategi jangka panjang; reputasi = aset tak ternilai.",
@@ -193,7 +193,7 @@ export const pmc11: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah."],
+      prose: ["Delapan pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Etika praktik: soft dollars hanya untuk manfaat klien + disclose; IPO proporsional; material nonpublic = jangan trading.",

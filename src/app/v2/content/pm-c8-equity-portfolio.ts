@@ -36,7 +36,7 @@ export const pmc8: V2Lesson = {
       ],
       note: {
         title: "Intuisi: di ekuitas, keputusan struktur mengalahkan keputusan pilihan",
-        body: "Tiga heuristik manajer ekuitas institusi. Pertama, tanyakan “siapa yang saya bayar untuk apa?” sebelum “manajer mana yang bagus?” — membayar fee aktif 1,5% untuk beta pasar (closet indexer) adalah kesalahan struktur, bukan kesalahan pilihan manajer; audit active share dulu, kagumi IR kemudian. Kedua, style adalah risiko yang menyamar sebagai preferensi: portofolio “value” yang dikelola manajer growth yang sedang style-drift bukan diversifikasi — ukur eksposur faktor portofolio gabungan tiap kuartal, bukan label fund factsheet. Ketiga, pajak adalah return yang tertinggal di meja: di akun kena pajak, turnover 120% vs 15% bisa berarti selisih 1% per tahun yang tidak pernah muncul di factsheet mana pun — hitung tax drag sebelum membandingkan dua manajer “setara”. Keempat, rotasi manajer lebih mahal dari yang terlihat: biaya transaksi + pajak + jeda tanpa eksposur + risiko manajer baru \u2014 manajer yang underperform tiga tahun sering lebih murah dipertahankan dengan monitoring ketat daripada diganti. Kelima, untuk setiap satelit aktif, tulis tesis kematiannya: kondisi apa yang membuktikan tesismu salah \u2014 tanpa itu, kamu akan memegang pecundang selamanya.",
+        body: "Lima heuristik manajer ekuitas institusi. Pertama, tanyakan “siapa yang saya bayar untuk apa?” sebelum “manajer mana yang bagus?” — membayar fee aktif 1,5% untuk beta pasar (closet indexer) adalah kesalahan struktur, bukan kesalahan pilihan manajer; audit active share dulu, kagumi IR kemudian. Kedua, style adalah risiko yang menyamar sebagai preferensi: portofolio “value” yang dikelola manajer growth yang sedang style-drift bukan diversifikasi — ukur eksposur faktor portofolio gabungan tiap kuartal, bukan label fund factsheet. Ketiga, pajak adalah return yang tertinggal di meja: di akun kena pajak, turnover 120% vs 15% bisa berarti selisih 1% per tahun yang tidak pernah muncul di factsheet mana pun — hitung tax drag sebelum membandingkan dua manajer “setara”. Keempat, rotasi manajer lebih mahal dari yang terlihat: biaya transaksi + pajak + jeda tanpa eksposur + risiko manajer baru \u2014 manajer yang underperform tiga tahun sering lebih murah dipertahankan dengan monitoring ketat daripada diganti. Kelima, untuk setiap satelit aktif, tulis tesis kematiannya: kondisi apa yang membuktikan tesismu salah \u2014 tanpa itu, kamu akan memegang pecundang selamanya.",
       },
       tasks: [],
       reference: "Biaya = kepastian; alpha = harapan.",
@@ -228,7 +228,7 @@ export const pmc8: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Lima pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "IR = active return / TE; nilai manajer dari IR net 3\u20135 tahun (> 0,5 baik), bukan return mentah.",

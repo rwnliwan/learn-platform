@@ -50,7 +50,7 @@ export const aie16: V2Lesson = {
         "Lesson ini membedah tiga hal: (1) MTEB — papan skor universal embedding, cara membacanya tanpa tertipu rata-rata; (2) fine-tuning embedding untuk domain spesifik — kapan layak, kapan bunuh diri; (3) Matryoshka — satu model, banyak ukuran, potong dimensi sesuai budget tanpa latih ulang. (Catatan kepemilikan: 'MTEB' sempat disebut selintas di mle13 sebagai tips memilih model — di sini kita bedah penuh: benchmark-nya, cara bacanya, fine-tune-nya.)",
         "Bekal kilat (agar lesson ini mandiri): lesson RAG dasar mengubah teks menjadi vektor embedding dan mengukur kedekatan dengan cosine similarity; lesson hybrid search menunjukkan dense retrieval unggul di parafrase tetapi buta istilah spesifik — kualitas keduanya ditentukan oleh MODEL EMBEDDING yang kamu pilih. Lesson ini: memilih, menilai, dan melatihnya dengan benar.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan temuan kunci MTEB dan implikasinya; (2) membaca leaderboard embedding tanpa tertipu skor rata-rata; (3) memutuskan kapan fine-tune embedding layak vs kapan tidak; (4) menerapkan Matryoshka truncation sesuai budget; (5) menghitung tradeoff dimensi vs storage/latensi.",
-        "🗺️ Isi lesson (⏱ 47 mnt · 1 lab · 5 kuis · 1 mini-case): Langkah 1 · Cerita — Langkah 2 · MTEB: si papan skor universal — Langkah 3 · Fine-tune & Matryoshka — Langkah 4 · Lab: seleksi + truncation — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case legal-tech — Checkpoint.",
+        "🗺️ Isi lesson (⏱ 52 mnt · 1 lab · 6 kuis · 1 mini-case): Langkah 1 · Cerita — Langkah 2 · MTEB: si papan skor universal — Langkah 3 · Fine-tune & Matryoshka — Langkah 4 · Lab: seleksi + truncation — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case legal-tech — Langkah 7 · ANN & vector DB — Checkpoint.",
       ],
       tasks: [],
       reference: "Pilih model yang menang di TUGASMU, bukan juara umum papan skor.",
@@ -274,7 +274,7 @@ print("storage dim=2:", round(storage_mb(1000000, 2), 1), "MB")`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan dari semua langkah. Setiap opsi menjelaskan alasan benar/salahnya.",
+        "Enam pertanyaan dari semua langkah. Setiap opsi menjelaskan alasan benar/salahnya.",
       ],
       tasks: [],
       summary: [

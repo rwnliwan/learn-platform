@@ -43,3 +43,6 @@ next-env.d.ts
 # local venvs & large data (GitHub 100MB limit)
 .venv-qa/
 misi-data/work/
+
+# python bytecode (qa-learn guard runs)
+__pycache__/

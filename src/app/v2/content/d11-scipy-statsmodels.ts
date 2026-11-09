@@ -23,8 +23,8 @@ export const d11: V2Lesson = {
       eyebrow: "Langkah 2 · Uji t",
       title: "Beda mean gaji Jakarta vs Bandung",
       prose: [
-        "`scipy.stats.ttest_ind(a, b)` memberi statistik t dan p-value. Di sini t=4.234, p=0.000046 (< 0.05): beda 2jt signifikan, bukan kebetulan. Tapi signifikansi tidak sama dengan penting secara bisnis — di sinilah effect size masuk.",
-        "Cohen's d = selisih mean / std gabungan: 0.78 (efek sedang-besar; <0.2 kecil, 0.5 sedang, 0.8 besar). p-value menjawab 'apakah beda?', d menjawab 'seberapa besar bedanya?'. Lapor keduanya.",
+        "`scipy.stats.ttest_ind(a, b)` memberi statistik t dan p-value. Di sini t=4.74, p=0.000010 (< 0.05): beda 2jt signifikan, bukan kebetulan. Tapi signifikansi tidak sama dengan penting secara bisnis — di sinilah effect size masuk.",
+        "Cohen's d = selisih mean / std gabungan: 1.06 (efek besar; <0.2 kecil, 0.5 sedang, 0.8 besar). p-value menjawab 'apakah beda?', d menjawab 'seberapa besar bedanya?'. Lapor keduanya.",
       ],
       requires: ["scipy", "numpy"],
       tasks: [
@@ -60,7 +60,7 @@ export const d11: V2Lesson = {
       eyebrow: "Langkah 3 · Asumsi",
       title: "Uji t sah jika normal",
       prose: [
-        "Uji t mengasumsikan data mendekati normal. `scipy.stats.shapiro(x)` mengujinya: p > 0.05 berarti tidak ada bukti kuat penyimpangan dari normal — asumsi aman. Di sini p=0.948: sangat aman.",
+        "Uji t mengasumsikan data mendekati normal. `scipy.stats.shapiro(x)` mengujinya: p > 0.05 berarti tidak ada bukti kuat penyimpangan dari normal — asumsi aman. Di sini p=0.911: sangat aman.",
         "Jika asumsi gagal (skew berat, outlier): pakai alternatif nonparametrik `mannwhitneyu` — membandingkan ranking, bukan mean. Jangan memaksa uji t pada data yang jelas tidak normal.",
       ],
       requires: ["scipy", "numpy"],
@@ -95,15 +95,15 @@ export const d11: V2Lesson = {
       eyebrow: "Langkah 4 · Chi-square",
       title: "Kota mempengaruhi macet?",
       prose: [
-        "Chi-square of independence menguji: dua variabel kategorikal berhubungan? `chi2_contingency(tabel)` dengan tabel 3 kota x 2 status: chi2=4.43, p=0.109, dof=2. p > 0.05 — tidak ada bukti signifikan kota memengaruhi kemacetan.",
-        "Syarat: expected count >= 5 di tiap sel. Sampel kecil = power rendah. ANOVA adalah analog kontinu untuk 3+ grup — satu F-test menggantikan banyak uji t berpasangan (post-hoc Tukey sesudahnya jika signifikan).",
+        "Chi-square of independence menguji: dua variabel kategorikal berhubungan? `chi2_contingency(tabel)` dengan tabel 3 kota x 2 status (n 10× lipat dari contoh kecil): chi2=16.00, p=0.000335, dof=2. p < 0.05 — ada bukti signifikan kota memengaruhi kemacetan (dengan n lebih besar, power naik dan efek yang sama kini terdeteksi).",
+        "Syarat: expected count >= 5 di tiap sel — dengan tabel ×10, expected count menjadi 25; 15; 12,5; 7,5; 12,5; 7,5 — semuanya ≥ 5, syarat terpenuhi. Sampel kecil = power rendah. ANOVA adalah analog kontinu untuk 3+ grup — satu F-test menggantikan banyak uji t berpasangan (post-hoc Tukey sesudahnya jika signifikan).",
       ],
       requires: ["scipy", "numpy"],
       tasks: [
         { id: "t1", text: "Jalankan `chi2_contingency(tabel)`, dapatkan `chi2`, `p_chi`, `dof`" },
         { id: "t2", text: "Tentukan `signif_chi` = (p_chi < 0.05)" },
       ],
-      expected: "chi2=1.60  p=0.449  dof=2  signif_chi=False",
+      expected: "chi2=16.00  p=0.000  dof=2  signif_chi=True",
       note: {
         title: "Sering salah",
         body: "Membaca 'tidak signifikan' sebagai 'tidak ada efek'. Yang benar: tidak cukup bukti untuk klaim ada efek — bisa jadi efek kecil yang butuh n lebih besar. Power rendah bukan bukti nol.",
@@ -114,14 +114,14 @@ export const d11: V2Lesson = {
         "signif_chi = p_chi < 0.05",
       ],
       code: {
-        starter: `import numpy as np\nfrom scipy.stats import chi2_contingency\n\n# baris = kota, kolom = [macet, lancar]\ntabel = np.array([[2, 2], [1, 1], [2, 0]])\n\n# TULIS KODEMU\nchi2, p_chi, dof, exp = \nsignif_chi = \n\nprint(f"chi2={chi2:.2f}  p={p_chi:.3f}  dof={dof}  signif_chi={signif_chi}")`,
+        starter: `import numpy as np\nfrom scipy.stats import chi2_contingency\n\n# baris = kota, kolom = [macet, lancar]\ntabel = np.array([[20, 20], [10, 10], [20, 0]])\n\n# TULIS KODEMU\nchi2, p_chi, dof, exp = \nsignif_chi = \n\nprint(f"chi2={chi2:.2f}  p={p_chi:.3f}  dof={dof}  signif_chi={signif_chi}")`,
         lockLines: 4,
-        solution: `import numpy as np\nfrom scipy.stats import chi2_contingency\n\n# baris = kota, kolom = [macet, lancar]\ntabel = np.array([[2, 2], [1, 1], [2, 0]])\n\n# TULIS KODEMU\nchi2, p_chi, dof, exp = chi2_contingency(tabel)\nsignif_chi = p_chi < 0.05\n\nprint(f"chi2={chi2:.2f}  p={p_chi:.3f}  dof={dof}  signif_chi={signif_chi}")`,
+        solution: `import numpy as np\nfrom scipy.stats import chi2_contingency\n\n# baris = kota, kolom = [macet, lancar]\ntabel = np.array([[20, 20], [10, 10], [20, 0]])\n\n# TULIS KODEMU\nchi2, p_chi, dof, exp = chi2_contingency(tabel)\nsignif_chi = p_chi < 0.05\n\nprint(f"chi2={chi2:.2f}  p={p_chi:.3f}  dof={dof}  signif_chi={signif_chi}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "chi2", value: 1.6, tol: 0.05, label: "`chi2` sekitar 1.60", msg: "Dari tabel 3x2." },
+          { kind: "equal", task: "t1", name: "chi2", value: 16.0, tol: 0.05, label: "`chi2` sekitar 16.00", msg: "Dari tabel 3x2 (n ×10)." },
           { kind: "equal", task: "t1", name: "dof", value: 2, tol: 1e-9, label: "`dof` = 2", msg: "(3-1) x (2-1) = 2." },
-          { kind: "equal", task: "t2", name: "signif_chi", value: false, label: "`signif_chi` = False", msg: "p=0.449 > 0.05 — tidak cukup bukti." },
-          { kind: "stdout_matches", task: "t2", pattern: "chi2=1\\.60\\s+p=0\\.449\\s+dof=2\\s+signif_chi=False", label: "`print` menampilkan semuanya", msg: "Samakan format dengan hasil yang diharapkan." },
+          { kind: "equal", task: "t2", name: "signif_chi", value: true, label: "`signif_chi` = True", msg: "p=0.000335 < 0.05 — signifikan." },
+          { kind: "stdout_matches", task: "t2", pattern: "chi2=16\\.00\\s+p=0\\.000\\s+dof=2\\s+signif_chi=True", label: "`print` menampilkan semuanya", msg: "Samakan format dengan hasil yang diharapkan." },
         ],
       },
       reference: "chi2, p, dof, exp = chi2_contingency(tabel). Expected count >= 5.",
@@ -131,7 +131,7 @@ export const d11: V2Lesson = {
       eyebrow: "Langkah 5 · Regresi OLS",
       title: "Gaji memprediksi DPD?",
       prose: [
-        "`statsmodels.formula.api.ols('dpd ~ gaji', data=df).fit()` memberi model lengkap: koefisien, R-squared, p-value tiap koefisien. Slope -1.858e-06: tiap Rp 1 juta gaji naik, DPD turun ~1.86 hari. Intercept 28.19. R²=0.19 — gaji menjelaskan 19% variasi DPD.",
+        "`statsmodels.formula.api.ols('dpd ~ gaji', data=df).fit()` memberi model lengkap: koefisien, R-squared, p-value tiap koefisien. Slope −1,858e-06: tiap Rp 1 juta gaji naik, DPD turun ~1.86 hari. Intercept 28.19. R²=0.19 — gaji menjelaskan 19% variasi DPD.",
         "statsmodels untuk inferensi (apa efeknya? seberapa yakin?), sklearn untuk prediksi (seberapa akurat?). Asumsi OLS: linearitas, residual acak, homoskedastis, residual ~ normal. Jika residual berpola — model salah spesifikasi.",
       ],
       requires: ["statsmodels", "numpy", "pandas"],
@@ -155,7 +155,7 @@ export const d11: V2Lesson = {
         lockLines: 8,
         solution: `import numpy as np, pandas as pd\nimport statsmodels.api as sm\n\nrng = np.random.default_rng(11)\nn = 150\ngaji = rng.normal(9_000_000, 2_500_000, n).clip(3_000_000)\ndpd = rng.poisson(12, n) + (gaji < 7_000_000).astype(int) * rng.poisson(20, n)\ndf = pd.DataFrame({"gaji": gaji, "dpd": dpd})\n\n# TULIS KODEMU\nX = sm.add_constant(df["gaji"])\nmodel = sm.OLS(df["dpd"], X).fit()\nslope = model.params["gaji"]\nintercept = model.params["const"]\nr2 = model.rsquared\nslope_neg = slope < 0\n\nprint(f"slope={slope:.3e}  intercept={intercept:.2f}  r2={r2:.2f}  slope_neg={slope_neg}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "slope", value: -1.858e-06, tol: 1e-08, label: "`slope` sekitar -1.858e-06", msg: "Negatif: gaji naik, DPD turun." },
+          { kind: "equal", task: "t1", name: "slope", value: -1.858e-06, tol: 1e-08, label: "`slope` sekitar −1,858e-06", msg: "Negatif: gaji naik, DPD turun." },
           { kind: "equal", task: "t2", name: "r2", value: 0.19, tol: 0.02, label: "`r2` sekitar 0.19", msg: "Gaji menjelaskan 19% variasi DPD." },
           { kind: "equal", task: "t2", name: "slope_neg", value: true, label: "`slope_neg` = True", msg: "Slope negatif — hubungan terbalik." },
           { kind: "stdout_matches", task: "t2", pattern: "slope=-1\\.858e-06\\s+intercept=28\\.19\\s+r2=0\\.19\\s+slope_neg=True", label: "`print` menampilkan semuanya", msg: "Samakan format dengan hasil yang diharapkan." },
@@ -202,6 +202,90 @@ export const d11: V2Lesson = {
       },
       reference: "p-value = kejutan, bukan kebenaran. Asumsi dulu; koreksi uji ganda; konfirmatori vs eksploratori; selalu + effect size & CI.",
     },
+    {
+          id: "gap-r9-confidence-interval",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P6-G3)",
+          title: "Confidence interval: dari p-value ke rentang",
+          prose: [
+            "Langkah 2 melaporkan t, p, dan Cohen's d — tetapi belum confidence interval (CI). p-value menjawab “apakah beda?”, CI menjawab “seberapa besar bedanya, dengan ketidakpastian berapa?”. CI 95% untuk selisih mean: selisih ± t_kritis × SE. Bila CI tidak memuat 0, kesimpulannya sama dengan p < 0,05 — tetapi CI memberi LEBIH: lebarnya menunjukkan presisi, dan batasnya menunjukkan efek terkecil yang masih konsisten dengan data.",
+            "Di scipy: `scipy.stats.t.interval(0.95, df, loc=selisih, scale=SE)` memberi CI selisih mean; di statsmodels: `model.conf_int()` memberi CI tiap koefisien (langkah 5, OLS). Keduanya harus dibaca bersama p-value — p-value tanpa CI adalah klaim tanpa ukuran ketidakpastian.",
+            "Contoh angka (uji-t lesson ini): selisih mean Rp2,0 jt, SE = 0,422, t_kritis ≈ 2,0 → margin = 2,0 × 0,422 = 0,844 → CI 95% = (2,0 − 0,844; 2,0 + 0,844) = (1,16; 2,84) juta. Artinya: beda gaji antar-grup diestimasi Rp2,0 jt, dan data masih konsisten dengan beda sekecil Rp1,16 jt atau sebesar Rp2,84 jt — tetapi TIDAK konsisten dengan 0 (itulah mengapa p < 0,05).",
+          ],
+          formula: String.raw`CI_{95\%} = \text{selisih} \pm t_{kritis} \times SE`,
+          formulaNote: "CI 95% selisih mean = selisih ± t_kritis × SE. scipy: t.interval(0.95, df, loc, scale). statsmodels: model.conf_int(). Contoh angka: selisih 2,0, SE 0,422, t_kritis 2,0 → CI (1,16; 2,84) — tidak memuat 0, konsisten dengan p < 0,05.",
+          tasks: [
+            { id: "t1", text: "Hitung `lo` dan `hi` CI 95% (selisih 2,0, SE 0,422, t_kritis 2,0)" },
+            { id: "t2", text: "Cetak CI-nya" },
+          ],
+          expected: "CI=(1.16, 2.84)",
+          hints: [
+            "margin = t_kritis × SE.",
+            "lo = selisih − margin; hi = selisih + margin.",
+          ],
+          code: {
+            starter: `selisih, se, t_kritis = 2.0, 0.422, 2.0\n\n# TULIS KODEMU: CI 95% selisih mean\nlo = \nhi = \n\nprint(f"CI=({lo:.2f}, {hi:.2f})")`,
+            lockLines: 3,
+            solution: `selisih, se, t_kritis = 2.0, 0.422, 2.0\n\n# TULIS KODEMU: CI 95% selisih mean\nlo = selisih - t_kritis * se\nhi = selisih + t_kritis * se\n\nprint(f"CI=({lo:.2f}, {hi:.2f})")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "lo", value: 1.16, tol: 0.01, label: "`lo` seharusnya 1,16", msg: "2,0 − 2,0×0,422 = 1,16." },
+              { kind: "equal", task: "t1", name: "hi", value: 2.84, tol: 0.01, label: "`hi` seharusnya 2,84", msg: "2,0 + 2,0×0,422 = 2,84." },
+              { kind: "stdout_matches", task: "t2", pattern: "CI=\\(1.16, 2.84\\)", label: "`print` menampilkan CI", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "CI 95% selisih mean adalah (1,16; 2,84) juta. Pernyataan yang benar?",
+              options: [
+                { text: "Beda diestimasi 2,0 jt; data konsisten dengan beda 1,16–2,84 jt, tidak dengan 0", why: "Benar: CI yang tidak memuat 0 sejalan dengan p < 0,05 — dan memberi rentang efeknya.", correct: true },
+                { text: "95% peluang beda sebenarnya ada di (1,16; 2,84)", why: "Salah: CI frequentist bukan pernyataan peluang tentang parameter — ia rentang yang prosedurnya mencakup parameter 95% dari waktu." },
+                { text: "Beda sebenarnya PASTI 2,0 jt", why: "Salah: 2,0 adalah estimasi titik; CI menunjukkan ketidakpastiannya." },
+              ],
+            },
+          ],
+          reference: "CI = selisih ± t_kritis × SE; t.interval / conf_int(); CI tanpa 0 ≈ p < 0,05.",
+        },
+    {
+          id: "gap-r9-multiple-testing",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P6-G4)",
+          title: "Multiple testing: Bonferroni & FDR",
+          prose: [
+            "Lesson ini menguji SATU hipotesis per langkah — tetapi analis nyata menguji puluhan sekaligus (tiap segmen, tiap KRI, tiap fitur). Masalahnya: tiap uji punya peluang 5% false positive — dengan 20 uji, peluang SETIDAKNYA satu false positive adalah 1 − 0,95²⁰ ≈ 64%. Tanpa koreksi, “temuan signifikan” dari 20 uji hampir pasti mengandung palsu.",
+            "Bonferroni (paling ketat): bagi α dengan jumlah uji — α_bonf = 0,05/5 = 0,01 untuk 5 uji; hanya p ≤ 0,01 yang signifikan. FDR Benjamini–Hochberg (lebih bertenaga): urutkan p menaik, bandingkan p_(k) dengan (k/m)×α, tolak semua sampai k terbesar yang memenuhi. Di statsmodels: `statsmodels.stats.multitest.multipletests(pvals, method='bonferroni'/'fdr_bh')`.",
+            "Contoh angka (5 p-value): [0,01; 0,04; 0,03; 0,20; 0,005]. Bonferroni (α=0,01): yang lolos hanya 0,01 dan 0,005 → 2 temuan. FDR: urutkan [0,005; 0,01; 0,03; 0,04; 0,20], bandingkan dengan [0,01; 0,02; 0,03; 0,04; 0,05] — 0,005≤0,01 ✓, 0,01≤0,02 ✓, 0,03≤0,03 ✓, 0,04≤0,04 ✓, 0,20≤0,05 ✗ → tolak 4 pertama. FDR menemukan 4, Bonferroni 2 — harga ketegasan Bonferroni adalah power yang hilang; harga power FDR adalah membiarkan ~5% temuan yang ditolak adalah false (itulah arti “false discovery rate”).",
+          ],
+          formula: String.raw`\text{Bonferroni: } \alpha/m \qquad \text{FDR: tolak } p_{(k)} \leq \frac{k}{m}\alpha`,
+          formulaNote: "Multiple testing: 20 uji × α=5% → ~64% peluang ≥1 false positive. Bonferroni: α/m. FDR (BH): bandingkan p terurut dengan (k/m)×α. Contoh angka: p [0,01; 0,04; 0,03; 0,20; 0,005] → Bonferroni 2, FDR 4.",
+          tasks: [
+            { id: "t1", text: "Hitung `bonf` (p ≤ 0,05/5) dan `fdr` (Benjamini–Hochberg, α=0,05)" },
+            { id: "t2", text: "Cetak keduanya" },
+          ],
+          expected: "bonf=2 fdr=4",
+          hints: [
+            "bonf = jumlah p ≤ 0,01.",
+            "Urutkan p; bandingkan p ke-(k) dengan (k/5)×0,05; fdr = k terbesar yang lolos.",
+          ],
+          code: {
+            starter: `pvals = [0.01, 0.04, 0.03, 0.20, 0.005]\nalpha = 0.05\n\n# TULIS KODEMU: Bonferroni + FDR (Benjamini-Hochberg)\nbonf = \nfdr = \n\nprint(f"bonf={bonf} fdr={fdr}")`,
+            lockLines: 4,
+            solution: `pvals = [0.01, 0.04, 0.03, 0.20, 0.005]\nalpha = 0.05\n\n# TULIS KODEMU: Bonferroni + FDR (Benjamini-Hochberg)\nbonf = sum(1 for p in pvals if p <= alpha / len(pvals))\nurut = sorted(pvals)\nfdr = 0\nfor k, p in enumerate(urut, start=1):\n    if p <= k / len(urut) * alpha:\n        fdr = k\n\nprint(f"bonf={bonf} fdr={fdr}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "bonf", value: 2, label: "`bonf` seharusnya 2", msg: "Hanya 0,01 dan 0,005 ≤ 0,01." },
+              { kind: "equal", task: "t1", name: "fdr", value: 4, label: "`fdr` seharusnya 4", msg: "BH menolak 4 pertama (0,005; 0,01; 0,03; 0,04)." },
+              { kind: "stdout_matches", task: "t2", pattern: "bonf=2\\s+fdr=4", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Kamu menguji 20 segmen sekaligus, satu “signifikan” di p=0,04 tanpa koreksi. Apa yang harus dilakukan?",
+              options: [
+                { text: "Koreksi multiple testing (Bonferroni/FDR) — p=0,04 tidak lolos Bonferroni 0,0025", why: "Benar: dengan 20 uji, p=0,04 sangat mungkin false positive.", correct: true },
+                { text: "Laporkan sebagai temuan — p < 0,05 sudah cukup", why: "Salah: 20 uji × 5% = ~64% peluang ≥1 false positive." },
+                { text: "Uji ulang segmen itu saja sampai p < 0,01", why: "Salah: menguji ulang sampai signifikan adalah p-hacking." },
+              ],
+            },
+          ],
+          reference: "Bonferroni α/m (ketat); FDR BH (k/m)×α (bertenaga). multipletests() di statsmodels.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

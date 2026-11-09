@@ -325,7 +325,7 @@ print("vmax:", vmax)`,
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Enam pertanyaan campuran. Setiap opsi punya alasan — baca semuanya."],
+      prose: ["Lima pertanyaan campuran. Setiap opsi punya alasan — baca semuanya."],
       tasks: [],
       summary: [
         "Velocity: count/amount per jendela — self-join + ambang dari data.",

@@ -129,7 +129,7 @@ export const rr13: V2Lesson = {
       title: "Threshold dari distribusi: persentil, bukan tebakan",
       prose: [
         "Threshold 'angka bulat yang enak' (10%, 20%) = tebakan berseragam. Cara profesional: threshold merah = persentil 90 dari 24 bulan histori. Artinya hanya 10% bulan tersibuk yang menyala merah — langka = berarti. Di lab: 24 bulan pertumbuhan restrukturisasi diurutkan, p90 = 17%.",
-        "Aturan status: bulan ini 21% > p90 (17%) → MERAH. Ditambah syarat persistensi dari RR7: merah dua bulan berturut-turut → tindakan baku (bekukan limit). Satu bulan merah = waspada; dua bulan = aksi. Ini mencegah alert berteriak karena satu data point.",
+        "Aturan status: bulan ini 21% > p90 (17%) → MERAH. Ditambah syarat persistensi dari RR7: merah dua bulan berturut-turut → tindakan baku (bekukan limit). Satu bulan merah = waspada; dua bulan = aksi. Ini mencegah alert berteriak karena satu data point. (Tabel pembeda lengkap ada di Pendalaman 2.)",
         "Gabungkan dengan batas regulasi: pakai yang LEBIH KETAT. Jika ketentuan menyebut 15% dan p90 internal 17% → threshold 15%. Distribusi memberi tahu 'normal untuk kita'; regulasi memberi tahu 'wajib'. Keduanya benar; yang ketat yang menang.",
         "Review tahunan wajib: distribusi bergeser saat bisnis berubah. Threshold 2024 yang dihitung dari data 2022–2023 bisa basi di 2026 — portofolio tumbuh, segmen berubah. Kalibrasi ulang threshold adalah bagian dari definisi KRI, bukan revisi darurat. Jadwalkan bersama review kamus metrik.",
       ],
@@ -165,7 +165,7 @@ export const rr13: V2Lesson = {
       title: "Titik vs tren",
       prose: [
         "Lab pertama memakai persentil untuk threshold. Lab ini menambahkan dimensi waktu: KRI 12% → 15% → 21% menunjukkan tren NAIK dengan kenaikan 9 pp dalam 3 bulan. Satu titik 21% = MERAH; tren naik 3 bulan = MERAH yang memburuk — responsnya berbeda (investigasi vs intervensi).",
-        "Aturan praktis: titik melewati ambang = waspada; 3 titik berturut-turut naik = eskalasi; 3 bulan di atas ambang = rencana aksi formal. KRI tanpa tren = foto; KRI dengan tren = film.",
+        "Aturan praktis: titik melewati ambang = waspada; 3 titik berturut-turut naik = eskalasi; 3 bulan di atas ambang = rencana aksi formal. KRI tanpa tren = foto; KRI dengan tren = film. Tabel pembeda (jangan tertukar): 1 bulan merah = waspada (pantau); 2 bulan merah berturut-turut = aksi (tindakan baku — bekukan limit, syarat persistensi dari RR7); 3 bulan di atas ambang = rencana aksi formal; 3 titik naik berturut-turut = eskalasi (tren memburuk → intervensi). “2 bulan” mengukur persistensi STATUS; “3 titik” mengukur arah TREN — dua aturan berbeda untuk dua pertanyaan berbeda.",
       ],
       tasks: [
         { id: "t1", text: "Tentukan arah tren 3 bulan" },
@@ -182,7 +182,7 @@ export const rr13: V2Lesson = {
         "selisih = kri[-1] - kri[0].",
       ],
       code: {
-        starter: "# KRI 3 bulan (%). JANGAN UBAH.\nkri = [12, 15, 21]\n\n# TULIS KODEMU: arah tren + selisih\ntren = \"NAIK\" if kri[-1] > kri[-2] > kri[0] else \"TIDAK JELAS\"\nselisih = \nprint(f\"Tren 3 bulan: {kri} -> {tren} (+{selisih} pp)\")",
+        starter: "# KRI 3 bulan (%). JANGAN UBAH.\nkri = [12, 15, 21]\n\n# TULIS KODEMU: arah tren + selisih\ntren = \nselisih = \nprint(f\"Tren 3 bulan: {kri} -> {tren} (+{selisih} pp)\")",
         lockLines: 4,
         solution: "# KRI 3 bulan (%). JANGAN UBAH.\nkri = [12, 15, 21]\n\n# TULIS KODEMU: arah tren + selisih\ntren = \"NAIK\" if kri[-1] > kri[-2] > kri[0] else \"TIDAK JELAS\"\nselisih = kri[-1] - kri[0]\nprint(f\"Tren 3 bulan: {kri} -> {tren} (+{selisih} pp)\")",
         checks: [
@@ -223,6 +223,46 @@ export const rr13: V2Lesson = {
       },
       reference: "Adopsi yang leading + actionable; buang yang vanity meski terlihat bagus.",
     },
+    {
+          id: "gap-r9-reliabilitas-lag",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P9-G2)",
+          title: "Seberapa bisa dipercaya korelasi lag? Uji signifikansi & jebakan tren",
+          prose: [
+            "Lab Langkah 3 menemukan A lead 3 bulan (r = 1,00) dan B lead 0 bulan (r = 0,89) — tetapi lesson ini belum pernah menguji APAKAH korelasi itu signifikan, dan belum memperingatkan tiga jebakan: (1) UKURAN SAMPEL: n = 12 bulan; pada lag 3, pasangan yang tumpang tindih tinggal 9 (12 − 3). Uji-t korelasi: t = r·√((n−2)/(1−r²)). Untuk B (r = 0,89, n = 12): t = 0,89·√(10/0,2079) ≈ 6,17 — jauh di atas ambang ~2,23 (df 10, α 5%): signifikan. Tetapi untuk A (r = 1,00): t meledak ke tak hingga — r = 1,00 yang DIBULATKAN dari data sintetis yang nyaris deterministik, bukan bukti alamiah. (2) OVERLAP: lag memakan sampel — makin besar lag, makin kecil n, makin lebar ketidakpastian. (3) TREN BERSAMA: kedua deret NAIK bersama (NPL 2,8→3,5; KRI A 1,2→3,1) — korelasi dua deret yang sama-sama trending SELALU tinggi, bahkan bila tidak ada hubungan kausal. Uji yang jujur: korelasikan SELISIH (perubahan bulanan), bukan level — atau validasi out-of-sample: lead 3 bulan yang ditemukan di 2024 harus bekerja di 2025.",
+            "Aturan: korelasi lag tanpa uji signifikansi + tanpa cek tren + tanpa validasi out-of-sample = kandidat KRI, bukan KRI. Laporkan selalu n efektif (setelah lag) bersama r — r = 0,89 pada n = 9 jauh lebih lemah buktinya daripada r = 0,89 pada n = 120.",
+          ],
+          formula: String.raw`t = r\sqrt{\frac{n-2}{1-r^2}}`,
+          formulaNote: "Uji-t korelasi: t = r·√((n−2)/(1−r²)). Contoh angka: B r=0,89, n=12 → t≈6,17 (signifikan, df 10). Jebakan: lag memakan n (12→9 di lag 3); deret trending berkorelasi tinggi tanpa kausalitas; validasi out-of-sample wajib.",
+          tasks: [
+            { id: "t1", text: "Hitung `t` (uji-t korelasi B: r=0,89, n=12)" },
+            { id: "t2", text: "Cetak t-nya" },
+          ],
+          expected: "t=6.17",
+          hints: [
+            "t = r × sqrt((n−2)/(1−r²)).",
+            "Gunakan math.sqrt.",
+          ],
+          code: {
+            starter: `import math\nr, n = 0.89, 12\n\n# TULIS KODEMU: t-stat korelasi (lag 0, n=12)\nt = \n\nprint(f"t={t:.2f}")`,
+            lockLines: 4,
+            solution: `import math\nr, n = 0.89, 12\n\n# TULIS KODEMU: t-stat korelasi (lag 0, n=12)\nt = r * math.sqrt((n - 2) / (1 - r ** 2))\n\nprint(f"t={t:.2f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "t", value: 6.17, tol: 0.02, label: "`t` seharusnya ≈6,17", msg: "0,89×√(10/0,2079) ≈ 6,17." },
+              { kind: "stdout_matches", task: "t2", pattern: "t=6.17", label: "`print` menampilkan t", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua deret sama-sama naik 12 bulan berturut-turut; korelasinya r = 0,95. Apa yang harus dicurigai dulu?",
+              options: [
+                { text: "Tren bersama — korelasikan selisihnya, bukan levelnya", why: "Benar: dua deret trending selalu berkorelasi tinggi; uji pada perubahan bulanan.", correct: true },
+                { text: "Tidak ada yang perlu dicurigai — r = 0,95 sudah bukti kuat", why: "Salah: korelasi level pada deret trending adalah artefak tren, bukan bukti hubungan." },
+                { text: "Sampel terlalu kecil — kumpulkan 120 bulan dulu", why: "Salah: masalah utamanya tren bersama, bukan n — n besar tidak memperbaiki artefak tren." },
+              ],
+            },
+          ],
+          reference: "t = r·√((n−2)/(1−r²)); lag memakan n; korelasikan selisih bila trending; validasi out-of-sample.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

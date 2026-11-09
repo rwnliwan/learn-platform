@@ -33,7 +33,7 @@ export const pmc4: V2Lesson = {
       ],
       note: {
         title: "Intuisi: konstruksi portofolio adalah rekayasa toleransi kesalahan",
-        body: "Tiga heuristik dari praktisi konstruksi. Pertama, tanyakan bukan “apakah inputku benar?” melainkan “seberapa salah inputku boleh sebelum portofolio ini hancur?” — portofolio yang hanya bekerja bila CME tepat sampai desimal kedua bukanlah portofolio, melainkan taruhan berkedok matematika. Kedua, kompleksitas adalah musuh implementasi: strategi 12 faktor dengan turnover 300% yang tidak pernah dijalankan kalah dari 60/40 dengan rebalancing disiplin yang dijalankan 20 tahun. Ketiga, catat setiap penyimpangan dari model beserta alasannya — dalam 3 tahun, log itu menjadi peta biasmu sendiri: apakah kamu selalu menambah ekuitas saat bullish (overconfidence?) atau selalu memangkas risiko setelah berita buruk (recency?). Model yang bagus membuatmu jujur; log membuatmu sadar. Keempat, uji portofolio dengan tes tidur malam: jika ada satu posisi yang membuatmu mengecek harga di tengah malam, ukurannya terlalu besar \u2014 berapa pun kata optimizer. Kelima, catat juga keputusan yang TIDAK diambil (misalnya menolak menambah ekuitas di puncak euforia) \u2014 dalam lima tahun, daftar penolakan yang benar sama berharganya dengan daftar pembelian.",
+        body: "Lima heuristik dari praktisi konstruksi. Pertama, tanyakan bukan “apakah inputku benar?” melainkan “seberapa salah inputku boleh sebelum portofolio ini hancur?” — portofolio yang hanya bekerja bila CME tepat sampai desimal kedua bukanlah portofolio, melainkan taruhan berkedok matematika. Kedua, kompleksitas adalah musuh implementasi: strategi 12 faktor dengan turnover 300% yang tidak pernah dijalankan kalah dari 60/40 dengan rebalancing disiplin yang dijalankan 20 tahun. Ketiga, catat setiap penyimpangan dari model beserta alasannya — dalam 3 tahun, log itu menjadi peta biasmu sendiri: apakah kamu selalu menambah ekuitas saat bullish (overconfidence?) atau selalu memangkas risiko setelah berita buruk (recency?). Model yang bagus membuatmu jujur; log membuatmu sadar. Keempat, uji portofolio dengan tes tidur malam: jika ada satu posisi yang membuatmu mengecek harga di tengah malam, ukurannya terlalu besar \u2014 berapa pun kata optimizer. Kelima, catat juga keputusan yang TIDAK diambil (misalnya menolak menambah ekuitas di puncak euforia) \u2014 dalam lima tahun, daftar penolakan yang benar sama berharganya dengan daftar pembelian.",
       },
       tasks: [],
       reference: "Drift = keputusan pasif. Rebalancing = kembali ke janji IPS.",
@@ -216,7 +216,7 @@ export const pmc4: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Optimisasi = error maximizer: butuh constraints, shrinkage, dan Black-Litterman; jangan percaya bobot dua desimal.",

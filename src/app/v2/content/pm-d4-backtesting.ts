@@ -181,7 +181,7 @@ export const pmd4: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah."],
+      prose: ["Tujuh pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "Tiga dosa: lookahead (→ vintage data), survivorship (→ point-in-time), biaya (→ selalu net).",

@@ -31,7 +31,7 @@ export const mle17: V2Lesson = {
         "Tim sebelah memakai MLflow: setiap run tercatat — params, metrik, dataset hash, kode versi, artefak model. Audit? Buka run #142, klik 'reproduce' — 0,91 muncul lagi dalam 1 jam. Bedanya bukan kedisiplinan personal — melainkan SISTEM yang membuat kedisiplinan otomatis. Tanpa tracking, ML = ilmu sihir; dengan tracking = ilmu pengetahuan.",
         "Twist-nya: experiment tracking bukan 'dokumentasi tambahan' — ia adalah SATU-SATUNYA cara kerja ML bisa disebut engineering. JD Bali/Indonesia mensyaratkan MLflow eksplisit; frekuensi 0,43 di 21 JD. Lesson ini = hands-on tracking + model registry + membandingkan eksperimen seperti profesional.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan apa yang wajib dilacak tiap run; (2) mengimplementasikan tracker minimal (log, bandingkan, pilih terbaik); (3) membaca perbandingan run untuk memilih model; (4) menjelaskan model registry (staging → production); (5) mendeteksi overfit dari jurang train-val di dashboard.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Apa yang dilacak — Langkah 3 · Lab: tracker & perbandingan — Langkah 4 · Registry & lifecycle — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Apa yang dilacak — Langkah 3 · Lab: tracker & perbandingan — Langkah 4 · Registry & lifecycle — Langkah 5 · Registry & lineage — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
       ],
       tasks: [],
       reference: "Tanpa tracking, hasil ML = sihir. Dengan tracking = engineering.",
@@ -226,7 +226,7 @@ print("n_runs =", len(runs))`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

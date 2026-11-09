@@ -1,12 +1,12 @@
 import type { V2Lesson } from "../lib/types";
 
-// Grid (9 titik, terbaik -0.46) vs random (12 titik, terbaik -0.11): random menang.
+// Grid (9 titik, terbaik −0,46) vs random (12 titik, terbaik −0,11): random menang.
 const FIG_TUNING = `<svg viewBox="0 0 480 250" role="img" aria-label="Grid vs random search: random menemukan lebih baik.">
-<g stroke="var(--chart-grid)" stroke-width="1"><line x1="44" y1="205" x2="460" y2="205"/><line x1="44" y1="155" x2="460" y2="155"/><line x1="44" y1="105" x2="460" y2="105"/><line x1="44" y1="55" x2="460" y2="55"/></g>
-<g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="38" y="209">-0,5</text><text x="38" y="159">-0,3</text><text x="38" y="109">-0,1</text><text x="38" y="59">0</text></g>
-<g fill="var(--c4)" opacity="0.8"><circle cx="120" cy="120" r="4"/><circle cx="200" cy="150" r="4"/><circle cx="280" cy="105" r="4"/><circle cx="120" cy="170" r="4"/><circle cx="200" cy="180" r="4"/><circle cx="280" cy="165" r="4"/><circle cx="120" cy="195" r="4"/><circle cx="200" cy="200" r="4"/><circle cx="280" cy="190" r="4"/></g>
-<g fill="var(--c1)"><circle cx="340" cy="140" r="4"/><circle cx="380" cy="95" r="4"/><circle cx="420" cy="160" r="4"/><circle cx="350" cy="175" r="4"/><circle cx="400" cy="70" r="5" stroke="var(--text)" stroke-width="2"/><circle cx="370" cy="185" r="4"/><circle cx="410" cy="120" r="4"/></g>
-<g fill="var(--chart-text)" font-size="12" font-family="var(--font-ui)" text-anchor="middle"><text x="200" y="227">grid 3×3 (terbaik -0,46)</text><text x="380" y="227">random 12 (terbaik -0,11)</text></g>
+<g stroke="var(--chart-grid)" stroke-width="1"><line x1="44" y1="209" x2="460" y2="209"/><line x1="44" y1="179" x2="460" y2="179"/><line x1="44" y1="149" x2="460" y2="149"/><line x1="44" y1="119" x2="460" y2="119"/><line x1="44" y1="89" x2="460" y2="89"/><line x1="44" y1="59" x2="460" y2="59"/></g>
+<g fill="var(--chart-text)" font-size="11" font-family="var(--font-ui)" text-anchor="end"><text x="38" y="209">−0,5</text><text x="38" y="179">−0,4</text><text x="38" y="149">−0,3</text><text x="38" y="119">−0,2</text><text x="38" y="89">−0,1</text><text x="38" y="59">0</text></g>
+<g fill="var(--c4)" opacity="0.8"><circle cx="120" cy="197" r="4"/><circle cx="200" cy="199" r="4"/><circle cx="280" cy="201" r="4"/><circle cx="120" cy="203" r="4"/><circle cx="200" cy="205" r="4"/><circle cx="280" cy="204" r="4"/><circle cx="120" cy="209" r="4"/><circle cx="200" cy="208" r="4"/><circle cx="280" cy="207" r="4"/></g>
+<g fill="var(--c1)"><circle cx="340" cy="140" r="4"/><circle cx="380" cy="110" r="4"/><circle cx="420" cy="160" r="4"/><circle cx="350" cy="175" r="4"/><circle cx="400" cy="92" r="5" stroke="var(--text)" stroke-width="2"/><circle cx="370" cy="185" r="4"/><circle cx="410" cy="120" r="4"/><circle cx="330" cy="150" r="4"/><circle cx="390" cy="130" r="4"/><circle cx="415" cy="195" r="4"/><circle cx="345" cy="205" r="4"/><circle cx="405" cy="170" r="4"/></g>
+<g fill="var(--chart-text)" font-size="12" font-family="var(--font-ui)" text-anchor="middle"><text x="200" y="227">grid 3×3 (terbaik −0,46)</text><text x="380" y="227">random 12 (terbaik −0,11)</text></g>
 <text x="240" y="245" font-size="11" fill="var(--text-muted)" font-family="var(--font-ui)" text-anchor="middle">optimum di lr=0,03: grid melewatkannya, random menemukannya</text>
 </svg>`;
 
@@ -26,7 +26,7 @@ export const mle16: V2Lesson = {
         "Tim lain memakai Optuna: 100 trial terdokumentasi, search space terdefinisi, best params tersimpan. Saat data bergeser, mereka menjalankan ulang pencarian dalam 1 hari dan kembali ke 90%. Bedanya bukan model — melainkan DISIPLIN pencarian. Tanpa tuning sistematis, 'model bagus' = lotre.",
         "Twist-nya: hyperparameter tuning bukan soal menemukan angka ajaib, melainkan soal MEMBUKTIKAN bahwa angkamu bukan kebetulan. Checklist evaluasi talent 2026 memasukkannya; JD memintanya eksplisit. Lesson ini = strategi pencarian + Optuna + jebakan overfitting ke validation.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) membedakan parameter vs hyperparameter; (2) membandingkan grid, random, dan Bayesian search; (3) merancang search space yang masuk akal; (4) menjelaskan cara kerja Optuna (TPE + pruning); (5) menghindari overfitting ke validation set.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Tiga strategi pencarian — Langkah 3 · Lab: grid vs random — Langkah 4 · Optuna & jebakan — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Tiga strategi pencarian — Langkah 3 · Lab: grid vs random — Langkah 4 · Optuna & jebakan — Langkah 5 · Multi-fidelity & budget — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Checkpoint.",
       ],
       tasks: [],
       reference: "Tuning = membuktikan angkamu bukan kebetulan. Dokumentasi = buktinya.",
@@ -41,7 +41,7 @@ export const mle16: V2Lesson = {
         "Bayesian optimization (Optuna): belajar dari trial sebelumnya — bangun model pengganti (surrogate) dari 'hyperparameter → skor', lalu pilih titik berikutnya yang menjanjikan (exploration vs exploitation). TPE (Tree-structured Parzen Estimator) = algoritma default Optuna: memodelkan distribusi 'bagus' vs 'jelek' secara terpisah. Pruning: hentikan trial yang jelas buruk di tengah jalan (hemat 50%+ compute).",
         "Angka lab: optimum lr=0,03. Grid {0,001; 0,01; 0,1} MELEWATKANNYA (terbaik 0,01 → skor −0,46). Random 12 titik menemukan 0,0176 → skor −0,11 (4x lebih baik!). Pelajaran: grid = presisi palsu; yang penting BUKAN kerapian grid, melainkan cakupan ruang.",
         "Kepribadian ketiganya: grid = petani mencangkul seluruh sawah (termasuk yang tandus); random = menyebar benih angin (menemukan tanah subur); Bayesian = petani yang mencatat panen tahun lalu. Semua bisa berhasil — tetapi biayanya beda 10x.",
-        "Successive halving — turnamen bracket. 81 konfigurasi × 1 epoch → 27 terbaik × 3 epoch → 9 × 9 epoch → 3 × 27 → 1 juara. Total ≈ 81×(1+1+1+1) = 324 epoch vs 81×27 = 2.187 (7x hemat!). Hyperband = beberapa bracket sekaligus. Untuk deep learning mahal: wajib.",
+        "Successive halving — turnamen bracket. 81 konfigurasi × 1 epoch → 27 terbaik × 3 epoch → 9 × 9 epoch → 3 × 27 → 1 juara. Total = 81×1 + 27×3 + 9×9 + 3×27 + 1×81 = 405 epoch-unit vs grid penuh 81×81 = 6.561 (16,2× hemat). Hyperband = beberapa bracket sekaligus. Untuk deep learning mahal: wajib.",
       ],
       formula: String.raw`x_{t+1} = \arg\max_x \text{EI}(x) \qquad \text{EI}(x) = \mathbb{E}[\max(0, f(x) - f^*)]`,
       formulaNote: "x_{t+1} = titik berikutnya yang dicoba; EI = Expected Improvement (seberapa besar ekspektasi perbaikan atas skor terbaik saat ini f*); f(x) = prediksi surrogate. Intuisi: pilih titik dengan 'harapan untung' terbesar — seimbang antara yang menjanjikan (exploit) dan yang belum dijelajahi (explore).",
@@ -122,8 +122,8 @@ rand_best = max(((objective(lr, int(d)), lr, int(d)) for lr, d in zip(rlrs, rdep
 print("grid_best =", tuple(round(x, 4) for x in grid_best))
 print("rand_best =", tuple(round(x, 4) for x in rand_best))`,
         checks: [
-          { kind: "stdout_matches", task: "t1", pattern: "grid_best\\s*=\\s*\\(-0\\.4598, 0\\.01, 6\\)", label: "Grid terbaik = (-0.4598, 0.01, 6)", msg: "Grid melewatkan 0,03." },
-          { kind: "stdout_matches", task: "t2", pattern: "rand_best\\s*=\\s*\\(-0\\.1087, 0\\.0176, 6\\)", label: "Random terbaik = (-0.1087, 0.0176, 6)", msg: "Random 4x lebih baik." },
+          { kind: "stdout_matches", task: "t1", pattern: "grid_best\\s*=\\s*\\(-0\\.4598, 0\\.01, 6\\)", label: "Grid terbaik = (−0,4598, 0,01, 6)", msg: "Grid melewatkan 0,03." },
+          { kind: "stdout_matches", task: "t2", pattern: "rand_best\\s*=\\s*\\(-0\\.1087, 0\\.0176, 6\\)", label: "Random terbaik = (−0,1087, 0,0176, 6)", msg: "Random 4x lebih baik." },
         ],
       },
       reference: "Skala log untuk lr! Grid = presisi palsu; random = cakupan jujur.",
@@ -138,7 +138,7 @@ print("rand_best =", tuple(round(x, 4) for x in rand_best))`,
         "Jebakan 1 — overfitting ke validation: 200 trial memilih 'kebetulan terbaik' validation. Obat: test set terkunci (sentuh SEKALI di akhir) + nested CV untuk klaim serius. Jebakan 2 — search space salah: lr [0,1; 1,0] tidak mengandung 0,03 → Optuna 'terbaik' di 0,1 = terbaik dari yang salah. Luaskan dulu (log scale lebar), sempitkan kemudian.",
         "Jebakan 3 — tuning di data bocor: scaling/fitur dihitung dari SEMUA data (termasuk test) → skor validasi menipu. Obat: pipeline yang fit HANYA di train fold. Jebakan klasik yang meruntuhkan 30% 'hasil bagus' di kompetisi.",
         "Kepribadian Optuna: seperti perekrut cerdas — mewawancarai kandidat yang menjanjikan lebih dalam (exploit), tetap memberi kesempatan pada yang belum dikenal (explore), dan menghentikan wawancara yang jelas gagal di menit ke-5 (pruning).",
-        "Multivariate TPE — korelasi antar hyperparameter. lr dan batch_size berinteraksi (lr besar butuh batch besar!). TPE standar mengasumsikan independen; multivariate=True memodelkan korelasi — +10-20% efisiensi untuk kasus berinteraksi. Nyalakan bila hyperparameter 'bercakap'.",
+        "Multivariate TPE — korelasi antar hyperparameter. lr dan batch_size berinteraksi (lr besar butuh batch besar!). TPE standar mengasumsikan independen; multivariate=True memodelkan korelasi — +10-20% efisiensi untuk kasus berinteraksi (perkiraan praktik — bergantung pada seberapa kuat interaksi dan dataset; bukan angka universal). Nyalakan bila hyperparameter 'bercakap'.",
         "Study storage — jangan hilang. SQLite untuk lokal, PostgreSQL untuk tim. Dashboard Optuna: buka di browser, lihat contour plot (lr vs depth) — 'lembah' optimum terlihat visual. Trial tanpa database = hilang saat laptop mati.",
         "Warm start — jangan dari nol. Punya hasil tuning model serupa? Masukkan sebagai trial awal (enqueue_trial) — Optuna mulai dari yang menjanjikan, bukan acak. 20 trial warm = 50 trial cold. Pengetahuan lama = modal.",
       ],
@@ -159,13 +159,13 @@ print("rand_best =", tuple(round(x, 4) for x in rand_best))`,
         "Kelemahan tersembunyi semua strategi di langkah sebelumnya: setiap trial dievaluasi dengan BUDGET PENUH. Seperti mewawancarai 100 kandidat masing-masing 8 jam — 90 di antaranya jelas tidak cocok di 15 menit pertama. Multi-fidelity = wawancara bertingkat: saring murah di awal, investasikan waktu hanya ke yang bertahan. Ini bukan optimasi kecil — ini pengali 5–10× jumlah trial dalam budget yang sama.",
         "Successive halving — algoritmanya elegan. Mulai n trial dengan budget kecil r (misal 81 trial × 1 epoch), pertahankan 1/η terbaik (η=3 → 27 trial), lipatgandakan budget (×3 epoch), ulangi sampai satu juara (27×3 → 9×9 → 3×27 → 1×81). Total biaya ≈ 5× SATU trial penuh untuk menjelajahi 81 konfigurasi (rumus di bawah). Bandingkan: 81 trial penuh = 81× biaya. Penghematan 16× untuk informasi yang hampir sama.",
         "Syaratnya: kurva belajar harus INFORMATIF di awal — peringkat trial di epoch kecil berkorelasi dengan peringkat di epoch penuh. Untuk learning rate yang divergen di epoch 3, ini jelas benar. Tetapi ada jebakan: konfigurasi 'slow starter' (lr kecil + warmup panjang) terlihat buruk di awal padahal juara di akhir. Obat: jangan agresif di rung pertama (η=3, bukan 4), dan pastikan budget minimum r cukup untuk melewati fase warmup.",
-        "ASHA (Asynchronous Successive Halving) — versi yang dipakai di produksi. Successive halving sinkron menunggu trial TERLAMBAT di tiap rung sebelum promosi — dengan 8 worker, 7 menganggur menunggu 1 straggler. ASHA mempromosikan segera setelah cukup hasil terkumpul, tanpa menunggu. Hasil: utilisasi worker ~100%, wall-clock 2–3× lebih cepat. Jika kamu paralel, tidak ada alasan memakai yang sinkron.",
+        "ASHA (Asynchronous Successive Halving) — versi yang dipakai di produksi. Successive halving sinkron menunggu trial TERLAMBAT di tiap rung sebelum promosi — dengan 8 worker, 7 menganggur menunggu 1 straggler. ASHA mempromosikan segera setelah cukup hasil terkumpul, tanpa menunggu. Hasil: utilisasi worker ~100%, wall-clock 2–3× lebih cepat (perkiraan praktik untuk 8 worker dengan straggler; tanpa straggler, keuntungannya kecil). Jika kamu paralel, tidak ada alasan memakai yang sinkron.",
         "Hyperband — lindung nilai atas agresivitas. Seberapa agresif pruning yang tepat? Tidak ada yang tahu sebelum mencoba. Hyperband menjalankan beberapa 'bracket' dengan agresivitas berbeda (satu bracket mulai 81 trial×1 epoch, bracket lain 27 trial×3 epoch, dst.) lalu mengambil yang terbaik lintas bracket. Pakai bila kurva belajarmu belum dikenal; bila sudah dikenal, satu bracket successive halving yang ditala cukup.",
         "Desain search space adalah keterampilan senior yang sesungguhnya — lebih menentukan dari pilihan optimizer. Tiga prinsip: (1) skala LOG untuk lr, regularisasi, dan apapun yang rentang efeknya orde-magnitudo (0,001 vs 0,01 beda dunia; 0,051 vs 0,061 tidak); (2) ruang BERSYARAT — jangan tuning max_depth bila n_estimators kecil (interaksi!); (3) temukan 2–3 hyperparameter yang penting via ablation cepat, lalu FOKUSKAN budget ke sana (pelajaran langkah 2: sebagian besar hyperparameter tidak penting).",
         "Aturan budget: total = trial × biaya_per_trial. Dengan multi-fidelity, 'trial' yang dihitung adalah trial EFEKTIF. Contoh: 50 GPU-jam, tiap trial penuh 1 jam. Tanpa ASHA: 50 trial. Dengan ASHA (16× hemat): 500–800 trial efektif dieksplorasi. Keputusan senior: dalam budget tetap, selalu pilih eksplorasi LEBIH BANYAK dengan fidelity adaptif daripada SEDIKIT trial penuh — kecuali tiap trial semurah 1 menit (maka langsung random/BO penuh).",
         "Jebakan tuning-test leakage, versi mendalam. Setiap kali kamu memilih 'terbaik' berdasar skor validation, sedikit informasi validation bocor ke keputusanmu. Setelah 200 trial, validation terbaik = optimistis 2–5 poin (kurva overfitting-validasi). Gejala di mini-case: val naik 0,02, test naik 0,015 — selisih 0,005 masih sehat; bila test STAGNAN sementara val naik terus = validasi sudah menjadi 'test kedua'. Obat: test TERKUNCI, sentuh sekali; laporkan gap val–test sebagai metrik kejujuran.",
         "Variansi seed — angka yang dilupakan. Konfigurasi sama, 5 seed berbeda → std 0,008. 'Kemenangan' +0,005 di bawah noise = bukan kemenangan. Senior melaporkan mean ± std lintas seed (minimal 3), bukan best-of-5. Dan reproduksibilitas: seed python, numpy, torch, dan data-loader workers; flag deterministik; catat environment (skor 0,91 di torch 1.13 bisa jadi 0,89 di 2.0 bila versi library tak tercatat).",
-        "BOHB — perkawinan Bayesian Optimization dan Hyperband. ASHA memilih trial berikutnya secara acak; BOHB menggantinya dengan surrogate model (seperti TPE) yang belajar dari trial-trial sebelumnya di tiap bracket. Hasil: 2–3× lebih efisien dari Hyperband murni saat search space besar dan kurva belajar berisik. Kapan memakai? Bila kamu sudah di Optuna, `TPESampler` + `HyperbandPruner` = BOHB gratis. Bila search space kecil (di bawah 4 HP), ASHA acak sudah cukup — BO tidak banyak membantu.",
+        "BOHB — perkawinan Bayesian Optimization dan Hyperband. ASHA memilih trial berikutnya secara acak; BOHB menggantinya dengan surrogate model (seperti TPE) yang belajar dari trial-trial sebelumnya di tiap bracket. Hasil: 2–3× lebih efisien dari Hyperband murni saat search space besar dan kurva belajar berisik (perkiraan praktik — bergantung pada search space dan noise kurva; ukur di workload-mu sendiri). Kapan memakai? Bila kamu sudah di Optuna, `TPESampler` + `HyperbandPruner` = BOHB gratis. Bila search space kecil (di bawah 4 HP), ASHA acak sudah cukup — BO tidak banyak membantu.",
         "Pruning yang salah = membuang juara. Keputusan prune berdasar SATU seed = noise: trial bagus yang kebetulan dapat seed jelek terlihat buruk di epoch awal. Praktik aman: bandingkan median lintas 2–3 seed untuk keputusan prune (biaya 2–3× di rung awal, tetapi jauh lebih murah dari kehilangan konfigurasi terbaik), atau terima risiko dan catat asumsi. Jangan pernah prune di epoch 1–2 — bahkan konfigurasi terbaik pun terlihat acak di sana.",
         "Sesuaikan senjata dengan biaya trial. Deep learning (jam per trial) → multi-fidelity WAJIB, ASHA/BOHB, pruning agresif. Gradient boosting (menit per trial) → random search 100–200 + early stopping sederhana sering mengalahkan BO yang canggih — overhead surrogate tidak terbayar. Model linear (detik) → grid penuh saja. Senior tidak memakai palu yang sama untuk paku dan baut.",
       ],
@@ -210,11 +210,96 @@ print("rand_best =", tuple(round(x, 4) for x in rand_best))`,
       tasks: [],
     },
     {
+          id: "gap-r9-parameter-hyperparameter",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P6-G5)",
+          title: "Parameter vs hyperparameter: siapa yang belajar?",
+          prose: [
+            "Langkah 2 memakai istilah “hyperparameter” sejak awal — tetapi lesson ini belum pernah mendefinisikan bedanya dengan “parameter”. Parameter adalah yang DIPELAJARI model dari data: bobot (weights) dan bias neural network, koefisien regresi. Hyperparameter adalah yang DITETAPKAN manusia SEBELUM training: learning rate, jumlah layer, batch size, jumlah epoch, kekuatan regularisasi. Tuning (lesson ini) hanya mengoptimasi hyperparameter; training mengoptimasi parameter.",
+            "Mengapa bedanya penting? Karena keduanya dioptimasi dengan CARA berbeda dan pada DATA berbeda: parameter dioptimasi oleh gradient descent pada training set; hyperparameter dioptimasi oleh grid/random/Optuna pada validation set. Mencampur keduanya — mis. memilih learning rate berdasarkan training loss — adalah overfitting ke training set. Dan “hyperparameter” bukan “parameter yang lebih tinggi” — ia adalah KEPUTUSAN DESAIN, bukan hasil belajar.",
+            "Contoh angka (5 item): bobot (parameter), learning rate (hyperparameter), bias (parameter), jumlah layer (hyperparameter), batch size (hyperparameter) → 2 parameter, 3 hyperparameter. Aturan jempol: bila nilainya berubah SELAMA training oleh algoritma = parameter; bila nilainya kamu tetapkan SEBELUM training dan tidak berubah selama training = hyperparameter.",
+          ],
+          formula: String.raw`\text{parameter: dipelajari dari data} \qquad \text{hyperparameter: ditetapkan sebelum training}`,
+          formulaNote: "Parameter = dipelajari model (bobot, bias, koefisien). Hyperparameter = ditetapkan manusia sebelum training (lr, n_layer, batch size, epoch). Contoh: bobot/bias = parameter (2); lr/n_layer/batch = hyperparameter (3).",
+          tasks: [
+            { id: "t1", text: "Hitung `param` dan `hyper` dari 5 item (is_hyper True/False)" },
+            { id: "t2", text: "Cetak keduanya" },
+          ],
+          expected: "param=2 hyper=3",
+          hints: [
+            "param = jumlah item dengan is_hyper False.",
+            "hyper = jumlah item dengan is_hyper True.",
+          ],
+          code: {
+            starter: `# (nama, is_hyperparameter)\nitems = [("bobot", False), ("lr", True), ("bias", False), ("n_layer", True), ("batch", True)]\n\n# TULIS KODEMU: hitung parameter vs hyperparameter\nparam = \nhyper = \n\nprint(f"param={param} hyper={hyper}")`,
+            lockLines: 4,
+            solution: `# (nama, is_hyperparameter)\nitems = [("bobot", False), ("lr", True), ("bias", False), ("n_layer", True), ("batch", True)]\n\n# TULIS KODEMU: hitung parameter vs hyperparameter\nparam = sum(1 for _, h in items if not h)\nhyper = sum(1 for _, h in items if h)\n\nprint(f"param={param} hyper={hyper}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "param", value: 2, label: "`param` seharusnya 2", msg: "Bobot dan bias dipelajari dari data." },
+              { kind: "equal", task: "t1", name: "hyper", value: 3, label: "`hyper` seharusnya 3", msg: "lr, n_layer, batch ditetapkan sebelum training." },
+              { kind: "stdout_matches", task: "t2", pattern: "param=2\\s+hyper=3", label: "`print` menampilkan keduanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Mana yang hyperparameter?",
+              options: [
+                { text: "Learning rate — ditetapkan sebelum training, tidak berubah selama training", why: "Benar: hyperparameter adalah keputusan desain sebelum training.", correct: true },
+                { text: "Bobot layer pertama — ditetapkan sebelum training", why: "Salah: bobot diinisialisasi sebelum training tetapi DIPELAJARI (berubah) selama training — ia parameter." },
+                { text: "Loss training — ditetapkan sebelum training", why: "Salah: loss adalah hasil yang diukur, bukan keputusan desain." },
+              ],
+            },
+          ],
+          reference: "Parameter dipelajari (bobot/bias); hyperparameter ditetapkan (lr/layer/batch/epoch).",
+        },
+    {
+          id: "gap-r9-optuna-pruning",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P6-G6)",
+          title: "Optuna & pruning: suggest, report, MedianPruner",
+          prose: [
+            "Langkah 4 menyebut Optuna dan ASHA — tetapi lesson ini belum pernah menunjukkan API-nya. Tiga potong kodenya: `trial.suggest_float('lr', 1e-4, 1e-1, log=True)` (minta Optuna mengusulkan lr dari ruang log-uniform), `trial.report(nilai, step)` (laporkan metrik intermediate tiap epoch agar pruner bisa menilai), dan `MedianPruner` (hentikan trial yang nilainya di bawah MEDIAN trial-trial sebelumnya pada step yang sama — trial yang tertinggal dari median kemungkinan besar tidak akan menang).",
+            "Contoh angka (2 trial, 10 epoch): Trial A melaporkan [0,50; 0,60; 0,70; …] (membaik); Trial B [0,50; 0,45; 0,40; …] (memburuk). Di step 2, median nilai = median(0,60; 0,45) = 0,525 — B (0,45) di bawah median → PRUNE di epoch 3. Tanpa pruning: 2 × 10 = 20 epoch. Dengan pruning: 10 + 3 = 13 epoch — hemat 7 epoch (35%) untuk 2 trial; untuk 200 trial, penghematannya mendominasi budget.",
+            "Aturan praktis: pruning hanya aman bila metrik intermediate PREDIKTIF terhadap hasil akhir (kurva belajar yang monoton naik). Bila kurva berisik atau “late bloomer” (lambat di awal, melesat di akhir — umum di lr kecil), MedianPruner yang agresif membunuh juara masa depan. Mitigasi: `n_startup_trials` (jangan prune sebelum cukup trial selesai) dan `n_warmup_steps` (jangan prune di epoch-epoch awal).",
+          ],
+          formula: String.raw`\text{prune jika nilai} < \text{median nilai trial lain di step yang sama}`,
+          formulaNote: "Optuna: suggest_float (usulkan dari ruang), trial.report (lapor intermediate), MedianPruner (hentikan bila di bawah median). Contoh angka: A membaik, B memburuk → B di-prune epoch 3; 20 → 13 epoch, hemat 7 (35%).",
+          tasks: [
+            { id: "t1", text: "Hitung `tanpa` (2 trial × 10 epoch) dan `dengan` (10 + 3 epoch)" },
+            { id: "t2", text: "Hitung `hemat` dan cetak ketiganya" },
+          ],
+          expected: "tanpa=20 dengan=13 hemat=7",
+          hints: [
+            "tanpa = 2 × 10.",
+            "dengan = 10 (trial A penuh) + 3 (trial B di-prune).",
+          ],
+          code: {
+            starter: `# trial A penuh 10 epoch; trial B di-prune di epoch 3\nepoch_penuh, epoch_prune = 10, 3\n\n# TULIS KODEMU: epoch tanpa vs dengan pruning\ntanpa = \ndengan = \nhemat = \n\nprint(f"tanpa={tanpa} dengan={dengan} hemat={hemat}")`,
+            lockLines: 4,
+            solution: `# trial A penuh 10 epoch; trial B di-prune di epoch 3\nepoch_penuh, epoch_prune = 10, 3\n\n# TULIS KODEMU: epoch tanpa vs dengan pruning\ntanpa = 2 * epoch_penuh\ndengan = epoch_penuh + epoch_prune\nhemat = tanpa - dengan\n\nprint(f"tanpa={tanpa} dengan={dengan} hemat={hemat}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "tanpa", value: 20, label: "`tanpa` seharusnya 20", msg: "2 × 10 = 20." },
+              { kind: "equal", task: "t1", name: "dengan", value: 13, label: "`dengan` seharusnya 13", msg: "10 + 3 = 13." },
+              { kind: "equal", task: "t2", name: "hemat", value: 7, label: "`hemat` seharusnya 7", msg: "20 − 13 = 7 (35%)." },
+              { kind: "stdout_matches", task: "t2", pattern: "tanpa=20\\s+dengan=13\\s+hemat=7", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Kapan MedianPruner BERBAHAYA?",
+              options: [
+                { text: "Kurva belajar late bloomer — trial lambat di awal tetapi melesat di akhir", why: "Benar: pruner membunuh juara masa depan; mitigasi dengan n_warmup_steps / n_startup_trials.", correct: true },
+                { text: "Trial sudah berjalan 90% epoch", why: "Salah: di akhir, pruning hampir tidak menghemat apa pun — tetapi juga tidak berbahaya." },
+                { text: "Semua trial nilainya sama", why: "Salah: bila semua sama, median = nilai semua trial — tidak ada yang di bawah median." },
+              ],
+            },
+          ],
+          reference: "suggest_float + trial.report + MedianPruner; prune bila < median; waspadai late bloomer.",
+        },
+    {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [
@@ -281,12 +366,12 @@ print("rand_best =", tuple(round(x, 4) for x in rand_best))`,
           ],
         },
         {
-          q: "Setelah 200 trial Optuna, skor validation naik terus tetapi test terkunci stagnan. Diagnosis?",
+          q: "Kamu menjalankan Optuna 200 trial; 50 trial pertama menemukan lr=0,03 (terbaik), 150 trial berikutnya tidak ada yang mengalahkannya. Langkah selanjutnya yang paling tepat?",
           options: [
-            { text: "Overfitting ke validation — validasi menjadi 'test kedua'; laporkan gap val–test", why: "Tepat: tiap pemilihan 'terbaik' membocorkan info val; 200 seleksi = val optimistis.", correct: true },
-            { text: "Model belum konvergen — tambah trial", why: "Val naik + test stagnan = bukan konvergensi, melainkan seleksi yang overfit.", correct: false },
-            { text: "Test set rusak", why: "Jangan salahkan test; polanya klasik overfitting-validasi.", correct: false },
-            { text: "Learning rate terlalu kecil", why: "Tidak terkait — ini soal metodologi seleksi, bukan optimizer.", correct: false },
+            { text: "Berhenti / alihkan budget — ruang di sekitar lr=0,03 sudah jenuh; persempit ruang ke sekitar 0,03 atau tambah dimensi baru", why: "Tepat: 150 trial tanpa perbaikan = search space jenuh; tambah trial acak di ruang yang sama hanya membakar budget.", correct: true },
+            { text: "Tambah 200 trial lagi di ruang yang sama", why: "Salah: ruang yang sama sudah dijelajahi 150 trial tanpa perbaikan — itu definisi jenuh.", correct: false },
+            { text: "Naikkan lr ke 0,3 dan ulangi dari nol", why: "Salah: lr=0,03 adalah yang TERBAIK sejauh ini — membuangnya tanpa alasan bukan strategi.", correct: false },
+            { text: "Ganti ke grid search penuh di ruang yang sama", why: "Salah: grid di ruang yang sudah jenuh sama borosnya dengan random — masalahnya ruangnya, bukan metodenya.", correct: false },
           ],
         },
       ],

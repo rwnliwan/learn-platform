@@ -26,7 +26,7 @@ export const aai14: V2Lesson = {
         "Root cause-nya bukan kecerdasan, melainkan konteks: 200 pesan × 150 token = 30.000 token riwayat, sementara jendela efektif model hanya ~8.000 token. Pesan-pesan awal (termasuk nama nasabah dan aturan main!) terpotong diam-diam. Model tidak 'lupa' — ia tidak pernah MELIHAT. Upgrade model = membayar lebih mahal untuk masalah yang sama.",
         "Solusinya: context engineering — disiplin merancang ISI jendela konteks: apa yang dipertahankan, apa yang diringkas, apa yang dibuang, dan kapan. Bukan prompt engineering (merancang SATU pesan), melainkan arsitektur MEMORI. Twist-nya: agen produksi mati karena context rot dan bloat, bukan karena logika. Topik 2026 yang belum ada di lesson mana pun — sampai sekarang.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan tiga pembunuh konteks (rot, bloat, poisoning); (2) menghitung budget konteks dan alokasinya; (3) mengimplementasikan packing konteks (pertahankan + ringkas + buang); (4) memilih strategi compaction yang tepat; (5) merancang prompt caching untuk penghematan biaya.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita Dina — Langkah 2 · Tiga pembunuh konteks — Langkah 3 · Lab: packing budget — Langkah 4 · Compaction & caching — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita Dina — Langkah 2 · Tiga pembunuh konteks — Langkah 3 · Lab: packing budget — Langkah 4 · Compaction & caching — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Langkah 7 · Lanjutan — Checkpoint.",
       ],
       tasks: [],
       reference: "Agen mati di produksi biasanya karena konteks, bukan karena logika.",

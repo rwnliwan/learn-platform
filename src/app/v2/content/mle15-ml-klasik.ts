@@ -47,7 +47,7 @@ export const mle15: V2Lesson = {
         "Startup pinjol menyewa konsultan deep learning: 3 bulan, Rp180 juta, neural network untuk skor kredit dari 40 fitur tabel. Akurasi: 81%. Seorang analis iseng menjalankan XGBoost 20 baris di laptop: 84% — dalam 2 jam. Konsultan berdalih 'data kurang'; analis menambahkan: 'coba logistic regression dulu?' — 82% dalam 5 menit.",
         "Twist-nya: untuk DATA TABEL, urutan kekuatan SERING (bukan selalu) terbalik dari gengsi — gradient boosting > random forest > logistic regression > deep learning. 'Sering' di sini = pola yang umum di benchmark publik, BUKAN hukum: ada dataset tabel di mana logistic regression menang — buktikan dengan CV di datamu. DL unggul di citra/teks/audio, BUKAN tabel. Rp180 juta membayar pelajaran: pilih algoritma dari JENIS DATA, bukan dari hype. Lesson ini = peta lengkap algoritma klasik + cara memilih yang benar (diminta eksplisit di JD: scikit-learn, XGBoost/LightGBM).",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) memetakan 6 keluarga algoritma ke jenis masalah; (2) menjelaskan bias-variance trade-off dengan contoh; (3) menjalankan k-fold CV dan membaca hasilnya; (4) memilih model via perbandingan yang adil (baseline dulu!); (5) melakukan feature selection sederhana.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Enam keluarga algoritma — Langkah 3 · Lab: CV & model selection — Langkah 4 · Bias-variance & feature selection — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Enam keluarga algoritma — Langkah 3 · Lab: CV & model selection — Langkah 4 · Bias-variance & feature selection — Langkah 5 · Audit leakage — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Langkah 8 · Forecasting klasik — Langkah 9 · Forecasting modern — Checkpoint.",
       ],
       tasks: [],
       reference: "Untuk tabel: boosting > forest > linear > deep learning. Pilih dari data, bukan gengsi.",
@@ -468,7 +468,7 @@ print("MAE regresi_lag    =", round(mae_lr, 3))`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Tujuh pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

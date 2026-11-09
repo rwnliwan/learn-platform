@@ -43,7 +43,7 @@ export const mle20: V2Lesson = {
         "Perbaikannya bukan model yang lebih besar, melainkan objective yang jujur: ganti target dari 'klik' menjadi 'durasi tonton berbobot' (watch time). Rekomendasi berubah total — clickbait lenyap dari feed, video yang benar-benar ditonton sampai habis naik. Pelajaran pahit ini didokumentasikan di paper YouTube 'Deep Neural Networks for YouTube Recommendations': fitur yang dioptimasi menentukan perilaku yang dipelajari, bukan arsitekturnya.",
         "Twist-nya: di recommender systems, pertanyaan tersulit bukan 'model apa?' melainkan 'apa yang kita sebut SUKSES?'. Matriks interaksi, embedding, dan ANN index hanyalah mesin — objective adalah kemudinya. Lesson ini membangun mesinnya dari nol: matrix factorization sebagai fondasi, lalu two-tower retrieval plus ranking seperti yang dipakai Google untuk korpus ratusan juta item.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan matrix factorization sebagai kompresi matriks interaksi; (2) membangun simulator two-tower dan mengukur precision@k; (3) menjelaskan mengapa item embedding bisa di-precompute (decoupled inference); (4) menghitung trade-off ANN: recall yang dikorbankan vs latensi yang dihemat; (5) memetakan kapan MF cukup dan kapan butuh two-tower plus ranking.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Matrix factorization — Langkah 3 · Lab two-tower — Langkah 4 · Two-tower dan ANN — Langkah 5 · Lab ANN — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Langkah 8 · Imbalanced dan cost-sensitive — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita — Langkah 2 · Matrix factorization — Langkah 3 · Lab two-tower — Langkah 4 · Two-tower dan ANN — Langkah 5 · Lab ANN — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case — Langkah 8 · Kasus khusus — Checkpoint.",
       ],
       tasks: [],
       reference: "Objective menentukan perilaku model. CTR naik belum tentu produk membaik.",
@@ -404,7 +404,7 @@ print(f"w_pos={w_pos:.2f}  cost_a=Rp{cost_a:,}  cost_b=Rp{cost_b:,}  pilihan={pi
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
+        "Enam pertanyaan campuran dari semua langkah. Setiap opsi punya alasan kenapa benar atau salah.",
       ],
       tasks: [],
       summary: [

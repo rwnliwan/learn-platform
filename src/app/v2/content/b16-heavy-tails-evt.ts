@@ -118,7 +118,7 @@ export const b16: V2Lesson = {
       title: "Memakai semua data ekor",
       prose: [
         "Block maxima boros (1 data per tahun!). POT (Peaks Over Threshold): ambil semua exceedance di atas ambang u. Teorema Pickands-Balkema-de Haan: exceedance ternormalisasi \u2192 Generalized Pareto (GPD). Return level \u201C1-in-m observasi\u201D: x_m = u + (\u03B2/\u03BE)((m\u00B7\u03B6_u)^\u03BE \u2212 1), dengan \u03B6_u = P(X>u).",
-        "Contoh: kerugian operasional, ambang u=Rp10 M, 40 exceedance dari 1.000 hari (\u03B6=4%). Fit GPD: \u03BE=0,3, \u03B2=5. VaR99,9% = 10 + (5/0,3)[(0,04/0,001)^0,3 \u2212 1] = 10 + 16,67\u00D72,02 \u2248 Rp43,7 juta (satuan: Rp JUTA \u2014 u=10 berarti Rp10 juta, bukan Rp10 miliar). POT memakai 40 titik, bukan cuma max tahunan \u2014 jauh lebih efisien. \u03BE>0 = ekor tebal = ekstrapolasi meledak.",
+        "Contoh: kerugian operasional, ambang u=Rp10 juta, 40 exceedance dari 1.000 hari (\u03B6=4%). Fit GPD: \u03BE=0,3, \u03B2=5. VaR99,9% = 10 + (5/0,3)[(0,04/0,001)^0,3 \u2212 1] = 10 + 16,67\u00D72,02 \u2248 Rp43,7 juta (satuan: Rp JUTA \u2014 u=10 berarti Rp10 juta, bukan Rp10 miliar). POT memakai 40 titik, bukan cuma max tahunan \u2014 jauh lebih efisien. \u03BE>0 = ekor tebal = ekstrapolasi meledak.",
         "Pemilihan ambang u: trade-off bias-varians \u2014 terlalu rendah (teorema belum berlaku), terlalu tinggi (sedikit data). Praktik: u di sekitar kuantil 90\u201395% data, lalu cek stabilitas: geser u sedikit \u2014 jika \u03BE berubah drastis, ambangmu salah atau data tidak cukup.",
       ],
       formula: String.raw`x_m = u + \frac{\beta}{\xi}\left((m\,\zeta_u)^{\xi} - 1\right)`,

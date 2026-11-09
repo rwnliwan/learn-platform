@@ -178,7 +178,7 @@ export const rr6: V2Lesson = {
         "Cek PERINTAH dulu: kalimat imperatif bisa mengandung angka (%).",
       ],
       code: {
-        starter: "# Tiga kalimat laporan. JANGAN UBAH.\nkalimat = [\n    \"NPL naik 0,3 pp menjadi 3,4%.\",\n    \"Kenaikan ini mengkhawatirkan.\",\n    \"Bekukan limit baru sampai NPL < 3%.\",\n]\n\n# TULIS KODEMU: cek PERINTAH dulu (bisa mengandung angka)\nfor k in kalimat:\n    if k.startswith(\"Bekukan\"):\n        vonis = \"PERINTAH\"\n    elif any(x in k for x in [\"%\", \"Rp\", \"pp\"]):\n        vonis = \"FAKTA\"\n    else:\n        vonis = \"OPINI\"\n    print(f\"{vonis}: {k}\")",
+        starter: "# Tiga kalimat laporan. JANGAN UBAH.\nkalimat = [\n    \"NPL naik 0,3 pp menjadi 3,4%.\",\n    \"Kenaikan ini mengkhawatirkan.\",\n    \"Bekukan limit baru sampai NPL < 3%.\",\n]\n\n# TULIS KODEMU: cek PERINTAH dulu (bisa mengandung angka)\nfor k in kalimat:\n    vonis = \n\n    print(f\"{vonis}: {k}\")",
         lockLines: 4,
         solution: "# Tiga kalimat laporan. JANGAN UBAH.\nkalimat = [\n    \"NPL naik 0,3 pp menjadi 3,4%.\",\n    \"Kenaikan ini mengkhawatirkan.\",\n    \"Bekukan limit baru sampai NPL < 3%.\",\n]\n\n# TULIS KODEMU: cek PERINTAH dulu (bisa mengandung angka)\nfor k in kalimat:\n    if k.startswith(\"Bekukan\"):\n        vonis = \"PERINTAH\"\n    elif any(x in k for x in [\"%\", \"Rp\", \"pp\"]):\n        vonis = \"FAKTA\"\n    else:\n        vonis = \"OPINI\"\n    print(f\"{vonis}: {k}\")",
         checks: [

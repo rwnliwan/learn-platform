@@ -190,7 +190,7 @@ export const pma4: V2Lesson = {
       formulaNote: "Laba bersih = laba akuntansi periode berjalan (Rp140 miliar); CFO = arus kas operasi (Rp−30 miliar — negatif!); Total aset = Rp2.000 miliar. Interpretasi: akrual mengukur porsi laba yang TIDAK didukung kas — semakin tinggi, semakin “kertas” labanya dan semakin besar pembalikan di masa depan. Contoh angka: (140 − (−30)) ÷ 2.000 = 8,5%; di atas 5% = waspada, di atas 10% dua tahun beruntun = hampir pasti ada rekayasa.",
       note: {
         title: "Intuisi: baca laporan seperti forensik, bukan seperti fans",
-        body: "Analis berpengalaman membuka laporan tahunan dari belakang: arus kas dulu, baru laba rugi. Heuristik 10 menit: (1) CFO ÷ laba bersih — di bawah 0,8 dua tahun beruntun berarti laba “kertas”; (2) Δpiutang vs Δrevenue — piutang tumbuh lebih cepat berarti channel stuffing; (3) tren DSO — naik 20 hari tanpa penjelasan berarti pelanggan dipaksa “membeli”. Jika ketiganya bersih, barulah baca narasi manajemen — urutan ini menghemat ratusan jam kerjamu. Intuisi kedua: akuntansi adalah bahasa dengan dialek — FIFO vs LIFO, masa depresiasi, kapitalisasi vs beban — dan dua emiten “sektor sama” bisa bicara dialek berbeda. Jangan pernah membandingkan rasio sebelum menyamakan dialeknya, atau kamu membandingkan apel dengan lukisan apel. Yang terakhir: catatan kaki adalah tempat mayat disembunyikan — transaksi afiliasi, kontinjensi, dan perubahan estimasi akuntansi tinggal di sana, bukan di headline laba yang dipajang di press release. Satu lagi: bandingkan dengan arus kas bebas, bukan cuma CFO — emiten dengan CFO sehat tetapi capex pemeliharaan raksasa tiap tahun tetap tidak menghasilkan kas untuk pemilik. Owner earnings (CFO − capex pemeliharaan) adalah angka terakhir yang harus kamu cek sebelum percaya pada laba.",
+        body: "Analis berpengalaman membuka laporan tahunan dari belakang: arus kas dulu, baru laba rugi. Heuristik 10 menit: (1) CFO ÷ laba bersih — di bawah 0,8 dua tahun beruntun berarti laba “kertas” (catatan: 0,5 lebih berat dari 0,8 — di bawah 0,5 bertahun-tahun = vonis, mayoritas laba bukan kas; kuis memakai ambang vonis); (2) Δpiutang vs Δrevenue — piutang tumbuh lebih cepat berarti channel stuffing; (3) tren DSO — naik 20 hari tanpa penjelasan berarti pelanggan dipaksa “membeli”. Jika ketiganya bersih, barulah baca narasi manajemen — urutan ini menghemat ratusan jam kerjamu. Intuisi kedua: akuntansi adalah bahasa dengan dialek — FIFO vs LIFO, masa depresiasi, kapitalisasi vs beban — dan dua emiten “sektor sama” bisa bicara dialek berbeda. Jangan pernah membandingkan rasio sebelum menyamakan dialeknya, atau kamu membandingkan apel dengan lukisan apel. Yang terakhir: catatan kaki adalah tempat mayat disembunyikan — transaksi afiliasi, kontinjensi, dan perubahan estimasi akuntansi tinggal di sana, bukan di headline laba yang dipajang di press release. Satu lagi: bandingkan dengan arus kas bebas, bukan cuma CFO — emiten dengan CFO sehat tetapi capex pemeliharaan raksasa tiap tahun tetap tidak menghasilkan kas untuk pemilik. Owner earnings (CFO − capex pemeliharaan) adalah angka terakhir yang harus kamu cek sebelum percaya pada laba.",
       },
       quiz: [
         {
@@ -240,6 +240,47 @@ export const pma4: V2Lesson = {
       },
       reference: "DSO = piutang/revenue \u00d7 365. DSO > 90 hari = red flag.",
     },
+    {
+          id: "gap-r9-dupont-5-komponen",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P9-G3)",
+          title: "DuPont 5-komponen: memisahkan beban pajak & bunga",
+          prose: [
+            "Langkah 4 memakai DuPont 3-komponen (margin × turnover × leverage) — tetapi analisis yang lebih tajam memecah margin menjadi TIGA: beban pajak, beban bunga, dan margin operasi. DuPont 5-komponen: ROE = (Laba bersih / EBT) × (EBT / EBIT) × (EBIT / Penjualan) × (Penjualan / Aset) × (Aset / Ekuitas) = beban pajak × beban bunga × margin operasi × turnover × leverage.",
+            "Contoh angka: beban pajak 0,80 (20% laba hilang ke pajak), beban bunga 0,90 (10% EBIT hilang ke bunga), margin operasi 0,15, turnover 0,8, leverage 1,5 → ROE = 0,80 × 0,90 × 0,15 × 0,8 × 1,5 = 0,1296 = 12,96%. Bandingkan dengan DuPont 3-komponen perusahaan yang sama: margin bersih = 0,80 × 0,90 × 0,15 = 0,108 → ROE = 0,108 × 0,8 × 1,5 = 0,1296 — sama, tetapi 5-komponen menunjukkan DI MANA margin hilang: 20% ke pajak, 10% ke bunga. Dua perusahaan dengan ROE sama bisa punya cerita berlawanan: yang satu margin operasinya tipis, yang lain bebannya berat — dan obatnya berbeda (efisiensi operasi vs restrukturisasi utang).",
+            "Kaitan ke MajuJaya: laba naik 40% tetapi CFO negatif — DuPont 5-komponen tidak menangkap itu (ia soal laba, bukan kas). Pakai DuPont untuk MEMBONGKAR laba, dan CFO÷laba untuk MENGUJI laba — dua lensa yang saling melengkapi, bukan saling menggantikan.",
+          ],
+          formula: String.raw`ROE = \frac{NI}{EBT} \times \frac{EBT}{EBIT} \times \frac{EBIT}{S} \times \frac{S}{A} \times \frac{A}{E}`,
+          formulaNote: "DuPont 5-komponen: ROE = beban pajak × beban bunga × margin operasi × turnover × leverage. Contoh angka: 0,80 × 0,90 × 0,15 × 0,8 × 1,5 = 0,1296 (12,96%).",
+          tasks: [
+            { id: "t1", text: "Hitung `roe` DuPont 5-komponen dari lima faktor" },
+            { id: "t2", text: "Cetak ROE-nya" },
+          ],
+          expected: "ROE=0.1296",
+          hints: [
+            "roe = tax × interest × margin × turnover × leverage.",
+            "Kalikan kelimanya berurutan.",
+          ],
+          code: {
+            starter: `tax, interest, margin, turnover, leverage = 0.8, 0.9, 0.15, 0.8, 1.5\n\n# TULIS KODEMU: ROE DuPont 5-komponen\nroe = \n\nprint(f"ROE={roe:.4f}")`,
+            lockLines: 3,
+            solution: `tax, interest, margin, turnover, leverage = 0.8, 0.9, 0.15, 0.8, 1.5\n\n# TULIS KODEMU: ROE DuPont 5-komponen\nroe = tax * interest * margin * turnover * leverage\n\nprint(f"ROE={roe:.4f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "roe", value: 0.1296, tol: 0.0001, label: "`roe` seharusnya 0,1296", msg: "0,8×0,9×0,15×0,8×1,5 = 0,1296." },
+              { kind: "stdout_matches", task: "t2", pattern: "ROE=0.1296", label: "`print` menampilkan ROE", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dua perusahaan ROE sama 13%. A: margin operasi 0,20, beban bunga 0,95. B: margin operasi 0,12, beban bunga 0,99. Mana yang lebih rapuh?",
+              options: [
+                { text: "B — margin operasinya tipis; sedikit guncangan harga menghapus laba", why: "Benar: 5-komponen menunjukkan B hidup dari margin tipis; A punya bantalan operasi meski bebannya lebih berat.", correct: true },
+                { text: "A — beban bunganya lebih berat", why: "Salah: beban bunga 0,95 vs 0,99 — selisihnya kecil; yang menentukan adalah margin operasi." },
+                { text: "Sama rapuh — ROE-nya sama", why: "Salah: ROE yang sama menyembunyikan komposisi yang berbeda; itulah gunanya DuPont." },
+              ],
+            },
+          ],
+          reference: "DuPont 5: pajak × bunga × margin operasi × turnover × leverage; bongkar laba + uji dengan CFO÷laba.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -291,7 +332,7 @@ export const pma4: V2Lesson = {
         "Kas = fakta: divergensi laba vs CFO = red flag utama.",
         "Pilihan akuntansi (FIFO/LIFO, depresiasi) mengubah laba — normalisasi dulu.",
         "DuPont: ROE = margin \u00d7 turnover \u00d7 leverage — beli komposisinya, bukan angkanya.",
-        "Rasio kunci: current, quick, DER, coverage, margin, ROE, DSO, CCC.",
+        "Rasio kunci: DER, coverage, margin, ROE, DSO.",
       ],
       next: { label: "PM-A4B — Inventori: LIFO Reserve, Liquidation & Write-Down", href: "/v2/learn/pm-a4b-inventory" },
     },

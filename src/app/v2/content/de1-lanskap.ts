@@ -260,7 +260,7 @@ export const de1: V2Lesson = {
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan dari semua langkah. Setiap opsi punya alasan — baca semuanya, jebakannya halus.",
+        "Enam pertanyaan dari semua langkah. Setiap opsi punya alasan — baca semuanya, jebakannya halus.",
       ],
       tasks: [],
       summary: [

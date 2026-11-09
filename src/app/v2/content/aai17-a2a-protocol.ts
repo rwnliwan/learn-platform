@@ -60,7 +60,7 @@ export const aai17: V2Lesson = {
     },
     {
       id: "kartu-agen",
-      eyebrow: "Langkah 2 · Konsep",
+      eyebrow: "Langkah 2 · Agent Card & discovery",
       title: "Agent Card: kartu nama yang bisa dibaca mesin",
       prose: [
         "Semua interop dimulai dari satu pertanyaan: 'kamu bisa apa, dan bagaimana menghubungimu?' Di dunia manusia jawabannya kartu nama; di A2A jawabannya AGENT CARD — dokumen JSON yang dipublish di URL well-known (`/.well-known/agent.json`), berisi: identitas agen (nama, deskripsi, versi), daftar SKILL (kemampuan bernama: 'cari_hotel', 'bayar' — lengkap dengan deskripsi input/output), endpoint, dan syarat AUTH (api_key, oauth2, mTLS). Client agent men-fetch card ini SEBELUM mengirim apa pun — discovery dulu, delegasi kemudian.",
@@ -78,7 +78,7 @@ export const aai17: V2Lesson = {
     },
     {
       id: "task-lifecycle",
-      eyebrow: "Langkah 3 · Konsep",
+      eyebrow: "Langkah 3 · Task lifecycle",
       title: "Task lifecycle: delegasi yang bisa jeda dan bertanya",
       prose: [
         "Setelah discovery, client mengirim TASK — unit kerja stateful dengan lifecycle yang terdefinisi: `submitted` (diterima) → `working` (dikerjakan) → `completed` / `failed` / `canceled`. Status `input-required` adalah bintangnya: agen boleh BERHENTI di tengah task, meminta informasi tambahan dari client ('tanggal check-out belum jelas — 21 atau 22?'), lalu MELANJUTKAN setelah dijawab. Ini kolaborasi dua arah, bukan fire-and-forget. Tanpa status ini, setiap ambiguitas = task gagal + delegasi ulang dari nol.",
@@ -220,7 +220,7 @@ print("discover_antar:", discover("antar"))`,
     },
     {
       id: "a2a-vs-mcp",
-      eyebrow: "Langkah 5 · Konsep",
+      eyebrow: "Langkah 5 · A2A vs MCP vs AG-UI",
       title: "A2A vs MCP vs AG-UI: tiga lapisan, tiga relasi",
       prose: [
         "Kebingungan paling umum: 'bukankah ini sama dengan MCP?' Tidak — mereka mengatur RELASI yang berbeda. MCP = agen↔TOOL: satu agen memanggil fungsi, membaca resource, memakai prompt template. A2A = agen↔AGEN: satu agen mendelegasikan task ke agen lain yang otonom. AG-UI = agen↔USER: streaming hasil ke antarmuka, meminta persetujuan manusia. Tiga relasi, tiga protokol — komplemen, bukan kompetitor.",

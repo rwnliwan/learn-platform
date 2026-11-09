@@ -94,7 +94,7 @@ export const biz14: V2Lesson = {
       eyebrow: "Langkah 4 · Tiga KPI",
       title: "Tiga KPI kanonis + counter-metric-nya",
       prose: [
-        "KPI 1 — revenue_net (kanonis v1): SUM(amount) WHERE status='paid'. Counter: cancel_rate (menangkap order fiktif). KPI 2 — avg_ticket: revenue / paid orders. Counter: distribusi (median) — rata-rata bisa ditarik 1 order raksasa. KPI 3 — bahan_share: revenue Bahan / revenue total. Counter: tren 4 minggu — penurunan 66,7% adalah alarm.",
+        "KPI 1 — revenue_net (kanonis v1): SUM(amount) WHERE status='paid'. Counter: cancel_rate (menangkap order fiktif). KPI 2 — avg_ticket: revenue / paid orders. Counter: distribusi (median) — rata-rata bisa ditarik 1 order raksasa. KPI 3 — bahan_share: revenue Bahan / revenue total. Counter: tren 4 minggu — penurunan share −68,1% (15,97% → 5,09%) adalah alarm. (Bukan −66,7%: itu penurunan REVENUE Bahan; share turun lebih dalam karena total revenue naik — dua angka, dua definisi, jangan tertukar.)",
         "Tiap KPI punya kartu definisi (BI11): dataset, filter, agregasi, versi, owner. Tanpa kartu = tidak naik ke dashboard.",
         "Uji Goodhart (BI5) per KPI: bagaimana revenue_net bisa naik tanpa perusahaan membaik? Diskon besar-besaran → counter margin menangkap. Bagaimana avg_ticket naik secara palsu? Satu order korporat → median menangkap. Bagaimana bahan_share dimanipulasi? Tidak bisa — ia rasio alami.",
         "💡 Intuisi kunci: paket KPI capstone yang baik selalu punya SATU metrik peringatan dini (bahan_share) — bukan semuanya metrik prestasi. Dashboard tanpa alarm adalah laporan, bukan sistem peringatan.",
@@ -221,7 +221,7 @@ export const biz14: V2Lesson = {
       eyebrow: "Langkah 9 · Mini-case",
       title: "Mini-case: narasi 3 menit untuk pemilik",
       prose: [
-        "Senin pagi, pemilik Kopi Nusantara. Narasi 3 menit dari angka lab: MENIT 1 — \u201CRevenue Oktober naik 4,6% ke Rp550 ribu — headline baik.\u201D MENIT 2 — satu chart: dua batang kategori + anotasi \u201CBahan: 84rb → 28rb (−66,7%)\u201D. \u201CKenaikan ini 100% ditopang Minuman; kategori Bahan kolaps.\u201D MENIT 3 — \u201CSo what: Bahan adalah 16% revenue September — jika tren ini menular ke Minuman, kita kehilangan Rp180rb/bulan. Aksi: investigasi pasokan gula aren minggu ini; pemilik: saya butuh akses ke pemasok.\u201D",
+        "Senin pagi, pemilik Kopi Nusantara. Narasi 3 menit dari angka lab: MENIT 1 — \u201CRevenue Oktober naik 4,6% ke Rp550 ribu — headline baik.\u201D MENIT 2 — satu chart: dua batang kategori + anotasi \u201CBahan: 84rb → 28rb (−66,7%)\u201D. \u201CKenaikan ini 100% ditopang Minuman; kategori Bahan kolaps.\u201D MENIT 3 — \u201CSo what: Bahan adalah 16% revenue September — jika tren ini menular ke Minuman, kita kehilangan Rp348 rb/bulan (66,7% dari Minuman Rp522 rb). Aksi: investigasi pasokan gula aren minggu ini; pemilik: saya butuh akses ke pemasok.\u201D",
         "Kenapa ini capstone yang lulus: (a) headline jujur (tidak disembunyikan), (b) peringatan dini spesifik (kategori + angka + tren), (c) aksi konkret dengan pemilik dan deadline, (d) semua angka bisa ditelusur ke definisi kanonis.",
         "Yang TIDAK dilakukan: tidak menyalahkan tim, tidak mengusulkan 10 aksi, tidak menampilkan 12 chart. Satu keputusan: investigasi pasokan Bahan. Itulah BI yang bekerja — rantai dari 12 baris order menjadi satu keputusan Senin pagi.",
         "💡 Intuisi kunci: capstone dinilai dari KEPUTUSAN yang dihasilkan, bukan dari kelengkapan suite. Jika setelah presentasimu pemilik tidak melakukan apa-apa, suitnya gagal — seindah apa pun arsitekturnya.",
@@ -339,13 +339,13 @@ export const biz14: V2Lesson = {
       tasks: [],
       summary: [
         "Catatan jalur: lesson setelah capstone ini (BI15 dan seterusnya) adalah modul lanjutan opsional — capstone ini sudah menutup rangkaian inti BI1–BI14.",
-        "Model dbt bertes: mart_kpi_gerai lolos 4 tes (unique, not_null, accepted_values, relationships) sebelum dibaca dashboard.",
+        "Model dbt bertes: mart_kpi_gerai GAGAL 4 dari 4 tes (unique, not_null, accepted_values, relationships) pada data lab yang sengaja kotor — dashboard tidak boleh terbit sampai mart diperbaiki.",
         "Suite = rantai keputusan utuh: sumber → model → metrik → sajian → keputusan.",
         "Mulai dari keputusan termahal, bangun mundur ke data.",
         "Tiap KPI: kartu definisi + counter-metric + versi.",
         "Dashboard: 1 headline + 3 driver + aksi; narasi 3 menit.",
         "Audit 90-harian: zombie, gaming, definisi usang — suite membusuk tanpa perawatan.",
-        "Selamat! Kamu menyelesaikan track Business Intelligence (26 lesson).",
+        "Selamat! Kamu menyelesaikan inti (core) track Business Intelligence — lesson BI1–BI14. Lesson BI15+ adalah pendalaman opsional, bukan bagian dari inti yang ditutup capstone ini.",
       ],
       next: { label: "BI15 — DAX: Measures & Time Intelligence", href: "/v2/learn/biz15-dax" },
       quiz: [

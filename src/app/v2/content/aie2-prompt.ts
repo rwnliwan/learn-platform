@@ -27,7 +27,7 @@ export const aie2: V2Lesson = {
         "Di tim data NusaBank ada Dimas, dijuluki 'prompt whisperer'. Prompt buatannya jarang gagal; prompt orang lain sering ngawur. Semua mengira ia punya bakat merangkai kata-kata ajaib.",
         "Suatu hari Rina mengintip folder kerjanya. Isinya bukan kalimat ajaib: template dengan variabel `nama`, `tanggal`, `dokumen`; tiap template punya nomor versi; tiap versi punya skor di 40 contoh uji; dan tiap prompt menyertakan 3 contoh jawaban yang benar. Error ekstraksi tim turun dari 34 persen menjadi 6 persen — bukan karena Dimas pandai berkata-kata, melainkan karena ia memperlakukan prompt sebagai artefak yang direkayasa: bervariabel, berversi, dan terukur.",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menyusun prompt dari empat komponen (instruksi, konteks, contoh, format); (2) memakai variabel templating dan versioning; (3) memutuskan kapan zero-shot, few-shot, atau chain-of-thought; (4) mengukur kepatuhan format output.",
-        "🗺️ Isi lesson: Langkah 1 · Cerita whisperer — Langkah 2 · Anatomi prompt — Langkah 3 · Lab: template berversi — Langkah 4 · Lab: few-shot — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Checkpoint.",
+        "🗺️ Isi lesson: Langkah 1 · Cerita whisperer — Langkah 2 · Anatomi prompt — Langkah 3 · Lab: template berversi — Langkah 4 · Lab: few-shot — Langkah 5 · Peta keputusan — Langkah 6 · Mini-case — Langkah 7 · Embedding — Checkpoint.",
       ],
       tasks: [],
       reference: "Prompt engineering sistematis = struktur + variabel + versi + contoh + pengukuran. Bukan trial-and-error.",

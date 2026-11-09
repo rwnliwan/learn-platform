@@ -56,7 +56,7 @@ export const mr7: V2Lesson = {
       prose: [
         "Dampak skenario dihitung via sensitivitas orde-1 (linear: sensitivitas × shock, seperti DV01) plus koreksi orde-2 (kuadratik: untuk posisi non-linear seperti opsi). Untuk shock besar, orde-2 tidak boleh diabaikan — untuk pergerakan besar, suku kuadratik mendominasi suku linear.",
         "Skenario resesi global untuk desk multi-aset. Sensitivitas: spread −Rp170 ribu per bp, ekuitas +Rp2,75 juta per +1%, suku bunga −Rp3,6 juta per bp. Shock skenario: spread +400 bp, ekuitas −20%, suku bunga +20 bp. Hitung kontribusi tiap faktor dan totalnya — lalu lihat faktor mana yang paling menyakitkan.",
-        "Hasilnya seperti waterfall: total kerugian Rp195 miliar, didominasi melebarnya credit spread (Rp68 M) dan jatuhnya ekuitas (Rp55 M) — bukan suku bunga. Inilah nilai stress test: ia menunjukkan di mana tepatnya portofolio berdarah dalam tiap skenario, sehingga hedging bisa ditargetkan — bukan asal kurangi risiko.",
+        "Hasilnya seperti waterfall: total kerugian Rp195 juta, didominasi suku bunga (Rp72 jt) — bukan spread (Rp68 jt) atau ekuitas (Rp55 jt). Hitungannya: spread 400 bp × Rp170 rb = Rp68 jt; ekuitas −20% × Rp2,75 jt = Rp55 jt; suku bunga +20 bp × Rp3,6 jt = Rp72 jt. Inilah nilai stress test: ia menunjukkan di mana tepatnya portofolio berdarah dalam tiap skenario, sehingga hedging bisa ditargetkan — bukan asal kurangi risiko.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `kontrib` tiap faktor (dict) dan `total` kerugian skenario" },
@@ -90,9 +90,9 @@ export const mr7: V2Lesson = {
       eyebrow: "Langkah 4 · Reverse stress",
       title: "Mulai dari kematian",
       prose: [
-        "Reverse stress test membalik pertanyaannya: bukan skenario → dampak, melainkan dampak yang tak tertahankan → skenario apa yang menyebabkannya? Langkahnya: tetapkan ambang kematian (misal rugi > Rp500 M, CET1 < 8%, gagal bayar); cari kombinasi pemicu yang menembus ambang (grid search); nilai plausibilitas tiap kombinasi; tindak lanjuti pemicu yang paling plausible dengan mitigasi.",
+        "Reverse stress test membalik pertanyaannya: bukan skenario → dampak, melainkan dampak yang tak tertahankan → skenario apa yang menyebabkannya? Langkahnya: tetapkan ambang kematian (misal rugi > Rp500 jt, CET1 < 8%, gagal bayar); cari kombinasi pemicu yang menembus ambang (grid search); nilai plausibilitas tiap kombinasi; tindak lanjuti pemicu yang paling plausible dengan mitigasi.",
         "Kenapa powerful: stress test biasa bisa melewatkan kombinasi mematikan yang tidak terpikirkan analis (unknown unknowns). Reverse stress menemukannya secara sistematis — ia bertanya ke seluruh ruang skenario, bukan cuma yang terpikirkan. Seperti dokter yang bertanya: gejala apa yang akan membunuh pasien ini, dan penyakit apa yang menyebabkannya? — bukan cuma memeriksa daftar penyakit yang diketahui.",
-        "Contoh sederhana satu faktor: toleransi rugi Rp500 M, sensitivitas spread −Rp1,25 juta per bp. Shock spread berapa yang menembus batas? 500 jt / 1,25 jt = 400 bp. Dalam praktik, grid dua-tiga faktor dicari kombinasinya, lalu diurutkan by plausibilitas: skenario kiamat (plausibilitas 2/100) kalah prioritas dari spread +400bp + likuiditas kering (12/100) dan spread +200bp (22/100). Reverse stress memaksa prioritas pada yang plausible, bukan yang paling dramatis.",
+        "Contoh sederhana satu faktor: toleransi rugi Rp500 jt, sensitivitas spread −Rp1,25 juta per bp. Shock spread berapa yang menembus batas? 500 jt / 1,25 jt = 400 bp. Dalam praktik, grid dua-tiga faktor dicari kombinasinya, lalu diurutkan by plausibilitas: skenario kiamat (plausibilitas 2/100) kalah prioritas dari spread +400bp + likuiditas kering (12/100) dan spread +200bp (22/100). Reverse stress memaksa prioritas pada yang plausible, bukan yang paling dramatis.",
       ],
       tasks: [
         { id: "t1", text: "Hitung `shock_bp` = shock spread yang menembus `toleransi`" },
@@ -110,9 +110,9 @@ export const mr7: V2Lesson = {
         "Hasilnya 400 bp — bandingkan dengan skenario historis 2008 (800+ bp).",
       ],
       code: {
-        starter: `toleransi = 500_000_000  # Rp500 M: ambang kematian\nsens_per_bp = -1_250_000  # sensitivitas spread (Rp per bp)\n\n# TULIS KODEMU: shock (bp) yang menembus toleransi\nshock_bp = \n\nprint(f"shock_bp={shock_bp}")`,
+        starter: `toleransi = 500_000_000  # Rp500 jt: ambang kematian\nsens_per_bp = -1_250_000  # sensitivitas spread (Rp per bp)\n\n# TULIS KODEMU: shock (bp) yang menembus toleransi\nshock_bp = \n\nprint(f"shock_bp={shock_bp}")`,
         lockLines: 2,
-        solution: `toleransi = 500_000_000  # Rp500 M: ambang kematian\nsens_per_bp = -1_250_000  # sensitivitas spread (Rp per bp)\n\n# TULIS KODEMU: shock (bp) yang menembus toleransi\nshock_bp = toleransi / abs(sens_per_bp)\n\nprint(f"shock_bp={shock_bp}")`,
+        solution: `toleransi = 500_000_000  # Rp500 jt: ambang kematian\nsens_per_bp = -1_250_000  # sensitivitas spread (Rp per bp)\n\n# TULIS KODEMU: shock (bp) yang menembus toleransi\nshock_bp = toleransi / abs(sens_per_bp)\n\nprint(f"shock_bp={shock_bp}")`,
         checks: [
           { kind: "equal", task: "t1", name: "shock_bp", value: 400.0, tol: 1e-9, label: "`shock_bp` seharusnya 400.0", msg: "500 jt / 1,25 jt = 400. Cek nilai absolut sensitivitasnya." },
           { kind: "stdout_matches", task: "t2", pattern: "shock_bp=400\\.0", label: "`print` menampilkan hasil", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
@@ -145,7 +145,7 @@ export const mr7: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Skenario yang terlalu sopan",
       prose: [
-        "Bank menyusun skenario stres tahunan: ekuitas −15%, spread +150 bp, yield +100 bp. Hasil: rugi Rp120 miliar — dalam toleransi Rp500 miliar. Direksi lega. Tetapi lihat datanya: skenario itu lebih ringan dari 2020 (IHSG −30% intraday, spread +400 bp) dan jauh dari 2008. Skenario ini sopan — dirancang agar lolos, bukan agar menguji.",
+        "Bank menyusun skenario stres tahunan: ekuitas −15%, spread +150 bp, yield +100 bp. Hasil: rugi Rp120 miliar — dalam toleransi Rp500 miliar. Direksi lega. Tetapi lihat datanya: skenario itu lebih ringan dari 2020 (IHSG −30% dari puncak Februari ke titik terendah 24 Maret 2020 — dalam hitungan pekan, bukan dalam sehari; penurunan harian terburuk ≈ −6,6% — spread +400 bp) dan jauh dari 2008. Skenario ini sopan — dirancang agar lolos, bukan agar menguji.",
         "Tiga cacatnya: tidak parah (di bawah episode historis yang benar-benar terjadi — gagal kriteria parah tapi plausible), tidak konsisten (yield +100 bp bersamaan ekuitas −15% tanpa narasi mengapa flight-to-quality tidak terjadi), dan tidak menangkap interaksi (korelasi tetap normal, likuiditas diasumsikan lancar — padahal krisis menyerang bergerombol).",
         "Perbaikannya: kalibrasi ke episode historis nyata (2008: spread 800+ bp; 2020: ekuitas −30%), tambahkan narasi makro yang mengikat shock, dan sertakan lapisan interaksi — korelasi → 1, slippage likuiditas, umpan balik margin call. Skenario yang membuat direksi tidak nyaman tetapi tetap plausible = skenario yang bekerja. Skenario yang membuat semua lega = skenario yang gagal.",
       ],
@@ -177,10 +177,53 @@ export const mr7: V2Lesson = {
       ],
       note: {
         title: "Intuisi: stress test yang baik diukur dari keputusan, bukan dari laporannya",
-        body: "Pola pikir senior: skenario adalah alat, keputusan adalah produk. Lima heuristik. Pertama: curigai skenario yang terlalu nyaman — jika setiap tahun hasilnya dalam toleransi dan tidak ada yang berubah, skenarionya yang rusak, bukan banknya yang kebal. Kedua: pisahkan perancang dari yang dinilai — insentif membentuk skenario lebih kuat daripada metodologi; challenger independen bukan kemewahan melainkan prasyarat. Ketiga: tutup setiap siklus dengan keputusan bernama dan bertanggal — limit, hedge, kontinjensi, atau buffer; tanpa itu, latihanmu ritual. Keempat: bicara ke direksi dalam narasi, bukan tabel — tiga kalimat skenario, dampak ke modal, tiga opsi tindakan; presisi semu 40 baris justru menyembunyikan keputusan. Kelima: dokumentasikan yang tidak kamu lakukan beserta alasannya — keputusan untuk tidak bertindak juga keputusan, dan lima tahun kemudian dokumentasi itulah audit trail kejujuranmu. Keenam: bandingkan skenariomu dengan bank lain dan dengan skenario regulator — jika skenariomu selalu paling ringan di antara peers, itu sinyal keras bahwa kalibrasimu sopan, bukan bahwa bankmu paling aman. Aturan 10 detiknya: skenario jujur → challenger independen → keputusan bernama → narasi ke direksi → dokumentasi lengkap.",
+        body: "Pola pikir senior: skenario adalah alat, keputusan adalah produk. Enam heuristik. Pertama: curigai skenario yang terlalu nyaman — jika setiap tahun hasilnya dalam toleransi dan tidak ada yang berubah, skenarionya yang rusak, bukan banknya yang kebal. Kedua: pisahkan perancang dari yang dinilai — insentif membentuk skenario lebih kuat daripada metodologi; challenger independen bukan kemewahan melainkan prasyarat. Ketiga: tutup setiap siklus dengan keputusan bernama dan bertanggal — limit, hedge, kontinjensi, atau buffer; tanpa itu, latihanmu ritual. Keempat: bicara ke direksi dalam narasi, bukan tabel — tiga kalimat skenario, dampak ke modal, tiga opsi tindakan; presisi semu 40 baris justru menyembunyikan keputusan. Kelima: dokumentasikan yang tidak kamu lakukan beserta alasannya — keputusan untuk tidak bertindak juga keputusan, dan lima tahun kemudian dokumentasi itulah audit trail kejujuranmu. Keenam: bandingkan skenariomu dengan bank lain dan dengan skenario regulator — jika skenariomu selalu paling ringan di antara peers, itu sinyal keras bahwa kalibrasimu sopan, bukan bahwa bankmu paling aman. Aturan 10 detiknya: skenario jujur → challenger independen → keputusan bernama → narasi ke direksi → dokumentasi lengkap.",
       },
       reference: "Governance: pisahkan perancang & dinilai, challenger wajib, tutup dengan keputusan, dokumentasikan.",
     },
+    {
+          id: "gap-r9-liquidity-stress",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P4-G3)",
+          title: "Stress likuiditas: LCR, NSFR, survival horizon",
+          prose: [
+            "Lesson ini menguji skenario pasar (harga, spread, suku bunga) — tetapi krisis 2008 membuktikan bank mati bukan karena rugi mark-to-market, melainkan karena KEHABISAN KAS: pasar pendanaan membeku (langkah 1). Stress likuiditas menguji itu dengan tiga metrik. LCR (Liquidity Coverage Ratio) = HQLA (aset likuid berkualitas tinggi) ÷ arus keluar bersih 30 hari — wajib ≥ 100%: bank harus bertahan 30 hari tanpa pendanaan baru. NSFR (Net Stable Funding Ratio) = pendanaan stabil tersedia ÷ pendanaan stabil dibutuhkan — wajib ≥ 100%: struktur pendanaan jangka panjang harus menopang aset jangka panjang. Survival horizon = berapa hari kas + HQLA bertahan pada arus keluar harian — metrik operasional yang dipakai treasury tiap pagi.",
+            "Contoh angka: HQLA Rp120 miliar, arus keluar bersih 30 hari Rp100 miliar → LCR = 120% (lolos, buffer 20 pp). Kas + HQLA Rp50 miliar dengan arus keluar Rp5 miliar/hari → survival horizon 10 hari. Skenario roll-off: pendanaan jangka pendek Rp200 miliar, 30% tidak diperpanjang (roll-off) → kebutuhan dana Rp60 miliar — bila LCR hanya 100% tanpa buffer, roll-off 30% ini langsung menembus batas. Itulah gunanya buffer: LCR 120% berarti bank bisa menyerap guncangan pendanaan 20% sebelum melanggar.",
+            "Aturan keputusan: stress likuiditas selalu diuji BERSAMA stress pasar — skenario resesi lesson ini (spread +400 bp) harus disertai asumsi pendanaan (roll-off 30%, haircut repo naik, PUAB mengering). Bank yang hanya lolos stress pasar tetapi gagal stress likuiditas adalah bank yang “sehat di kertas, mati di kas”.",
+          ],
+          formula: String.raw`LCR = \frac{HQLA}{\text{arus keluar bersih 30 hari}} \geq 100\% \qquad \text{survival} = \frac{\text{kas + HQLA}}{\text{arus keluar harian}}`,
+          formulaNote: "LCR ≥ 100% (bertahan 30 hari tanpa pendanaan baru). NSFR ≥ 100% (pendanaan stabil menopang aset). Survival horizon = kas/HQLA ÷ arus keluar harian. Contoh angka: HQLA 120, outflow 100 → LCR 120%; kas 50, outflow 5/hari → 10 hari; roll-off 30% × 200 = 60.",
+          tasks: [
+            { id: "t1", text: "Hitung `lcr` (%), `horizon` (hari), dan `rolloff` (Rp miliar)" },
+            { id: "t2", text: "Cetak ketiganya" },
+          ],
+          expected: "LCR=120% horizon=10 rolloff=60",
+          hints: [
+            "lcr = 120/100 × 100.",
+            "horizon = 50/5; rolloff = 200 × 0,30.",
+          ],
+          code: {
+            starter: `hqla, outflow30 = 120.0, 100.0  # Rp miliar\nkas, outflow_harian = 50.0, 5.0\ndana_pendek, rolloff_rate = 200.0, 0.30\n\n# TULIS KODEMU: LCR + survival horizon + kebutuhan roll-off\nlcr = \nhorizon = \nrolloff = \n\nprint(f"LCR={lcr:.0f}% horizon={horizon:.0f} rolloff={rolloff:.0f}")`,
+            lockLines: 5,
+            solution: `hqla, outflow30 = 120.0, 100.0  # Rp miliar\nkas, outflow_harian = 50.0, 5.0\ndana_pendek, rolloff_rate = 200.0, 0.30\n\n# TULIS KODEMU: LCR + survival horizon + kebutuhan roll-off\nlcr = hqla / outflow30 * 100\nhorizon = kas / outflow_harian\nrolloff = dana_pendek * rolloff_rate\n\nprint(f"LCR={lcr:.0f}% horizon={horizon:.0f} rolloff={rolloff:.0f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "lcr", value: 120, tol: 0.5, label: "`lcr` seharusnya 120%", msg: "120/100 = 120% — lolos dengan buffer 20 pp." },
+              { kind: "equal", task: "t1", name: "horizon", value: 10, tol: 0.5, label: "`horizon` seharusnya 10 hari", msg: "50/5 = 10 hari." },
+              { kind: "equal", task: "t1", name: "rolloff", value: 60, tol: 0.5, label: "`rolloff` seharusnya Rp60 M", msg: "200 × 30% = 60." },
+              { kind: "stdout_matches", task: "t2", pattern: "LCR=120%\\s+horizon=10\\s+rolloff=60", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Bank punya LCR 105% dan skenario roll-off 30% atas pendanaan jangka pendek Rp200 M. Apa masalahnya?",
+              options: [
+                { text: "Buffer hanya 5 pp — roll-off Rp60 M bisa menembus batas bila HQLA tidak cukup", why: "Benar: LCR 105% berarti buffer tipis; stress likuiditas harus diuji bersama stress pasar.", correct: true },
+                { text: "Tidak ada masalah — LCR di atas 100% berarti aman", why: "Salah: 100% adalah batas minimum, bukan zona aman; buffer 5 pp terlalu tipis untuk roll-off 30%." },
+                { text: "NSFR pasti juga di atas 100%", why: "Salah: LCR dan NSFR mengukur hal berbeda (30 hari vs struktural) — keduanya harus diuji terpisah." },
+              ],
+            },
+          ],
+          reference: "LCR ≥ 100% (30 hari), NSFR ≥ 100% (struktural), survival horizon = kas ÷ arus keluar harian.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

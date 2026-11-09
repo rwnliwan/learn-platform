@@ -456,7 +456,7 @@ print(f"wilson_B=({wilson_lo:.3f}, {wilson_hi:.3f})  mcnemar_chi2={chi2:.2f}  p=
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah.",
+        "Enam pertanyaan campuran dari semua langkah.",
       ],
       tasks: [
       ],

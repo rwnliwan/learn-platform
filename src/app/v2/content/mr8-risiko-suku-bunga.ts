@@ -12,9 +12,9 @@ export const mr8: V2Lesson = {
       eyebrow: "Langkah 1 · Duration",
       title: "Cerita: bank yang hedged tapi tetap rugi",
       prose: [
-        "Bank XYZ punya portofolio obligasi Rp2 triliun dengan duration 7 tahun. Untuk netral, treasury menjual obligasi pemerintah berduration 7 tahun senilai sama. Duration bersih = nol. Laporan risiko: hijau. Risiko suku bunga kami hedged sempurna, kata treasurer.",
-        "Sebulan kemudian bank sentral menaikkan suku bunga acuan. Yang terjadi bukan parallel shift — suku bunga jangka pendek naik 150 bp, jangka panjang cuma 30 bp (kurva memipih/flattening). Hasilnya? Portofolio (tenor 10 tahun, sensitif ke long-end) rugi Rp45 miliar, hedge (tenor 3 tahun, sensitif ke short-end) untung cuma Rp12 miliar. Rugi bersih Rp33 miliar — dari posisi yang duration-netral.",
-        "Twist-nya: duration mengasumsikan seluruh kurva bergerak paralel — asumsi yang hampir tidak pernah benar. Hedge yang sempurna di atas kertas runtuh karena bentuk kurva berubah, bukan levelnya. Macaulay duration sendiri adalah rata-rata tertimbang waktu diterimanya arus kas (bobot = PV tiap arus kas dibagi harga): kapan, rata-rata, uangmu kembali. Obligasi 10 tahun berkupon punya duration ~7–8 tahun; zero-coupon 10 tahun punya duration tepat 10 tahun.",
+        "Bank XYZ punya portofolio obligasi Rp2 triliun dengan duration 7 tahun. Untuk netral, treasury menjual obligasi pemerintah bertenor 3 tahun (D_mod 2,58) senilai sama. Duration bersih = 7 − 2,58 = +4,42 — TIDAK nol — tetapi laporan risiko mencatatnya hijau karena hanya membandingkan nilai nominal, bukan duration. Risiko suku bunga kami hedged sempurna, kata treasurer.",
+        "Sebulan kemudian bank sentral menaikkan suku bunga acuan. Yang terjadi bukan parallel shift — suku bunga jangka pendek naik 150 bp, jangka panjang cuma 30 bp (kurva memipih/flattening). Hasilnya? Portofolio (tenor 10 tahun, sensitif ke long-end) rugi Rp45 miliar, hedge (tenor 3 tahun, sensitif ke short-end) untung Rp77 miliar (D_mod 2,58 × Rp2 triliun × 150 bp ≈ Rp77 miliar). Untung bersih +Rp32 miliar — dari posisi yang katanya hedged sempurna.",
+        "Twist-nya: kali ini twist MENGUNTUNGKAN — short-end naik 5× lipat long-end, sehingga hedge 3Y menghasilkan Rp77 M melawan rugi Rp45 M. Tetapi itu keberuntungan, bukan hedge: duration bersih +4,42 berarti posisi ini masih membawa risiko suku bunga, dan twist berlawanan akan membalikkan hasilnya. Duration mengasumsikan seluruh kurva bergerak paralel — pergeseran paralel MURNI memang jarang terjadi, tetapi pergeseran level (seluruh kurva naik/turun bersama) adalah komponen dominan; yang membunuh hedge ini bukan levelnya, melainkan twist — bentuk kurva yang berubah. Macaulay duration sendiri adalah rata-rata tertimbang waktu diterimanya arus kas (bobot = PV tiap arus kas dibagi harga): kapan, rata-rata, uangmu kembali. Obligasi 10 tahun berkupon punya duration ~7–8 tahun; zero-coupon 10 tahun punya duration tepat 10 tahun.",
       ],
       formula: String.raw`D_{mac} = \sum_t t \cdot w_t, \qquad w_t = \frac{PV(CF_t)}{P}`,
       formulaNote: "D_mac = Macaulay duration (tahun) — rata-rata tertimbang waktu kas kembali; t = waktu arus kas; w_t = bobot = PV arus kas ke-t dibagi harga P; kupon besar → bobot awal besar → duration pendek.",
@@ -151,17 +151,17 @@ export const mr8: V2Lesson = {
       eyebrow: "Langkah 6 · Mini-case",
       title: "Twist yang membunuh hedge",
       prose: [
-        "Kembali ke Bank XYZ. Portofolio Rp2 triliun (tenor 10 tahun, sensitif ke long-end), hedge obligasi pemerintah tenor 3 tahun (sensitif ke short-end) senilai sama. Duration bersih = 0. Skenario bank sentral: short-end +150 bp, long-end +30 bp.",
-        "Hitung kasarnya: portofolio rugi Rp45 miliar (long-end +30 bp × DV01 besar tenor 10Y), hedge untung Rp12 miliar (short-end +150 bp × DV01 kecil tenor 3Y — arahnya menguntungkan tetapi basisnya kecil). Rugi bersih Rp33 miliar dari posisi yang katanya hedged sempurna.",
+        "Kembali ke Bank XYZ. Portofolio Rp2 triliun (tenor 10 tahun, sensitif ke long-end), hedge obligasi pemerintah tenor 3 tahun (sensitif ke short-end) senilai sama. Duration bersih = 7 − 2,58 = +4,42 — TIDAK nol. Skenario bank sentral: short-end +150 bp, long-end +30 bp.",
+        "Hitung kasarnya: portofolio rugi Rp45 miliar (long-end +30 bp × DV01 besar tenor 10Y), hedge untung Rp77 miliar (short-end +150 bp × D_mod 2,58 × Rp2 triliun — short-end naik 5× lipat long-end, sehingga hedge menghasilkan lebih besar dari rugi portofolio). Untung bersih +Rp32 miliar dari posisi yang katanya hedged sempurna — tetapi untung karena arah twist, bukan karena hedge-nya benar.",
         "Tiga pertanyaan untuk risk manager: berapa KRD per bucket sebelum hedge disetujui (apakah +3/−3 tersembunyi)? Skenario twist apa yang diuji — atau hanya parallel shift? Dan apakah hedge dinilai ulang saat kurva berubah bentuk, bukan cuma saat level berubah? Hedge yang tidak diuji terhadap twist bukan hedge — ia taruhan bentuk kurva yang tidak disadari.",
       ],
       tasks: [
-        { id: "t1", text: "Jelaskan dengan angka kenapa hedge Rp12 M tidak menutup rugi Rp45 M." },
+        { id: "t1", text: "Jelaskan dengan angka kenapa hedge Rp77 M justru membuat posisi ini untung +Rp32 M — dan kenapa untung itu bukan bukti hedge-nya benar." },
         { id: "t2", text: "Tuliskan tiga pertanyaan risk manager sebelum menyetujui hedge duration-netral." },
       ],
       note: {
         title: "Kaitan ke risk",
-        body: "Kerugian Rp33 miliar ini bukan kegagalan pasar — ia kegagalan metrik. Laporan risiko berwarna hijau karena metriknya (duration total) buta terhadap risiko yang sebenarnya (bentuk kurva). Pilih metrik yang buta = pilih untuk tidak melihat.",
+        body: "Keuntungan Rp32 miliar ini bukan keberhasilan hedge — ia keberuntungan arah twist. Laporan risiko berwarna hijau karena metriknya (duration total) buta terhadap risiko yang sebenarnya (bentuk kurva + duration bersih +4,42). Pilih metrik yang buta = pilih untuk tidak melihat.",
         type: "risk",
       },
       reference: "Duration-netral + twist = taruhan bentuk kurva tersembunyi. Uji KRD per bucket.",
@@ -181,10 +181,53 @@ export const mr8: V2Lesson = {
       ],
       note: {
         title: "Intuisi: metrik harus mengikuti arus kas, bukan sebaliknya",
-        body: "Prinsip senior: setiap metrik punya asumsi arus kas di dalamnya — pakai metrik yang asumsinya cocok dengan instrumenmu. Lima heuristik. Pertama: sebelum memakai duration, tanya apakah arus kasnya pasti — jika ada opsi tertanam (call/put), rumus arus-kas-tetap berbohong dan effective duration adalah jawabannya. Kedua: negative convexity bukan teori — di sekitar harga call, obligasi callable berhenti naik saat yield turun; hedge yang memakai duration biasa akan over-hedge tepat di zona ini. Ketiga: bandingkan obligasi ber-opsi via OAS, bukan via yield — yield mencampur kompensasi risiko dengan harga opsi yang kamu jual; OAS memisahkannya. Keempat: untuk SBN ritel tanpa opsi, jangan over-engineering — modified duration dan DV01 sudah bahasa yang benar; kecanggihan yang tidak dibutuhkan adalah noise. Kelima: setiap kali struktur produk berubah (callable baru diterbitkan, suku bunga mendekati strike opsi), evaluasi ulang metrikmu — metrik yang benar tahun lalu bisa salah tahun ini. Keenam: untuk hedging obligasi ber-opsi, lindungi nilai terhadap pergerakan yield kecil dengan effective duration, tetapi siapkan skenario terpisah untuk yield yang menembus strike — di sanalah convexity berubah tanda dan hedge linear jebol. Aturan 10 detiknya: arus kas pasti → modified; ada opsi → effective + OAS; dan selalu tanya di mana convexity berubah tanda.",
+        body: "Prinsip senior: setiap metrik punya asumsi arus kas di dalamnya — pakai metrik yang asumsinya cocok dengan instrumenmu. Enam heuristik. Pertama: sebelum memakai duration, tanya apakah arus kasnya pasti — jika ada opsi tertanam (call/put), rumus arus-kas-tetap berbohong dan effective duration adalah jawabannya. Kedua: negative convexity bukan teori — di sekitar harga call, obligasi callable berhenti naik saat yield turun; hedge yang memakai duration biasa akan over-hedge tepat di zona ini. Ketiga: bandingkan obligasi ber-opsi via OAS, bukan via yield — yield mencampur kompensasi risiko dengan harga opsi yang kamu jual; OAS memisahkannya. Keempat: untuk SBN ritel tanpa opsi, jangan over-engineering — modified duration dan DV01 sudah bahasa yang benar; kecanggihan yang tidak dibutuhkan adalah noise. Kelima: setiap kali struktur produk berubah (callable baru diterbitkan, suku bunga mendekati strike opsi), evaluasi ulang metrikmu — metrik yang benar tahun lalu bisa salah tahun ini. Keenam: untuk hedging obligasi ber-opsi, lindungi nilai terhadap pergerakan yield kecil dengan effective duration, tetapi siapkan skenario terpisah untuk yield yang menembus strike — di sanalah convexity berubah tanda dan hedge linear jebol. Aturan 10 detiknya: arus kas pasti → modified; ada opsi → effective + OAS; dan selalu tanya di mana convexity berubah tanda.",
       },
       reference: "Arus kas berubah → effective duration (valuasi ulang). Bandingkan via OAS, bukan yield.",
     },
+    {
+          id: "gap-r9-krd-effective-duration",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P4-G4)",
+          title: "KRD & effective duration: bedah duration per titik kurva",
+          prose: [
+            "Langkah 4 menyebut key-rate duration (KRD) dan langkah 7 menyebut effective duration — tetapi keduanya belum pernah dihitung. KRD membedah modified duration per titik tenor: KRD_k mengukur sensitivitas harga terhadap perubahan yield HANYA di tenor k, dengan tenor lain tetap. Jumlah semua KRD = modified duration. Inilah alat yang akan menangkap jebakan Bank XYZ: portofolio 10Y punya KRD besar di 10Y, hedge 3Y punya KRD besar di 2–3Y — total duration boleh sama, tetapi distribusi KRD-nya berlawanan.",
+            "Effective duration (D_eff) dipakai bila arus kas TIDAK tetap (obligasi callable/putable): ukur sensitivitas langsung dari harga hasil valuasi ulang — D_eff = −(P₊ − P₋)/(2·P₀·Δy), dengan P₊/P₋ = harga saat yield ±Δy. Rumus yang sama, diterapkan per bucket, memberi KRD: geser hanya yield tenor k sebesar Δy, valuasi ulang, hitung.",
+            "Contoh angka (P₀ = 100, Δy = 10 bp = 0,001): bucket 2Y: P₊ = 99,80, P₋ = 100,20 → KRD_2Y = −(99,80 − 100,20)/(2×100×0,001) = 2,00. Bucket 10Y: P₊ = 99,30, P₋ = 100,70 → KRD_10Y = −(99,30 − 100,70)/0,2 = 7,00. Total D = 2,00 + 7,00 = 9,00. Bila hedge hanya menutup KRD_2Y (2,00) sementara portofolio membawa KRD_10Y 7,00, twist long-end +30 bp tetap menghantam Rp45 M — persis cerita Bank XYZ.",
+          ],
+          formula: String.raw`KRD_k = -\frac{P_+ - P_-}{2 P_0 \Delta y_k} \qquad \sum_k KRD_k = D_{mod} \qquad D_{eff} = -\frac{P_+ - P_-}{2 P_0 \Delta y}`,
+          formulaNote: "KRD_k = sensitivitas harga terhadap yield tenor k saja (tenor lain tetap); jumlah KRD = modified duration. Effective duration memakai rumus yang sama dari harga valuasi ulang (untuk obligasi ber-opsi). Contoh angka: KRD_2Y = 2,00, KRD_10Y = 7,00 → D = 9,00.",
+          tasks: [
+            { id: "t1", text: "Hitung `krd_2y` dan `krd_10y` dari P₊/P₋ tiap bucket" },
+            { id: "t2", text: "Hitung `d_total` (jumlah KRD) dan cetak ketiganya" },
+          ],
+          expected: "KRD2Y=2.00 KRD10Y=7.00 D=9.00",
+          hints: [
+            "KRD = −(P_plus − P_minus)/(2 × P0 × 0,001).",
+            "d_total = krd_2y + krd_10y.",
+          ],
+          code: {
+            starter: `P0, dy = 100.0, 0.001  # harga awal, shock 10 bp\np2_plus, p2_minus = 99.80, 100.20\np10_plus, p10_minus = 99.30, 100.70\n\n# TULIS KODEMU: KRD per bucket + duration total\nkrd_2y = \nkrd_10y = \nd_total = \n\nprint(f"KRD2Y={krd_2y:.2f} KRD10Y={krd_10y:.2f} D={d_total:.2f}")`,
+            lockLines: 5,
+            solution: `P0, dy = 100.0, 0.001  # harga awal, shock 10 bp\np2_plus, p2_minus = 99.80, 100.20\np10_plus, p10_minus = 99.30, 100.70\n\n# TULIS KODEMU: KRD per bucket + duration total\nkrd_2y = -(p2_plus - p2_minus) / (2 * P0 * dy)\nkrd_10y = -(p10_plus - p10_minus) / (2 * P0 * dy)\nd_total = krd_2y + krd_10y\n\nprint(f"KRD2Y={krd_2y:.2f} KRD10Y={krd_10y:.2f} D={d_total:.2f}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "krd_2y", value: 2.0, tol: 0.01, label: "`krd_2y` seharusnya 2,00", msg: "−(99,80−100,20)/0,2 = 2,00." },
+              { kind: "equal", task: "t1", name: "krd_10y", value: 7.0, tol: 0.01, label: "`krd_10y` seharusnya 7,00", msg: "−(99,30−100,70)/0,2 = 7,00." },
+              { kind: "equal", task: "t2", name: "d_total", value: 9.0, tol: 0.01, label: "`d_total` seharusnya 9,00", msg: "2,00 + 7,00 = 9,00." },
+              { kind: "stdout_matches", task: "t2", pattern: "KRD2Y=2.00\\s+KRD10Y=7.00\\s+D=9.00", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Portofolio dan hedge sama-sama ber-duration 7, tetapi KRD portofolio menumpuk di 10Y dan KRD hedge di 3Y. Apa risikonya?",
+              options: [
+                { text: "Twist: long-end naik sementara short-end diam — hedge tidak menutup rugi portofolio", why: "Benar: duration total sama menyembunyikan distribusi KRD yang berlawanan — jebakan Bank XYZ.", correct: true },
+                { text: "Tidak ada risiko — duration sama berarti hedge sempurna", why: "Salah: duration sama hanya berarti sensitif sama terhadap parallel shift." },
+                { text: "Risiko kredit — salah satu obligasi bisa default", why: "Salah: ini risiko bentuk kurva, bukan risiko kredit." },
+              ],
+            },
+          ],
+          reference: "KRD_k = −(P₊−P₋)/(2·P₀·Δy_k); ΣKRD = D_mod; D_eff memakai harga valuasi ulang.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

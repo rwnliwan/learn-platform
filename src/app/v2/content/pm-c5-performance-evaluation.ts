@@ -184,7 +184,7 @@ export const pmc5: V2Lesson = {
       ],
       note: {
         title: "Intuisi: evaluasi kinerja adalah audit, bukan pemotretan",
-        body: "Tiga heuristik evaluator profesional. Pertama, selalu mulai dari pertanyaan \u201Cangka ini menjawab pertanyaan siapa?\u201D \u2014 TWR menjawab \u201Cseberapa bagus manajernya?\u201D, MWR menjawab \u201Cseberapa bagus pengalaman saya?\u201D; mencampur keduanya menghasilkan jawaban untuk pertanyaan yang tidak ditanyakan siapa pun. Kedua, curigai setiap angka yang terlalu rapi: return 15% per tahun selama 10 tahun dengan vol 8% dan tidak satu pun tahun merah bukan bukti skill \u2014 itu profil return strategi jual opsi terselubung atau survivorship; strategi jujur punya tahun jelek. Ketiga, benchmark adalah cermin yang dipilih manajer \u2014 dan orang jarang memilih cermin yang membuatnya jelek: minta benchmark ditetapkan SEBELUM periode evaluasi, bukan dipilih sesudahnya. Evaluator yang baik tidak mencari angka besar; ia mencari angka yang tidak bisa dibantah. Keempat, minta atribusi dalam mata uang yang sama dengan keputusannya: jika komite memutuskan alokasi, sajikan atribusi alokasi-vs-seleksi \u2014 bukan 30 halaman chart. Kelima, bandingkan manajer dengan dirinya sendiri antar-periode (konsistensi proses) sebelum membandingkannya dengan peer \u2014 peer group yang survivorship-bias adalah cermin yang menyanjung.",
+        body: "Lima heuristik evaluator profesional. Pertama, selalu mulai dari pertanyaan \u201Cangka ini menjawab pertanyaan siapa?\u201D \u2014 TWR menjawab \u201Cseberapa bagus manajernya?\u201D, MWR menjawab \u201Cseberapa bagus pengalaman saya?\u201D; mencampur keduanya menghasilkan jawaban untuk pertanyaan yang tidak ditanyakan siapa pun. Kedua, curigai setiap angka yang terlalu rapi: return 15% per tahun selama 10 tahun dengan vol 8% dan tidak satu pun tahun merah bukan bukti skill \u2014 itu profil return strategi jual opsi terselubung atau survivorship; strategi jujur punya tahun jelek. Ketiga, benchmark adalah cermin yang dipilih manajer \u2014 dan orang jarang memilih cermin yang membuatnya jelek: minta benchmark ditetapkan SEBELUM periode evaluasi, bukan dipilih sesudahnya. Evaluator yang baik tidak mencari angka besar; ia mencari angka yang tidak bisa dibantah. Keempat, minta atribusi dalam mata uang yang sama dengan keputusannya: jika komite memutuskan alokasi, sajikan atribusi alokasi-vs-seleksi \u2014 bukan 30 halaman chart. Kelima, bandingkan manajer dengan dirinya sendiri antar-periode (konsistensi proses) sebelum membandingkannya dengan peer \u2014 peer group yang survivorship-bias adalah cermin yang menyanjung.",
       },
       tasks: [],
       reference: "Template 1 halaman: kinerja · risiko · atribusi · biaya · verifikasi.",
@@ -210,7 +210,7 @@ export const pmc5: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Empat pertanyaan campuran dari semua langkah."],
+      prose: ["Enam pertanyaan campuran dari semua langkah."],
       tasks: [],
       summary: [
         "TWR mengukur manajer (bersih dari timing arus kas); MWR/IRR mengukur pengalaman investor; selisihnya = behavior gap.",

@@ -102,7 +102,7 @@ export const fr22: V2Lesson = {
         "print menang, win rate, rupiah kembali.",
       ],
       code: {
-        starter: `# Representment: bukti lengkap = win rate.\nimport random\nrandom.seed(141)\n\n# TULIS KODEMU\nn, wins = 400, 0\nfor _ in range(n):\n    if random.random() < 0.38:\n        wins += 1\nrecovered = wins * 1_100_000\nprint(f"Representment: {n}, menang {wins}, kembali Rp{recovered/1e6:.0f} jt")\nprint(f"win rate = {wins/n:.1%}")`,
+        starter: `# Representment: bukti lengkap = win rate.\nimport random\nrandom.seed(141)\n\n# TULIS KODEMU\nn, wins = 400, 0\n\nrecovered = \nprint(f"Representment: {n}, menang {wins}, kembali Rp{recovered/1e6:.0f} jt")\nprint(f"win rate = {wins/n:.1%}")`,
         lockLines: 3,
         solution: `# Representment: bukti lengkap = win rate.\nimport random\nrandom.seed(141)\n\n# TULIS KODEMU\nn, wins = 400, 0\nfor _ in range(n):\n    if random.random() < 0.38:\n        wins += 1\nrecovered = wins * 1_100_000\nprint(f"Representment: {n}, menang {wins}, kembali Rp{recovered/1e6:.0f} jt")\nprint(f"win rate = {wins/n:.1%}")`,
         checks: [

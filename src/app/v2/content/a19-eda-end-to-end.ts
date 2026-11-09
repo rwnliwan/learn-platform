@@ -119,7 +119,7 @@ export const a19: V2Lesson = {
       eyebrow: "Langkah 4 · Univariate",
       title: "Potret diri: kenali tiap variabel sebelum dipasangkan",
       prose: [
-        "Analisis univariate memotret satu variabel: bentuknya, pusatnya, sebarannya. Penghasilan: massa menumpuk di 3–16 jt dengan ekor panjang ke kanan hingga 500 jt — right-skewed. Mean tertarik ke ekor; median (8 jt) mewakili tipikal. Outlier 500 jt diinvestigasi dulu, bukan auto-hapus.",
+        "Analisis univariate memotret satu variabel: bentuknya, pusatnya, sebarannya. Penghasilan: massa menumpuk di 3–16 jt dengan ekor panjang ke kanan hingga 500 jt — right-skewed. Mean tertarik ke ekor; median (8,5 jt) mewakili tipikal. Outlier 500 jt diinvestigasi dulu, bukan auto-hapus.",
         "Tujuan kredit: bar chart frekuensi — 60% modal kerja, 25% konsumsi, 15% investasi. Portofolio didominasi kredit produktif — kabar baik, sampai kita lihat default rate-nya di langkah berikutnya. Bivariate tanpa univariate = kesimpulan di atas pasir: default rate tinggi di segmen > 100 jt ternyata hanya 3 orang.",
       ],
       tasks: [
@@ -192,10 +192,10 @@ export const a19: V2Lesson = {
       title: "Dari angka ke kalimat yang dieksekusi direksi",
       prose: [
         "Tahap penerjemah mengubah temuan menjadi rekomendasi yang bisa dieksekusi: apa masalahnya, seberapa besar, apa yang harus dilakukan, siapa yang melakukannya. Formula kalimat: [siapa terdampak + berapa banyak] → [seberapa parah, dalam rasio] → [tindakan konkret + kapan] → [estimasi dampak + penanggung jawab].",
-        "Versi junior: variabel penghasilan signifikan terhadap default (p < 0,001) → direksi: jadi ngapain? Versi penerjemah: 2.000 nasabah berpenghasilan di bawah 5 juta gagal bayar 4,5× lebih sering. Usulan: verifikasi slip gaji manual untuk segmen ini mulai bulan depan — estimasi memangkas 120 kasus macet per kuartal. Penanggung jawab: tim verifikasi → direksi: setuju, jalan.",
+        "Versi junior: variabel penghasilan signifikan terhadap default (p < 0,001) → direksi: jadi ngapain? Versi penerjemah: 2.000 nasabah berpenghasilan di bawah 5 juta gagal bayar 4,5× lebih sering. Usulan: verifikasi slip gaji manual untuk segmen ini mulai bulan depan — estimasi memangkas 120 kasus macet selama periode dataset 2 tahun (≈15 kasus per kuartal bila dirata-ratakan). Penanggung jawab: tim verifikasi → direksi: setuju, jalan.",
       ],
       tasks: [
-        { id: "t1", text: "Hitung `dicegah` = kasus macet dicegah per kuartal jika DR segmen turun 18% → 12% (n = 2.000)" },
+        { id: "t1", text: "Hitung `dicegah` = kasus macet dicegah selama periode dataset 2 tahun jika DR segmen turun 18% → 12% (n = 2.000)" },
       ],
       expected: "dicegah=120",
       note: {
@@ -213,7 +213,7 @@ export const a19: V2Lesson = {
         lockLines: 2,
         solution: `n_segmen = 2000\ndr_sebelum, dr_sesudah = 0.18, 0.12\n\n# TULIS KODEMU\ndicegah = int(n_segmen*(dr_sebelum-dr_sesudah))\n\nprint(f"dicegah={dicegah}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "dicegah", value: 120, tol: 1e-9, label: "`dicegah` seharusnya 120", msg: "2.000 × 0,06 = 120 kasus per kuartal." },
+          { kind: "equal", task: "t1", name: "dicegah", value: 120, tol: 1e-9, label: "`dicegah` seharusnya 120", msg: "2.000 × 0,06 = 120 kasus selama 2 tahun (≈15/kuartal)." },
           { kind: "stdout_matches", task: "t1", pattern: "dicegah=120", label: "`print` menampilkan estimasi", msg: "Format: dicegah=120." },
         ],
       },
@@ -225,7 +225,7 @@ export const a19: V2Lesson = {
       title: "Proyek EDA kredit mikro 10.000 nasabah",
       prose: [
         "Kamu analis risiko di Bank Sejahtera. Dataset kredit_mikro_10k.csv — 10.000 baris, 15 kolom, Jan 2024–Des 2025. Kolom kunci: id_pengajuan, umur (max 250?!), penghasilan (15% missing), tujuan_kredit (60/25/15), plafon (korelasi 0,92 dengan penghasilan), penghasilan_missing (flag yang kamu buat), default_12m (target).",
-        "Pembahasan. 1. Grain: 1 baris = 1 pengajuan. Nasabah unik = 8.500. 2. Audit: missing per kolom, duplikat ID, umur 250 → investigasi ke sistem sumber (kemungkinan salah input 25 — perbaiki, jangan hapus diam-diam), konsistensi tanggal. 3. Univariate: penghasilan → histogram (right-skewed → median); tujuan_kredit → bar chart. 4. Matchmaker — prioritas: (a) penghasilan (efek 4,5×), (b) tujuan_kredit (2×, actionable via pricing), (c) penghasilan_missing (22% — sinyal, bukan sampah). Plafon ditahan: korelasi 0,92 = redundan. 5. Penerjemah: verifikasi manual segmen < 5 jt (estimasi −120 kasus/kuartal, PIC tim verifikasi); penghasilan kosong masuk antrean investigasi fraud, jangan auto-approve (PIC tim risiko).",
+        "Pembahasan. 1. Grain: 1 baris = 1 pengajuan. Nasabah unik = 8.500. 2. Audit: missing per kolom, duplikat ID, umur 250 → investigasi ke sistem sumber (kemungkinan salah input 25 — perbaiki, jangan hapus diam-diam), konsistensi tanggal. 3. Univariate: penghasilan → histogram (right-skewed → median); tujuan_kredit → bar chart. 4. Matchmaker — prioritas: (a) penghasilan (efek 4,5×), (b) tujuan_kredit (2×, actionable via pricing), (c) penghasilan_missing (22% — sinyal, bukan sampah). Plafon ditahan: korelasi 0,92 = redundan. 5. Penerjemah: verifikasi manual segmen < 5 jt (estimasi −120 kasus selama 2 tahun, ≈15 kasus per kuartal, PIC tim verifikasi); penghasilan kosong masuk antrean investigasi fraud, jangan auto-approve (PIC tim risiko).",
       ],
       tasks: [],
       note: {
@@ -235,6 +235,49 @@ export const a19: V2Lesson = {
       },
       reference: "EDA yang sistematis adalah analisisnya, bukan pemanasan.",
     },
+    {
+          id: "gap-r9-validasi-temporal",
+          eyebrow: "Langkah tambahan · Gap ronde 9 (P1-G2)",
+          title: "Validasi temporal: temuan 2024 belum tentu berlaku 2025",
+          prose: [
+            "Dataset lesson ini eksplisit: 10.000 baris, Januari 2024–Desember 2025 (2 tahun). Cerita pembukanya justru tentang model yang gagal di produksi — tetapi lesson ini tidak pernah menyinggung validasi temporal: temuan EDA yang stabil di 2024 bisa tidak berlaku di 2025. Split acak (random split) mencampur 2024 dan 2025 di train dan test, sehingga kebocoran waktu (leakage) menyembunyikan pergeseran: model tampak akurat karena ia sudah melihat masa depan.",
+            "Aturan praktis: pisahkan BERBASIS WAKTU (out-of-time) — latih di Januari–Desember 2024, uji di 2025. Lalu laporkan metrik PER PERIODE, bukan satu angka global: default rate per kuartal, missing rate per kuartal, distribusi penghasilan per kuartal. Bila metrik bergerak searah antar-periode, itu concept drift — dan rekomendasi yang diturunkan dari periode lama harus dihitung ulang sebelum dieksekusi.",
+            "Contoh angka (default rate per kuartal): 2024 = [12%, 13%, 12%, 14%] → rata-rata 12,75%; 2025 = [18%, 19%, 18%, 20%] → rata-rata 18,75%. Selisihnya 6,00 poin persentase — drift nyata, bukan noise kuartalan (rentang dalam-tahun hanya 2 pp). Implikasinya langsung ke langkah 6: estimasi “120 kasus dicegah” dihitung dengan DR 2024; bila DR 2025 sudah 6 pp lebih tinggi, estimasi itu harus dihitung ulang dengan baseline baru sebelum direksi menyetujuinya.",
+          ],
+          formula: String.raw`\text{drift} = \bar{DR}_{2025} - \bar{DR}_{2024} \qquad \text{latih di masa lalu, uji di masa depan}`,
+          formulaNote: "DR̄ = rata-rata default rate per kuartal dalam satu tahun. Contoh angka: DR̄ 2024 = 12,75%, DR̄ 2025 = 18,75% → drift = 6,00 pp. Ambang kerja lesson ini: selisih > 2 pp = drift yang harus ditindaklanjuti (di atas noise dalam-tahun 2 pp).",
+          tasks: [
+            { id: "t1", text: "Hitung `r24`, `r25`, dan `selisih` default rate 2024 vs 2025" },
+            { id: "t2", text: "Tentukan `drift` (True bila selisih > 2 pp) dan cetak semuanya" },
+          ],
+          expected: "r2024=12.75% r2025=18.75% selisih=6.00pp drift=True",
+          hints: [
+            "Rata-rata = jumlah/4 (empat kuartal per tahun).",
+            "drift = selisih > 2 — bandingkan dengan noise dalam-tahun.",
+          ],
+          code: {
+            starter: `dr2024 = [12, 13, 12, 14]  # % per kuartal 2024\ndr2025 = [18, 19, 18, 20]  # % per kuartal 2025\n\n# TULIS KODEMU: rata-rata tiap tahun + selisih + vonis drift\nr24 = \nr25 = \nselisih = \ndrift = \n\nprint(f"r2024={r24:.2f}% r2025={r25:.2f}% selisih={selisih:.2f}pp drift={drift}")`,
+            lockLines: 4,
+            solution: `dr2024 = [12, 13, 12, 14]  # % per kuartal 2024\ndr2025 = [18, 19, 18, 20]  # % per kuartal 2025\n\n# TULIS KODEMU: rata-rata tiap tahun + selisih + vonis drift\nr24 = sum(dr2024) / 4\nr25 = sum(dr2025) / 4\nselisih = r25 - r24\ndrift = selisih > 2\n\nprint(f"r2024={r24:.2f}% r2025={r25:.2f}% selisih={selisih:.2f}pp drift={drift}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "r24", value: 12.75, tol: 0.01, label: "`r24` seharusnya 12,75%", msg: "(12+13+12+14)/4 = 12,75." },
+              { kind: "equal", task: "t1", name: "r25", value: 18.75, tol: 0.01, label: "`r25` seharusnya 18,75%", msg: "(18+19+18+20)/4 = 18,75." },
+              { kind: "equal", task: "t1", name: "selisih", value: 6.0, tol: 0.01, label: "`selisih` seharusnya 6,00 pp", msg: "18,75 − 12,75 = 6,00." },
+              { kind: "stdout_matches", task: "t2", pattern: "r2024=12.75%\\s+r2025=18.75%\\s+selisih=6.00pp\\s+drift=True", label: "`print` menampilkan vonis drift", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Model dilatih dengan random split atas data 2024–2025 dan tampak akurat. Mengapa itu belum membuktikan model akan bekerja di 2026?",
+              options: [
+                { text: "Random split mencampur masa depan ke train — model sudah melihat 2025 saat diuji; uji out-of-time yang jujur", why: "Benar: validasi temporal = latih masa lalu, uji masa depan; drift 6 pp di lesson ini lolos dari random split.", correct: true },
+                { text: "Random split selalu salah secara matematis", why: "Salah: random split sah untuk data i.i.d. tanpa dimensi waktu — masalahnya di sini datanya punya waktu." },
+                { text: "Model butuh lebih banyak data 2024", why: "Salah: masalahnya bukan jumlah data lama, melainkan apakah pola lama masih berlaku." },
+              ],
+            },
+          ],
+          reference: "Validasi temporal: split berbasis waktu + metrik per periode; drift > 2 pp = hitung ulang rekomendasi.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
@@ -271,10 +314,10 @@ export const a19: V2Lesson = {
           ],
         },
         {
-          q: "Boxplot penghasilan: median 8 jt, Q3 12 jt, whisker kanan memanjang sampai 500 jt. Interpretasi dan ukuran pusat yang tepat?",
+          q: "Boxplot penghasilan: median 8,5 jt, Q3 12 jt, whisker kanan memanjang sampai 500 jt. Interpretasi dan ukuran pusat yang tepat?",
           options: [
             { text: "Simetris — pakai mean", why: "Whisker kanan panjang = ekor kanan = tidak simetris." },
-            { text: "Right-skewed dengan outlier — pakai median (8 jt), investigasi outlier 500 jt", why: "Mean tertarik ke ekor; median mewakili tipikal. Outlier 500 jt bisa pengusaha valid.", correct: true },
+            { text: "Right-skewed dengan outlier — pakai median (8,5 jt), investigasi outlier 500 jt", why: "Mean tertarik ke ekor; median mewakili tipikal. Outlier 500 jt bisa pengusaha valid.", correct: true },
             { text: "Datanya rusak — hapus semua di atas 12 jt", why: "Hapus tanpa investigasi = temuan yang dibuang." },
             { text: "Distribusi normal — pakai mean dan SD saja", why: "Right-skewed jelas bukan normal." },
           ],
@@ -289,7 +332,7 @@ export const a19: V2Lesson = {
           ],
         },
         {
-          q: "Junior melapor rata-rata 1,18 pengajuan per nasabah dari 10.000 baris / 10.000 nasabah. Kesalahannya?",
+          q: "Junior melapor rata-rata 1 pengajuan per nasabah dari 10.000 baris / 10.000 nasabah. Kesalahannya?",
           options: [
             { text: "Pembagiannya salah hitung", why: "10.000/10.000 = 1, bukan 1,18 — angkanya pun tidak konsisten." },
             { text: "Grain salah: 1 baris = 1 pengajuan, bukan 1 nasabah — nasabah uniknya 8.500", why: "Dengan 1.500 pengajuan ulang, yang benar 10.000/8.500 ≈ 1,18 — logikanya yang salah total.", correct: true },
@@ -300,7 +343,7 @@ export const a19: V2Lesson = {
       ],
       note: {
         title: "Intuisi: EDA adalah interogasi, bukan jalan-jalan",
-        body: "Lima heuristik. Satu: tiga jam EDA mengalahkan dua minggu tuning — model tidak bisa memperbaiki pemahaman yang salah; temuan Dini (penghasilan di bawah 5 juta, kredit konsumsi, missing yang prediktif) bernilai lebih dari ratusan eksperimen XGBoost. Dua: missing bukan acak — pola siapa yang kosong sering lebih prediktif daripada nilai yang diimputasi; perlakukan missingness sebagai informasi, bukan sampah. Tiga: grain dulu, selalu — satu baris sama dengan apa? Salah grain berarti setiap COUNT dan rate salah sejak fondasi. Empat: univariate sebelum bivariate — kenali tiap variabel (bentuk, pusat, sebaran) sebelum dipasangkan dengan target; pasangan yang tidak saling kenal menghasilkan kesimpulan prematur. Lima: akhiri dengan kalimat eksekusi — temuan tanpa rekomendasi (“siapa melakukan apa”) hanyalah trivia; EDA selesai ketika direksi tahu apa yang harus diubah Senin pagi. Enam: EDA yang baik meninggalkan artefak — notebook yang bisa dijalankan ulang, kamus data yang diperbarui, dan daftar temuan bernomor; analisis yang tidak bisa direproduksi adalah anekdot.",
+        body: "Enam heuristik. Satu: tiga jam EDA mengalahkan dua minggu tuning — model tidak bisa memperbaiki pemahaman yang salah; temuan Dini (penghasilan di bawah 5 juta, kredit konsumsi, missing yang prediktif) bernilai lebih dari ratusan eksperimen XGBoost. Dua: missing bukan acak — pola siapa yang kosong sering lebih prediktif daripada nilai yang diimputasi; perlakukan missingness sebagai informasi, bukan sampah. Tiga: grain dulu, selalu — satu baris sama dengan apa? Salah grain berarti setiap COUNT dan rate salah sejak fondasi. Empat: univariate sebelum bivariate — kenali tiap variabel (bentuk, pusat, sebaran) sebelum dipasangkan dengan target; pasangan yang tidak saling kenal menghasilkan kesimpulan prematur. Lima: akhiri dengan kalimat eksekusi — temuan tanpa rekomendasi (“siapa melakukan apa”) hanyalah trivia; EDA selesai ketika direksi tahu apa yang harus diubah Senin pagi. Enam: EDA yang baik meninggalkan artefak — notebook yang bisa dijalankan ulang, kamus data yang diperbarui, dan daftar temuan bernomor; analisis yang tidak bisa direproduksi adalah anekdot.",
       },
     },
   ],

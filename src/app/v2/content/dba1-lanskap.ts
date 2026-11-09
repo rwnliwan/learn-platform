@@ -199,7 +199,7 @@ export const dba1: V2Lesson = {
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Lima pertanyaan campuran dari semua langkah. Setiap opsi menjelaskan alasannya — baca semuanya meski kamu yakin dengan jawabanmu.",
+        "Enam pertanyaan campuran dari semua langkah. Setiap opsi menjelaskan alasannya — baca semuanya meski kamu yakin dengan jawabanmu.",
       ],
       tasks: [],
       summary: [

@@ -59,14 +59,14 @@ export const aie17: V2Lesson = {
         "📝 Poin inti lesson ini (panel 'Poin penting' merangkum seluruhnya di akhir): (1) pipeline OCR→teks membuang informasi visual yang tidak bisa dipulihkan; (2) ColPali meng-embed halaman sebagai gambar menjadi 1024 vektor patch (multi-vector), query dicocokkan dengan late interaction MaxSim; (3) ViDoRe: +27,1 poin Recall@1 dan indexing ~18× lebih cepat; (4) multi-vector = index besar (±256KB/halaman) — ada harganya; (5) col-retrieval menang di dokumen visual, kalah telak di korpus teks murni dari sisi biaya.",
         "Bekal kilat (agar lesson ini mandiri, 3 kalimat): embedding = vektor angka yang mewakili makna teks; dua vektor yang maknanya mirip menunjuk ke arah yang sama, diukur dengan cosine similarity (1 = identik, 0 = tidak berhubungan). Retrieval klasik menyimpan SATU vektor per dokumen lalu mencari tetangga terdekat dari vektor query. (Di track Deep Learning, dle16 membahas CLIP sebagai MODEL vision-language — lesson ini tidak membahas modelnya, hanya sudut RETRIEVAL: kapan dan mengapa retrieval dari gambar mengalahkan OCR+RAG.)",
         "🎯 Tujuan pembelajaran — setelah lesson ini kamu bisa: (1) menjelaskan mengapa pipeline OCR→teks gagal pada dokumen visual; (2) mendeskripsikan arsitektur ColPali (VLM → patch vectors → proyeksi 128-dim → late interaction); (3) menulis rumus MaxSim dan menghitungnya; (4) membaca hasil benchmark ViDoRe; (5) memutuskan kapan col-retrieval dipakai vs OCR+RAG vs gabungan.",
-        "🗺️ Isi lesson (⏱ 65 mnt · 2 lab · 6 kuis · 2 chart · 1 mini-case): Langkah 1 · Cerita — Langkah 2 · Late interaction — Langkah 3 · Anatomi ColPali — Langkah 4 · Benchmark ViDoRe — Langkah 5 · Lab MaxSim — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case asuransi — Langkah 8 · Parsing klasik & OCR — Langkah 9 · Audio STT & TTS — Checkpoint.",
+        "🗺️ Isi lesson (⏱ 80 mnt · 2 lab · 7 kuis · 2 chart · 1 mini-case): Langkah 1 · Cerita — Langkah 2 · Late interaction — Langkah 3 · Anatomi ColPali — Langkah 4 · Benchmark ViDoRe — Langkah 5 · Lab MaxSim — Langkah 6 · Peta keputusan — Langkah 7 · Mini-case asuransi — Langkah 8 · Parsing klasik & OCR — Langkah 9 · Audio STT & TTS — Langkah 10 · Document AI — Langkah 11 · Lab Document AI — Checkpoint.",
       ],
       tasks: [],
       reference: "Jangan ubah gambar jadi teks dulu — retrieve langsung dari gambarnya.",
     },
     {
       id: "konsep-late-interaction",
-      eyebrow: "Langkah 2 · Konsep",
+      eyebrow: "Langkah 2 · Late interaction",
       title: "Late interaction: biarkan token bicara satu per satu",
       prose: [
         "Retrieval klasik (bi-encoder) memampatkan SELURUH dokumen menjadi satu vektor, dan seluruh query menjadi satu vektor, lalu mengukur cosine similarity keduanya. Ini seperti menilai kecocokan dua orang dari SATU angka rata-rata kepribadian — cepat, tapi detailnya hilang. Kalau dokumenmu adalah halaman laporan dengan tabel, grafik, dan tiga paragraf, satu vektor harus 'mengingat' semuanya sekaligus. Ia tidak bisa.",
@@ -86,7 +86,7 @@ export const aie17: V2Lesson = {
     },
     {
       id: "anatomi-colpali",
-      eyebrow: "Langkah 3 · Arsitektur",
+      eyebrow: "Langkah 3 · Anatomi ColPali",
       title: "Anatomi ColPali: dari gambar halaman ke 1024 vektor",
       prose: [
         "Arsitektur ColPali, empat tahap. (1) Render: tiap halaman dokumen di-render sebagai gambar (resolusi tinggi — teks kecil harus terbaca oleh vision encoder). (2) Encode: gambar masuk ke PaliGemma 3B (vision-language model: vision encoder SigLIP + language model Gemma); keluarannya = 1024 vektor patch, satu per wilayah gambar — patch yang menutupi sel tabel 'mengandung' makna sel itu, patch grafik 'mengandung' trennya. (3) Proyeksi: tiap vektor diproyeksikan ke 128 dimensi (kecil! untuk hemat storage) dan dilatih dengan contrastive loss ala ColBERT. (4) Query: query TEKS di-encode oleh model yang sama menjadi ~16-32 vektor token, lalu MaxSim melawan 1024 vektor halaman.",
@@ -110,7 +110,7 @@ export const aie17: V2Lesson = {
     },
     {
       id: "benchmark-vidore",
-      eyebrow: "Langkah 4 · Bukti",
+      eyebrow: "Langkah 4 · Benchmark ViDoRe",
       title: "ViDoRe: bukti angka, bukan janji",
       prose: [
         "Bersamaan dengan modelnya, tim ColPali merilis ViDoRe (Visual Document Retrieval Benchmark) — 10 dataset dokumen visual realistis: paper akademik (ArxivQ), dokumen VQA (DocVQA, InfoVQA), tabel (TabF, TAT-DQA), hingga dokumen industri (Shift, AI, Energy, Government, Healthcare). Mengapa benchmark baru penting: benchmark retrieval lama mengukur di atas TEKS bersih — di sanalah pipeline OCR terlihat bagus, karena soalnya tidak pernah menguji informasi yang hilang saat parsing.",
@@ -533,7 +533,7 @@ print(f"keputusan={keputusan}")`,
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
       prose: [
-        "Enam pertanyaan dari semua langkah. Setiap opsi menjelaskan alasan benar/salahnya.",
+        "Tujuh pertanyaan dari semua langkah. Setiap opsi menjelaskan alasan benar/salahnya.",
       ],
       tasks: [],
       summary: [

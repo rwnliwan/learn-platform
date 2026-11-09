@@ -560,7 +560,7 @@ print(f"TP={TP} TN={TN} FP={FP} FN={FN}  precision={precision:.3f}  recall={reca
     },
     {
       id: "minicase-anggaran",
-      eyebrow: "Langkah 6 · Mini-case",
+      eyebrow: "Langkah 7 · Mini-case",
       title: "Mini-case: memilih dengan F1 dan rupiah",
       prose: [
         "Skenario: tim produk menuntut model dengan F1 minimal 0,86. Dua proposal: (A) full fine-tune Transformer multilingual — 6 minggu, biaya GPU Rp30 juta, ekspektasi F1 0,88 (angka ilustratif). (B) TF-IDF + adapter LoRA seperti yang kamu bangun — 2 minggu, biaya GPU Rp5 juta, ekspektasi F1 0,85 (angka ilustratif). Nilai bisnis: setiap 0,01 F1 = Rp20 juta/tahun dari keluhan yang tertangkap lebih awal (angka ilustratif). Biaya tim: Rp1,5 juta/orang/minggu, 3 orang.",
@@ -576,7 +576,7 @@ print(f"TP={TP} TN={TN} FP={FP} FN={FN}  precision={precision:.3f}  recall={reca
       reference: "Mini-case ini memakai angka ilustratif — hitung ulang sendiri sebelum memakai pola yang sama.",
     },    {
       id: "pipeline-ocr",
-      eyebrow: "Langkah 7 · Lab",
+      eyebrow: "Langkah 8 · Lab",
       title: "Jalur B: pipeline OCR dokumen KYC dengan validasi CER",
       prose: [
         "Jalur B capstone: dokumen KYC hasil scan masuk lewat pipeline OCR — deteksi wilayah teks → crop per field → OCR → validasi. Tiga field contoh: nama 'Sari Wijaya' terbaca 'Sari Wijoyo' (1 karakter salah dari 11 → CER 0,182), tanggal lahir '1985-03-14' terbaca sempurna (CER 0), kota 'Jakarta' terbaca 'Jakaria' (1 dari 7 → CER 0,143). Rata-rata CER 0,108 — di atas ambang 0,05 — dan hanya 1 dari 3 field yang lolos.",
@@ -663,7 +663,7 @@ print(f"keputusan={keputusan}")`,
 
     {
       id: "design-review",
-      eyebrow: "Langkah 8 · Design review",
+      eyebrow: "Langkah 9 · Design review",
       title: "Design review: kritik arsitektur capstone sebelum deploy",
       prose: [
         "Sebelum deploy, kritik arsitektur yang baru kamu bangun — sebagai reviewer, bukan sebagai pembangun. Tiga pertanyaan: (1) Apa yang rusak duluan bila 12 teks latih menjadi 10.000 keluhan nyata? Kosakata 49 kata akan meledak, kata baru tidak dikenal (vektor kosong), dan mean pooling mengaburkan urutan kata — arsitektur mini ini tidak naik skala tanpa tokenizer sungguhan dan embedding pretrained yang lebih besar. (2) Apa yang terjadi bila 40% field OCR tidak lolos CER? Antrean review manual membengkak — pipeline butuh jalur cepat (field berisiko rendah lolos otomatis) dan jalur lambat (nama + NIK selalu manual bila ragu). (3) Apa yang terjadi bila kata baru muncul (produk baru, istilah baru)? Drift kosakata — monitoring harus mendeteksi kata tak dikenal dan memicu retraining, bukan diam.",

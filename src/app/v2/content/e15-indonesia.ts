@@ -81,7 +81,7 @@ export const e15: V2Lesson = {
         "Deposito B: 3M @4% → bunga OK → dijamin 2M (batas!).",
       ],
       code: {
-        starter: `batas = 2_000_000_000\nbunga_jamin = 0.0425\n\ndef cek(simpanan, bunga):\n    return min(simpanan, batas) if bunga <= bunga_jamin else 0\n\n# TULIS KODEMU: yang dijamin untuk tiap deposito\na = cek(1_500_000_000, 0.05)  # Deposito A\nb = cek(3_000_000_000, 0.04)  # Deposito B\nc = cek(500_000_000, 0.06)    # Deposito C\n\nprint(f"a={a:.0f}  b={b:.0f}  c={c:.0f}")`,
+        starter: `batas = 2_000_000_000\nbunga_jamin = 0.0425\n\ndef cek(simpanan, bunga):\n    return min(simpanan, batas) if bunga <= bunga_jamin else 0\n\n# TULIS KODEMU: yang dijamin untuk tiap deposito\na = \nb = \nc = \n\nprint(f"a={a:.0f}  b={b:.0f}  c={c:.0f}")`,
         lockLines: 7,
         solution: `batas = 2_000_000_000\nbunga_jamin = 0.0425\n\ndef cek(simpanan, bunga):\n    return min(simpanan, batas) if bunga <= bunga_jamin else 0\n\n# TULIS KODEMU: yang dijamin untuk tiap deposito\na = cek(1_500_000_000, 0.05)  # Deposito A\nb = cek(3_000_000_000, 0.04)  # Deposito B\nc = cek(500_000_000, 0.06)    # Deposito C\n\nprint(f"a={a:.0f}  b={b:.0f}  c={c:.0f}")`,
         checks: [

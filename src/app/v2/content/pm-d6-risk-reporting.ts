@@ -185,7 +185,7 @@ export const pmd6: V2Lesson = {
       id: "checkpoint",
       eyebrow: "Checkpoint",
       title: "Uji pemahamanmu",
-      prose: ["Lima pertanyaan campuran dari semua langkah \u2014 dan penutup track Portfolio Management."],
+      prose: ["Delapan pertanyaan campuran dari semua langkah \u2014 dan penutup track Portfolio Management."],
       tasks: [],
       summary: [
         "Dashboard: traffic light (hijau < 80%, kuning 80\u2013100%, merah breach) \u2014 kokpit, bukan gudang.",

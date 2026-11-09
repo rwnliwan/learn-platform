@@ -19,7 +19,7 @@ export const bcd36: V2Lesson = {
       tasks: [],
       note: {
         title: "Yang sudah ada vs yang baru di sini",
-        body: "BCD16 punya satu langkah penuh 'Langkah 8 · RWA' — definisi tokenisasi, dua arah (RWA ke rantai vs CBDC), dan satu lab yang mengklasifikasi instrumen termasuk satu token RWA. Lesson ini TIDAK mengulang langkah itu: ia membangun tokenisasi sebagai sistem lengkap — siklus hidup dan SPV, struktur biaya dan imbal bersih, risiko kustodi/hukum/likuiditas, serta cara membaca data on-chain protokol RWA — dengan lab yang menghitung ekonomi token dari angka mentah.",
+        body: "BCD16 punya satu langkah penuh tentang RWA — definisi tokenisasi, dua arah (RWA ke rantai vs CBDC), dan satu lab yang mengklasifikasi instrumen termasuk satu token RWA. Lesson ini TIDAK mengulang langkah itu: ia membangun tokenisasi sebagai sistem lengkap — siklus hidup dan SPV, struktur biaya dan imbal bersih, risiko kustodi/hukum/likuiditas, serta cara membaca data on-chain protokol RWA — dengan lab yang menghitung ekonomi token dari angka mentah.",
       },
       reference: "Aset Rp 100 miliar = 1 juta token @ Rp 100.000. Imbal kotor 8 persen, bersih 6,7 persen; distribusi setahun Rp 6.700 per token, nilai total Rp 106.700. Investor Rp 5 juta = 50 token = 0,005 persen.",
     },
