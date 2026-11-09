@@ -510,11 +510,13 @@ FIXTURES = [
         ["N \u2248 10,4 juta"],
         ["N \u2248 650 ribu"],
     ),
-    # PM-B6: swap terima-tetap V = PV(fixed) - PV(floating) = +632.759;
+    # PM-B6: swap terima-tetap V = PV(fixed) - PV(floating) = +55.716;
+    # kupon 6% tahunan dibayar per semester = 300rb (bukan 600rb);
+    # PV fixed = 300rb/1,025 + 10,3M/1,055 = 10.055.716.
     # solusi lab v = pv_fixed - pv_float (bukan kebalikannya).
     (
         "pm-b6-valuasi-derivatif.ts",
-        ["632.759", "v = pv_fixed - pv_float"],
+        ["55.716", "v = pv_fixed - pv_float"],
         ["pv_float - pv_fixed"],
     ),
     # --- Build nice-to-have Coursera, 2026-11-08 (115 lesson) ---

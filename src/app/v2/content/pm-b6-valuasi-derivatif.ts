@@ -158,17 +158,17 @@ export const pmb6: V2Lesson = {
       eyebrow: "Langkah 5 · Valuasi Swap",
       title: "Swap = selisih dua obligasi",
       prose: [
-        "Swap terima-tetap 6%, notional Rp10M, sisa 1 tahun. PV kaki tetap = 600rb/1,025 + 10,6M/1,055 = Rp10.632.759. Kaki mengambang \u2248 Rp10.000.000 (kaki floating selalu \u2248 par saat reset).",
-        "Nilai swap (terima tetap) = 10.632.759 \u2212 10.000.000 = +Rp632.759. Positif = menguntungkan penerima tetap — karena suku bunga turun sejak swap dibuat (kaki tetap makin berharga).",
+        "Swap terima-tetap 6%, notional Rp10M, sisa 1 tahun. PV kaki tetap = 300rb/1,025 + 10,3M/1,055 = Rp10.055.716. Kaki mengambang \u2248 Rp10.000.000 (kaki floating selalu \u2248 par saat reset).",
+        "Nilai swap (terima tetap) = 10.055.716 \u2212 10.000.000 = +Rp55.716. Positif = menguntungkan penerima tetap — karena suku bunga turun sejak swap dibuat (kaki tetap makin berharga).",
         "Aturan arah: bayar-fixed + rate pasar turun \u2192 MTM negatif (terkunci bayar mahal) = liabilitas + collateral.",
       ],
       formula: String.raw`V_{\text{swap}} = PV(\text{fixed}) - PV(\text{floating})`,
-      formulaNote: "V_swap = nilai swap bagi penerima tetap; trik praktisi: kaki floating ≈ par (notional) pada tanggal reset — tidak perlu hitung detail. Contoh: 10.632.759 − 10.000.000 = +Rp632.759 (positif = menguntungkan penerima tetap karena rate turun). Bayar-fixed + rate turun → MTM negatif = liabilitas.",
+      formulaNote: "V_swap = nilai swap bagi penerima tetap; trik praktisi: kaki floating ≈ par (notional) pada tanggal reset — tidak perlu hitung detail. Contoh: 10.055.716 − 10.000.000 = +Rp55.716 (positif = menguntungkan penerima tetap karena rate turun). Bayar-fixed + rate turun → MTM negatif = liabilitas.",
       tasks: [
         { id: "t1", text: "Hitung `v` = PV fixed − PV floating (PV fixed sudah dihitung) — nilai bagi penerima tetap" },
         { id: "t2", text: "Cetak dalam ribuan rupiah 2 desimal" },
       ],
-      expected: "v_rb=632.76",
+      expected: "v_rb=55.72",
       note: {
         title: "Sering salah",
         type: "pitfall",
@@ -180,12 +180,12 @@ export const pmb6: V2Lesson = {
         "v = pv_fixed - pv_float",
       ],
       code: {
-        starter: `pv_fixed = 600000/1.025 + 10600000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = \n\nprint(f"v_rb={v/1000:.2f}")`,
+        starter: `pv_fixed = 300000/1.025 + 10300000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = \n\nprint(f"v_rb={v/1000:.2f}")`,
         lockLines: 2,
-        solution: `pv_fixed = 600000/1.025 + 10600000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = pv_fixed - pv_float\n\nprint(f"v_rb={v/1000:.2f}")`,
+        solution: `pv_fixed = 300000/1.025 + 10300000/1.055\npv_float = 10000000\n\n# TULIS KODEMU\nv = pv_fixed - pv_float\n\nprint(f"v_rb={v/1000:.2f}")`,
         checks: [
-          { kind: "equal", task: "t1", name: "v", value: 632759, tol: 50, label: "`v` sekitar 632759", msg: "10.632.759 \u2212 10.000.000 = 632.759. Tanda = untuk penerima tetap." },
-          { kind: "stdout_matches", task: "t2", pattern: "v_rb=632\\.76", label: "`print` menampilkan ribuan", msg: "Format: v_rb=632.76 (ribuan rupiah)." },
+          { kind: "equal", task: "t1", name: "v", value: 55716, tol: 50, label: "`v` sekitar 55716", msg: "10.055.716 \u2212 10.000.000 = 55.716. Tanda = untuk penerima tetap." },
+          { kind: "stdout_matches", task: "t2", pattern: "v_rb=55\\.72", label: "`print` menampilkan ribuan", msg: "Format: v_rb=55.72 (ribuan rupiah)." },
         ],
       },
       reference: "Swap = obligasi tetap \u2212 obligasi mengambang. Floating \u2248 par.",

@@ -336,6 +336,36 @@ def main() -> int:
     print("OK   pm-a3-economics.ts :: gap Taylor dovish 8,0% hawkish 13,0% "
           "rentang 5,0 poin")
 
+    # Bonus DeepSeek #1 (tes banding 3-arah 2026-11-09, ACC Septian 11:04):
+    # pm-b6 swap terima-tetap — kupon 6% TAHUNAN dibayar per semester =
+    # 6%/2 x Rp10M = Rp300rb per semester (bukan 600rb). Kelas yang dikunci:
+    # "kupon tahunan x frekuensi pembayaran" — nominal per pembayaran =
+    # rate tahunan / frekuensi x notional; arus kas akhir = notional +
+    # kupon per periode (10,3M, bukan 10,6M).
+    coupon = 0.06 / 2 * 10_000_000
+    assert coupon == 300_000
+    pv_fixed = coupon / 1.025 + (10_000_000 + coupon) / 1.055
+    v_swap = pv_fixed - 10_000_000
+    assert abs(pv_fixed - 10_055_716.10) < 1 and abs(v_swap - 55_716.10) < 1
+    assert f"{v_swap / 1000:.2f}" == "55.72"
+    t = decode_file(CONTENT / "pm-b6-valuasi-derivatif.ts")
+    must("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon", "10.055.716")
+    must("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon", "55.716")
+    must("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon",
+         "300rb/1,025 + 10,3M/1,055")
+    must("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon",
+         "300000/1.025 + 10300000/1.055")
+    must("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon", "v_rb=55.72")
+    must_not("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon", "10.632.759")
+    must_not("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon", "632.759")
+    must_not("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon",
+             "600rb/1,025 + 10,6M")
+    must_not("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon",
+             "600000/1.025 + 10600000/1.055")
+    must_not("pm-b6-valuasi-derivatif.ts", t, "bonus swap kupon", "v_rb=632.76")
+    print("OK   pm-b6-valuasi-derivatif.ts :: bonus swap kupon 300rb/semester, "
+          "PV fixed 10.055.716, v 55.716, v_rb 55.72")
+
     print(f"QA R8-RECOMPUTE: {'ALL PASS' if not fails else f'{len(fails)} FAIL'}")
     return 0 if not fails else 1
 
