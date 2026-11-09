@@ -5,7 +5,7 @@ export const cr15: V2Lesson = {
   track: "Credit Risk",
   module: "Risiko Portofolio & Stress Testing",
   title: "CR15 — Risiko Portofolio: Konsentrasi & Korelasi",
-  estMinutes: 45,
+  estMinutes: 75,
   steps: [
     {
       id: "cerita",
@@ -99,7 +99,7 @@ export const cr15: V2Lesson = {
       prose: [
         "Model Vasicek (satu faktor) = model standar Basel untuk kerugian portofolio: tiap debitur punya faktor bersama (ekonomi, korelasi ρ) + faktor idiosinkratik (nasib sendiri). Φ = distribusi normal kumulatif; ρ = korelasi aset (Basel: 12–24% untuk korporasi); q = tingkat keyakinan (99,9% = \"1 dalam 1000 tahun\"). Hasilnya (L_q) = fraksi DEBITUR yang default pada skenario seburuk itu — kerugian rupiahnya = L_q × LGD × EAD, bukan L_q itu sendiri.",
         "Credit VaR = kuantil kerugian pada persentil ekstrem: VaR = L_q × LGD × EAD, dengan L_q = fraksi default pada kuantil q. UL (unexpected loss) = VaR − EL — inilah yang harus ditutup modal. Jangan samakan VaR dengan UL: VaR adalah kuantilnya, UL adalah selisihnya dengan EL. Rantai lengkap: Vasicek → VaR → UL → modal (inilah Pilar 1 Basel untuk IRB!). ρ menentukan seberapa \"bersama\" debitur gagal — makin tinggi, ekor distribusi kerugian makin tebal, VaR & modal makin besar.",
-        "Dengan korelasi, peluang rugi ekstrem jauh lebih besar. Credit VaR 99%: independen ≈ Rp 18 M, berkorelasi ≈ Rp 32 M. Korelasi hampir menggandakan kebutuhan modal — tanpa mengubah EL sedikit pun.",
+        "Dengan korelasi, peluang rugi ekstrem jauh lebih besar. Credit VaR 99% (PD 4%, LGD 40%, EAD Rp1.000 jt, 100 debitur): independen ≈ Rp36 jt, berkorelasi (ρ = 12–24%) ≈ Rp63–97 jt — korelasi bisa lebih dari menggandakan kebutuhan modal, tanpa mengubah EL sedikit pun. Angka lama di kalimat ini (18 dan 32) tidak dapat direproduksi karena asumsinya tidak pernah dinyatakan; hitung ulang lengkap ada di langkah tambahan 'Asumsi dan satuan'.",
       ],
       formula: String.raw`L_q = \Phi\left(\frac{\Phi^{-1}(\text{PD}) + \sqrt{\rho}\,\Phi^{-1}(q)}{\sqrt{1-\rho}}\right)`,
       formulaNote: "L_q = fraksi default pada persentil keyakinan q (bukan kerugian rupiah). Kerugian (VaR) = L_q × LGD × EAD; UL = VaR − EL.",
@@ -218,6 +218,137 @@ export const cr15: V2Lesson = {
       tasks: [],
       reference: "ρ bukan konstanta — ia mengikuti ukuran dan keterkaitan debitur.",
     },
+        {
+          id: "gap-r7-pd-marginal",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P3-G1)",
+          title: "PD marginal: yang dibutuhkan rumus lifetime",
+          prose: [
+            "Rumus ECL lifetime (CR14a) butuh PD MARGINAL — peluang debitur default TEPAT di tahun ke-t — bukan PD tahunan mentah. Bedanya: PD tahunan (hazard) adalah peluang kondisional 'default di tahun t, BILA bertahan sampai tahun t'; PD marginal mengalikannya dengan peluang bertahan sampai tahun itu. Contoh: hazard tahun 1–3 = 2%, 3%, 4%. PD marginal tahun 1 = 2,00% (semua bertahan di awal). Tahun 2: 98% bertahan × 3% = 2,94% — BUKAN 3%. Tahun 3: 95,06% bertahan × 4% = 3,80%. PD lifetime 3 tahun = 2,00 + 2,94 + 3,80 = 8,74%.",
+            "Kesalahan yang umum: menjumlah hazard mentah (2 + 3 + 4 = 9%) dan menyebutnya PD lifetime. Itu melebih-lebihkan — karena menjumlah peluang orang yang SUDAH default di tahun sebelumnya seolah mereka bisa default lagi. Selisihnya kecil di sini (9,00% vs 8,74%) tetapi membesar saat hazard tinggi atau tenor panjang — dan ECL lifetime yang dihitung dari PD yang salah ikut salah. Aturan: simpan survival S(t) = Π(1 − h) di tiap langkah; PD marginal tahun t = S(t−1) × h(t); PD lifetime = 1 − S(T). Bila hazard berubah karena skenario makro (CR14a), hitung marginal per skenario — jangan pakai satu hazard untuk semua skenario.",
+          ],
+          formula: String.raw`PD^{marg}_t = S(t-1) \times h_t \qquad S(t) = \prod_{s \le t}(1 - h_s) \qquad PD^{lifetime} = 1 - S(T)`,
+          formulaNote: "Hazard 2%, 3%, 4%: marginal 2,00% / 2,94% / 3,80%; lifetime 8,74% (bukan 9,00% dari jumlah hazard mentah).",
+          tasks: [
+            { id: "t1", text: "Hitung PD marginal tiap tahun: `pd_m1`, `pd_m2`, `pd_m3`" },
+            { id: "t2", text: "Hitung `pd_lifetime` 3 tahun" },
+          ],
+          expected: "pd_m1=0.02 pd_m2=0.0294 pd_m3=0.038 pd_lifetime=0.0874",
+          hints: [
+            "PD marginal tahun t = peluang bertahan sampai t−1 × hazard tahun t.",
+            "Survival setelah tahun 1 = 0,98; setelah tahun 2 = 0,98 × 0,97.",
+          ],
+          code: {
+            starter: `# Hazard tahunan (PD kondisional bila bertahan): tahun 1-3\nhazard = [0.02, 0.03, 0.04]\n\n# TULIS KODEMU: PD marginal tiap tahun + PD lifetime 3 tahun\npd_m1 =\npd_m2 =\npd_m3 =\npd_lifetime =\n\nprint(f"pd_m1={pd_m1} pd_m2={pd_m2} pd_m3={pd_m3} pd_lifetime={pd_lifetime}")`,
+            lockLines: 4,
+            solution: `# Hazard tahunan (PD kondisional bila bertahan): tahun 1-3\nhazard = [0.02, 0.03, 0.04]\n\n# TULIS KODEMU: PD marginal tiap tahun + PD lifetime 3 tahun\ns = 1.0\npd_m1 = round(s * hazard[0], 4); s *= 1 - hazard[0]\npd_m2 = round(s * hazard[1], 4); s *= 1 - hazard[1]\npd_m3 = round(s * hazard[2], 4); s *= 1 - hazard[2]\npd_lifetime = round(1 - s, 4)\n\nprint(f"pd_m1={pd_m1} pd_m2={pd_m2} pd_m3={pd_m3} pd_lifetime={pd_lifetime}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "pd_m1", value: 0.02, tol: 0.0001, label: "`pd_m1` = 0,02", msg: "Tahun 1: semua bertahan → marginal = hazard." },
+              { kind: "equal", task: "t1", name: "pd_m2", value: 0.0294, tol: 0.0001, label: "`pd_m2` = 0,0294", msg: "0,98 × 0,03 = 0,0294 — bukan 0,03 mentah." },
+              { kind: "equal", task: "t1", name: "pd_m3", value: 0.038, tol: 0.0001, label: "`pd_m3` = 0,038", msg: "0,9506 × 0,04 = 0,0380." },
+              { kind: "equal", task: "t2", name: "pd_lifetime", value: 0.0874, tol: 0.0001, label: "`pd_lifetime` = 0,0874", msg: "1 − 0,98×0,97×0,96 = 8,74% — bukan 9% jumlah hazard." },
+              { kind: "stdout_matches", task: "t2", pattern: "pd_m1=0\\.02\\s+pd_m2=0\\.0294\\s+pd_m3=0\\.038\\s+pd_lifetime=0\\.0874", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Hazard tahun 1 = 2%, tahun 2 = 3%. Berapa PD marginal tahun ke-2?",
+              options: [
+                { text: "2,94% — 98% yang bertahan × 3% hazard tahun 2", why: "Tepat: PD marginal = survival × hazard. Yang sudah default di tahun 1 tidak bisa default lagi di tahun 2.", correct: true },
+                { text: "3% — hazard tahun 2 langsung dipakai", why: "Salah: itu hazard kondisional, bukan PD marginal. Memakainya mentah melebih-lebihkan PD lifetime." },
+                { text: "5% — 2% + 3%", why: "Salah: menjumlah hazard mencampur peluang bersyarat dari populasi yang berbeda." },
+                { text: "2,91% — 97% × 3%", why: "Salah: survival setelah tahun 1 adalah 98% (1 − 2%), bukan 97%." },
+              ],
+            },
+          ],
+          reference: "PD marginal = S(t−1) × hazard(t); PD lifetime = 1 − S(T). Jangan jumlah hazard mentah.",
+        },
+        {
+          id: "gap-r7-lgd-diskonto",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P3-G2)",
+          title: "LGD: kapan uangnya kembali itu penting",
+          prose: [
+            "LGD = 1 − (recovery bersih / EAD) — tetapi 'recovery' itu recovery KAPAN? Rp400 juta yang kembali di tahun ke-2 tidak sama dengan Rp400 juta hari ini. Dengan tingkat diskonto 10%: nilai hari ini recovery itu = 400 / 1,1² = Rp330,58 jt. Biaya workout Rp50 jt di tahun ke-1 juga didiskonto: 50 / 1,1 = Rp45,45 jt. Recovery bersih hari ini = 330,58 − 45,45 = Rp285,12 jt dari EAD Rp1.000 jt → LGD = 1 − 285,12/1.000 = 71,49%. Bila kamu memakai angka nominal (400 − 50 = 350 → LGD 65%), kamu meremehkan LGD sebesar 6,5 poin persentase — dan CKPN yang dihitung darinya ikut terlalu kecil.",
+            "Jebakan kedua, yang berlawanan arah: DOUBLE-COUNT diskonto. Bila recovery rate yang kamu pakai berasal dari harga pasar obligasi default (market LGD), nilai waktu SUDAH tercermin di harga itu — mendiskontonya lagi berarti menghitung waktu dua kali dan melebih-lebihkan LGD. Konvensi yang benar: SATU kali diskonto, dan tulis konvensimu. Workout LGD (dari arus kas aktual + diskonto eksplisit) atau market LGD (dari harga, tanpa diskonto tambahan) — pilih satu, jangan campur. Dan catat tingkat diskontonya: LGD 71,49% di atas memakai 10%; dengan 5% hasilnya 68,83% — LGD-mu sensitif terhadap r yang kamu pilih.",
+          ],
+          formula: String.raw`\text{LGD} = 1 - \frac{\text{PV(recovery)} - \text{PV(biaya)}}{\text{EAD}} \qquad \text{PV} = \frac{\text{arus kas}}{(1+r)^t}`,
+          formulaNote: "EAD Rp1.000 jt; recovery Rp400 jt thn-2 → PV 330,58; biaya Rp50 jt thn-1 → PV 45,45; LGD benar 71,49% vs nominal 65,0%.",
+          tasks: [
+            { id: "t1", text: "Hitung `pv_recovery` dan `pv_biaya` (r = 10%)" },
+            { id: "t2", text: "Hitung `lgd_benar` (%) vs `lgd_nominal` (%)" },
+          ],
+          expected: "pv_recovery=330.58 pv_biaya=45.45 lgd_benar=71.49 lgd_nominal=65.0",
+          hints: [
+            "PV = arus kas / (1,1)^t — recovery di tahun 2, biaya di tahun 1.",
+            "LGD nominal memakai angka tanpa diskonto: 1 − (400−50)/1000.",
+          ],
+          code: {
+            starter: `# EAD Rp1000 jt; recovery Rp400 jt diterima tahun ke-2; biaya workout Rp50 jt tahun ke-1; r = 10%\nead = 1000; recovery = 400; biaya = 50; r = 0.10\n\n# TULIS KODEMU: PV recovery, PV biaya, LGD benar vs LGD nominal\npv_recovery =\npv_biaya =\nlgd_benar =\nlgd_nominal =\n\nprint(f"pv_recovery={pv_recovery} pv_biaya={pv_biaya} lgd_benar={lgd_benar} lgd_nominal={lgd_nominal}")`,
+            lockLines: 4,
+            solution: `# EAD Rp1000 jt; recovery Rp400 jt diterima tahun ke-2; biaya workout Rp50 jt tahun ke-1; r = 10%\nead = 1000; recovery = 400; biaya = 50; r = 0.10\n\n# TULIS KODEMU: PV recovery, PV biaya, LGD benar vs LGD nominal\npv_recovery = round(recovery / (1 + r) ** 2, 2)\npv_biaya = round(biaya / (1 + r) ** 1, 2)\nlgd_benar = round((1 - (pv_recovery - pv_biaya) / ead) * 100, 2)\nlgd_nominal = round((1 - (recovery - biaya) / ead) * 100, 1)\n\nprint(f"pv_recovery={pv_recovery} pv_biaya={pv_biaya} lgd_benar={lgd_benar} lgd_nominal={lgd_nominal}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "pv_recovery", value: 330.58, tol: 0.01, label: "`pv_recovery` = 330,58", msg: "400/1,1² = 330,58 — uang tahun ke-2 lebih murah dari nominalnya." },
+              { kind: "equal", task: "t1", name: "pv_biaya", value: 45.45, tol: 0.01, label: "`pv_biaya` = 45,45", msg: "50/1,1 = 45,45." },
+              { kind: "equal", task: "t2", name: "lgd_benar", value: 71.49, tol: 0.05, label: "`lgd_benar` = 71,49%", msg: "1 − (330,58−45,45)/1000 = 71,49%." },
+              { kind: "equal", task: "t2", name: "lgd_nominal", value: 65.0, tol: 0.1, label: "`lgd_nominal` = 65,0%", msg: "Tanpa diskonto LGD tampak 6,5 pp lebih kecil — CKPN ikut terlalu kecil." },
+              { kind: "stdout_matches", task: "t2", pattern: "pv_recovery=330\\.58\\s+pv_biaya=45\\.45\\s+lgd_benar=71\\.49\\s+lgd_nominal=65\\.0", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Recovery Rp400 jt diterima tahun ke-2, r = 10%. Nilai hari ini?",
+              options: [
+                { text: "Rp330,58 jt — 400 / 1,1²", why: "Tepat: uang tahun ke-2 didiskonto dua tahun. Memakai 400 mentah meremehkan LGD.", correct: true },
+                { text: "Rp400 jt — nominalnya yang dihitung", why: "Salah: LGD tanpa diskonto (65%) meremehkan kerugian 6,5 pp dibanding yang benar (71,49%)." },
+                { text: "Rp363,64 jt — 400 / 1,1 (satu tahun saja)", why: "Salah: recovery-nya di tahun ke-2, bukan tahun ke-1 — pangkatnya 2, bukan 1." },
+                { text: "Rp330,58 jt lalu didiskonto sekali lagi karena harga pasar", why: "Salah: itu double-count — bila recovery sudah dari harga pasar, waktu sudah tercermin di harga; jangan diskonto lagi." },
+              ],
+            },
+          ],
+          reference: "LGD memakai PV recovery − PV biaya (SEKALI diskonto); nominal meremehkan LGD; market LGD jangan didiskonto lagi (double-count).",
+        },
+        {
+          id: "gap-r7-var-asumsi-satuan",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P3-G3)",
+          title: "Asumsi dan satuan: VaR tanpa asumsi tidak bisa direproduksi",
+          prose: [
+            "Kalimat di langkah 5 — 'Credit VaR 99%: independen ≈ Rp18 jt, berkorelasi ≈ Rp32 jt' — tidak dapat direproduksi: ukuran portofolio, PD, LGD, jumlah debitur, dan korelasinya tidak pernah dinyatakan. Angka VaR tanpa asumsi adalah angka yang tidak bisa diperiksa — dan angka yang tidak bisa diperiksa tidak bisa dipercaya. Langkah ini memperbaikinya dengan SATU set asumsi eksplisit, memakai angka kanonis lesson ini sendiri: PD 4%, LGD 40%, EAD total Rp1.000 jt, 100 debitur @ Rp10 jt, keyakinan 99%.",
+            "Hasil hitung ulangnya: independen (binomial eksak — kuantil 99% = 9 gagal dari 100, tiap gagal rugi Rp4 jt) → VaR99 = Rp36,0 jt. Berkorelasi (Vasicek, ρ = 12%) → Rp62,8 jt; (ρ = 24%) → Rp96,7 jt. Jadi pasangan yang dapat direproduksi adalah Rp36 jt vs Rp63–97 jt — korelasi bisa lebih dari menggandakan kebutuhan modal, tanpa mengubah EL sedikit pun. Perhatikan dua hal. Satu: kasus independen TIDAK bisa dihitung dengan Vasicek ρ = 0 — rumus itu memberi L_q = PD (granularitas tak hingga menelan ekornya); kasus independen butuh distribusi binomial. Dua: satuan dan asumsi WAJIB menyertai angka VaR — 'Rp36 jt' saja belum cukup; 'VaR99 Rp36 jt (PD 4%, LGD 40%, EAD Rp1.000 jt, 100 debitur)' baru bisa diperiksa orang lain.",
+          ],
+          formula: String.raw`VaR_{99\%} = L_{99\%} \times LGD \times EAD \qquad L_{99\%} = \Phi\left(\frac{\Phi^{-1}(PD) + \sqrt{\rho}\,\Phi^{-1}(0{,}99)}{\sqrt{1-\rho}}\right)`,
+          formulaNote: "PD 4%, LGD 40%, EAD Rp1.000 jt, 100 debitur: independen (binomial) 36,0; Vasicek ρ=12% → 62,8; ρ=24% → 96,7 (Rp jt).",
+          tasks: [
+            { id: "t1", text: "Hitung `var_indep` (binomial eksak, q99)" },
+            { id: "t2", text: "Hitung `var_rho12` dan `var_rho24` (Vasicek)" },
+          ],
+          expected: "var_indep=36.0 var_rho12=62.8 var_rho24=96.7",
+          hints: [
+            "Binomial: cari k terkecil dengan P(X ≤ k) ≥ 0,99; tiap gagal rugi (1000/100) × 0,4 = Rp4 jt.",
+            "Vasicek: L_q = Φ((Φ⁻¹(PD) + √ρ·Φ⁻¹(0,99)) / √(1−ρ)); VaR = L_q × LGD × EAD.",
+          ],
+          code: {
+            starter: `import math, statistics as st\n\n# Asumsi EKSPLISIT (yang tidak dinyatakan di langkah 5): PD 4%, LGD 40%,\n# EAD total Rp1000 jt, 100 debitur @ Rp10 jt, q = 99%\npd, lgd, ead, n = 0.04, 0.4, 1000, 100\n\n# TULIS KODEMU: VaR99 independen (binomial eksak) + Vasicek rho 12% dan 24%\nvar_indep =\nvar_rho12 =\nvar_rho24 =\n\nprint(f"var_indep={var_indep} var_rho12={var_rho12} var_rho24={var_rho24}")`,
+            lockLines: 7,
+            solution: `import math, statistics as st\n\n# Asumsi EKSPLISIT (yang tidak dinyatakan di langkah 5): PD 4%, LGD 40%,\n# EAD total Rp1000 jt, 100 debitur @ Rp10 jt, q = 99%\npd, lgd, ead, n = 0.04, 0.4, 1000, 100\n\n# TULIS KODEMU: VaR99 independen (binomial eksak) + Vasicek rho 12% dan 24%\ndef phi(x):\n    return 0.5 * (1 + math.erf(x / math.sqrt(2)))\ndef vasicek_q(pd, rho, q):\n    z = st.NormalDist().inv_cdf(pd)\n    zq = st.NormalDist().inv_cdf(q)\n    return phi((z + math.sqrt(rho) * zq) / math.sqrt(1 - rho))\nc = 0.0\nk = 0\nwhile c < 0.99:\n    c += math.comb(n, k) * pd ** k * (1 - pd) ** (n - k)\n    k += 1\nvar_indep = round((k - 1) * (ead / n) * lgd, 1)\nvar_rho12 = round(vasicek_q(pd, 0.12, 0.99) * lgd * ead, 1)\nvar_rho24 = round(vasicek_q(pd, 0.24, 0.99) * lgd * ead, 1)\n\nprint(f"var_indep={var_indep} var_rho12={var_rho12} var_rho24={var_rho24}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "var_indep", value: 36.0, tol: 0.5, label: "`var_indep` = 36,0", msg: "Kuantil 99% binomial(100; 4%) = 9 gagal × Rp4 jt = Rp36 jt." },
+              { kind: "equal", task: "t2", name: "var_rho12", value: 62.8, tol: 0.5, label: "`var_rho12` = 62,8", msg: "L_99(ρ=12%) = 15,69% × 0,4 × 1000 = 62,8." },
+              { kind: "equal", task: "t2", name: "var_rho24", value: 96.7, tol: 0.5, label: "`var_rho24` = 96,7", msg: "L_99(ρ=24%) = 24,17% × 0,4 × 1000 = 96,7." },
+              { kind: "stdout_matches", task: "t2", pattern: "var_indep=36\\.0\\s+var_rho12=62\\.8\\s+var_rho24=96\\.7", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Kenapa kasus independen TIDAK bisa dihitung dengan Vasicek ρ = 0?",
+              options: [
+                { text: "ρ = 0 memberi L_q = PD — ekornya hilang (granularitas tak hingga); kasus independen butuh binomial", why: "Tepat: Vasicek mengasumsikan portofolio granular tak hingga; dengan ρ = 0 tidak ada sebaran sama sekali. Binomial dengan n = 100 memberi ekor yang benar (9 gagal).", correct: true },
+                { text: "Rumus Vasicek tidak menerima ρ = 0 (pembagian dengan nol)", why: "Salah: rumusnya menerima ρ = 0 — hasilnya L_q = Φ(Φ⁻¹(PD)) = PD. Masalahnya bukan error, melainkan hasilnya bukan kuantil kerugian." },
+                { text: "Kasus independen tidak punya VaR — hanya kasus berkorelasi yang punya", why: "Salah: portofolio independen tetap punya sebaran kerugian (binomial) dan kuantil 99%-nya Rp36 jt." },
+                { text: "Karena PD 4% terlalu kecil untuk Vasicek", why: "Salah: PD bukan masalahnya — ρ = 0 yang menghilangkan ekor, pada PD berapa pun." },
+              ],
+            },
+          ],
+          reference: "VaR tanpa asumsi (PD, LGD, EAD, n, q, ρ) + satuan = tidak bisa direproduksi. Di sini: independen 36,0; Vasicek ρ=12% → 62,8; ρ=24% → 96,7 (Rp jt).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

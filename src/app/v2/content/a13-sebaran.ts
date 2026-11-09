@@ -5,7 +5,7 @@ export const a13: V2Lesson = {
   track: "Statistika",
   module: "Deskriptif",
   title: "A1.3 Ukuran Sebaran: Mean Sama, Nasib Beda",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita-dua-cabang",
@@ -270,6 +270,53 @@ export const a13: V2Lesson = {
       },
       reference: "st.stdev(list). Modal cadangan mengikuti sebaran, bukan hanya mean.",
     },
+        {
+          id: "gap-r7-mad-nol-a13",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P1-G3)",
+          title: "MAD nol: saat penggaris besi patah",
+          prose: [
+            "MAD dipuji di langkah 5 sebagai penggaris besi anti-masking — dan memang begitu, sampai ia patah di satu titik: ketika MAD-nya sendiri NOL. Modified z-score membagi dengan MAD; bila MAD = 0, skornya tak terdefinisi (pembagian dengan nol), bukan 'sangat besar'. Kapan ini terjadi? Saat lebih dari separuh data bernilai SAMA. Contoh: delapan transaksi harian (Rp ribu): 100, 100, 100, 100, 100, 100, 120, 500. Mediannya 100; selisih absolutnya [0, 0, 0, 0, 0, 0, 20, 400]; median selisih itu = 0. Jadi MAD = 0 — dan 0,6745 × 400 / 0 tidak punya jawaban.",
+            "Ini bukan kasus pinggiran: data transaksi, sensor, dan skor yang dibulatkan PENUH dengan nilai berulang — lebih dari separuh transaksi bisa bernilai sama persis (mis. nominal promo yang sama, skor 0 untuk mayoritas). Analis yang tidak menyiapkan fallback akan melihat error — atau lebih buruk, kode yang diam-diam mengganti MAD = 0 dengan bilangan kecil (epsilon) sehingga skornya meledak menjadi jutaan dan SEMUA nilai beda tampak seperti outlier raksasa. Epsilon adalah jalan pintas yang memalsukan skala.",
+            "Fallback yang jujur: bila MAD = 0, jangan paksa modified z-score — ganti penggaris. Aturan Tukey (IQR) tetap bekerja di data ini: paruh bawah [100, 100, 100, 100] → Q1 = 100; paruh atas [100, 100, 120, 500] → Q3 = 110; IQR = 10; pagar atas = 110 + 1,5 × 10 = 125. Hasilnya: 500 outlier, 120 aman di dalam pagar. Pesannya simetris dengan lesson ini: tidak ada satu penggaris yang kebal di semua kondisi — MAD kebal terhadap masking, tetapi rapuh saat data terlalu 'rata'. Cek MAD = 0 SEBELUM membagi; bila nol, laporkan 'modified z-score tak terdefinisi' dan pakai IQR. (Catatan: MAD = 0 bukan berarti 'tidak ada sebaran' — data ini jelas menyebar (120, 500); yang nol adalah sebaran di TENGAHNYA.)",
+          ],
+          formula: String.raw`\text{MAD} = 0 \Rightarrow M_i = 0{,}6745 \times \frac{x_i - \text{median}}{0} = \text{tak terdefinisi} \Rightarrow \text{pakai pagar Tukey}`,
+          formulaNote: "Data [100×6, 120, 500]: median 100, MAD 0, Q1 100, Q3 110, IQR 10, pagar atas 125 → 500 outlier, 120 aman.",
+          tasks: [
+            { id: "t1", text: "Hitung `median` dan `mad` dari `d` — buktikan MAD = 0" },
+            { id: "t2", text: "Hitung fallback Tukey: `q1`, `q3`, `pagar_atas`, dan `outlier_500` (True/False)" },
+          ],
+          expected: "median=100.0 mad=0.0 q1=100.0 q3=110.0 pagar_atas=125.0 outlier_500=True",
+          hints: [
+            "MAD = median dari |x − median|; lebih dari separuh selisih = 0.",
+            "Q1 = median paruh bawah (4 data pertama setelah diurutkan); Q3 = median paruh atas.",
+            "Pagar atas = Q3 + 1,5 × IQR; 500 > pagar → outlier.",
+          ],
+          code: {
+            starter: `import statistics as st\n\nd = [100, 100, 100, 100, 100, 100, 120, 500]  # Rp ribu, transaksi harian\n\n# TULIS KODEMU: median + MAD (buktikan MAD = 0), lalu fallback Tukey\nmedian =\nmad =\nq1 =\nq3 =\npagar_atas =\noutlier_500 =\n\nprint(f"median={median} mad={mad} q1={q1} q3={q3} pagar_atas={pagar_atas} outlier_500={outlier_500}")`,
+            lockLines: 5,
+            solution: `import statistics as st\n\nd = [100, 100, 100, 100, 100, 100, 120, 500]  # Rp ribu, transaksi harian\n\n# TULIS KODEMU: median + MAD (buktikan MAD = 0), lalu fallback Tukey\nmedian = float(st.median(d))\nmad = float(st.median([abs(x - median) for x in d]))\nds = sorted(d)\nq1 = float(st.median(ds[:4]))\nq3 = float(st.median(ds[4:]))\npagar_atas = q3 + 1.5 * (q3 - q1)\noutlier_500 = 500 > pagar_atas\n\nprint(f"median={median} mad={mad} q1={q1} q3={q3} pagar_atas={pagar_atas} outlier_500={outlier_500}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "median", value: 100.0, tol: 1e-9, label: "`median` = 100", msg: "Median 8 data = rata-rata data ke-4 dan ke-5 = 100." },
+              { kind: "equal", task: "t1", name: "mad", value: 0.0, tol: 1e-9, label: "`mad` = 0", msg: "Selisih absolut [0×6, 20, 400] → median 0." },
+              { kind: "equal", task: "t2", name: "q1", value: 100.0, tol: 1e-9, label: "`q1` = 100", msg: "Median paruh bawah [100, 100, 100, 100] = 100." },
+              { kind: "equal", task: "t2", name: "q3", value: 110.0, tol: 1e-9, label: "`q3` = 110", msg: "Median paruh atas [100, 100, 120, 500] = 110." },
+              { kind: "equal", task: "t2", name: "pagar_atas", value: 125.0, tol: 1e-9, label: "`pagar_atas` = 125", msg: "110 + 1,5 × (110−100) = 125." },
+              { kind: "stdout_matches", task: "t2", pattern: "outlier_500=True", label: "500 dinyatakan outlier", msg: "500 > 125 → outlier menurut pagar Tukey; 120 < 125 → aman." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Data mayoritas bernilai sama sehingga MAD = 0. Tindakan yang benar untuk modified z-score?",
+              options: [
+                { text: "Nyatakan tak terdefinisi dan pakai fallback (mis. pagar Tukey)", why: "Tepat: pembagian dengan nol tidak punya jawaban; IQR tetap bekerja di data ini (pagar atas 125).", correct: true },
+                { text: "Ganti MAD = 0 dengan 0,0001 agar skor bisa dihitung", why: "Salah: epsilon memalsukan skala — skor meledak jutaan dan semua nilai beda tampak seperti outlier raksasa." },
+                { text: "Anggap semua nilai sebagai outlier", why: "Salah: hanya 500 yang di luar pagar Tukey; 120 aman di dalam (125)." },
+                { text: "Buang nilai yang sama sampai MAD tidak nol lagi", why: "Salah: membuang mayoritas data demi menyelamatkan rumus adalah manipulasi data." },
+              ],
+            },
+          ],
+          reference: "MAD = 0 (lebih dari separuh data sama) → modified z-score TAK TERDEFINISI; jangan pakai epsilon — fallback ke pagar Tukey (IQR).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

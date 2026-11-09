@@ -5,7 +5,7 @@ export const cr13: V2Lesson = {
   track: "Credit Risk",
   module: "LGD, EAD & ECL",
   title: "CR13 — EAD & CCF: Risiko yang Tidur",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -206,6 +206,51 @@ export const cr13: V2Lesson = {
       tasks: [],
       reference: "Pipeline ACC-belum-cair = segmen EAD tersendiri dengan PD di atas rata-rata.",
     },
+        {
+          id: "gap-r7-ccf-regulasi",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P2-G3)",
+          title: "CCF: angka regulasi vs estimasi internal — per pendekatan",
+          prose: [
+            "Langkah 9 sudah menyatakan aturannya — CCF = maksimum(estimasi internal, floor regulasi) — tetapi belum pernah menunjukkan cara MEMAKAINYA per pendekatan dan per jenis fasilitas. Lab ini menutupnya dengan tabel kerja (undrawn Rp100 jt per fasilitas). Di pendekatan standar (SA), Basel menetapkan floor: fasilitas yang bisa dibatalkan kapan saja (unconditionally cancellable, mis. kartu kredit) 10%; committed ≤ 1 tahun 20%; committed > 1 tahun 50%. Estimasi internal boleh lebih tinggi dari floor — tetapi tidak boleh lebih rendah.",
+            "Baca tiap baris. Kartu kredit: estimasi internal 35% > floor 10% → CCF yang dipakai 35% (floor tidak mengikat). Committed ≤ 1 tahun: estimasi 12% < floor 20% → CCF yang dipakai 20% — FLOOR MENGIKAT; memakai 12% berarti melanggar floor. Committed > 1 tahun: estimasi 62% > floor 50% → 62%. Di pendekatan IRB lanjut, bank memakai estimasi internalnya sendiri (di sini 45%) tanpa floor SA — tetapi tetap wajib backtest dan mematuhi floor setempat bila regulatornya menetapkan. Dua disiplin: (1) jangan campur angka regulasi dengan estimasi internal tanpa menyebut pendekatannya; (2) floor bukan target — estimasi internal yang sehat untuk kartu tidur biasanya jauh di atas 10%.",
+          ],
+          formula: String.raw`\text{CCF}_{\text{dipakai}} = \max(\text{estimasi internal}, \text{floor regulasi}) \qquad \text{EAD} = \text{undrawn} \times \text{CCF}`,
+          formulaNote: "Floor SA: unconditionally cancellable 10%; committed ≤1 thn 20%; committed >1 thn 50%. IRB lanjut: estimasi internal (tanpa floor SA).",
+          tasks: [
+            { id: "t1", text: "Hitung CCF yang dipakai tiap fasilitas: `ccf_kartu`, `ccf_pendek`, `ccf_panjang`, `ccf_irb`" },
+            { id: "t2", text: "Hitung `ead_pendek` (undrawn Rp100 jt × CCF)" },
+          ],
+          expected: "ccf_kartu=35 ccf_pendek=20 ccf_panjang=62 ccf_irb=45 ead_pendek=20.0",
+          hints: [
+            "CCF dipakai = maksimum(estimasi internal, floor) — untuk SA saja.",
+            "Fasilitas ≤1 tahun: estimasi 12% vs floor 20% — mana yang menang?",
+          ],
+          code: {
+            starter: `# Undrawn Rp100 jt per fasilitas; CCF dalam persen\n# (fasilitas, pendekatan, floor_SA_%, estimasi_internal_%)\nfasilitas = [\n    ("kartu_kredit", "SA", 10, 35),\n    ("committed_<=1thn", "SA", 20, 12),\n    ("committed_>1thn", "SA", 50, 62),\n    ("korporasi_besar", "IRB", None, 45),\n]\n\n# TULIS KODEMU: CCF yang dipakai + EAD (undrawn Rp100 jt)\nccf_kartu =\nccf_pendek =\nccf_panjang =\nccf_irb =\nead_pendek =\n\nprint(f"ccf_kartu={ccf_kartu} ccf_pendek={ccf_pendek} ccf_panjang={ccf_panjang} ccf_irb={ccf_irb} ead_pendek={ead_pendek}")`,
+            lockLines: 10,
+            solution: `# Undrawn Rp100 jt per fasilitas; CCF dalam persen\n# (fasilitas, pendekatan, floor_SA_%, estimasi_internal_%)\nfasilitas = [\n    ("kartu_kredit", "SA", 10, 35),\n    ("committed_<=1thn", "SA", 20, 12),\n    ("committed_>1thn", "SA", 50, 62),\n    ("korporasi_besar", "IRB", None, 45),\n]\n\n# TULIS KODEMU: CCF yang dipakai + EAD (undrawn Rp100 jt)\nccf_kartu = max(35, 10)\nccf_pendek = max(12, 20)\nccf_panjang = max(62, 50)\nccf_irb = 45\n\nead_pendek = 100 * ccf_pendek / 100\n\nprint(f"ccf_kartu={ccf_kartu} ccf_pendek={ccf_pendek} ccf_panjang={ccf_panjang} ccf_irb={ccf_irb} ead_pendek={ead_pendek}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "ccf_kartu", value: 35, tol: 1e-9, label: "`ccf_kartu` = 35%", msg: "Estimasi 35% > floor 10% — floor tidak mengikat." },
+              { kind: "equal", task: "t1", name: "ccf_pendek", value: 20, tol: 1e-9, label: "`ccf_pendek` = 20%", msg: "Estimasi 12% < floor 20% — FLOOR MENGIKAT; memakai 12% melanggar floor." },
+              { kind: "equal", task: "t1", name: "ccf_panjang", value: 62, tol: 1e-9, label: "`ccf_panjang` = 62%", msg: "Estimasi 62% > floor 50% — estimasi yang dipakai." },
+              { kind: "equal", task: "t1", name: "ccf_irb", value: 45, tol: 1e-9, label: "`ccf_irb` = 45%", msg: "IRB lanjut: estimasi internal tanpa floor SA (tetap backtest)." },
+              { kind: "equal", task: "t2", name: "ead_pendek", value: 20.0, tol: 1e-9, label: "`ead_pendek` = Rp20 jt", msg: "100 × 20% = 20." },
+              { kind: "stdout_matches", task: "t2", pattern: "ccf_kartu=35\\s+ccf_pendek=20\\s+ccf_panjang=62\\s+ccf_irb=45\\s+ead_pendek=20\\.0", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Fasilitas committed ≤ 1 tahun: estimasi internal 12%, floor SA 20%. CCF yang dipakai?",
+              options: [
+                { text: "20% — floor mengikat; memakai 12% melanggar floor regulasi", why: "Tepat: CCF = maksimum(estimasi, floor). Estimasi di bawah floor tidak boleh dipakai di SA.", correct: true },
+                { text: "12% — estimasi internal selalu menang atas floor", why: "Salah: justru sebaliknya — floor adalah batas bawah yang tidak boleh dilanggar." },
+                { text: "16% — rata-rata keduanya", why: "Salah: tidak ada aturan rata-rata; yang dipakai adalah maksimumnya." },
+                { text: "10% — floor kartu kredit", why: "Salah: 10% adalah floor untuk fasilitas unconditionally cancellable, bukan committed ≤ 1 tahun." },
+              ],
+            },
+          ],
+          reference: "CCF = maksimum(estimasi internal, floor regulasi) — per pendekatan: floor SA 10%/20%/50% menurut jenis fasilitas; IRB lanjut memakai estimasi internal + backtest.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

@@ -22,7 +22,7 @@ export const aml1: V2Lesson = {
   track: "Fraud & AML Analytics",
   module: "Anti Money Laundering",
   title: "AML1 — Triase Alert Transaction Monitoring",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -183,6 +183,51 @@ export const aml1: V2Lesson = {
       tasks: [],
       reference: "Hitung selalu: temuan per 100 review. Itulah \"upah\" tiap jam investigator.",
     },
+        {
+          id: "gap-r7-validasi-auto-close",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P5-G1)",
+          title: "Validasi auto-close: berapa kasus yang terlewat?",
+          prose: [
+            "Langkah 5 sudah menyatakan syaratnya — auto-close tier bawah hanya setelah validasi berbasis risiko (sampling independen + monitoring miss) — tetapi belum pernah menghitung BERAPA miss yang bisa diterima. Lab ini menghitungnya. Sampel independen 300 alert skor < 30 yang AKAN di-auto-close: 12 ternyata suspicious. Miss rate = 4,0%, interval Wilson 95% = (2,3%; 6,9%). Toleransi yang ditetapkan: 2%. Keputusan: TUNDA — bahkan ujung BAWAH interval (2,3%) sudah di atas toleransi. Titik estimasinya saja (4%) sudah 2× lipat toleransi.",
+            "Terjemahkan ke volume: bila 1.200 alert/bulan di-auto-close, ekspektasi miss = 48 kasus/bulan — dan di ujung atas interval, ~83 kasus/bulan. Itulah harga auto-close yang belum tervalidasi: puluhan kasus suspicious yang hilang diam-diam tiap bulan, tanpa jejak di antrean analis. Protokol yang benar: (1) sampling independen SEBELUM otomasi (bukan sampel yang sudah difilter analis — itu bias); (2) bandingkan BATAS ATAS interval — bukan titik estimasi — dengan toleransi; (3) bila lolos, monitoring miss berkala setelah go-live (sampling ulang tiap bulan; bila miss naik, matikan auto-close); (4) audit trail mencatat alasan, tetapi audit trail saja tidak memvalidasi — ia mencatat keputusan, bukan membuktikan keputusan itu aman.",
+          ],
+          formula: String.raw`\text{miss rate} = \frac{12}{300} = 4{,}0\% \qquad CI_{95\%}\ \text{Wilson} = (2{,}3\%;\ 6{,}9\%)`,
+          formulaNote: "Sampel 300 alert skor < 30; 12 suspicious. Toleransi 2% → TUNDA (batas bawah CI 2,3% > 2%). Ekspektasi miss: 48/bulan (sampai ~83 di batas atas).",
+          tasks: [
+            { id: "t1", text: "Hitung `miss_rate` + CI Wilson 95% (`ci_lo`, `ci_hi`)" },
+            { id: "t2", text: "Hitung `miss_per_bulan` (1.200 auto-close/bulan) + `keputusan` (TUNDA bila ci_lo > 2%)" },
+          ],
+          expected: "miss_rate=4.0 ci_lo=2.3 ci_hi=6.9 miss_per_bulan=48.0 keputusan=TUNDA",
+          hints: [
+            "Wilson: c = (p + z²/2n)/(1 + z²/n); h = z·√(p(1−p)/n + z²/4n²)/(1 + z²/n); z = 1,96.",
+            "Keputusan memakai BATAS BAWAH interval, bukan titik estimasi.",
+          ],
+          code: {
+            starter: `import math\n\n# Validasi auto-close: sampel independen 300 alert skor < 30; 12 ternyata suspicious\nn_sampel, n_miss = 300, 12\nambang_miss_pct = 2.0  # toleransi: miss rate di atas ini = auto-close DITUNDA\nauto_close_per_bulan = 1200\n\n# TULIS KODEMU: miss rate + CI Wilson 95% + estimasi miss per bulan + keputusan\nmiss_rate =\nci_lo =\nci_hi =\nmiss_per_bulan =\nkeputusan =\n\nprint(f"miss_rate={miss_rate} ci_lo={ci_lo} ci_hi={ci_hi} miss_per_bulan={miss_per_bulan} keputusan={keputusan}")`,
+            lockLines: 8,
+            solution: `import math\n\n# Validasi auto-close: sampel independen 300 alert skor < 30; 12 ternyata suspicious\nn_sampel, n_miss = 300, 12\nambang_miss_pct = 2.0  # toleransi: miss rate di atas ini = auto-close DITUNDA\nauto_close_per_bulan = 1200\n\n# TULIS KODEMU: miss rate + CI Wilson 95% + estimasi miss per bulan + keputusan\nmiss_rate = round(n_miss / n_sampel * 100, 1)\nz = 1.96\np = n_miss / n_sampel\nd = 1 + z * z / n_sampel\nc = (p + z * z / (2 * n_sampel)) / d\nh = z * math.sqrt(p * (1 - p) / n_sampel + z * z / (4 * n_sampel * n_sampel)) / d\nci_lo = round(max(0.0, c - h) * 100, 1)\nci_hi = round(min(1.0, c + h) * 100, 1)\nmiss_per_bulan = round(auto_close_per_bulan * miss_rate / 100, 1)\nkeputusan = "TUNDA" if ci_lo > ambang_miss_pct else "LANJUT"\n\nprint(f"miss_rate={miss_rate} ci_lo={ci_lo} ci_hi={ci_hi} miss_per_bulan={miss_per_bulan} keputusan={keputusan}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "miss_rate", value: 4.0, tol: 0.1, label: "`miss_rate` = 4,0%", msg: "12/300 = 4% — 2× lipat toleransi 2%." },
+              { kind: "equal", task: "t1", name: "ci_lo", value: 2.3, tol: 0.1, label: "`ci_lo` = 2,3%", msg: "Batas bawah Wilson — masih di atas toleransi." },
+              { kind: "equal", task: "t1", name: "ci_hi", value: 6.9, tol: 0.1, label: "`ci_hi` = 6,9%", msg: "Batas atas Wilson — sampai ~83 miss/bulan." },
+              { kind: "equal", task: "t2", name: "miss_per_bulan", value: 48.0, tol: 0.5, label: "`miss_per_bulan` = 48", msg: "1.200 × 4% = 48 kasus suspicious hilang per bulan." },
+              { kind: "stdout_matches", task: "t2", pattern: "keputusan=TUNDA", label: "`keputusan` = TUNDA", msg: "Batas bawah CI sudah di atas toleransi — auto-close ditunda." },
+              { kind: "stdout_matches", task: "t2", pattern: "miss_rate=4\\.0\\s+ci_lo=2\\.3\\s+ci_hi=6\\.9\\s+miss_per_bulan=48\\.0\\s+keputusan=TUNDA", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Validasi auto-close: miss 4% (CI 95% Wilson 2,3–6,9%), toleransi 2%. Keputusan?",
+              options: [
+                { text: "TUNDA — bahkan batas bawah CI (2,3%) sudah di atas toleransi", why: "Tepat: keputusan memakai batas interval, bukan titik estimasi. 48 kasus/bulan (sampai ~83) terlalu mahal untuk di-auto-close.", correct: true },
+                { text: "LANJUT — 4% itu kecil", why: "Salah: 4% adalah 2× toleransi — dan 1.200 auto-close/bulan berarti 48 kasus suspicious hilang tiap bulan." },
+                { text: "LANJUT dengan audit trail saja — itu sudah cukup sebagai validasi", why: "Salah: audit trail mencatat keputusan, bukan membuktikan keputusan itu aman. Validasi butuh sampling + monitoring miss." },
+                { text: "Perbesar sampel sampai CI-nya menyempit di bawah 2%", why: "Salah: sampel lebih besar mempersempit CI di sekitar 4% — titiknya tetap 2× toleransi. Masalahnya bukan ukuran sampel." },
+              ],
+            },
+          ],
+          reference: "Auto-close butuh validasi: sampling independen + bandingkan BATAS interval dengan toleransi + monitoring miss berkala. Audit trail saja tidak memvalidasi.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

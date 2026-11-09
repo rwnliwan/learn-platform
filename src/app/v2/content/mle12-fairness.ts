@@ -5,7 +5,7 @@ export const mle12: V2Lesson = {
   track: "Machine Learning Engineer",
   module: "Skala & Tanggung Jawab",
   title: "MLE12 — Fairness & Responsible ML",
-  estMinutes: 70,
+  estMinutes: 80,
   steps: [
     {
       id: "mulai",
@@ -450,6 +450,53 @@ print(f"recall_A={rec_a:.2f} recall_B={rec_b:.2f}")`,
       },
       reference: "Privasi = keputusan arsitektur: minimasi → lindungi → catat di model card.",
     },
+        {
+          id: "gap-r7-reweighting",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P6-G1)",
+          title: "Reweighting: prosedur mitigasi yang bisa dijalankan",
+          prose: [
+            "Lesson ini menyatakan tujuan 'menerapkan mitigasi: reweighting' — tetapi tidak pernah menunjukkan prosedurnya: bobot berapa, untuk siapa, dan bagaimana tahu ia bekerja. Lab ini menjalankannya (metode Kamiran–Calders). Data: grup A 800 pelamar (560 lolos, 70%), grup B 200 pelamar (80 lolos, 40%) — DI awal = 40/70 = 0,57, di bawah ambang 0,8. Bobot tiap sel grup × outcome: w = P(grup) × P(outcome) / P(grup, outcome) — bobot yang membuat distribusi training seolah grup dan outcome independen.",
+            "Hasilnya: w(A, lolos) = 0,91; w(A, gagal) = 1,20; w(B, lolos) = 1,60; w(B, gagal) = 0,60. Artinya: tiap pelamar B yang lolos dihitung 1,6× (kelompok yang kurang terwakili dinaikkan), tiap pelamar B yang gagal dihitung 0,6×. Setelah pembobotan, approval rate tertimbang A dan B sama-sama 64,0% → DI baru = 1,00. Tiga catatan kejujuran. Satu: reweighting memperbaiki DISTRIBUSI training, bukan label yang bias — bila label historisnya sendiri salah (B yang layak ditolak karena label salah), bobot tidak memperbaikinya. Dua: awasi bobot yang meledak — sel dengan sedikit contoh bisa meminta bobot 10×+; batasi (cap) bobot dan periksa variansnya. Tiga: validasi di data held-out — mitigasi yang menaikkan DI sambil meruntuhkan akurasi adalah mitigasi yang gagal.",
+          ],
+          formula: String.raw`w(a, y) = \frac{P(A=a)\,P(Y=y)}{P(A=a, Y=y)} \qquad \text{DI} = \frac{\text{rate}_B}{\text{rate}_A}`,
+          formulaNote: "A 800 (560 lolos), B 200 (80 lolos): bobot 0,91 / 1,20 / 1,60 / 0,60; rate tertimbang 64,0% / 64,0%; DI 0,57 → 1,00.",
+          tasks: [
+            { id: "t1", text: "Hitung 4 bobot: `w_a_plus`, `w_a_min`, `w_b_plus`, `w_b_min`" },
+            { id: "t2", text: "Hitung approval rate tertimbang `rate_a`, `rate_b`, dan `di_baru`" },
+          ],
+          expected: "w_a_plus=0.91 w_a_min=1.2 w_b_plus=1.6 w_b_min=0.6 rate_a=64.0 rate_b=64.0 di_baru=1.0",
+          hints: [
+            "P(A) = 0,8; P(B) = 0,2; P(lolos) = 0,64; P(gagal) = 0,36; P(A, lolos) = 560/1000 = 0,56.",
+            "Rate tertimbang = (jumlah lolos × bobot) / (jumlah lolos × bobot + jumlah gagal × bobot).",
+          ],
+          code: {
+            starter: `# Pelamar: A 800 orang (560 lolos), B 200 orang (80 lolos)\n# Target: bobot Kamiran-Calders w = P(A=a)P(Y=y) / P(A=a, Y=y)\na_total, a_lolos = 800, 560\nb_total, b_lolos = 200, 80\n\n# TULIS KODEMU: 4 bobot + approval rate tertimbang per grup + DI baru\nw_a_plus =\nw_a_min =\nw_b_plus =\nw_b_min =\nrate_a =\nrate_b =\ndi_baru =\n\nprint(f"w_a_plus={w_a_plus} w_a_min={w_a_min} w_b_plus={w_b_plus} w_b_min={w_b_min} rate_a={rate_a} rate_b={rate_b} di_baru={di_baru}")`,
+            lockLines: 6,
+            solution: `# Pelamar: A 800 orang (560 lolos), B 200 orang (80 lolos)\n# Target: bobot Kamiran-Calders w = P(A=a)P(Y=y) / P(A=a, Y=y)\na_total, a_lolos = 800, 560\nb_total, b_lolos = 200, 80\n\n# TULIS KODEMU: 4 bobot + approval rate tertimbang per grup + DI baru\np_a, p_b = a_total / 1000, b_total / 1000\np_plus = (a_lolos + b_lolos) / 1000\np_min = 1 - p_plus\nw_a_plus = round(p_a * p_plus / (a_lolos / 1000), 2)\nw_a_min = round(p_a * p_min / ((a_total - a_lolos) / 1000), 2)\nw_b_plus = round(p_b * p_plus / (b_lolos / 1000), 2)\nw_b_min = round(p_b * p_min / ((b_total - b_lolos) / 1000), 2)\nwa_plus = p_a * p_plus / (a_lolos / 1000)\nwa_min = p_a * p_min / ((a_total - a_lolos) / 1000)\nwb_plus = p_b * p_plus / (b_lolos / 1000)\nwb_min = p_b * p_min / ((b_total - b_lolos) / 1000)\nrate_a = round(a_lolos * wa_plus / (a_lolos * wa_plus + (a_total - a_lolos) * wa_min) * 100, 1)\nrate_b = round(b_lolos * wb_plus / (b_lolos * wb_plus + (b_total - b_lolos) * wb_min) * 100, 1)\ndi_baru = round(rate_b / rate_a, 2)\n\nprint(f"w_a_plus={w_a_plus} w_a_min={w_a_min} w_b_plus={w_b_plus} w_b_min={w_b_min} rate_a={rate_a} rate_b={rate_b} di_baru={di_baru}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "w_a_plus", value: 0.91, tol: 0.02, label: "`w_a_plus` = 0,91", msg: "0,8×0,64/0,56 = 0,91." },
+              { kind: "equal", task: "t1", name: "w_a_min", value: 1.2, tol: 0.02, label: "`w_a_min` = 1,20", msg: "0,8×0,36/0,24 = 1,20." },
+              { kind: "equal", task: "t1", name: "w_b_plus", value: 1.6, tol: 0.02, label: "`w_b_plus` = 1,60", msg: "0,2×0,64/0,08 = 1,60 — pelamar B yang lolos dinaikkan." },
+              { kind: "equal", task: "t1", name: "w_b_min", value: 0.6, tol: 0.02, label: "`w_b_min` = 0,60", msg: "0,2×0,36/0,12 = 0,60." },
+              { kind: "equal", task: "t2", name: "rate_a", value: 64.0, tol: 0.1, label: "`rate_a` = 64,0%", msg: "512/(512+288) = 64%." },
+              { kind: "equal", task: "t2", name: "rate_b", value: 64.0, tol: 0.1, label: "`rate_b` = 64,0%", msg: "128/(128+72) = 64%." },
+              { kind: "equal", task: "t2", name: "di_baru", value: 1.0, tol: 0.01, label: "`di_baru` = 1,00", msg: "64/64 = 1,00 — dari DI awal 0,57." },
+              { kind: "stdout_matches", task: "t2", pattern: "w_a_plus=0\\.91\\s+w_a_min=1\\.2\\s+w_b_plus=1\\.6\\s+w_b_min=0\\.6\\s+rate_a=64\\.0\\s+rate_b=64\\.0\\s+di_baru=1\\.0", label: "`print` menampilkan ketujuhnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Setelah reweighting, approval A dan B sama-sama 64%. Berapa DI barunya — dan apa yang TIDAK diperbaiki reweighting?",
+              options: [
+                { text: "DI 1,0 — tetapi label historis yang bias tidak diperbaiki bobot", why: "Tepat: reweighting menyamakan distribusi training (DI 0,57 → 1,00); bila labelnya sendiri salah, bobot tidak memperbaikinya.", correct: true },
+                { text: "DI 0,57 — reweighting tidak mengubah apa pun", why: "Salah: rate tertimbang keduanya 64% — DI barunya 1,00." },
+                { text: "DI 1,0 — dan semua bias hilang, termasuk label yang salah", why: "Salah: bobot hanya mengubah seberapa sering tiap contoh dihitung — label yang salah tetap salah." },
+                { text: "DI 0,8 — tepat di ambang", why: "Salah: 64/64 = 1,00, bukan 0,8." },
+              ],
+            },
+          ],
+          reference: "Reweighting Kamiran-Calders: w = P(grup)×P(outcome)/P(grup, outcome); DI 0,57 → 1,00 di sini; perbaiki distribusi, bukan label; cap bobot; validasi held-out.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

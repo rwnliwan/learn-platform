@@ -5,7 +5,7 @@ export const b11: V2Lesson = {
   track: "Probabilitas",
   module: "Limit",
   title: "B11. LLN & CLT: Mengapa Rata-rata Sampel Bisa Dipercaya",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "survei-1000",
@@ -224,6 +224,51 @@ export const b11: V2Lesson = {
 
       reference: "LLN: rata-rata \u2192 ekspektasi. CLT: rata-rata \u2192 Normal.",
     },
+        {
+          id: "gap-r7-ci-frequentist",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P1-G2)",
+          title: "Interval kepercayaan 95%: apa yang '95%' itu maksudkan?",
+          prose: [
+            "Lesson ini menghitung interval kepercayaan 95% (±1,96 × SE) — tetapi tidak pernah menjelaskan apa arti '95%' itu. Jawabannya, dalam kerangka frequentist: 95% adalah sifat PROSEDURNYA, bukan sifat interval yang sudah jadi. Bila kamu mengulang survei yang sama 200 kali (sampel baru tiap kali, masing-masing n = 400) dan membangun interval dari tiap sampel, sekitar 95% dari 200 interval itu akan memuat μ yang sebenarnya. Lab ini membuktikannya dengan simulasi: dari 200 interval, 191 memuat μ = 100 (95,5%) — nyaris tepat 95%.",
+            "Yang '95%' TIDAK katakan: 'ada peluang 95% μ berada di dalam interval (98,8; 101,7) ini'. Begitu data sudah masuk, interval itu entah memuat μ atau tidak — tidak ada peluang yang tersisa untuk dihitung (μ-nya tetap, datanya tetap). Mengatakan 'peluang 95% μ di dalam interval ini' adalah membaca interval frequentist seperti interval Bayesian (credible interval) — dua benda berbeda dengan angka yang kebetulan mirip. Bila kamu butuh pernyataan peluang tentang μ itu sendiri, pakai kerangka Bayesian (B17) — jangan pinjam bahasanya untuk interval frequentist.",
+            "Dua syarat yang sering dilupakan. Satu: prosedur ini hanya mencapai 95% bila syarat CLT terpenuhi (n cukup besar, σ hingga) — untuk data berekor tebal dengan varians tak hingga, intervalnya bohong (lesson ini sudah memperingatkan di langkah CLT). Dua: 95% adalah angka nominal — bila kamu membangun interval dari data yang sama berulang kali dengan aturan yang sama, cakupannya yang mendekati 95%; satu interval tunggal tidak punya 'tingkat kepercayaan' sendiri.",
+          ],
+          formula: String.raw`P(\bar{x} - 1{,}96\,SE \le \mu \le \bar{x} + 1{,}96\,SE) = 0{,}95 \quad \text{(atas pengulangan sampling, bukan atas satu interval)}`,
+          formulaNote: "Simulasi (μ = 100, σ = 15, n = 400, 200 ulangan, seed 7): 191/200 interval memuat μ = 95,5%. Interval pertama: (98,8; 101,7).",
+          tasks: [
+            { id: "t1", text: "Simulasikan 200 interval 95% dan hitung `cakupan` + `cakupan_pct`" },
+            { id: "t2", text: "Catat interval pertama: `ci_lo`, `ci_hi`" },
+          ],
+          expected: "cakupan=191/200 cakupan_pct=95.5 ci_pertama=(98.8, 101.74)",
+          hints: [
+            "Tiap ulangan: 400 sampel N(100, 15), x̄ ± 1,96 × 15/√400.",
+            "Hitung berapa interval yang memuat μ = 100; bagi 200 untuk persennya.",
+          ],
+          code: {
+            starter: `import random, math\n\nmu, sigma, n = 100, 15, 400  # parameter populasi (diketahui di simulasi ini)\nrng = random.Random(7)\n\n# TULIS KODEMU: 200 interval, hitung berapa yang mengandung mu + interval pertama\ncakupan =\ncakupan_pct =\nci_lo =\nci_hi =\n\nprint(f"cakupan={cakupan}/200 cakupan_pct={cakupan_pct} ci_pertama=({ci_lo}, {ci_hi})")`,
+            lockLines: 6,
+            solution: `import random, math\n\nmu, sigma, n = 100, 15, 400  # parameter populasi (diketahui di simulasi ini)\nrng = random.Random(7)\n\n# TULIS KODEMU: 200 interval, hitung berapa yang mengandung mu + interval pertama\ncakupan = 0\nci_lo = 0.0\nci_hi = 0.0\nfor i in range(200):\n    xbar = sum(rng.gauss(mu, sigma) for _ in range(n)) / n\n    lo = xbar - 1.96 * sigma / math.sqrt(n)\n    hi = xbar + 1.96 * sigma / math.sqrt(n)\n    if i == 0:\n        ci_lo = round(lo, 2)\n        ci_hi = round(hi, 2)\n    if lo <= mu <= hi:\n        cakupan += 1\ncakupan_pct = round(cakupan / 200 * 100, 1)\n\nprint(f"cakupan={cakupan}/200 cakupan_pct={cakupan_pct} ci_pertama=({ci_lo}, {ci_hi})")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "cakupan", value: 191, tol: 0, label: "`cakupan` = 191", msg: "191 dari 200 interval memuat μ = 100 (seed 7)." },
+              { kind: "equal", task: "t1", name: "cakupan_pct", value: 95.5, tol: 0.1, label: "`cakupan_pct` = 95,5%", msg: "191/200 = 95,5% — nyaris tepat 95% nominal." },
+              { kind: "equal", task: "t2", name: "ci_lo", value: 98.8, tol: 0.05, label: "`ci_lo` = 98,8", msg: "x̄ pertama 100,27 − 1,47 = 98,8." },
+              { kind: "equal", task: "t2", name: "ci_hi", value: 101.74, tol: 0.05, label: "`ci_hi` = 101,74", msg: "100,27 + 1,47 = 101,74." },
+              { kind: "stdout_matches", task: "t2", pattern: "cakupan=191/200\\s+cakupan_pct=95\\.5", label: "`print` menampilkan cakupan", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Satu survei memberi interval 95% = (98,8; 101,7) untuk μ. Pernyataan yang BENAR?",
+              options: [
+                { text: "Bila survei diulang 200×, sekitar 191 interval akan memuat μ — interval ini sendiri entah memuat atau tidak", why: "Tepat: 95% adalah sifat prosedur atas pengulangan sampling, bukan peluang tentang interval yang sudah jadi.", correct: true },
+                { text: "Ada peluang 95% μ berada di dalam (98,8; 101,7)", why: "Salah: itu bacaan Bayesian (credible interval). Dalam frequentist, μ tetap dan intervalnya tetap — tidak ada peluang yang tersisa." },
+                { text: "95% data sampel berada di dalam (98,8; 101,7)", why: "Salah: interval kepercayaan bicara tentang μ (rata-rata populasi), bukan tentang sebaran data sampel." },
+                { text: "Interval ini pasti memuat μ karena prosedurnya 95%", why: "Salah: 9 dari 200 interval TIDAK memuat μ — interval ini bisa jadi salah satunya." },
+              ],
+            },
+          ],
+          reference: "95% = sifat prosedur atas pengulangan sampling (~191 dari 200 interval memuat μ); bukan peluang μ di dalam satu interval yang sudah jadi.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

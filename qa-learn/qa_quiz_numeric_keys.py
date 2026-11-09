@@ -93,6 +93,25 @@ CHECKS = [
      "6 tool dan 4 framework",
      [("tanpa MCP 6x4", 6 * 4, 0, ""),
       ("dengan MCP 6+4", 6 + 4, 0, "")]),
+    # --- Build gap ronde 7 Terra (2026-11-09, 23 langkah gap-r7-*) ---
+    # Kunci kuis numerik langkah gap; hitung ulang di qa_r7_recompute.py.
+    ("cr15-risiko-portofolio.ts",
+     "Berapa PD marginal tahun ke-2?",
+     [("PD marginal tahun 2", 0.98 * 0.03 * 100, 2, "%")]),
+    ("mr4-var-lanjut.ts",
+     "Potong Rp10 jt dari mana untuk hemat VaR terbesar?",
+     [("component VaR", 0.6 * (2.33 * 100 * (0.6 * 0.2 ** 2 + 0.4 * 0.3 * 0.2 * 0.3)
+                               / math.sqrt(0.6 ** 2 * 0.2 ** 2 + 0.4 ** 2 * 0.3 ** 2
+                                           + 2 * 0.6 * 0.4 * 0.3 * 0.2 * 0.3)), 2, "")]),
+    ("aie13-hybrid-search-reranking.ts",
+     "Berapa kira-kira perbandingan kontribusi 'deposito' keduanya?",
+     [("kontribusi deposito d1 (tf=2)",
+        math.log(1.6) * (2 * 2.2) / (2 + 1.2 * (1 - 0.75 + 0.75 * 3 / (10 / 3))), 2, ""),
+      ("kontribusi deposito d0 (tf=1)",
+        math.log(1.6) * (1 * 2.2) / (1 + 1.2 * (1 - 0.75 + 0.75 * 3 / (10 / 3))), 2, "")]),
+    ("wqb13-self-correlation.ts",
+     "Korelasi 0,94 (n = 252), CI 95%",
+     [("CI bawah Fisher", math.tanh(math.atanh(0.94) - 1.96 / math.sqrt(252 - 3)), 2, "")]),
 ]
 
 # (file, pertanyaan, [(nama, nilai, desimal, akhiran)]) — angka yang hidup

@@ -21,7 +21,7 @@ export const aie13: V2Lesson = {
   track: "AI Engineering",
   module: "Produksi",
   title: "AIE13 — Hybrid Search + Reranking untuk RAG",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-gagal",
@@ -273,6 +273,52 @@ print("rrf:", fused)`,
       ],
       tasks: [],
     },
+        {
+          id: "gap-r7-bm25-lengkap",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P7-G1)",
+          title: "BM25 dari nol: korpus, IDF, saturasi, panjang",
+          prose: [
+            "Lab langkah 3 memakai skor BM25 yang 'disediakan' — kamu tidak pernah menghitungnya dari korpus. Langkah ini menghitungnya dari nol, supaya tiap komponen rumus terasa. Korpus 3 dokumen FAQ; query 'bunga deposito'; k1 = 1,2, b = 0,75. IDF (dengan +0,5 agar kata yang muncul di semua dokumen tidak bernilai nol): IDF('bunga') = ln((3−3+0,5)/(3+0,5) + 1) = ln(1,143) = 0,13 — kecil, karena 'bunga' ada di semua dokumen. IDF('deposito') = ln((3−2+0,5)/(2+0,5) + 1) = ln(1,6) = 0,47 — lebih besar, karena 'deposito' lebih langka.",
+            "Skor tiap dokumen = Σ IDF × TF-tersaturasi × normalisasi panjang. Dok-0 ('bunga deposito tinggi', 3 kata): 0,63. Dok-1 ('bunga deposito deposito', 3 kata): 0,80 — 'deposito' muncul 2× tetapi skornya TIDAK 2× lipat (saturasi: kemunculan ke-2 hanya menambah sebagian). Dok-2 ('tabungan berjangka bunga rendah', 4 kata): 0,12 — hanya 'bunga' yang cocok (IDF kecil) dan dokumennya lebih panjang (normalisasi menghukum). Pemenang: dok-1 (0,80). Tiga intuisi yang harus dipegang: kata langka > kata umum; pengulangan memberi hasil yang menurun (saturasi k1); dokumen pendek yang cocok > dokumen panjang yang cocok sedikit (normalisasi b).",
+          ],
+          formula: String.raw`\text{BM25}(q,d) = \sum_{t \in q} \text{IDF}(t)\cdot\frac{f(t,d)(k_1+1)}{f(t,d)+k_1\left(1-b+b\frac{|d|}{\text{avgdl}}\right)} \qquad \text{IDF}(t) = \ln\left(\frac{N-n_t+0{,}5}{n_t+0{,}5}+1\right)`,
+          formulaNote: "Korpus 3 dok, query 'bunga deposito', k1=1,2, b=0,75: IDF bunga 0,13, deposito 0,47; skor d0 0,63, d1 0,80, d2 0,12.",
+          tasks: [
+            { id: "t1", text: "Hitung IDF: `idf_bunga`, `idf_deposito`" },
+            { id: "t2", text: "Hitung skor BM25: `skor_d0`, `skor_d1`, `skor_d2`, dan `pemenang` (indeks dokumen)" },
+          ],
+          expected: "idf_bunga=0.13 idf_deposito=0.47 skor_d0=0.63 skor_d1=0.8 skor_d2=0.12 pemenang=1",
+          hints: [
+            "IDF(t) = ln((N − n_t + 0,5)/(n_t + 0,5) + 1); N = 3.",
+            "avgdl = rata-rata panjang dokumen = 10/3; suku TF = f(k1+1)/(f + k1(1−b + b·|d|/avgdl)).",
+          ],
+          code: {
+            starter: `import math\n\n# Korpus 3 dokumen FAQ; query: "bunga deposito"\ndocs = [\n    ["bunga", "deposito", "tinggi"],\n    ["bunga", "deposito", "deposito"],\n    ["tabungan", "berjangka", "bunga", "rendah"],\n]\nquery = ["bunga", "deposito"]\nk1, b = 1.2, 0.75\n\n# TULIS KODEMU: IDF tiap kata query + skor BM25 tiap dokumen + pemenang\nidf_bunga =\nidf_deposito =\nskor_d0 =\nskor_d1 =\nskor_d2 =\npemenang =\n\nprint(f"idf_bunga={idf_bunga} idf_deposito={idf_deposito} skor_d0={skor_d0} skor_d1={skor_d1} skor_d2={skor_d2} pemenang={pemenang}")`,
+            lockLines: 12,
+            solution: `import math\n\n# Korpus 3 dokumen FAQ; query: "bunga deposito"\ndocs = [\n    ["bunga", "deposito", "tinggi"],\n    ["bunga", "deposito", "deposito"],\n    ["tabungan", "berjangka", "bunga", "rendah"],\n]\nquery = ["bunga", "deposito"]\nk1, b = 1.2, 0.75\n\n# TULIS KODEMU: IDF tiap kata query + skor BM25 tiap dokumen + pemenang\nN = len(docs)\navgdl = sum(len(d) for d in docs) / N\ndef idf(t):\n    nt = sum(1 for d in docs if t in d)\n    return math.log((N - nt + 0.5) / (nt + 0.5) + 1)\nidf_bunga = round(idf("bunga"), 2)\nidf_deposito = round(idf("deposito"), 2)\ndef bm25(d):\n    s = 0.0\n    for t in query:\n        f = d.count(t)\n        if f:\n            s += idf(t) * f * (k1 + 1) / (f + k1 * (1 - b + b * len(d) / avgdl))\n    return round(s, 2)\nskor_d0 = bm25(docs[0])\nskor_d1 = bm25(docs[1])\nskor_d2 = bm25(docs[2])\npemenang = 1\n\nprint(f"idf_bunga={idf_bunga} idf_deposito={idf_deposito} skor_d0={skor_d0} skor_d1={skor_d1} skor_d2={skor_d2} pemenang={pemenang}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "idf_bunga", value: 0.13, tol: 0.01, label: "`idf_bunga` = 0,13", msg: "ln(1,143) — kecil karena 'bunga' ada di semua dokumen." },
+              { kind: "equal", task: "t1", name: "idf_deposito", value: 0.47, tol: 0.01, label: "`idf_deposito` = 0,47", msg: "ln(1,6) — lebih besar karena 'deposito' lebih langka." },
+              { kind: "equal", task: "t2", name: "skor_d0", value: 0.63, tol: 0.01, label: "`skor_d0` = 0,63", msg: "0,14 (bunga) + 0,49 (deposito) = 0,63." },
+              { kind: "equal", task: "t2", name: "skor_d1", value: 0.8, tol: 0.01, label: "`skor_d1` = 0,80", msg: "0,14 + 0,66 = 0,80 — 'deposito' 2× tidak melipatgandakan skor (saturasi)." },
+              { kind: "equal", task: "t2", name: "skor_d2", value: 0.12, tol: 0.01, label: "`skor_d2` = 0,12", msg: "Hanya 'bunga' (IDF kecil) + dokumen lebih panjang." },
+              { kind: "equal", task: "t2", name: "pemenang", value: 1, tol: 1e-9, label: "`pemenang` = dok-1", msg: "Skor tertinggi 0,80." },
+              { kind: "stdout_matches", task: "t2", pattern: "idf_bunga=0\\.13\\s+idf_deposito=0\\.47\\s+skor_d0=0\\.63\\s+skor_d1=0\\.8\\s+skor_d2=0\\.12\\s+pemenang=1", label: "`print` menampilkan keenamnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Dok-1 memuat 'deposito' 2×, dok-0 memuatnya 1×. Berapa kira-kira perbandingan kontribusi 'deposito' keduanya?",
+              options: [
+                { text: "0,66 vs 0,49 — naik, tetapi TIDAK 2× lipat (saturasi k1)", why: "Tepat: TF tersaturasi — kemunculan ke-2 hanya menambah sebagian. Itulah fungsi k1.", correct: true },
+                { text: "2× lipat persis — 0,49 vs 0,98", why: "Salah: tanpa saturasi, kata yang diulang 20× akan 20× lebih penting — justru yang dicegah BM25." },
+                { text: "Sama persis — pengulangan tidak dihitung BM25", why: "Salah: pengulangan dihitung, tetapi dengan hasil yang menurun (saturasi), bukan diabaikan." },
+                { text: "Dok-1 lebih rendah — dokumen dengan kata berulang dihukum", why: "Salah: pengulangan menaikkan skor (0,66 > 0,49) — hanya saja tidak linear." },
+              ],
+            },
+          ],
+          reference: "BM25 dari nol: IDF (kata langka > kata umum) × TF tersaturasi (k1) × normalisasi panjang (b). Di sini: d1 0,80 > d0 0,63 > d2 0,12.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

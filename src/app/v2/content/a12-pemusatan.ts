@@ -19,7 +19,7 @@ export const a12: V2Lesson = {
   track: "Statistika",
   module: "Deskriptif",
   title: "A1.2 Mean, median, modus",
-  estMinutes: 45,
+  estMinutes: 55,
   steps: [
     {
       id: "cerita",
@@ -314,6 +314,51 @@ export const a12: V2Lesson = {
       ],
       reference: "Data simetris → mean. Expected value, total, dan inferensi → mean. Tipikal di data miring → median.",
     },
+        {
+          id: "gap-r7-modus-jamak",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P1-G1)",
+          title: "Modus jamak: saat 'yang paling sering' ada dua",
+          prose: [
+            "Langkah 3 mengajarkan modus lewat `max(set(...), key=....count)` — dan rumus itu bekerja selama modusnya TUNGGAL. Begitu dua nilai berbagi frekuensi tertinggi, rumus itu diam-diam hanya mengembalikan SATU di antaranya, dan yang satu lagi hilang tanpa jejak. Ambil data gaji (juta rupiah): 7, 8, 8, 9, 9, 10, 12. Nilai 8 dan 9 sama-sama muncul dua kali — datanya BIMODAL. `max(set(...))` mengembalikan 8; 9 lenyap dari jawaban, padahal ia sama sahnya sebagai modus.",
+            "Ini bukan sekadar soal kerapian: modus jamak sering menandakan DUA KELOMPOK di dalam datamu — mis. dua segmen gaji, dua kelompok pelanggan, dua rezim. Melaporkan satu modus saja berarti menyembunyikan kelompok kedua dari pengambil keputusan. Aturan praktis: hitung SEMUA nilai dengan frekuensi tertinggi (Python: `statistics.multimode`), laporkan daftarnya, dan sebut jumlahnya. Bila semua nilai muncul sekali, tidak ada modus — `multimode` mengembalikan semua nilai; jangan paksa satu jawaban dari data yang tidak punya.",
+            "Catatan kejujuran atas rumus langkah 3: `max(set(...), key=....count)` tetap benar bila modus tunggal — tetapi ia bukan definisi modus, melainkan jalan pintas yang hanya bekerja di kasus mudah. Urutan mana yang dikembalikan saat seri tergantung implementasi set, jadi jangan andalkan nilai spesifiknya. Untuk data kategori (langkah 3 menyebut 'data kategori, pakai modus'), aturan yang sama berlaku: laporkan semua kategori teratas yang seri.",
+          ],
+          formula: String.raw`\text{modus} = \{x : f(x) = \max f\} \qquad \text{bisa lebih dari satu nilai}`,
+          formulaNote: "Data [7, 8, 8, 9, 9, 10, 12]: modus = [8, 9] (masing-masing 2×). max(set(...)) hanya mengembalikan 8.",
+          tasks: [
+            { id: "t1", text: "Hitung `modus_list` (semua modus, terurut), `n_modus`, `modus_1`, `modus_2`" },
+            { id: "t2", text: "Hitung `max_set` = hasil `max(set(...), key=....count)` dan bandingkan" },
+          ],
+          expected: "modus=[8, 9] n_modus=2 max_set=8",
+          hints: [
+            "statistics.multimode mengembalikan daftar semua nilai dengan frekuensi tertinggi.",
+            "max(set(...), key=gaji.count) hanya mengambil satu — yang mana hilang?",
+          ],
+          code: {
+            starter: `import statistics as st\n\ngaji = [7, 8, 8, 9, 9, 10, 12]  # juta rupiah\n\n# TULIS KODEMU: semua modus (list), jumlah modus, dan hasil max(set(...))\nmodus_list =\nn_modus =\nmodus_1 =\nmodus_2 =\nmax_set =\n\nprint(f"modus={modus_list} n_modus={n_modus} max_set={max_set}")`,
+            lockLines: 5,
+            solution: `import statistics as st\n\ngaji = [7, 8, 8, 9, 9, 10, 12]  # juta rupiah\n\n# TULIS KODEMU: semua modus (list), jumlah modus, dan hasil max(set(...))\nmodus_list = sorted(st.multimode(gaji))\nn_modus = len(modus_list)\nmodus_1 = modus_list[0]\nmodus_2 = modus_list[1]\nmax_set = max(set(gaji), key=gaji.count)\n\nprint(f"modus={modus_list} n_modus={n_modus} max_set={max_set}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "n_modus", value: 2, tol: 1e-9, label: "`n_modus` = 2", msg: "8 dan 9 sama-sama muncul 2× — datanya bimodal." },
+              { kind: "equal", task: "t1", name: "modus_1", value: 8, tol: 1e-9, label: "`modus_1` = 8", msg: "Modus pertama (terurut) = 8." },
+              { kind: "equal", task: "t1", name: "modus_2", value: 9, tol: 1e-9, label: "`modus_2` = 9", msg: "Modus kedua = 9 — inilah yang dihilangkan max(set(...))." },
+              { kind: "equal", task: "t2", name: "max_set", value: 8, tol: 1e-9, label: "`max_set` = 8", msg: "max(set(...)) hanya mengembalikan satu modus." },
+              { kind: "stdout_matches", task: "t2", pattern: "modus=\\[8, 9\\]\\s+n_modus=2\\s+max_set=8", label: "`print` menampilkan ketiganya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Data [5, 5, 6, 6, 7] — apa modus yang benar?",
+              options: [
+                { text: "[5, 6] — keduanya muncul 2×; max(set(...)) hanya memberi satu dan menyembunyikan yang lain", why: "Tepat: datanya bimodal. Melaporkan satu modus saja menyembunyikan kelompok kedua.", correct: true },
+                { text: "5 — karena max(set(...)) mengembalikannya", why: "Salah: itu artefak jalan pintas, bukan definisi modus. 6 sama sahnya." },
+                { text: "Tidak ada modus — karena tidak ada nilai yang menang mutlak", why: "Salah: modus jamak tetap modus. 'Tidak ada modus' hanya bila semua frekuensi sama (mis. semua muncul sekali)." },
+                { text: "5,5 — rata-rata kedua modus", why: "Salah: modus adalah nilai yang muncul, bukan rata-rata nilai yang muncul." },
+              ],
+            },
+          ],
+          reference: "Modus bisa jamak — laporkan SEMUA nilai dengan frekuensi tertinggi (statistics.multimode); max(set(...)) hanya jalan pintas untuk modus tunggal.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

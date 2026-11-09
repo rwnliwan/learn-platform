@@ -20,7 +20,7 @@ export const wqb13: V2Lesson = {
   track: "WorldQuant Brain",
   module: "Praktik & Diagnosis",
   title: "WQB13 — Self-Correlation: Gerbang Submit yang Sebenarnya",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -206,6 +206,50 @@ export const wqb13: V2Lesson = {
       },
       reference: "C: 0,83 gugur sementara → delay+operator → 0,61 lolos waspada. Keunikan dulu.",
     },
+        {
+          id: "gap-r7-selfcorr-ci-alignment",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P9-G3)",
+          title: "Korelasi 0,94: seberapa pasti — dan apakah tanggalnya selaras?",
+          prose: [
+            "Lesson ini memutuskan GUGUR/LOLOS dari satu angka korelasi — tetapi tidak pernah bertanya seberapa PASTI angka itu, dan tidak pernah memeriksa apakah kedua deretnya dipasangkan pada TANGGAL yang sama. Dua lubang itu ditutup di sini. Satu, KETIDAKPASTIAN: korelasi 0,94 kandidat A dihitung dari n = 252 hari (lab langkah 4). Dengan transformasi Fisher z, interval kepercayaan 95%-nya adalah (0,92; 0,95). Baca: bahkan batas BAWAH interval masih jauh di atas ambang 0,7 — vonis GUGUR itu kokoh, bukan artefak sampel kecil. Bandingkan bila n hanya 20: CI-nya (0,85; 0,98) — masih di atas 0,7, tetapi jauh lebih lebar; dan untuk korelasi di dekat ambang (mis. 0,68 dengan n kecil), CI bisa melewati 0,7 ke dua arah — vonisnya tidak kokoh.",
+            "Dua, ALIGNMENT: korelasi Pearson memasangkan return BERDASARKAN POSISI — baris ke-i dengan baris ke-i. Bila deret kandidat dihitung pada kalender yang mulai 5 hari lebih lambat dari deret existing (libur berbeda, tanggal mulai berbeda), pemasangan posisi memasangkan hari yang SALAH: simulasi di lab ini (60 hari, kandidat = existing × 1,2 + noise) memberi korelasi NAIF 0,02 — tampak independen! — padahal korelasi SELARAS tanggal (55 hari yang sama) adalah 0,94, dengan CI 95% (0,90; 0,96). Satu kesalahan join tanggal mengubah duplikat menjadi 'unik'. Disiplin sebelum menghitung: gabungkan (join) kedua deret BERDASARKAN TANGGAL, periksa tanggal mulai/akhir dan panjangnya sama, dan laporkan n yang dipakai — korelasi tanpa n dan tanpa tanggal adalah angka tanpa konteks.",
+          ],
+          formula: String.raw`z = \text{artanh}(r) \qquad SE = \frac{1}{\sqrt{n-3}} \qquad CI_{95\%} = \tanh(z \pm 1{,}96 \times SE)`,
+          formulaNote: "r = 0,94, n = 252 → CI (0,92; 0,95) — vonis GUGUR kokoh. Alignment: naif (posisi, geser 5 hari) 0,02 vs selaras tanggal 0,94 (CI 0,90; 0,96; n = 55).",
+          tasks: [
+            { id: "t1", text: "Hitung CI Fisher 95% untuk r = 0,94, n = 252: `ci_lo`, `ci_hi`" },
+            { id: "t2", text: "Hitung korelasi naif (posisi) `r_naif` vs selaras tanggal `r_selaras`" },
+          ],
+          expected: "ci_lo=0.92 ci_hi=0.95 r_naif=0.02 r_selaras=0.94",
+          hints: [
+            "Fisher: z = artanh(0,94) ≈ 1,74; SE = 1/√(252−3); CI = tanh(z ± 1,96×SE).",
+            "Naif: pasangkan existing[i] dengan kand yang digeser 5 posisi; selaras: pasangkan 55 hari yang sama.",
+          ],
+          code: {
+            starter: `import math, random\n\n# Kandidat A: r = 0,94 (n = 252 hari, lab langkah 4). CI Fisher 95%.\n# Alignment: kandidat dihitung pada kalender yang mulai 5 hari lebih lambat.\nrng = random.Random(13)\nexisting = [rng.gauss(0.0006, 0.008) for _ in range(60)]\nkand = [e * 1.2 + rng.gauss(0, 0.003) for e in existing]\n\n# TULIS KODEMU: CI Fisher r=0,94 (n=252) + korelasi naif vs selaras tanggal\nci_lo =\nci_hi =\nr_naif =\nr_selaras =\n\nprint(f"ci_lo={ci_lo} ci_hi={ci_hi} r_naif={r_naif} r_selaras={r_selaras}")`,
+            lockLines: 9,
+            solution: `import math, random\n\n# Kandidat A: r = 0,94 (n = 252 hari, lab langkah 4). CI Fisher 95%.\n# Alignment: kandidat dihitung pada kalender yang mulai 5 hari lebih lambat.\nrng = random.Random(13)\nexisting = [rng.gauss(0.0006, 0.008) for _ in range(60)]\nkand = [e * 1.2 + rng.gauss(0, 0.003) for e in existing]\n\n# TULIS KODEMU: CI Fisher r=0,94 (n=252) + korelasi naif vs selaras tanggal\ndef pearson(x, y):\n    n = len(x)\n    mx = sum(x) / n\n    my = sum(y) / n\n    cov = sum((a - mx) * (b - my) for a, b in zip(x, y)) / n\n    sx = math.sqrt(sum((a - mx) ** 2 for a in x) / n)\n    sy = math.sqrt(sum((b - my) ** 2 for b in y) / n)\n    return cov / (sx * sy)\ndef fisher_ci(r, n):\n    z = math.atanh(r)\n    se = 1 / math.sqrt(n - 3)\n    return round(math.tanh(z - 1.96 * se), 2), round(math.tanh(z + 1.96 * se), 2)\nci_lo, ci_hi = fisher_ci(0.94, 252)\nr_naif = round(pearson(existing, kand[5:] + kand[:5]), 2)\nr_selaras = round(pearson(existing[5:], kand[5:]), 2)\n\nprint(f"ci_lo={ci_lo} ci_hi={ci_hi} r_naif={r_naif} r_selaras={r_selaras}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "ci_lo", value: 0.92, tol: 0.01, label: "`ci_lo` = 0,92", msg: "Batas bawah CI masih jauh di atas ambang 0,7 — vonis GUGUR kokoh." },
+              { kind: "equal", task: "t1", name: "ci_hi", value: 0.95, tol: 0.01, label: "`ci_hi` = 0,95", msg: "tanh(1,74 + 1,96/√249) ≈ 0,95." },
+              { kind: "equal", task: "t2", name: "r_naif", value: 0.02, tol: 0.02, label: "`r_naif` = 0,02", msg: "Pemasangan posisi yang salah hari: duplikat tampak independen." },
+              { kind: "equal", task: "t2", name: "r_selaras", value: 0.94, tol: 0.01, label: "`r_selaras` = 0,94", msg: "Pada 55 tanggal yang sama: 0,94 — duplikat yang sebenarnya." },
+              { kind: "stdout_matches", task: "t2", pattern: "ci_lo=0\\.92\\s+ci_hi=0\\.95\\s+r_naif=0\\.02\\s+r_selaras=0\\.94", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Korelasi 0,94 (n = 252), CI 95% = (0,92; 0,95). Apa artinya untuk vonis GUGUR (ambang 0,7)?",
+              options: [
+                { text: "Vonis kokoh — batas bawah CI 0,92 pun jauh di atas 0,7; bukan artefak sampel kecil", why: "Tepat: ketidakpastian estimasi tidak mengubah vonis. Bila CI melewati 0,7, vonisnya baru diragukan.", correct: true },
+                { text: "Vonis diragukan — 0,94 hanya estimasi titik", why: "Salah: estimasi titik memang tidak pasti, tetapi SELURUH intervalnya (0,92–0,95) berada di atas ambang." },
+                { text: "Korelasinya pasti 0,94 — CI tidak mengubah angka", why: "Salah: CI justru mengatakan angka sebenarnya bisa 0,92–0,95 — hanya saja semuanya di atas 0,7." },
+                { text: "Harus dihitung ulang dengan n lebih besar agar vonis sah", why: "Salah: n = 252 sudah memberi CI sempit (0,92–0,95). n lebih besar tidak mengubah vonis." },
+              ],
+            },
+          ],
+          reference: "Laporkan r beserta n dan CI-nya (Fisher z); gabungkan deret BERDASARKAN TANGGAL, bukan posisi — geser 5 hari mengubah 0,94 menjadi 0,02.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

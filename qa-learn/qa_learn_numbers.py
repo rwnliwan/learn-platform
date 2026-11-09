@@ -1281,6 +1281,110 @@ FIXTURES = [
         ["b85_lo=15.0", "b95_lo=37.6", "satu_jawaban=25.0"],
         [],
     ),
+    # --- Build gap ronde 7 Terra (2026-11-09, 23 langkah baru gap-r7-*) ---
+    # Angka kunci tiap lab gap, semua hitung ulang independen di
+    # qa_r7_recompute.py (bagian "gap R7"). Needle diambil dari field
+    # `expected` langkah gap — satu-satunya sumber angka yang dieksekusi.
+    (
+        "a12-pemusatan.ts",
+        ["modus=[8, 9]", "n_modus=2"],
+        [],
+    ),
+    (
+        "b11-lln-clt.ts",
+        ["cakupan=191/200", "cakupan_pct=95.5"],
+        [],
+    ),
+    (
+        "a13-sebaran.ts",
+        ["mad=0.0", "pagar_atas=125.0"],
+        [],
+    ),
+    (
+        "b12-monte-carlo.ts",
+        ["dengan_koreksi=0.00605", "ess=29", "var95=321.4", "es95=407.7"],
+        [],
+    ),
+    (
+        "cr13-ead-ccf.ts",
+        ["ccf_kartu=35", "ccf_pendek=20", "ead_pendek=20.0"],
+        [],
+    ),
+    # P3-G3: pasangan VaR lama "Rp 18 M / Rp 32 M" TIDAK terreproduksi
+    # (asumsi tak pernah dinyatakan) — diganti pasangan reproduksibel
+    # Rp36 jt vs Rp63-97 jt (binomial 36,0; Vasicek rho12 62,8; rho24 96,7).
+    (
+        "cr15-risiko-portofolio.ts",
+        ["var_indep=36.0", "var_rho12=62.8", "var_rho24=96.7",
+         "pd_m2=0.0294", "pd_lifetime=0.0874", "lgd_benar=71.49"],
+        ["Rp 18 M", "Rp 32 M"],
+    ),
+    (
+        "mr4-var-lanjut.ts",
+        ["var_total=45.08", "comp_a=22.54",
+         "var95_dengan_vega=19.18", "rasio=1.94"],
+        [],
+    ),
+    (
+        "aml1-triage-alert.ts",
+        ["miss_rate=4.0", "keputusan=TUNDA"],
+        [],
+    ),
+    (
+        "fr12-graph-analytics.ts",
+        ["nom_benar=45", "nom_bocor=155"],
+        [],
+    ),
+    (
+        "aml2-kyc-cdd.ts",
+        ["selisih_a=8", "rasio_b=7.0"],
+        [],
+    ),
+    (
+        "mle12-fairness.ts",
+        ["rate_a=64.0", "di_baru=1.0"],
+        [],
+    ),
+    (
+        "c13-risiko-dpd-rollrate.ts",
+        ["rr_1_30=34.9", "cure_31_60=70.6"],
+        [],
+    ),
+    (
+        "aie13-hybrid-search-reranking.ts",
+        ["skor_d1=0.8", "pemenang=1"],
+        [],
+    ),
+    (
+        "llmops13-inference-selfhosted.ts",
+        ["terima_2=6", "tolak_2=4"],
+        [],
+    ),
+    (
+        "hd12-prediksi-klinis.ts",
+        ["brier=0.1705", "ece=0.1"],
+        [],
+    ),
+    (
+        "biz12-embedded.ts",
+        ["skor_scoping=66.7", "tenant_terekspos=3"],
+        [],
+    ),
+    (
+        "mk13-mmm.ts",
+        ["roi_tv_8mgg=0.4", "roi_tv_6bln=1.8"],
+        [],
+    ),
+    (
+        "rr11-stress.ts",
+        ["coverage_baru=51.6", "npl_gross_setelah_cap=4.98"],
+        [],
+    ),
+    (
+        "wqb13-self-correlation.ts",
+        ["ci_lo=0.92", "r_naif=0.02"],
+        [],
+    ),
 ]
 
 

@@ -5,7 +5,7 @@ export const fr12: V2Lesson = {
   track: "Fraud & AML Analytics",
   module: "Teknik Lanjutan",
   title: "FR12 — Graph Analytics",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -164,6 +164,51 @@ export const fr12: V2Lesson = {
       },
       reference: "Rule menangkap transaksi; graf menangkap koreografi. Fan-in ≥4/jam ke rekening muda = bangun subgraf.",
     },
+        {
+          id: "gap-r7-temporal-leakage",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P5-G2)",
+          title: "Temporal leakage: fitur yang mengintip masa depan",
+          prose: [
+            "Fitur graf (langkah 4) dihitung dari data transaksi — tetapi dari data SAMPAI KAPAN? Bila fitur 'transfer 7 hari terakhir' untuk keputusan di akhir hari ke-5 dihitung dari SEMUA transfer di dataset — termasuk yang terjadi di hari ke-8 dan ke-9 — fitur itu mengintip masa depan. Lab ini mengukurnya: rekening X menerima transfer di hari 1, 2, 3, 8, 9 (Rp10, 20, 15, 50, 60 jt). Yang BENAR (hanya sampai hari ke-5): 3 transfer, Rp45 jt. Yang BOCOR (semua transfer): 5 transfer, Rp155 jt — 3,44× lipat. Model yang dilatih dengan fitur bocor terlihat brilian di backtest (ia 'tahu' masa depan) dan gagal di live (masa depan belum terjadi saat keputusan dibuat).",
+            "Leakage punya dua wajah. Satu: fitur yang memakai event SETELAH waktu keputusan (seperti di atas) — obatnya point-in-time correctness: tiap fitur hanya memakai event dengan timestamp ≤ waktu keputusan (as-of join). Dua: label yang memakai informasi masa depan — mis. fitur '% tetangga yang fraud' di mana status 'fraud' tetangga baru diketahui berminggu-minggu SETELAH keputusan; atau split train/test acak yang menaruh transfer masa depan di train dan masa lalu di test. Obatnya: split BERDASARKAN WAKTU (train ≤ hari ke-30, test > hari ke-30) dan audit tiap fitur dengan pertanyaan: 'apakah angka ini sudah ada saat keputusan dibuat?' Bila jawabannya tidak — buang, betapa pun prediktifnya.",
+          ],
+          formula: String.raw`\text{fitur}(t) = f(\text{event dengan } ts \le t) \qquad \text{bukan } f(\text{semua event})`,
+          formulaNote: "Keputusan akhir hari ke-5; transfer hari 1, 2, 3, 8, 9: benar 3 transfer / Rp45 jt; bocor 5 transfer / Rp155 jt (3,44×).",
+          tasks: [
+            { id: "t1", text: "Hitung fitur BENAR (ts ≤ hari ke-5): `n_benar`, `nom_benar`" },
+            { id: "t2", text: "Hitung fitur BOCOR (semua transfer): `n_bocor`, `nom_bocor`, `rasio_bocor`" },
+          ],
+          expected: "n_benar=3 nom_benar=45 n_bocor=5 nom_bocor=155 rasio_bocor=3.44",
+          hints: [
+            "Fitur benar hanya menghitung transfer dengan hari ≤ 5.",
+            "Rasio bocor = nominal bocor / nominal benar.",
+          ],
+          code: {
+            starter: `# Transfer masuk ke rekening X (hari, Rp jt). Keputusan skor dibuat di AKHIR hari ke-5.\ntransfer = [(1, 10), (2, 20), (3, 15), (8, 50), (9, 60)]\nhari_keputusan = 5\n\n# TULIS KODEMU: fitur "transfer 7 hari terakhir" yang BENAR vs yang BOCOR\nn_benar =\nnom_benar =\nn_bocor =\nnom_bocor =\nrasio_bocor =\n\nprint(f"n_benar={n_benar} nom_benar={nom_benar} n_bocor={n_bocor} nom_bocor={nom_bocor} rasio_bocor={rasio_bocor}")`,
+            lockLines: 5,
+            solution: `# Transfer masuk ke rekening X (hari, Rp jt). Keputusan skor dibuat di AKHIR hari ke-5.\ntransfer = [(1, 10), (2, 20), (3, 15), (8, 50), (9, 60)]\nhari_keputusan = 5\n\n# TULIS KODEMU: fitur "transfer 7 hari terakhir" yang BENAR vs yang BOCOR\nn_benar = sum(1 for h, _ in transfer if h <= hari_keputusan)\nnom_benar = sum(v for h, v in transfer if h <= hari_keputusan)\nn_bocor = len(transfer)\nnom_bocor = sum(v for _, v in transfer)\nrasio_bocor = round(nom_bocor / nom_benar, 2)\n\nprint(f"n_benar={n_benar} nom_benar={nom_benar} n_bocor={n_bocor} nom_bocor={nom_bocor} rasio_bocor={rasio_bocor}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "n_benar", value: 3, tol: 1e-9, label: "`n_benar` = 3", msg: "Hanya transfer hari 1, 2, 3 yang sudah ada saat keputusan." },
+              { kind: "equal", task: "t1", name: "nom_benar", value: 45, tol: 1e-9, label: "`nom_benar` = 45", msg: "10 + 20 + 15 = 45." },
+              { kind: "equal", task: "t2", name: "n_bocor", value: 5, tol: 1e-9, label: "`n_bocor` = 5", msg: "Semua transfer ikut terhitung — termasuk hari 8 dan 9." },
+              { kind: "equal", task: "t2", name: "nom_bocor", value: 155, tol: 1e-9, label: "`nom_bocor` = 155", msg: "45 + 50 + 60 = 155." },
+              { kind: "equal", task: "t2", name: "rasio_bocor", value: 3.44, tol: 0.01, label: "`rasio_bocor` = 3,44", msg: "Fitur bocor 3,44× lipat dari yang benar." },
+              { kind: "stdout_matches", task: "t2", pattern: "n_benar=3\\s+nom_benar=45\\s+n_bocor=5\\s+nom_bocor=155\\s+rasio_bocor=3\\.44", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Fitur 'transfer 7 hari terakhir' dihitung dari semua transfer di dataset, termasuk setelah tanggal keputusan. Apa yang terjadi?",
+              options: [
+                { text: "Temporal leakage — fitur memakai masa depan; backtest terlihat bagus, live gagal", why: "Tepat: fitur itu 'tahu' transfer hari 8–9 yang belum terjadi saat keputusan dibuat. Obatnya as-of join (ts ≤ waktu keputusan) + split berdasarkan waktu.", correct: true },
+                { text: "Tidak ada masalah — makin banyak data makin bagus fiturnya", why: "Salah: data masa depan bukan 'lebih banyak data' — ia informasi yang tidak tersedia saat keputusan dibuat." },
+                { text: "Overfitting biasa — atasi dengan regularisasi", why: "Salah: ini bukan overfitting, melainkan leakage. Regularisasi tidak menghapus informasi masa depan dari fitur." },
+                { text: "Hanya masalah bila transfernya besar", why: "Salah: leakage tidak peduli nominal — 3 transfer vs 5 transfer saja sudah mengubah fitur 3,44× lipat." },
+              ],
+            },
+          ],
+          reference: "Fitur graf WAJIB point-in-time: hanya event dengan ts ≤ waktu keputusan; split train/test BERDASARKAN WAKTU, bukan acak.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

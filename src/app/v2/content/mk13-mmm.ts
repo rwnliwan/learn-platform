@@ -5,7 +5,7 @@ export const mk13: V2Lesson = {
   track: "Marketing Analytics",
   module: "Marketing Mix Modeling",
   title: "MK13 — Marketing Mix Modeling (MMM)",
-  estMinutes: 60,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita-rasanusa",
@@ -324,6 +324,50 @@ print(f"pemenang={pemenang} marg_TV={marg['TV']:.2f} marg_Digital={marg['Digital
       ],
       reference: "Kalibrasi + sensitivitas + variasi = MMM yang dipercaya.",
     },
+        {
+          id: "gap-r7-roi-horizon",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P9-G1)",
+          title: "ROI tanpa horizon: membandingkan yang tak sebanding",
+          prose: [
+            "Lesson ini sudah menceritakan tragedi RasaNusa — TV dipotong karena ROI jangka pendeknya rendah, padahal ia membangun brand yang baru terlihat setahun kemudian — tetapi belum pernah menunjukkan ANGKA yang membuat jebakan itu terlihat. Lab ini menunjukkannya. Spend Rp100 jt per channel; lift penjualan inkremental: TV 8 minggu Rp40 jt, Digital 8 minggu Rp120 jt; TV 6 bulan Rp180 jt, Digital 6 bulan Rp150 jt. ROI 8 minggu: TV 0,4 vs Digital 1,2 — Digital menang telak. ROI 6 bulan: TV 1,8 vs Digital 1,5 — TV menang. Pemenangnya BERBALIK hanya karena horizonnya berubah.",
+            "Penyebabnya: efek carryover (adstock) TV — dengan θ = 0,7/minggu dari lesson ini, sebagian besar efek TV mendarat SETELAH minggu ke-8, sementara Digital hampir semua efeknya langsung. Membandingkan 'ROI TV 8 minggu' dengan 'ROI Digital 6 bulan' berarti membandingkan balapan yang satu sudah selesai dengan yang satu baru setengah jalan. Aturan: (1) samakan horizon SEBELUM membandingkan (jendela yang sama untuk semua channel); (2) bila horizon harus berbeda, anualisasikan atau laporkan kurva ROI per horizon, bukan satu angka; (3) ROI harus memakai lift INKREMENTAL (vs baseline tanpa iklan), bukan penjualan mentah — dan pisahkan efek jangka pendek (aktivasi) dari jangka panjang (brand). Satu angka ROI tanpa horizon = satu angka tanpa makna.",
+          ],
+          formula: String.raw`\text{ROI}_{h} = \frac{\text{lift inkremental dalam horizon } h}{\text{spend}} \qquad \text{bandingkan hanya pada } h \text{ yang sama}`,
+          formulaNote: "Spend Rp100 jt/channel: ROI 8 mgg TV 0,4 vs Digital 1,2; ROI 6 bln TV 1,8 vs Digital 1,5 — pemenang berbalik karena carryover TV.",
+          tasks: [
+            { id: "t1", text: "Hitung ROI 8 minggu: `roi_tv_8mgg`, `roi_digital_8mgg`" },
+            { id: "t2", text: "Hitung ROI 6 bulan: `roi_tv_6bln`, `roi_digital_6bln`" },
+          ],
+          expected: "roi_tv_8mgg=0.4 roi_digital_8mgg=1.2 roi_tv_6bln=1.8 roi_digital_6bln=1.5",
+          hints: [
+            "ROI = lift / spend; spend Rp100 jt untuk tiap channel.",
+            "Bandingkan pemenang di tiap horizon — apakah sama?",
+          ],
+          code: {
+            starter: `# Spend Rp100 jt per channel; lift penjualan (Rp jt) per horizon\nspend = 100\nlift = {"TV_8mgg": 40, "Digital_8mgg": 120, "TV_6bln": 180, "Digital_6bln": 150}\n\n# TULIS KODEMU: ROI tiap channel per horizon + pemenang tiap horizon\nroi_tv_8mgg =\nroi_digital_8mgg =\nroi_tv_6bln =\nroi_digital_6bln =\n\nprint(f"roi_tv_8mgg={roi_tv_8mgg} roi_digital_8mgg={roi_digital_8mgg} roi_tv_6bln={roi_tv_6bln} roi_digital_6bln={roi_digital_6bln}")`,
+            lockLines: 5,
+            solution: `# Spend Rp100 jt per channel; lift penjualan (Rp jt) per horizon\nspend = 100\nlift = {"TV_8mgg": 40, "Digital_8mgg": 120, "TV_6bln": 180, "Digital_6bln": 150}\n\n# TULIS KODEMU: ROI tiap channel per horizon + pemenang tiap horizon\nroi_tv_8mgg = round(lift["TV_8mgg"] / spend, 1)\nroi_digital_8mgg = round(lift["Digital_8mgg"] / spend, 1)\nroi_tv_6bln = round(lift["TV_6bln"] / spend, 1)\nroi_digital_6bln = round(lift["Digital_6bln"] / spend, 1)\n\nprint(f"roi_tv_8mgg={roi_tv_8mgg} roi_digital_8mgg={roi_digital_8mgg} roi_tv_6bln={roi_tv_6bln} roi_digital_6bln={roi_digital_6bln}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "roi_tv_8mgg", value: 0.4, tol: 0.01, label: "`roi_tv_8mgg` = 0,4", msg: "40/100 — TV tampak buruk di 8 minggu." },
+              { kind: "equal", task: "t1", name: "roi_digital_8mgg", value: 1.2, tol: 0.01, label: "`roi_digital_8mgg` = 1,2", msg: "120/100 — Digital menang di 8 minggu." },
+              { kind: "equal", task: "t2", name: "roi_tv_6bln", value: 1.8, tol: 0.01, label: "`roi_tv_6bln` = 1,8", msg: "180/100 — carryover TV mendarat setelah minggu ke-8." },
+              { kind: "equal", task: "t2", name: "roi_digital_6bln", value: 1.5, tol: 0.01, label: "`roi_digital_6bln` = 1,5", msg: "150/100 — Digital menang di 8 minggu, kalah di 6 bulan." },
+              { kind: "stdout_matches", task: "t2", pattern: "roi_tv_8mgg=0\\.4\\s+roi_digital_8mgg=1\\.2\\s+roi_tv_6bln=1\\.8\\s+roi_digital_6bln=1\\.5", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "TV ROI 0,4 (8 minggu) vs Digital 1,2 (8 minggu); TV 1,8 vs Digital 1,5 (6 bulan). Keputusan yang benar?",
+              options: [
+                { text: "Tidak ada pemenang mutlak — samakan horizon dulu; di 8 minggu Digital menang, di 6 bulan TV menang (carryover)", why: "Tepat: ROI tanpa horizon tidak sebanding. Inilah tragedi RasaNusa dalam angka — memotong TV karena ROI 8 minggunya rendah.", correct: true },
+                { text: "Digital menang — ROI 1,2 > 0,4 sudah cukup sebagai bukti", why: "Salah: itu hanya horizon 8 minggu. Di 6 bulan TV 1,8 > 1,5 — keputusan berdasarkan satu horizon menyesatkan." },
+                { text: "TV menang — 1,8 adalah ROI tertinggi dari semuanya", why: "Salah: 1,8 (6 bulan) tidak sebanding dengan 1,2 (8 minggu). Bandingkan hanya pada horizon yang sama." },
+                { text: "Rata-ratakan saja: TV 1,1 vs Digital 1,35 — Digital menang", why: "Salah: merata-rata ROI lintas horizon menghasilkan angka tanpa makna — seperti merata-rata kecepatan dengan jarak tempuh." },
+              ],
+            },
+          ],
+          reference: "ROI WAJIB disertai horizon; samakan horizon sebelum membandingkan (atau anualisasikan); lift harus inkremental. Di sini pemenang berbalik: Digital (8 mgg) vs TV (6 bln).",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

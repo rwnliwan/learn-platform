@@ -7,7 +7,7 @@ export const llmops13: V2Lesson = {
   track: "LLMOps",
   module: "Safety & Skala",
   title: "LLMOps13 — Inference Self-Hosted (vLLM/TGI)",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -171,6 +171,53 @@ export const llmops13: V2Lesson = {
       },
       reference: "Spike = tugas API. Baseline = tugas self-host. Jangan tertukar.",
     },
+        {
+          id: "gap-r7-kapasitas-penolakan",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P7-G2)",
+          title: "Kapasitas penuh: antre, atau tolak?",
+          prose: [
+            "Lab langkah 2 sudah memodelkan kapasitas (3 slot, request mengantre saat slot penuh) — tetapi antrean di sana TANPA BATAS: request ke-100 pun menunggu dengan sabar. Di produksi, antrean tanpa batas berarti latensi tanpa batas — dan latensi tanpa batas berarti timeout di sisi klien, yang sama saja dengan penolakan, hanya lebih lambat dan lebih mahal. Langkah ini memodelkan yang sebenarnya terjadi: antrean BERBATAS. 10 request datang (tiba 0,0–0,9 detik, 10–50 token, 0,05 detik/token), 3 slot GPU, antrean maks 2 — request yang datang saat slot penuh DAN antrean penuh DITOLAK (503).",
+            "Hasilnya: dengan antrean maks 2, 6 request dilayani dan 4 DITOLAK (40%) — tetapi yang dilayani selesai dengan tunggu maks 1,3 detik. Tanpa antrean sama sekali (tolak bila slot penuh), 4 dilayani dan 6 ditolak. Dengan antrean tak berbatas, semua 10 dilayani — tetapi tunggu maksnya 1,8 detik dan makespan 4,6 detik (vs 2,5 detik dengan antrean 2). Tiga pilihan desain, tiga harga: (1) antrean berbatas + penolakan eksplisit (503 + Retry-After) — latensi terjaga, klien tahu ia ditolak dan bisa retry; (2) antrean tak berbatas — tidak ada penolakan, tetapi latensi meledak dan klien timeout sendiri; (3) tolak langsung tanpa antre — latensi nol, tetapi utilisasi rendah. Praktik produksi: antrean berbatas + timeout + autoscaling yang di-trigger panjang antrean (bukan CPU — lesson ini sudah membuktikannya di langkah 3).",
+          ],
+          formula: String.raw`\text{kapasitas efektif} = \text{slot} + \text{antrean maks} \qquad \text{lebih dari itu} \Rightarrow \text{503 (tolak)}`,
+          formulaNote: "10 request, 3 slot, TOK 0,05 dtk/token: antrean 2 → 6 dilayani / 4 ditolak, tunggu maks 1,3 dtk; antrean 0 → 4/6; antrean ∞ → 10/0, tunggu maks 1,8 dtk.",
+          tasks: [
+            { id: "t1", text: "Simulasikan antrean maks 2: `terima_2`, `tolak_2`, `tunggu_maks_2`" },
+            { id: "t2", text: "Bandingkan antrean 0 dan tak berbatas: `terima_0`, `tolak_0`, `terima_inf`, `tunggu_maks_inf`" },
+          ],
+          expected: "terima_2=6 tolak_2=4 tunggu_maks_2=1.3 terima_0=4 tolak_0=6 terima_inf=10 tunggu_maks_inf=1.8",
+          hints: [
+            "Slot = waktu bebas tiap slot GPU; request mulai saat tiba ATAU saat slot bebas; antre bila penuh.",
+            "Antrean penuh saat request tiba (dan slot penuh) → ditolak, bukan masuk antrean.",
+          ],
+          code: {
+            starter: `# 10 request (tiba detik, token). 3 slot GPU; antrean maks 2; lebih dari itu = DITOLAK (503).\nrequests = [(0.0, 20), (0.1, 40), (0.2, 10), (0.3, 30), (0.4, 20),\n            (0.5, 10), (0.6, 50), (0.7, 10), (0.8, 20), (0.9, 10)]\nTOK = 0.05  # detik per token\n\n# TULIS KODEMU: simulator antrean-berbatas; bandingkan antrean 2 vs 0 vs tak berbatas\nterima_2 =\ntolak_2 =\ntunggu_maks_2 =\nterima_0 =\ntolak_0 =\nterima_inf =\ntunggu_maks_inf =\n\nprint(f"terima_2={terima_2} tolak_2={tolak_2} tunggu_maks_2={tunggu_maks_2} terima_0={terima_0} tolak_0={tolak_0} terima_inf={terima_inf} tunggu_maks_inf={tunggu_maks_inf}")`,
+            lockLines: 6,
+            solution: `# 10 request (tiba detik, token). 3 slot GPU; antrean maks 2; lebih dari itu = DITOLAK (503).\nrequests = [(0.0, 20), (0.1, 40), (0.2, 10), (0.3, 30), (0.4, 20),\n            (0.5, 10), (0.6, 50), (0.7, 10), (0.8, 20), (0.9, 10)]\nTOK = 0.05  # detik per token\n\n# TULIS KODEMU: simulator antrean-berbatas; bandingkan antrean 2 vs 0 vs tak berbatas\ndef layani(max_queue):\n    slots = [0.0, 0.0, 0.0]\n    antre = []\n    diterima = 0\n    ditolak = 0\n    tunggu = []\n    def mulai(arr, tok, sekarang):\n        s = min(slots)\n        start = max(arr, s, sekarang)\n        slots[slots.index(s)] = start + tok * TOK\n        return start\n    for arr, tok in requests:\n        while antre and min(slots) <= arr:\n            qarr, qtok = antre.pop(0)\n            tunggu.append(mulai(qarr, qtok, min(slots)) - qarr)\n            diterima += 1\n        if min(slots) <= arr:\n            tunggu.append(0.0)\n            mulai(arr, tok, arr)\n            diterima += 1\n        elif len(antre) < max_queue:\n            antre.append((arr, tok))\n        else:\n            ditolak += 1\n    while antre:\n        qarr, qtok = antre.pop(0)\n        tunggu.append(mulai(qarr, qtok, min(slots)) - qarr)\n        diterima += 1\n    return diterima, ditolak, round(max(tunggu), 2)\nterima_2, tolak_2, tunggu_maks_2 = layani(2)\nterima_0, tolak_0, _ = layani(0)\nterima_inf, _, tunggu_maks_inf = layani(99)\n\nprint(f"terima_2={terima_2} tolak_2={tolak_2} tunggu_maks_2={tunggu_maks_2} terima_0={terima_0} tolak_0={tolak_0} terima_inf={terima_inf} tunggu_maks_inf={tunggu_maks_inf}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "terima_2", value: 6, tol: 1e-9, label: "`terima_2` = 6", msg: "3 slot + 2 antrean menampung 6 dari 10." },
+              { kind: "equal", task: "t1", name: "tolak_2", value: 4, tol: 1e-9, label: "`tolak_2` = 4", msg: "40% ditolak (503) — penolakan eksplisit, bukan timeout diam-diam." },
+              { kind: "equal", task: "t1", name: "tunggu_maks_2", value: 1.3, tol: 0.05, label: "`tunggu_maks_2` = 1,3 dtk", msg: "Yang dilayani menunggu paling lama 1,3 detik." },
+              { kind: "equal", task: "t2", name: "terima_0", value: 4, tol: 1e-9, label: "`terima_0` = 4", msg: "Tanpa antrean: hanya 4 yang kebetulan menemukan slot bebas." },
+              { kind: "equal", task: "t2", name: "tolak_0", value: 6, tol: 1e-9, label: "`tolak_0` = 6", msg: "6 ditolak — latensi nol, utilisasi rendah." },
+              { kind: "equal", task: "t2", name: "terima_inf", value: 10, tol: 1e-9, label: "`terima_inf` = 10", msg: "Antrean tak berbatas melayani semua — dengan tunggu maks 1,8 dtk." },
+              { kind: "equal", task: "t2", name: "tunggu_maks_inf", value: 1.8, tol: 0.05, label: "`tunggu_maks_inf` = 1,8 dtk", msg: "Tanpa penolakan, latensi yang membayar harganya." },
+              { kind: "stdout_matches", task: "t2", pattern: "terima_2=6\\s+tolak_2=4\\s+tunggu_maks_2=1\\.3\\s+terima_0=4\\s+tolak_0=6\\s+terima_inf=10\\s+tunggu_maks_inf=1\\.8", label: "`print` menampilkan ketujuhnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Antrean maks 2, 10 request datang ke 3 slot. Berapa yang ditolak — dan kenapa penolakan eksplisit lebih baik dari antrean tak berbatas?",
+              options: [
+                { text: "4 ditolak (503) — klien tahu ia ditolak dan bisa retry; antrean tak berbatas hanya menunda penolakan menjadi timeout", why: "Tepat: kapasitas efektif = 3 slot + 2 antrean = 6; 4 sisanya ditolak eksplisit dengan latensi terjaga (tunggu maks 1,3 dtk).", correct: true },
+                { text: "0 ditolak — semua request akhirnya dilayani bila menunggu cukup lama", why: "Salah: itu hanya benar dengan antrean tak berbatas — dan harganya latensi meledak (tunggu maks 1,8 dtk, makespan 4,6 dtk). Di produksi, klien timeout dulu." },
+                { text: "6 ditolak — antrean 2 tidak membantu sama sekali", why: "Salah: 6 DILAYANI dengan antrean 2 (vs 4 tanpa antrean). Antrean membantu — hanya saja berbatas." },
+                { text: "10 ditolak — GPU tidak bisa melayani burst", why: "Salah: 6 dari 10 dilayani. Burst bukan mustahil — ia butuh antrean berbatas + autoscaling." },
+              ],
+            },
+          ],
+          reference: "Kapasitas efektif = slot + antrean maks; lebih dari itu → 503 eksplisit (bukan timeout diam-diam). Antrean tak berbatas = latensi tak berbatas.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

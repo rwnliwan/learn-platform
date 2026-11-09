@@ -5,7 +5,7 @@ export const b12: V2Lesson = {
   track: "Probabilitas",
   module: "Simulasi",
   title: "B12. Monte Carlo: Ketika Rumus Menyerah, Simulasi Berbicara",
-  estMinutes: 55,
+  estMinutes: 75,
   steps: [
     {
       id: "beras-pi",
@@ -225,6 +225,95 @@ export const b12: V2Lesson = {
 
       reference: "Ada rumus eksak murah \u2192 jangan MC. Kejadian langka \u2192 importance sampling.",
     },
+        {
+          id: "gap-r7-importance-sampling-bobot",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P2-G1)",
+          title: "Importance sampling: tanpa bobot, jawabannya bias",
+          prose: [
+            "Langkah 4 sudah menyatakan syaratnya — setiap sampel dari proposal q WAJIB dikoreksi dengan bobot likelihood-ratio w(x) = p(x)/q(x) — tetapi belum pernah menunjukkan SEBESAR APA kesalahannya bila koreksi itu dilupakan. Lab ini menunjukkannya dengan angka. Target: P(X > 2,5) untuk X ~ N(0,1) — nilai benarnya 0,00621 (kejadian langka). Proposal q = N(2,5, 1) mengarahkan sampel ke ekor: dari 5.000 sampel, 49,24% melewati 2,5. Tanpa koreksi, estimasimu 0,4924 — hampir 80× lipat dari jawaban benar. Itu bukan 'sedikit bias' — itu jawaban untuk pertanyaan yang berbeda (peluang di bawah q, bukan di bawah p).",
+            "Dengan koreksi bobot likelihood-ratio, estimasi yang sama menjadi 0,00605 — nyaris tepat di nilai benar 0,00621. Bobotnya w(x) = p(x)/q(x) = exp(−x²/2 + (x−2,5)²/2): sampel yang 'terlalu mudah' di bawah q (x besar) diberi bobot kecil, sampel yang jarang di bawah q diberi bobot besar. Tetapi koreksi ini ada harganya: effective sample size (ESS) hanya 29 dari 5.000 sampel — proposal yang terlalu jauh dari target membuat segelintir sampel memegang hampir semua bobot. Pelajarannya berlapis: tanpa bobot = BIAS; dengan bobot = tak bias, tetapi proposal yang buruk tetap mahal — pilih proposal yang dekat dengan target (atau campuran defensif), dan selalu laporkan ESS bersama estimasinya.",
+          ],
+          formula: String.raw`\hat{p} = \frac{1}{n}\sum_{i=1}^{n} w(x_i)\,\mathbf{1}\{x_i > 2{,}5\} \qquad w(x) = \frac{p(x)}{q(x)}`,
+          formulaNote: "Target P(X > 2,5) = 0,00621. Tanpa koreksi: 0,4924 (bias ~80×). Dengan koreksi: 0,00605. ESS = 29 dari 5.000.",
+          tasks: [
+            { id: "t1", text: "Hitung `est_tanpa_koreksi` (rata-rata indikator mentah) dan `nilai_benar`" },
+            { id: "t2", text: "Hitung `est_dengan_koreksi` (bobot likelihood-ratio) dan `ess`" },
+          ],
+          expected: "tanpa_koreksi=0.4924 dengan_koreksi=0.00605 nilai_benar=0.00621 ess=29",
+          hints: [
+            "w(x) = exp(−x²/2 + (x−2,5)²/2) — rasio densitas N(0,1) terhadap N(2,5,1).",
+            "ESS = (Σw)² / Σw² — makin kecil, makin sedikit sampel yang 'benar-benar bekerja'.",
+          ],
+          code: {
+            starter: `import random, math, statistics as st\n\nrng = random.Random(42)\nn = 5000\n# target p: P(X > 2.5), X ~ N(0,1); proposal q: N(2.5, 1)\nxs = [rng.gauss(2.5, 1) for _ in range(n)]\n\n# TULIS KODEMU: estimasi TANPA koreksi vs DENGAN bobot likelihood-ratio\nest_tanpa_koreksi =\nest_dengan_koreksi =\nnilai_benar =\ness =\n\nprint(f"tanpa_koreksi={est_tanpa_koreksi} dengan_koreksi={est_dengan_koreksi} nilai_benar={nilai_benar} ess={ess}")`,
+            lockLines: 8,
+            solution: `import random, math, statistics as st\n\nrng = random.Random(42)\nn = 5000\n# target p: P(X > 2.5), X ~ N(0,1); proposal q: N(2.5, 1)\nxs = [rng.gauss(2.5, 1) for _ in range(n)]\n\n# TULIS KODEMU: estimasi TANPA koreksi vs DENGAN bobot likelihood-ratio\nest_tanpa_koreksi = round(sum(1 for x in xs if x > 2.5) / n, 4)\nw = [math.exp(-x * x / 2 + (x - 2.5) ** 2 / 2) for x in xs]\nest_dengan_koreksi = round(sum(wi for x, wi in zip(xs, w) if x > 2.5) / n, 5)\nnilai_benar = round(1 - st.NormalDist().cdf(2.5), 5)\ness = round(sum(w) ** 2 / sum(wi * wi for wi in w))\n\nprint(f"tanpa_koreksi={est_tanpa_koreksi} dengan_koreksi={est_dengan_koreksi} nilai_benar={nilai_benar} ess={ess}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "est_tanpa_koreksi", value: 0.4924, tol: 0.001, label: "`est_tanpa_koreksi` = 0,4924", msg: "Rata-rata indikator di bawah q — peluang di bawah proposal, bukan target." },
+              { kind: "equal", task: "t1", name: "nilai_benar", value: 0.00621, tol: 0.0001, label: "`nilai_benar` = 0,00621", msg: "1 − Φ(2,5) = 0,00621." },
+              { kind: "equal", task: "t2", name: "est_dengan_koreksi", value: 0.00605, tol: 0.0005, label: "`est_dengan_koreksi` = 0,00605", msg: "Dengan bobot w(x) = p(x)/q(x): nyaris tepat di nilai benar." },
+              { kind: "equal", task: "t2", name: "ess", value: 29, tol: 2, label: "`ess` = 29", msg: "Hanya 29 dari 5.000 sampel yang benar-benar bekerja — proposal terlalu jauh." },
+              { kind: "stdout_matches", task: "t2", pattern: "tanpa_koreksi=0\\.4924\\s+dengan_koreksi=0\\.00605\\s+nilai_benar=0\\.00621\\s+ess=29", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Importance sampling tanpa koreksi bobot memberi 0,49 untuk peluang yang benarnya 0,006. Apa yang terjadi?",
+              options: [
+                { text: "Estimator bias — ia mengestimasi peluang di bawah proposal q, bukan di bawah target p", why: "Tepat: tanpa w(x) = p(x)/q(x), rata-rata sampelmu adalah ekspektasi di bawah q. Sampling terarah tanpa koreksi bukan variance reduction — itu jawaban salah yang terlihat presisi.", correct: true },
+                { text: "Variansnya terlalu besar — tambah N saja", why: "Salah: masalahnya bias, bukan varians. N lebih besar hanya membuat jawaban salah itu makin presisi." },
+                { text: "Proposalnya salah pilih — ganti proposal dan biasnya hilang sendiri", why: "Salah: proposal apa pun tetap butuh koreksi bobot; proposal yang baik hanya memperbaiki ESS, bukan menghilangkan keharusan koreksi." },
+                { text: "Tidak ada yang salah — 0,49 adalah estimasi yang sah", why: "Salah: 0,49 adalah peluang di bawah N(2,5,1), bukan peluang target. Beda 80× lipat." },
+              ],
+            },
+          ],
+          reference: "Importance sampling WAJIB dikoreksi w(x) = p(x)/q(x) — tanpa itu estimator BIAS; laporkan ESS (di sini 29/5.000) sebagai harga proposal yang buruk.",
+        },
+        {
+          id: "gap-r7-var-es-ketidakpastian",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P2-G2)",
+          title: "VaR/ES simulasi: berapa lebar ketidakpastiannya?",
+          prose: [
+            "Lesson ini sudah menetapkan aturannya sendiri — 'estimasi tanpa SE adalah angka tanpa kejujuran' — tetapi lab langkah 3 hanya menghitung SE untuk rata-rata P&L (Rp2,8), bukan untuk VaR/ES yang justru dipakai mengambil keputusan. Lab ini menutupnya: dari P&L yang sama (seed 124, N = 5.000), VaR95 = Rp321,4 dengan SE bootstrap Rp6,6; ES95 = Rp407,7 dengan SE Rp6,8. Artinya interval 95% VaR-nya kira-kira (308, 334) — VaR 321 bukan angka pasti, melainkan titik tengah dari rentang selebar Rp26.",
+            "Kenapa SE kuantil lebih besar dari SE rata-rata (6,6 vs 2,8)? Karena hanya ~250 observasi (5% dari 5.000) yang menginformasikan ekor — sisanya tidak berkata apa-apa tentang VaR95. Makin ekstrem kuantilnya (VaR99, ES99), makin sedikit observasi yang bekerja, makin lebar SE-nya. Praktik yang jujur: laporkan VaR/ES BESERTA SE-nya (dari bootstrap — resample P&L, hitung ulang VaR tiap resample, lihat sebarannya — atau teori statistik urutan), dan ingat SE ini hanya mengukur ketidakpastian SIMULASI, bukan ketidakpastian MODEL (distribusi yang salah tetap salah walau SE-nya kecil).",
+          ],
+          formula: String.raw`SE(\widehat{VaR}_{95\%}) \approx 6{,}6 \qquad SE(\widehat{ES}_{95\%}) \approx 6{,}8 \qquad SE(\bar{x}) \approx 2{,}8`,
+          formulaNote: "P&L seed 124, N = 5.000 (lab langkah 3). Bootstrap B = 200, seed 7. VaR95 = 321,4 ± 1,96×6,6 → kira-kira (308, 334).",
+          tasks: [
+            { id: "t1", text: "Hitung `var95`, `es95`, dan `se_mean` dari P&L (seperti lab langkah 3)" },
+            { id: "t2", text: "Bootstrap B=200 (seed 7): hitung `se_var95` dan `se_es95`" },
+          ],
+          expected: "var95=321.4 es95=407.7 se_mean=2.8 se_var95=6.6 se_es95=6.8",
+          hints: [
+            "Bootstrap: tiap ulangan, resample 5.000 P&L dengan penggantian, hitung ulang VaR95/ES95.",
+            "SE bootstrap = simpangan baku dari 200 nilai VaR95 (dan ES95) hasil resample.",
+          ],
+          code: {
+            starter: `import random, math, statistics as st\n\nrandom.seed(124)\nS0, mu, sigma, N = 10_000, 0.0005, 0.02, 5000\npl = [S0 * math.exp(random.gauss(mu, sigma)) - S0 for _ in range(N)]\npls = sorted(pl)\n\n# TULIS KODEMU: VaR95/ES95 + SE bootstrap (B=200, seed 7) vs SE rata-rata\nvar95 =\nes95 =\nse_mean =\nse_var95 =\nse_es95 =\n\nprint(f"var95={var95} es95={es95} se_mean={se_mean} se_var95={se_var95} se_es95={se_es95}")`,
+            lockLines: 8,
+            solution: `import random, math, statistics as st\n\nrandom.seed(124)\nS0, mu, sigma, N = 10_000, 0.0005, 0.02, 5000\npl = [S0 * math.exp(random.gauss(mu, sigma)) - S0 for _ in range(N)]\npls = sorted(pl)\n\n# TULIS KODEMU: VaR95/ES95 + SE bootstrap (B=200, seed 7) vs SE rata-rata\nvar95 = round(-pls[int(0.05 * N)], 1)\nes95 = round(-st.mean(pls[:int(0.05 * N)]), 1)\nse_mean = round(st.stdev(pl) / math.sqrt(N), 1)\nbrng = random.Random(7)\nbvar, bes = [], []\nfor _ in range(200):\n    s = sorted(brng.choice(pl) for _ in range(N))\n    bvar.append(-s[int(0.05 * N)])\n    bes.append(-st.mean(s[:int(0.05 * N)]))\nse_var95 = round(st.stdev(bvar), 1)\nse_es95 = round(st.stdev(bes), 1)\n\nprint(f"var95={var95} es95={es95} se_mean={se_mean} se_var95={se_var95} se_es95={se_es95}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "var95", value: 321.4, tol: 0.5, label: "`var95` = 321,4", msg: "Sama dengan lab langkah 3 (tol 60 di sana)." },
+              { kind: "equal", task: "t1", name: "es95", value: 407.7, tol: 0.5, label: "`es95` = 407,7", msg: "Rata-rata kerugian saat tembus VaR." },
+              { kind: "equal", task: "t1", name: "se_mean", value: 2.8, tol: 0.3, label: "`se_mean` = 2,8", msg: "SD/√N — kecil karena 5.000 observasi menginformasikan rata-rata." },
+              { kind: "equal", task: "t2", name: "se_var95", value: 6.6, tol: 0.5, label: "`se_var95` = 6,6", msg: "Lebih dari 2× SE rata-rata — hanya ~250 observasi menginformasikan ekor." },
+              { kind: "equal", task: "t2", name: "se_es95", value: 6.8, tol: 0.5, label: "`se_es95` = 6,8", msg: "ES punya ketidakpastian simulasi yang sama besarnya." },
+              { kind: "stdout_matches", task: "t2", pattern: "var95=321\\.4\\s+es95=407\\.7\\s+se_mean=2\\.8\\s+se_var95=6\\.6\\s+se_es95=6\\.8", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "VaR95 = Rp321, SE bootstrap Rp6,6. Apa artinya?",
+              options: [
+                { text: "VaR itu sendiri tidak pasti — interval 95%-nya kira-kira (308, 334); laporkan beserta SE-nya", why: "Tepat: SE 6,6 berarti VaR 321 adalah titik tengah rentang, bukan angka pasti.", correct: true },
+                { text: "VaR-nya salah — angka yang benar 334", why: "Salah: 334 adalah ujung atas interval, bukan 'angka yang benar'. VaR 321 tetap estimasi titiknya." },
+                { text: "SE 6,6 terlalu kecil untuk dipedulikan", why: "Salah: 6,6 adalah 2,4× SE rata-rata — dan untuk VaR99 angkanya lebih besar lagi." },
+                { text: "SE ini mengukur apakah model distribusinya benar", why: "Salah: SE bootstrap hanya mengukur ketidakpastian SIMULASI. Model yang salah tetap salah walau SE-nya kecil." },
+              ],
+            },
+          ],
+          reference: "VaR/ES simulasi wajib membawa SE-nya (bootstrap): di sini SE VaR95 6,6 dan SE ES95 6,8 — lebih dari 2× SE rata-rata. SE mengukur simulasi, bukan kebenaran model.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

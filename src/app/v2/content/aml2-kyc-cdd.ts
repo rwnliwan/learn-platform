@@ -27,7 +27,7 @@ export const aml2: V2Lesson = {
   track: "Fraud & AML Analytics",
   module: "Anti Money Laundering",
   title: "AML2 — KYC & CDD: Kenali Nasabahmu",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -219,6 +219,51 @@ export const aml2: V2Lesson = {
       tasks: [],
       reference: "Skor 80 di hari ke-1 seharusnya menghentikan \"40 menit\" itu. Kecepatan onboarding adalah risiko.",
     },
+        {
+          id: "gap-r7-drift-baseline-nol",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P5-G3)",
+          title: "Drift saat baseline nol: rasio yang tak terdefinisi",
+          prose: [
+            "Rumus drift di lab langkah 5 — rasio aktual/baseline — punya satu titik buta: baseline NOL. Produk baru yang belum punya histori (baseline 0) lalu mencatat 8 kasus di bulan pertama: rasionya 8/0 — tak terdefinisi, bukan 'sangat besar'. Kode yang tidak menyiapkan ini akan error — atau lebih buruk, diam-diam mengganti 0 dengan bilangan kecil sehingga rasionya meledak dan semua produk baru tampak 'drift ekstrem'. Aturan yang sama berlaku untuk baseline yang HILANG (bukan nol, melainkan tidak tercatat): jangan perlakukan 'tidak ada data' seolah 'nol kasus'.",
+            "Fallback yang jujur: bila baseline < 5 (termasuk 0), JANGAN pakai rasio — pakai selisih absolut dengan ambangnya sendiri. Kasus A (produk baru, baseline 0, aktual 8): selisih 8 ≥ ambang 5 → flag EDD ulang. Kasus B (produk lama, baseline 2, aktual 14): rasio 7,0 terdefinisi (baseline > 0) DAN selisih 12 ≥ 5 → flag juga — tetapi alasannya harus dicatat: rasio 7,0 dari baseline 2 berarti 12 kasus tambahan, bukan '7× lipat' yang terdengar dramatis. Dua disiplin: (1) rasio hanya untuk baseline yang cukup besar (≥ 5); (2) baseline 0 atau hilang → tandai 'riwayat belum cukup' + review manual, bukan angka drift.",
+          ],
+          formula: String.raw`\text{drift} = \frac{\text{aktual}}{\text{baseline}} \quad \text{tak terdefinisi bila baseline} = 0 \Rightarrow \text{pakai selisih absolut}`,
+          formulaNote: "Kasus A: baseline 0, aktual 8 → rasio tak terdefinisi; selisih 8 ≥ 5 → flag. Kasus B: baseline 2, aktual 14 → rasio 7,0; selisih 12 → flag.",
+          tasks: [
+            { id: "t1", text: "Kasus A (baseline 0): hitung `selisih_a` dan `flag_a` (selisih ≥ 5)" },
+            { id: "t2", text: "Kasus B (baseline 2): hitung `rasio_b`, `selisih_b`, `flag_b`" },
+          ],
+          expected: "selisih_a=8 flag_a=True rasio_b=7.0 selisih_b=12 flag_b=True",
+          hints: [
+            "Rasio butuh pembagi > 0 — baseline 0 tidak punya rasio.",
+            "Flag bila selisih absolut ≥ 5 (untuk baseline kecil) — bukan dari rasio.",
+          ],
+          code: {
+            starter: `# Drift = aktual / baseline. Kasus A: produk baru, baseline 0. Kasus B: baseline 2.\nkasus_a = ("produk_baru", 0, 8)   # (nama, baseline, aktual)\nkasus_b = ("produk_lama", 2, 14)\n\n# TULIS KODEMU: selisih absolut + flag (selisih >= 5) untuk keduanya; rasio hanya bila baseline > 0\nselisih_a =\nflag_a =\nrasio_b =\nselisih_b =\nflag_b =\n\nprint(f"selisih_a={selisih_a} flag_a={flag_a} rasio_b={rasio_b} selisih_b={selisih_b} flag_b={flag_b}")`,
+            lockLines: 5,
+            solution: `# Drift = aktual / baseline. Kasus A: produk baru, baseline 0. Kasus B: baseline 2.\nkasus_a = ("produk_baru", 0, 8)   # (nama, baseline, aktual)\nkasus_b = ("produk_lama", 2, 14)\n\n# TULIS KODEMU: selisih absolut + flag (selisih >= 5) untuk keduanya; rasio hanya bila baseline > 0\nselisih_a = kasus_a[2] - kasus_a[1]\nflag_a = selisih_a >= 5\nrasio_b = round(kasus_b[2] / kasus_b[1], 1)\nselisih_b = kasus_b[2] - kasus_b[1]\nflag_b = selisih_b >= 5\n\nprint(f"selisih_a={selisih_a} flag_a={flag_a} rasio_b={rasio_b} selisih_b={selisih_b} flag_b={flag_b}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "selisih_a", value: 8, tol: 1e-9, label: "`selisih_a` = 8", msg: "8 − 0 = 8 — selisih absolut, bukan rasio." },
+              { kind: "stdout_matches", task: "t1", pattern: "flag_a=True", label: "`flag_a` = True", msg: "Selisih 8 ≥ 5 → flag EDD ulang walau rasio tak terdefinisi." },
+              { kind: "equal", task: "t2", name: "rasio_b", value: 7.0, tol: 0.01, label: "`rasio_b` = 7,0", msg: "14/2 = 7,0 — terdefinisi karena baseline > 0." },
+              { kind: "equal", task: "t2", name: "selisih_b", value: 12, tol: 1e-9, label: "`selisih_b` = 12", msg: "14 − 2 = 12 kasus tambahan." },
+              { kind: "stdout_matches", task: "t2", pattern: "flag_b=True", label: "`flag_b` = True", msg: "Selisih 12 ≥ 5 → flag." },
+              { kind: "stdout_matches", task: "t2", pattern: "selisih_a=8\\s+flag_a=True\\s+rasio_b=7\\.0\\s+selisih_b=12\\s+flag_b=True", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Produk baru: baseline 0, aktual 8 kasus. Berapa drift ratio-nya?",
+              options: [
+                { text: "Tak terdefinisi — pakai selisih absolut (8) dengan ambang sendiri, bukan rasio", why: "Tepat: 8/0 tidak punya jawaban. Mengganti 0 dengan epsilon memalsukan skala; 'riwayat belum cukup' + review manual adalah respons yang benar.", correct: true },
+                { text: "8,0× — 8 dibagi 1 (baseline dibulatkan ke 1)", why: "Salah: membulatkan baseline 0 menjadi 1 adalah jalan pintas yang mengarang angka — 8× dari satu kasus tambahan bukan 8 kasus dari nol histori." },
+                { text: "Tak terhingga — drift ekstrem, eskalasi maksimal", why: "Salah: 'tak hingga' bukan ukuran — 8 kasus dari produk baru adalah sinyal untuk review, bukan vonis drift ekstrem." },
+                { text: "0 — tidak ada baseline berarti tidak ada drift", why: "Salah: tidak ada histori bukan berarti tidak ada perubahan. 8 kasus baru tetap butuh review." },
+              ],
+            },
+          ],
+          reference: "Baseline 0 (atau hilang) → rasio TAK TERDEFINISI; pakai selisih absolut + ambang sendiri; jangan ganti 0 dengan epsilon.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

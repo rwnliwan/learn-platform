@@ -45,7 +45,7 @@ export const c13: V2Lesson = {
   track: "SQL",
   module: "Risiko",
   title: "C13 DPD, Roll Rate & Vintage: Bahasa Risiko Kredit",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita-npl-naik",
@@ -286,6 +286,50 @@ for r in rows:
       tasks: [],
       reference: "Matriks × 12 = proyeksi PD; backtest wajib; Markov untuk portofolio, bukan individu.",
     },
+        {
+          id: "gap-r7-roll-rate-aktual",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P6-G2)",
+          title: "Roll rate aktual: dari dua snapshot, bukan simulasi",
+          prose: [
+            "Lab langkah 3 jujur mengakui batasnya: ia SIMULASI (tiap dpd +30, tak ada yang bayar) — bukan roll rate aktual. Roll rate aktual butuh DUA SNAPSHOT: DPD tiap fasilitas bulan lalu dan bulan ini. Lab ini menghitungnya dari tujuh fasilitas (plafon Rp jt): F1 0→35 (100), F2 15→45 (150), F3 25→20 (200), F4 45→75 (50), F5 70→95 (100), F6 5→5 (80), F7 35→0 (120). Bucket: lancar (0), 1–30, 31–60, 61–90, >90.",
+            "Hasilnya (berdasarkan SALDO, sesuai definisi lesson): roll rate 1–30 → memburuk = Rp150 jt dari Rp430 jt = 34,9% (F2 saja; F3 membaik di dalam bucket, F6 bertahan). Roll rate 31–60 → memburuk = 50/170 = 29,4% (F4); cure rate-nya = 120/170 = 70,6% (F7 lunas ke lancar). Roll rate 61–90 → >90 = 100/100 = 100,0% (F5). Tiga pelajaran. Satu: roll rate berbasis SALDO ≠ berbasis JUMLAH — 1–30 berbasis jumlah = 1/3 = 33,3%, berbasis saldo = 34,9%; laporkan keduanya bila berbeda jauh. Dua: 'membaik di dalam bucket' (F3: 25→20) BUKAN cure — cure = pindah ke bucket yang LEBIH BAIK. Tiga: roll rate aktual butuh kunci fasilitas yang stabil antar snapshot (SCD-2) — tanpa itu, kamu menghitung perpindahan yang tidak bisa dilacak.",
+          ],
+          formula: String.raw`\text{Roll rate}_{X} = \frac{\text{saldo bucket X yang pindah ke bucket lebih buruk}}{\text{saldo bucket X}} \qquad \text{Cure rate}_{X} = \frac{\text{saldo yang pindah ke bucket lebih baik}}{\text{saldo bucket X}}`,
+          formulaNote: "Dua snapshot, 7 fasilitas: RR 1–30 = 34,9%; RR 31–60 = 29,4% (cure 70,6%); RR 61–90 = 100,0%. Berbasis saldo (plafon).",
+          tasks: [
+            { id: "t1", text: "Hitung roll rate saldo: `rr_1_30`, `rr_31_60`, `rr_61_90`" },
+            { id: "t2", text: "Hitung `cure_31_60` (saldo yang membaik ke bucket lebih baik)" },
+          ],
+          expected: "rr_1_30=34.9 rr_31_60=29.4 cure_31_60=70.6 rr_61_90=100.0",
+          hints: [
+            "Bucket: 0 = lancar; 1–30; 31–60; 61–90; >90. Bandingkan bucket lalu vs kini.",
+            "Roll rate = saldo yang MEMBURUK / total saldo bucket awal; cure = saldo yang MEMBAIK / total saldo.",
+          ],
+          code: {
+            starter: `# Dua snapshot (bulan lalu -> bulan ini): (fasilitas, dpd_lalu, dpd_kini, plafon Rp jt)\ndata = [\n    ("F1", 0, 35, 100), ("F2", 15, 45, 150), ("F3", 25, 20, 200),\n    ("F4", 45, 75, 50), ("F5", 70, 95, 100), ("F6", 5, 5, 80), ("F7", 35, 0, 120),\n]\n\n# TULIS KODEMU: roll rate saldo + cure rate per bucket awal\nrr_1_30 =\nrr_31_60 =\ncure_31_60 =\nrr_61_90 =\n\nprint(f"rr_1_30={rr_1_30} rr_31_60={rr_31_60} cure_31_60={cure_31_60} rr_61_90={rr_61_90}")`,
+            lockLines: 7,
+            solution: `# Dua snapshot (bulan lalu -> bulan ini): (fasilitas, dpd_lalu, dpd_kini, plafon Rp jt)\ndata = [\n    ("F1", 0, 35, 100), ("F2", 15, 45, 150), ("F3", 25, 20, 200),\n    ("F4", 45, 75, 50), ("F5", 70, 95, 100), ("F6", 5, 5, 80), ("F7", 35, 0, 120),\n]\n\n# TULIS KODEMU: roll rate saldo + cure rate per bucket awal\ndef bucket(d):\n    return "lancar" if d == 0 else "1-30" if d <= 30 else "31-60" if d <= 60 else "61-90" if d <= 90 else ">90"\norder = {"lancar": 0, "1-30": 1, "31-60": 2, "61-90": 3, ">90": 4}\ndef roll_rate(b):\n    tot = sum(p for _, dl, _, p in data if bucket(dl) == b)\n    buruk = sum(p for _, dl, dk, p in data if bucket(dl) == b and order[bucket(dk)] > order[b])\n    return round(buruk / tot * 100, 1)\ndef cure_rate(b):\n    tot = sum(p for _, dl, _, p in data if bucket(dl) == b)\n    baik = sum(p for _, dl, dk, p in data if bucket(dl) == b and order[bucket(dk)] < order[b])\n    return round(baik / tot * 100, 1)\nrr_1_30 = roll_rate("1-30")\nrr_31_60 = roll_rate("31-60")\ncure_31_60 = cure_rate("31-60")\nrr_61_90 = roll_rate("61-90")\n\nprint(f"rr_1_30={rr_1_30} rr_31_60={rr_31_60} cure_31_60={cure_31_60} rr_61_90={rr_61_90}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "rr_1_30", value: 34.9, tol: 0.1, label: "`rr_1_30` = 34,9%", msg: "150/430 — hanya F2 yang memburuk; F3 membaik di dalam bucket, F6 bertahan." },
+              { kind: "equal", task: "t1", name: "rr_31_60", value: 29.4, tol: 0.1, label: "`rr_31_60` = 29,4%", msg: "50/170 — hanya F4 yang memburuk." },
+              { kind: "equal", task: "t2", name: "cure_31_60", value: 70.6, tol: 0.1, label: "`cure_31_60` = 70,6%", msg: "120/170 — F7 lunas ke lancar." },
+              { kind: "equal", task: "t1", name: "rr_61_90", value: 100.0, tol: 0.1, label: "`rr_61_90` = 100,0%", msg: "100/100 — F5 memburuk ke >90." },
+              { kind: "stdout_matches", task: "t2", pattern: "rr_1_30=34\\.9\\s+rr_31_60=29\\.4\\s+cure_31_60=70\\.6\\s+rr_61_90=100\\.0", label: "`print` menampilkan keempatnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "F3: DPD 25 → 20 (tetap di bucket 1–30). Apakah F3 'cure'?",
+              options: [
+                { text: "Bukan — cure = pindah ke bucket yang LEBIH BAIK; F3 hanya membaik di dalam bucket yang sama", why: "Tepat: 25→20 tetap 1–30. Cure dihitung dari perpindahan bucket, bukan dari turunnya DPD.", correct: true },
+                { text: "Ya — DPD-nya turun 5 hari, itu cure", why: "Salah: cure didefinisikan atas perpindahan bucket. F3 tidak pindah bucket." },
+                { text: "Ya — dan ia menaikkan roll rate 1–30", why: "Salah dua kali: F3 bukan cure, dan perbaikan tidak menaikkan roll rate (roll rate menghitung yang MEMBURUK)." },
+                { text: "Tidak bisa ditentukan tanpa plafon F3", why: "Salah: plafon F3 (Rp200 jt) ada di data — dan ia tetap di bucket 1–30 di kedua snapshot." },
+              ],
+            },
+          ],
+          reference: "Roll rate aktual butuh DUA snapshot (SCD-2): % SALDO yang memburuk antar bucket; cure = pindah ke bucket lebih baik; membaik di dalam bucket bukan cure.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

@@ -5,7 +5,7 @@ export const mr4: V2Lesson = {
   track: "Market Risk",
   module: "VaR & Backtesting",
   title: "MR4 — VaR Lanjut: Filtered HS, Delta-Gamma, dan Bedah Kontribusi Risiko",
-  estMinutes: 50,
+  estMinutes: 70,
   steps: [
     {
       id: "cerita-var-menyesatkan",
@@ -184,6 +184,97 @@ export const mr4: V2Lesson = {
       },
       reference: "CF = parametrik + koreksi skew/kurtosis. Valid untuk ekor moderat; bandingkan dengan HS.",
     },
+        {
+          id: "gap-r7-component-marginal-var",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P4-G1)",
+          title: "Component vs marginal VaR: hubungan matematikanya",
+          prose: [
+            "Langkah 4 sudah memberi definisinya — component VaR = bobot × marginal VaR — tetapi belum pernah menghitung keduanya dari angka yang sama, sehingga hubungannya terasa seperti slogan. Lab ini menghitungnya. Portofolio Rp100 jt: A bobot 60% (σ 20%), B bobot 40% (σ 30%), korelasi 0,3, z99 = 2,33. Volatilitas portofolio σ_p = 19,35% → VaR total = Rp45,08 jt. Marginal VaR (turunan VaR terhadap bobot, ∂VaR/∂w): A = Rp37,57 jt, B = Rp56,36 jt. Component VaR (bobot × marginal): A = 0,6 × 37,57 = Rp22,54 jt; B = 0,4 × 56,36 = Rp22,54 jt. Jumlahnya pas Rp45,08 jt = VaR total (identitas Euler — component VaR selalu aditif).",
+            "Perhatikan pelajarannya: component A dan B SAMA BESAR (22,54), tetapi marginal B 1,5× marginal A. Artinya: bila tujuanmu memotong VaR PER RUPIAH yang dipotong, potong B — tiap rupiah yang dikeluarkan dari B menghemat VaR 1,5× lipat dibanding dari A. Bila tujuanmu memotong VaR ABSOLUT terbesar dan kamu boleh memotong banyak, keduanya setara. Jangan samakan keduanya — lesson ini sudah memperingatkan, dan angka di sini membuktikannya. Pembanding: standalone VaR masing-masing Rp27,96 jt (jumlah Rp55,92 jt) — selisih Rp10,84 jt terhadap VaR total adalah manfaat diversifikasi, yang menyusut saat korelasi melonjak.",
+          ],
+          formula: String.raw`\text{Component VaR}_i = w_i \times \frac{\partial VaR}{\partial w_i} \qquad \sum_i \text{Component VaR}_i = VaR`,
+          formulaNote: "A (w 0,6, σ 20%) / B (w 0,4, σ 30%), ρ = 0,3, V = Rp100 jt, z99 = 2,33: VaR 45,08; marginal 37,57 / 56,36; component 22,54 / 22,54.",
+          tasks: [
+            { id: "t1", text: "Hitung `sigma_p` dan `var_total`" },
+            { id: "t2", text: "Hitung `marg_a`, `marg_b`, `comp_a`, `comp_b` — cek jumlahnya = VaR total" },
+          ],
+          expected: "sigma_p=0.1935 var_total=45.08 marg_a=37.57 marg_b=56.36 comp_a=22.54 comp_b=22.54",
+          hints: [
+            "σ_p² = w_A²σ_A² + w_B²σ_B² + 2·w_A·w_B·ρ·σ_A·σ_B.",
+            "Marginal VaR_i = z·V·(Σw)_i / σ_p, dengan (Σw)_A = w_A·σ_A² + w_B·ρ·σ_A·σ_B.",
+          ],
+          code: {
+            starter: `import math\n\n# Portofolio Rp100 jt: A bobot 0,6 sigma 20%; B bobot 0,4 sigma 30%; korelasi 0,3; z99 = 2,33\nw_a, w_b, s_a, s_b, rho, V, z = 0.6, 0.4, 0.20, 0.30, 0.3, 100, 2.33\n\n# TULIS KODEMU: VaR total, marginal VaR, component VaR\nsigma_p =\nvar_total =\nmarg_a =\nmarg_b =\ncomp_a =\ncomp_b =\n\nprint(f"sigma_p={sigma_p} var_total={var_total} marg_a={marg_a} marg_b={marg_b} comp_a={comp_a} comp_b={comp_b}")`,
+            lockLines: 6,
+            solution: `import math\n\n# Portofolio Rp100 jt: A bobot 0,6 sigma 20%; B bobot 0,4 sigma 30%; korelasi 0,3; z99 = 2,33\nw_a, w_b, s_a, s_b, rho, V, z = 0.6, 0.4, 0.20, 0.30, 0.3, 100, 2.33\n\n# TULIS KODEMU: VaR total, marginal VaR, component VaR\nsigma = math.sqrt(w_a ** 2 * s_a ** 2 + w_b ** 2 * s_b ** 2 + 2 * w_a * w_b * rho * s_a * s_b)\nsigma_p = round(sigma, 4)\nvar_total = round(z * sigma * V, 2)\ncov_a = w_a * s_a ** 2 + w_b * rho * s_a * s_b\ncov_b = w_b * s_b ** 2 + w_a * rho * s_a * s_b\nmarg_a = round(z * V * cov_a / sigma, 2)\nmarg_b = round(z * V * cov_b / sigma, 2)\ncomp_a = round(w_a * marg_a, 2)\ncomp_b = round(w_b * marg_b, 2)\n\nprint(f"sigma_p={sigma_p} var_total={var_total} marg_a={marg_a} marg_b={marg_b} comp_a={comp_a} comp_b={comp_b}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "sigma_p", value: 0.1935, tol: 0.0005, label: "`sigma_p` = 0,1935", msg: "√(0,0144 + 0,0144 + 0,00864) = 0,1935." },
+              { kind: "equal", task: "t1", name: "var_total", value: 45.08, tol: 0.05, label: "`var_total` = 45,08", msg: "2,33 × 0,1935 × 100 = 45,08." },
+              { kind: "equal", task: "t2", name: "marg_a", value: 37.57, tol: 0.05, label: "`marg_a` = 37,57", msg: "Turunan VaR terhadap bobot A." },
+              { kind: "equal", task: "t2", name: "marg_b", value: 56.36, tol: 0.05, label: "`marg_b` = 56,36", msg: "Turunan VaR terhadap bobot B — 1,5× A." },
+              { kind: "equal", task: "t2", name: "comp_a", value: 22.54, tol: 0.05, label: "`comp_a` = 22,54", msg: "0,6 × 37,57 = 22,54." },
+              { kind: "equal", task: "t2", name: "comp_b", value: 22.54, tol: 0.05, label: "`comp_b` = 22,54", msg: "0,4 × 56,36 = 22,54 — jumlahnya pas 45,08 = VaR total." },
+              { kind: "stdout_matches", task: "t2", pattern: "var_total=45\\.08\\s+marg_a=37\\.57\\s+marg_b=56\\.36\\s+comp_a=22\\.54\\s+comp_b=22\\.54", label: "`print` menampilkan keenamnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Component VaR A = component VaR B = 22,54, tetapi marginal B 1,5× marginal A. Potong Rp10 jt dari mana untuk hemat VaR terbesar?",
+              options: [
+                { text: "Dari B — marginal B 56,36 vs A 37,57 (component sama-sama 22,54)", why: "Tepat: marginal = ∂VaR/∂w. Component yang sama besar tidak berarti hemat per rupiah yang sama.", correct: true },
+                { text: "Dari A — component-nya sama, jadi potong yang lebih besar bobotnya", why: "Salah: bobot sudah masuk ke dalam component. Yang menentukan hemat per rupiah adalah marginal (56,36 vs 37,57)." },
+                { text: "Sama saja — component sama berarti hematnya sama", why: "Salah: itu justru jebakan yang dibuktikan lab ini — component sama, marginal beda 1,5×." },
+                { text: "Dari keduanya setengah-setengah — diversifikasi", why: "Salah: membagi potongan bukan strategi hemat VaR; potong dari marginal tertinggi dulu." },
+              ],
+            },
+          ],
+          reference: "Component VaR = w × marginal VaR (aditif, jumlah = VaR total); marginal = hemat per rupiah; component sama ≠ marginal sama.",
+        },
+        {
+          id: "gap-r7-vega-var",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P4-G2)",
+          title: "Vega: suku yang hilang dari delta-gamma",
+          prose: [
+            "Langkah 3 sudah mengakui rumusnya mengabaikan vega — tetapi belum pernah menunjukkan BERAPA BESAR yang diabaikan itu. Lab ini menghitungnya. Opsi dengan delta 0,6, gamma 0,05, vega 200 (Rp jt per 1,00 perubahan vol), σ_S = 10 (Rp jt), σ_vol = 0,05, z95 = 1,645. Kontribusi varians dari harga: δ²σ_S² = 0,36 × 100 = 36,0. Kontribusi varians dari volatilitas: ν²σ_vol² = 40.000 × 0,0025 = 100,0 — hampir 3× lipat kontribusi harga. VaR95 tanpa vega = 1,645 × 6 = Rp9,87 jt. VaR95 dengan vega = 1,645 × √136 = Rp19,18 jt — hampir 2× lipat (rasio 1,94).",
+            "Aproksimasi delta-gamma yang 'lupa' vega bukan meremehkan sedikit — di sini ia meremehkan hampir separuh risiko. Aturan: bila vega material (opsi dengan tenor panjang, vol yang bergerak), pakai delta-gamma-VEGA (tambahkan suku νΔσ) atau full Monte Carlo. Dua catatan kejujuran. Satu: hitungan di atas memakai aproksimasi varians (delta dan vega sebagai dua sumber varians independen) dan mengabaikan suku gamma — gamma menambahkan pergeseran rata-rata ½Γσ_S² = Rp2,5 jt; distribusi lengkapnya butuh Monte Carlo. Dua: ΔS dan Δσ di dunia nyata berkorelasi (vol naik saat pasar jatuh) — asumsi independen di sini menyederhanakan; korelasi negatif keduanya justru memperbesar VaR.",
+          ],
+          formula: String.raw`\Delta V \approx \delta\,\Delta S + \tfrac{1}{2}\Gamma(\Delta S)^2 + \nu\,\Delta\sigma \qquad Var(\Delta V) \approx \delta^2\sigma_S^2 + \nu^2\sigma_{vol}^2`,
+          formulaNote: "δ=0,6, ν=200, σ_S=10, σ_vol=0,05: var delta 36,0; var vega 100,0; VaR95 9,87 → 19,18 (rasio 1,94). Gamma menambah pergeseran rata-rata 2,5 (di luar aproksimasi ini).",
+          tasks: [
+            { id: "t1", text: "Hitung kontribusi varians: `var_delta` dan `var_vega`" },
+            { id: "t2", text: "Hitung `var95_tanpa_vega`, `var95_dengan_vega`, dan `rasio`" },
+          ],
+          expected: "var_delta=36.0 var_vega=100.0 var95_tanpa_vega=9.87 var95_dengan_vega=19.18 rasio=1.94",
+          hints: [
+            "Varians dari suku delta = δ² × σ_S²; dari suku vega = ν² × σ_vol².",
+            "VaR95 = 1,645 × simpangan baku total; tanpa vega hanya pakai simpangan baku delta.",
+          ],
+          code: {
+            starter: `import math\n\n# Opsi: delta 0,6; gamma 0,05; vega 200 (Rp jt per 1,00 vol); sigma_S = 10; sigma_vol = 0,05; z95 = 1,645\ndelta, gamma, vega = 0.6, 0.05, 200\nsig_s, sig_vol, z = 10, 0.05, 1.645\n\n# TULIS KODEMU: kontribusi varians delta vs vega + VaR95 tanpa/dengan vega\nvar_delta =\nvar_vega =\nvar95_tanpa_vega =\nvar95_dengan_vega =\nrasio =\n\nprint(f"var_delta={var_delta} var_vega={var_vega} var95_tanpa_vega={var95_tanpa_vega} var95_dengan_vega={var95_dengan_vega} rasio={rasio}")`,
+            lockLines: 7,
+            solution: `import math\n\n# Opsi: delta 0,6; gamma 0,05; vega 200 (Rp jt per 1,00 vol); sigma_S = 10; sigma_vol = 0,05; z95 = 1,645\ndelta, gamma, vega = 0.6, 0.05, 200\nsig_s, sig_vol, z = 10, 0.05, 1.645\n\n# TULIS KODEMU: kontribusi varians delta vs vega + VaR95 tanpa/dengan vega\nvar_delta = round(delta ** 2 * sig_s ** 2, 1)\nvar_vega = round(vega ** 2 * sig_vol ** 2, 1)\nvar95_tanpa_vega = round(z * math.sqrt(var_delta), 2)\nvar95_dengan_vega = round(z * math.sqrt(var_delta + var_vega), 2)\nrasio = round(var95_dengan_vega / var95_tanpa_vega, 2)\n\nprint(f"var_delta={var_delta} var_vega={var_vega} var95_tanpa_vega={var95_tanpa_vega} var95_dengan_vega={var95_dengan_vega} rasio={rasio}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "var_delta", value: 36.0, tol: 0.1, label: "`var_delta` = 36,0", msg: "0,36 × 100 = 36." },
+              { kind: "equal", task: "t1", name: "var_vega", value: 100.0, tol: 0.1, label: "`var_vega` = 100,0", msg: "40.000 × 0,0025 = 100 — hampir 3× kontribusi harga." },
+              { kind: "equal", task: "t2", name: "var95_tanpa_vega", value: 9.87, tol: 0.05, label: "`var95_tanpa_vega` = 9,87", msg: "1,645 × 6 = 9,87." },
+              { kind: "equal", task: "t2", name: "var95_dengan_vega", value: 19.18, tol: 0.05, label: "`var95_dengan_vega` = 19,18", msg: "1,645 × √136 = 19,18." },
+              { kind: "equal", task: "t2", name: "rasio", value: 1.94, tol: 0.02, label: "`rasio` = 1,94", msg: "Vega hampir menggandakan VaR." },
+              { kind: "stdout_matches", task: "t2", pattern: "var_delta=36\\.0\\s+var_vega=100\\.0\\s+var95_tanpa_vega=9\\.87\\s+var95_dengan_vega=19\\.18\\s+rasio=1\\.94", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "VaR delta-gamma = 9,87; dengan vega = 19,18. Kesimpulan yang benar?",
+              options: [
+                { text: "Risiko volatilitas mendominasi — aproksimasi tanpa vega meremehkan VaR hampir 2×", why: "Tepat: kontribusi varians vega (100) hampir 3× kontribusi harga (36). Bila vega material, tambahkan suku νΔσ atau pakai full Monte Carlo.", correct: true },
+                { text: "Vega hanya koreksi kecil — 9,87 sudah cukup sebagai VaR", why: "Salah: selisihnya 9,31 jt — hampir sebesar VaR itu sendiri. Itu bukan koreksi kecil." },
+                { text: "Gamma yang harus ditambahkan, bukan vega", why: "Salah: gamma menambahkan pergeseran rata-rata 2,5 — jauh lebih kecil dari kontribusi varians vega 100." },
+                { text: "VaR 19,18 pasti benar karena memakai lebih banyak suku", why: "Salah: ini tetap aproksimasi (asumsi ΔS dan Δσ independen, gamma diabaikan) — distribusi lengkapnya butuh Monte Carlo." },
+              ],
+            },
+          ],
+          reference: "ΔV ≈ δΔS + ½Γ(ΔS)² + νΔσ — vega jangan dilupakan bila vol bergerak; di sini VaR 9,87 → 19,18.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

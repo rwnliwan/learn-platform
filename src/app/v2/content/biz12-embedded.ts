@@ -31,7 +31,7 @@ export const biz12: V2Lesson = {
   track: "Business Intelligence",
   module: "Operasi & Governance",
   title: "BI12 — Embedded Analytics",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "cerita",
@@ -212,6 +212,51 @@ merchant_terdampak = sorted({f for _, _, f in pelanggaran if f is not None} | (s
       ],
       tasks: [],
     },
+        {
+          id: "gap-r7-otorisasi-tenant",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P8-G2)",
+          title: "Otorisasi tenant end-to-end: satu lapisan bocor, semua bocor",
+          prose: [
+            "Lesson ini sudah benar di satu lapisan — row-level security di lapisan query (WHERE tenant_id) — tetapi otorisasi tenant bukan satu filter; ia RANTAI enam lapisan, dan satu lapisan yang bocor membocorkan semuanya. Lab ini mengaudit rantai itu untuk request merchant M-101: (1) auth — JWT membawa tenant_id M-101 (OK); (2) API — endpoint memfilter tenant (OK); (3) query — WHERE tenant_id HILANG, bug langkah 4 (GAGAL); (4) cache — kunci cache tanpa tenant, dipakai bersama antar tenant (GAGAL); (5) export — CSV difilter per tenant (OK); (6) benchmark — agregat min-10 + review privasi (OK). Skor: 4/6 = 66,7% — TIDAK LOLOS.",
+            "Dampaknya lebih besar dari yang tampak: query tanpa filter tidak hanya mengekspos M-101 — ia mengekspos AGREGAT SEMUA tenant (M-101, M-102, M-103 = 3 tenant), karena agregat itu dihitung dari data semua tenant. Dan cache berbagi berarti merchant lain bisa menerima hasil query M-101 dari cache — kebocoran yang tidak terlihat di log query sama sekali. Pertahanan yang benar: (a) scoping ditegakkan di SETIAP lapisan — RLS di database sebagai jaring pengaman terakhir, bukan hanya filter di kode aplikasi; (b) kunci cache WAJIB memuat tenant_id; (c) test otomatis yang memanggil tiap lapisan TANPA filter dan menegaskan ia ditolak; (d) audit log akses per tenant agar kebocoran bisa dilacak, bukan ditebak.",
+          ],
+          formula: String.raw`\text{skor scoping} = \frac{\text{lapisan yang menegakkan tenant}}{\text{semua lapisan}} \qquad \text{lolos} \iff \text{skor} = 100\%`,
+          formulaNote: "6 lapisan: auth OK, API OK, query GAGAL, cache GAGAL, export OK, benchmark OK → skor 66,7%, TIDAK LOLOS; 3 tenant terekspos lewat agregat.",
+          tasks: [
+            { id: "t1", text: "Hitung `n_lapisan`, `n_gagal`, `skor_scoping`" },
+            { id: "t2", text: "Tentukan `lolos` (True bila n_gagal == 0) dan `tenant_terekspos` (query tanpa filter → agregat semua tenant)" },
+          ],
+          expected: "n_lapisan=6 n_gagal=2 skor_scoping=66.7 lolos=False tenant_terekspos=3",
+          hints: [
+            "Skor = (lapisan OK / semua lapisan) × 100%.",
+            "Query tanpa filter mengekspos agregat SEMUA tenant — bukan hanya pemanggilnya.",
+          ],
+          code: {
+            starter: `# Audit scoping 6 lapisan untuk request merchant M-101 (True = scoping benar)\nlapisan = [\n    ("auth", True),        # JWT membawa tenant_id M-101\n    ("api", True),         # endpoint memfilter tenant\n    ("query", False),      # WHERE tenant_id HILANG (bug langkah 4)\n    ("cache", False),      # kunci cache tanpa tenant (berbagi antar tenant)\n    ("export", True),      # CSV difilter per tenant\n    ("benchmark", True),   # agregat min-10 + review privasi\n]\nn_tenant = 3  # M-101, M-102, M-103\n\n# TULIS KODEMU: skor scoping + apakah lolos + berapa tenant terekspos lewat query tanpa filter\nn_lapisan =\nn_gagal =\nskor_scoping =\nlolos =\ntenant_terekspos =\n\nprint(f"n_lapisan={n_lapisan} n_gagal={n_gagal} skor_scoping={skor_scoping} lolos={lolos} tenant_terekspos={tenant_terekspos}")`,
+            lockLines: 12,
+            solution: `# Audit scoping 6 lapisan untuk request merchant M-101 (True = scoping benar)\nlapisan = [\n    ("auth", True),        # JWT membawa tenant_id M-101\n    ("api", True),         # endpoint memfilter tenant\n    ("query", False),      # WHERE tenant_id HILANG (bug langkah 4)\n    ("cache", False),      # kunci cache tanpa tenant (berbagi antar tenant)\n    ("export", True),      # CSV difilter per tenant\n    ("benchmark", True),   # agregat min-10 + review privasi\n]\nn_tenant = 3  # M-101, M-102, M-103\n\n# TULIS KODEMU: skor scoping + apakah lolos + berapa tenant terekspos lewat query tanpa filter\nn_lapisan = len(lapisan)\nn_gagal = sum(1 for _, ok in lapisan if not ok)\nskor_scoping = round((n_lapisan - n_gagal) / n_lapisan * 100, 1)\nlolos = n_gagal == 0\ntenant_terekspos = n_tenant  # query tanpa filter -> agregat semua tenant\n\nprint(f"n_lapisan={n_lapisan} n_gagal={n_gagal} skor_scoping={skor_scoping} lolos={lolos} tenant_terekspos={tenant_terekspos}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "n_lapisan", value: 6, tol: 1e-9, label: "`n_lapisan` = 6", msg: "Auth, API, query, cache, export, benchmark." },
+              { kind: "equal", task: "t1", name: "n_gagal", value: 2, tol: 1e-9, label: "`n_gagal` = 2", msg: "Query (tanpa filter) dan cache (kunci tanpa tenant)." },
+              { kind: "equal", task: "t1", name: "skor_scoping", value: 66.7, tol: 0.1, label: "`skor_scoping` = 66,7%", msg: "4/6 = 66,7% — di bawah 100% yang disyaratkan." },
+              { kind: "stdout_matches", task: "t2", pattern: "lolos=False", label: "`lolos` = False", msg: "Satu lapisan bocor = tidak lolos." },
+              { kind: "equal", task: "t2", name: "tenant_terekspos", value: 3, tol: 1e-9, label: "`tenant_terekspos` = 3", msg: "Agregat tanpa filter memuat M-101, M-102, dan M-103 — bukan hanya pemanggil." },
+              { kind: "stdout_matches", task: "t2", pattern: "n_lapisan=6\\s+n_gagal=2\\s+skor_scoping=66\\.7\\s+lolos=False\\s+tenant_terekspos=3", label: "`print` menampilkan kelimanya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Audit 6 lapisan: query tanpa filter + cache berbagi. Berapa lapisan gagal — dan berapa tenant terekspos?",
+              options: [
+                { text: "2 lapisan gagal; 3 tenant terekspos (semua yang ada di agregat)", why: "Tepat: query tanpa filter mengekspos agregat semua tenant, dan cache berbagi menyebarkannya lebih jauh. Satu lapisan bocor = semua bocor.", correct: true },
+                { text: "2 lapisan gagal; hanya M-101 yang terekspos", why: "Salah: M-101 hanya pemanggilnya — agregat tanpa filter dihitung dari data M-101, M-102, dan M-103." },
+                { text: "1 lapisan gagal — cache bukan lapisan otorisasi", why: "Salah: cache ADALAH lapisan otorisasi bila kuncinya tidak memuat tenant — merchant lain bisa menerima hasil M-101 dari cache." },
+                { text: "0 lapisan gagal — API sudah memfilter, jadi aman", why: "Salah: filter di API tidak menolong bila query di bawahnya tidak memfilter dan cache di atasnya berbagi." },
+              ],
+            },
+          ],
+          reference: "Otorisasi tenant = rantai semua lapisan (auth, API, query, cache, export, benchmark); skor harus 100%; query tanpa filter mengekspos SEMUA tenant di agregat.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

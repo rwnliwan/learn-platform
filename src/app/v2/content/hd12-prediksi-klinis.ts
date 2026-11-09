@@ -5,7 +5,7 @@ export const hd12: V2Lesson = {
   track: "Health Data Science",
   module: "Data Science Klinis",
   title: "HD12 TRIPOD & Kalibrasi: Model Prediksi yang Dipercaya Dokter",
-  estMinutes: 50,
+  estMinutes: 60,
   steps: [
     {
       id: "model-ditolak",
@@ -204,6 +204,52 @@ export const hd12: V2Lesson = {
       },
       reference: "Jangan deploy threshold bawaan vendor. Threshold = keputusan kapasitas.",
     },
+        {
+          id: "gap-r7-calibration-plot",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P8-G1)",
+          title: "Calibration plot: dari Brier global ke kejujuran per bin",
+          prose: [
+            "Lesson ini memberi Brier global dan Brier per desil — tetapi Brier per desil saja tidak membuktikan miskalibrasi (langkah 5 sudah memperingatkan: Brier desil tinggi bisa berasal dari ketidakpastian, bukan kalibrasi buruk). Yang membuktikan kalibrasi adalah CALIBRATION PLOT: kelompokkan pasien per bin prediksi, lalu bandingkan rata-rata prediksi vs frekuensi kejadian aktual di tiap bin. Lab ini menghitungnya dari 10 pasien: probabilitas [0,9; 0,8; 0,7; 0,6; 0,55; 0,45; 0,4; 0,3; 0,2; 0,1], outcome [1, 1, 0, 1, 0, 0, 1, 0, 0, 0].",
+            "Hasilnya: bin tinggi (prediksi ≥ 0,5): prediksi rata-rata 0,71, kejadian aktual 0,60 — model melebih-lebihkan 11 poin. Bin rendah (prediksi < 0,5): prediksi 0,29, kejadian 0,20 — melebih-lebihkan 9 poin. Kedua bin OVERCONFIDENT (prediksi > aktual). Brier-nya 0,1705 — dan ECE (expected calibration error, rata-rata selisih tertimbang) = 0,10. Bandingkan dengan baseline konstan (prediksi = prevalensi 0,4 untuk semua): Brier baseline 0,24 — model ini lebih baik dari baseline, TETAPI tetap miskalibrasi: 'lebih baik dari baseline' bukan 'terkalibrasi'. Perbaikan: rekalibrasi (Platt scaling / isotonic) lalu plot ulang — dan laporkan n per bin, karena bin berisi 5 pasien seperti di sini sangat berisik (satu pasien mengubah frekuensi 20 poin).",
+          ],
+          formula: String.raw`\text{ECE} = \sum_b \frac{n_b}{n}\,|\bar{p}_b - \bar{y}_b| \qquad \text{terkalibrasi} \iff \bar{p}_b \approx \bar{y}_b \ \text{di tiap bin}`,
+          formulaNote: "10 pasien: Brier 0,1705; bin tinggi pred 0,71 vs obs 0,60; bin rendah pred 0,29 vs obs 0,20; ECE 0,10; baseline (prevalensi 0,4) Brier 0,24.",
+          tasks: [
+            { id: "t1", text: "Hitung `brier` + rata-rata prediksi vs observasi per bin (`pred_tinggi`, `obs_tinggi`, `pred_rendah`, `obs_rendah`)" },
+            { id: "t2", text: "Hitung `ece` (expected calibration error)" },
+          ],
+          expected: "brier=0.1705 pred_tinggi=0.71 obs_tinggi=0.6 pred_rendah=0.29 obs_rendah=0.2 ece=0.1",
+          hints: [
+            "Brier = rata-rata (p − y)²; bin tinggi = prediksi ≥ 0,5.",
+            "ECE = Σ (n_bin/n) × |pred rata-rata − frekuensi aktual|.",
+          ],
+          code: {
+            starter: `# 10 pasien: probabilitas prediksi + outcome (1 = sepsis)\nprobs = [0.9, 0.8, 0.7, 0.6, 0.55, 0.45, 0.4, 0.3, 0.2, 0.1]\ny = [1, 1, 0, 1, 0, 0, 1, 0, 0, 0]\n\n# TULIS KODEMU: Brier + rata-rata prediksi vs frekuensi aktual per bin + ECE\nbrier =\npred_tinggi =\nobs_tinggi =\npred_rendah =\nobs_rendah =\nece =\n\nprint(f"brier={brier} pred_tinggi={pred_tinggi} obs_tinggi={obs_tinggi} pred_rendah={pred_rendah} obs_rendah={obs_rendah} ece={ece}")`,
+            lockLines: 5,
+            solution: `# 10 pasien: probabilitas prediksi + outcome (1 = sepsis)\nprobs = [0.9, 0.8, 0.7, 0.6, 0.55, 0.45, 0.4, 0.3, 0.2, 0.1]\ny = [1, 1, 0, 1, 0, 0, 1, 0, 0, 0]\n\n# TULIS KODEMU: Brier + rata-rata prediksi vs frekuensi aktual per bin + ECE\nbrier = round(sum((p - t) ** 2 for p, t in zip(probs, y)) / len(y), 4)\ntinggi = [(p, t) for p, t in zip(probs, y) if p >= 0.5]\nrendah = [(p, t) for p, t in zip(probs, y) if p < 0.5]\npred_tinggi = round(sum(p for p, _ in tinggi) / len(tinggi), 2)\nobs_tinggi = round(sum(t for _, t in tinggi) / len(tinggi), 2)\npred_rendah = round(sum(p for p, _ in rendah) / len(rendah), 2)\nobs_rendah = round(sum(t for _, t in rendah) / len(rendah), 2)\nece = round(len(tinggi) / len(y) * abs(pred_tinggi - obs_tinggi) + len(rendah) / len(y) * abs(pred_rendah - obs_rendah), 2)\n\nprint(f"brier={brier} pred_tinggi={pred_tinggi} obs_tinggi={obs_tinggi} pred_rendah={pred_rendah} obs_rendah={obs_rendah} ece={ece}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "brier", value: 0.1705, tol: 0.001, label: "`brier` = 0,1705", msg: "Rata-rata (p−y)² atas 10 pasien." },
+              { kind: "equal", task: "t1", name: "pred_tinggi", value: 0.71, tol: 0.01, label: "`pred_tinggi` = 0,71", msg: "Rata-rata prediksi bin tinggi." },
+              { kind: "equal", task: "t1", name: "obs_tinggi", value: 0.6, tol: 0.01, label: "`obs_tinggi` = 0,60", msg: "3 dari 5 pasien bin tinggi benar-benar sepsis." },
+              { kind: "equal", task: "t1", name: "pred_rendah", value: 0.29, tol: 0.01, label: "`pred_rendah` = 0,29", msg: "Rata-rata prediksi bin rendah." },
+              { kind: "equal", task: "t1", name: "obs_rendah", value: 0.2, tol: 0.01, label: "`obs_rendah` = 0,20", msg: "1 dari 5 pasien bin rendah benar-benar sepsis." },
+              { kind: "equal", task: "t2", name: "ece", value: 0.1, tol: 0.01, label: "`ece` = 0,10", msg: "0,5×0,11 + 0,5×0,09 = 0,10." },
+              { kind: "stdout_matches", task: "t2", pattern: "brier=0\\.1705\\s+pred_tinggi=0\\.71\\s+obs_tinggi=0\\.6\\s+pred_rendah=0\\.29\\s+obs_rendah=0\\.2\\s+ece=0\\.1", label: "`print` menampilkan keenamnya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Bin tinggi: prediksi rata-rata 0,71, kejadian aktual 0,60. Brier global 0,1705. Apa artinya?",
+              options: [
+                { text: "Overconfident di bin itu — model melebih-lebihkan risiko 11 poin; Brier global tidak menunjukkan di mana", why: "Tepat: calibration plot menunjukkan LOKASI miskalibrasi (kedua bin overconfident); Brier hanya memberi satu angka global.", correct: true },
+                { text: "Terkalibrasi dengan baik — Brier 0,1705 sudah kecil", why: "Salah: Brier kecil tidak berarti terkalibrasi — bandingkan dengan baseline 0,24 dan lihat selisih per bin (11 dan 9 poin)." },
+                { text: "Underconfident — model meremehkan risiko", why: "Salah: prediksi (0,71) LEBIH TINGGI dari kejadian (0,60) — itu overconfident, bukan underconfident." },
+                { text: "Tidak bisa disimpulkan — butuh Brier per desil", why: "Salah: justru Brier per desil yang tidak cukup — calibration plot (prediksi vs frekuensi per bin) yang membuktikan kalibrasi." },
+              ],
+            },
+          ],
+          reference: "Calibration plot = prediksi rata-rata vs frekuensi aktual per bin; ECE = selisih tertimbang (di sini 0,10, overconfident di kedua bin). Brier saja tidak menunjukkan lokasinya.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",

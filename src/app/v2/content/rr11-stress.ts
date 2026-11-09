@@ -31,7 +31,7 @@ export const rr11: V2Lesson = {
   track: "Risk Reporting",
   module: "Operasi & Regulasi",
   title: "RR11 — Melaporkan Hasil Stress Test",
-  estMinutes: 55,
+  estMinutes: 65,
   steps: [
     {
       id: "cerita",
@@ -228,6 +228,54 @@ export const rr11: V2Lesson = {
       },
       reference: "Ganti vonis \u201Clolos\u201D dengan jarak + opsi aksi.",
     },
+        {
+          id: "gap-r7-jembatan-npl-ckpn-modal",
+          eyebrow: "Langkah tambahan · Gap ronde 7 (P9-G2)",
+          title: "Jembatan NPL–CKPN–modal: tiga tuas, tiga angka berbeda",
+          prose: [
+            "Mini-case langkah 6 sudah membedakan ketiganya secara kualitatif — CKPN memperkuat coverage (bukan jarak), modal memperkuat KPMM, hanya pembatasan eksposur yang memperlebar jarak. Langkah ini membangun JEMBATANNYA dengan angka. Asumsi langkah ini (dinyatakan eksplisit): total kredit Rp10.000 M, RWA Rp10.000 M; kanonis lesson: modal Rp1.200 M, NPL severe 5,0%, CKPN tambahan Rp8 M, NPL SME 4,1%. NPL nominal severe = 5% × 10.000 = Rp500 M.",
+            "Tiga tuas, tiga hasil. (a) Tambah CKPN Rp8 M (CKPN awal Rp250 M): coverage 50,0% → 51,6%; NPL gross TETAP 5,0% (jarak 0,0 pp); yang membaik adalah NPL NETO: (500−250)/10.000 = 2,50% → (500−258)/10.000 = 2,42%. (b) Tambah modal Rp100 M (aksi ilustratif): KPMM 12,0% → 13,0%; NPL tidak bergerak. (c) Batasi eksposur SME Rp50 M: mencegah 50 × 4,1% = Rp2,05 M NPL mendatang → NPL gross 5,00% → 4,98% (jarak 0,02 pp) — SATU-SATUNYA tuas yang memperlebar jarak. Jembatan ini yang harus ada di slide direksi: satu baris per tuas, dengan kolom 'yang bergerak' yang berbeda — jangan pernah sajikan (a) seolah memperbaiki jarak.",
+          ],
+          formula: String.raw`\text{Coverage} = \frac{\text{CKPN}}{\text{NPL nominal}} \qquad \text{NPL neto} = \frac{\text{NPL} - \text{CKPN}}{\text{total kredit}} \qquad \text{KPMM} = \frac{\text{modal}}{\text{RWA}}`,
+          formulaNote: "Total kredit Rp10.000 M, RWA Rp10.000 M (asumsi langkah ini); modal Rp1.200 M, NPL 5,0%, CKPN awal Rp250 M: coverage 50,0→51,6%; NPL neto 2,50→2,42%; KPMM 12,0→13,0%; gross 5,00→4,98% (cap SME).",
+          tasks: [
+            { id: "t1", text: "Hitung `npl_nominal`, `coverage_awal`, `coverage_baru`, `npl_neto_awal`, `npl_neto_baru`" },
+            { id: "t2", text: "Hitung `kpmm_awal`, `kpmm_baru` (+modal Rp100 M), `npl_gross_setelah_cap`" },
+          ],
+          expected: "npl_nominal=500.0 coverage_awal=50.0 coverage_baru=51.6 npl_neto_awal=2.5 npl_neto_baru=2.42 kpmm_awal=12.0 kpmm_baru=13.0 npl_gross_setelah_cap=4.98",
+          hints: [
+            "NPL nominal = 5% × total kredit; coverage = CKPN / NPL nominal.",
+            "Cap SME mencegah 50 × 4,1% = Rp2,05 M NPL — kurangkan dari NPL nominal, bagi total kredit.",
+          ],
+          code: {
+            starter: `# Jembatan (Rp M). Asumsi LANGKAH INI: total kredit Rp10.000 M, RWA Rp10.000 M.\n# Kanonis lesson: modal Rp1.200 M, NPL severe 5,0%, CKPN tambahan Rp8 M, NPL SME 4,1%.\ntotal_kredit, rwa, modal = 10000, 10000, 1200\nnpl_gross_pct, ckpn_awal = 5.0, 250\n\n# TULIS KODEMU: nominal NPL, coverage, NPL neto, KPMM, efek cap SME Rp50 M\nnpl_nominal =\ncoverage_awal =\ncoverage_baru =\nnpl_neto_awal =\nnpl_neto_baru =\nkpmm_awal =\nkpmm_baru =\nnpl_gross_setelah_cap =\n\nprint(f"npl_nominal={npl_nominal} coverage_awal={coverage_awal} coverage_baru={coverage_baru} npl_neto_awal={npl_neto_awal} npl_neto_baru={npl_neto_baru} kpmm_awal={kpmm_awal} kpmm_baru={kpmm_baru} npl_gross_setelah_cap={npl_gross_setelah_cap}")`,
+            lockLines: 6,
+            solution: `# Jembatan (Rp M). Asumsi LANGKAH INI: total kredit Rp10.000 M, RWA Rp10.000 M.\n# Kanonis lesson: modal Rp1.200 M, NPL severe 5,0%, CKPN tambahan Rp8 M, NPL SME 4,1%.\ntotal_kredit, rwa, modal = 10000, 10000, 1200\nnpl_gross_pct, ckpn_awal = 5.0, 250\n\n# TULIS KODEMU: nominal NPL, coverage, NPL neto, KPMM, efek cap SME Rp50 M\nnpl_nominal = round(total_kredit * npl_gross_pct / 100, 1)\ncoverage_awal = round(ckpn_awal / npl_nominal * 100, 1)\ncoverage_baru = round((ckpn_awal + 8) / npl_nominal * 100, 1)\nnpl_neto_awal = round((npl_nominal - ckpn_awal) / total_kredit * 100, 2)\nnpl_neto_baru = round((npl_nominal - ckpn_awal - 8) / total_kredit * 100, 2)\nkpmm_awal = round(modal / rwa * 100, 1)\nkpmm_baru = round((modal + 100) / rwa * 100, 1)\nnpl_gross_setelah_cap = round((npl_nominal - 50 * 0.041) / total_kredit * 100, 2)\n\nprint(f"npl_nominal={npl_nominal} coverage_awal={coverage_awal} coverage_baru={coverage_baru} npl_neto_awal={npl_neto_awal} npl_neto_baru={npl_neto_baru} kpmm_awal={kpmm_awal} kpmm_baru={kpmm_baru} npl_gross_setelah_cap={npl_gross_setelah_cap}")`,
+            checks: [
+              { kind: "equal", task: "t1", name: "npl_nominal", value: 500.0, tol: 0.1, label: "`npl_nominal` = 500", msg: "5% × 10.000 = 500." },
+              { kind: "equal", task: "t1", name: "coverage_awal", value: 50.0, tol: 0.1, label: "`coverage_awal` = 50,0%", msg: "250/500 = 50%." },
+              { kind: "equal", task: "t1", name: "coverage_baru", value: 51.6, tol: 0.1, label: "`coverage_baru` = 51,6%", msg: "258/500 = 51,6% — CKPN memperkuat coverage." },
+              { kind: "equal", task: "t1", name: "npl_neto_awal", value: 2.5, tol: 0.05, label: "`npl_neto_awal` = 2,50%", msg: "(500−250)/10.000 = 2,50%." },
+              { kind: "equal", task: "t1", name: "npl_neto_baru", value: 2.42, tol: 0.05, label: "`npl_neto_baru` = 2,42%", msg: "(500−258)/10.000 = 2,42% — NPL neto membaik walau gross tetap." },
+              { kind: "equal", task: "t2", name: "kpmm_awal", value: 12.0, tol: 0.1, label: "`kpmm_awal` = 12,0%", msg: "1.200/10.000 = 12%." },
+              { kind: "equal", task: "t2", name: "kpmm_baru", value: 13.0, tol: 0.1, label: "`kpmm_baru` = 13,0%", msg: "1.300/10.000 = 13% — modal memperkuat KPMM, bukan NPL." },
+              { kind: "equal", task: "t2", name: "npl_gross_setelah_cap", value: 4.98, tol: 0.01, label: "`npl_gross_setelah_cap` = 4,98%", msg: "(500−2,05)/10.000 = 4,98% — satu-satunya tuas yang memperlebar jarak." },
+              { kind: "stdout_matches", task: "t2", pattern: "npl_nominal=500\\.0\\s+coverage_awal=50\\.0\\s+coverage_baru=51\\.6\\s+npl_neto_awal=2\\.5\\s+npl_neto_baru=2\\.42\\s+kpmm_awal=12\\.0\\s+kpmm_baru=13\\.0\\s+npl_gross_setelah_cap=4\\.98", label: "`print` menampilkan kedelapannya", msg: "Samakan formatnya dengan Hasil yang diharapkan." },
+            ],
+          },
+          quiz: [
+            {
+              q: "Opsi mana yang memperlebar jarak NPL ke batas 5%?",
+              options: [
+                { text: "Batasi eksposur SME Rp50 M — satu-satunya yang menurunkan NPL gross (5,00% → 4,98%)", why: "Tepat: CKPN memperkuat coverage (NPL neto 2,50→2,42%, gross tetap), modal memperkuat KPMM (12→13%) — keduanya tidak menyentuh jarak.", correct: true },
+                { text: "Tambah CKPN Rp8 M — coverage naik 50% → 51,6%", why: "Salah: coverage naik, tetapi NPL gross tetap 5,0% dan jarak tetap 0,0 pp. Coverage bukan jarak." },
+                { text: "Tambah modal Rp100 M — KPMM naik 12% → 13%", why: "Salah: KPMM naik, tetapi NPL gross tetap 5,0%. Modal memperkuat bantalan, bukan menurunkan NPL." },
+                { text: "Ketiganya sama-sama memperlebar jarak", why: "Salah: hanya cap SME yang menyentuh NPL gross. Mencampur ketiganya adalah kesalahan mini-case yang sudah diperbaiki lesson ini." },
+              ],
+            },
+          ],
+          reference: "Jembatan: CKPN → coverage (50,0→51,6%) + NPL neto (2,50→2,42%); modal → KPMM (12,0→13,0%); cap SME → NPL gross (5,00→4,98%) — hanya yang terakhir memperlebar jarak.",
+        },
     {
       id: "checkpoint",
       eyebrow: "Checkpoint",
