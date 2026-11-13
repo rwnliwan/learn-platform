@@ -194,7 +194,7 @@ Hasil [lab]: cara SALAH (scaler + SelectKBest k=5 di-fit pada SEMUA data sebelum
 
 ## Guided Task di Colab
 
-Notebook: colab/mlf-m62-guided-task.ipynb — flagship single-split, CV 5-fold, nested CV GBM, demo leakage, dan time-series split BBCA. Catatan: cell nested CV di notebook memakai subset 8 konfigurasi (detail implementasi notebook, bukan angka kanonis) dari grid kanonis 18 (dinyatakan di notebook, Langkah 3) karena grid penuh tidak selesai dalam batas waktu VM bersama — hasilnya dibandingkan ke kanonis 0,7858 dalam toleransi 0,005. (Tautan Colab Drive diisi koordinator saat notebook di-upload.)
+Notebook: colab/mlf-m62-guided-task.ipynb — flagship single-split, CV 5-fold, nested CV GBM, demo leakage, dan time-series split BBCA. Catatan: cell nested CV di notebook memakai subset 8 konfigurasi (detail implementasi notebook, bukan angka kanonis) dari grid kanonis 18 (dinyatakan di notebook, Langkah 3) karena grid penuh tidak selesai dalam batas waktu VM bersama — hasilnya dibandingkan ke kanonis 0,7858 dalam toleransi 0,005. Tautan Colab: https://colab.research.google.com/drive/1aDGhlbTOMl_BXGcpnFRsvZNNkrx8ynbu
 
 ## Rangkuman
 

@@ -1,0 +1,348 @@
+{
+  "meta": {
+    "seed": 42,
+    "sklearn": "1.9.1",
+    "shap": "0.54.1",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1"
+  },
+  "repro_flagship": {
+    "lr_roc_auc": 0.7426,
+    "lr_pr_auc": 0.5049,
+    "gbm_roc_auc": 0.7823,
+    "gbm_pr_auc": 0.5597,
+    "cal_gbm_roc_auc": 0.7816
+  },
+  "lime_style": {
+    "weighted_r2": 0.4396,
+    "intercept": 0.6197,
+    "surrogate_pred_at_instance": 0.5475,
+    "gbm_proba_at_instance": 0.8599,
+    "top8": [
+      {
+        "feature": "BILL_AMT1",
+        "coef": 0.0637
+      },
+      {
+        "feature": "PAY_AMT3",
+        "coef": -0.0298
+      },
+      {
+        "feature": "MARRIAGE",
+        "coef": 0.0237
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "coef": -0.0191
+      },
+      {
+        "feature": "PAY_0",
+        "coef": 0.0168
+      },
+      {
+        "feature": "UTILIZATION",
+        "coef": 0.0157
+      },
+      {
+        "feature": "BILL_AMT6",
+        "coef": 0.0156
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.0154
+      }
+    ],
+    "top3": [
+      "BILL_AMT1",
+      "PAY_AMT3",
+      "MARRIAGE"
+    ],
+    "weight_stats": {
+      "mean": 0.1835,
+      "min": 0.0239,
+      "max": 0.5435
+    },
+    "stability_seed7_top3": [
+      "BILL_AMT1",
+      "BILL_AMT6",
+      "MARRIAGE"
+    ],
+    "stability_top3_overlap": 2,
+    "seed7_weighted_r2": 0.4374,
+    "note": "manual LIME-style surrogate, CORRECTED kernel: perturbations N(0,1) in standardised space, kernel exp(-(d/kw)^2) with kw = 0.75*sqrt(31) = 4.18 (LIME default). First pass used exp(-d^2) (kw=1) -> all weights ~0, R2=0.0003, garbage. lime package itself NOT installed; same idea built by hand."
+  },
+  "pdp_pay_mean_clean": {
+    "grid": [
+      -2.0,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "cal_gbm": [
+      0.2084,
+      0.2132,
+      0.2133,
+      0.2162,
+      0.22,
+      0.237,
+      0.246,
+      0.2399
+    ],
+    "note": "manual PDP, calibrated GBM, test 6000."
+  },
+  "univariate_pay": {
+    "PAY_0": {
+      "corr_with_default": 0.3133,
+      "default_rate_late": 0.4985,
+      "default_rate_not_late": 0.1426,
+      "n_late": 1324
+    },
+    "PAY_2": {
+      "corr_with_default": 0.2556,
+      "default_rate_late": 0.5542,
+      "default_rate_not_late": 0.1635,
+      "n_late": 886
+    },
+    "PAY_3": {
+      "corr_with_default": 0.2207,
+      "default_rate_late": 0.5141,
+      "default_rate_not_late": 0.1727,
+      "n_late": 852
+    },
+    "PAY_4": {
+      "corr_with_default": 0.2033,
+      "default_rate_late": 0.5315,
+      "default_rate_not_late": 0.1803,
+      "n_late": 698
+    },
+    "PAY_5": {
+      "corr_with_default": 0.2077,
+      "default_rate_late": 0.5579,
+      "default_rate_not_late": 0.1835,
+      "n_late": 604
+    },
+    "PAY_6": {
+      "corr_with_default": 0.1796,
+      "default_rate_late": 0.5256,
+      "default_rate_not_late": 0.187,
+      "n_late": 605
+    },
+    "PAY_MEAN": {
+      "corr_with_default": 0.2701,
+      "default_rate_late": 0.4717,
+      "default_rate_not_late": 0.1427,
+      "n_late": 1431
+    },
+    "PAY_MAX": {
+      "corr_with_default": 0.3128,
+      "default_rate_late": 0.4188,
+      "default_rate_not_late": 0.1249,
+      "n_late": 1965
+    },
+    "PAY_DELAY_COUNT": {
+      "corr_with_default": 0.3882,
+      "default_rate_late": 0.4188,
+      "default_rate_not_late": 0.1249,
+      "n_late": 1965
+    }
+  },
+  "no_pay_models": {
+    "dropped": [
+      "PAY_0",
+      "PAY_2",
+      "PAY_3",
+      "PAY_4",
+      "PAY_5",
+      "PAY_6",
+      "PAY_MEAN",
+      "PAY_MAX",
+      "PAY_DELAY_COUNT"
+    ],
+    "lr_roc_auc": 0.6467,
+    "gbm_roc_auc": 0.7343,
+    "lr_top5_coef": [
+      {
+        "feature": "LIMIT_BAL",
+        "coef": -0.3923
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.2921
+      },
+      {
+        "feature": "PAY_AMT2",
+        "coef": -0.2745
+      },
+      {
+        "feature": "BILL_AMT2",
+        "coef": 0.2543
+      },
+      {
+        "feature": "BILL_AMT1",
+        "coef": -0.2369
+      }
+    ],
+    "gbm_perm_top5": [
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0402
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_drop": 0.0351
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_drop": 0.0269
+      },
+      {
+        "feature": "PAY_AMT3",
+        "mean_drop": 0.0193
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0192
+      }
+    ],
+    "full_model_lr_roc_auc": 0.7426,
+    "full_model_gbm_roc_auc": 0.7823,
+    "note": "Without any PAY_* signal both models lose a lot of ranking power and explain themselves with proxies (LIMIT_BAL, BILL_*, AGE). The explanation looks confident but the model is much worse."
+  },
+  "shap_gbm": {
+    "model": "raw GBM (uncalibrated). Decision model is its Platt-calibrated version (monotone transform: same ranking, same top features; exact SHAP values on the calibrated score differ).",
+    "n_rows": 6000,
+    "set": "test (6000)",
+    "base_value_logodds": -1.555,
+    "base_value_proba": 0.1744,
+    "efficiency_max_abs_err_vs_logodds": 0.0,
+    "global_mean_abs_shap_top12": [
+      {
+        "feature": "PAY_MAX",
+        "mean_abs_shap": 0.4946
+      },
+      {
+        "feature": "PAY_0",
+        "mean_abs_shap": 0.2385
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_abs_shap": 0.1574
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_abs_shap": 0.1113
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_abs_shap": 0.0892
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_abs_shap": 0.0779
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_abs_shap": 0.0745
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_abs_shap": 0.067
+      },
+      {
+        "feature": "BILL_MEAN",
+        "mean_abs_shap": 0.0658
+      },
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "mean_abs_shap": 0.0585
+      },
+      {
+        "feature": "PAY_AMT3",
+        "mean_abs_shap": 0.0503
+      },
+      {
+        "feature": "BILL_AMT1",
+        "mean_abs_shap": 0.0492
+      }
+    ],
+    "global_mean_abs_shap_all": {
+      "LIMIT_BAL": 0.1113,
+      "SEX": 0.0314,
+      "EDUCATION": 0.0169,
+      "MARRIAGE": 0.0259,
+      "AGE": 0.0304,
+      "PAY_0": 0.2385,
+      "PAY_2": 0.0104,
+      "PAY_3": 0.0058,
+      "PAY_4": 0.0064,
+      "PAY_5": 0.0067,
+      "PAY_6": 0.0113,
+      "BILL_AMT1": 0.0492,
+      "BILL_AMT2": 0.0233,
+      "BILL_AMT3": 0.0226,
+      "BILL_AMT4": 0.0168,
+      "BILL_AMT5": 0.0228,
+      "BILL_AMT6": 0.016,
+      "PAY_AMT1": 0.067,
+      "PAY_AMT2": 0.0779,
+      "PAY_AMT3": 0.0503,
+      "PAY_AMT4": 0.0222,
+      "PAY_AMT5": 0.0315,
+      "PAY_AMT6": 0.0366,
+      "PAY_MEAN": 0.0341,
+      "PAY_MAX": 0.4946,
+      "PAY_DELAY_COUNT": 0.0585,
+      "UTILIZATION": 0.1574,
+      "PAY_RATIO": 0.0179,
+      "BILL_MEAN": 0.0658,
+      "PAY_AMT_MEAN": 0.0892,
+      "BILL_TREND": 0.0745
+    },
+    "local_row_858": {
+      "gbm_proba": 0.8599,
+      "logodds": 1.8148,
+      "sum_shap": 3.3699,
+      "base_plus_sum": 1.8148,
+      "top8": [
+        {
+          "feature": "PAY_MAX",
+          "shap_logodds": 1.1368
+        },
+        {
+          "feature": "PAY_0",
+          "shap_logodds": 0.928
+        },
+        {
+          "feature": "PAY_AMT3",
+          "shap_logodds": 0.1553
+        },
+        {
+          "feature": "PAY_MEAN",
+          "shap_logodds": 0.1418
+        },
+        {
+          "feature": "PAY_AMT_MEAN",
+          "shap_logodds": 0.1309
+        },
+        {
+          "feature": "LIMIT_BAL",
+          "shap_logodds": 0.1204
+        },
+        {
+          "feature": "PAY_DELAY_COUNT",
+          "shap_logodds": 0.1153
+        },
+        {
+          "feature": "BILL_TREND",
+          "shap_logodds": 0.0928
+        }
+      ]
+    },
+    "note": "TreeExplainer, feature_perturbation='tree_path_dependent' (default). SHAP values in log-odds units; base value = mean log-odds over the training background implied by the trees."
+  },
+  "elapsed_seconds": 101.3
+}

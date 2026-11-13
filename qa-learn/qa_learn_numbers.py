@@ -2100,6 +2100,152 @@ FIXTURES = [
           "hanyalah nested CV (0,7858 ± 0,0068)",
           "0,7858 ± 0,0068 adalah estimasi yang jujur"],
     ),
+    # --- Fix review DeepSeek M7 (2026-11-13, 25 temuan, 0 noise) ---
+    # M7.1: premis "model tidak memakai SEX" SALAH (kelas GG-5) —
+    # flagship MEMAKAI SEX/EDUCATION/MARRIAGE/AGE (LR SEX −0,0626,
+    # SHAP 0,0314); drop kolom sensitif MENURUNKAN AIR 0,8694 →
+    # 0,9211 (bukan "hanya menyembunyikan"); AIR SEX diseragamkan
+    # ke 0,8693 (0,8694 pada deret threshold = dari rate tak
+    # dibulatkan); FPR 0,6585 = "sekitar dua pertiga (65,85%)".
+    (
+        "mlf-m71-fairness-metrics.ts",
+        ["0,8693", "−0,0626", "0,8694 → 0,9211", "0,6261",
+         "sekitar dua pertiga (65,85%)"],
+        ["tidak memakai SEX", "tidak pernah «melihat» kolom",
+         "hanya menyembunyikannya dari daftar fitur",
+         "dua dari tiga nasabah LANCAR ditolak",
+         "0,2614 / 0,3007 = 0,869 —", "model ini tidak memakainya"],
+    ),
+    # M7.2: premis yang sama + Q6 diperbaiki (jawaban benar =
+    # campuran efek langsung + perbedaan risiko + proxy; distraktor
+    # B "pipeline tidak menyertakan SEX" SALAH); label (M6.4) pada
+    # angka threshold 0,50 (843 default, bad rate 15,96% — ada di
+    # m6_canonical.json, diverifikasi Chief).
+    # Gate ronde fix (5 KONTRADIKSI, semua terverifikasi BENAR):
+    # G1 superlatif "paling tidak bisa dipercaya" WAJIB bercakupan
+    # (ECE 60+ 0,1208 > SMA 0,0362); G2 uji-z + CI bukan "dua bukti
+    # independen" (SE sama); G3 "hanya sama bila distribusi sama"
+    # salah logika (syarat cukup, bukan perlu).
+    (
+        "mlf-m72-bias-audit-sources.ts",
+        ["−0,0626", "0,8694 → 0,9211", "0,6261",
+         "sekitar dua pertiga (65,85%)", "(bad rate 15,96%, M6.4)",
+         "paling tidak bisa dipercaya di antara grup besar EDUCATION (ECE 0,0362)",
+         "DUA CARA MEMBACA bukti yang sama",
+         "TIDAK membuktikan distribusi fiturnya sama"],
+        ["tidak memakai SEX", "hanya menyembunyikannya dari daftar fitur",
+         "tidak menyertakan SEX/EDUCATION/AGE sebagai fitur",
+         "31 fitur dari kolom transaksi dan perilaku",
+         "bukan dari kolom SEX-nya",
+         "dua dari tiga nasabah LANCAR ditolak",
+         "dua bukti independen",
+         "hanya sama bila distribusi fitur"],
+    ),
+    # M7.3: label temporal PAY (PAY_0→PAY_6 = terbaru→terlama);
+    # "bukan threshold-nya" absolut → threshold per grup TERBUKTI
+    # memperbaiki AIR (M7.4: 0,8694→0,9999); PDP 2D "mengecil
+    # sedikit" → "sekitar sepertiga"; LIME 2.000 sampel [notebook]
+    # (terverifikasi di colab/mlf-m73-guided-task.ipynb, n_samp =
+    # 2000); arah AIR dinyatakan eksplisit.
+    # Gate ronde fix G4: transformasi monoton (Platt) menjaga
+    # ranking PREDIKSI nasabah, BUKAN urutan SHAP antar fitur —
+    # "ranking dan fitur teratasnya sama" SALAH (3 spot TS + 1 .md).
+    (
+        "mlf-m73-explainability-shap-lime.ts",
+        ["tiga bulan terbaru 3, 2, 2", "tiga bulan tertua 7, 7, 7",
+         "0,8694→0,9999", "0,8693 = laki-laki/perempuan",
+         "mengecil sekitar sepertiga (0,0714→0,0487)",
+         "ranking PREDIKSI nasabahnya sama"],
+        ["tiga bulan terakhir bahkan tidak membayar",
+         "bukan threshold-nya",
+         "mengecil sedikit saat fitur pasangannya sudah tinggi",
+         "ranking dan fitur teratasnya sama"],
+    ),
+    # M7.4: interpolasi Pareto λ=0,62 → biaya ≈ NT$32.899.000
+    # (bukan 32.895.000); lab expected air_female_over_male =
+    # 1.1503 (solusi membagi approval yang ditampilkan 0,3007 /
+    # 0,2614; hitungan penuh 1,1502); "1/0,869 = 1,151" →
+    # "1/0,8693 ≈ 1,150".
+    (
+        "mlf-m74-fairness-mitigation.ts",
+        ["32.899.000", "air_female_over_male=1.1503",
+         "1/0,8693 ≈ 1,150"],
+        ["32.895.000", "air_female_over_male=1.1502",
+         "1/0,869 = 1,151", "0,3007 / 0,2614 = 1,1502"],
+    ),
+    # M7.5: alert chunk 2 disatukan ke WASPADA (1) — langkah 9,
+    # lab2, checkpoint, rangkuman; ROC-AUC mentah vs terkalibrasi
+    # dilabeli; prior shift = under-predict (approval cenderung
+    # NAIK); PSI 0,0161 = chunk 1 vs chunk 5 (bukan chunk 2);
+    # default per chunk 230–295 (chunk 3 = 294).
+    # Gate ronde fix G5: pitfall step 1 juga menyebut dua ROC-AUC
+    # test tanpa label varian (kelas 99, spot terlewat) — dilabeli
+    # (GBM mentah) 0,7823 dan (GBM terkalibrasi) 0,7816.
+    (
+        "mlf-m75-monitoring-drift.ts",
+        ["alert_A=1", "GBM mentah 0,7823",
+         "under-predict peluang default", "chunk 1 vs chunk 5",
+         "230–295 default per chunk",
+         "ROC-AUC test-mu (GBM mentah) tetap 0,7823",
+         "ROC-AUC (GBM terkalibrasi) hanya turun"],
+        ["alert_A=2", "alert chunk 2 = kritis (2)",
+         "menolak lebih banyak orang",
+         "PSI skor 0,0161, terkonfirmasi",
+         "230–290 default per chunk",
+         "ROC-AUC test-mu tetap 0,7823"],
+    ),
+    # --- Fill gap Luna M7 (2026-11-13, 10 gap, 0 noise) ---
+    # G2/G3/G8 dihitung dari data (m7_gap_fill_numbers.json);
+    # G9 counterfactual dihitung ulang (m7g9_counterfactual_calc.py);
+    # G1/G4/G5 memakai [simulasi] di mana kanonik tak punya angka.
+    # M7.2: irisan L×SMA AIR 0,2655 (global 0,8693 menyembunyikan
+    # −0,6038); bootstrap CI (1.000 ulangan, seed 42); kualitas
+    # data 30.000 baris (missing 0; EDU invalid 345; BILL_AMT
+    # negatif 1.930).
+    (
+        "mlf-m72-bias-audit-sources.ts",
+        ["0,2655", "0,6038", "73,72%", "1,15%", "6,43%",
+         "[−0,0498; 0,0110]", "tidak signifikan ≠ tidak ada gap",
+         "1.000 ulangan", "menaikkan AIR (0,8694 → 0,9211",
+         "29,85% (n = 1.791) vs terkalibrasi 28,50% (n = 1.710)"],
+        ["gap TPR sudah tertutup", "menurunkan AIR (0,8694",
+         "hampir tidak mengubah approval"],
+    ),
+    # M7.3: counterfactual 858 dihitung ulang — riwayat sempurna
+    # pun tetap ditolak (CF-A cal 0,3325; CF-B cal 0,1535);
+    # counterfactual = diagnosis, bukan rencana aksi/kausal;
+    # overlap top-3 LR vs SHAP GBM = 2.
+    (
+        "mlf-m73-explainability-shap-lime.ts",
+        ["0,3325", "0,1535", "0,1382",
+         "counterfactual adalah diagnosis model",
+         "overlap_lr_shap=2", "menaikkan AIR (0,8694→0,9999"],
+        ["counterfactual adalah rencana aksi", "menurunkan AIR (0,8694"],
+    ),
+    # M7.4: protokol validasi (pilih di validation, laporkan di
+    # test) — angka mitigasi = HASIL ILUSTRASI PROTOKOL LESSON;
+    # template tata kelola 10 kolom + rollback v2 = threshold
+    # tunggal 0,10.
+    (
+        "mlf-m74-fairness-mitigation.ts",
+        ["HASIL ILUSTRASI PROTOKOL LESSON", "0,1058/0,0965",
+         "Rollback version: threshold tunggal 0,10 (v1)",
+         "probabilitas model (terkalibrasi) tetap 0,7816"],
+        ["λ = 1 adalah titik terbaik",
+         "angka mitigasi ini adalah evaluasi final",
+         "probabilitas mentah tetap 0,7816",
+         "ROC-AUC mentah 0,7816"],
+    ),
+    # M7.5: fairness monitoring terpisah dari overall (AIR SEX
+    # [simulasi] 0,710 di chunk 2); matured cohort (jendela 1
+    # bulan); attribution drift [simulasi] (PAY_MAX 0,2500,
+    # UTILIZATION 0,3100) = diagnosis, bukan kausal.
+    (
+        "mlf-m75-monitoring-drift.ts",
+        ["0,710", "proporsi label matang", "0,2500", "0,3100",
+         "Cohort MATANG"],
+        ["label belum matang = 0", "fairness_flag=False"],
+    ),
 ]
 
 

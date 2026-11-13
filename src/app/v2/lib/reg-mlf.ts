@@ -33,6 +33,11 @@ import { mlfM62 } from "../content/mlf-m62-cross-validation-nested-cv";
 import { mlfM63 } from "../content/mlf-m63-regularization-early-stopping";
 import { mlfM64 } from "../content/mlf-m64-calibration-threshold-selection";
 import { mlfM65 } from "../content/mlf-m65-automl-selection-bias";
+import { mlfM71 } from "../content/mlf-m71-fairness-metrics";
+import { mlfM72 } from "../content/mlf-m72-bias-audit-sources";
+import { mlfM73 } from "../content/mlf-m73-explainability-shap-lime";
+import { mlfM74 } from "../content/mlf-m74-fairness-mitigation";
+import { mlfM75 } from "../content/mlf-m75-monitoring-drift";
 
 export const REG_MLF: Record<string, V2Lesson> = {
   "mlf-l01-data-cleaning": mlfL01,
@@ -69,4 +74,9 @@ export const REG_MLF: Record<string, V2Lesson> = {
   "mlf-m63-regularization-early-stopping": mlfM63,
   "mlf-m64-calibration-threshold-selection": mlfM64,
   "mlf-m65-automl-selection-bias": mlfM65,
+  "mlf-m71-fairness-metrics": mlfM71,
+  "mlf-m72-bias-audit-sources": mlfM72,
+  "mlf-m73-explainability-shap-lime": mlfM73,
+  "mlf-m74-fairness-mitigation": mlfM74,
+  "mlf-m75-monitoring-drift": mlfM75,
 };

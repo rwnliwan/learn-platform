@@ -808,6 +808,7 @@ print(f"konfigurasi yang seri di skor test tertinggi: {n_seri}")`,
         "Finalisasi model: refit konfigurasi terpilih (max_iter 100, max_depth 5, learning_rate 0,05) di train penuh; selection record (dataset version, seed 42, folds, search space, primary metric, konfigurasi terpilih, calibration method, threshold 0,50, skor final); yang boleh dilaporkan sebagai performa adalah skor nested 0,7858 — CV 0,7865 adalah skor pemilihan (bias ke atas), test 0,7823 satu pengukuran.",
         "Experiment tracking lintas sesi: registry mencatat setiap run termasuk yang gagal (seed, search space, metrik, keputusan); tiga sesi kanonis = 54 percobaan (18+27+9); laporan yang hanya menampilkan run terbaik (0,7869) TIDAK VALID — jumlah percobaan disembunyikan dan test ikut terintip berulang kali; «effective number of attempts» kualitatif [ilustrasi].",
       ],
+      next: { label: "Lanjut: MLF-M7.1 — Fairness Metrics", href: "/v2/learn/mlf-m71-fairness-metrics" },
     },
   ],
 }; 

@@ -1,0 +1,1008 @@
+{
+  "meta": {
+    "seed": 42,
+    "sklearn": "1.9.1",
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "data": "data/uci_default_credit.xls",
+    "note": "SHAP computed for real with shap 0.54.1 in venv ~/workspace/.venv-shap-m73 (kernel shap-m73); system python has no shap. LIME-style surrogate corrected (kernel kw=0.75*sqrt(31)); first-pass LIME (R2=0.0003) was a kernel-width bug, replaced by fix pass.",
+    "shap": "0.54.1 (venv ~/workspace/.venv-shap-m73; NOT system python)",
+    "lime": null
+  },
+  "data_n": 30000,
+  "data_base_rate": 0.2212,
+  "n_features": 31,
+  "train_n": 24000,
+  "test_n": 6000,
+  "repro_flagship": {
+    "lr_roc_auc": 0.7426,
+    "lr_pr_auc": 0.5049,
+    "gbm_roc_auc": 0.7823,
+    "gbm_pr_auc": 0.5597,
+    "cal_gbm_roc_auc": 0.7816,
+    "targets": {
+      "lr_roc_auc": 0.7426,
+      "lr_pr_auc": 0.5049,
+      "gbm_roc_auc": 0.7823,
+      "gbm_pr_auc": 0.5597
+    },
+    "diffs": {
+      "lr_roc_auc": 0.0,
+      "lr_pr_auc": 0.0,
+      "gbm_roc_auc": 0.0,
+      "gbm_pr_auc": 0.0
+    },
+    "all_within_0.001": true
+  },
+  "lr_coef": {
+    "intercept": -1.485,
+    "top12_abs": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "coef": 0.756,
+        "odds_ratio": 2.1297
+      },
+      {
+        "feature": "PAY_MAX",
+        "coef": 0.2741,
+        "odds_ratio": 1.3154
+      },
+      {
+        "feature": "PAY_0",
+        "coef": 0.2434,
+        "odds_ratio": 1.2756
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "coef": -0.2402,
+        "odds_ratio": 0.7865
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.1614,
+        "odds_ratio": 0.8509
+      },
+      {
+        "feature": "BILL_AMT2",
+        "coef": 0.1334,
+        "odds_ratio": 1.1427
+      },
+      {
+        "feature": "PAY_AMT2",
+        "coef": -0.1294,
+        "odds_ratio": 0.8786
+      },
+      {
+        "feature": "PAY_3",
+        "coef": -0.1184,
+        "odds_ratio": 0.8884
+      },
+      {
+        "feature": "BILL_AMT3",
+        "coef": 0.109,
+        "odds_ratio": 1.1152
+      },
+      {
+        "feature": "PAY_5",
+        "coef": -0.1015,
+        "odds_ratio": 0.9035
+      },
+      {
+        "feature": "PAY_2",
+        "coef": -0.0969,
+        "odds_ratio": 0.9076
+      },
+      {
+        "feature": "PAY_6",
+        "coef": -0.0901,
+        "odds_ratio": 0.9138
+      }
+    ],
+    "all": {
+      "LIMIT_BAL": -0.2402,
+      "SEX": -0.0626,
+      "EDUCATION": -0.0575,
+      "MARRIAGE": -0.0565,
+      "AGE": 0.0547,
+      "PAY_0": 0.2434,
+      "PAY_2": -0.0969,
+      "PAY_3": -0.1184,
+      "PAY_4": -0.0711,
+      "PAY_5": -0.1015,
+      "PAY_6": -0.0901,
+      "BILL_AMT1": -0.0821,
+      "BILL_AMT2": 0.1334,
+      "BILL_AMT3": 0.109,
+      "BILL_AMT4": 0.0709,
+      "BILL_AMT5": -0.0431,
+      "BILL_AMT6": -0.0847,
+      "PAY_AMT1": -0.1614,
+      "PAY_AMT2": -0.1294,
+      "PAY_AMT3": 0.0144,
+      "PAY_AMT4": 0.0047,
+      "PAY_AMT5": 0.018,
+      "PAY_AMT6": -0.0104,
+      "PAY_MEAN": -0.0484,
+      "PAY_MAX": 0.2741,
+      "PAY_DELAY_COUNT": 0.756,
+      "UTILIZATION": 0.0726,
+      "PAY_RATIO": 0.069,
+      "BILL_MEAN": 0.0206,
+      "PAY_AMT_MEAN": -0.0816,
+      "BILL_TREND": -0.023
+    },
+    "odds_ratio_all": {
+      "LIMIT_BAL": 0.7865,
+      "SEX": 0.9393,
+      "EDUCATION": 0.9441,
+      "MARRIAGE": 0.9451,
+      "AGE": 1.0563,
+      "PAY_0": 1.2756,
+      "PAY_2": 0.9076,
+      "PAY_3": 0.8884,
+      "PAY_4": 0.9313,
+      "PAY_5": 0.9035,
+      "PAY_6": 0.9138,
+      "BILL_AMT1": 0.9212,
+      "BILL_AMT2": 1.1427,
+      "BILL_AMT3": 1.1152,
+      "BILL_AMT4": 1.0735,
+      "BILL_AMT5": 0.9578,
+      "BILL_AMT6": 0.9188,
+      "PAY_AMT1": 0.8509,
+      "PAY_AMT2": 0.8786,
+      "PAY_AMT3": 1.0145,
+      "PAY_AMT4": 1.0047,
+      "PAY_AMT5": 1.0181,
+      "PAY_AMT6": 0.9897,
+      "PAY_MEAN": 0.9527,
+      "PAY_MAX": 1.3154,
+      "PAY_DELAY_COUNT": 2.1297,
+      "UTILIZATION": 1.0753,
+      "PAY_RATIO": 1.0714,
+      "BILL_MEAN": 1.0208,
+      "PAY_AMT_MEAN": 0.9217,
+      "BILL_TREND": 0.9772
+    }
+  },
+  "perm_importance_gbm": {
+    "top12": [
+      {
+        "feature": "PAY_MAX",
+        "mean_drop": 0.0569,
+        "sd": 0.0043
+      },
+      {
+        "feature": "PAY_0",
+        "mean_drop": 0.0241,
+        "sd": 0.0021
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_drop": 0.013,
+        "sd": 0.0019
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0069,
+        "sd": 0.0011
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_drop": 0.0062,
+        "sd": 0.0013
+      },
+      {
+        "feature": "BILL_AMT1",
+        "mean_drop": 0.0053,
+        "sd": 0.0009
+      },
+      {
+        "feature": "BILL_MEAN",
+        "mean_drop": 0.0048,
+        "sd": 0.0009
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_drop": 0.0044,
+        "sd": 0.0008
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_drop": 0.0042,
+        "sd": 0.0017
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0035,
+        "sd": 0.0012
+      },
+      {
+        "feature": "BILL_AMT3",
+        "mean_drop": 0.0024,
+        "sd": 0.0007
+      },
+      {
+        "feature": "PAY_AMT6",
+        "mean_drop": 0.0024,
+        "sd": 0.0009
+      }
+    ],
+    "all": {
+      "LIMIT_BAL": 0.0062,
+      "SEX": 0.0008,
+      "EDUCATION": 0.0013,
+      "MARRIAGE": 0.0007,
+      "AGE": 0.0022,
+      "PAY_0": 0.0241,
+      "PAY_2": 0.0001,
+      "PAY_3": 0.0002,
+      "PAY_4": -0.0001,
+      "PAY_5": 0.0005,
+      "PAY_6": 0.0004,
+      "BILL_AMT1": 0.0053,
+      "BILL_AMT2": 0.0014,
+      "BILL_AMT3": 0.0024,
+      "BILL_AMT4": 0.0012,
+      "BILL_AMT5": 0.0013,
+      "BILL_AMT6": 0.0,
+      "PAY_AMT1": 0.0042,
+      "PAY_AMT2": 0.0035,
+      "PAY_AMT3": 0.002,
+      "PAY_AMT4": 0.0007,
+      "PAY_AMT5": 0.0002,
+      "PAY_AMT6": 0.0024,
+      "PAY_MEAN": 0.0003,
+      "PAY_MAX": 0.0569,
+      "PAY_DELAY_COUNT": 0.0012,
+      "UTILIZATION": 0.013,
+      "PAY_RATIO": 0.0008,
+      "BILL_MEAN": 0.0048,
+      "PAY_AMT_MEAN": 0.0069,
+      "BILL_TREND": 0.0044
+    },
+    "scoring": "roc_auc",
+    "n_repeats": 10,
+    "set": "test (6000)",
+    "base_roc_auc": 0.7823
+  },
+  "perm_importance_lr": {
+    "top12": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "mean_drop": 0.1422,
+        "sd": 0.0061
+      },
+      {
+        "feature": "PAY_MAX",
+        "mean_drop": 0.0127,
+        "sd": 0.0039
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_drop": 0.0098,
+        "sd": 0.0034
+      },
+      {
+        "feature": "PAY_0",
+        "mean_drop": 0.0063,
+        "sd": 0.0029
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_drop": 0.0046,
+        "sd": 0.0014
+      },
+      {
+        "feature": "PAY_3",
+        "mean_drop": 0.0041,
+        "sd": 0.0014
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0037,
+        "sd": 0.001
+      },
+      {
+        "feature": "BILL_AMT2",
+        "mean_drop": 0.0037,
+        "sd": 0.0018
+      },
+      {
+        "feature": "PAY_6",
+        "mean_drop": 0.0034,
+        "sd": 0.002
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0031,
+        "sd": 0.001
+      },
+      {
+        "feature": "PAY_5",
+        "mean_drop": 0.0029,
+        "sd": 0.0021
+      },
+      {
+        "feature": "MARRIAGE",
+        "mean_drop": 0.0028,
+        "sd": 0.0005
+      }
+    ],
+    "all": {
+      "LIMIT_BAL": 0.0098,
+      "SEX": 0.0015,
+      "EDUCATION": -0.0002,
+      "MARRIAGE": 0.0028,
+      "AGE": 0.0015,
+      "PAY_0": 0.0063,
+      "PAY_2": 0.0025,
+      "PAY_3": 0.0041,
+      "PAY_4": 0.0025,
+      "PAY_5": 0.0029,
+      "PAY_6": 0.0034,
+      "BILL_AMT1": 0.0013,
+      "BILL_AMT2": 0.0037,
+      "BILL_AMT3": 0.0025,
+      "BILL_AMT4": 0.0009,
+      "BILL_AMT5": 0.0005,
+      "BILL_AMT6": 0.0023,
+      "PAY_AMT1": 0.0046,
+      "PAY_AMT2": 0.0037,
+      "PAY_AMT3": -0.0002,
+      "PAY_AMT4": -0.0001,
+      "PAY_AMT5": -0.0005,
+      "PAY_AMT6": -0.0001,
+      "PAY_MEAN": 0.0014,
+      "PAY_MAX": 0.0127,
+      "PAY_DELAY_COUNT": 0.1422,
+      "UTILIZATION": 0.0002,
+      "PAY_RATIO": 0.0014,
+      "BILL_MEAN": 0.0001,
+      "PAY_AMT_MEAN": 0.0031,
+      "BILL_TREND": -0.0003
+    },
+    "scoring": "roc_auc",
+    "n_repeats": 10,
+    "set": "test (6000)",
+    "base_roc_auc": 0.7426
+  },
+  "pdp_1d": {
+    "pay_max_grid": [
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cal_gbm_pay_max": [
+      0.1589,
+      0.1589,
+      0.1589,
+      0.1986,
+      0.2782,
+      0.2897,
+      0.2897,
+      0.2892,
+      0.2892,
+      0.2892,
+      0.2892
+    ],
+    "lr_pay_max": [
+      0.1456,
+      0.1697,
+      0.1966,
+      0.2265,
+      0.2593,
+      0.295,
+      0.3334,
+      0.3742,
+      0.4169,
+      0.4612,
+      0.5063
+    ],
+    "gbm_pay_max": [
+      0.15,
+      0.15,
+      0.15,
+      0.2064,
+      0.2821,
+      0.3001,
+      0.3001,
+      0.3001,
+      0.3001,
+      0.3001,
+      0.3001
+    ],
+    "pay_mean_grid": [
+      -2.0,
+      -1.5,
+      -0.83,
+      0.0,
+      0.0,
+      1.0,
+      5.5
+    ],
+    "cal_gbm_pay_mean": [
+      0.2084,
+      0.2114,
+      0.2135,
+      0.2162,
+      0.2162,
+      0.237,
+      0.2399
+    ],
+    "util_grid": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      3.0,
+      5.0
+    ],
+    "cal_gbm_utilization": [
+      0.199,
+      0.2076,
+      0.2181,
+      0.2315,
+      0.2572,
+      0.2627,
+      0.2627,
+      0.2627,
+      0.2627
+    ],
+    "lr_utilization": [
+      0.2089,
+      0.2149,
+      0.2211,
+      0.2274,
+      0.2338,
+      0.2469,
+      0.2605,
+      0.2892,
+      0.3518
+    ],
+    "note": "manual PDP: feature set to grid value for all 6000 test rows, mean predicted P(default). Calibrated GBM = decision model."
+  },
+  "pdp_2d": {
+    "pay_max_grid": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "util_grid": [
+      0.2,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "cal_gbm": [
+      [
+        0.1389,
+        0.1505,
+        0.1994,
+        0.2103
+      ],
+      [
+        0.1818,
+        0.1943,
+        0.2319,
+        0.2484
+      ],
+      [
+        0.2675,
+        0.278,
+        0.3079,
+        0.3166
+      ],
+      [
+        0.2788,
+        0.2895,
+        0.3184,
+        0.3275
+      ],
+      [
+        0.2788,
+        0.2895,
+        0.3184,
+        0.3275
+      ]
+    ],
+    "note": "rows = PAY_MAX, cols = UTILIZATION; mean P(default)."
+  },
+  "local_case": {
+    "test_positional_index": 858,
+    "true_label": 1,
+    "cal_gbm_proba": 0.8492,
+    "gbm_proba": 0.8599,
+    "lr_proba": 0.7187,
+    "lr_logodds": 0.9378,
+    "lr_logodds_check_proba": 0.7187,
+    "lr_intercept": -1.485,
+    "raw_features": {
+      "LIMIT_BAL": 20000,
+      "SEX": 2,
+      "EDUCATION": 2,
+      "MARRIAGE": 1,
+      "AGE": 32,
+      "PAY_0": 3,
+      "PAY_2": 2,
+      "PAY_3": 2,
+      "PAY_4": 7,
+      "PAY_5": 7,
+      "PAY_6": 7,
+      "BILL_AMT1": 2400,
+      "BILL_AMT2": 2400,
+      "BILL_AMT3": 2400,
+      "BILL_AMT4": 2400,
+      "BILL_AMT5": 2400,
+      "BILL_AMT6": 2400,
+      "PAY_AMT1": 0,
+      "PAY_AMT2": 0,
+      "PAY_AMT3": 0,
+      "PAY_AMT4": 0,
+      "PAY_AMT5": 0,
+      "PAY_AMT6": 0
+    },
+    "top_contributions": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "std_value": 3.3301,
+        "coef": 0.756,
+        "contribution_logodds": 2.5175
+      },
+      {
+        "feature": "PAY_MAX",
+        "std_value": 4.898,
+        "coef": 0.2741,
+        "contribution_logodds": 1.3426
+      },
+      {
+        "feature": "PAY_5",
+        "std_value": 6.4616,
+        "coef": -0.1015,
+        "contribution_logodds": -0.6558
+      },
+      {
+        "feature": "PAY_0",
+        "std_value": 2.6837,
+        "coef": 0.2434,
+        "contribution_logodds": 0.6532
+      },
+      {
+        "feature": "PAY_6",
+        "std_value": 6.3673,
+        "coef": -0.0901,
+        "contribution_logodds": -0.5738
+      },
+      {
+        "feature": "PAY_4",
+        "std_value": 6.2151,
+        "coef": -0.0711,
+        "contribution_logodds": -0.4421
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "std_value": -1.1379,
+        "coef": -0.2402,
+        "contribution_logodds": 0.2733
+      },
+      {
+        "feature": "PAY_MEAN",
+        "std_value": 4.9594,
+        "coef": -0.0484,
+        "contribution_logodds": -0.2403
+      }
+    ],
+    "note": "contributions = coef * standardised feature value; they sum (+ intercept) to the LR log-odds exactly.",
+    "reason_codes_top3": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "contribution_logodds": 2.5175,
+        "plain_language": "Jumlah bulan dengan keterlambatan pembayaran"
+      },
+      {
+        "feature": "PAY_MAX",
+        "contribution_logodds": 1.3426,
+        "plain_language": "Keterlambatan pembayaran terburuk dalam 6 bulan terakhir"
+      },
+      {
+        "feature": "PAY_0",
+        "contribution_logodds": 0.6532,
+        "plain_language": "Status pembayaran bulan terakhir"
+      }
+    ]
+  },
+  "lime_style": {
+    "weighted_r2": 0.4396,
+    "intercept": 0.6197,
+    "surrogate_pred_at_instance": 0.5475,
+    "gbm_proba_at_instance": 0.8599,
+    "top8": [
+      {
+        "feature": "BILL_AMT1",
+        "coef": 0.0637
+      },
+      {
+        "feature": "PAY_AMT3",
+        "coef": -0.0298
+      },
+      {
+        "feature": "MARRIAGE",
+        "coef": 0.0237
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "coef": -0.0191
+      },
+      {
+        "feature": "PAY_0",
+        "coef": 0.0168
+      },
+      {
+        "feature": "UTILIZATION",
+        "coef": 0.0157
+      },
+      {
+        "feature": "BILL_AMT6",
+        "coef": 0.0156
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.0154
+      }
+    ],
+    "top3": [
+      "BILL_AMT1",
+      "PAY_AMT3",
+      "MARRIAGE"
+    ],
+    "weight_stats": {
+      "mean": 0.1835,
+      "min": 0.0239,
+      "max": 0.5435
+    },
+    "stability_seed7_top3": [
+      "BILL_AMT1",
+      "BILL_AMT6",
+      "MARRIAGE"
+    ],
+    "stability_top3_overlap": 2,
+    "seed7_weighted_r2": 0.4374,
+    "note": "manual LIME-style surrogate, CORRECTED kernel: perturbations N(0,1) in standardised space, kernel exp(-(d/kw)^2) with kw = 0.75*sqrt(31) = 4.18 (LIME default). First pass used exp(-d^2) (kw=1) -> all weights ~0, R2=0.0003, garbage. lime package itself NOT installed; same idea built by hand."
+  },
+  "misleading": {
+    "corr_bill_mean_vs_bill_amt_mean": 0.9463,
+    "corr_pay_mean_vs_pay_max": 0.8194,
+    "perm_gbm_bill_amt_cols_sum": 0.0116,
+    "perm_gbm_bill_mean": 0.0048,
+    "perm_gbm_pay_0": 0.0241,
+    "perm_gbm_pay_mean": 0.0003,
+    "perm_gbm_pay_max": 0.0569,
+    "note": "BILL_AMT1..6 correlate strongly with BILL_MEAN, so permutation importance is SPLIT across the six columns; each looks small, their sum is the honest size of the 'bill' signal.",
+    "underfit_gbm_max_iter5": {
+      "test_roc_auc": 0.7725,
+      "top3": [
+        {
+          "feature": "PAY_MAX",
+          "mean_drop": 0.0582
+        },
+        {
+          "feature": "PAY_0",
+          "mean_drop": 0.0379
+        },
+        {
+          "feature": "PAY_AMT_MEAN",
+          "mean_drop": 0.0165
+        }
+      ],
+      "note": "A bad model still produces a plausible-looking importance ranking. Explanation quality is bounded by model quality."
+    },
+    "lr_top5": [
+      "PAY_DELAY_COUNT",
+      "PAY_MAX",
+      "PAY_0",
+      "LIMIT_BAL",
+      "PAY_AMT1"
+    ],
+    "gbm_perm_top5": [
+      "PAY_MAX",
+      "PAY_0",
+      "UTILIZATION",
+      "PAY_AMT_MEAN",
+      "LIMIT_BAL"
+    ],
+    "lr_perm_top5": [
+      "PAY_DELAY_COUNT",
+      "PAY_MAX",
+      "LIMIT_BAL",
+      "PAY_0",
+      "PAY_AMT1"
+    ]
+  },
+  "elapsed_seconds": 3954.1,
+  "pdp_pay_mean_clean": {
+    "grid": [
+      -2.0,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "cal_gbm": [
+      0.2084,
+      0.2132,
+      0.2133,
+      0.2162,
+      0.22,
+      0.237,
+      0.246,
+      0.2399
+    ],
+    "note": "manual PDP, calibrated GBM, test 6000."
+  },
+  "univariate_pay": {
+    "PAY_0": {
+      "corr_with_default": 0.3133,
+      "default_rate_late": 0.4985,
+      "default_rate_not_late": 0.1426,
+      "n_late": 1324
+    },
+    "PAY_2": {
+      "corr_with_default": 0.2556,
+      "default_rate_late": 0.5542,
+      "default_rate_not_late": 0.1635,
+      "n_late": 886
+    },
+    "PAY_3": {
+      "corr_with_default": 0.2207,
+      "default_rate_late": 0.5141,
+      "default_rate_not_late": 0.1727,
+      "n_late": 852
+    },
+    "PAY_4": {
+      "corr_with_default": 0.2033,
+      "default_rate_late": 0.5315,
+      "default_rate_not_late": 0.1803,
+      "n_late": 698
+    },
+    "PAY_5": {
+      "corr_with_default": 0.2077,
+      "default_rate_late": 0.5579,
+      "default_rate_not_late": 0.1835,
+      "n_late": 604
+    },
+    "PAY_6": {
+      "corr_with_default": 0.1796,
+      "default_rate_late": 0.5256,
+      "default_rate_not_late": 0.187,
+      "n_late": 605
+    },
+    "PAY_MEAN": {
+      "corr_with_default": 0.2701,
+      "default_rate_late": 0.4717,
+      "default_rate_not_late": 0.1427,
+      "n_late": 1431
+    },
+    "PAY_MAX": {
+      "corr_with_default": 0.3128,
+      "default_rate_late": 0.4188,
+      "default_rate_not_late": 0.1249,
+      "n_late": 1965
+    },
+    "PAY_DELAY_COUNT": {
+      "corr_with_default": 0.3882,
+      "default_rate_late": 0.4188,
+      "default_rate_not_late": 0.1249,
+      "n_late": 1965
+    }
+  },
+  "no_pay_models": {
+    "dropped": [
+      "PAY_0",
+      "PAY_2",
+      "PAY_3",
+      "PAY_4",
+      "PAY_5",
+      "PAY_6",
+      "PAY_MEAN",
+      "PAY_MAX",
+      "PAY_DELAY_COUNT"
+    ],
+    "lr_roc_auc": 0.6467,
+    "gbm_roc_auc": 0.7343,
+    "lr_top5_coef": [
+      {
+        "feature": "LIMIT_BAL",
+        "coef": -0.3923
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.2921
+      },
+      {
+        "feature": "PAY_AMT2",
+        "coef": -0.2745
+      },
+      {
+        "feature": "BILL_AMT2",
+        "coef": 0.2543
+      },
+      {
+        "feature": "BILL_AMT1",
+        "coef": -0.2369
+      }
+    ],
+    "gbm_perm_top5": [
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0402
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_drop": 0.0351
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_drop": 0.0269
+      },
+      {
+        "feature": "PAY_AMT3",
+        "mean_drop": 0.0193
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0192
+      }
+    ],
+    "full_model_lr_roc_auc": 0.7426,
+    "full_model_gbm_roc_auc": 0.7823,
+    "note": "Without any PAY_* signal both models lose a lot of ranking power and explain themselves with proxies (LIMIT_BAL, BILL_*, AGE). The explanation looks confident but the model is much worse."
+  },
+  "shap_gbm": {
+    "model": "raw GBM (uncalibrated). Decision model is its Platt-calibrated version (monotone transform: same ranking, same top features; exact SHAP values on the calibrated score differ).",
+    "n_rows": 6000,
+    "set": "test (6000)",
+    "base_value_logodds": -1.555,
+    "base_value_proba": 0.1744,
+    "efficiency_max_abs_err_vs_logodds": 0.0,
+    "global_mean_abs_shap_top12": [
+      {
+        "feature": "PAY_MAX",
+        "mean_abs_shap": 0.4946
+      },
+      {
+        "feature": "PAY_0",
+        "mean_abs_shap": 0.2385
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_abs_shap": 0.1574
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_abs_shap": 0.1113
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_abs_shap": 0.0892
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_abs_shap": 0.0779
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_abs_shap": 0.0745
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_abs_shap": 0.067
+      },
+      {
+        "feature": "BILL_MEAN",
+        "mean_abs_shap": 0.0658
+      },
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "mean_abs_shap": 0.0585
+      },
+      {
+        "feature": "PAY_AMT3",
+        "mean_abs_shap": 0.0503
+      },
+      {
+        "feature": "BILL_AMT1",
+        "mean_abs_shap": 0.0492
+      }
+    ],
+    "global_mean_abs_shap_all": {
+      "LIMIT_BAL": 0.1113,
+      "SEX": 0.0314,
+      "EDUCATION": 0.0169,
+      "MARRIAGE": 0.0259,
+      "AGE": 0.0304,
+      "PAY_0": 0.2385,
+      "PAY_2": 0.0104,
+      "PAY_3": 0.0058,
+      "PAY_4": 0.0064,
+      "PAY_5": 0.0067,
+      "PAY_6": 0.0113,
+      "BILL_AMT1": 0.0492,
+      "BILL_AMT2": 0.0233,
+      "BILL_AMT3": 0.0226,
+      "BILL_AMT4": 0.0168,
+      "BILL_AMT5": 0.0228,
+      "BILL_AMT6": 0.016,
+      "PAY_AMT1": 0.067,
+      "PAY_AMT2": 0.0779,
+      "PAY_AMT3": 0.0503,
+      "PAY_AMT4": 0.0222,
+      "PAY_AMT5": 0.0315,
+      "PAY_AMT6": 0.0366,
+      "PAY_MEAN": 0.0341,
+      "PAY_MAX": 0.4946,
+      "PAY_DELAY_COUNT": 0.0585,
+      "UTILIZATION": 0.1574,
+      "PAY_RATIO": 0.0179,
+      "BILL_MEAN": 0.0658,
+      "PAY_AMT_MEAN": 0.0892,
+      "BILL_TREND": 0.0745
+    },
+    "local_row_858": {
+      "gbm_proba": 0.8599,
+      "logodds": 1.8148,
+      "sum_shap": 3.3699,
+      "base_plus_sum": 1.8148,
+      "top8": [
+        {
+          "feature": "PAY_MAX",
+          "shap_logodds": 1.1368
+        },
+        {
+          "feature": "PAY_0",
+          "shap_logodds": 0.928
+        },
+        {
+          "feature": "PAY_AMT3",
+          "shap_logodds": 0.1553
+        },
+        {
+          "feature": "PAY_MEAN",
+          "shap_logodds": 0.1418
+        },
+        {
+          "feature": "PAY_AMT_MEAN",
+          "shap_logodds": 0.1309
+        },
+        {
+          "feature": "LIMIT_BAL",
+          "shap_logodds": 0.1204
+        },
+        {
+          "feature": "PAY_DELAY_COUNT",
+          "shap_logodds": 0.1153
+        },
+        {
+          "feature": "BILL_TREND",
+          "shap_logodds": 0.0928
+        }
+      ]
+    },
+    "note": "TreeExplainer, feature_perturbation='tree_path_dependent' (default). SHAP values in log-odds units; base value = mean log-odds over the training background implied by the trees."
+  }
+}

@@ -198,7 +198,7 @@ Hasil [lab]: best_profit_threshold=0.10; best_constrained_threshold=0.20; constr
 
 ## Guided Task di Colab
 
-Notebook: colab/mlf-m64-guided-task.ipynb — flagship LR/GBM, kalibrasi mentah vs Platt vs isotonic, reliability bins + ECE + Brier, dan grid threshold + profit/cost dengan LGD 45% dan margin 5%. (Tautan Colab Drive diisi koordinator saat notebook di-upload.)
+Notebook: colab/mlf-m64-guided-task.ipynb — flagship LR/GBM, kalibrasi mentah vs Platt vs isotonic, reliability bins + ECE + Brier, dan grid threshold + profit/cost dengan LGD 45% dan margin 5%. Tautan Colab: https://colab.research.google.com/drive/1N696GImKxjq1c8j7ItL7OUyfyzTmHrz_
 
 ## Rangkuman
 

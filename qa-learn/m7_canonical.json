@@ -1,0 +1,6147 @@
+{
+  "meta": {
+    "seed": 42,
+    "sklearn": "1.9.1",
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "scipy": "1.11.4",
+    "data": "data/uci_default_credit.xls",
+    "threshold": 0.1,
+    "lgd": 0.45,
+    "margin": 0.05,
+    "approval_rule": "approve iff calibrated GBM proba < 0.10",
+    "sources": {
+      "m71": "qa-learn/m7_m71_numbers.json",
+      "m72": "qa-learn/m7_canonical_m72.json",
+      "m73": "qa-learn/m7_canonical_m73.json",
+      "m74": "qa-learn/m7_canonical_m74.json",
+      "m75": "qa-learn/m7_calc_m75_output.json"
+    },
+    "note": "Combined M7 canonical numbers. m73 SHAP computed with shap 0.54.1 in venv ~/workspace/.venv-shap-m73 (NOT system python); m73 LIME corrected kernel kw=0.75*sqrt(31). m74 in-processing is simplified reductions-style reweighting (fairlearn NOT installed), labelled honestly. m75 pseudo-time = ID order, NOT a real date."
+  },
+  "data_n": 30000,
+  "data_base_rate": 0.2212,
+  "n_features": 31,
+  "train_n": 24000,
+  "test_n": 6000,
+  "repro_flagship": {
+    "lr_roc_auc": 0.7426,
+    "lr_pr_auc": 0.5049,
+    "lr_brier": 0.1427,
+    "gbm_roc_auc": 0.7823,
+    "gbm_pr_auc": 0.5597,
+    "gbm_brier": 0.1342,
+    "gbm_cal_roc_auc": 0.7816,
+    "gbm_cal_pr_auc": 0.5558,
+    "gbm_cal_brier": 0.1345
+  },
+  "m71_test_base_rate": 0.2212,
+  "m71_group_counts_raw": {
+    "sex_test": {
+      "1": 2402,
+      "2": 3598
+    },
+    "education_test": {
+      "0": 2,
+      "1": 2130,
+      "2": 2774,
+      "3": 1014,
+      "4": 26,
+      "5": 45,
+      "6": 9
+    },
+    "age_test_min": 21,
+    "age_test_max": 79
+  },
+  "m71_overall": {
+    "group": "Semua",
+    "n": 6000,
+    "base_rate": 0.2212,
+    "mean_pred_prob": 0.2217,
+    "approval_rate": 0.285,
+    "n_approved": 1710,
+    "bad_rate_approved": 0.0667,
+    "tpr": 0.9141,
+    "fpr": 0.6585,
+    "ppv": 0.2828,
+    "tn": 1596,
+    "fp": 3077,
+    "fn": 114,
+    "tp": 1213,
+    "ece": 0.0087,
+    "brier": 0.1345
+  },
+  "m71_by_group": {
+    "SEX": {
+      "groups": [
+        {
+          "group": "Laki-laki",
+          "n": 2402,
+          "base_rate": 0.2336,
+          "mean_pred_prob": 0.2313,
+          "approval_rate": 0.2614,
+          "n_approved": 628,
+          "bad_rate_approved": 0.0669,
+          "tpr": 0.9251,
+          "fpr": 0.6817,
+          "ppv": 0.2926,
+          "tn": 586,
+          "fp": 1255,
+          "fn": 42,
+          "tp": 519,
+          "ece": 0.0127,
+          "brier": 0.1431,
+          "air_vs_max": 0.8693,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "Perempuan",
+          "n": 3598,
+          "base_rate": 0.2129,
+          "mean_pred_prob": 0.2153,
+          "approval_rate": 0.3007,
+          "n_approved": 1082,
+          "bad_rate_approved": 0.0665,
+          "tpr": 0.906,
+          "fpr": 0.6434,
+          "ppv": 0.2758,
+          "tn": 1010,
+          "fp": 1822,
+          "fn": 72,
+          "tp": 694,
+          "ece": 0.0139,
+          "brier": 0.1288,
+          "air_vs_max": 1.0,
+          "air_flag_four_fifths": false
+        }
+      ],
+      "summary": {
+        "air_min_over_max": 0.8693,
+        "air_flag_four_fifths": false,
+        "approval_spread_pp": 3.93,
+        "tpr_spread": 0.0191,
+        "fpr_spread": 0.0383,
+        "ppv_spread": 0.0168,
+        "base_rate_spread": 0.0207,
+        "ece_spread": 0.0012,
+        "brier_spread": 0.0143
+      }
+    },
+    "EDUCATION": {
+      "groups": [
+        {
+          "group": "Lainnya",
+          "n": 82,
+          "base_rate": 0.061,
+          "mean_pred_prob": 0.1065,
+          "approval_rate": 0.5854,
+          "n_approved": 48,
+          "bad_rate_approved": 0.0417,
+          "tpr": 0.6,
+          "fpr": 0.4026,
+          "ppv": 0.0882,
+          "tn": 46,
+          "fp": 31,
+          "fn": 2,
+          "tp": 3,
+          "ece": 0.0455,
+          "brier": 0.0576,
+          "air_vs_max": 1.0,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "Pascasarjana",
+          "n": 2130,
+          "base_rate": 0.1901,
+          "mean_pred_prob": 0.1927,
+          "approval_rate": 0.3531,
+          "n_approved": 752,
+          "bad_rate_approved": 0.0519,
+          "tpr": 0.9037,
+          "fpr": 0.5867,
+          "ppv": 0.2656,
+          "tn": 713,
+          "fp": 1012,
+          "fn": 39,
+          "tp": 366,
+          "ece": 0.021,
+          "brier": 0.119,
+          "air_vs_max": 0.6032,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "SMA",
+          "n": 1014,
+          "base_rate": 0.2574,
+          "mean_pred_prob": 0.246,
+          "approval_rate": 0.2091,
+          "n_approved": 212,
+          "bad_rate_approved": 0.0991,
+          "tpr": 0.9195,
+          "fpr": 0.7463,
+          "ppv": 0.2993,
+          "tn": 191,
+          "fp": 562,
+          "fn": 21,
+          "tp": 240,
+          "ece": 0.0362,
+          "brier": 0.1609,
+          "air_vs_max": 0.3572,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "Universitas",
+          "n": 2774,
+          "base_rate": 0.2365,
+          "mean_pred_prob": 0.2385,
+          "approval_rate": 0.2516,
+          "n_approved": 698,
+          "bad_rate_approved": 0.0745,
+          "tpr": 0.9207,
+          "fpr": 0.695,
+          "ppv": 0.2909,
+          "tn": 646,
+          "fp": 1472,
+          "fn": 52,
+          "tp": 604,
+          "ece": 0.01,
+          "brier": 0.139,
+          "air_vs_max": 0.4298,
+          "air_flag_four_fifths": true
+        }
+      ],
+      "summary": {
+        "air_min_over_max": 0.3572,
+        "air_flag_four_fifths": true,
+        "approval_spread_pp": 37.63,
+        "tpr_spread": 0.3207,
+        "fpr_spread": 0.3437,
+        "ppv_spread": 0.2111,
+        "base_rate_spread": 0.1964,
+        "ece_spread": 0.0355,
+        "brier_spread": 0.1033
+      }
+    },
+    "AGE": {
+      "groups": [
+        {
+          "group": "30-39",
+          "n": 2198,
+          "base_rate": 0.2061,
+          "mean_pred_prob": 0.2059,
+          "approval_rate": 0.3312,
+          "n_approved": 728,
+          "bad_rate_approved": 0.0549,
+          "tpr": 0.9117,
+          "fpr": 0.6057,
+          "ppv": 0.281,
+          "tn": 688,
+          "fp": 1057,
+          "fn": 40,
+          "tp": 413,
+          "ece": 0.0156,
+          "brier": 0.1286,
+          "air_vs_max": 1.0,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "40-49",
+          "n": 1341,
+          "base_rate": 0.2327,
+          "mean_pred_prob": 0.2231,
+          "approval_rate": 0.2699,
+          "n_approved": 362,
+          "bad_rate_approved": 0.0856,
+          "tpr": 0.9006,
+          "fpr": 0.6783,
+          "ppv": 0.287,
+          "tn": 331,
+          "fp": 698,
+          "fn": 31,
+          "tp": 281,
+          "ece": 0.0166,
+          "brier": 0.1411,
+          "air_vs_max": 0.8149,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "50-59",
+          "n": 473,
+          "base_rate": 0.2368,
+          "mean_pred_prob": 0.2444,
+          "approval_rate": 0.203,
+          "n_approved": 96,
+          "bad_rate_approved": 0.0729,
+          "tpr": 0.9375,
+          "fpr": 0.7535,
+          "ppv": 0.2785,
+          "tn": 89,
+          "fp": 272,
+          "fn": 7,
+          "tp": 105,
+          "ece": 0.0312,
+          "brier": 0.1406,
+          "air_vs_max": 0.6129,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "60+",
+          "n": 76,
+          "base_rate": 0.3026,
+          "mean_pred_prob": 0.2571,
+          "approval_rate": 0.1974,
+          "n_approved": 15,
+          "bad_rate_approved": 0.0667,
+          "tpr": 0.9565,
+          "fpr": 0.7358,
+          "ppv": 0.3607,
+          "tn": 14,
+          "fp": 39,
+          "fn": 1,
+          "tp": 22,
+          "ece": 0.1208,
+          "brier": 0.162,
+          "air_vs_max": 0.596,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "<30",
+          "n": 1912,
+          "base_rate": 0.2233,
+          "mean_pred_prob": 0.2319,
+          "approval_rate": 0.2662,
+          "n_approved": 509,
+          "bad_rate_approved": 0.0688,
+          "tpr": 0.918,
+          "fpr": 0.6808,
+          "ppv": 0.2794,
+          "tn": 474,
+          "fp": 1011,
+          "fn": 35,
+          "tp": 392,
+          "ece": 0.0148,
+          "brier": 0.134,
+          "air_vs_max": 0.8037,
+          "air_flag_four_fifths": false
+        }
+      ],
+      "summary": {
+        "air_min_over_max": 0.596,
+        "air_flag_four_fifths": true,
+        "approval_spread_pp": 13.38,
+        "tpr_spread": 0.0559,
+        "fpr_spread": 0.1478,
+        "ppv_spread": 0.0822,
+        "base_rate_spread": 0.0965,
+        "ece_spread": 0.106,
+        "brier_spread": 0.0334
+      }
+    }
+  },
+  "m71_verification_vs_locked": {
+    "gbm_roc_auc": {
+      "computed": 0.7823,
+      "locked": 0.7823,
+      "diff": 0.0
+    },
+    "gbm_pr_auc": {
+      "computed": 0.5597,
+      "locked": 0.5597,
+      "diff": 0.0
+    },
+    "air_sex": {
+      "computed": 0.8693,
+      "locked": 0.869,
+      "diff": 0.0003,
+      "approval_male": 0.2614,
+      "approval_female": 0.3007,
+      "locked_approval_male": 0.261,
+      "locked_approval_female": 0.301
+    },
+    "air_education_pascasarjana": {
+      "computed": 0.6032,
+      "locked": 0.603,
+      "diff": 0.0002,
+      "n_pascasarjana_test": 2130,
+      "approval_pascasarjana": 0.3531,
+      "locked_note": "n=82 kecil (per locked note)"
+    },
+    "m2_g4_air": {
+      "note": "angka lesson M2 (scorecard), bukan dari script ini; tidak diverifikasi di sini",
+      "locked": 1.1502
+    },
+    "m2_g9_psi": {
+      "note": "angka lesson M2 (scorecard), bukan dari script ini; tidak diverifikasi di sini",
+      "locked": 0.0104
+    }
+  },
+  "m71_impossibility_sex": {
+    "base_rate_male": 0.2336,
+    "base_rate_female": 0.2129,
+    "base_rate_gap": 0.0207,
+    "approval_gap": 0.0393,
+    "tpr_gap": 0.0191,
+    "fpr_gap": 0.0383,
+    "ppv_gap": 0.0168,
+    "ece_gap": 0.0012,
+    "note": "Base rate beda (male vs female) -> demographic parity, equalized odds, dan kalibrasi per grup tidak bisa ketiganya sempurna sekaligus; lesson memakai angka-angka ini sebagai bukti numerik impossibility."
+  },
+  "m71_air_sex_by_threshold": {
+    "0.05": {
+      "approval_male": 0.0666,
+      "approval_female": 0.0725,
+      "air": 0.9183
+    },
+    "0.1": {
+      "approval_male": 0.2614,
+      "approval_female": 0.3007,
+      "air": 0.8694
+    },
+    "0.15": {
+      "approval_male": 0.4646,
+      "approval_female": 0.5217,
+      "air": 0.8906
+    },
+    "0.2": {
+      "approval_male": 0.6286,
+      "approval_female": 0.6665,
+      "air": 0.9432
+    },
+    "0.3": {
+      "approval_male": 0.7498,
+      "approval_female": 0.7871,
+      "air": 0.9526
+    },
+    "0.5": {
+      "approval_male": 0.8751,
+      "approval_female": 0.8841,
+      "air": 0.9898
+    }
+  },
+  "m71_calibration_bins_sex": {
+    "Laki-laki": [
+      {
+        "bin": "[0.0,0.1)",
+        "n": 628,
+        "mean_pred": 0.0664,
+        "actual_rate": 0.0669
+      },
+      {
+        "bin": "[0.1,0.2)",
+        "n": 882,
+        "mean_pred": 0.1463,
+        "actual_rate": 0.1599
+      },
+      {
+        "bin": "[0.2,0.3)",
+        "n": 291,
+        "mean_pred": 0.2424,
+        "actual_rate": 0.2268
+      },
+      {
+        "bin": "[0.3,0.4)",
+        "n": 212,
+        "mean_pred": 0.3436,
+        "actual_rate": 0.3585
+      },
+      {
+        "bin": "[0.4,0.5)",
+        "n": 89,
+        "mean_pred": 0.4429,
+        "actual_rate": 0.4607
+      },
+      {
+        "bin": "[0.5,0.6)",
+        "n": 57,
+        "mean_pred": 0.552,
+        "actual_rate": 0.5263
+      },
+      {
+        "bin": "[0.6,0.7)",
+        "n": 115,
+        "mean_pred": 0.6533,
+        "actual_rate": 0.6174
+      },
+      {
+        "bin": "[0.7,0.8)",
+        "n": 117,
+        "mean_pred": 0.7391,
+        "actual_rate": 0.7179
+      },
+      {
+        "bin": "[0.8,0.9)",
+        "n": 11,
+        "mean_pred": 0.8241,
+        "actual_rate": 0.9091
+      },
+      {
+        "bin": "[0.9,1.0)",
+        "n": 0,
+        "mean_pred": null,
+        "actual_rate": null
+      }
+    ],
+    "Perempuan": [
+      {
+        "bin": "[0.0,0.1)",
+        "n": 1082,
+        "mean_pred": 0.0665,
+        "actual_rate": 0.0665
+      },
+      {
+        "bin": "[0.1,0.2)",
+        "n": 1316,
+        "mean_pred": 0.143,
+        "actual_rate": 0.1368
+      },
+      {
+        "bin": "[0.2,0.3)",
+        "n": 434,
+        "mean_pred": 0.2413,
+        "actual_rate": 0.212
+      },
+      {
+        "bin": "[0.3,0.4)",
+        "n": 250,
+        "mean_pred": 0.3457,
+        "actual_rate": 0.384
+      },
+      {
+        "bin": "[0.4,0.5)",
+        "n": 99,
+        "mean_pred": 0.4436,
+        "actual_rate": 0.3737
+      },
+      {
+        "bin": "[0.5,0.6)",
+        "n": 72,
+        "mean_pred": 0.546,
+        "actual_rate": 0.5694
+      },
+      {
+        "bin": "[0.6,0.7)",
+        "n": 177,
+        "mean_pred": 0.6505,
+        "actual_rate": 0.6441
+      },
+      {
+        "bin": "[0.7,0.8)",
+        "n": 159,
+        "mean_pred": 0.7398,
+        "actual_rate": 0.7987
+      },
+      {
+        "bin": "[0.8,0.9)",
+        "n": 9,
+        "mean_pred": 0.8247,
+        "actual_rate": 0.7778
+      },
+      {
+        "bin": "[0.9,1.0)",
+        "n": 0,
+        "mean_pred": null,
+        "actual_rate": null
+      }
+    ]
+  },
+  "m71_elapsed_sec": 3670.0,
+  "m72_audit_test_calibrated_thr0.10": {
+    "SEX": [
+      {
+        "code": 1,
+        "label": "Laki-laki",
+        "n_test": 2402,
+        "n_train": 9486,
+        "n_full": 11888,
+        "base_rate_test": 0.2336,
+        "base_rate_full": 0.2417,
+        "approval_rate": 0.2614,
+        "approval_n": 628,
+        "approval_wilson_ci95": [
+          0.2443,
+          0.2794
+        ],
+        "approval_ci_width": 0.0351,
+        "fpr": 0.6817,
+        "fnr": 0.0749,
+        "tpr": 0.9251,
+        "ppv": 0.2926,
+        "n_default": 561,
+        "n_nondefault": 1841,
+        "tp": 519,
+        "fp": 1255,
+        "ece_10bin": 0.0127,
+        "brier": 0.1431,
+        "mean_pred_proba": 0.2313,
+        "calibration_gap": -0.0022,
+        "bad_rate_approved": 0.0669,
+        "mean_limit_bal": 164482,
+        "air": 0.8693,
+        "air_flag_below_0.80": false
+      },
+      {
+        "code": 2,
+        "label": "Perempuan",
+        "n_test": 3598,
+        "n_train": 14514,
+        "n_full": 18112,
+        "base_rate_test": 0.2129,
+        "base_rate_full": 0.2078,
+        "approval_rate": 0.3007,
+        "approval_n": 1082,
+        "approval_wilson_ci95": [
+          0.286,
+          0.3159
+        ],
+        "approval_ci_width": 0.0299,
+        "fpr": 0.6434,
+        "fnr": 0.094,
+        "tpr": 0.906,
+        "ppv": 0.2758,
+        "n_default": 766,
+        "n_nondefault": 2832,
+        "tp": 694,
+        "fp": 1822,
+        "ece_10bin": 0.0139,
+        "brier": 0.1288,
+        "mean_pred_proba": 0.2153,
+        "calibration_gap": 0.0024,
+        "bad_rate_approved": 0.0665,
+        "mean_limit_bal": 170286,
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      }
+    ],
+    "EDUCATION": [
+      {
+        "code": 1,
+        "label": "Pascasarjana",
+        "n_test": 2130,
+        "n_train": 8455,
+        "n_full": 10585,
+        "base_rate_test": 0.1901,
+        "base_rate_full": 0.1923,
+        "approval_rate": 0.3531,
+        "approval_n": 752,
+        "approval_wilson_ci95": [
+          0.333,
+          0.3736
+        ],
+        "approval_ci_width": 0.0406,
+        "fpr": 0.5867,
+        "fnr": 0.0963,
+        "tpr": 0.9037,
+        "ppv": 0.2656,
+        "n_default": 405,
+        "n_nondefault": 1725,
+        "tp": 366,
+        "fp": 1012,
+        "ece_10bin": 0.021,
+        "brier": 0.119,
+        "mean_pred_proba": 0.1927,
+        "calibration_gap": 0.0026,
+        "bad_rate_approved": 0.0519,
+        "mean_limit_bal": 215084,
+        "air": 0.6032,
+        "air_flag_below_0.80": true
+      },
+      {
+        "code": 2,
+        "label": "Universitas",
+        "n_test": 2774,
+        "n_train": 11256,
+        "n_full": 14030,
+        "base_rate_test": 0.2365,
+        "base_rate_full": 0.2373,
+        "approval_rate": 0.2516,
+        "approval_n": 698,
+        "approval_wilson_ci95": [
+          0.2358,
+          0.2681
+        ],
+        "approval_ci_width": 0.0323,
+        "fpr": 0.695,
+        "fnr": 0.0793,
+        "tpr": 0.9207,
+        "ppv": 0.2909,
+        "n_default": 656,
+        "n_nondefault": 2118,
+        "tp": 604,
+        "fp": 1472,
+        "ece_10bin": 0.01,
+        "brier": 0.139,
+        "mean_pred_proba": 0.2385,
+        "calibration_gap": 0.002,
+        "bad_rate_approved": 0.0745,
+        "mean_limit_bal": 145753,
+        "air": 0.4298,
+        "air_flag_below_0.80": true
+      },
+      {
+        "code": 3,
+        "label": "SMA",
+        "n_test": 1014,
+        "n_train": 3903,
+        "n_full": 4917,
+        "base_rate_test": 0.2574,
+        "base_rate_full": 0.2516,
+        "approval_rate": 0.2091,
+        "approval_n": 212,
+        "approval_wilson_ci95": [
+          0.1852,
+          0.2352
+        ],
+        "approval_ci_width": 0.05,
+        "fpr": 0.7463,
+        "fnr": 0.0805,
+        "tpr": 0.9195,
+        "ppv": 0.2993,
+        "n_default": 261,
+        "n_nondefault": 753,
+        "tp": 240,
+        "fp": 562,
+        "ece_10bin": 0.0362,
+        "brier": 0.1609,
+        "mean_pred_proba": 0.246,
+        "calibration_gap": -0.0114,
+        "bad_rate_approved": 0.0991,
+        "mean_limit_bal": 128794,
+        "air": 0.3572,
+        "air_flag_below_0.80": true
+      },
+      {
+        "code": 4,
+        "label": "Lainnya",
+        "n_test": 82,
+        "n_train": 386,
+        "n_full": 468,
+        "base_rate_test": 0.061,
+        "base_rate_full": 0.0705,
+        "approval_rate": 0.5854,
+        "approval_n": 48,
+        "approval_wilson_ci95": [
+          0.4773,
+          0.6858
+        ],
+        "approval_ci_width": 0.2085,
+        "fpr": 0.4026,
+        "fnr": 0.4,
+        "tpr": 0.6,
+        "ppv": 0.0882,
+        "n_default": 5,
+        "n_nondefault": 77,
+        "tp": 3,
+        "fp": 31,
+        "ece_10bin": 0.0455,
+        "brier": 0.0576,
+        "mean_pred_proba": 0.1065,
+        "calibration_gap": 0.0455,
+        "bad_rate_approved": 0.0417,
+        "mean_limit_bal": 179634,
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      }
+    ],
+    "MARRIAGE": [
+      {
+        "code": 1,
+        "label": "Menikah",
+        "n_test": 2767,
+        "n_train": 10892,
+        "n_full": 13659,
+        "base_rate_test": 0.2414,
+        "base_rate_full": 0.2347,
+        "approval_rate": 0.2801,
+        "approval_n": 775,
+        "approval_wilson_ci95": [
+          0.2637,
+          0.2971
+        ],
+        "approval_ci_width": 0.0334,
+        "fpr": 0.657,
+        "fnr": 0.0823,
+        "tpr": 0.9177,
+        "ppv": 0.3077,
+        "n_default": 668,
+        "n_nondefault": 2099,
+        "tp": 613,
+        "fp": 1379,
+        "ece_10bin": 0.0201,
+        "brier": 0.1416,
+        "mean_pred_proba": 0.2259,
+        "calibration_gap": -0.0155,
+        "bad_rate_approved": 0.071,
+        "mean_limit_bal": 180477,
+        "air": 0.9606,
+        "air_flag_below_0.80": false
+      },
+      {
+        "code": 2,
+        "label": "Lajang",
+        "n_test": 3158,
+        "n_train": 12806,
+        "n_full": 15964,
+        "base_rate_test": 0.2049,
+        "base_rate_full": 0.2093,
+        "approval_rate": 0.2916,
+        "approval_n": 921,
+        "approval_wilson_ci95": [
+          0.276,
+          0.3077
+        ],
+        "approval_ci_width": 0.0317,
+        "fpr": 0.6559,
+        "fnr": 0.0881,
+        "tpr": 0.9119,
+        "ppv": 0.2637,
+        "n_default": 647,
+        "n_nondefault": 2511,
+        "tp": 590,
+        "fp": 1647,
+        "ece_10bin": 0.0152,
+        "brier": 0.1283,
+        "mean_pred_proba": 0.218,
+        "calibration_gap": 0.0131,
+        "bad_rate_approved": 0.0619,
+        "mean_limit_bal": 158279,
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      },
+      {
+        "code": 3,
+        "label": "Lainnya",
+        "n_test": 75,
+        "n_train": 302,
+        "n_full": 377,
+        "base_rate_test": 0.16,
+        "base_rate_full": 0.2361,
+        "approval_rate": 0.1867,
+        "approval_n": 14,
+        "approval_wilson_ci95": [
+          0.1146,
+          0.2893
+        ],
+        "approval_ci_width": 0.1747,
+        "fpr": 0.8095,
+        "fnr": 0.1667,
+        "tpr": 0.8333,
+        "ppv": 0.1639,
+        "n_default": 12,
+        "n_nondefault": 63,
+        "tp": 10,
+        "fp": 51,
+        "ece_10bin": 0.0982,
+        "brier": 0.1339,
+        "mean_pred_proba": 0.2256,
+        "calibration_gap": 0.0656,
+        "bad_rate_approved": 0.1429,
+        "mean_limit_bal": 114000,
+        "air": 0.6403,
+        "air_flag_below_0.80": true
+      }
+    ],
+    "AGE_BAND": [
+      {
+        "code": "<30",
+        "label": "<30",
+        "n_test": 1912,
+        "n_train": 7706,
+        "n_full": 9618,
+        "base_rate_test": 0.2233,
+        "base_rate_full": 0.2284,
+        "approval_rate": 0.2662,
+        "approval_n": 509,
+        "approval_wilson_ci95": [
+          0.2469,
+          0.2865
+        ],
+        "approval_ci_width": 0.0396,
+        "fpr": 0.6808,
+        "fnr": 0.082,
+        "tpr": 0.918,
+        "ppv": 0.2794,
+        "n_default": 427,
+        "n_nondefault": 1485,
+        "tp": 392,
+        "fp": 1011,
+        "ece_10bin": 0.0148,
+        "brier": 0.134,
+        "mean_pred_proba": 0.2319,
+        "calibration_gap": 0.0086,
+        "bad_rate_approved": 0.0688,
+        "mean_limit_bal": 126370,
+        "air": 0.8037,
+        "air_flag_below_0.80": false
+      },
+      {
+        "code": "30-39",
+        "label": "30-39",
+        "n_test": 2198,
+        "n_train": 9040,
+        "n_full": 11238,
+        "base_rate_test": 0.2061,
+        "base_rate_full": 0.2025,
+        "approval_rate": 0.3312,
+        "approval_n": 728,
+        "approval_wilson_ci95": [
+          0.3118,
+          0.3512
+        ],
+        "approval_ci_width": 0.0394,
+        "fpr": 0.6057,
+        "fnr": 0.0883,
+        "tpr": 0.9117,
+        "ppv": 0.281,
+        "n_default": 453,
+        "n_nondefault": 1745,
+        "tp": 413,
+        "fp": 1057,
+        "ece_10bin": 0.0156,
+        "brier": 0.1286,
+        "mean_pred_proba": 0.2059,
+        "calibration_gap": -0.0002,
+        "bad_rate_approved": 0.0549,
+        "mean_limit_bal": 196428,
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      },
+      {
+        "code": "40-49",
+        "label": "40-49",
+        "n_test": 1341,
+        "n_train": 5123,
+        "n_full": 6464,
+        "base_rate_test": 0.2327,
+        "base_rate_full": 0.2297,
+        "approval_rate": 0.2699,
+        "approval_n": 362,
+        "approval_wilson_ci95": [
+          0.2469,
+          0.2943
+        ],
+        "approval_ci_width": 0.0474,
+        "fpr": 0.6783,
+        "fnr": 0.0994,
+        "tpr": 0.9006,
+        "ppv": 0.287,
+        "n_default": 312,
+        "n_nondefault": 1029,
+        "tp": 281,
+        "fp": 698,
+        "ece_10bin": 0.0166,
+        "brier": 0.1411,
+        "mean_pred_proba": 0.2231,
+        "calibration_gap": -0.0096,
+        "bad_rate_approved": 0.0856,
+        "mean_limit_bal": 182183,
+        "air": 0.8149,
+        "air_flag_below_0.80": false
+      },
+      {
+        "code": "50-59",
+        "label": "50-59",
+        "n_test": 473,
+        "n_train": 1868,
+        "n_full": 2341,
+        "base_rate_test": 0.2368,
+        "base_rate_full": 0.2486,
+        "approval_rate": 0.203,
+        "approval_n": 96,
+        "approval_wilson_ci95": [
+          0.1692,
+          0.2415
+        ],
+        "approval_ci_width": 0.0723,
+        "fpr": 0.7535,
+        "fnr": 0.0625,
+        "tpr": 0.9375,
+        "ppv": 0.2785,
+        "n_default": 112,
+        "n_nondefault": 361,
+        "tp": 105,
+        "fp": 272,
+        "ece_10bin": 0.0312,
+        "brier": 0.1406,
+        "mean_pred_proba": 0.2444,
+        "calibration_gap": 0.0076,
+        "bad_rate_approved": 0.0729,
+        "mean_limit_bal": 161627,
+        "air": 0.6129,
+        "air_flag_below_0.80": true
+      },
+      {
+        "code": "60+",
+        "label": "60+",
+        "n_test": 76,
+        "n_train": 263,
+        "n_full": 339,
+        "base_rate_test": 0.3026,
+        "base_rate_full": 0.2832,
+        "approval_rate": 0.1974,
+        "approval_n": 15,
+        "approval_wilson_ci95": [
+          0.1234,
+          0.3004
+        ],
+        "approval_ci_width": 0.177,
+        "fpr": 0.7358,
+        "fnr": 0.0435,
+        "tpr": 0.9565,
+        "ppv": 0.3607,
+        "n_default": 23,
+        "n_nondefault": 53,
+        "tp": 22,
+        "fp": 39,
+        "ece_10bin": 0.1208,
+        "brier": 0.162,
+        "mean_pred_proba": 0.2571,
+        "calibration_gap": -0.0455,
+        "bad_rate_approved": 0.0667,
+        "mean_limit_bal": 179605,
+        "air": 0.596,
+        "air_flag_below_0.80": true
+      }
+    ]
+  },
+  "m72_overall_thr0.10": {
+    "approval_rate": 0.285,
+    "approval_n": 1710,
+    "bad_rate_approved": 0.0667
+  },
+  "m72_sex_diff_test": {
+    "diff": -0.0393,
+    "se": 0.0119,
+    "z": -3.3019,
+    "p_value": 0.001
+  },
+  "m72_sex_female_over_male_approval_ratio": 1.1503,
+  "m72_sex_air_by_threshold": [
+    {
+      "threshold": 0.05,
+      "male_approval": 0.0666,
+      "female_approval": 0.0725,
+      "air_min_over_max": 0.9186
+    },
+    {
+      "threshold": 0.1,
+      "male_approval": 0.2614,
+      "female_approval": 0.3007,
+      "air_min_over_max": 0.8693
+    },
+    {
+      "threshold": 0.2,
+      "male_approval": 0.6286,
+      "female_approval": 0.6665,
+      "air_min_over_max": 0.9431
+    },
+    {
+      "threshold": 0.5,
+      "male_approval": 0.8751,
+      "female_approval": 0.8841,
+      "air_min_over_max": 0.9898
+    }
+  ],
+  "m72_representation_train_test": {
+    "SEX": [
+      {
+        "label": "Laki-laki",
+        "share_train": 0.3952,
+        "share_test": 0.4003,
+        "n_train": 9486,
+        "n_test": 2402
+      },
+      {
+        "label": "Perempuan",
+        "share_train": 0.6048,
+        "share_test": 0.5997,
+        "n_train": 14514,
+        "n_test": 3598
+      }
+    ],
+    "EDU_GRP": [
+      {
+        "label": "Pascasarjana",
+        "share_train": 0.3523,
+        "share_test": 0.355,
+        "n_train": 8455,
+        "n_test": 2130
+      },
+      {
+        "label": "Universitas",
+        "share_train": 0.469,
+        "share_test": 0.4623,
+        "n_train": 11256,
+        "n_test": 2774
+      },
+      {
+        "label": "SMA",
+        "share_train": 0.1626,
+        "share_test": 0.169,
+        "n_train": 3903,
+        "n_test": 1014
+      },
+      {
+        "label": "Lainnya",
+        "share_train": 0.0161,
+        "share_test": 0.0137,
+        "n_train": 386,
+        "n_test": 82
+      }
+    ],
+    "MAR_GRP": [
+      {
+        "label": "Menikah",
+        "share_train": 0.4538,
+        "share_test": 0.4612,
+        "n_train": 10892,
+        "n_test": 2767
+      },
+      {
+        "label": "Lajang",
+        "share_train": 0.5336,
+        "share_test": 0.5263,
+        "n_train": 12806,
+        "n_test": 3158
+      },
+      {
+        "label": "Lainnya",
+        "share_train": 0.0126,
+        "share_test": 0.0125,
+        "n_train": 302,
+        "n_test": 75
+      }
+    ]
+  },
+  "m72_psi_train_vs_test": {
+    "SEX": 0.0001,
+    "EDU_GRP": 0.0008,
+    "MAR_GRP": 0.0002
+  },
+  "m72_simpson_sex_within_age": [
+    {
+      "Laki-laki": {
+        "n": 669,
+        "approval_rate": 0.2138,
+        "base_rate": 0.2242
+      },
+      "Perempuan": {
+        "n": 1243,
+        "approval_rate": 0.2944,
+        "base_rate": 0.2228
+      },
+      "band": "<30",
+      "female_minus_male_approval": 0.0806
+    },
+    {
+      "Laki-laki": {
+        "n": 907,
+        "approval_rate": 0.312,
+        "base_rate": 0.2271
+      },
+      "Perempuan": {
+        "n": 1291,
+        "approval_rate": 0.3447,
+        "base_rate": 0.1913
+      },
+      "band": "30-39",
+      "female_minus_male_approval": 0.0327
+    },
+    {
+      "Laki-laki": {
+        "n": 558,
+        "approval_rate": 0.2652,
+        "base_rate": 0.2366
+      },
+      "Perempuan": {
+        "n": 783,
+        "approval_rate": 0.2733,
+        "base_rate": 0.2299
+      },
+      "band": "40-49",
+      "female_minus_male_approval": 0.0081
+    },
+    {
+      "Laki-laki": {
+        "n": 232,
+        "approval_rate": 0.2026,
+        "base_rate": 0.2672
+      },
+      "Perempuan": {
+        "n": 241,
+        "approval_rate": 0.2033,
+        "base_rate": 0.2075
+      },
+      "band": "50-59",
+      "female_minus_male_approval": 0.0007
+    },
+    {
+      "Laki-laki": {
+        "n": 36,
+        "approval_rate": 0.1944,
+        "base_rate": 0.3056
+      },
+      "Perempuan": {
+        "n": 40,
+        "approval_rate": 0.2,
+        "base_rate": 0.3
+      },
+      "band": "60+",
+      "female_minus_male_approval": 0.0056
+    }
+  ],
+  "m72_simpson_sex_within_education": [
+    {
+      "education": "Pascasarjana",
+      "Laki-laki": {
+        "n": 900,
+        "approval_rate": 0.34
+      },
+      "Perempuan": {
+        "n": 1230,
+        "approval_rate": 0.3626
+      },
+      "female_minus_male_approval": 0.0226
+    },
+    {
+      "education": "Universitas",
+      "Laki-laki": {
+        "n": 1066,
+        "approval_rate": 0.227
+      },
+      "Perempuan": {
+        "n": 1708,
+        "approval_rate": 0.267
+      },
+      "female_minus_male_approval": 0.04
+    },
+    {
+      "education": "SMA",
+      "Laki-laki": {
+        "n": 411,
+        "approval_rate": 0.163
+      },
+      "Perempuan": {
+        "n": 603,
+        "approval_rate": 0.2405
+      },
+      "female_minus_male_approval": 0.0775
+    },
+    {
+      "education": "Lainnya",
+      "Laki-laki": {
+        "n": 25,
+        "approval_rate": 0.52
+      },
+      "Perempuan": {
+        "n": 57,
+        "approval_rate": 0.614
+      },
+      "female_minus_male_approval": 0.094
+    }
+  ],
+  "m72_measurement_feature_means_by_sex_test": {
+    "LIMIT_BAL": {
+      "Laki-laki": 164482.7977,
+      "Perempuan": 170286.2702
+    },
+    "PAY_MEAN": {
+      "Laki-laki": -0.1053,
+      "Perempuan": -0.2278
+    },
+    "UTILIZATION": {
+      "Laki-laki": 0.4661,
+      "Perempuan": 0.3987
+    },
+    "PAY_DELAY_COUNT": {
+      "Laki-laki": 0.8805,
+      "Perempuan": 0.7932
+    }
+  },
+  "m72_base_rate_by_sex_full": {
+    "Laki-laki": 0.2417,
+    "Perempuan": 0.2078
+  },
+  "m72_small_n_illustration": {
+    "group": "EDUCATION Lainnya (test, codes 0/4/5/6)",
+    "n": 82,
+    "approval_n": 48,
+    "approval_rate": 0.5854,
+    "wilson_ci95": [
+      0.4773,
+      0.6858
+    ],
+    "ci_width": 0.2085,
+    "n_default": 5,
+    "tpr": 0.6,
+    "one_default_person_moves_tpr_by": 0.2,
+    "what_if_same_rate_n2000_ci": [
+      0.5638,
+      0.6069
+    ],
+    "what_if_same_rate_n2000_width": 0.0431
+  },
+  "m72_m71_crosscheck": {
+    "edu_air_min_over_max": 0.3572,
+    "edu_air_min_over_max_m71": 0.3572,
+    "edu_air_robust_no_lainnya": 0.5922,
+    "edu_air_robust_m71": 0.5922,
+    "age_air_min_over_max": 0.596,
+    "age_air_min_over_max_m71": 0.596,
+    "age_air_robust_no_60plus": 0.6129,
+    "age_air_robust_m71": 0.613,
+    "sex_approval_n": {
+      "Laki-laki": 628,
+      "Perempuan": 1082
+    },
+    "edu_approval_n": {
+      "Pascasarjana": 752,
+      "Universitas": 698,
+      "SMA": 212,
+      "Lainnya": 48
+    }
+  },
+  "m72_locked_verification": {
+    "gbm_roc_auc": {
+      "computed": 0.7823,
+      "locked": 0.7823,
+      "diff": 0.0,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "gbm_pr_auc": {
+      "computed": 0.5597,
+      "locked": 0.5597,
+      "diff": 0.0,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "sex_air": {
+      "computed": 0.8693,
+      "locked": 0.869,
+      "diff": 0.0003,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "sex_male_approval": {
+      "computed": 0.2614,
+      "locked": 0.261,
+      "diff": 0.0004,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "sex_female_approval": {
+      "computed": 0.3007,
+      "locked": 0.301,
+      "diff": -0.0003,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "edu_pascasarjana_air": {
+      "computed": 0.6032,
+      "locked": 0.603,
+      "diff": 0.0002,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "m2_g4_air_female_over_male": {
+      "computed": 1.1503,
+      "locked": 1.1502,
+      "diff": 0.0001,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "overall_approval_thr0.10": {
+      "computed": 0.285,
+      "locked": 0.285,
+      "diff": 0.0,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "overall_bad_rate_thr0.10": {
+      "computed": 0.0667,
+      "locked": 0.0667,
+      "diff": 0.0,
+      "match_within_0.001": true,
+      "match_within_0.005": true
+    },
+    "m2_g9_psi_note": "M2 G9 PSI 0.0104 is an M2-lesson number (its distribution is not defined in the M7.2 brief); PSI train-vs-test computed here for SEX/EDUCATION/MARRIAGE is in psi_train_vs_test for the coordinator to match."
+  },
+  "m72_runtime_seconds": 31.1,
+  "m73_lr_coef": {
+    "intercept": -1.485,
+    "top12_abs": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "coef": 0.756,
+        "odds_ratio": 2.1297
+      },
+      {
+        "feature": "PAY_MAX",
+        "coef": 0.2741,
+        "odds_ratio": 1.3154
+      },
+      {
+        "feature": "PAY_0",
+        "coef": 0.2434,
+        "odds_ratio": 1.2756
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "coef": -0.2402,
+        "odds_ratio": 0.7865
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.1614,
+        "odds_ratio": 0.8509
+      },
+      {
+        "feature": "BILL_AMT2",
+        "coef": 0.1334,
+        "odds_ratio": 1.1427
+      },
+      {
+        "feature": "PAY_AMT2",
+        "coef": -0.1294,
+        "odds_ratio": 0.8786
+      },
+      {
+        "feature": "PAY_3",
+        "coef": -0.1184,
+        "odds_ratio": 0.8884
+      },
+      {
+        "feature": "BILL_AMT3",
+        "coef": 0.109,
+        "odds_ratio": 1.1152
+      },
+      {
+        "feature": "PAY_5",
+        "coef": -0.1015,
+        "odds_ratio": 0.9035
+      },
+      {
+        "feature": "PAY_2",
+        "coef": -0.0969,
+        "odds_ratio": 0.9076
+      },
+      {
+        "feature": "PAY_6",
+        "coef": -0.0901,
+        "odds_ratio": 0.9138
+      }
+    ],
+    "all": {
+      "LIMIT_BAL": -0.2402,
+      "SEX": -0.0626,
+      "EDUCATION": -0.0575,
+      "MARRIAGE": -0.0565,
+      "AGE": 0.0547,
+      "PAY_0": 0.2434,
+      "PAY_2": -0.0969,
+      "PAY_3": -0.1184,
+      "PAY_4": -0.0711,
+      "PAY_5": -0.1015,
+      "PAY_6": -0.0901,
+      "BILL_AMT1": -0.0821,
+      "BILL_AMT2": 0.1334,
+      "BILL_AMT3": 0.109,
+      "BILL_AMT4": 0.0709,
+      "BILL_AMT5": -0.0431,
+      "BILL_AMT6": -0.0847,
+      "PAY_AMT1": -0.1614,
+      "PAY_AMT2": -0.1294,
+      "PAY_AMT3": 0.0144,
+      "PAY_AMT4": 0.0047,
+      "PAY_AMT5": 0.018,
+      "PAY_AMT6": -0.0104,
+      "PAY_MEAN": -0.0484,
+      "PAY_MAX": 0.2741,
+      "PAY_DELAY_COUNT": 0.756,
+      "UTILIZATION": 0.0726,
+      "PAY_RATIO": 0.069,
+      "BILL_MEAN": 0.0206,
+      "PAY_AMT_MEAN": -0.0816,
+      "BILL_TREND": -0.023
+    },
+    "odds_ratio_all": {
+      "LIMIT_BAL": 0.7865,
+      "SEX": 0.9393,
+      "EDUCATION": 0.9441,
+      "MARRIAGE": 0.9451,
+      "AGE": 1.0563,
+      "PAY_0": 1.2756,
+      "PAY_2": 0.9076,
+      "PAY_3": 0.8884,
+      "PAY_4": 0.9313,
+      "PAY_5": 0.9035,
+      "PAY_6": 0.9138,
+      "BILL_AMT1": 0.9212,
+      "BILL_AMT2": 1.1427,
+      "BILL_AMT3": 1.1152,
+      "BILL_AMT4": 1.0735,
+      "BILL_AMT5": 0.9578,
+      "BILL_AMT6": 0.9188,
+      "PAY_AMT1": 0.8509,
+      "PAY_AMT2": 0.8786,
+      "PAY_AMT3": 1.0145,
+      "PAY_AMT4": 1.0047,
+      "PAY_AMT5": 1.0181,
+      "PAY_AMT6": 0.9897,
+      "PAY_MEAN": 0.9527,
+      "PAY_MAX": 1.3154,
+      "PAY_DELAY_COUNT": 2.1297,
+      "UTILIZATION": 1.0753,
+      "PAY_RATIO": 1.0714,
+      "BILL_MEAN": 1.0208,
+      "PAY_AMT_MEAN": 0.9217,
+      "BILL_TREND": 0.9772
+    }
+  },
+  "m73_perm_importance_gbm": {
+    "top12": [
+      {
+        "feature": "PAY_MAX",
+        "mean_drop": 0.0569,
+        "sd": 0.0043
+      },
+      {
+        "feature": "PAY_0",
+        "mean_drop": 0.0241,
+        "sd": 0.0021
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_drop": 0.013,
+        "sd": 0.0019
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0069,
+        "sd": 0.0011
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_drop": 0.0062,
+        "sd": 0.0013
+      },
+      {
+        "feature": "BILL_AMT1",
+        "mean_drop": 0.0053,
+        "sd": 0.0009
+      },
+      {
+        "feature": "BILL_MEAN",
+        "mean_drop": 0.0048,
+        "sd": 0.0009
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_drop": 0.0044,
+        "sd": 0.0008
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_drop": 0.0042,
+        "sd": 0.0017
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0035,
+        "sd": 0.0012
+      },
+      {
+        "feature": "BILL_AMT3",
+        "mean_drop": 0.0024,
+        "sd": 0.0007
+      },
+      {
+        "feature": "PAY_AMT6",
+        "mean_drop": 0.0024,
+        "sd": 0.0009
+      }
+    ],
+    "all": {
+      "LIMIT_BAL": 0.0062,
+      "SEX": 0.0008,
+      "EDUCATION": 0.0013,
+      "MARRIAGE": 0.0007,
+      "AGE": 0.0022,
+      "PAY_0": 0.0241,
+      "PAY_2": 0.0001,
+      "PAY_3": 0.0002,
+      "PAY_4": -0.0001,
+      "PAY_5": 0.0005,
+      "PAY_6": 0.0004,
+      "BILL_AMT1": 0.0053,
+      "BILL_AMT2": 0.0014,
+      "BILL_AMT3": 0.0024,
+      "BILL_AMT4": 0.0012,
+      "BILL_AMT5": 0.0013,
+      "BILL_AMT6": 0.0,
+      "PAY_AMT1": 0.0042,
+      "PAY_AMT2": 0.0035,
+      "PAY_AMT3": 0.002,
+      "PAY_AMT4": 0.0007,
+      "PAY_AMT5": 0.0002,
+      "PAY_AMT6": 0.0024,
+      "PAY_MEAN": 0.0003,
+      "PAY_MAX": 0.0569,
+      "PAY_DELAY_COUNT": 0.0012,
+      "UTILIZATION": 0.013,
+      "PAY_RATIO": 0.0008,
+      "BILL_MEAN": 0.0048,
+      "PAY_AMT_MEAN": 0.0069,
+      "BILL_TREND": 0.0044
+    },
+    "scoring": "roc_auc",
+    "n_repeats": 10,
+    "set": "test (6000)",
+    "base_roc_auc": 0.7823
+  },
+  "m73_perm_importance_lr": {
+    "top12": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "mean_drop": 0.1422,
+        "sd": 0.0061
+      },
+      {
+        "feature": "PAY_MAX",
+        "mean_drop": 0.0127,
+        "sd": 0.0039
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_drop": 0.0098,
+        "sd": 0.0034
+      },
+      {
+        "feature": "PAY_0",
+        "mean_drop": 0.0063,
+        "sd": 0.0029
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_drop": 0.0046,
+        "sd": 0.0014
+      },
+      {
+        "feature": "PAY_3",
+        "mean_drop": 0.0041,
+        "sd": 0.0014
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0037,
+        "sd": 0.001
+      },
+      {
+        "feature": "BILL_AMT2",
+        "mean_drop": 0.0037,
+        "sd": 0.0018
+      },
+      {
+        "feature": "PAY_6",
+        "mean_drop": 0.0034,
+        "sd": 0.002
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0031,
+        "sd": 0.001
+      },
+      {
+        "feature": "PAY_5",
+        "mean_drop": 0.0029,
+        "sd": 0.0021
+      },
+      {
+        "feature": "MARRIAGE",
+        "mean_drop": 0.0028,
+        "sd": 0.0005
+      }
+    ],
+    "all": {
+      "LIMIT_BAL": 0.0098,
+      "SEX": 0.0015,
+      "EDUCATION": -0.0002,
+      "MARRIAGE": 0.0028,
+      "AGE": 0.0015,
+      "PAY_0": 0.0063,
+      "PAY_2": 0.0025,
+      "PAY_3": 0.0041,
+      "PAY_4": 0.0025,
+      "PAY_5": 0.0029,
+      "PAY_6": 0.0034,
+      "BILL_AMT1": 0.0013,
+      "BILL_AMT2": 0.0037,
+      "BILL_AMT3": 0.0025,
+      "BILL_AMT4": 0.0009,
+      "BILL_AMT5": 0.0005,
+      "BILL_AMT6": 0.0023,
+      "PAY_AMT1": 0.0046,
+      "PAY_AMT2": 0.0037,
+      "PAY_AMT3": -0.0002,
+      "PAY_AMT4": -0.0001,
+      "PAY_AMT5": -0.0005,
+      "PAY_AMT6": -0.0001,
+      "PAY_MEAN": 0.0014,
+      "PAY_MAX": 0.0127,
+      "PAY_DELAY_COUNT": 0.1422,
+      "UTILIZATION": 0.0002,
+      "PAY_RATIO": 0.0014,
+      "BILL_MEAN": 0.0001,
+      "PAY_AMT_MEAN": 0.0031,
+      "BILL_TREND": -0.0003
+    },
+    "scoring": "roc_auc",
+    "n_repeats": 10,
+    "set": "test (6000)",
+    "base_roc_auc": 0.7426
+  },
+  "m73_pdp_1d": {
+    "pay_max_grid": [
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "cal_gbm_pay_max": [
+      0.1589,
+      0.1589,
+      0.1589,
+      0.1986,
+      0.2782,
+      0.2897,
+      0.2897,
+      0.2892,
+      0.2892,
+      0.2892,
+      0.2892
+    ],
+    "lr_pay_max": [
+      0.1456,
+      0.1697,
+      0.1966,
+      0.2265,
+      0.2593,
+      0.295,
+      0.3334,
+      0.3742,
+      0.4169,
+      0.4612,
+      0.5063
+    ],
+    "gbm_pay_max": [
+      0.15,
+      0.15,
+      0.15,
+      0.2064,
+      0.2821,
+      0.3001,
+      0.3001,
+      0.3001,
+      0.3001,
+      0.3001,
+      0.3001
+    ],
+    "pay_mean_grid": [
+      -2.0,
+      -1.5,
+      -0.83,
+      0.0,
+      0.0,
+      1.0,
+      5.5
+    ],
+    "cal_gbm_pay_mean": [
+      0.2084,
+      0.2114,
+      0.2135,
+      0.2162,
+      0.2162,
+      0.237,
+      0.2399
+    ],
+    "util_grid": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      3.0,
+      5.0
+    ],
+    "cal_gbm_utilization": [
+      0.199,
+      0.2076,
+      0.2181,
+      0.2315,
+      0.2572,
+      0.2627,
+      0.2627,
+      0.2627,
+      0.2627
+    ],
+    "lr_utilization": [
+      0.2089,
+      0.2149,
+      0.2211,
+      0.2274,
+      0.2338,
+      0.2469,
+      0.2605,
+      0.2892,
+      0.3518
+    ],
+    "note": "manual PDP: feature set to grid value for all 6000 test rows, mean predicted P(default). Calibrated GBM = decision model."
+  },
+  "m73_pdp_2d": {
+    "pay_max_grid": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "util_grid": [
+      0.2,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "cal_gbm": [
+      [
+        0.1389,
+        0.1505,
+        0.1994,
+        0.2103
+      ],
+      [
+        0.1818,
+        0.1943,
+        0.2319,
+        0.2484
+      ],
+      [
+        0.2675,
+        0.278,
+        0.3079,
+        0.3166
+      ],
+      [
+        0.2788,
+        0.2895,
+        0.3184,
+        0.3275
+      ],
+      [
+        0.2788,
+        0.2895,
+        0.3184,
+        0.3275
+      ]
+    ],
+    "note": "rows = PAY_MAX, cols = UTILIZATION; mean P(default)."
+  },
+  "m73_local_case": {
+    "test_positional_index": 858,
+    "true_label": 1,
+    "cal_gbm_proba": 0.8492,
+    "gbm_proba": 0.8599,
+    "lr_proba": 0.7187,
+    "lr_logodds": 0.9378,
+    "lr_logodds_check_proba": 0.7187,
+    "lr_intercept": -1.485,
+    "raw_features": {
+      "LIMIT_BAL": 20000,
+      "SEX": 2,
+      "EDUCATION": 2,
+      "MARRIAGE": 1,
+      "AGE": 32,
+      "PAY_0": 3,
+      "PAY_2": 2,
+      "PAY_3": 2,
+      "PAY_4": 7,
+      "PAY_5": 7,
+      "PAY_6": 7,
+      "BILL_AMT1": 2400,
+      "BILL_AMT2": 2400,
+      "BILL_AMT3": 2400,
+      "BILL_AMT4": 2400,
+      "BILL_AMT5": 2400,
+      "BILL_AMT6": 2400,
+      "PAY_AMT1": 0,
+      "PAY_AMT2": 0,
+      "PAY_AMT3": 0,
+      "PAY_AMT4": 0,
+      "PAY_AMT5": 0,
+      "PAY_AMT6": 0
+    },
+    "top_contributions": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "std_value": 3.3301,
+        "coef": 0.756,
+        "contribution_logodds": 2.5175
+      },
+      {
+        "feature": "PAY_MAX",
+        "std_value": 4.898,
+        "coef": 0.2741,
+        "contribution_logodds": 1.3426
+      },
+      {
+        "feature": "PAY_5",
+        "std_value": 6.4616,
+        "coef": -0.1015,
+        "contribution_logodds": -0.6558
+      },
+      {
+        "feature": "PAY_0",
+        "std_value": 2.6837,
+        "coef": 0.2434,
+        "contribution_logodds": 0.6532
+      },
+      {
+        "feature": "PAY_6",
+        "std_value": 6.3673,
+        "coef": -0.0901,
+        "contribution_logodds": -0.5738
+      },
+      {
+        "feature": "PAY_4",
+        "std_value": 6.2151,
+        "coef": -0.0711,
+        "contribution_logodds": -0.4421
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "std_value": -1.1379,
+        "coef": -0.2402,
+        "contribution_logodds": 0.2733
+      },
+      {
+        "feature": "PAY_MEAN",
+        "std_value": 4.9594,
+        "coef": -0.0484,
+        "contribution_logodds": -0.2403
+      }
+    ],
+    "note": "contributions = coef * standardised feature value; they sum (+ intercept) to the LR log-odds exactly.",
+    "reason_codes_top3": [
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "contribution_logodds": 2.5175,
+        "plain_language": "Jumlah bulan dengan keterlambatan pembayaran"
+      },
+      {
+        "feature": "PAY_MAX",
+        "contribution_logodds": 1.3426,
+        "plain_language": "Keterlambatan pembayaran terburuk dalam 6 bulan terakhir"
+      },
+      {
+        "feature": "PAY_0",
+        "contribution_logodds": 0.6532,
+        "plain_language": "Status pembayaran bulan terakhir"
+      }
+    ]
+  },
+  "m73_lime_style": {
+    "weighted_r2": 0.4396,
+    "intercept": 0.6197,
+    "surrogate_pred_at_instance": 0.5475,
+    "gbm_proba_at_instance": 0.8599,
+    "top8": [
+      {
+        "feature": "BILL_AMT1",
+        "coef": 0.0637
+      },
+      {
+        "feature": "PAY_AMT3",
+        "coef": -0.0298
+      },
+      {
+        "feature": "MARRIAGE",
+        "coef": 0.0237
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "coef": -0.0191
+      },
+      {
+        "feature": "PAY_0",
+        "coef": 0.0168
+      },
+      {
+        "feature": "UTILIZATION",
+        "coef": 0.0157
+      },
+      {
+        "feature": "BILL_AMT6",
+        "coef": 0.0156
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.0154
+      }
+    ],
+    "top3": [
+      "BILL_AMT1",
+      "PAY_AMT3",
+      "MARRIAGE"
+    ],
+    "weight_stats": {
+      "mean": 0.1835,
+      "min": 0.0239,
+      "max": 0.5435
+    },
+    "stability_seed7_top3": [
+      "BILL_AMT1",
+      "BILL_AMT6",
+      "MARRIAGE"
+    ],
+    "stability_top3_overlap": 2,
+    "seed7_weighted_r2": 0.4374,
+    "note": "manual LIME-style surrogate, CORRECTED kernel: perturbations N(0,1) in standardised space, kernel exp(-(d/kw)^2) with kw = 0.75*sqrt(31) = 4.18 (LIME default). First pass used exp(-d^2) (kw=1) -> all weights ~0, R2=0.0003, garbage. lime package itself NOT installed; same idea built by hand."
+  },
+  "m73_misleading": {
+    "corr_bill_mean_vs_bill_amt_mean": 0.9463,
+    "corr_pay_mean_vs_pay_max": 0.8194,
+    "perm_gbm_bill_amt_cols_sum": 0.0116,
+    "perm_gbm_bill_mean": 0.0048,
+    "perm_gbm_pay_0": 0.0241,
+    "perm_gbm_pay_mean": 0.0003,
+    "perm_gbm_pay_max": 0.0569,
+    "note": "BILL_AMT1..6 correlate strongly with BILL_MEAN, so permutation importance is SPLIT across the six columns; each looks small, their sum is the honest size of the 'bill' signal.",
+    "underfit_gbm_max_iter5": {
+      "test_roc_auc": 0.7725,
+      "top3": [
+        {
+          "feature": "PAY_MAX",
+          "mean_drop": 0.0582
+        },
+        {
+          "feature": "PAY_0",
+          "mean_drop": 0.0379
+        },
+        {
+          "feature": "PAY_AMT_MEAN",
+          "mean_drop": 0.0165
+        }
+      ],
+      "note": "A bad model still produces a plausible-looking importance ranking. Explanation quality is bounded by model quality."
+    },
+    "lr_top5": [
+      "PAY_DELAY_COUNT",
+      "PAY_MAX",
+      "PAY_0",
+      "LIMIT_BAL",
+      "PAY_AMT1"
+    ],
+    "gbm_perm_top5": [
+      "PAY_MAX",
+      "PAY_0",
+      "UTILIZATION",
+      "PAY_AMT_MEAN",
+      "LIMIT_BAL"
+    ],
+    "lr_perm_top5": [
+      "PAY_DELAY_COUNT",
+      "PAY_MAX",
+      "LIMIT_BAL",
+      "PAY_0",
+      "PAY_AMT1"
+    ]
+  },
+  "m73_elapsed_seconds": 3954.1,
+  "m73_pdp_pay_mean_clean": {
+    "grid": [
+      -2.0,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "cal_gbm": [
+      0.2084,
+      0.2132,
+      0.2133,
+      0.2162,
+      0.22,
+      0.237,
+      0.246,
+      0.2399
+    ],
+    "note": "manual PDP, calibrated GBM, test 6000."
+  },
+  "m73_univariate_pay": {
+    "PAY_0": {
+      "corr_with_default": 0.3133,
+      "default_rate_late": 0.4985,
+      "default_rate_not_late": 0.1426,
+      "n_late": 1324
+    },
+    "PAY_2": {
+      "corr_with_default": 0.2556,
+      "default_rate_late": 0.5542,
+      "default_rate_not_late": 0.1635,
+      "n_late": 886
+    },
+    "PAY_3": {
+      "corr_with_default": 0.2207,
+      "default_rate_late": 0.5141,
+      "default_rate_not_late": 0.1727,
+      "n_late": 852
+    },
+    "PAY_4": {
+      "corr_with_default": 0.2033,
+      "default_rate_late": 0.5315,
+      "default_rate_not_late": 0.1803,
+      "n_late": 698
+    },
+    "PAY_5": {
+      "corr_with_default": 0.2077,
+      "default_rate_late": 0.5579,
+      "default_rate_not_late": 0.1835,
+      "n_late": 604
+    },
+    "PAY_6": {
+      "corr_with_default": 0.1796,
+      "default_rate_late": 0.5256,
+      "default_rate_not_late": 0.187,
+      "n_late": 605
+    },
+    "PAY_MEAN": {
+      "corr_with_default": 0.2701,
+      "default_rate_late": 0.4717,
+      "default_rate_not_late": 0.1427,
+      "n_late": 1431
+    },
+    "PAY_MAX": {
+      "corr_with_default": 0.3128,
+      "default_rate_late": 0.4188,
+      "default_rate_not_late": 0.1249,
+      "n_late": 1965
+    },
+    "PAY_DELAY_COUNT": {
+      "corr_with_default": 0.3882,
+      "default_rate_late": 0.4188,
+      "default_rate_not_late": 0.1249,
+      "n_late": 1965
+    }
+  },
+  "m73_no_pay_models": {
+    "dropped": [
+      "PAY_0",
+      "PAY_2",
+      "PAY_3",
+      "PAY_4",
+      "PAY_5",
+      "PAY_6",
+      "PAY_MEAN",
+      "PAY_MAX",
+      "PAY_DELAY_COUNT"
+    ],
+    "lr_roc_auc": 0.6467,
+    "gbm_roc_auc": 0.7343,
+    "lr_top5_coef": [
+      {
+        "feature": "LIMIT_BAL",
+        "coef": -0.3923
+      },
+      {
+        "feature": "PAY_AMT1",
+        "coef": -0.2921
+      },
+      {
+        "feature": "PAY_AMT2",
+        "coef": -0.2745
+      },
+      {
+        "feature": "BILL_AMT2",
+        "coef": 0.2543
+      },
+      {
+        "feature": "BILL_AMT1",
+        "coef": -0.2369
+      }
+    ],
+    "gbm_perm_top5": [
+      {
+        "feature": "PAY_AMT2",
+        "mean_drop": 0.0402
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_drop": 0.0351
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_drop": 0.0269
+      },
+      {
+        "feature": "PAY_AMT3",
+        "mean_drop": 0.0193
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_drop": 0.0192
+      }
+    ],
+    "full_model_lr_roc_auc": 0.7426,
+    "full_model_gbm_roc_auc": 0.7823,
+    "note": "Without any PAY_* signal both models lose a lot of ranking power and explain themselves with proxies (LIMIT_BAL, BILL_*, AGE). The explanation looks confident but the model is much worse."
+  },
+  "m73_shap_gbm": {
+    "model": "raw GBM (uncalibrated). Decision model is its Platt-calibrated version (monotone transform: same ranking, same top features; exact SHAP values on the calibrated score differ).",
+    "n_rows": 6000,
+    "set": "test (6000)",
+    "base_value_logodds": -1.555,
+    "base_value_proba": 0.1744,
+    "efficiency_max_abs_err_vs_logodds": 0.0,
+    "global_mean_abs_shap_top12": [
+      {
+        "feature": "PAY_MAX",
+        "mean_abs_shap": 0.4946
+      },
+      {
+        "feature": "PAY_0",
+        "mean_abs_shap": 0.2385
+      },
+      {
+        "feature": "UTILIZATION",
+        "mean_abs_shap": 0.1574
+      },
+      {
+        "feature": "LIMIT_BAL",
+        "mean_abs_shap": 0.1113
+      },
+      {
+        "feature": "PAY_AMT_MEAN",
+        "mean_abs_shap": 0.0892
+      },
+      {
+        "feature": "PAY_AMT2",
+        "mean_abs_shap": 0.0779
+      },
+      {
+        "feature": "BILL_TREND",
+        "mean_abs_shap": 0.0745
+      },
+      {
+        "feature": "PAY_AMT1",
+        "mean_abs_shap": 0.067
+      },
+      {
+        "feature": "BILL_MEAN",
+        "mean_abs_shap": 0.0658
+      },
+      {
+        "feature": "PAY_DELAY_COUNT",
+        "mean_abs_shap": 0.0585
+      },
+      {
+        "feature": "PAY_AMT3",
+        "mean_abs_shap": 0.0503
+      },
+      {
+        "feature": "BILL_AMT1",
+        "mean_abs_shap": 0.0492
+      }
+    ],
+    "global_mean_abs_shap_all": {
+      "LIMIT_BAL": 0.1113,
+      "SEX": 0.0314,
+      "EDUCATION": 0.0169,
+      "MARRIAGE": 0.0259,
+      "AGE": 0.0304,
+      "PAY_0": 0.2385,
+      "PAY_2": 0.0104,
+      "PAY_3": 0.0058,
+      "PAY_4": 0.0064,
+      "PAY_5": 0.0067,
+      "PAY_6": 0.0113,
+      "BILL_AMT1": 0.0492,
+      "BILL_AMT2": 0.0233,
+      "BILL_AMT3": 0.0226,
+      "BILL_AMT4": 0.0168,
+      "BILL_AMT5": 0.0228,
+      "BILL_AMT6": 0.016,
+      "PAY_AMT1": 0.067,
+      "PAY_AMT2": 0.0779,
+      "PAY_AMT3": 0.0503,
+      "PAY_AMT4": 0.0222,
+      "PAY_AMT5": 0.0315,
+      "PAY_AMT6": 0.0366,
+      "PAY_MEAN": 0.0341,
+      "PAY_MAX": 0.4946,
+      "PAY_DELAY_COUNT": 0.0585,
+      "UTILIZATION": 0.1574,
+      "PAY_RATIO": 0.0179,
+      "BILL_MEAN": 0.0658,
+      "PAY_AMT_MEAN": 0.0892,
+      "BILL_TREND": 0.0745
+    },
+    "local_row_858": {
+      "gbm_proba": 0.8599,
+      "logodds": 1.8148,
+      "sum_shap": 3.3699,
+      "base_plus_sum": 1.8148,
+      "top8": [
+        {
+          "feature": "PAY_MAX",
+          "shap_logodds": 1.1368
+        },
+        {
+          "feature": "PAY_0",
+          "shap_logodds": 0.928
+        },
+        {
+          "feature": "PAY_AMT3",
+          "shap_logodds": 0.1553
+        },
+        {
+          "feature": "PAY_MEAN",
+          "shap_logodds": 0.1418
+        },
+        {
+          "feature": "PAY_AMT_MEAN",
+          "shap_logodds": 0.1309
+        },
+        {
+          "feature": "LIMIT_BAL",
+          "shap_logodds": 0.1204
+        },
+        {
+          "feature": "PAY_DELAY_COUNT",
+          "shap_logodds": 0.1153
+        },
+        {
+          "feature": "BILL_TREND",
+          "shap_logodds": 0.0928
+        }
+      ]
+    },
+    "note": "TreeExplainer, feature_perturbation='tree_path_dependent' (default). SHAP values in log-odds units; base value = mean log-odds over the training background implied by the trees."
+  },
+  "m74_baseline": {
+    "gbm_raw_roc_auc": 0.7823,
+    "gbm_raw_pr_auc": 0.5597,
+    "gbm_cal_roc_auc": 0.7816,
+    "gbm_cal_pr_auc": 0.5558,
+    "gbm_cal_brier": 0.1345,
+    "threshold": 0.1,
+    "cost_010": 33046500.0,
+    "profit_010": 8214000.0,
+    "approve_all_cost": 82155456.0,
+    "reject_all_cost": 41260500.0
+  },
+  "m74_audit_sex": [
+    {
+      "group": "Laki-laki",
+      "n": 2402,
+      "base_rate": 0.2336,
+      "approval_rate": 0.2614,
+      "mean_pred_pd": 0.2313,
+      "FPR": 0.6817,
+      "FNR": 0.0749,
+      "bad_rate_approved": 0.0669,
+      "adverse_impact_ratio": 0.8694
+    },
+    {
+      "group": "Perempuan",
+      "n": 3598,
+      "base_rate": 0.2129,
+      "approval_rate": 0.3007,
+      "mean_pred_pd": 0.2153,
+      "FPR": 0.6434,
+      "FNR": 0.094,
+      "bad_rate_approved": 0.0665,
+      "adverse_impact_ratio": 1.0
+    }
+  ],
+  "m74_audit_edu": [
+    {
+      "group": "Lainnya",
+      "n": 82,
+      "base_rate": 0.061,
+      "approval_rate": 0.5854,
+      "mean_pred_pd": 0.1065,
+      "FPR": 0.4026,
+      "FNR": 0.4,
+      "bad_rate_approved": 0.0417,
+      "adverse_impact_ratio": 1.0
+    },
+    {
+      "group": "Pascasarjana",
+      "n": 2130,
+      "base_rate": 0.1901,
+      "approval_rate": 0.3531,
+      "mean_pred_pd": 0.1927,
+      "FPR": 0.5867,
+      "FNR": 0.0963,
+      "bad_rate_approved": 0.0519,
+      "adverse_impact_ratio": 0.6031
+    },
+    {
+      "group": "SMA",
+      "n": 1014,
+      "base_rate": 0.2574,
+      "approval_rate": 0.2091,
+      "mean_pred_pd": 0.246,
+      "FPR": 0.7463,
+      "FNR": 0.0805,
+      "bad_rate_approved": 0.0991,
+      "adverse_impact_ratio": 0.3572
+    },
+    {
+      "group": "Sarjana",
+      "n": 2774,
+      "base_rate": 0.2365,
+      "approval_rate": 0.2516,
+      "mean_pred_pd": 0.2385,
+      "FPR": 0.695,
+      "FNR": 0.0793,
+      "bad_rate_approved": 0.0745,
+      "adverse_impact_ratio": 0.4299
+    }
+  ],
+  "m74_audit_mar": [
+    {
+      "group": "Lainnya",
+      "n": 68,
+      "base_rate": 0.1765,
+      "approval_rate": 0.1912,
+      "mean_pred_pd": 0.229,
+      "FPR": 0.8036,
+      "FNR": 0.1667,
+      "bad_rate_approved": 0.1538,
+      "adverse_impact_ratio": 0.6555
+    },
+    {
+      "group": "Lajang",
+      "n": 3158,
+      "base_rate": 0.2049,
+      "approval_rate": 0.2916,
+      "mean_pred_pd": 0.218,
+      "FPR": 0.6559,
+      "FNR": 0.0881,
+      "bad_rate_approved": 0.0619,
+      "adverse_impact_ratio": 1.0
+    },
+    {
+      "group": "Menikah",
+      "n": 2767,
+      "base_rate": 0.2414,
+      "approval_rate": 0.2801,
+      "mean_pred_pd": 0.2259,
+      "FPR": 0.657,
+      "FNR": 0.0823,
+      "bad_rate_approved": 0.071,
+      "adverse_impact_ratio": 0.9604
+    }
+  ],
+  "m74_audit_age": [
+    {
+      "group": "30-44",
+      "n": 2853,
+      "base_rate": 0.2117,
+      "approval_rate": 0.3137,
+      "mean_pred_pd": 0.2099,
+      "FPR": 0.6296,
+      "FNR": 0.1026,
+      "bad_rate_approved": 0.0693,
+      "adverse_impact_ratio": 1.0
+    },
+    {
+      "group": "45+",
+      "n": 966,
+      "base_rate": 0.2526,
+      "approval_rate": 0.2195,
+      "mean_pred_pd": 0.2425,
+      "FPR": 0.7244,
+      "FNR": 0.0533,
+      "bad_rate_approved": 0.0613,
+      "adverse_impact_ratio": 0.6996
+    },
+    {
+      "group": "<30",
+      "n": 2181,
+      "base_rate": 0.2196,
+      "approval_rate": 0.2765,
+      "mean_pred_pd": 0.228,
+      "FPR": 0.6686,
+      "FNR": 0.0814,
+      "bad_rate_approved": 0.0647,
+      "adverse_impact_ratio": 0.8813
+    }
+  ],
+  "m74_locked_check": {
+    "gbm_raw_roc_auc_diff_vs_0.7823": 0.0,
+    "gbm_raw_pr_auc_diff_vs_0.5597": 0.0,
+    "gbm_cal_roc_auc_diff_vs_0.7816": 0.0,
+    "air_sex_diff_vs_0.869": 0.0004,
+    "male_approval": 0.2614,
+    "female_approval": 0.3007,
+    "air_female_over_male": 1.1502,
+    "air_female_over_male_diff_vs_1.1502": 0.0,
+    "edu_pascasarjana_air": 0.6031,
+    "edu_lainnya_n": 82,
+    "edu_lainnya_approval": 0.5854
+  },
+  "m74_reweighing": {
+    "train_cells": {
+      "Laki-laki|y=0": 7174,
+      "Laki-laki|y=1": 2312,
+      "Perempuan|y=0": 11517,
+      "Perempuan|y=1": 2997
+    },
+    "weights": {
+      "Laki-laki|y=0": 1.0298,
+      "Laki-laki|y=1": 0.9076,
+      "Perempuan|y=0": 0.9815,
+      "Perempuan|y=1": 1.0713
+    },
+    "calibration_sample_weight": "supported",
+    "audit_sex": [
+      {
+        "group": "Laki-laki",
+        "n": 2402,
+        "base_rate": 0.2336,
+        "approval_rate": 0.2789,
+        "mean_pred_pd": 0.2245,
+        "FPR": 0.6605,
+        "FNR": 0.0802,
+        "bad_rate_approved": 0.0672,
+        "adverse_impact_ratio": 0.9567
+      },
+      {
+        "group": "Perempuan",
+        "n": 3598,
+        "base_rate": 0.2129,
+        "approval_rate": 0.2916,
+        "mean_pred_pd": 0.2196,
+        "FPR": 0.654,
+        "FNR": 0.0901,
+        "bad_rate_approved": 0.0658,
+        "adverse_impact_ratio": 1.0
+      }
+    ],
+    "roc_auc": 0.7806,
+    "pr_auc": 0.559,
+    "brier": 0.1344,
+    "cost": 32956500.0,
+    "profit": 8304000.0,
+    "accuracy": 0.4697,
+    "air": 0.9567
+  },
+  "m74_resampling": {
+    "train_n_resampled": 46068,
+    "max_cell": 11517,
+    "audit_sex": [
+      {
+        "group": "Laki-laki",
+        "n": 2402,
+        "base_rate": 0.2336,
+        "approval_rate": 0.1661,
+        "mean_pred_pd": 0.387,
+        "FPR": 0.7936,
+        "FNR": 0.0339,
+        "bad_rate_approved": 0.0476,
+        "adverse_impact_ratio": 1.0
+      },
+      {
+        "group": "Perempuan",
+        "n": 3598,
+        "base_rate": 0.2129,
+        "approval_rate": 0.1626,
+        "mean_pred_pd": 0.3814,
+        "FPR": 0.8033,
+        "FNR": 0.0366,
+        "bad_rate_approved": 0.0479,
+        "adverse_impact_ratio": 0.9788
+      }
+    ],
+    "roc_auc": 0.7784,
+    "pr_auc": 0.5598,
+    "brier": 0.1758,
+    "cost": 33943500.0,
+    "profit": 7317000.0,
+    "accuracy": 0.3695,
+    "air": 0.9788
+  },
+  "m74_drop_sensitive": {
+    "features_dropped": [
+      "SEX",
+      "MARRIAGE",
+      "EDUCATION"
+    ],
+    "n_features_kept": 28,
+    "raw_roc_auc": 0.7781,
+    "raw_pr_auc": 0.5516,
+    "cal_roc_auc": 0.7789,
+    "cal_pr_auc": 0.5548,
+    "cal_brier": 0.1348,
+    "audit_sex": [
+      {
+        "group": "Laki-laki",
+        "n": 2402,
+        "base_rate": 0.2336,
+        "approval_rate": 0.2706,
+        "mean_pred_pd": 0.2284,
+        "FPR": 0.6687,
+        "FNR": 0.0713,
+        "bad_rate_approved": 0.0615,
+        "adverse_impact_ratio": 0.9211
+      },
+      {
+        "group": "Perempuan",
+        "n": 3598,
+        "base_rate": 0.2129,
+        "approval_rate": 0.2938,
+        "mean_pred_pd": 0.2172,
+        "FPR": 0.6501,
+        "FNR": 0.0862,
+        "bad_rate_approved": 0.0624,
+        "adverse_impact_ratio": 1.0
+      }
+    ],
+    "cost": 32209000.0,
+    "profit": 9051500.0,
+    "accuracy": 0.4703,
+    "air": 0.9211,
+    "proxy_probe_sex_from_features_roc_auc": 0.6261,
+    "proxy_probe_sex_from_fair_pd_roc_auc": 0.4817
+  },
+  "m74_in_processing": {
+    "method": "simplified reductions-style iterative reweighting (NOT full ExponentiatedGradient; fairlearn not installed)",
+    "rounds": [
+      {
+        "round": 1,
+        "fnr_male_train": 0.0376,
+        "fnr_female_train": 0.0607,
+        "fnr_gap_train": 0.0231
+      },
+      {
+        "round": 2,
+        "fnr_male_train": 0.0221,
+        "fnr_female_train": 0.023,
+        "fnr_gap_train": 0.001
+      }
+    ],
+    "n_rounds": 2,
+    "calibration_sample_weight": "supported",
+    "audit_sex": [
+      {
+        "group": "Laki-laki",
+        "n": 2402,
+        "base_rate": 0.2336,
+        "approval_rate": 0.2065,
+        "mean_pred_pd": 0.2472,
+        "FPR": 0.7463,
+        "FNR": 0.0517,
+        "bad_rate_approved": 0.0585,
+        "adverse_impact_ratio": 1.0
+      },
+      {
+        "group": "Perempuan",
+        "n": 3598,
+        "base_rate": 0.2129,
+        "approval_rate": 0.1907,
+        "mean_pred_pd": 0.2624,
+        "FPR": 0.7701,
+        "FNR": 0.0457,
+        "bad_rate_approved": 0.051,
+        "adverse_impact_ratio": 0.9233
+      }
+    ],
+    "roc_auc": 0.781,
+    "pr_auc": 0.5581,
+    "brier": 0.1361,
+    "cost": 33770000.0,
+    "profit": 7490500.0,
+    "accuracy": 0.3968,
+    "air": 0.9233
+  },
+  "m74_post_processing": {
+    "method": "flagship cell 45 replication: per-group threshold = quantile(proba, overall approval rate)",
+    "target_approval_rate": 0.285,
+    "thresholds": {
+      "Laki-laki": 0.1058,
+      "Perempuan": 0.0965
+    },
+    "audit_before": [
+      {
+        "group": "Laki-laki",
+        "n": 2402,
+        "base_rate": 0.2336,
+        "approval_rate": 0.2614,
+        "mean_pred_pd": 0.2313,
+        "FPR": 0.6817,
+        "FNR": 0.0749,
+        "bad_rate_approved": 0.0669,
+        "adverse_impact_ratio": 0.8694
+      },
+      {
+        "group": "Perempuan",
+        "n": 3598,
+        "base_rate": 0.2129,
+        "approval_rate": 0.3007,
+        "mean_pred_pd": 0.2153,
+        "FPR": 0.6434,
+        "FNR": 0.094,
+        "bad_rate_approved": 0.0665,
+        "adverse_impact_ratio": 1.0
+      }
+    ],
+    "audit_after": [
+      {
+        "group": "Laki-laki",
+        "n": 2402,
+        "base_rate": 0.2336,
+        "approval_rate": 0.2852,
+        "mean_pred_pd": 0.2313,
+        "FPR": 0.6534,
+        "FNR": 0.0838,
+        "bad_rate_approved": 0.0686,
+        "threshold": 0.1058,
+        "adverse_impact_ratio": 1.0
+      },
+      {
+        "group": "Perempuan",
+        "n": 3598,
+        "base_rate": 0.2129,
+        "approval_rate": 0.2852,
+        "mean_pred_pd": 0.2153,
+        "FPR": 0.661,
+        "FNR": 0.0862,
+        "bad_rate_approved": 0.0643,
+        "threshold": 0.0965,
+        "adverse_impact_ratio": 0.9999
+      }
+    ],
+    "approval_gap_before": 0.0393,
+    "approval_gap_after": 0.0,
+    "air_before": 0.8694,
+    "air_after": 0.9999,
+    "fpr_gap_before": 0.0383,
+    "fpr_gap_after": 0.0076,
+    "fnr_gap_before": 0.0191,
+    "fnr_gap_after": 0.0024,
+    "cost_before": 33046500.0,
+    "cost_after": 32756000.0,
+    "cost_change": -290500.0,
+    "profit_before": 8214000.0,
+    "profit_after": 8504500.0,
+    "profit_change": 290500.0,
+    "accuracy_before": 0.4682,
+    "accuracy_after": 0.4687,
+    "roc_auc_raw_proba": 0.7816,
+    "pr_auc_raw_proba": 0.5558,
+    "roc_auc_adjusted_score": 0.7808,
+    "pr_auc_adjusted_score": 0.5566,
+    "inversion_band": [
+      0.0965,
+      0.1058
+    ],
+    "inversions_male_approved_in_band": 92,
+    "inversions_female_rejected_in_band": 151,
+    "flagship_check": {
+      "threshold_male_diff_vs_0.1058": -0.0,
+      "threshold_female_diff_vs_0.0965": -0.0,
+      "cost_after_diff_vs_32756000": 0.0,
+      "accuracy_after_diff_vs_0.4687": -0.0
+    }
+  },
+  "m74_pareto_lambda": [
+    {
+      "lambda": 0.0,
+      "threshold_male": 0.1,
+      "threshold_female": 0.1,
+      "approval_male": 0.2614,
+      "approval_female": 0.3007,
+      "air": 0.8694,
+      "approval_gap": 0.0393,
+      "cost": 33046500.0,
+      "profit": 8214000.0,
+      "accuracy": 0.4682,
+      "roc_auc_adjusted_score": 0.7816,
+      "pr_auc_adjusted_score": 0.5558
+    },
+    {
+      "lambda": 0.25,
+      "threshold_male": 0.1014,
+      "threshold_female": 0.0991,
+      "approval_male": 0.2648,
+      "approval_female": 0.296,
+      "air": 0.8945,
+      "approval_gap": 0.0312,
+      "cost": 33057500.0,
+      "profit": 8203000.0,
+      "accuracy": 0.467,
+      "roc_auc_adjusted_score": 0.7815,
+      "pr_auc_adjusted_score": 0.5573
+    },
+    {
+      "lambda": 0.5,
+      "threshold_male": 0.1029,
+      "threshold_female": 0.0982,
+      "approval_male": 0.2735,
+      "approval_female": 0.2932,
+      "air": 0.9328,
+      "approval_gap": 0.0197,
+      "cost": 33035000.0,
+      "profit": 8225500.0,
+      "accuracy": 0.4685,
+      "roc_auc_adjusted_score": 0.7813,
+      "pr_auc_adjusted_score": 0.5578
+    },
+    {
+      "lambda": 0.75,
+      "threshold_male": 0.1043,
+      "threshold_female": 0.0974,
+      "approval_male": 0.2802,
+      "approval_female": 0.2896,
+      "air": 0.9675,
+      "approval_gap": 0.0094,
+      "cost": 32752000.0,
+      "profit": 8508500.0,
+      "accuracy": 0.4693,
+      "roc_auc_adjusted_score": 0.7811,
+      "pr_auc_adjusted_score": 0.5574
+    },
+    {
+      "lambda": 1.0,
+      "threshold_male": 0.1058,
+      "threshold_female": 0.0965,
+      "approval_male": 0.2852,
+      "approval_female": 0.2852,
+      "air": 0.9999,
+      "approval_gap": 0.0,
+      "cost": 32756000.0,
+      "profit": 8504500.0,
+      "accuracy": 0.4687,
+      "roc_auc_adjusted_score": 0.7808,
+      "pr_auc_adjusted_score": 0.5566
+    }
+  ],
+  "m74_edu_small_n_flag": {
+    "group": "Lainnya (EDUCATION)",
+    "n": 82,
+    "approval_at_010": 0.5854,
+    "se_approval": 0.0544,
+    "per_group_threshold_point": 0.0589,
+    "bootstrap_sd_threshold": 0.0078,
+    "bootstrap_ci95_threshold": [
+      0.0452,
+      0.0782
+    ],
+    "n_boot": 500,
+    "sex_bootstrap_contrast": {
+      "Laki-laki": {
+        "n": 2402,
+        "threshold_point": 0.1058,
+        "bootstrap_sd": 0.0022,
+        "ci95": [
+          0.1017,
+          0.1103
+        ]
+      },
+      "Perempuan": {
+        "n": 3598,
+        "threshold_point": 0.0965,
+        "bootstrap_sd": 0.0016,
+        "ci95": [
+          0.0937,
+          0.0998
+        ]
+      }
+    }
+  },
+  "m74_elapsed_seconds": 131.2,
+  "m75_train_base_rate": 0.2212,
+  "m75_test_base_rate": 0.2212,
+  "m75_psi_features_train_vs_test": {
+    "LIMIT_BAL": {
+      "psi": 0.0016,
+      "n_bins": 10,
+      "edges": [
+        10000.0,
+        30000.0,
+        50000.0,
+        70000.0,
+        100000.0,
+        140000.0,
+        180000.0,
+        210000.0,
+        270000.0,
+        360000.0,
+        1000000.0
+      ],
+      "expected_share": [
+        0.0829,
+        0.0605,
+        0.1393,
+        0.0975,
+        0.1035,
+        0.1038,
+        0.0922,
+        0.1152,
+        0.0946,
+        0.1105
+      ],
+      "actual_share": [
+        0.0803,
+        0.0648,
+        0.141,
+        0.1013,
+        0.101,
+        0.099,
+        0.0897,
+        0.1103,
+        0.0948,
+        0.1177
+      ],
+      "terms": [
+        0.0001,
+        0.0003,
+        0.0,
+        0.0001,
+        0.0001,
+        0.0002,
+        0.0001,
+        0.0002,
+        0.0,
+        0.0005
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 167364.6667,
+      "test_mean": 167962.9467
+    },
+    "AGE": {
+      "psi": 0.0029,
+      "n_bins": 10,
+      "edges": [
+        21.0,
+        25.0,
+        27.0,
+        29.0,
+        31.0,
+        34.0,
+        36.0,
+        40.0,
+        43.0,
+        49.0,
+        75.0
+      ],
+      "expected_share": [
+        0.0893,
+        0.0816,
+        0.0968,
+        0.1003,
+        0.1195,
+        0.077,
+        0.1332,
+        0.0822,
+        0.1158,
+        0.1042
+      ],
+      "actual_share": [
+        0.0902,
+        0.0805,
+        0.0938,
+        0.099,
+        0.1087,
+        0.071,
+        0.1419,
+        0.086,
+        0.124,
+        0.1049
+      ],
+      "terms": [
+        0.0,
+        0.0,
+        0.0001,
+        0.0,
+        0.001,
+        0.0005,
+        0.0005,
+        0.0002,
+        0.0006,
+        0.0
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 35.4326,
+      "test_mean": 35.697
+    },
+    "BILL_AMT1": {
+      "psi": 0.0021,
+      "n_bins": 10,
+      "edges": [
+        -165580.0,
+        268.0,
+        1875.8,
+        6053.9,
+        13487.2,
+        22330.0,
+        36954.8,
+        51984.1,
+        83722.6,
+        141532.2,
+        964511.0
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.0977,
+        0.097,
+        0.1055,
+        0.1005,
+        0.0967,
+        0.1002,
+        0.0967,
+        0.109,
+        0.0932,
+        0.1037
+      ],
+      "terms": [
+        0.0001,
+        0.0001,
+        0.0003,
+        0.0,
+        0.0001,
+        0.0,
+        0.0001,
+        0.0008,
+        0.0005,
+        0.0001
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 51100.5022,
+      "test_mean": 51714.6455
+    },
+    "PAY_AMT1": {
+      "psi": 0.0022,
+      "n_bins": 9,
+      "edges": [
+        0.0,
+        326.0,
+        1268.0,
+        1724.0,
+        2100.5,
+        3000.0,
+        4348.3,
+        6220.4,
+        10222.6,
+        873552.0
+      ],
+      "expected_share": [
+        0.1995,
+        0.1004,
+        0.1,
+        0.1,
+        0.0727,
+        0.1273,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.2058,
+        0.0987,
+        0.095,
+        0.1027,
+        0.078,
+        0.1277,
+        0.0983,
+        0.0898,
+        0.104
+      ],
+      "terms": [
+        0.0002,
+        0.0,
+        0.0003,
+        0.0001,
+        0.0004,
+        0.0,
+        0.0,
+        0.0011,
+        0.0002
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 5623.5563,
+      "test_mean": 5823.6773
+    },
+    "UTILIZATION": {
+      "psi": 0.0013,
+      "n_bins": 10,
+      "edges": [
+        0.0,
+        0.0012,
+        0.0111,
+        0.0407,
+        0.13,
+        0.3149,
+        0.5235,
+        0.7349,
+        0.9021,
+        0.9814,
+        5.0
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.0977,
+        0.0962,
+        0.1072,
+        0.0965,
+        0.1048,
+        0.0962,
+        0.0997,
+        0.1008,
+        0.0987,
+        0.1023
+      ],
+      "terms": [
+        0.0001,
+        0.0001,
+        0.0005,
+        0.0001,
+        0.0002,
+        0.0001,
+        0.0,
+        0.0,
+        0.0,
+        0.0001
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 0.4234,
+      "test_mean": 0.4257
+    },
+    "PAY_MEAN": {
+      "psi": 0.0008,
+      "n_bins": 8,
+      "edges": [
+        -2.0,
+        -1.5,
+        -1.0,
+        -0.6667,
+        -0.1667,
+        0.0,
+        0.3333,
+        1.0,
+        6.0
+      ],
+      "expected_share": [
+        0.083,
+        0.0663,
+        0.1174,
+        0.1116,
+        0.0445,
+        0.3493,
+        0.1222,
+        0.1057
+      ],
+      "actual_share": [
+        0.0832,
+        0.065,
+        0.1232,
+        0.105,
+        0.045,
+        0.351,
+        0.1198,
+        0.1078
+      ],
+      "terms": [
+        0.0,
+        0.0,
+        0.0003,
+        0.0004,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": -0.1834,
+      "test_mean": -0.1788
+    },
+    "PAY_MAX": {
+      "psi": 0.0012,
+      "n_bins": 5,
+      "edges": [
+        -2.0,
+        -1.0,
+        0.0,
+        1.0,
+        2.0,
+        8.0
+      ],
+      "expected_share": [
+        0.0704,
+        0.1015,
+        0.4905,
+        0.0575,
+        0.2802
+      ],
+      "actual_share": [
+        0.07,
+        0.1085,
+        0.494,
+        0.0515,
+        0.276
+      ],
+      "terms": [
+        0.0,
+        0.0005,
+        0.0,
+        0.0007,
+        0.0001
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 0.4407,
+      "test_mean": 0.431
+    },
+    "PAY_DELAY_COUNT": {
+      "psi": 0.001,
+      "n_bins": 7,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expected_share": [
+        0.6623,
+        0.1488,
+        0.0638,
+        0.039,
+        0.032,
+        0.0099,
+        0.0442
+      ],
+      "actual_share": [
+        0.6725,
+        0.1423,
+        0.0612,
+        0.0363,
+        0.0307,
+        0.0102,
+        0.0468
+      ],
+      "terms": [
+        0.0002,
+        0.0003,
+        0.0001,
+        0.0002,
+        0.0001,
+        0.0,
+        0.0002
+      ],
+      "method": "value_bins",
+      "band": "stabil",
+      "train_mean": 0.8357,
+      "test_mean": 0.8282
+    },
+    "BILL_MEAN": {
+      "psi": 0.0007,
+      "n_bins": 10,
+      "edges": [
+        -56043.1667,
+        696.75,
+        2879.6333,
+        7415.7667,
+        13839.9667,
+        21044.8333,
+        31340.6,
+        46187.4,
+        72282.2667,
+        123838.7333,
+        877313.8333
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.0998,
+        0.103,
+        0.1002,
+        0.102,
+        0.0947,
+        0.0962,
+        0.1005,
+        0.1002,
+        0.103,
+        0.1005
+      ],
+      "terms": [
+        0.0,
+        0.0001,
+        0.0,
+        0.0,
+        0.0003,
+        0.0001,
+        0.0,
+        0.0,
+        0.0001,
+        0.0
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 44828.6173,
+      "test_mean": 45570.2568
+    },
+    "PAY_AMT_MEAN": {
+      "psi": 0.002,
+      "n_bins": 10,
+      "edges": [
+        0.0,
+        404.1667,
+        916.6667,
+        1306.6667,
+        1761.4333,
+        2405.6667,
+        3348.7,
+        4730.3833,
+        6835.0667,
+        11909.8333,
+        627344.3333
+      ],
+      "expected_share": [
+        0.1,
+        0.0998,
+        0.1002,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.1002,
+        0.1038,
+        0.096,
+        0.1047,
+        0.1028,
+        0.0963,
+        0.1053,
+        0.094,
+        0.0933,
+        0.1035
+      ],
+      "terms": [
+        0.0,
+        0.0002,
+        0.0002,
+        0.0002,
+        0.0001,
+        0.0001,
+        0.0003,
+        0.0004,
+        0.0005,
+        0.0001
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 5251.5813,
+      "test_mean": 5369.8352
+    },
+    "PAY_RATIO": {
+      "psi": 0.0004,
+      "n_bins": 9,
+      "edges": [
+        0.0,
+        0.0193,
+        0.0377,
+        0.0453,
+        0.0556,
+        0.0865,
+        0.1633,
+        0.4956,
+        1.3966,
+        2.0
+      ],
+      "expected_share": [
+        0.2,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.2035,
+        0.0983,
+        0.1015,
+        0.098,
+        0.0992,
+        0.1027,
+        0.0957,
+        0.101,
+        0.1002
+      ],
+      "terms": [
+        0.0001,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0001,
+        0.0002,
+        0.0,
+        0.0
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 0.343,
+      "test_mean": 0.3408
+    },
+    "BILL_TREND": {
+      "psi": 0.0014,
+      "n_bins": 10,
+      "edges": [
+        -399983.0,
+        -10209.7,
+        -4375.0,
+        -1548.3,
+        0.0,
+        927.5,
+        4642.8,
+        13293.0,
+        27391.8,
+        49525.7,
+        708323.0
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.0806,
+        0.1194,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.0984,
+        0.0952,
+        0.108,
+        0.0765,
+        0.1229,
+        0.1009,
+        0.1005,
+        0.0975,
+        0.0975,
+        0.1025
+      ],
+      "terms": [
+        0.0,
+        0.0002,
+        0.0006,
+        0.0002,
+        0.0001,
+        0.0,
+        0.0,
+        0.0001,
+        0.0001,
+        0.0001
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": 12424.5224,
+      "test_mean": 12059.763
+    },
+    "SEX": {
+      "psi": 0.0001,
+      "n_bins": 2,
+      "values": [
+        1,
+        2
+      ],
+      "expected_share": [
+        0.3952,
+        0.6048
+      ],
+      "actual_share": [
+        0.4003,
+        0.5997
+      ],
+      "terms": [
+        0.0001,
+        0.0
+      ],
+      "method": "value_bins",
+      "band": "stabil",
+      "train_mean": 1.6047,
+      "test_mean": 1.5997
+    },
+    "EDUCATION": {
+      "psi": 0.0011,
+      "n_bins": 7,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expected_share": [
+        0.0005,
+        0.3523,
+        0.469,
+        0.1626,
+        0.004,
+        0.0098,
+        0.0018
+      ],
+      "actual_share": [
+        0.0003,
+        0.355,
+        0.4623,
+        0.169,
+        0.0043,
+        0.0075,
+        0.0015
+      ],
+      "terms": [
+        0.0001,
+        0.0,
+        0.0001,
+        0.0002,
+        0.0,
+        0.0006,
+        0.0
+      ],
+      "method": "value_bins",
+      "band": "stabil",
+      "train_mean": 1.8538,
+      "test_mean": 1.8505
+    },
+    "MARRIAGE": {
+      "psi": 0.0007,
+      "n_bins": 4,
+      "values": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "expected_share": [
+        0.002,
+        0.4538,
+        0.5336,
+        0.0106
+      ],
+      "actual_share": [
+        0.0012,
+        0.4612,
+        0.5263,
+        0.0113
+      ],
+      "terms": [
+        0.0004,
+        0.0001,
+        0.0001,
+        0.0
+      ],
+      "method": "value_bins",
+      "band": "stabil",
+      "train_mean": 1.5529,
+      "test_mean": 1.5478
+    },
+    "PAY_0": {
+      "psi": 0.0011,
+      "n_bins": 5,
+      "edges": [
+        -2.0,
+        -1.0,
+        0.0,
+        1.0,
+        2.0,
+        8.0
+      ],
+      "expected_share": [
+        0.0916,
+        0.1886,
+        0.4909,
+        0.125,
+        0.1039
+      ],
+      "actual_share": [
+        0.0935,
+        0.1932,
+        0.4927,
+        0.1147,
+        0.106
+      ],
+      "terms": [
+        0.0,
+        0.0001,
+        0.0,
+        0.0009,
+        0.0
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil",
+      "train_mean": -0.0141,
+      "test_mean": -0.027
+    }
+  },
+  "m75_psi_features_max": "AGE",
+  "m75_psi_features_max_value": 0.0029,
+  "m75_psi_features_n_stabil": 16,
+  "m75_psi_features_n_waspada": 0,
+  "m75_psi_features_n_geser_besar": 0,
+  "m75_psi_score_calibrated_train_vs_test": {
+    "psi": 0.0017,
+    "n_bins": 10,
+    "edges": [
+      0.0249,
+      0.0557,
+      0.0777,
+      0.1021,
+      0.1255,
+      0.1499,
+      0.1801,
+      0.2322,
+      0.3267,
+      0.5723,
+      0.8506
+    ],
+    "expected_share": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "actual_share": [
+      0.098,
+      0.0919,
+      0.1017,
+      0.1041,
+      0.1022,
+      0.1054,
+      0.099,
+      0.0952,
+      0.0982,
+      0.1042
+    ],
+    "terms": [
+      0.0,
+      0.0007,
+      0.0,
+      0.0002,
+      0.0,
+      0.0003,
+      0.0,
+      0.0002,
+      0.0,
+      0.0002
+    ],
+    "method": "quantile_deciles_from_train",
+    "band": "stabil"
+  },
+  "m75_psi_score_raw_train_vs_test": {
+    "psi": 0.0024,
+    "n_bins": 10,
+    "edges": [
+      0.0223,
+      0.0527,
+      0.0736,
+      0.0969,
+      0.1211,
+      0.1462,
+      0.179,
+      0.2344,
+      0.3328,
+      0.5805,
+      0.8604
+    ],
+    "expected_share": [
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "actual_share": [
+      0.0947,
+      0.0973,
+      0.0947,
+      0.1055,
+      0.1078,
+      0.1012,
+      0.1018,
+      0.092,
+      0.1032,
+      0.1018
+    ],
+    "terms": [
+      0.0003,
+      0.0001,
+      0.0003,
+      0.0003,
+      0.0006,
+      0.0,
+      0.0,
+      0.0007,
+      0.0001,
+      0.0
+    ],
+    "method": "quantile_deciles_from_train",
+    "band": "stabil"
+  },
+  "m75_baseline_monitoring": {
+    "train": {
+      "n": 24000,
+      "base_rate": 0.2212,
+      "roc_auc": 0.8501,
+      "pr_auc": 0.6536,
+      "brier": 0.1207,
+      "ece_10bin": 0.0415,
+      "mean_score": 0.2214,
+      "approval_rate": 0.2924,
+      "bad_rate_approved": 0.0288,
+      "n_approved": 7018
+    },
+    "test": {
+      "n": 6000,
+      "base_rate": 0.2212,
+      "roc_auc": 0.7816,
+      "pr_auc": 0.5558,
+      "brier": 0.1345,
+      "ece_10bin": 0.0087,
+      "mean_score": 0.2217,
+      "approval_rate": 0.285,
+      "bad_rate_approved": 0.0667,
+      "n_approved": 1710
+    }
+  },
+  "m75_pseudo_time_chunks_test": [
+    {
+      "n": 1200,
+      "base_rate": 0.22,
+      "roc_auc": 0.7449,
+      "pr_auc": 0.4982,
+      "brier": 0.1444,
+      "ece_10bin": 0.0217,
+      "mean_score": 0.2213,
+      "approval_rate": 0.2692,
+      "bad_rate_approved": 0.0805,
+      "n_approved": 323,
+      "chunk": 1,
+      "id_range": [
+        1,
+        6069
+      ]
+    },
+    {
+      "n": 1200,
+      "base_rate": 0.2375,
+      "roc_auc": 0.7428,
+      "pr_auc": 0.5137,
+      "brier": 0.1521,
+      "ece_10bin": 0.0332,
+      "mean_score": 0.2294,
+      "approval_rate": 0.2717,
+      "bad_rate_approved": 0.1074,
+      "n_approved": 326,
+      "chunk": 2,
+      "id_range": [
+        6072,
+        12246
+      ]
+    },
+    {
+      "n": 1200,
+      "base_rate": 0.245,
+      "roc_auc": 0.8138,
+      "pr_auc": 0.6314,
+      "brier": 0.1338,
+      "ece_10bin": 0.0196,
+      "mean_score": 0.2434,
+      "approval_rate": 0.2517,
+      "bad_rate_approved": 0.0563,
+      "n_approved": 302,
+      "chunk": 3,
+      "id_range": [
+        12250,
+        18115
+      ]
+    },
+    {
+      "n": 1200,
+      "base_rate": 0.2092,
+      "roc_auc": 0.8041,
+      "pr_auc": 0.5985,
+      "brier": 0.1218,
+      "ece_10bin": 0.0308,
+      "mean_score": 0.2071,
+      "approval_rate": 0.3367,
+      "bad_rate_approved": 0.052,
+      "n_approved": 404,
+      "chunk": 4,
+      "id_range": [
+        18117,
+        24223
+      ]
+    },
+    {
+      "n": 1200,
+      "base_rate": 0.1942,
+      "roc_auc": 0.8006,
+      "pr_auc": 0.5458,
+      "brier": 0.1204,
+      "ece_10bin": 0.0205,
+      "mean_score": 0.2076,
+      "approval_rate": 0.2958,
+      "bad_rate_approved": 0.0423,
+      "n_approved": 355,
+      "chunk": 5,
+      "id_range": [
+        24235,
+        29996
+      ]
+    }
+  ],
+  "m75_pseudo_time_roc_range": [
+    0.7428,
+    0.8138
+  ],
+  "m75_pseudo_time_pr_range": [
+    0.4982,
+    0.6314
+  ],
+  "m75_pseudo_time_roc_spread": 0.071,
+  "m75_pseudo_time_pr_spread": 0.1332,
+  "m75_psi_chunk1_vs_chunk5_pseudo_time": {
+    "score_calibrated": {
+      "psi": 0.0161,
+      "n_bins": 10,
+      "edges": [
+        0.0234,
+        0.0581,
+        0.083,
+        0.1101,
+        0.1299,
+        0.1527,
+        0.1816,
+        0.2298,
+        0.3259,
+        0.5393,
+        0.8229
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.1137,
+        0.1054,
+        0.1296,
+        0.0878,
+        0.1028,
+        0.0978,
+        0.0953,
+        0.0953,
+        0.0844,
+        0.0878
+      ],
+      "terms": [
+        0.0018,
+        0.0003,
+        0.0077,
+        0.0016,
+        0.0001,
+        0.0,
+        0.0002,
+        0.0002,
+        0.0026,
+        0.0016
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil"
+    },
+    "LIMIT_BAL": {
+      "psi": 0.0129,
+      "n_bins": 10,
+      "edges": [
+        10000.0,
+        30000.0,
+        50000.0,
+        70000.0,
+        100000.0,
+        140000.0,
+        180000.0,
+        210000.0,
+        270000.0,
+        360000.0,
+        750000.0
+      ],
+      "expected_share": [
+        0.0775,
+        0.0658,
+        0.1525,
+        0.0983,
+        0.0992,
+        0.1017,
+        0.0875,
+        0.11,
+        0.0883,
+        0.1192
+      ],
+      "actual_share": [
+        0.0726,
+        0.0575,
+        0.1276,
+        0.0967,
+        0.0967,
+        0.0959,
+        0.0901,
+        0.1218,
+        0.1068,
+        0.1343
+      ],
+      "terms": [
+        0.0003,
+        0.0011,
+        0.0044,
+        0.0,
+        0.0001,
+        0.0003,
+        0.0001,
+        0.0012,
+        0.0035,
+        0.0018
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil"
+    },
+    "PAY_MEAN": {
+      "psi": 0.0193,
+      "n_bins": 8,
+      "edges": [
+        -2.0,
+        -1.3333,
+        -1.0,
+        -0.6667,
+        -0.1667,
+        0.0,
+        0.3333,
+        1.0,
+        5.5
+      ],
+      "expected_share": [
+        0.0992,
+        0.0417,
+        0.1433,
+        0.1033,
+        0.0417,
+        0.3358,
+        0.125,
+        0.11
+      ],
+      "actual_share": [
+        0.1317,
+        0.0433,
+        0.1367,
+        0.1008,
+        0.0475,
+        0.3475,
+        0.1017,
+        0.0908
+      ],
+      "terms": [
+        0.0092,
+        0.0001,
+        0.0003,
+        0.0001,
+        0.0008,
+        0.0004,
+        0.0048,
+        0.0037
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil"
+    },
+    "UTILIZATION": {
+      "psi": 0.0191,
+      "n_bins": 10,
+      "edges": [
+        0.0,
+        0.0016,
+        0.0115,
+        0.0417,
+        0.1402,
+        0.2888,
+        0.5096,
+        0.7258,
+        0.8934,
+        0.9832,
+        3.6099
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.1183,
+        0.1008,
+        0.12,
+        0.1125,
+        0.0858,
+        0.0817,
+        0.0833,
+        0.0883,
+        0.1075,
+        0.1017
+      ],
+      "terms": [
+        0.0031,
+        0.0,
+        0.0036,
+        0.0015,
+        0.0022,
+        0.0037,
+        0.003,
+        0.0014,
+        0.0005,
+        0.0
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil"
+    },
+    "BILL_AMT1": {
+      "psi": 0.0153,
+      "n_bins": 10,
+      "edges": [
+        -14386.0,
+        324.1,
+        2079.6,
+        5988.3,
+        13164.4,
+        22736.5,
+        35654.6,
+        51144.5,
+        78226.2,
+        142469.8,
+        506787.0
+      ],
+      "expected_share": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "actual_share": [
+        0.117,
+        0.0994,
+        0.1086,
+        0.0977,
+        0.1094,
+        0.0769,
+        0.0852,
+        0.1028,
+        0.1128,
+        0.0902
+      ],
+      "terms": [
+        0.0027,
+        0.0,
+        0.0007,
+        0.0001,
+        0.0009,
+        0.0061,
+        0.0024,
+        0.0001,
+        0.0015,
+        0.001
+      ],
+      "method": "quantile_deciles_from_train",
+      "band": "stabil"
+    }
+  },
+  "m75_drift_simulations": {
+    "S1_limit_x1.30": {
+      "n": 6000,
+      "base_rate": 0.2212,
+      "roc_auc": 0.7796,
+      "pr_auc": 0.5551,
+      "brier": 0.1345,
+      "ece_10bin": 0.0148,
+      "mean_score": 0.2108,
+      "approval_rate": 0.3632,
+      "bad_rate_approved": 0.0794,
+      "n_approved": 2179,
+      "psi_score_vs_baseline_test": 0.0358,
+      "psi_score_band": "stabil",
+      "description": "LIMIT_BAL x1.30 untuk semua baris test; fitur turunan dihitung ulang",
+      "psi_score_detail": {
+        "psi": 0.0358,
+        "n_bins": 10,
+        "edges": [
+          0.0234,
+          0.0561,
+          0.0802,
+          0.1035,
+          0.1264,
+          0.1503,
+          0.1783,
+          0.2298,
+          0.3296,
+          0.5937,
+          0.8492
+        ],
+        "expected_share": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.0997,
+          0.1003,
+          0.1
+        ],
+        "actual_share": [
+          0.1268,
+          0.1402,
+          0.1108,
+          0.0975,
+          0.0838,
+          0.075,
+          0.0823,
+          0.0905,
+          0.0947,
+          0.0983
+        ],
+        "terms": [
+          0.0064,
+          0.0136,
+          0.0011,
+          0.0001,
+          0.0029,
+          0.0072,
+          0.0034,
+          0.0009,
+          0.0003,
+          0.0
+        ],
+        "method": "quantile_deciles_from_train",
+        "band": "stabil"
+      },
+      "roc_auc_delta_vs_baseline": -0.002,
+      "pr_auc_delta_vs_baseline": -0.0007,
+      "approval_delta_vs_baseline": 0.0782,
+      "bad_rate_delta_vs_baseline": 0.0127
+    },
+    "S2_pay_plus1": {
+      "n": 6000,
+      "base_rate": 0.2212,
+      "roc_auc": 0.756,
+      "pr_auc": 0.4976,
+      "brier": 0.1538,
+      "ece_10bin": 0.1003,
+      "mean_score": 0.321,
+      "approval_rate": 0.0705,
+      "bad_rate_approved": 0.0662,
+      "n_approved": 423,
+      "psi_score_vs_baseline_test": 0.5811,
+      "psi_score_band": "geser besar",
+      "description": "PAY_0..PAY_6 +1 (dibatasi maks 8) untuk semua baris test; fitur turunan dihitung ulang",
+      "psi_score_detail": {
+        "psi": 0.5811,
+        "n_bins": 10,
+        "edges": [
+          0.0234,
+          0.0561,
+          0.0802,
+          0.1035,
+          0.1264,
+          0.1503,
+          0.1783,
+          0.2298,
+          0.3296,
+          0.5937,
+          0.8492
+        ],
+        "expected_share": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.0997,
+          0.1003,
+          0.1
+        ],
+        "actual_share": [
+          0.0183,
+          0.0243,
+          0.037,
+          0.0475,
+          0.0568,
+          0.0908,
+          0.1488,
+          0.2255,
+          0.1912,
+          0.1597
+        ],
+        "terms": [
+          0.1385,
+          0.1069,
+          0.0626,
+          0.0391,
+          0.0244,
+          0.0009,
+          0.0194,
+          0.1027,
+          0.0586,
+          0.0279
+        ],
+        "method": "quantile_deciles_from_train",
+        "band": "geser besar"
+      },
+      "roc_auc_delta_vs_baseline": -0.0256,
+      "pr_auc_delta_vs_baseline": -0.0582,
+      "approval_delta_vs_baseline": -0.2145,
+      "bad_rate_delta_vs_baseline": -0.0005
+    }
+  },
+  "m75_sim_baseline_test": {
+    "n": 6000,
+    "base_rate": 0.2212,
+    "roc_auc": 0.7816,
+    "pr_auc": 0.5558,
+    "brier": 0.1345,
+    "ece_10bin": 0.0087,
+    "mean_score": 0.2217,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "n_approved": 1710
+  },
+  "m75_runtime_seconds": 59.0,
+  "runtime_seconds": 7845.4,
+  "per_lesson_runtime_seconds": {
+    "m71": 3670.0,
+    "m72": 31.1,
+    "m73": 3954.1,
+    "m74": 131.2,
+    "m75": 59.0
+  },
+  "m6_crossref": {
+    "source": "m6_canonical.json m64_policy_table (M6.4, GBM terkalibrasi, test 6.000, LGD 0,45, margin 0,05)",
+    "note": "Disalin ke kanonik M7 ronde fix review DeepSeek M7 (2026-11-13) agar reviewer berikutnya bisa memverifikasi angka ekonomi threshold tanpa kanonik M6.",
+    "thresholds": {
+      "0.1": {
+        "tn": 1596,
+        "fp": 3077,
+        "fn": 114,
+        "tp": 1213,
+        "approval_rate": 0.285,
+        "bad_rate_approved": 0.0667,
+        "total_cost_NT": 33046500,
+        "net_profit_realised_NT": 8214000
+      },
+      "0.15": {
+        "tn": 2724,
+        "fp": 1949,
+        "fn": 269,
+        "tp": 1058,
+        "approval_rate": 0.4988,
+        "bad_rate_approved": 0.0899,
+        "total_cost_NT": 35770000,
+        "net_profit_realised_NT": 5490500
+      },
+      "0.2": {
+        "tn": 3473,
+        "fp": 1200,
+        "fn": 435,
+        "tp": 892,
+        "approval_rate": 0.6513,
+        "bad_rate_approved": 0.1113,
+        "total_cost_NT": 41477000,
+        "net_profit_realised_NT": -216500
+      },
+      "0.5": {
+        "tn": 4440,
+        "fp": 233,
+        "fn": 843,
+        "tp": 484,
+        "approval_rate": 0.8805,
+        "bad_rate_approved": 0.1596,
+        "total_cost_NT": 60254956,
+        "net_profit_realised_NT": -18994456
+      }
+    },
+    "profit_max_threshold": {
+      "threshold": 0.1,
+      "net_profit_realised_NT": 8214000,
+      "approval_rate": 0.285,
+      "bad_rate_approved": 0.0667,
+      "total_cost_NT": 33046500
+    },
+    "cost_at_0.50_NT": 60254956
+  },
+  "m7g2_intersection_sex_edu": {
+    "max_approval_rate": 0.614,
+    "max_approval_cell": {
+      "sex": "Perempuan",
+      "education": "Lainnya",
+      "n": 57,
+      "approval_rate": 0.614
+    },
+    "min_approval_rate": 0.163,
+    "min_approval_cell": {
+      "sex": "Laki-laki",
+      "education": "SMA",
+      "n": 411,
+      "approval_rate": 0.163
+    },
+    "min_air": 0.2655,
+    "cells": [
+      {
+        "sex": "Laki-laki",
+        "education": "Pascasarjana",
+        "n": 900,
+        "approval_rate": 0.34,
+        "approval_n": 306,
+        "approval_wilson_ci95": [
+          0.3098,
+          0.3716
+        ],
+        "base_rate": 0.2067,
+        "fpr": 0.5938,
+        "fnr": 0.086,
+        "tpr": 0.914,
+        "ppv": 0.2862,
+        "ece_10bin": 0.027,
+        "brier": 0.1313,
+        "n_default": 186,
+        "n_nondefault": 714,
+        "tp": 170,
+        "fp": 424,
+        "fn": 16,
+        "tn": 290,
+        "small_cell_flag": null,
+        "air": 0.5537,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "education": "Universitas",
+        "n": 1066,
+        "approval_rate": 0.227,
+        "approval_n": 242,
+        "approval_wilson_ci95": [
+          0.2029,
+          0.2531
+        ],
+        "base_rate": 0.2448,
+        "fpr": 0.7255,
+        "fnr": 0.0805,
+        "tpr": 0.9195,
+        "ppv": 0.2913,
+        "ece_10bin": 0.016,
+        "brier": 0.1468,
+        "n_default": 261,
+        "n_nondefault": 805,
+        "tp": 240,
+        "fp": 584,
+        "fn": 21,
+        "tn": 221,
+        "small_cell_flag": null,
+        "air": 0.3697,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "education": "SMA",
+        "n": 411,
+        "approval_rate": 0.163,
+        "approval_n": 67,
+        "approval_wilson_ci95": [
+          0.1305,
+          0.2018
+        ],
+        "base_rate": 0.2701,
+        "fpr": 0.7933,
+        "fnr": 0.045,
+        "tpr": 0.955,
+        "ppv": 0.3081,
+        "ece_10bin": 0.0512,
+        "brier": 0.1634,
+        "n_default": 111,
+        "n_nondefault": 300,
+        "tp": 106,
+        "fp": 238,
+        "fn": 5,
+        "tn": 62,
+        "small_cell_flag": null,
+        "air": 0.2655,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "education": "Lainnya",
+        "n": 25,
+        "approval_rate": 0.52,
+        "approval_n": 13,
+        "approval_wilson_ci95": [
+          0.335,
+          0.6997
+        ],
+        "base_rate": 0.12,
+        "fpr": 0.4091,
+        "fnr": 0.0,
+        "tpr": 1.0,
+        "ppv": 0.25,
+        "ece_10bin": 0.0722,
+        "brier": 0.0738,
+        "n_default": 3,
+        "n_nondefault": 22,
+        "tp": 3,
+        "fp": 9,
+        "fn": 0,
+        "tn": 13,
+        "small_cell_flag": "n<30: jangan vonis",
+        "air": 0.8469,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Perempuan",
+        "education": "Pascasarjana",
+        "n": 1230,
+        "approval_rate": 0.3626,
+        "approval_n": 446,
+        "approval_wilson_ci95": [
+          0.3362,
+          0.3899
+        ],
+        "base_rate": 0.178,
+        "fpr": 0.5816,
+        "fnr": 0.105,
+        "tpr": 0.895,
+        "ppv": 0.25,
+        "ece_10bin": 0.0286,
+        "brier": 0.11,
+        "n_default": 219,
+        "n_nondefault": 1011,
+        "tp": 196,
+        "fp": 588,
+        "fn": 23,
+        "tn": 423,
+        "small_cell_flag": null,
+        "air": 0.5906,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "education": "Universitas",
+        "n": 1708,
+        "approval_rate": 0.267,
+        "approval_n": 456,
+        "approval_wilson_ci95": [
+          0.2465,
+          0.2885
+        ],
+        "base_rate": 0.2313,
+        "fpr": 0.6763,
+        "fnr": 0.0785,
+        "tpr": 0.9215,
+        "ppv": 0.2907,
+        "ece_10bin": 0.0125,
+        "brier": 0.1341,
+        "n_default": 395,
+        "n_nondefault": 1313,
+        "tp": 364,
+        "fp": 888,
+        "fn": 31,
+        "tn": 425,
+        "small_cell_flag": null,
+        "air": 0.4349,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "education": "SMA",
+        "n": 603,
+        "approval_rate": 0.2405,
+        "approval_n": 145,
+        "approval_wilson_ci95": [
+          0.2081,
+          0.2762
+        ],
+        "base_rate": 0.2488,
+        "fpr": 0.7152,
+        "fnr": 0.1067,
+        "tpr": 0.8933,
+        "ppv": 0.2926,
+        "ece_10bin": 0.0425,
+        "brier": 0.1592,
+        "n_default": 150,
+        "n_nondefault": 453,
+        "tp": 134,
+        "fp": 324,
+        "fn": 16,
+        "tn": 129,
+        "small_cell_flag": null,
+        "air": 0.3917,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "education": "Lainnya",
+        "n": 57,
+        "approval_rate": 0.614,
+        "approval_n": 35,
+        "approval_wilson_ci95": [
+          0.4843,
+          0.7294
+        ],
+        "base_rate": 0.0351,
+        "fpr": 0.4,
+        "fnr": 1.0,
+        "tpr": 0.0,
+        "ppv": 0.0,
+        "ece_10bin": 0.0698,
+        "brier": 0.0506,
+        "n_default": 2,
+        "n_nondefault": 55,
+        "tp": 0,
+        "fp": 22,
+        "fn": 2,
+        "tn": 33,
+        "small_cell_flag": "n<100: terlalu kecil untuk vonis",
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      }
+    ],
+    "summary": {
+      "lowest_approval": "Laki-laki x SMA (n=411, approval=0.163, AIR=0.2655)",
+      "highest_approval": "Perempuan x Lainnya (n=57, approval=0.614)",
+      "global_sex_air": 0.8693,
+      "intersection_min_air_vs_global_sex_air": -0.6038,
+      "global_sex_gap_hides_worse_intersection": true
+    }
+  },
+  "m7g2_intersection_sex_age": {
+    "max_approval_rate": 0.3447,
+    "max_approval_cell": {
+      "sex": "Perempuan",
+      "age_band": "30-39",
+      "n": 1291,
+      "approval_rate": 0.3447
+    },
+    "min_approval_rate": 0.1944,
+    "min_approval_cell": {
+      "sex": "Laki-laki",
+      "age_band": "60+",
+      "n": 36,
+      "approval_rate": 0.1944
+    },
+    "min_air": 0.564,
+    "cells": [
+      {
+        "sex": "Laki-laki",
+        "age_band": "<30",
+        "n": 669,
+        "approval_rate": 0.2138,
+        "approval_n": 143,
+        "approval_wilson_ci95": [
+          0.1844,
+          0.2464
+        ],
+        "base_rate": 0.2242,
+        "fpr": 0.738,
+        "fnr": 0.0467,
+        "tpr": 0.9533,
+        "ppv": 0.2719,
+        "ece_10bin": 0.0254,
+        "brier": 0.1425,
+        "n_default": 150,
+        "n_nondefault": 519,
+        "tp": 143,
+        "fp": 383,
+        "fn": 7,
+        "tn": 136,
+        "small_cell_flag": null,
+        "air": 0.6202,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "30-39",
+        "n": 907,
+        "approval_rate": 0.312,
+        "approval_n": 283,
+        "approval_wilson_ci95": [
+          0.2827,
+          0.3429
+        ],
+        "base_rate": 0.2271,
+        "fpr": 0.6191,
+        "fnr": 0.0777,
+        "tpr": 0.9223,
+        "ppv": 0.3045,
+        "ece_10bin": 0.0238,
+        "brier": 0.1384,
+        "n_default": 206,
+        "n_nondefault": 701,
+        "tp": 190,
+        "fp": 434,
+        "fn": 16,
+        "tn": 267,
+        "small_cell_flag": null,
+        "air": 0.9051,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "40-49",
+        "n": 558,
+        "approval_rate": 0.2652,
+        "approval_n": 148,
+        "approval_wilson_ci95": [
+          0.2303,
+          0.3034
+        ],
+        "base_rate": 0.2366,
+        "fpr": 0.6831,
+        "fnr": 0.0985,
+        "tpr": 0.9015,
+        "ppv": 0.2902,
+        "ece_10bin": 0.0297,
+        "brier": 0.1468,
+        "n_default": 132,
+        "n_nondefault": 426,
+        "tp": 119,
+        "fp": 291,
+        "fn": 13,
+        "tn": 135,
+        "small_cell_flag": null,
+        "air": 0.7694,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "50-59",
+        "n": 232,
+        "approval_rate": 0.2026,
+        "approval_n": 47,
+        "approval_wilson_ci95": [
+          0.1559,
+          0.259
+        ],
+        "base_rate": 0.2672,
+        "fpr": 0.7529,
+        "fnr": 0.0806,
+        "tpr": 0.9194,
+        "ppv": 0.3081,
+        "ece_10bin": 0.041,
+        "brier": 0.1517,
+        "n_default": 62,
+        "n_nondefault": 170,
+        "tp": 57,
+        "fp": 128,
+        "fn": 5,
+        "tn": 42,
+        "small_cell_flag": null,
+        "air": 0.5878,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "60+",
+        "n": 36,
+        "approval_rate": 0.1944,
+        "approval_n": 7,
+        "approval_wilson_ci95": [
+          0.0975,
+          0.3503
+        ],
+        "base_rate": 0.3056,
+        "fpr": 0.76,
+        "fnr": 0.0909,
+        "tpr": 0.9091,
+        "ppv": 0.3448,
+        "ece_10bin": 0.127,
+        "brier": 0.1566,
+        "n_default": 11,
+        "n_nondefault": 25,
+        "tp": 10,
+        "fp": 19,
+        "fn": 1,
+        "tn": 6,
+        "small_cell_flag": "n<100: terlalu kecil untuk vonis",
+        "air": 0.564,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "<30",
+        "n": 1243,
+        "approval_rate": 0.2944,
+        "approval_n": 366,
+        "approval_wilson_ci95": [
+          0.2698,
+          0.3204
+        ],
+        "base_rate": 0.2228,
+        "fpr": 0.6501,
+        "fnr": 0.1011,
+        "tpr": 0.8989,
+        "ppv": 0.2839,
+        "ece_10bin": 0.0251,
+        "brier": 0.1294,
+        "n_default": 277,
+        "n_nondefault": 966,
+        "tp": 249,
+        "fp": 628,
+        "fn": 28,
+        "tn": 338,
+        "small_cell_flag": null,
+        "air": 0.8541,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "30-39",
+        "n": 1291,
+        "approval_rate": 0.3447,
+        "approval_n": 445,
+        "approval_wilson_ci95": [
+          0.3193,
+          0.371
+        ],
+        "base_rate": 0.1913,
+        "fpr": 0.5967,
+        "fnr": 0.0972,
+        "tpr": 0.9028,
+        "ppv": 0.2636,
+        "ece_10bin": 0.0247,
+        "brier": 0.1217,
+        "n_default": 247,
+        "n_nondefault": 1044,
+        "tp": 223,
+        "fp": 623,
+        "fn": 24,
+        "tn": 421,
+        "small_cell_flag": null,
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "40-49",
+        "n": 783,
+        "approval_rate": 0.2733,
+        "approval_n": 214,
+        "approval_wilson_ci95": [
+          0.2433,
+          0.3056
+        ],
+        "base_rate": 0.2299,
+        "fpr": 0.675,
+        "fnr": 0.1,
+        "tpr": 0.9,
+        "ppv": 0.2847,
+        "ece_10bin": 0.0222,
+        "brier": 0.137,
+        "n_default": 180,
+        "n_nondefault": 603,
+        "tp": 162,
+        "fp": 407,
+        "fn": 18,
+        "tn": 196,
+        "small_cell_flag": null,
+        "air": 0.7929,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "50-59",
+        "n": 241,
+        "approval_rate": 0.2033,
+        "approval_n": 49,
+        "approval_wilson_ci95": [
+          0.1573,
+          0.2586
+        ],
+        "base_rate": 0.2075,
+        "fpr": 0.7539,
+        "fnr": 0.04,
+        "tpr": 0.96,
+        "ppv": 0.25,
+        "ece_10bin": 0.0675,
+        "brier": 0.13,
+        "n_default": 50,
+        "n_nondefault": 191,
+        "tp": 48,
+        "fp": 144,
+        "fn": 2,
+        "tn": 47,
+        "small_cell_flag": null,
+        "air": 0.5898,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "60+",
+        "n": 40,
+        "approval_rate": 0.2,
+        "approval_n": 8,
+        "approval_wilson_ci95": [
+          0.105,
+          0.3476
+        ],
+        "base_rate": 0.3,
+        "fpr": 0.7143,
+        "fnr": 0.0,
+        "tpr": 1.0,
+        "ppv": 0.375,
+        "ece_10bin": 0.1462,
+        "brier": 0.1669,
+        "n_default": 12,
+        "n_nondefault": 28,
+        "tp": 12,
+        "fp": 20,
+        "fn": 0,
+        "tn": 8,
+        "small_cell_flag": "n<100: terlalu kecil untuk vonis",
+        "air": 0.5802,
+        "air_flag_below_0.80": true
+      }
+    ],
+    "summary": {
+      "lowest_approval": "Laki-laki x 60+ (n=36, approval=0.1944, AIR=0.564)",
+      "highest_approval": "Perempuan x 30-39 (n=1291, approval=0.3447)",
+      "global_sex_air": 0.8693,
+      "intersection_min_air_vs_global_sex_air": -0.3053,
+      "global_sex_gap_hides_worse_intersection": true
+    }
+  },
+  "m7g3_bootstrap_ci": {
+    "n_replicates": 1000,
+    "n_skipped": 0,
+    "n_used": 1000,
+    "metrics": {
+      "approval_diff_pp_F_minus_M": {
+        "point_estimate": 3.93,
+        "bootstrap_mean": 3.9626,
+        "bootstrap_sd": 1.1607,
+        "ci95_percentile": [
+          1.7792,
+          6.2205
+        ],
+        "ci_width": 4.4413,
+        "null_value": 0.0,
+        "ci_includes_null": false
+      },
+      "air_sex": {
+        "point_estimate": 0.8693,
+        "bootstrap_mean": 0.8687,
+        "bootstrap_sd": 0.0369,
+        "ci95_percentile": [
+          0.7978,
+          0.9391
+        ],
+        "ci_width": 0.1414,
+        "null_value": 1.0,
+        "ci_includes_null": false
+      },
+      "tpr_gap_F_minus_M": {
+        "point_estimate": -0.0191,
+        "bootstrap_mean": -0.0193,
+        "bootstrap_sd": 0.0153,
+        "ci95_percentile": [
+          -0.0498,
+          0.011
+        ],
+        "ci_width": 0.0608,
+        "null_value": 0.0,
+        "ci_includes_null": true
+      },
+      "fpr_gap_F_minus_M": {
+        "point_estimate": -0.0383,
+        "bootstrap_mean": -0.0386,
+        "bootstrap_sd": 0.0139,
+        "ci95_percentile": [
+          -0.0653,
+          -0.0123
+        ],
+        "ci_width": 0.053,
+        "null_value": 0.0,
+        "ci_includes_null": false
+      },
+      "ece_gap_F_minus_M": {
+        "point_estimate": 0.0012,
+        "bootstrap_mean": -0.0015,
+        "bootstrap_sd": 0.0073,
+        "ci95_percentile": [
+          -0.0155,
+          0.0118
+        ],
+        "ci_width": 0.0273,
+        "null_value": 0.0,
+        "ci_includes_null": true
+      },
+      "brier_gap_F_minus_M": {
+        "point_estimate": -0.0143,
+        "bootstrap_mean": -0.0144,
+        "bootstrap_sd": 0.0059,
+        "ci95_percentile": [
+          -0.0257,
+          -0.0036
+        ],
+        "ci_width": 0.0221,
+        "null_value": 0.0,
+        "ci_includes_null": false
+      },
+      "ppv_gap_F_minus_M": {
+        "point_estimate": -0.0168,
+        "bootstrap_mean": -0.017,
+        "bootstrap_sd": 0.014,
+        "ci95_percentile": [
+          -0.0446,
+          0.0101
+        ],
+        "ci_width": 0.0547,
+        "null_value": 0.0,
+        "ci_includes_null": true
+      }
+    },
+    "wilson_approval_sex": {
+      "Laki-laki": {
+        "n": 2402,
+        "approval_rate": 0.2614,
+        "wilson_ci95": [
+          0.2443,
+          0.2794
+        ],
+        "ci_width": 0.0351
+      },
+      "Perempuan": {
+        "n": 3598,
+        "approval_rate": 0.3007,
+        "wilson_ci95": [
+          0.286,
+          0.3159
+        ],
+        "ci_width": 0.0299
+      }
+    },
+    "note": "CI mencakup 0 (atau 1 untuk AIR) TIDAK berarti 'tidak ada gap' -- hanya dilaporkan angkanya."
+  },
+  "m7g8_data_quality": {
+    "missingness": {
+      "scope": "full data (30,000 rows)",
+      "features": {
+        "LIMIT_BAL": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_0": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_2": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_3": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_4": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_5": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_6": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT1": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT2": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT3": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT4": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT5": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT6": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT1": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT2": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT3": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT4": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT5": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT6": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        }
+      },
+      "rows_with_any_missing_main_feature": {
+        "n": 0,
+        "pct": 0.0
+      },
+      "interpretation": "Missingness 0 di semua fitur utama (overall, per SEX, per EDUCATION) -- dataset UCI ini lengkap; tidak ada imputasi yang dibutuhkan untuk fitur utama. Bila ada NaN di fitur turunan, itu berasal dari perhitungan (mis. pembagian), bukan dari data mentah."
+    },
+    "invalid_categories": {
+      "education_codes_0_5_6_outside_1_4": {
+        "overall": {
+          "n": 345,
+          "pct": 1.15
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 128,
+            "pct": 1.0767
+          },
+          "Perempuan": {
+            "n": 217,
+            "pct": 1.1981
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 345,
+            "pct": 73.7179
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 91,
+            "pct": 0.9461
+          },
+          "30-39": {
+            "n": 120,
+            "pct": 1.0678
+          },
+          "40-49": {
+            "n": 95,
+            "pct": 1.4697
+          },
+          "50-59": {
+            "n": 35,
+            "pct": 1.4951
+          },
+          "60+": {
+            "n": 4,
+            "pct": 1.1799
+          }
+        }
+      },
+      "marriage_code_0_outside_1_3": {
+        "overall": {
+          "n": 54,
+          "pct": 0.18
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 14,
+            "pct": 0.1178
+          },
+          "Perempuan": {
+            "n": 40,
+            "pct": 0.2208
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 4,
+            "pct": 0.0378
+          },
+          "Universitas": {
+            "n": 6,
+            "pct": 0.0428
+          },
+          "SMA": {
+            "n": 44,
+            "pct": 0.8949
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 10,
+            "pct": 0.104
+          },
+          "30-39": {
+            "n": 22,
+            "pct": 0.1958
+          },
+          "40-49": {
+            "n": 15,
+            "pct": 0.2321
+          },
+          "50-59": {
+            "n": 7,
+            "pct": 0.299
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "education_raw_code_counts": {
+        "0": 14,
+        "1": 10585,
+        "2": 14030,
+        "3": 4917,
+        "4": 123,
+        "5": 280,
+        "6": 51
+      },
+      "marriage_raw_code_counts": {
+        "0": 54,
+        "1": 13659,
+        "2": 15964,
+        "3": 323
+      },
+      "interpretation": "EDUCATION kode 0/5/6 (di luar 1-4) dan MARRIAGE kode 0 (di luar 1-3) adalah kode 'lainnya/tidak tercatat' di dataset UCI -- kecil persentasenya, tetapi semua masuk grup 'Lainnya' di audit, sehingga grup Lainnya mencampur kode yang berbeda maknanya."
+    },
+    "odd_values": {
+      "bill_amt_negative_any_of_6": {
+        "overall": {
+          "n": 1930,
+          "pct": 6.4333
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 837,
+            "pct": 7.0407
+          },
+          "Perempuan": {
+            "n": 1093,
+            "pct": 6.0347
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 900,
+            "pct": 8.5026
+          },
+          "Universitas": {
+            "n": 727,
+            "pct": 5.1818
+          },
+          "SMA": {
+            "n": 269,
+            "pct": 5.4708
+          },
+          "Lainnya": {
+            "n": 34,
+            "pct": 7.265
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 511,
+            "pct": 5.313
+          },
+          "30-39": {
+            "n": 821,
+            "pct": 7.3056
+          },
+          "40-49": {
+            "n": 422,
+            "pct": 6.5285
+          },
+          "50-59": {
+            "n": 159,
+            "pct": 6.792
+          },
+          "60+": {
+            "n": 17,
+            "pct": 5.0147
+          }
+        }
+      },
+      "pay_amt_negative_any_of_6": {
+        "overall": {
+          "n": 0,
+          "pct": 0.0
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Perempuan": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "30-39": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "40-49": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "50-59": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "limit_bal_le_0": {
+        "overall": {
+          "n": 0,
+          "pct": 0.0
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Perempuan": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "30-39": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "40-49": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "50-59": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "age_outside_21_79": {
+        "overall": {
+          "n": 0,
+          "pct": 0.0
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Perempuan": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "30-39": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "40-49": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "50-59": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "age_range": {
+        "min": 21,
+        "max": 79
+      },
+      "limit_bal_range": {
+        "min": 10000,
+        "max": 1000000
+      },
+      "bill_amt_min": {
+        "BILL_AMT1": -165580,
+        "BILL_AMT2": -69777,
+        "BILL_AMT3": -157264,
+        "BILL_AMT4": -170000,
+        "BILL_AMT5": -81334,
+        "BILL_AMT6": -339603
+      },
+      "pay_amt_min": {
+        "PAY_AMT1": 0,
+        "PAY_AMT2": 0,
+        "PAY_AMT3": 0,
+        "PAY_AMT4": 0,
+        "PAY_AMT5": 0,
+        "PAY_AMT6": 0
+      },
+      "interpretation": "BILL_AMT negatif = kredit/kelebihan bayar (plausibel di kartu kredit, bukan error); PAY_AMT negatif = pengembalian/penyesuaian (jarang, periksa konsentrasinya); LIMIT_BAL <= 0 dan AGE di luar 21-79 seharusnya 0 -- bila >0, itu artefak data yang wajib dibersihkan sebelum training."
+    },
+    "duplicates": {
+      "full_row_duplicates_incl_id": {
+        "n": 0,
+        "pct": 0.0
+      },
+      "duplicates_excl_id": {
+        "n": 35,
+        "pct": 0.1167
+      },
+      "interpretation": "Duplikat baris penuh (termasuk ID) seharusnya 0 karena ID unik; duplikat di luar ID = baris kembar dari nasabah berbeda -- kecil kemungkinan kebetulan pada 24 kolom, jadi bila >0 patut dicurigai sebagai duplikasi pencatatan."
+    }
+  },
+  "m7g9_counterfactual_858": {
+    "test_positional_index": 858,
+    "baseline": {
+      "lr_proba": 0.7187,
+      "gbm_proba": 0.8599,
+      "cal_gbm_proba": 0.8492,
+      "decision_thr_0.10": "ditolak (proba >= 0,10)"
+    },
+    "cf_a_pay_on_time_only": {
+      "label": "PAY_0..6 = -1 (tepat waktu), PAY_AMT tetap 0",
+      "pay_cols_after": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "pay_max_after": -1,
+      "pay_delay_count_after": 0,
+      "pay_mean_after": -1.0,
+      "lr_proba": 0.1382,
+      "gbm_proba": 0.3707,
+      "cal_gbm_proba": 0.3325,
+      "decision_thr_0.10": "tetap ditolak (proba >= 0,10)"
+    },
+    "cf_b_pay_on_time_and_full": {
+      "label": "PAY_0..6 = -1 DAN PAY_AMT1..6 = BILL_AMT (dibayar penuh)",
+      "pay_cols_after": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "pay_max_after": -1,
+      "pay_delay_count_after": 0,
+      "pay_mean_after": -1.0,
+      "lr_proba": 0.1456,
+      "gbm_proba": 0.1406,
+      "cal_gbm_proba": 0.1535,
+      "decision_thr_0.10": "tetap ditolak (proba >= 0,10)"
+    },
+    "note": "Counterfactual MODEL: what-if atas masa lalu yang berbeda, bukan rencana aksi — nasabah tidak bisa mengubah riwayat PAY_0..6. PAY_AMT tetap 0 pada CF-A walau PAY=-1 (kombinasi yang ada di data mentah, bukan skenario realistis penuh); CF-B menambahkan pembayaran penuh tiap bulan.",
+    "runtime_seconds": 6.5
+  },
+  "m7g_raw_vs_cal_approval": {
+    "threshold": 0.1,
+    "approval_raw": 0.2985,
+    "approval_n_raw": 1791,
+    "approval_cal": 0.285,
+    "approval_n_cal": 1710,
+    "diff_pp": -1.35,
+    "male_raw": 0.2677,
+    "male_cal": 0.2614,
+    "female_raw": 0.3191,
+    "female_cal": 0.3007,
+    "air_raw": 0.839,
+    "air_cal": 0.8694,
+    "roc_auc_raw": 0.7823,
+    "roc_auc_cal": 0.7816
+  }
+}

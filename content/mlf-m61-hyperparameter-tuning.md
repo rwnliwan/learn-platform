@@ -220,7 +220,7 @@ Hasil [lab]: rata-rata lr 0.05: 0.7851; rata-rata lr 0.10: 0.7850; rata-rata dep
 
 ## Guided Task di Colab
 
-Notebook: colab/mlf-m61-guided-task.ipynb — pipeline flagship (LR 0,7426 / GBM 0,7823 di test), grid C, grid GBM 18 konfigurasi, random search 27 konfigurasi (seed 42), shrinking random search 9 konfigurasi, dan evaluasi GBM tertala di test. Tautan Colab: (diisi koordinator setelah notebook diunggah ke Drive)
+Notebook: colab/mlf-m61-guided-task.ipynb — pipeline flagship (LR 0,7426 / GBM 0,7823 di test), grid C, grid GBM 18 konfigurasi, random search 27 konfigurasi (seed 42), shrinking random search 9 konfigurasi, dan evaluasi GBM tertala di test. Tautan Colab: https://colab.research.google.com/drive/12s3A6nPT2qCW2GGiZHhBNMsLWPeFSimW
 
 ## Rangkuman
 

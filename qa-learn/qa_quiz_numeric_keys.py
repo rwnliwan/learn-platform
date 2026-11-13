@@ -463,6 +463,11 @@ CHECKS = [
     ("mlf-m55-black-litterman-shrinkage.ts",
      "Kenapa walk-forward lebih dipercaya",
      [("total GMV walk-forward", 0.3272, 4, "")]),
+    # M7.4 Q (fill gap Luna G10, 2026-11-13): AIR v2 threshold per
+    # grup 0,9999 (kunci m74_pareto di m7_canonical.json).
+    ("mlf-m74-fairness-mitigation.ts",
+     "tapi TIDAK berisi data snapshot dan code/notebook hash",
+     [("AIR v2", 0.9999, 4, "")]),
 ]
 
 # (file, pertanyaan, [(nama, nilai, desimal, akhiran)]) — angka yang hidup
@@ -685,6 +690,13 @@ WHY_CHECKS = [
      "Selection record GBM tertala: skor CV 0,7865, skor nested 0,7858, skor test 0,7823 [notebook]. Skor mana yang boleh dilaporkan sebagai «performa model», dan mengapa?",
      [("skor nested (mean 5 outer)",
        (0.7974 + 0.7782 + 0.7878 + 0.7859 + 0.7799) / 5, 4, "")]),
+    # M7.3 Q (fill gap Luna G9, 2026-11-13): counterfactual 858
+    # dihitung ulang — CF-A cal 0,3325, CF-B cal 0,1535 (kunci
+    # m7g9_counterfactual_858 di m7_canonical.json).
+    ("mlf-m73-explainability-shap-lime.ts",
+     "Apakah saran itu actionable atau manipulasi fitur?",
+     [("CF-A cal", 0.3325, 4, ""),
+      ("CF-B cal", 0.1535, 4, "")]),
 ]
 
 # (file, pertanyaan, [(nama, nilai, desimal, akhiran)], [string yang TIDAK

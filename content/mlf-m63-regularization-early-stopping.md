@@ -154,7 +154,7 @@ Hasil [lab]: optimal_dengan_es = 50, optimal_tanpa_es = 50, pemburukan_dengan_es
 
 ## Guided Task di Colab
 
-Notebook: colab/mlf-m63-guided-task.ipynb — flagship LR dan GBM, jalur C LR, L1 vs L2 lewat l1_ratio, dan kurva validasi GBM dengan dan tanpa early stopping. (Tautan Colab Drive diisi koordinator saat notebook di-upload.)
+Notebook: colab/mlf-m63-guided-task.ipynb — flagship LR dan GBM, jalur C LR, L1 vs L2 lewat l1_ratio, dan kurva validasi GBM dengan dan tanpa early stopping. Tautan Colab: https://colab.research.google.com/drive/1WOmQemoM-ekZsbdJbYH4JiNl5owXtVbl
 
 ## Rangkuman
 

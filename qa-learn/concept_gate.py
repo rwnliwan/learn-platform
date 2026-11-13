@@ -661,6 +661,167 @@ def build_prompt(files_claims):
         "berbagi 14.400 dari 19.200 baris) — CI naif WAJIB dilabeli "
         "naif dan tidak boleh dilaporkan sebagai interval kepercayaan "
         "formal.",
+        "94. Model flagship MEMAKAI atribut sensitif sebagai fitur "
+        "(M7.1/M7.2): koefisien LR SEX −0,0626, EDUCATION −0,0575, "
+        "MARRIAGE −0,0565, AGE +0,0547; SHAP GBM SEX 0,0314; "
+        "permutation GBM SEX 0,0008 (>0). Eksperimen drop-sensitive "
+        "(M7.4) hanya bermakna bila baseline memakainya (28 fitur "
+        "tersisa dari 31). Jangan pernah mengklaim model 'tidak "
+        "memakai SEX' atau 'tidak pernah melihat kolom sensitif' — "
+        "dan jangan menyajikan proxy sebagai SATU-SATUNYA jalur "
+        "ketimpangan.",
+        "95. Menghapus kolom sensitif MENURUNKAN disparitas tetapi "
+        "tidak menuntaskannya (M7.4: AIR SEX 0,8694 → 0,9211, melewati "
+        "ambang 0,80) — bukan 'hanya menyembunyikan' dan bukan "
+        "'membuat model adil'. Proxy tetap terdeteksi (probe GBM "
+        "memprediksi SEX dari fitur tersisa, ROC-AUC 0,6261); bukti "
+        "keadilan tetap audit per grup SESUDAH penghapusan (AIR, FPR, "
+        "FNR).",
+        "96. Urutan temporal PAY_0→PAY_6 = terbaru→terlama (M7.3): "
+        "PAY_0 = status bayar bulan terakhir, PAY_6 = enam bulan "
+        "lalu. Untuk nasabah 858: tiga bulan terbaru 3, 2, 2 "
+        "(PAY_0/2/3), tiga bulan tertua 7, 7, 7 (PAY_4/5/6). Jangan "
+        "membalik urutan — 'tiga bulan terakhir' berarti PAY_0/2/3.",
+        "97. Penyesuaian threshold per grup TERBUKTI memperbaiki AIR "
+        "(M7.4: 0,8694 → 0,9999, approval gap 0, biaya 33.046.500 → "
+        "32.756.000, profit 8.214.000 → 8.504.500) — jangan mengklaim "
+        "mitigasi 'bukan threshold-nya' secara absolut. Bedakan "
+        "perbaikan akar-masalah (fitur/label) dari perbaikan metrik "
+        "via threshold; keduanya sah, dengan harga dan batas yang "
+        "berbeda.",
+        "98. Aturan level alert SATU dan konsisten di semua tempat "
+        "(M7.5 — langkah, lab, checkpoint, rangkuman): 1 periode = "
+        "WASPADA, 2 periode berturut-turut = KRITIS (atau PSI skor "
+        "> 0,25 sendirian). Jangan biarkan lab memakai aturan "
+        "'ROC-drop DAN PR-drop dalam satu periode = KRITIS' "
+        "sementara langkah memakai aturan 2-periode — satu aturan, "
+        "satu angka alert per kasus.",
+        "99. Angka performa WAJIB dilabeli varian modelnya (M7.5): "
+        "GBM mentah ROC-AUC 0,7823 / PR-AUC 0,5597 vs GBM "
+        "terkalibrasi (Platt/sigmoid) 0,7816 / 0,5558. Jangan biarkan "
+        "dua angka 'test ROC-AUC' muncul dalam satu langkah tanpa "
+        "penanda mentah vs terkalibrasi — model keputusan live memakai "
+        "skor terkalibrasi.",
+        "100. Prior shift (label shift) murni (M7.5): bila base rate "
+        "naik sementara model dan threshold tetap, model "
+        "under-predict peluang default — approval cenderung NAIK "
+        "(bukan turun), bad rate yang disetujui naik, kalibrasi "
+        "bergeser meski ranking utuh. Jangan mengklaim arah approval "
+        "tanpa mekanika; arah approval bergantung pada pergeseran "
+        "distribusi X.",
+        "101. Superlatif ('paling', 'terburuk', 'terbaik') WAJIB "
+        "menyebut cakupannya (M7.2): tanpa kualifikasi, 'paling' "
+        "dibaca global dan salah bila ada grup lain yang lebih "
+        "ekstrem. ECE SMA 0,0362 = kalibrasi terburuk DI ANTARA "
+        "GRUP BESAR EDUCATION; 60+ (ECE 0,1208, n kecil) lebih "
+        "buruk. Setiap superlatif kalibrasi/approval WAJIB menyebut "
+        "'di antara grup besar' atau cakupan setaranya.",
+        "102. Uji-z dan interval kepercayaan dari sampel yang sama "
+        "BUKAN dua bukti independen (M7.2): keduanya dihitung dari "
+        "SE yang sama — uji-z dan CI adalah dua cara membaca bukti "
+        "yang sama, bukan dua bukti yang saling menguatkan. Jangan "
+        "menyebutnya 'dua bukti independen'.",
+        "103. Bedakan syarat CUKUP dari syarat PERLU (M7.2): "
+        "distribusi fitur identik antar grup adalah syarat CUKUP "
+        "(bukan PERLU) untuk approval sama — model konstan "
+        "menyetujui semua orang apa pun fiturnya, dan perbedaan "
+        "distribusi bisa saling meniadakan. 'Approval hanya sama "
+        "bila distribusi sama' salah logika.",
+        "104. Transformasi monoton mempertahankan URUTAN PREDIKSI, "
+        "bukan urutan atribusi (M7.3): kalibrasi Platt (monoton) "
+        "menjaga ranking skor nasabah — itu sebabnya ROC-AUC nyaris "
+        "sama — tetapi nilai SHAP dan urutan fitur teratas pada skor "
+        "terkalibrasi BISA BERBEDA dan belum diverifikasi bila tidak "
+        "dihitung ulang. Jangan mengklaim 'ranking dan fitur "
+        "teratasnya sama'; kutip angka SHAP selalu dengan label "
+        "«GBM mentah».",
+        "105. Fairness monitoring BUKAN population monitoring (M7.5/G1): "
+        "overall yang stabil tidak membuktikan fairness yang stabil — "
+        "approval overall per chunk [waktu semu] 25,17%–33,67% tanpa tren "
+        "dan ROC-AUC 0,7428–0,8138 tanpa tren, sementara AIR SEX "
+        "[simulasi] bergerak 0,869 → 0,710 → 0,830 → 0,910 → 0,940 dan "
+        "chunk 2 (0,710) jatuh di bawah 0,80. Alert fairness WAJIB "
+        "terpisah dari alert overall; 'overall AMAN' bukan 'fairness "
+        "AMAN'. Dashboard fairness: approval, AIR, gap TPR/FPR/FNR, "
+        "ECE/Brier per grup — masing-masing dengan n dan label "
+        "matangnya.",
+        "106. Intersectional audit (M7.2/G2): AIR global menyembunyikan "
+        "irisan — SEX global 0,8693 vs Laki-laki × SMA 0,2655 (n = 411, "
+        "selisih −0,6038) dan Laki-laki × 60+ 0,5640 (selisih −0,3053). "
+        "Stratifikasi satu atribut tidak menggantikan audit irisan. Sel "
+        "n < 100 (L × Lainnya 25, P × Lainnya 57, L × 60+ 36, P × 60+ 40) "
+        "dilaporkan, tidak divonis. 18 sel diuji pada ambang 5% berarti "
+        "~1 flag palsu diharapkan secara kebetulan (multiple "
+        "comparisons) — flag yang berdiri sendiri diselidiki, flag yang "
+        "membentuk POLA ditindaklanjuti.",
+        "107. Ketidakpastian gap fairness / bootstrap CI (M7.2/G3): "
+        "'tidak signifikan ≠ tidak ada gap' — gap TPR CI [−0,0498; "
+        "0,0110] mencakup 0 berarti tidak bisa divonis, bukan gapnya "
+        "nol. Gap nyata (bootstrap 1.000 ulangan, seed 42): approval "
+        "+3,93 pp CI [1,78; 6,22]; AIR 0,8693 CI [0,7978; 0,9391]; FPR "
+        "−0,0383 CI [−0,0653; −0,0123]; Brier −0,0143 CI [−0,0257; "
+        "−0,0036]. Gap yang tidak bisa divonis: TPR, PPV [−0,0446; "
+        "0,0101], ECE [−0,0155; 0,0118]. Laporkan titik + CI, bukan "
+        "titik saja.",
+        "108. Label maturity / matured cohort (M7.5/G4): label 'default "
+        "bulan depan' baru tersedia setelah jendela observasi 1 bulan. "
+        "ROC-AUC, PR-AUC, bad rate, dan metrik fairness HANYA dihitung "
+        "pada cohort matang; periode terbaru (jendela belum lewat) hanya "
+        "dimonitor TANPA label (PSI, approval, distribusi skor). "
+        "'Belum matang' bukan 0 — laporkan 'proporsi label matang' per "
+        "periode. Periode yang belum matang TIDAK PERNAH menaikkan level "
+        "alert berbasis label.",
+        "109. Attribution drift BUKAN bukti kausal (M7.5/G5): mean |SHAP| "
+        "PAY_MAX 0,4946 → 0,2500 [simulasi], UTILIZATION 0,1574 → 0,3100 "
+        "[simulasi] — top-1 berganti adalah DIAGNOSIS ('selidiki'), "
+        "bukan 'UTILIZATION kini menyebabkan default'. Perubahan alasan "
+        "model bukan perubahan penyebab di dunia; attribution drift "
+        "tidak pernah membuktikan kausalitas.",
+        "110. Protokol pemilihan mitigasi: selection BUKAN evaluation "
+        "(M7.4/G6): λ, target AIR, dan threshold per grup dipilih di "
+        "VALIDATION, dilaporkan di TEST yang belum tersentuh (three-way "
+        "split, M6.4 langkah 4). Angka mitigasi lesson ini (reweighing "
+        "0,9567, threshold per grup 0,9999, lima titik Pareto) dihitung "
+        "pada test 6.000 yang sama = HASIL ILUSTRASI PROTOKOL LESSON, "
+        "bukan evaluasi final. Titik terbaik yang dipilih dari test yang "
+        "sama itu optimistis (winner's curse, M6.5) — pilih di "
+        "validation, laporkan di test.",
+        "111. Counterfactual BUKAN klaim kausal (M7.3/G9): bedakan "
+        "descriptive (SHAP: apa yang mendorong keputusan) dari "
+        "counterfactual (what-if atas MODEL: perubahan input apa yang "
+        "membalikkan keputusan) dari causal (klaim tentang DUNIA — butuh "
+        "intervensi). Counterfactual 858 [notebook]: riwayat sempurna "
+        "pun tetap ditolak (CF-A cal 0,3325; CF-B cal 0,1535). Aturan "
+        "feasibility: fitur sensitif tidak diubah; fitur historis tidak "
+        "diubah mundur; hanya perilaku masa depan yang disarankan. "
+        "'Turunkan PAY_MAX-mu' = manipulasi fitur (PAY_MAX turunan dari "
+        "riwayat), bukan saran.",
+        "112. Governance / versioning + rollback (M7.4/G10): keputusan "
+        "mitigasi wajib bisa direproduksi — sepuluh kolom (model version, "
+        "feature schema version, calibration version, threshold policy "
+        "version, data snapshot, code/notebook hash, approval date, "
+        "owner, rollback version, alasan perubahan). Rollback v2 = "
+        "threshold tunggal 0,10. Tanpa data snapshot dan code hash, paket "
+        "tidak bisa direproduksi — sembilan dari sepuluh kolom bukan "
+        "'hampir lengkap'.",
+        "113. «Mentah» hanya untuk MODEL tak terkalibrasi (M7.4): GBM "
+        "mentah ROC-AUC 0,7823 / PR-AUC 0,5597 vs GBM terkalibrasi "
+        "(Platt/sigmoid) 0,7816 / 0,5558. Probabilitas keputusan adalah "
+        "probabilitas MODEL (terkalibrasi) — jangan sebut «probabilitas "
+        "mentah» untuk p terkalibrasi, karena «mentah» sudah berarti "
+        "«GBM tak terkalibrasi» (0,7823). Bedakan «probabilitas model "
+        "(terkalibrasi)» dari «skor keputusan disesuaikan (s = "
+        "p/threshold_kelompok, ROC-AUC 0,7808)» — dan bila memakai kata "
+        "«mentah» untuk skor, tulis eksplisit «sebelum penyesuaian "
+        "ambang, bukan GBM tak terkalibrasi».",
+        "114. Ranking invarian BUKAN approval invarian (M7.2): kalibrasi "
+        "monoton (Platt) menjaga ranking dan ROC-AUC (0,7823 vs 0,7816) "
+        "— tetapi approval pada threshold TETAP berubah karena nilai "
+        "probabilitas bergeser: GBM mentah menyetujui 29,85% (n = 1.791) "
+        "vs terkalibrasi 28,50% (n = 1.710), selisih 1,35 poin persen; "
+        "AIR SEX 0,8390 vs 0,8694. Jangan pernah membuktikan «approval "
+        "hampir tidak berubah» dengan angka ROC-AUC — buktikan dengan "
+        "angka approval itu sendiri.",
         "",
         "Klaim-klaim:",
     ]
@@ -737,6 +898,10 @@ def main() -> int:
                   "(deploy DITOLAK sampai gerbang bisa berjalan)")
             return 1
         verdict = out_file.read_text(encoding="utf-8")
+        if not verdict.strip():
+            print("CONCEPT-GATE: FAIL — verdict model KOSONG "
+                  "(deploy DITOLAK sampai gerbang bisa berjalan)")
+            return 1
         if args.out:
             Path(args.out).write_text(verdict, encoding="utf-8")
         print("----- verdict model -----")

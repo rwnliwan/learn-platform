@@ -1,0 +1,537 @@
+{
+  "meta": {
+    "seed": 42,
+    "sklearn": "1.9.1",
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "data": "data/uci_default_credit.xls",
+    "threshold": 0.1,
+    "lgd": 0.45,
+    "margin": 0.05,
+    "model": "CalibratedClassifierCV(HistGradientBoostingClassifier(random_state=42), method='sigmoid', cv=3)",
+    "approval_rule": "approve iff predicted default prob < 0.10"
+  },
+  "data_n": 30000,
+  "data_base_rate": 0.2212,
+  "train_n": 24000,
+  "test_n": 6000,
+  "test_base_rate": 0.2212,
+  "repro_flagship": {
+    "gbm_roc_auc": 0.7823,
+    "gbm_pr_auc": 0.5597,
+    "gbm_brier": 0.1342,
+    "cal_gbm_roc_auc": 0.7816,
+    "cal_gbm_pr_auc": 0.5558,
+    "cal_gbm_brier": 0.1345,
+    "cal_gbm_ece": 0.0087
+  },
+  "group_counts_raw": {
+    "sex_test": {
+      "1": 2402,
+      "2": 3598
+    },
+    "education_test": {
+      "0": 2,
+      "1": 2130,
+      "2": 2774,
+      "3": 1014,
+      "4": 26,
+      "5": 45,
+      "6": 9
+    },
+    "age_test_min": 21,
+    "age_test_max": 79
+  },
+  "overall": {
+    "group": "Semua",
+    "n": 6000,
+    "base_rate": 0.2212,
+    "mean_pred_prob": 0.2217,
+    "approval_rate": 0.285,
+    "n_approved": 1710,
+    "bad_rate_approved": 0.0667,
+    "tpr": 0.9141,
+    "fpr": 0.6585,
+    "ppv": 0.2828,
+    "tn": 1596,
+    "fp": 3077,
+    "fn": 114,
+    "tp": 1213,
+    "ece": 0.0087,
+    "brier": 0.1345
+  },
+  "by_group": {
+    "SEX": {
+      "groups": [
+        {
+          "group": "Laki-laki",
+          "n": 2402,
+          "base_rate": 0.2336,
+          "mean_pred_prob": 0.2313,
+          "approval_rate": 0.2614,
+          "n_approved": 628,
+          "bad_rate_approved": 0.0669,
+          "tpr": 0.9251,
+          "fpr": 0.6817,
+          "ppv": 0.2926,
+          "tn": 586,
+          "fp": 1255,
+          "fn": 42,
+          "tp": 519,
+          "ece": 0.0127,
+          "brier": 0.1431,
+          "air_vs_max": 0.8693,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "Perempuan",
+          "n": 3598,
+          "base_rate": 0.2129,
+          "mean_pred_prob": 0.2153,
+          "approval_rate": 0.3007,
+          "n_approved": 1082,
+          "bad_rate_approved": 0.0665,
+          "tpr": 0.906,
+          "fpr": 0.6434,
+          "ppv": 0.2758,
+          "tn": 1010,
+          "fp": 1822,
+          "fn": 72,
+          "tp": 694,
+          "ece": 0.0139,
+          "brier": 0.1288,
+          "air_vs_max": 1.0,
+          "air_flag_four_fifths": false
+        }
+      ],
+      "summary": {
+        "air_min_over_max": 0.8693,
+        "air_flag_four_fifths": false,
+        "approval_spread_pp": 3.93,
+        "tpr_spread": 0.0191,
+        "fpr_spread": 0.0383,
+        "ppv_spread": 0.0168,
+        "base_rate_spread": 0.0207,
+        "ece_spread": 0.0012,
+        "brier_spread": 0.0143
+      }
+    },
+    "EDUCATION": {
+      "groups": [
+        {
+          "group": "Lainnya",
+          "n": 82,
+          "base_rate": 0.061,
+          "mean_pred_prob": 0.1065,
+          "approval_rate": 0.5854,
+          "n_approved": 48,
+          "bad_rate_approved": 0.0417,
+          "tpr": 0.6,
+          "fpr": 0.4026,
+          "ppv": 0.0882,
+          "tn": 46,
+          "fp": 31,
+          "fn": 2,
+          "tp": 3,
+          "ece": 0.0455,
+          "brier": 0.0576,
+          "air_vs_max": 1.0,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "Pascasarjana",
+          "n": 2130,
+          "base_rate": 0.1901,
+          "mean_pred_prob": 0.1927,
+          "approval_rate": 0.3531,
+          "n_approved": 752,
+          "bad_rate_approved": 0.0519,
+          "tpr": 0.9037,
+          "fpr": 0.5867,
+          "ppv": 0.2656,
+          "tn": 713,
+          "fp": 1012,
+          "fn": 39,
+          "tp": 366,
+          "ece": 0.021,
+          "brier": 0.119,
+          "air_vs_max": 0.6032,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "SMA",
+          "n": 1014,
+          "base_rate": 0.2574,
+          "mean_pred_prob": 0.246,
+          "approval_rate": 0.2091,
+          "n_approved": 212,
+          "bad_rate_approved": 0.0991,
+          "tpr": 0.9195,
+          "fpr": 0.7463,
+          "ppv": 0.2993,
+          "tn": 191,
+          "fp": 562,
+          "fn": 21,
+          "tp": 240,
+          "ece": 0.0362,
+          "brier": 0.1609,
+          "air_vs_max": 0.3572,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "Universitas",
+          "n": 2774,
+          "base_rate": 0.2365,
+          "mean_pred_prob": 0.2385,
+          "approval_rate": 0.2516,
+          "n_approved": 698,
+          "bad_rate_approved": 0.0745,
+          "tpr": 0.9207,
+          "fpr": 0.695,
+          "ppv": 0.2909,
+          "tn": 646,
+          "fp": 1472,
+          "fn": 52,
+          "tp": 604,
+          "ece": 0.01,
+          "brier": 0.139,
+          "air_vs_max": 0.4298,
+          "air_flag_four_fifths": true
+        }
+      ],
+      "summary": {
+        "air_min_over_max": 0.3572,
+        "air_flag_four_fifths": true,
+        "approval_spread_pp": 37.63,
+        "tpr_spread": 0.3207,
+        "fpr_spread": 0.3437,
+        "ppv_spread": 0.2111,
+        "base_rate_spread": 0.1964,
+        "ece_spread": 0.0355,
+        "brier_spread": 0.1033
+      }
+    },
+    "AGE": {
+      "groups": [
+        {
+          "group": "30-39",
+          "n": 2198,
+          "base_rate": 0.2061,
+          "mean_pred_prob": 0.2059,
+          "approval_rate": 0.3312,
+          "n_approved": 728,
+          "bad_rate_approved": 0.0549,
+          "tpr": 0.9117,
+          "fpr": 0.6057,
+          "ppv": 0.281,
+          "tn": 688,
+          "fp": 1057,
+          "fn": 40,
+          "tp": 413,
+          "ece": 0.0156,
+          "brier": 0.1286,
+          "air_vs_max": 1.0,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "40-49",
+          "n": 1341,
+          "base_rate": 0.2327,
+          "mean_pred_prob": 0.2231,
+          "approval_rate": 0.2699,
+          "n_approved": 362,
+          "bad_rate_approved": 0.0856,
+          "tpr": 0.9006,
+          "fpr": 0.6783,
+          "ppv": 0.287,
+          "tn": 331,
+          "fp": 698,
+          "fn": 31,
+          "tp": 281,
+          "ece": 0.0166,
+          "brier": 0.1411,
+          "air_vs_max": 0.8149,
+          "air_flag_four_fifths": false
+        },
+        {
+          "group": "50-59",
+          "n": 473,
+          "base_rate": 0.2368,
+          "mean_pred_prob": 0.2444,
+          "approval_rate": 0.203,
+          "n_approved": 96,
+          "bad_rate_approved": 0.0729,
+          "tpr": 0.9375,
+          "fpr": 0.7535,
+          "ppv": 0.2785,
+          "tn": 89,
+          "fp": 272,
+          "fn": 7,
+          "tp": 105,
+          "ece": 0.0312,
+          "brier": 0.1406,
+          "air_vs_max": 0.6129,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "60+",
+          "n": 76,
+          "base_rate": 0.3026,
+          "mean_pred_prob": 0.2571,
+          "approval_rate": 0.1974,
+          "n_approved": 15,
+          "bad_rate_approved": 0.0667,
+          "tpr": 0.9565,
+          "fpr": 0.7358,
+          "ppv": 0.3607,
+          "tn": 14,
+          "fp": 39,
+          "fn": 1,
+          "tp": 22,
+          "ece": 0.1208,
+          "brier": 0.162,
+          "air_vs_max": 0.596,
+          "air_flag_four_fifths": true
+        },
+        {
+          "group": "<30",
+          "n": 1912,
+          "base_rate": 0.2233,
+          "mean_pred_prob": 0.2319,
+          "approval_rate": 0.2662,
+          "n_approved": 509,
+          "bad_rate_approved": 0.0688,
+          "tpr": 0.918,
+          "fpr": 0.6808,
+          "ppv": 0.2794,
+          "tn": 474,
+          "fp": 1011,
+          "fn": 35,
+          "tp": 392,
+          "ece": 0.0148,
+          "brier": 0.134,
+          "air_vs_max": 0.8037,
+          "air_flag_four_fifths": false
+        }
+      ],
+      "summary": {
+        "air_min_over_max": 0.596,
+        "air_flag_four_fifths": true,
+        "approval_spread_pp": 13.38,
+        "tpr_spread": 0.0559,
+        "fpr_spread": 0.1478,
+        "ppv_spread": 0.0822,
+        "base_rate_spread": 0.0965,
+        "ece_spread": 0.106,
+        "brier_spread": 0.0334
+      }
+    }
+  },
+  "verification_vs_locked": {
+    "gbm_roc_auc": {
+      "computed": 0.7823,
+      "locked": 0.7823,
+      "diff": 0.0
+    },
+    "gbm_pr_auc": {
+      "computed": 0.5597,
+      "locked": 0.5597,
+      "diff": 0.0
+    },
+    "air_sex": {
+      "computed": 0.8693,
+      "locked": 0.869,
+      "diff": 0.0003,
+      "approval_male": 0.2614,
+      "approval_female": 0.3007,
+      "locked_approval_male": 0.261,
+      "locked_approval_female": 0.301
+    },
+    "air_education_pascasarjana": {
+      "computed": 0.6032,
+      "locked": 0.603,
+      "diff": 0.0002,
+      "n_pascasarjana_test": 2130,
+      "approval_pascasarjana": 0.3531,
+      "locked_note": "n=82 kecil (per locked note)"
+    },
+    "m2_g4_air": {
+      "note": "angka lesson M2 (scorecard), bukan dari script ini; tidak diverifikasi di sini",
+      "locked": 1.1502
+    },
+    "m2_g9_psi": {
+      "note": "angka lesson M2 (scorecard), bukan dari script ini; tidak diverifikasi di sini",
+      "locked": 0.0104
+    }
+  },
+  "impossibility_sex": {
+    "base_rate_male": 0.2336,
+    "base_rate_female": 0.2129,
+    "base_rate_gap": 0.0207,
+    "approval_gap": 0.0393,
+    "tpr_gap": 0.0191,
+    "fpr_gap": 0.0383,
+    "ppv_gap": 0.0168,
+    "ece_gap": 0.0012,
+    "note": "Base rate beda (male vs female) -> demographic parity, equalized odds, dan kalibrasi per grup tidak bisa ketiganya sempurna sekaligus; lesson memakai angka-angka ini sebagai bukti numerik impossibility."
+  },
+  "air_sex_by_threshold": {
+    "0.05": {
+      "approval_male": 0.0666,
+      "approval_female": 0.0725,
+      "air": 0.9183
+    },
+    "0.1": {
+      "approval_male": 0.2614,
+      "approval_female": 0.3007,
+      "air": 0.8694
+    },
+    "0.15": {
+      "approval_male": 0.4646,
+      "approval_female": 0.5217,
+      "air": 0.8906
+    },
+    "0.2": {
+      "approval_male": 0.6286,
+      "approval_female": 0.6665,
+      "air": 0.9432
+    },
+    "0.3": {
+      "approval_male": 0.7498,
+      "approval_female": 0.7871,
+      "air": 0.9526
+    },
+    "0.5": {
+      "approval_male": 0.8751,
+      "approval_female": 0.8841,
+      "air": 0.9898
+    }
+  },
+  "calibration_bins_sex": {
+    "Laki-laki": [
+      {
+        "bin": "[0.0,0.1)",
+        "n": 628,
+        "mean_pred": 0.0664,
+        "actual_rate": 0.0669
+      },
+      {
+        "bin": "[0.1,0.2)",
+        "n": 882,
+        "mean_pred": 0.1463,
+        "actual_rate": 0.1599
+      },
+      {
+        "bin": "[0.2,0.3)",
+        "n": 291,
+        "mean_pred": 0.2424,
+        "actual_rate": 0.2268
+      },
+      {
+        "bin": "[0.3,0.4)",
+        "n": 212,
+        "mean_pred": 0.3436,
+        "actual_rate": 0.3585
+      },
+      {
+        "bin": "[0.4,0.5)",
+        "n": 89,
+        "mean_pred": 0.4429,
+        "actual_rate": 0.4607
+      },
+      {
+        "bin": "[0.5,0.6)",
+        "n": 57,
+        "mean_pred": 0.552,
+        "actual_rate": 0.5263
+      },
+      {
+        "bin": "[0.6,0.7)",
+        "n": 115,
+        "mean_pred": 0.6533,
+        "actual_rate": 0.6174
+      },
+      {
+        "bin": "[0.7,0.8)",
+        "n": 117,
+        "mean_pred": 0.7391,
+        "actual_rate": 0.7179
+      },
+      {
+        "bin": "[0.8,0.9)",
+        "n": 11,
+        "mean_pred": 0.8241,
+        "actual_rate": 0.9091
+      },
+      {
+        "bin": "[0.9,1.0)",
+        "n": 0,
+        "mean_pred": null,
+        "actual_rate": null
+      }
+    ],
+    "Perempuan": [
+      {
+        "bin": "[0.0,0.1)",
+        "n": 1082,
+        "mean_pred": 0.0665,
+        "actual_rate": 0.0665
+      },
+      {
+        "bin": "[0.1,0.2)",
+        "n": 1316,
+        "mean_pred": 0.143,
+        "actual_rate": 0.1368
+      },
+      {
+        "bin": "[0.2,0.3)",
+        "n": 434,
+        "mean_pred": 0.2413,
+        "actual_rate": 0.212
+      },
+      {
+        "bin": "[0.3,0.4)",
+        "n": 250,
+        "mean_pred": 0.3457,
+        "actual_rate": 0.384
+      },
+      {
+        "bin": "[0.4,0.5)",
+        "n": 99,
+        "mean_pred": 0.4436,
+        "actual_rate": 0.3737
+      },
+      {
+        "bin": "[0.5,0.6)",
+        "n": 72,
+        "mean_pred": 0.546,
+        "actual_rate": 0.5694
+      },
+      {
+        "bin": "[0.6,0.7)",
+        "n": 177,
+        "mean_pred": 0.6505,
+        "actual_rate": 0.6441
+      },
+      {
+        "bin": "[0.7,0.8)",
+        "n": 159,
+        "mean_pred": 0.7398,
+        "actual_rate": 0.7987
+      },
+      {
+        "bin": "[0.8,0.9)",
+        "n": 9,
+        "mean_pred": 0.8247,
+        "actual_rate": 0.7778
+      },
+      {
+        "bin": "[0.9,1.0)",
+        "n": 0,
+        "mean_pred": null,
+        "actual_rate": null
+      }
+    ]
+  },
+  "elapsed_sec": 3670.0
+}

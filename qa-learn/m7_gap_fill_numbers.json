@@ -1,0 +1,1751 @@
+{
+  "meta": {
+    "seed": 42,
+    "sklearn": "1.9.1",
+    "scipy": "1.11.4",
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "data": "data/uci_default_credit.xls",
+    "threshold": 0.1,
+    "lgd": 0.45,
+    "margin": 0.05,
+    "approval_rule": "approve iff calibrated GBM proba < 0.10",
+    "bootstrap_method": "resample whole test set (n=6000) with replacement, 1000 replicates, seed 42; per-group metrics computed on each resample; replicate skipped only if a SEX group is empty or a metric is undefined",
+    "air_intersection_definition": "cell approval / highest approval among ALL cells of the same intersection table",
+    "data_quality_scope": "full data (30,000 rows) unless stated",
+    "note": "All numbers computed from the data above; nothing invented. Rounded to 4 decimals except counts (integers)."
+  },
+  "repro_flagship": {
+    "gbm_roc_auc": 0.7823,
+    "gbm_brier": 0.1342,
+    "gbm_cal_roc_auc": 0.7816,
+    "gbm_cal_brier": 0.1345
+  },
+  "locked_verification": {
+    "gbm_roc_auc": {
+      "computed": 0.7823,
+      "locked": 0.7823,
+      "diff": 0.0,
+      "match_within_0.001": true
+    },
+    "sex_air": {
+      "computed": 0.8693,
+      "locked": 0.8693,
+      "diff": 0.0,
+      "match_within_0.001": true
+    },
+    "sex_male_approval": {
+      "computed": 0.2614,
+      "locked": 0.2614,
+      "diff": 0.0,
+      "match_within_0.001": true
+    },
+    "sex_female_approval": {
+      "computed": 0.3007,
+      "locked": 0.3007,
+      "diff": 0.0,
+      "match_within_0.001": true
+    }
+  },
+  "m7g2_intersection_sex_edu": {
+    "max_approval_rate": 0.614,
+    "max_approval_cell": {
+      "sex": "Perempuan",
+      "education": "Lainnya",
+      "n": 57,
+      "approval_rate": 0.614
+    },
+    "min_approval_rate": 0.163,
+    "min_approval_cell": {
+      "sex": "Laki-laki",
+      "education": "SMA",
+      "n": 411,
+      "approval_rate": 0.163
+    },
+    "min_air": 0.2655,
+    "cells": [
+      {
+        "sex": "Laki-laki",
+        "education": "Pascasarjana",
+        "n": 900,
+        "approval_rate": 0.34,
+        "approval_n": 306,
+        "approval_wilson_ci95": [
+          0.3098,
+          0.3716
+        ],
+        "base_rate": 0.2067,
+        "fpr": 0.5938,
+        "fnr": 0.086,
+        "tpr": 0.914,
+        "ppv": 0.2862,
+        "ece_10bin": 0.027,
+        "brier": 0.1313,
+        "n_default": 186,
+        "n_nondefault": 714,
+        "tp": 170,
+        "fp": 424,
+        "fn": 16,
+        "tn": 290,
+        "small_cell_flag": null,
+        "air": 0.5537,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "education": "Universitas",
+        "n": 1066,
+        "approval_rate": 0.227,
+        "approval_n": 242,
+        "approval_wilson_ci95": [
+          0.2029,
+          0.2531
+        ],
+        "base_rate": 0.2448,
+        "fpr": 0.7255,
+        "fnr": 0.0805,
+        "tpr": 0.9195,
+        "ppv": 0.2913,
+        "ece_10bin": 0.016,
+        "brier": 0.1468,
+        "n_default": 261,
+        "n_nondefault": 805,
+        "tp": 240,
+        "fp": 584,
+        "fn": 21,
+        "tn": 221,
+        "small_cell_flag": null,
+        "air": 0.3697,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "education": "SMA",
+        "n": 411,
+        "approval_rate": 0.163,
+        "approval_n": 67,
+        "approval_wilson_ci95": [
+          0.1305,
+          0.2018
+        ],
+        "base_rate": 0.2701,
+        "fpr": 0.7933,
+        "fnr": 0.045,
+        "tpr": 0.955,
+        "ppv": 0.3081,
+        "ece_10bin": 0.0512,
+        "brier": 0.1634,
+        "n_default": 111,
+        "n_nondefault": 300,
+        "tp": 106,
+        "fp": 238,
+        "fn": 5,
+        "tn": 62,
+        "small_cell_flag": null,
+        "air": 0.2655,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "education": "Lainnya",
+        "n": 25,
+        "approval_rate": 0.52,
+        "approval_n": 13,
+        "approval_wilson_ci95": [
+          0.335,
+          0.6997
+        ],
+        "base_rate": 0.12,
+        "fpr": 0.4091,
+        "fnr": 0.0,
+        "tpr": 1.0,
+        "ppv": 0.25,
+        "ece_10bin": 0.0722,
+        "brier": 0.0738,
+        "n_default": 3,
+        "n_nondefault": 22,
+        "tp": 3,
+        "fp": 9,
+        "fn": 0,
+        "tn": 13,
+        "small_cell_flag": "n<30: jangan vonis",
+        "air": 0.8469,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Perempuan",
+        "education": "Pascasarjana",
+        "n": 1230,
+        "approval_rate": 0.3626,
+        "approval_n": 446,
+        "approval_wilson_ci95": [
+          0.3362,
+          0.3899
+        ],
+        "base_rate": 0.178,
+        "fpr": 0.5816,
+        "fnr": 0.105,
+        "tpr": 0.895,
+        "ppv": 0.25,
+        "ece_10bin": 0.0286,
+        "brier": 0.11,
+        "n_default": 219,
+        "n_nondefault": 1011,
+        "tp": 196,
+        "fp": 588,
+        "fn": 23,
+        "tn": 423,
+        "small_cell_flag": null,
+        "air": 0.5906,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "education": "Universitas",
+        "n": 1708,
+        "approval_rate": 0.267,
+        "approval_n": 456,
+        "approval_wilson_ci95": [
+          0.2465,
+          0.2885
+        ],
+        "base_rate": 0.2313,
+        "fpr": 0.6763,
+        "fnr": 0.0785,
+        "tpr": 0.9215,
+        "ppv": 0.2907,
+        "ece_10bin": 0.0125,
+        "brier": 0.1341,
+        "n_default": 395,
+        "n_nondefault": 1313,
+        "tp": 364,
+        "fp": 888,
+        "fn": 31,
+        "tn": 425,
+        "small_cell_flag": null,
+        "air": 0.4349,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "education": "SMA",
+        "n": 603,
+        "approval_rate": 0.2405,
+        "approval_n": 145,
+        "approval_wilson_ci95": [
+          0.2081,
+          0.2762
+        ],
+        "base_rate": 0.2488,
+        "fpr": 0.7152,
+        "fnr": 0.1067,
+        "tpr": 0.8933,
+        "ppv": 0.2926,
+        "ece_10bin": 0.0425,
+        "brier": 0.1592,
+        "n_default": 150,
+        "n_nondefault": 453,
+        "tp": 134,
+        "fp": 324,
+        "fn": 16,
+        "tn": 129,
+        "small_cell_flag": null,
+        "air": 0.3917,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "education": "Lainnya",
+        "n": 57,
+        "approval_rate": 0.614,
+        "approval_n": 35,
+        "approval_wilson_ci95": [
+          0.4843,
+          0.7294
+        ],
+        "base_rate": 0.0351,
+        "fpr": 0.4,
+        "fnr": 1.0,
+        "tpr": 0.0,
+        "ppv": 0.0,
+        "ece_10bin": 0.0698,
+        "brier": 0.0506,
+        "n_default": 2,
+        "n_nondefault": 55,
+        "tp": 0,
+        "fp": 22,
+        "fn": 2,
+        "tn": 33,
+        "small_cell_flag": "n<100: terlalu kecil untuk vonis",
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      }
+    ],
+    "summary": {
+      "lowest_approval": "Laki-laki x SMA (n=411, approval=0.163, AIR=0.2655)",
+      "highest_approval": "Perempuan x Lainnya (n=57, approval=0.614)",
+      "global_sex_air": 0.8693,
+      "intersection_min_air_vs_global_sex_air": -0.6038,
+      "global_sex_gap_hides_worse_intersection": true
+    }
+  },
+  "m7g2_intersection_sex_age": {
+    "max_approval_rate": 0.3447,
+    "max_approval_cell": {
+      "sex": "Perempuan",
+      "age_band": "30-39",
+      "n": 1291,
+      "approval_rate": 0.3447
+    },
+    "min_approval_rate": 0.1944,
+    "min_approval_cell": {
+      "sex": "Laki-laki",
+      "age_band": "60+",
+      "n": 36,
+      "approval_rate": 0.1944
+    },
+    "min_air": 0.564,
+    "cells": [
+      {
+        "sex": "Laki-laki",
+        "age_band": "<30",
+        "n": 669,
+        "approval_rate": 0.2138,
+        "approval_n": 143,
+        "approval_wilson_ci95": [
+          0.1844,
+          0.2464
+        ],
+        "base_rate": 0.2242,
+        "fpr": 0.738,
+        "fnr": 0.0467,
+        "tpr": 0.9533,
+        "ppv": 0.2719,
+        "ece_10bin": 0.0254,
+        "brier": 0.1425,
+        "n_default": 150,
+        "n_nondefault": 519,
+        "tp": 143,
+        "fp": 383,
+        "fn": 7,
+        "tn": 136,
+        "small_cell_flag": null,
+        "air": 0.6202,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "30-39",
+        "n": 907,
+        "approval_rate": 0.312,
+        "approval_n": 283,
+        "approval_wilson_ci95": [
+          0.2827,
+          0.3429
+        ],
+        "base_rate": 0.2271,
+        "fpr": 0.6191,
+        "fnr": 0.0777,
+        "tpr": 0.9223,
+        "ppv": 0.3045,
+        "ece_10bin": 0.0238,
+        "brier": 0.1384,
+        "n_default": 206,
+        "n_nondefault": 701,
+        "tp": 190,
+        "fp": 434,
+        "fn": 16,
+        "tn": 267,
+        "small_cell_flag": null,
+        "air": 0.9051,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "40-49",
+        "n": 558,
+        "approval_rate": 0.2652,
+        "approval_n": 148,
+        "approval_wilson_ci95": [
+          0.2303,
+          0.3034
+        ],
+        "base_rate": 0.2366,
+        "fpr": 0.6831,
+        "fnr": 0.0985,
+        "tpr": 0.9015,
+        "ppv": 0.2902,
+        "ece_10bin": 0.0297,
+        "brier": 0.1468,
+        "n_default": 132,
+        "n_nondefault": 426,
+        "tp": 119,
+        "fp": 291,
+        "fn": 13,
+        "tn": 135,
+        "small_cell_flag": null,
+        "air": 0.7694,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "50-59",
+        "n": 232,
+        "approval_rate": 0.2026,
+        "approval_n": 47,
+        "approval_wilson_ci95": [
+          0.1559,
+          0.259
+        ],
+        "base_rate": 0.2672,
+        "fpr": 0.7529,
+        "fnr": 0.0806,
+        "tpr": 0.9194,
+        "ppv": 0.3081,
+        "ece_10bin": 0.041,
+        "brier": 0.1517,
+        "n_default": 62,
+        "n_nondefault": 170,
+        "tp": 57,
+        "fp": 128,
+        "fn": 5,
+        "tn": 42,
+        "small_cell_flag": null,
+        "air": 0.5878,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Laki-laki",
+        "age_band": "60+",
+        "n": 36,
+        "approval_rate": 0.1944,
+        "approval_n": 7,
+        "approval_wilson_ci95": [
+          0.0975,
+          0.3503
+        ],
+        "base_rate": 0.3056,
+        "fpr": 0.76,
+        "fnr": 0.0909,
+        "tpr": 0.9091,
+        "ppv": 0.3448,
+        "ece_10bin": 0.127,
+        "brier": 0.1566,
+        "n_default": 11,
+        "n_nondefault": 25,
+        "tp": 10,
+        "fp": 19,
+        "fn": 1,
+        "tn": 6,
+        "small_cell_flag": "n<100: terlalu kecil untuk vonis",
+        "air": 0.564,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "<30",
+        "n": 1243,
+        "approval_rate": 0.2944,
+        "approval_n": 366,
+        "approval_wilson_ci95": [
+          0.2698,
+          0.3204
+        ],
+        "base_rate": 0.2228,
+        "fpr": 0.6501,
+        "fnr": 0.1011,
+        "tpr": 0.8989,
+        "ppv": 0.2839,
+        "ece_10bin": 0.0251,
+        "brier": 0.1294,
+        "n_default": 277,
+        "n_nondefault": 966,
+        "tp": 249,
+        "fp": 628,
+        "fn": 28,
+        "tn": 338,
+        "small_cell_flag": null,
+        "air": 0.8541,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "30-39",
+        "n": 1291,
+        "approval_rate": 0.3447,
+        "approval_n": 445,
+        "approval_wilson_ci95": [
+          0.3193,
+          0.371
+        ],
+        "base_rate": 0.1913,
+        "fpr": 0.5967,
+        "fnr": 0.0972,
+        "tpr": 0.9028,
+        "ppv": 0.2636,
+        "ece_10bin": 0.0247,
+        "brier": 0.1217,
+        "n_default": 247,
+        "n_nondefault": 1044,
+        "tp": 223,
+        "fp": 623,
+        "fn": 24,
+        "tn": 421,
+        "small_cell_flag": null,
+        "air": 1.0,
+        "air_flag_below_0.80": false
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "40-49",
+        "n": 783,
+        "approval_rate": 0.2733,
+        "approval_n": 214,
+        "approval_wilson_ci95": [
+          0.2433,
+          0.3056
+        ],
+        "base_rate": 0.2299,
+        "fpr": 0.675,
+        "fnr": 0.1,
+        "tpr": 0.9,
+        "ppv": 0.2847,
+        "ece_10bin": 0.0222,
+        "brier": 0.137,
+        "n_default": 180,
+        "n_nondefault": 603,
+        "tp": 162,
+        "fp": 407,
+        "fn": 18,
+        "tn": 196,
+        "small_cell_flag": null,
+        "air": 0.7929,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "50-59",
+        "n": 241,
+        "approval_rate": 0.2033,
+        "approval_n": 49,
+        "approval_wilson_ci95": [
+          0.1573,
+          0.2586
+        ],
+        "base_rate": 0.2075,
+        "fpr": 0.7539,
+        "fnr": 0.04,
+        "tpr": 0.96,
+        "ppv": 0.25,
+        "ece_10bin": 0.0675,
+        "brier": 0.13,
+        "n_default": 50,
+        "n_nondefault": 191,
+        "tp": 48,
+        "fp": 144,
+        "fn": 2,
+        "tn": 47,
+        "small_cell_flag": null,
+        "air": 0.5898,
+        "air_flag_below_0.80": true
+      },
+      {
+        "sex": "Perempuan",
+        "age_band": "60+",
+        "n": 40,
+        "approval_rate": 0.2,
+        "approval_n": 8,
+        "approval_wilson_ci95": [
+          0.105,
+          0.3476
+        ],
+        "base_rate": 0.3,
+        "fpr": 0.7143,
+        "fnr": 0.0,
+        "tpr": 1.0,
+        "ppv": 0.375,
+        "ece_10bin": 0.1462,
+        "brier": 0.1669,
+        "n_default": 12,
+        "n_nondefault": 28,
+        "tp": 12,
+        "fp": 20,
+        "fn": 0,
+        "tn": 8,
+        "small_cell_flag": "n<100: terlalu kecil untuk vonis",
+        "air": 0.5802,
+        "air_flag_below_0.80": true
+      }
+    ],
+    "summary": {
+      "lowest_approval": "Laki-laki x 60+ (n=36, approval=0.1944, AIR=0.564)",
+      "highest_approval": "Perempuan x 30-39 (n=1291, approval=0.3447)",
+      "global_sex_air": 0.8693,
+      "intersection_min_air_vs_global_sex_air": -0.3053,
+      "global_sex_gap_hides_worse_intersection": true
+    }
+  },
+  "m7g3_bootstrap_ci": {
+    "n_replicates": 1000,
+    "n_skipped": 0,
+    "n_used": 1000,
+    "metrics": {
+      "approval_diff_pp_F_minus_M": {
+        "point_estimate": 3.93,
+        "bootstrap_mean": 3.9626,
+        "bootstrap_sd": 1.1607,
+        "ci95_percentile": [
+          1.7792,
+          6.2205
+        ],
+        "ci_width": 4.4413,
+        "null_value": 0.0,
+        "ci_includes_null": false
+      },
+      "air_sex": {
+        "point_estimate": 0.8693,
+        "bootstrap_mean": 0.8687,
+        "bootstrap_sd": 0.0369,
+        "ci95_percentile": [
+          0.7978,
+          0.9391
+        ],
+        "ci_width": 0.1414,
+        "null_value": 1.0,
+        "ci_includes_null": false
+      },
+      "tpr_gap_F_minus_M": {
+        "point_estimate": -0.0191,
+        "bootstrap_mean": -0.0193,
+        "bootstrap_sd": 0.0153,
+        "ci95_percentile": [
+          -0.0498,
+          0.011
+        ],
+        "ci_width": 0.0608,
+        "null_value": 0.0,
+        "ci_includes_null": true
+      },
+      "fpr_gap_F_minus_M": {
+        "point_estimate": -0.0383,
+        "bootstrap_mean": -0.0386,
+        "bootstrap_sd": 0.0139,
+        "ci95_percentile": [
+          -0.0653,
+          -0.0123
+        ],
+        "ci_width": 0.053,
+        "null_value": 0.0,
+        "ci_includes_null": false
+      },
+      "ece_gap_F_minus_M": {
+        "point_estimate": 0.0012,
+        "bootstrap_mean": -0.0015,
+        "bootstrap_sd": 0.0073,
+        "ci95_percentile": [
+          -0.0155,
+          0.0118
+        ],
+        "ci_width": 0.0273,
+        "null_value": 0.0,
+        "ci_includes_null": true
+      },
+      "brier_gap_F_minus_M": {
+        "point_estimate": -0.0143,
+        "bootstrap_mean": -0.0144,
+        "bootstrap_sd": 0.0059,
+        "ci95_percentile": [
+          -0.0257,
+          -0.0036
+        ],
+        "ci_width": 0.0221,
+        "null_value": 0.0,
+        "ci_includes_null": false
+      },
+      "ppv_gap_F_minus_M": {
+        "point_estimate": -0.0168,
+        "bootstrap_mean": -0.017,
+        "bootstrap_sd": 0.014,
+        "ci95_percentile": [
+          -0.0446,
+          0.0101
+        ],
+        "ci_width": 0.0547,
+        "null_value": 0.0,
+        "ci_includes_null": true
+      }
+    },
+    "wilson_approval_sex": {
+      "Laki-laki": {
+        "n": 2402,
+        "approval_rate": 0.2614,
+        "wilson_ci95": [
+          0.2443,
+          0.2794
+        ],
+        "ci_width": 0.0351
+      },
+      "Perempuan": {
+        "n": 3598,
+        "approval_rate": 0.3007,
+        "wilson_ci95": [
+          0.286,
+          0.3159
+        ],
+        "ci_width": 0.0299
+      }
+    },
+    "note": "CI mencakup 0 (atau 1 untuk AIR) TIDAK berarti 'tidak ada gap' -- hanya dilaporkan angkanya."
+  },
+  "m7g8_data_quality": {
+    "missingness": {
+      "scope": "full data (30,000 rows)",
+      "features": {
+        "LIMIT_BAL": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_0": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_2": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_3": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_4": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_5": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_6": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT1": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT2": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT3": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT4": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT5": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "BILL_AMT6": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT1": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT2": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT3": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT4": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT5": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        },
+        "PAY_AMT6": {
+          "overall": {
+            "n_missing": 0,
+            "pct": 0.0
+          },
+          "by_sex": {
+            "Laki-laki": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Perempuan": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          },
+          "by_education": {
+            "Pascasarjana": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Universitas": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "SMA": {
+              "n_missing": 0,
+              "pct": 0.0
+            },
+            "Lainnya": {
+              "n_missing": 0,
+              "pct": 0.0
+            }
+          }
+        }
+      },
+      "rows_with_any_missing_main_feature": {
+        "n": 0,
+        "pct": 0.0
+      },
+      "interpretation": "Missingness 0 di semua fitur utama (overall, per SEX, per EDUCATION) -- dataset UCI ini lengkap; tidak ada imputasi yang dibutuhkan untuk fitur utama. Bila ada NaN di fitur turunan, itu berasal dari perhitungan (mis. pembagian), bukan dari data mentah."
+    },
+    "invalid_categories": {
+      "education_codes_0_5_6_outside_1_4": {
+        "overall": {
+          "n": 345,
+          "pct": 1.15
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 128,
+            "pct": 1.0767
+          },
+          "Perempuan": {
+            "n": 217,
+            "pct": 1.1981
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 345,
+            "pct": 73.7179
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 91,
+            "pct": 0.9461
+          },
+          "30-39": {
+            "n": 120,
+            "pct": 1.0678
+          },
+          "40-49": {
+            "n": 95,
+            "pct": 1.4697
+          },
+          "50-59": {
+            "n": 35,
+            "pct": 1.4951
+          },
+          "60+": {
+            "n": 4,
+            "pct": 1.1799
+          }
+        }
+      },
+      "marriage_code_0_outside_1_3": {
+        "overall": {
+          "n": 54,
+          "pct": 0.18
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 14,
+            "pct": 0.1178
+          },
+          "Perempuan": {
+            "n": 40,
+            "pct": 0.2208
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 4,
+            "pct": 0.0378
+          },
+          "Universitas": {
+            "n": 6,
+            "pct": 0.0428
+          },
+          "SMA": {
+            "n": 44,
+            "pct": 0.8949
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 10,
+            "pct": 0.104
+          },
+          "30-39": {
+            "n": 22,
+            "pct": 0.1958
+          },
+          "40-49": {
+            "n": 15,
+            "pct": 0.2321
+          },
+          "50-59": {
+            "n": 7,
+            "pct": 0.299
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "education_raw_code_counts": {
+        "0": 14,
+        "1": 10585,
+        "2": 14030,
+        "3": 4917,
+        "4": 123,
+        "5": 280,
+        "6": 51
+      },
+      "marriage_raw_code_counts": {
+        "0": 54,
+        "1": 13659,
+        "2": 15964,
+        "3": 323
+      },
+      "interpretation": "EDUCATION kode 0/5/6 (di luar 1-4) dan MARRIAGE kode 0 (di luar 1-3) adalah kode 'lainnya/tidak tercatat' di dataset UCI -- kecil persentasenya, tetapi semua masuk grup 'Lainnya' di audit, sehingga grup Lainnya mencampur kode yang berbeda maknanya."
+    },
+    "odd_values": {
+      "bill_amt_negative_any_of_6": {
+        "overall": {
+          "n": 1930,
+          "pct": 6.4333
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 837,
+            "pct": 7.0407
+          },
+          "Perempuan": {
+            "n": 1093,
+            "pct": 6.0347
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 900,
+            "pct": 8.5026
+          },
+          "Universitas": {
+            "n": 727,
+            "pct": 5.1818
+          },
+          "SMA": {
+            "n": 269,
+            "pct": 5.4708
+          },
+          "Lainnya": {
+            "n": 34,
+            "pct": 7.265
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 511,
+            "pct": 5.313
+          },
+          "30-39": {
+            "n": 821,
+            "pct": 7.3056
+          },
+          "40-49": {
+            "n": 422,
+            "pct": 6.5285
+          },
+          "50-59": {
+            "n": 159,
+            "pct": 6.792
+          },
+          "60+": {
+            "n": 17,
+            "pct": 5.0147
+          }
+        }
+      },
+      "pay_amt_negative_any_of_6": {
+        "overall": {
+          "n": 0,
+          "pct": 0.0
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Perempuan": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "30-39": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "40-49": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "50-59": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "limit_bal_le_0": {
+        "overall": {
+          "n": 0,
+          "pct": 0.0
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Perempuan": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "30-39": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "40-49": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "50-59": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "age_outside_21_79": {
+        "overall": {
+          "n": 0,
+          "pct": 0.0
+        },
+        "by_sex": {
+          "Laki-laki": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Perempuan": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_education_group": {
+          "Pascasarjana": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Universitas": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "SMA": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "Lainnya": {
+            "n": 0,
+            "pct": 0.0
+          }
+        },
+        "by_age_band": {
+          "<30": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "30-39": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "40-49": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "50-59": {
+            "n": 0,
+            "pct": 0.0
+          },
+          "60+": {
+            "n": 0,
+            "pct": 0.0
+          }
+        }
+      },
+      "age_range": {
+        "min": 21,
+        "max": 79
+      },
+      "limit_bal_range": {
+        "min": 10000,
+        "max": 1000000
+      },
+      "bill_amt_min": {
+        "BILL_AMT1": -165580,
+        "BILL_AMT2": -69777,
+        "BILL_AMT3": -157264,
+        "BILL_AMT4": -170000,
+        "BILL_AMT5": -81334,
+        "BILL_AMT6": -339603
+      },
+      "pay_amt_min": {
+        "PAY_AMT1": 0,
+        "PAY_AMT2": 0,
+        "PAY_AMT3": 0,
+        "PAY_AMT4": 0,
+        "PAY_AMT5": 0,
+        "PAY_AMT6": 0
+      },
+      "interpretation": "BILL_AMT negatif = kredit/kelebihan bayar (plausibel di kartu kredit, bukan error); PAY_AMT negatif = pengembalian/penyesuaian (jarang, periksa konsentrasinya); LIMIT_BAL <= 0 dan AGE di luar 21-79 seharusnya 0 -- bila >0, itu artefak data yang wajib dibersihkan sebelum training."
+    },
+    "duplicates": {
+      "full_row_duplicates_incl_id": {
+        "n": 0,
+        "pct": 0.0
+      },
+      "duplicates_excl_id": {
+        "n": 35,
+        "pct": 0.1167
+      },
+      "interpretation": "Duplikat baris penuh (termasuk ID) seharusnya 0 karena ID unik; duplikat di luar ID = baris kembar dari nasabah berbeda -- kecil kemungkinan kebetulan pada 24 kolom, jadi bila >0 patut dicurigai sebagai duplikasi pencatatan."
+    }
+  },
+  "runtime_seconds": 9.7
+}

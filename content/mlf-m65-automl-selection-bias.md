@@ -174,7 +174,7 @@ Hasil [lab]: optimisme konfigurasi CV-terbaik (K1) = 0,0042; optimisme rata-rata
 
 ## Guided Task di Colab
 
-Notebook: colab/mlf-m65-guided-task.ipynb — flagship LR/GBM, grid 18 konfigurasi (CV vs test), kedua uji McNemar (manual + cek silang scipy), dan nested CV untuk ketiga kandidat protokol adil. (Tautan Colab Drive diisi koordinator saat notebook di-upload.)
+Notebook: colab/mlf-m65-guided-task.ipynb — flagship LR/GBM, grid 18 konfigurasi (CV vs test), kedua uji McNemar (manual + cek silang scipy), dan nested CV untuk ketiga kandidat protokol adil. Tautan Colab: https://colab.research.google.com/drive/1iOHEx9XKctH-1Wd_tmkDi7Wx8gX75cWs
 
 ## Rangkuman
 

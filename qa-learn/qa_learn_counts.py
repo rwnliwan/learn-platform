@@ -57,11 +57,11 @@ def main() -> int:
     ok = True
     # Lantai anti-hapus (perintah Septian 2026-11-12 16:28: build/deploy
     # JANGAN PERNAH menghapus course/lesson/fitur yang sudah ada).
-    # Total lesson pasca-deploy M6 = 966. Bila build baru menurunkan total,
+    # Total lesson pasca-deploy M7 = 971. Bila build baru menurunkan total,
     # guard ini FAIL — naikkan lantai hanya bila Septian sendiri yang
     # memerintahkan penghapusan lesson.
-    if total < 966:
-        print(f"FAIL: total lesson {total} < lantai 966 (ada lesson yang hilang — periksa regen/build-content MERGE)")
+    if total < 971:
+        print(f"FAIL: total lesson {total} < lantai 971 (ada lesson yang hilang — periksa regen/build-content MERGE)")
         ok = False
     if spec_n + nonspec_n != total:
         print(f"FAIL: spec ({spec_n}) + non-spec ({nonspec_n}) != total ({total})")
