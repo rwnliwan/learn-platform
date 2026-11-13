@@ -1,0 +1,141 @@
+[mlf-m91-monte-carlo-simulation.ts:27:body] VERDICT: OK — 480×0,05=24 hari; tiga estimator (0,0286/0,0328/0,0329) memang besaran sama dengan asumsi berbeda.
+[mlf-m91-monte-carlo-simulation.ts:45:formulaNote] VERDICT: OK — estimasi langsung μ_log/σ_log, simulasi diskret tanpa koreksi Itô; expm1 benar.
+[mlf-m91-monte-carlo-simulation.ts:49:body] VERDICT: OK — skew/kurtosis menyangkal normal; autokorelasi squared return lag-1 menyangkal iid DAN vol konstan → ketiganya gagal (sesuai kelas #115).
+[mlf-m91-monte-carlo-simulation.ts:68:body] VERDICT: OK — 0,0329×100jt=3,29jt; ES 0,0407×100jt=4,07jt; VaR kuantil, bukan maksimum.
+[mlf-m91-monte-carlo-simulation.ts:85:formulaNote] VERDICT: OK — 0,0196/√N: 0,00196; 0,00062; 0,000196; 0,000062; rasio √10≈3,16.
+[mlf-m91-monte-carlo-simulation.ts:102:formulaNote] VERDICT: OK — 0,028563×√10=0,0903; 0,0328×√10=0,1037; penanganan pembulatan eksplisit.
+[mlf-m91-monte-carlo-simulation.ts:106:body] VERDICT: OK — drift linear vs vol √t; P(>0,0903)=0,0795.
+[mlf-m91-monte-carlo-simulation.ts:125:body] VERDICT: OK — sd antar-batch 0,0004 << bootstrap sd 0,0022; konvergen = ayunan << error data.
+[mlf-m91-monte-carlo-simulation.ts:144:body] VERDICT: OK — 0,0329×0,10≈0,0033; model error tak menyusut dengan N.
+[mlf-m91-monte-carlo-simulation.ts:164:body] VERDICT: OK — MC/param asumsi normal sama, HS beda; laporkan ketiganya.
+[mlf-m91-monte-carlo-simulation.ts:341:why] VERDICT: OK — VaR95 kuantil, bukan maksimum.
+[mlf-m91-monte-carlo-simulation.ts:343:why] VERDICT: OK — rata-rata semua hari = mean return, bukan kuantil 95%.
+[mlf-m91-monte-carlo-simulation.ts:344:why] VERDICT: OK — 0,0286 = kuantil ke-24 dari 480, bukan minimum.
+[mlf-m91-monte-carlo-simulation.ts:350:why] VERDICT: OK — MC tidak menambah data, hanya aritmetika.
+[mlf-m91-monte-carlo-simulation.ts:351:why] VERDICT: OK — 0,0329 vs 0,0328 (selisih MC error); HS 0,0286 bentuk empiris beda; ES 0,0445>0,0410.
+[mlf-m91-monte-carlo-simulation.ts:353:why] VERDICT: OK — MC konversi log→simple via expm1 sebelum kuantil; keduanya simple.
+[mlf-m91-monte-carlo-simulation.ts:359:why] VERDICT: OK — 0,000196/10=0,0000196.
+[mlf-m91-monte-carlo-simulation.ts:360:why] VERDICT: OK — SE ∝ 1/√N, bukan 1/N.
+[mlf-m91-monte-carlo-simulation.ts:361:why] VERDICT: OK — σ tetap, SE=σ/√N.
+[mlf-m91-monte-carlo-simulation.ts:368:why] VERDICT: OK — 0,0004 = sd antar-batch, bukan SE; SE=sd/√n.
+[mlf-m91-monte-carlo-simulation.ts:369:why] VERDICT: OK — 0,0004/√20=0,000089≈0,00009.
+[mlf-m91-monte-carlo-simulation.ts:370:why] VERDICT: OK — pembagi √20, bukan 20.
+[mlf-m91-monte-carlo-simulation.ts:371:why] VERDICT: OK — ×√20 membesarkan, arah salah.
+[mlf-m91-monte-carlo-simulation.ts:377:why] VERDICT: OK — 0,05 diasumsikan √10; MC aktual 0,0795.
+[mlf-m91-monte-carlo-simulation.ts:378:why] VERDICT: OK — 0,0572 = P(rugi>10%), ambang beda.
+[mlf-m91-monte-carlo-simulation.ts:379:why] VERDICT: OK — P(>0,0903)=0,0795≠0,05.
+[mlf-m91-monte-carlo-simulation.ts:380:why] VERDICT: OK — 0,1038 = besar VaR, bukan peluang.
+[mlf-m91-monte-carlo-simulation.ts:387:why] VERDICT: OK — 0,0004/√10≈0,00013; 0,0022 data tetap.
+[mlf-m91-monte-carlo-simulation.ts:388:why] VERDICT: OK — 0,0332 vs 0,0329 (beda 0,0003), range [0,0319;0,0333].
+[mlf-m91-monte-carlo-simulation.ts:395:why] VERDICT: OK — N tak memperbaiki σ salah.
+[mlf-m91-monte-carlo-simulation.ts:396:why] VERDICT: OK — 0,0033 > range MC 0,0014.
+[mlf-m91-monte-carlo-simulation.ts:398:why] VERDICT: OK — periode tenang → σ terlalu kecil → VaR terlalu kecil.
+[mlf-m91-monte-carlo-simulation.ts:407:why] VERDICT: OK — rumus ringkas menyembunyikan asumsi normal.
+[mlf-m91-monte-carlo-simulation.ts:413:why] VERDICT: OK — 0,0407−0,0329=0,0078; ES rata-rata ekor.
+[mlf-m91-monte-carlo-simulation.ts:415:why] VERDICT: OK — mean return ≈−0,0006; SE mean N=100.000=0,000062.
+[mlf-m91-monte-carlo-simulation.ts:416:why] VERDICT: OK — 0,0078 bukan konstanta; historis 0,0445−0,0286=0,0159.
+[mlf-m92-scenario-stress-testing.ts:26:body] VERDICT: OK — peringatan tahun; 2025 −7,43% vs 2026 +3,39%.
+[mlf-m92-scenario-stress-testing.ts:47:body] VERDICT: OK — ln(1−0,0853)=−0,0892; log lebih negatif saat return negatif.
+[mlf-m92-scenario-stress-testing.ts:64:formulaNote] VERDICT: OK — 1,6449×0,0196+0,0006=0,0328; ×1,5=0,0490; ×2=0,0651; σ_port 0,0267→0,0445.
+[mlf-m92-scenario-stress-testing.ts:82:formulaNote] VERDICT: OK — (0,05+0,000558)/1,6449=0,03006; rasio 0,03006/0,0196172=1,5323; selisih pembulatan μ diakui.
+[mlf-m92-scenario-stress-testing.ts:86:body] VERDICT: OK — 0,05−0,0490=0,0010 margin.
+[mlf-m92-scenario-stress-testing.ts:119:body] VERDICT: OK — 13,98/7,43≈1,88≈"hampir dua kali".
+[mlf-m92-scenario-stress-testing.ts:138:body] VERDICT: OK — 2×7.432.406=14.864.812; skala linear, batas diakui.
+[mlf-m92-scenario-stress-testing.ts:319:body] VERDICT: OK — scenario shopping vs pengukuran risiko.
+[mlf-m92-scenario-stress-testing.ts:364:why] VERDICT: OK — 1,6449×0,0392+0,0006=0,0651 (σ×2).
+[mlf-m92-scenario-stress-testing.ts:365:why] VERDICT: OK — 0,0445 = korelasi→1.
+[mlf-m92-scenario-stress-testing.ts:366:why] VERDICT: OK — VaR ~ linear σ; 0,0328→0,0490.
+[mlf-m92-scenario-stress-testing.ts:372:why] VERDICT: OK — (0,0217+0,0268+0,0316)/3=0,0267; VaR=0,0445.
+[mlf-m92-scenario-stress-testing.ts:374:why] VERDICT: OK — korelasi masuk rumus σ_port; 0,0196→0,0267.
+[mlf-m92-scenario-stress-testing.ts:375:why] VERDICT: OK — 0,0392/0,0651 = σ×2, bukan korelasi.
+[mlf-m92-scenario-stress-testing.ts:381:why] VERDICT: KONTRADIKSI — (0,05−0,0006)/1,6449 = 0,0300, bukan 0,0301; 0,0301 hanya dari μ tak-bulat −0,000558. Tulis ≈ atau pakai μ eksak.
+[mlf-m92-scenario-stress-testing.ts:382:why] VERDICT: OK — σ×1,5=0,0294→0,0490, 0,0010 di bawah target.
+[mlf-m92-scenario-stress-testing.ts:383:why] VERDICT: OK — σ×2=0,0392→0,0651, melampaui.
+[mlf-m92-scenario-stress-testing.ts:384:why] VERDICT: OK — σ=0,0196→0,0328, jauh di bawah 0,05.
+[mlf-m92-scenario-stress-testing.ts:391:why] VERDICT: OK — M9.2 simple 0,0328→0,0445 vs M4.5 log 0,0324→0,0431.
+[mlf-m92-scenario-stress-testing.ts:392:why] VERDICT: OK — korelasi naik → VaR naik, DR turun 1,353→1,0169.
+[mlf-m92-scenario-stress-testing.ts:393:why] VERDICT: OK — 0,0431/0,0324≈1,33 (sepertiga).
+[mlf-m92-scenario-stress-testing.ts:411:why] VERDICT: OK — korelasi naik saat stress (0,3752 vs 0,2775).
+[mlf-m93-backtesting-walk-forward.ts:27:body] VERDICT: OK — uji in-sample LR=0, p=1; butuh pemisahan.
+[mlf-m93-backtesting-walk-forward.ts:45:formulaNote] VERDICT: OK — Kupiec n=230,x=15,p=0,05 → LR=1,028, p≈0,311; χ²₁ kritis 3,841.
+[mlf-m93-backtesting-walk-forward.ts:49:body] VERDICT: OK — p=0,311 = tidak cukup bukti menolak, bukan H0 benar.
+[mlf-m93-backtesting-walk-forward.ts:68:body] VERDICT: OK — laporkan semua varian.
+[mlf-m93-backtesting-walk-forward.ts:86:formulaNote] VERDICT: OK — π=15/229=0,0655; π01=11/214=0,0514; π11=4/15=0,2667; LR_ind≈6,64; LR_cc≈7,67 (p≈0,022).
+[mlf-m93-backtesting-walk-forward.ts:90:body] VERDICT: OK — 0,2667/0,0514=5,19; /0,0655=4,07.
+[mlf-m93-backtesting-walk-forward.ts:110:body] VERDICT: OK — nested CV (acak) vs walk-forward (waktu); roc_drop 0,7816−0,7428=0,0388.
+[mlf-m93-backtesting-walk-forward.ts:129:body] VERDICT: OK — GREEN Basel ≠ valid; butuh coverage+independence+Basel.
+[mlf-m93-backtesting-walk-forward.ts:148:body] VERDICT: OK — 1−0,95^20≈0,64.
+[mlf-m93-backtesting-walk-forward.ts:167:body] VERDICT: OK — LR_cc=LR_POF+LR_ind=7,6731.
+[mlf-m93-backtesting-walk-forward.ts:387:why] VERDICT: OK — conditional coverage ≠ Kupiec.
+[mlf-m93-backtesting-walk-forward.ts:397:why] VERDICT: OK — p-value bukan P(H0 benar).
+[mlf-m93-backtesting-walk-forward.ts:407:why] VERDICT: OK — p besar = hasil biasa, bukan terbaik.
+[mlf-m93-backtesting-walk-forward.ts:413:why] VERDICT: OK — 0,2667/0,0514=5,19.
+[mlf-m93-backtesting-walk-forward.ts:414:why] VERDICT: OK — 5,2× vs π01, 4,1× vs π.
+[mlf-m93-backtesting-walk-forward.ts:415:why] VERDICT: OK — 0,2667/0,0655=4,07.
+[mlf-m93-backtesting-walk-forward.ts:416:why] VERDICT: OK — bila sama, LR_ind≈0.
+[mlf-m93-backtesting-walk-forward.ts:422:why] VERDICT: OK — LR_cc mencakup Kupiec.
+[mlf-m93-backtesting-walk-forward.ts:423:why] VERDICT: OK — 6,6456>3,841; 7,6731>5,991.
+[mlf-m93-backtesting-walk-forward.ts:424:why] VERDICT: OK — p kecil = tolak H0.
+[mlf-m93-backtesting-walk-forward.ts:425:why] VERDICT: OK — LR_cc uji gabungan.
+[mlf-m93-backtesting-walk-forward.ts:441:why] VERDICT: OK — 3≤4 GREEN; Basel hitung jumlah, bukan urutan.
+[mlf-m93-backtesting-walk-forward.ts:442:why] VERDICT: OK — 230×0,01=2,3; Basel 0–4/5–9/≥10.
+[mlf-m93-backtesting-walk-forward.ts:443:why] VERDICT: OK — GREEN syarat minimum, bukan validasi.
+[mlf-m93-backtesting-walk-forward.ts:450:why] VERDICT: OK — 1−0,95^20≈0,64.
+[mlf-m93-backtesting-walk-forward.ts:458:why] VERDICT: OK — LR_cc syarat keduanya, bukan mayoritas.
+[mlf-m93-backtesting-walk-forward.ts:459:why] VERDICT: OK — π11 5,2× π01 = clustering.
+[mlf-m93-backtesting-walk-forward.ts:460:why] VERDICT: OK — gagal adaptasi, bukan model permanen.
+[mlf-m93-backtesting-walk-forward.ts:461:why] VERDICT: OK — Kupiec lolos (p=0,3108); gagal independence.
+[mlf-m94-sensitivity-analysis.ts:26:body] VERDICT: OK — VaR = jawaban untuk satu set input.
+[mlf-m94-sensitivity-analysis.ts:42:formulaNote] VERDICT: OK — μ_d −0,000558, σ_d 0,0196, z 1,645.
+[mlf-m94-sensitivity-analysis.ts:47:body] VERDICT: OK — tornado lokal di titik basis.
+[mlf-m94-sensitivity-analysis.ts:65:body] VERDICT: OK — penjumlahan hanya tanpa interaksi; +0,6 pp koreksi.
+[mlf-m94-sensitivity-analysis.ts:84:body] VERDICT: OK — LGD per 0,01=259.900; margin/LGD=3.981.900/259.900≈15×.
+[mlf-m94-sensitivity-analysis.ts:103:body] VERDICT: OK — sensitivitas (model) vs ketidakpastian (estimasi); α pilihan.
+[mlf-m94-sensitivity-analysis.ts:122:body] VERDICT: OK — μ tak sensitif di titik ini (μ<<σ).
+[mlf-m94-sensitivity-analysis.ts:138:formulaNote] VERDICT: OK — Δ dari basis bulat: 0,0328+1,6449×0,0196×0,2=0,0392; eksak 0,0393; selisih 0,0001 diakui.
+[mlf-m94-sensitivity-analysis.ts:143:body] VERDICT: OK — 2×10% = 0,0328+2×0,0032=0,0392; metode gagal pada α/interaksi.
+[mlf-m94-sensitivity-analysis.ts:327:body] VERDICT: OK — 0,0361 (+9,8% dari basis tak-bulat 0,032828).
+[mlf-m94-sensitivity-analysis.ts:344:why] VERDICT: OK — σ+10% +9,8% bukan terbesar.
+[mlf-m94-sensitivity-analysis.ts:345:why] VERDICT: OK — α terbesar; zσ=1,6449×0,0196=0,0322.
+[mlf-m94-sensitivity-analysis.ts:346:why] VERDICT: OK — korelasi +5,8%, peringkat keempat.
+[mlf-m94-sensitivity-analysis.ts:347:why] VERDICT: OK — μ terkecil (+1,5%); 0,0196/0,000558≈35.
+[mlf-m94-sensitivity-analysis.ts:353:why] VERDICT: OK — 0,0005≈0,000558 (gangguan relatif besar), dampak kecil.
+[mlf-m94-sensitivity-analysis.ts:354:why] VERDICT: OK — 0,0006/0,0328≈1,8%<2%.
+[mlf-m94-sensitivity-analysis.ts:355:why] VERDICT: OK — μ ada di rumus, sumbangan kecil.
+[mlf-m94-sensitivity-analysis.ts:356:why] VERDICT: OK — arah vs besar.
+[mlf-m94-sensitivity-analysis.ts:365:why] VERDICT: OK — 16,2%>15,6%.
+[mlf-m94-sensitivity-analysis.ts:398:why] VERDICT: OK — μ tak sensitif di titik ini.
+[mlf-m94-sensitivity-analysis.ts:399:why] VERDICT: OK — tornado lokal, uji titik lain.
+[mlf-m94-sensitivity-analysis.ts:400:why] VERDICT: OK — ranking ubah karena ukuran μ, bukan tanda; μ_d=−0,005≈9× basis (≈sepuluh kali lipat).
+[mlf-m94-sensitivity-analysis.ts:401:why] VERDICT: OK — Δ sama karena linear μ; sensitivitas relatif berubah.
+[mlf-m94-sensitivity-analysis.ts:407:why] VERDICT: OK — 0,0392 vs 0,0393 (selisih 0,0001 diakui).
+[mlf-m94-sensitivity-analysis.ts:408:why] VERDICT: OK — multi-way +16,2% bila korelasi ikut naik.
+[mlf-m94-sensitivity-analysis.ts:409:why] VERDICT: OK — 2×0,0032=0,0064; jawaban benar 0,0393.
+[mlf-m94-sensitivity-analysis.ts:410:why] VERDICT: OK — 0,0431 = stress penuh M4.5, bukan mini-case.
+[mlf-m94-sensitivity-analysis.ts:419:why] VERDICT: OK — bandingkan via dampak NT$; −8.430.500 terbesar.
+[mlf-m95-historical-simulation-bootstrap.ts:27:body] VERDICT: OK — 0,0286 HS / 0,0328 param / 0,0329 MC; sebut metode.
+[mlf-m95-historical-simulation-bootstrap.ts:43:formulaNote] VERDICT: OK — 480×0,05=24; 480×0,01≈5; ES rata-rata ekor.
+[mlf-m95-historical-simulation-bootstrap.ts:48:body] VERDICT: OK — HS asumsi stasioneritas, buta ekor luar sampel.
+[mlf-m95-historical-simulation-bootstrap.ts:66:body] VERDICT: OK — pilih jendela dari pertanyaan, bukan hasil.
+[mlf-m95-historical-simulation-bootstrap.ts:81:formulaNote] VERDICT: OK — −(−0,0006+0,0196×(−1,6449))=0,0328; ES95 0,0410; asumsi normal dilanggar.
+[mlf-m95-historical-simulation-bootstrap.ts:86:body] VERDICT: OK — HS 0,0286<param 0,0328; ekor gemuk di ES (0,0445>0,0410; 0,0775>>0,0528).
+[mlf-m95-historical-simulation-bootstrap.ts:105:body] VERDICT: OK — sd bootstrap ≠ SE mean ≠ setengah CI; laporkan interval.
+[mlf-m95-historical-simulation-bootstrap.ts:224:body] VERDICT: OK — CI [−0,0024;+0,0012] mencakup 0 → tidak terbukti ≠0.
+[mlf-m95-historical-simulation-bootstrap.ts:242:body] VERDICT: OK — CI iid sempit karena abaikan autokorelasi; block lebih lebar.
+[mlf-m95-historical-simulation-bootstrap.ts:328:body] VERDICT: OK — angka+interval+metode.
+[mlf-m95-historical-simulation-bootstrap.ts:348:why] VERDICT: OK — HS asumsi stasioneritas.
+[mlf-m95-historical-simulation-bootstrap.ts:354:why] VERDICT: OK — rumus sama, data beda.
+[mlf-m95-historical-simulation-bootstrap.ts:355:why] VERDICT: OK — 0,0557/0,0445≈1,25 (25%).
+[mlf-m95-historical-simulation-bootstrap.ts:364:why] VERDICT: OK — 0,1398/0,0196≈7,1 sd; ekor di balik VaR.
+[mlf-m95-historical-simulation-bootstrap.ts:372:why] VERDICT: OK — sd bootstrap ≠ SE.
+[mlf-m95-historical-simulation-bootstrap.ts:373:why] VERDICT: OK — lebar 0,0322−0,0229=0,0093.
+[mlf-m95-historical-simulation-bootstrap.ts:375:why] VERDICT: OK — CI = informasi.
+[mlf-m95-historical-simulation-bootstrap.ts:382:why] VERDICT: OK — 0,0007/0,0022≈32%; CI 0,0093→0,0117.
+[mlf-m95-historical-simulation-bootstrap.ts:383:why] VERDICT: OK — data sama, resampling beda.
+[mlf-m95-historical-simulation-bootstrap.ts:384:why] VERDICT: OK — pelebaran 32% sistematis (autokorelasi).
+[mlf-m95-historical-simulation-bootstrap.ts:390:why] VERDICT: OK — CI iid terlalu sempit; block mencakup 0,0328.
+[mlf-m95-historical-simulation-bootstrap.ts:399:why] VERDICT: OK — CI mencakup 0.
+[mlf-m95-historical-simulation-bootstrap.ts:400:why] VERDICT: OK — 0,0196/0,0006≈32,7≈33×.
+[mlf-m95-historical-simulation-bootstrap.ts:402:why] VERDICT: OK — mean penting horizon panjang; CI belum tahu tanda.
+[mlf-m95-historical-simulation-bootstrap.ts:418:why] VERDICT: OK — ±sd = salah tafsir.
+[mlf-m95-historical-simulation-bootstrap.ts:419:why] VERDICT: OK — angka+interval+metode+ES tertelusur kanonis.

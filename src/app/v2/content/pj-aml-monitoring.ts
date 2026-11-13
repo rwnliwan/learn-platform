@@ -354,7 +354,7 @@ const LANJUTAN_AML_B: V2Step[] = [
     hints: [
       "Efisien: untuk tiap akun, kumpulkan array hari-masuk & hari-keluar sekali, lalu uji jendela yang berjangkar pada tiap hari-masuk.",
       "Flow-through ketat: dalam jendela, hari-masuk TERAKHIR < hari-keluar PERTAMA.",
-      "Skor: `min(1, fan_in/10) * 0,5 + min(1, fan_out/10) * 0,5` — ambil skor TERBAIK tiap akun.",
+      "Skor: `min(1, fan_in/10) * 0.5 + min(1, fan_out/10) * 0.5` — ambil skor TERBAIK tiap akun.",
     ],
     requires: ["pandas"],
     code: {

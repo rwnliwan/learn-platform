@@ -218,4 +218,4 @@ Notebook: colab/mlf-m85-guided-task.ipynb — replikasi flagship GBM + kalibrasi
 - Jebakan: sign-off stempel karet — komite yang tidak pernah menolak, sign-off sesudah deploy, opini validasi tanpa kelemahan.
 - Mini-case: 0,10 ke 0,15 mungkin saja disetujui (AIR SEX 0,8694 ke 0,8906 [m71_air_sex_by_threshold.0.15.air], profit masih positif) — governance memutuskan dengan mata terbuka, bukan menolak semua perubahan.
 - Lab: perubahan 0,10 ke 0,15 menggerakkan 1.283 keputusan dan NT$2.723.500 serta butuh keenam gerbang; log v2.1 [ilustrasi] kehilangan 4 kolom G10 (completeness 0,6) — audit GAGAL.
-- Ini lesson terakhir Modul M8 — tidak ada lesson berikutnya.
+- Ini lesson terakhir Modul M8 — lanjut ke Modul M9, Simulation, Backtesting & Validation.

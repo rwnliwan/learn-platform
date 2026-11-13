@@ -822,6 +822,86 @@ def build_prompt(files_claims):
         "AIR SEX 0,8390 vs 0,8694. Jangan pernah membuktikan «approval "
         "hampir tidak berubah» dengan angka ROC-AUC — buktikan dengan "
         "angka approval itu sendiri.",
+        "115. Satu gejala statistik bisa menyangkal DUA asumsi sekaligus "
+        "— hitung asumsi yang gugur dengan benar (M9.1, temuan gate "
+        "run 1): autokorelasi squared return lag-1 0,1043 menyangkal "
+        "iid (bila return iid, squared return pun tak berkorelasi) DAN "
+        "volatilitas konstan — jadi dari tiga asumsi GBM (normal, iid, "
+        "vol konstan), KETIGANYA gagal, bukan dua. Jangan menghitung "
+        "«dua gagal» dari dua BUKTI bila satu bukti membunuh dua asumsi.",
+        "116. Range 'ketiganya/semua estimator' WAJIB mencakup semua "
+        "estimator yang baru saja didaftar (M9.1 M1/S2): bila satu "
+        "estimator dikeluarkan dari range, sebut eksplisit — VaR gap ke "
+        "MC joint M4 = 0,0050, ES gap = 0,0021; range tiga estimator "
+        "utama [0,0286; 0,0329], bila M4 ikut [0,0286; 0,0336]. Jangan "
+        "menulis range 'ketiganya' yang diam-diam mengeluarkan "
+        "estimator keempat yang baru didaftar.",
+        "117. 'iid' vs 'tidak berkorelasi (level)' WAJIB dibedakan "
+        "(M9.1 M2): autokorelasi squared return lag-1 0,1043 "
+        "menyangkal iid penuh — 'syarat pertama hampir terpenuhi' "
+        "hanya benar untuk korelasi LEVEL, bukan iid penuh. Jangan "
+        "mengklaim iid 'hampir terpenuhi' sementara bukti yang sama "
+        "menyangkalnya.",
+        "118. Dekomposisi aritmetika WAJIB menutup (M9.1 M3, M9.4 M1, "
+        "M9.5 M1/S2): komponen harus dijumlahkan ke total — drift "
+        "10-hari 10 × 0,000752 = 0,0075 dalam log (bukan 0,005); "
+        "0,0043 × √10 = 0,0136 (bukan 0,0133); setengah lebar CI iid "
+        "= 0,00465, bukan 0,0042; kenaikan sd +32% BUKAN pelebaran CI "
+        "+26%. 'Sekitar X' tidak boleh menyembunyikan selisih ~50%.",
+        "119. Sensitivitas vs porsi WAJIB dibedakan (M9.4 M1): untuk "
+        "fungsi LINEAR, turunan konstan — VaR95 = −μ_d + 1,645·σ_d "
+        "linear dalam μ, dVaR/dμ = −1, sensitivitas μ tetap 0,0005 di "
+        "titik basis maupun di μ_d = −0,005 (relatif justru turun "
+        "1,52% → 1,34%). Yang naik hanya PORSI suku μ (1,7% → 13,4%). "
+        "Jangan mengklaim 'sensitivitas naik' dari naiknya porsi.",
+        "120. 'Langkah yang sama besar' WAJIB dicek pp-nya (M9.4 S1): "
+        "90→95 = 5 pp, 95→97,5 = 2,5 pp — bukan sama besar. Δz 0,363 "
+        "vs 0,315; per pp 0,073 vs 0,126. Jangan menyamakan langkah pp "
+        "yang berbeda.",
+        "121. Perbandingan kemiringan visual WAJIB samakan KEDUA sumbu "
+        "(M9.4 S2): menyamakan sumbu-y saja tidak cukup bila sumbu-x "
+        "beda (LGD rentang 0,20 vs margin 0,02 pada lebar sama) — "
+        "visual ≈1,5× (Δprofit rentang-penuh 5,19 jt vs 7,97 jt), "
+        "bukan 15×; 15× hanya dari angka per 0,01, bukan dari mata.",
+        "122. Konvensi ranking ('terbesar') WAJIB eksplisit |Δ| vs "
+        "signed (M9.4 S3): tornado langkah 2 terurut |Δ| terbesar, "
+        "Figure 1 + lab terurut Δ bertanda — tulis konvensinya di tiap "
+        "tempat; jangan biarkan 'terbesar' tanpa kualifikasi bila dua "
+        "tempat memakai konvensi berbeda.",
+        "123. Koma desimal di hint/kode WAJIB titik (M9.3 N2): hint "
+        "kode Python memakai 0.05, bukan 0,05 — '0, 05' di Python = "
+        "dua argumen / syntax error. (Dikunci juga oleh "
+        "qa_lab_hints.py — gate tidak mengekstrak hint, jadi kelas ini "
+        "di sini hanya pengingat reviewer.)",
+        "124. '250 hari' Basel = hari perdagangan, bukan kalender "
+        "(M9.3 S2): VaR99 Basel dihitung atas 250 hari perdagangan "
+        "terakhir. Jangan menulis '250 hari KALENDER' untuk jendela "
+        "Basel.",
+        "125. Figure label WAJIB dicek posisinya terhadap skala sumbu "
+        "(M9.1 S4, M9.2 M1, M9.3 N1): label 'ES95 MC 0,0407' di x yang "
+        "salah, garis σ* di x=185 padahal seharusnya x≈258, label "
+        "'+6%' di y=43 padahal seharusnya y≈30 — ketiganya menyesatkan "
+        "meski angkanya benar. (Keterbatasan: ekstraktor gate tidak "
+        "membaca koordinat SVG — posisi label hanya bisa dicek "
+        "manual/review; kelas ini mengunci klaim caption yang "
+        "menyertainya.)",
+        "126. Format 'mean ± sd bootstrap' WAJIB tidak dipakai sebagai "
+        "pernyataan benar di step pembuka bila lesson melarangnya di "
+        "step akhir (M9.5 S1): step 1 memakai '0,0284 ± 0,0022' "
+        "sementara step 12 melarangnya — kontradiksi internal. Yang "
+        "benar: pita CI [0,0229; 0,0322] di sekitar 0,0286. (Catatan: "
+        "string '0,0284 ± 0,0022' tetap muncul SAH sebagai contoh yang "
+        "dilarang di step 5/12 dan distraktor kuis — fixture string "
+        "TIDAK bisa menguncinya; yang dikunci adalah pemakaiannya "
+        "sebagai pernyataan benar.)",
+        "127. Nilai p (Kupiec/Basel) yang dikutip WAJIB cocok dengan "
+        "(n, x) yang dibicarakan — jangan tempel p dari varian lain "
+        "(M9.3 fill: why kuis menempel p = 0,3079 pada '3 exceedance', "
+        "padahal 0,3079 adalah p Kupiec VaR99 rolling untuk 4 "
+        "exceedance dari 230 (LR = 1,0398); 3/230 memberi LR = 0,1964, "
+        "p = 0,6577. Selalu sebut (n, x) di samping p. (Keterbatasan: "
+        "ekstraktor gate tidak menghitung p — kelas ini bekerja lewat "
+        "prompt reviewer; verifikasi akhir tetap hitung ulang manual.)",
         "",
         "Klaim-klaim:",
     ]

@@ -1,0 +1,34 @@
+[mlf-m93-backtesting-walk-forward.ts:27:body] OK: VaR full-sample diuji pada 480 hari yang sama; 24/480 = 5% memberi LR=0 dan p=1.
+[mlf-m93-backtesting-walk-forward.ts:45:formulaNote] OK: Rumus Kupiec POF, χ²₁, kritis 3,841; n=230 x=15 p=0,05 memberi LR≈1,0275 dan p≈0,3108.
+[mlf-m93-backtesting-walk-forward.ts:49:body] OK: p=0,3108 tidak menolak H0; 15/230=0,0652, dan uji ini berdaya rendah untuk membedakannya dari 0,05.
+[mlf-m93-backtesting-walk-forward.ts:68:body] OK: Empat varian dilaporkan; memilih yang p-value terbesar adalah selective reporting.
+[mlf-m93-backtesting-walk-forward.ts:86:formulaNote] OK: LR_ind=6,6456 dan LR_cc=1,0275+6,6456=7,6731; π=15/229=0,0655, π01=11/214=0,0514, π11=4/15=0,2667.
+[mlf-m93-backtesting-walk-forward.ts:90:body] OK: 0,2667/0,0514=5,19≈5,2×; 0,2667/0,0655=4,07≈4,1×.
+[mlf-m93-backtesting-walk-forward.ts:110:body] OK: Nested CV dan walk-forward menguji sumber variasi berbeda; roc_drop 0,0388 cocok dengan baseline 0,7816−0,7428.
+[mlf-m93-backtesting-walk-forward.ts:129:body] OK: 3 exceedance 99% dalam 250 hari = GREEN; GREEN bukan validasi lengkap.
+[mlf-m93-backtesting-walk-forward.ts:148:body] OK: 1−0,95²⁰=0,6415≈64%; p-value yang dilaporkan semuanya >0,05.
+[mlf-m93-backtesting-walk-forward.ts:167:body] OK: LR_cc=LR_POF+LR_ind; Kupiec lolos p=0,3108 tetapi independence gagal p=0,0099.
+[mlf-m93-backtesting-walk-forward.ts:386:formulaNote] OK: 0,04402593/0,03943858=1,1163; dari 0,0440/0,0394=1,1168; sekitar 12% benar.
+[mlf-m93-backtesting-walk-forward.ts:390:body] OK: (15×0,04402593−0,1398)/14=0,03718≈0,0372, di bawah 0,0394.
+[mlf-m93-backtesting-walk-forward.ts:408:why] OK: LR_cc adalah uji gabungan; Kupiec sendiri hanya unconditional coverage.
+[mlf-m93-backtesting-walk-forward.ts:409:why] OK: Kupiec hanya menghitung jumlah exceedance; 0,1398/0,0286≈4,9× VaR.
+[mlf-m93-backtesting-walk-forward.ts:418:why] OK: p-value bukan P(H0 benar); p=0,3108 hanya berarti tidak menolak H0.
+[mlf-m93-backtesting-walk-forward.ts:428:why] OK: p-value terbesar bukan varian terbaik; ia hanya paling biasa di bawah H0.
+[mlf-m93-backtesting-walk-forward.ts:434:why] OK: 0,2667/0,0514=5,19; 0,2667/0,0655=4,07; pembanding tertukar adalah salah.
+[mlf-m93-backtesting-walk-forward.ts:435:why] OK: 5,2× memakai π01; 4,1× memakai π; keduanya benar dengan pembanding masing-masing.
+[mlf-m93-backtesting-walk-forward.ts:436:why] OK: 0,2667/0,0655=4,07≈4,1×; 5,2× adalah terhadap π01.
+[mlf-m93-backtesting-walk-forward.ts:437:why] OK: 0,2667 vs 0,0514 berbeda 5,2×; jika sama, LR_ind mendekati 0.
+[mlf-m93-backtesting-walk-forward.ts:443:why] OK: Independence adalah komponen LR_cc, bukan tambahan terpisah; LR_cc=7,6731 menolak.
+[mlf-m93-backtesting-walk-forward.ts:444:why] OK: LR_ind=6,6456>3,841 dan LR_cc=7,6731>5,991; vonis gabungan ditentukan independence.
+[mlf-m93-backtesting-walk-forward.ts:445:why] OK: p=0,0099 kecil berarti menolak independence, bukan mendukung.
+[mlf-m93-backtesting-walk-forward.ts:446:why] OK: LR_cc mencakup coverage dan independence; LR_POF lolos, LR_ind gagal.
+[mlf-m93-backtesting-walk-forward.ts:462:why] OK: 3≤4 → GREEN; Basel hanya menghitung jumlah, bukan urutan.
+[mlf-m93-backtesting-walk-forward.ts:463:why] OK: 230×0,01=2,3; Basel GREEN 0–4, YELLOW 5–9, RED ≥10; p=0,3079 adalah VaR99 4/230.
+[mlf-m93-backtesting-walk-forward.ts:464:why] OK: GREEN Basel adalah syarat regulasi minimum, bukan validasi lengkap.
+[mlf-m93-backtesting-walk-forward.ts:471:why] OK: 1−0,95²⁰≈64%; empat varian dilaporkan, bukan dipilih.
+[mlf-m93-backtesting-walk-forward.ts:479:why] OK: LR_cc mensyaratkan coverage dan independence; bukan aturan mayoritas.
+[mlf-m93-backtesting-walk-forward.ts:480:why] OK: π11=5,2×π01 menunjukkan clustering; itu risiko likuiditas, bukan ringan.
+[mlf-m93-backtesting-walk-forward.ts:481:why] OK: LR_cc=7,6731 (p=0,0216) menolak; masalahnya adaptasi jendela, bukan penolakan permanen.
+[mlf-m93-backtesting-walk-forward.ts:482:why] OK: Kupiec tidak gagal (LR=1,0275, p=0,3108); yang gagal independence dan gabungan.
+[mlf-m93-backtesting-walk-forward.ts:488:why] OK: Kupiec tidak menguji kedalaman; ES95 rata-rata 0,0394 vs aktual 0,0440.
+[mlf-m93-backtesting-walk-forward.ts:489:why] OK: Kupiec hanya unconditional coverage; severity dan independence adalah kegagalan yang tidak dilihatnya.

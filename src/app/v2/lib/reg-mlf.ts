@@ -43,6 +43,11 @@ import { mlfM82 } from "../content/mlf-m82-model-risk-rating-inventory";
 import { mlfM83 } from "../content/mlf-m83-model-card-documentation";
 import { mlfM84 } from "../content/mlf-m84-deployment-shadow-canary-champion";
 import { mlfM85 } from "../content/mlf-m85-governance-approval-workflow";
+import { mlfM91 } from "../content/mlf-m91-monte-carlo-simulation";
+import { mlfM92 } from "../content/mlf-m92-scenario-stress-testing";
+import { mlfM93 } from "../content/mlf-m93-backtesting-walk-forward";
+import { mlfM94 } from "../content/mlf-m94-sensitivity-analysis";
+import { mlfM95 } from "../content/mlf-m95-historical-simulation-bootstrap";
 
 export const REG_MLF: Record<string, V2Lesson> = {
   "mlf-l01-data-cleaning": mlfL01,
@@ -89,4 +94,9 @@ export const REG_MLF: Record<string, V2Lesson> = {
   "mlf-m83-model-card-documentation": mlfM83,
   "mlf-m84-deployment-shadow-canary-champion": mlfM84,
   "mlf-m85-governance-approval-workflow": mlfM85,
+  "mlf-m91-monte-carlo-simulation": mlfM91,
+  "mlf-m92-scenario-stress-testing": mlfM92,
+  "mlf-m93-backtesting-walk-forward": mlfM93,
+  "mlf-m94-sensitivity-analysis": mlfM94,
+  "mlf-m95-historical-simulation-bootstrap": mlfM95,
 };

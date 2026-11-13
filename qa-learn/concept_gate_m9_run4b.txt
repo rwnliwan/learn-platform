@@ -1,0 +1,55 @@
+[mlf-m94-sensitivity-analysis.ts:26:body] OK — VaR95 = 0,000558 + 1,645·0,0196 = 0,0328 ✓; klaim konseptual (satu set input, satu jawaban) benar.
+[mlf-m94-sensitivity-analysis.ts:42:formulaNote] OK — z satu sisi 95% = 1,6449; −μ + zσ = 0,000558 + 0,032240 = 0,0328 ✓; pembulatan μ_d −0,0006 di kanonis wajar.
+[mlf-m94-sensitivity-analysis.ts:47:body] OK — benar: tornado = derivatif lokal di titik basis, bukan vonis global.
+[mlf-m94-sensitivity-analysis.ts:65:body] OK — 9,8% + 5,8% = 15,6%; multi-way 16,2% → interaksi +0,6 pp ✓ konsisten.
+[mlf-m94-sensitivity-analysis.ts:84:body] OK — 1.299.500/5 = 259.900 per 0,01; 3.981.900/259.900 = 15,3 ≈ 15× ✓.
+[mlf-m94-sensitivity-analysis.ts:103:body] OK — α +18,8%: (0,038974−0,032800)/0,032800 = 18,8% ✓; α pilihan (ketidakpastian nol) benar.
+[mlf-m94-sensitivity-analysis.ts:122:body] OK — |μ_d|/σ_d = 0,028, jadi suku μ kecil di titik ini; kualifikasi «di titik ini» tepat.
+[mlf-m94-sensitivity-analysis.ts:138:formulaNote] OK — σ×1,2: 0,000558 + 1,6449·0,0235406 = 0,039281 → Δ 0,00646 (+19,7%) ✓; versi σ bulat 0,0196 → 0,0392 ✓.
+[mlf-m94-sensitivity-analysis.ts:143:body] OK — 2×0,0032 = 0,0064 → 0,0392; eksak 0,0393; selisih 0,0001 memang dari pembulatan Δ tornado, dan syarat linearitas dalam σ dinyatakan.
+[mlf-m94-sensitivity-analysis.ts:327:body] OK — σ×1,1 = 0,021579: 0,000558 + 1,6449·0,021579 = 0,03605 → 0,0361; Δ/VaR = 9,75% ≈ 9,8% ✓.
+[mlf-m94-sensitivity-analysis.ts:344:why] OK — σ +9,8% memang bukan terbesar (α 18,8%).
+[mlf-m94-sensitivity-analysis.ts:345:why] OK — zσ_d = 1,645·0,0196 = 0,03224 ≈ 0,0322 dari 0,0328 ✓; 1,96/1,6449 = +19,1% ✓.
+[mlf-m94-sensitivity-analysis.ts:346:why] RAGU — angka +5,8% konsisten (15,6 − 9,8), tetapi «peringkat keempat» tak terperiksa: bila tornado hanya 4 input (μ, σ, α, ρ) maka ρ peringkat ketiga dan μ keempat; perlu daftar baris tornado lengkap.
+[mlf-m94-sensitivity-analysis.ts:347:why] OK — 0,0196/0,000558 = 35,1 ✓; Δ 0,0005/0,0328 = 1,5% ✓; μ terkecil ✓.
+[mlf-m94-sensitivity-analysis.ts:353:why] OK — |±0,0005| ≈ 90% dari |μ_d| = 0,000558: gangguannya besar secara relatif ✓.
+[mlf-m94-sensitivity-analysis.ts:354:why] OK — 0,000558/0,0328 = 1,7% < 2% ✓.
+[mlf-m94-sensitivity-analysis.ts:355:why] OK — μ memang ada di rumus VaR95 = −μ_d + zσ_d.
+[mlf-m94-sensitivity-analysis.ts:356:why] OK — ∂VaR/∂μ = −1: arah benar, dan kecilnya efek karena skala, bukan tanda ✓.
+[mlf-m94-sensitivity-analysis.ts:365:why] OK — 16,2% > 15,6% ✓; korelasi naik memperkuat penerusan kenaikan σ ke σ_port.
+[mlf-m94-sensitivity-analysis.ts:398:why] OK — konsisten dengan Δμ 1,5% di titik basis.
+[mlf-m94-sensitivity-analysis.ts:399:why] OK — kesimpulan metodologis benar (lokal + minimal satu skenario multi-way).
+[mlf-m94-sensitivity-analysis.ts:400:why] OK — kualitatif benar (yang berubah ukuran, bukan tanda); 0,005/0,000558 ≈ 8,96× (angka ilustratif, bukan hasil hitung kanonis).
+[mlf-m94-sensitivity-analysis.ts:401:why] OK — Δ = gangguan itu sendiri karena ∂VaR/∂μ = −1 (linear), sedangkan sensitivitas relatif bergantung titik ✓.
+[mlf-m94-sensitivity-analysis.ts:407:why] OK — 0,0392 (Δ tornado bulat) vs 0,0393 (eksak): selisih 0,0001 pembulatan, dan keterbatasan interpolasi dinyatakan benar.
+[mlf-m94-sensitivity-analysis.ts:408:why] OK — multi-way 16,2% > one-at-a-time 15,6% → 0,0393 meremehkan ✓ arah benar.
+[mlf-m94-sensitivity-analysis.ts:409:why] OK — 0,0361 = efek σ +10% ✓; VaR linear dalam σ ✓; 0,0393 dari rumus eksak (0,0392 bila memakai Δ bulat, lihat 407).
+[mlf-m94-sensitivity-analysis.ts:410:why] OK — 0,0431 (stress, σ dan ρ bergerak) ≠ mini-case (ρ tetap) ✓; membedakan keduanya benar.
+[mlf-m94-sensitivity-analysis.ts:419:why] OK — 8.430.500 > 3.981.900 > 1.299.500: perbandingan lewat output NT$ sah ✓.
+
+[mlf-m95-historical-simulation-bootstrap.ts:27:body] OK — tiga metode, data sama, angka 0,0286/0,0328/0,0329; analogi satuan tepat.
+[mlf-m95-historical-simulation-bootstrap.ts:43:formulaNote] OK — 5%×480 = 24 hari ✓; 1%×480 = 4,8 ≈ 5 hari ✓; definisi ES (rata-rata ≤ kuantil) benar.
+[mlf-m95-historical-simulation-bootstrap.ts:48:body] OK — HS = kuantil empiris, asumsinya stasioneritas; buta terhadap rezim baru ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:66:body] OK — jendela harus dipilih sebelum melihat hasil; angka 0,0283 (120) vs 0,0311 (250) konsisten dengan klaim lain.
+[mlf-m95-historical-simulation-bootstrap.ts:81:formulaNote] OK — 0,0006 + 0,0196·1,6449 = 0,03284 ✓; ES95 normal = 0,0196·0,10314/0,05 + 0,0006 = 0,04103 → 0,0410 ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:86:body] OK — ES99 param = 0,0196·0,026652/0,01 + 0,0006 = 0,05284 → 0,0528 ✓; 0,0445 > 0,0410 dan 0,0775 > 0,0528 ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:105:body] OK — sd sebaran bootstrap ≠ SE mean ≠ setengah lebar CI; koreksi ke bentuk interval benar.
+[mlf-m95-historical-simulation-bootstrap.ts:224:body] OK — CI [−0,0024; +0,0012] memuat 0: drift tidak terbukti ≠ 0 ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:242:body] OK — CI iid [0,0229; 0,0322] ⊂ block [0,0223; 0,0340] ✓; sempit karena memutus dependensi, bukan informasi lebih.
+[mlf-m95-historical-simulation-bootstrap.ts:328:body] OK — semua komponen (0,0286; [0,0223; 0,0340]; 0,0328; 0,0445) konsisten dengan klaim lain.
+[mlf-m95-historical-simulation-bootstrap.ts:348:why] OK — «tanpa asumsi distribusi» ≠ «tanpa asumsi apa pun» ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:354:why] OK — rumus sama, data (dan satu hari ekstrem) yang berbeda ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:355:why] OK — 0,0557/0,0445 = 1,252 ≈ 25% lebih besar ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:364:why] OK — (0,1398−0,0006)/0,0196 = 7,10 sd ✓; satu hari menarik rata-rata ekor tanpa menaikkan kuantil 5% ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:372:why] OK — sd bootstrap 0,0022 bukan SE mean, bukan setengah lebar CI ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:373:why] OK — 0,0322 − 0,0229 = 0,0093 ✓; mean bootstrap 0,0284 ≈ titik 0,0286 (tidak bias berarti) ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:375:why] OK — titik tanpa pita berpura-pura pasti; lebar 0,0093 dilaporkan ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:382:why] OK — 0,0007/0,0022 = 31,8% ✓; 0,0340 − 0,0223 = 0,0117 ✓; iid = batas bawah kelebaran ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:383:why] OK — data sama (480 hari), hanya skema resampling berbeda; mean 0,0285 vs 0,0284 mendukung ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:384:why] OK — pelebaran sistematis dari autokorelasi 0,1043; ES95 sd 0,0057 → 0,0062 searah ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:390:why] OK — CI block [0,0223; 0,0340] memuat 0,0328 ✓; «di luar CI iid» bukan vonis atas parametrik.
+[mlf-m95-historical-simulation-bootstrap.ts:399:why] OK — CI drift memuat 0: rata-rata negatif belum terbukti ≠ 0 ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:400:why] OK — 0,0196/0,0006 = 32,7 ≈ 33× ✓; 480 hari belum cukup untuk drift sekecil itu.
+[mlf-m95-historical-simulation-bootstrap.ts:402:why] OK — μ kecil untuk VaR 1 hari, besar untuk horizon panjang; tanda drift belum diketahui ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:418:why] OK — «mean ± sd» menyalahartikan sd bootstrap sebagai ketidakpastian mean ✓.
+[mlf-m95-historical-simulation-bootstrap.ts:419:why] OK — angka 0,0286; CI block [0,0223; 0,0340]; 0,0328; 0,0445 semuanya tertelusur dan konsisten.

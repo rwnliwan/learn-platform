@@ -1,0 +1,730 @@
+{
+ "m9_returns_exact": {
+  "mu_simple_day": -0.000558,
+  "sd_simple_day": 0.0196172,
+  "mu_log_day": -0.000752,
+  "sd_log_day": 0.019759,
+  "note": "Exact daily mean/sd of the portfolio returns; rounded display values are mu=-0.0006, sd=0.0196 (simple) and mu=-0.0008, sd=0.0198 (log)."
+ },
+ "meta": {
+  "seed": 42,
+  "sklearn": "1.9.1",
+  "scipy": "1.11.4",
+  "numpy": "1.26.4",
+  "pandas": "2.1.4",
+  "data_prices": "data/m4_prices.csv",
+  "data_uci": "data/uci_default_credit.xls",
+  "convention": "Market-risk parts: equal-weight portfolio of BBCA/KLBF/UNVR SIMPLE daily returns (n=480), same series as M4.2 VaR and M5. GBM simulation uses LOG returns of that portfolio. Credit parts: flagship UCI pipeline (seed 42, threshold 0.10, LGD 0.45, margin 0.05).",
+  "threshold": 0.1,
+  "lgd": 0.45,
+  "margin": 0.05,
+  "note": "All numbers computed from the data above; nothing invented. Rounded to 4 decimals except counts (integers) and money (integers, NT$/Rp)."
+ },
+ "locked_verification": {
+  "port_sd_day": {
+   "computed": 0.0196,
+   "locked": 0.0196,
+   "diff": 0.0,
+   "match": true
+  },
+  "var_hist_95": {
+   "computed": 0.0286,
+   "locked": 0.0286,
+   "diff": -0.0,
+   "match": true
+  },
+  "es_hist_95": {
+   "computed": 0.0445,
+   "locked": 0.0445,
+   "diff": 0.0,
+   "match": true
+  },
+  "var_param_95": {
+   "computed": 0.0328,
+   "locked": 0.0328,
+   "diff": 0.0,
+   "match": true
+  },
+  "es_param_95": {
+   "computed": 0.041,
+   "locked": 0.041,
+   "diff": 0.0,
+   "match": true
+  },
+  "var_mc_95_m4": {
+   "computed": 0.0336,
+   "locked": 0.0336,
+   "diff": 0.0,
+   "match": true
+  }
+ },
+ "m9_mc_1day": {
+  "mu_log_day": -0.0008,
+  "sd_log_day": 0.0198,
+  "mu_simple_day": -0.0006,
+  "sd_simple_day": 0.0196,
+  "N1000": {
+   "var95": 0.0335,
+   "es95": 0.0413,
+   "mean_sim": -0.0011
+  },
+  "N10000": {
+   "var95": 0.0332,
+   "es95": 0.0411,
+   "mean_sim": -0.0007
+  },
+  "N100000": {
+   "var95": 0.0329,
+   "es95": 0.0407,
+   "mean_sim": -0.0006
+  },
+  "batch_var95_N10000": {
+   "n_batches": 20,
+   "mean": 0.0326,
+   "sd": 0.0004,
+   "min": 0.0319,
+   "max": 0.0333
+  },
+  "se_mean_1_over_sqrtN": {
+   "100": 0.001962,
+   "1000": 0.00062,
+   "10000": 0.000196,
+   "100000": 6.2e-05,
+   "1000000": 1.96e-05,
+   "100000000": 1.96e-06
+  },
+  "mc_mean_error_vs_true": {
+   "100": -0.000149,
+   "1000": -0.000813,
+   "10000": -0.000118,
+   "100000": -1.5e-05
+  },
+  "es95_minus_var95_n100k": 0.0078,
+  "mc_minus_hist_var95": 0.0043,
+  "param_minus_hist_var95": 0.0043,
+  "var95_n100k_rp": 3290000,
+  "es95_n100k_rp": 4070000,
+  "var95_param_10pct": 0.0033,
+  "batch_var95_range": 0.0014,
+  "batch_sd_n1000": 0.0013,
+  "batch_sd_n100000": 0.0001,
+  "batch_se_mean": 8.9e-05,
+  "batch_se_mean_rounded_5dp": 9e-05,
+  "se_batch_times_sqrt20_wrong": 0.0018,
+  "se_batch_div20_wrong": 2e-05
+ },
+ "m9_mc_10day": {
+  "N": 100000,
+  "terminal_mean": -0.0053,
+  "terminal_sd": 0.0619,
+  "terminal_p5_var95_10d": 0.1038,
+  "terminal_p1_var99_10d": 0.1408,
+  "terminal_p50_median": -0.0074,
+  "p_loss_gt_10pct": 0.0572,
+  "p_loss_gt_sqrt10_var95": 0.0795,
+  "sqrt10_hist_var95": 0.0903,
+  "p5_notebook_stream_seed42": 0.1042,
+  "p5_notebook_minus_canonical": 0.0004
+ },
+ "m9_scenario_8apr": {
+  "date": "2025-04-08",
+  "returns_simple": {
+   "BBCA": -0.0853,
+   "KLBF": -0.0705,
+   "UNVR": -0.0672,
+   "GSPC": -0.0157,
+   "PORT": -0.0743
+  },
+  "rp_loss_on_100jt": {
+   "BBCA": 8529401,
+   "KLBF": 7048462,
+   "UNVR": 6719357,
+   "GSPC": 1570052,
+   "PORT": 7432406
+  },
+  "note": "Tariff shock (M4.5: BBCA log return -0.0892, about -8.9% -- M4.5 wrote -8.5%, which is the SIMPLE return's percentage, -0.0853; do not mix the two). Simple returns here; portfolio = equal-weight mean of the 3 ID stocks.",
+  "worst5": [
+   {
+    "date": "2026-10-16",
+    "port_return": -0.1398,
+    "rp_loss_on_100jt": 13983464
+   },
+   {
+    "date": "2025-04-08",
+    "port_return": -0.0743,
+    "rp_loss_on_100jt": 7432406
+   },
+   {
+    "date": "2025-02-28",
+    "port_return": -0.0728,
+    "rp_loss_on_100jt": 7284287
+   },
+   {
+    "date": "2026-04-24",
+    "port_return": -0.0522,
+    "rp_loss_on_100jt": 5217623
+   },
+   {
+    "date": "2026-10-19",
+    "port_return": -0.0483,
+    "rp_loss_on_100jt": 4833042
+   }
+  ],
+  "gspc_worst_day": {
+   "date": "2026-11-05",
+   "gspc_return": -0.0436,
+   "port_return": 0.0449
+  },
+  "rp_loss_on_200jt": {
+   "PORT": 14864812
+  },
+  "worst_day_loss_x2": 27966928,
+  "rp_loss_rounding_diff": 2406,
+  "rp_loss_on_200jt_rounding_diff": 4812,
+  "port_return_2026_04_08": 0.0339,
+  "port_return_exact": -0.07432406,
+  "bbca_1_plus_simple": 0.9147,
+  "beta_bbca_gspc_simple": 0.1209,
+  "div_ratio_base_pct_better": 35.3,
+  "div_ratio_095_pct_better": 1.69
+ },
+ "m9_stress": {
+  "base_var95_param": 0.0328,
+  "base_sd_day": 0.0196,
+  "base_mu_day": -0.0006,
+  "var95_sigma_x1.5": 0.049,
+  "var95_sigma_x2.0": 0.0651,
+  "per_stock_sd_simple": {
+   "BBCA": 0.0217,
+   "KLBF": 0.0268,
+   "UNVR": 0.0316
+  },
+  "sigma_port_rho1": 0.0267,
+  "var95_rho1": 0.0445,
+  "sigma_star_var95_0.05": 0.0301,
+  "sigma_star_ratio": 1.5323,
+  "sigma_x1.5": 0.0294,
+  "sigma_x2.0": 0.0392,
+  "margin_sigma_x1.5_vs_limit": 0.001,
+  "reverse_loss_rp": 10000000,
+  "reverse_loss_return": -0.1,
+  "sigma_x1.5_pct_increase": 50,
+  "var95_sigma_unvr_only": 0.0526
+ },
+ "m9_backtest_wf": {
+  "roll250_var95": {
+   "window": 250,
+   "alpha": 0.95,
+   "n": 230,
+   "exceed": 15,
+   "expected": 11.5,
+   "LR": 1.0275,
+   "p": 0.3108,
+   "exceed_rate": 0.0652
+  },
+  "roll120_var95": {
+   "window": 120,
+   "alpha": 0.95,
+   "n": 360,
+   "exceed": 20,
+   "expected": 18.0,
+   "LR": 0.2261,
+   "p": 0.6344,
+   "exceed_rate": 0.0556
+  },
+  "roll250_var99": {
+   "window": 250,
+   "alpha": 0.99,
+   "n": 230,
+   "exceed": 4,
+   "expected": 2.3,
+   "LR": 1.0398,
+   "p": 0.3079,
+   "exceed_rate": 0.0174
+  },
+  "expanding_var95": {
+   "window_start": 250,
+   "alpha": 0.95,
+   "n": 230,
+   "exceed": 16,
+   "expected": 11.5,
+   "LR": 1.6611,
+   "p": 0.1975,
+   "exceed_rate": 0.0696
+  },
+  "rolling_var95_min": 0.0253,
+  "rolling_var95_max": 0.0311,
+  "kupiec_if_x20_n230": {
+   "n": 230,
+   "exceed": 20,
+   "LR": 5.4704,
+   "p": 0.0193
+  },
+  "multiple_testing_20_at_5pct": 64.15,
+  "insample_var99": {
+   "n": 480,
+   "exceed": 5,
+   "expected": 4.8,
+   "note": "By construction ~4.8 exceedances -- in-sample Kupiec is trivially satisfied; the trap of M4.3."
+  },
+  "christoffersen_roll250_var95": {
+   "n00": 203,
+   "n01": 11,
+   "n10": 11,
+   "n11": 4,
+   "pi_unconditional": 0.0655,
+   "pi01": 0.0514,
+   "pi11": 0.2667,
+   "LR_ind": 6.6456,
+   "p_ind": 0.0099,
+   "LR_cc_combined": 7.6731,
+   "p_cc": 0.0216,
+   "pi11_over_pi01": 5.19,
+   "pi11_over_pi": 4.07,
+   "n_transitions": 229,
+   "n11_transition_days": [
+    40,
+    41,
+    42,
+    95,
+    96,
+    212,
+    213
+   ]
+  },
+  "christoffersen_if_n11_0": {
+   "n00": 203,
+   "n01": 11,
+   "n10": 15,
+   "n11": 0,
+   "LR_ind": 1.5287,
+   "p_ind": 0.2163
+  },
+  "basel_99_last250": {
+   "exceed": 3,
+   "zone": "GREEN"
+  }
+ },
+ "m9_sensitivity": {
+  "base_var95_param": 0.0328,
+  "base_mu_day": -0.0006,
+  "base_sd_day": 0.0196,
+  "corr_base_matrix": [
+   [
+    1.0,
+    0.3488,
+    0.2774
+   ],
+   [
+    0.3488,
+    1.0,
+    0.2897
+   ],
+   [
+    0.2774,
+    0.2897,
+    1.0
+   ]
+  ],
+  "sigma_port_from_cov": 0.0196,
+  "sigma_port_corr_plus0.1": 0.0208,
+  "tornado_ranked": [
+   {
+    "input": "alpha_97.5_z1.96",
+    "var95": 0.039,
+    "delta_vs_base": 0.0062,
+    "delta_pct": 18.8316
+   },
+   {
+    "input": "multi_sigma+10pct_and_corr+0.1",
+    "var95": 0.0382,
+    "delta_vs_base": 0.0053,
+    "delta_pct": 16.2395
+   },
+   {
+    "input": "sigma_+10pct",
+    "var95": 0.0361,
+    "delta_vs_base": 0.0032,
+    "delta_pct": 9.83
+   },
+   {
+    "input": "sigma_-10pct",
+    "var95": 0.0296,
+    "delta_vs_base": -0.0032,
+    "delta_pct": -9.83
+   },
+   {
+    "input": "corr_+0.1_all",
+    "var95": 0.0347,
+    "delta_vs_base": 0.0019,
+    "delta_pct": 5.8268
+   },
+   {
+    "input": "mu_+0.0005",
+    "var95": 0.0323,
+    "delta_vs_base": -0.0005,
+    "delta_pct": -1.5232
+   },
+   {
+    "input": "mu_-0.0005",
+    "var95": 0.0333,
+    "delta_vs_base": 0.0005,
+    "delta_pct": 1.5232
+   }
+  ],
+  "mini_case": {
+   "sigma_multiplier": 1.2,
+   "sigma_x1.2": 0.02354,
+   "var95": 0.0393,
+   "delta_vs_base": 0.0065,
+   "delta_pct": 19.66,
+   "var95_rounded_inputs": 0.0392,
+   "delta_var95_rounded_inputs": 0.0064,
+   "note": "var95_rounded_inputs (0.0392) is the interpolation the lesson rejects; the exact value is var95 = 0.0393.",
+   "sigma_x1.2_display": 0.02352,
+   "var95_display": 0.0392484
+  },
+  "z_95_to_97.5_pct_increase": 19.15,
+  "multiway_sum_of_rounded_parts_pct": 15.6,
+  "multiway_interaction_pp": 0.58,
+  "multiway_vs_sigma_only_pp": 6.4,
+  "var95_base_10pct": 0.0033
+ },
+ "m9_credit_sensitivity": {
+  "threshold": 0.1,
+  "base_lgd": 0.45,
+  "base_margin": 0.05,
+  "lgd_sensitivity": {
+   "0.4": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 19909500,
+    "realised_loss_NT": 10396000,
+    "net_profit_NT": 9513500
+   },
+   "0.45": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 19909500,
+    "realised_loss_NT": 11695500,
+    "net_profit_NT": 8214000
+   },
+   "0.5": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 19909500,
+    "realised_loss_NT": 12995000,
+    "net_profit_NT": 6914500
+   },
+   "0.6": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 19909500,
+    "realised_loss_NT": 15594000,
+    "net_profit_NT": 4315500
+   }
+  },
+  "margin_sensitivity": {
+   "0.04": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 15927600,
+    "realised_loss_NT": 11695500,
+    "net_profit_NT": 4232100
+   },
+   "0.05": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 19909500,
+    "realised_loss_NT": 11695500,
+    "net_profit_NT": 8214000
+   },
+   "0.06": {
+    "n_approved": 1710,
+    "approval_rate": 0.285,
+    "bad_rate_approved": 0.0667,
+    "realised_profit_NT": 23891400,
+    "realised_loss_NT": 11695500,
+    "net_profit_NT": 12195900
+   }
+  },
+  "lgd_grid": [
+   0.4,
+   0.45,
+   0.5,
+   0.6
+  ],
+  "margin_grid": [
+   0.04,
+   0.05,
+   0.06
+  ],
+  "profit_delta_per_lgd_0.01": -259900,
+  "profit_delta_per_lgd_0.05": -1299500,
+  "profit_delta_per_margin_0.01": 3981900,
+  "profit_drop_lgd_060_vs_base": 3898500,
+  "threshold_010_to_015_profit_drop_pct": 33.2,
+  "threshold_010_to_020_profit_swing": 8430500,
+  "derived_from_m8": {
+   "default_limit_NT": 25990000,
+   "nondefault_limit_NT": 398190000,
+   "note": "Derived from m8_tiering (approved_limit_NT minus realised_loss_approved_NT / 0.45); the lesson labels them [turunan]."
+  }
+ },
+ "m9_hs_windows": {
+  "window_120": {
+   "n": 120,
+   "var95": 0.0283,
+   "es95": 0.0557,
+   "var99": 0.0472,
+   "es99": 0.0941
+  },
+  "window_250": {
+   "n": 250,
+   "var95": 0.0311,
+   "es95": 0.0467,
+   "var99": 0.0464,
+   "es99": 0.0801
+  },
+  "window_480": {
+   "n": 480,
+   "var95": 0.0286,
+   "es95": 0.0445,
+   "var99": 0.0479,
+   "es99": 0.0775
+  },
+  "full_480_reference": {
+   "var95": 0.0286,
+   "es95": 0.0445,
+   "var99": 0.0479,
+   "es99": 0.0775,
+   "param_var95": 0.0328,
+   "param_es95": 0.041,
+   "param_var99": 0.0462,
+   "param_es99": 0.0528,
+   "var95_hist_exact": 0.028563
+  },
+  "var95_range": 0.0028,
+  "es95_gap_w120_w480": 0.0112,
+  "hs_param_var95_gap": 0.0042,
+  "hs_param_es95_gap": -0.0035,
+  "es95_minus_var95": 0.0159,
+  "hs_param_es99_gap": -0.0247,
+  "var95_hist_rp": 2860000,
+  "es95_hist_rp": 4450000,
+  "n_other_days_in_480_window": 479
+ },
+ "m9_bootstrap": {
+  "B": 10000,
+  "n": 480,
+  "iid_var95": {
+   "mean": 0.0284,
+   "sd": 0.0022,
+   "ci95": [
+    0.0229,
+    0.0322
+   ]
+  },
+  "iid_es95": {
+   "mean": 0.044,
+   "sd": 0.0057,
+   "ci95": [
+    0.0346,
+    0.0569
+   ]
+  },
+  "block10_var95": {
+   "mean": 0.0285,
+   "sd": 0.0029,
+   "ci95": [
+    0.0223,
+    0.034
+   ]
+  },
+  "block10_es95": {
+   "mean": 0.044,
+   "sd": 0.0062,
+   "ci95": [
+    0.0333,
+    0.0572
+   ]
+  },
+  "iid_mean_daily_return": {
+   "point": -0.0006,
+   "ci95": [
+    -0.0024,
+    0.0012
+   ]
+  },
+  "skew_portfolio_simple": -0.5091,
+  "excess_kurtosis_portfolio_simple": 6.0216,
+  "iid_var95_ci_width": 0.0093,
+  "block10_var95_ci_width": 0.0117,
+  "iid_es95_ci_width": 0.0223,
+  "block10_es95_ci_width": 0.0239,
+  "block_vs_iid_var95_sd_pct": 31.8,
+  "sd_over_abs_mean_display": 32.67,
+  "sd_over_abs_mean_exact": 35.2,
+  "note": "IID bootstrap resamples single days (breaks time dependence); moving-block bootstrap (block 10) preserves short dependence. Squared-return autocorr lag-1 is 0.1043 [M4.3] -- block CI is wider, as it should be."
+ },
+ "runtime_seconds": 4.9,
+ "m9_generators": {
+  "ewma_lambda": 0.94,
+  "ewma_last_vol_simple": 0.028,
+  "ewma_mean_vol_simple": 0.0186,
+  "ewma_last_vol_log": 0.029,
+  "var95_ewma": 0.0467,
+  "garch_omega": 0.00012,
+  "garch_alpha": 0.1094,
+  "garch_beta": 0.5833,
+  "garch_persistence": 0.6927,
+  "garch_long_run_vol": 0.0197,
+  "garch_forecast_vol": 0.0184,
+  "var95_garch": 0.031,
+  "var95_garch_mean0": 0.0302,
+  "fhs_N": 100000,
+  "fhs_resid_std": 1.0006,
+  "fhs_resid_skew": -1.239,
+  "fhs_resid_excess_kurtosis": 10.8991,
+  "var95_fhs_garch": 0.027,
+  "es95_fhs_garch": 0.0429,
+  "var95_fhs_ewma": 0.0435,
+  "es95_fhs_ewma": 0.0593,
+  "var95_by_generator": {
+   "gbm_normal": 0.0329,
+   "historical": 0.0286,
+   "parametric": 0.0328,
+   "ewma": 0.0467,
+   "garch": 0.031,
+   "fhs_garch": 0.027,
+   "fhs_ewma": 0.0435
+  },
+  "var95_spread_max_min": 0.0197,
+  "note": "EWMA on SIMPLE returns (lesson convention); GARCH(1,1) manual MLE on LOG returns, routine copied from M4.3 (forecast vol locked vs m4_canonical). FHS resamples GARCH-standardised residuals and rescales by the forecast vol. VaR95 values are 1-day, seed 42. GBM/historical/parametric are the existing canonical values, repeated here for the comparison table."
+ },
+ "m9_es_severity": {
+  "n_oos": 230,
+  "n_exceed": 15,
+  "expected_exceed": 11.5,
+  "exceed_oos_days": [
+   40,
+   41,
+   42,
+   63,
+   65,
+   68,
+   77,
+   95,
+   96,
+   116,
+   118,
+   120,
+   212,
+   213,
+   221
+  ],
+  "mean_exceedance_loss": 0.044,
+  "max_exceedance_loss": 0.1398,
+  "max_exceedance_oos_day": 212,
+  "max_exceedance_return": -0.1398,
+  "mean_rolling_es95_forecast_on_exceed_days": 0.0394,
+  "severity_ratio_vs_forecast": 1.1163,
+  "n_worse_than_own_day_es_forecast": 7,
+  "n_worse_than_full_sample_es95": 3,
+  "full_sample_es95": 0.0445,
+  "note": "Exceedances of the rolling-250d historical VaR95, OOS days 251..480 (n=230). Severity = actual loss on exceedance days vs the ES95 forecast of THAT day's own 250-day window (mean of the window's worst 5%), plus vs the full-sample ES95 0.0445. Descriptive comparison only \u2014 no Acerbi-Szekely test (it would need numbers outside the canon)."
+ },
+ "m9_pl_engine": {
+  "modal_sendiri_rp": 100000000,
+  "pinjaman_rp": 100000000,
+  "posisi_rp": 200000000,
+  "market_loss_2x_rp": 14864812,
+  "biaya_transaksi_pct": 0.001,
+  "biaya_transaksi_rp": 200000,
+  "bunga_pinjaman_pct_tahun": 0.12,
+  "bunga_1hari_rp": 32877,
+  "total_tanpa_forced_sale_rp": 15097689,
+  "haircut_forced_sale_pct": 0.01,
+  "haircut_forced_sale_rp": 2000000,
+  "total_dengan_forced_sale_rp": 17097689,
+  "biaya_share_of_market_loss_pct": 1.35,
+  "bunga_share_of_market_loss_pct": 0.22,
+  "haircut_share_of_market_loss_pct": 13.45,
+  "market_loss_pct_of_equity": 14.86,
+  "maintenance_margin_pct": 0.25,
+  "ekuitas_sesudah_rugi_pasar_rp": 85135188,
+  "posisi_sesudah_rugi_pasar_rp": 185135188,
+  "rasio_ekuitas_sesudah_rugi": 0.4599,
+  "margin_call_loss_rp": 66666667,
+  "margin_call_return": -0.3333,
+  "note": "Market loss is canonical (2 x Rp7.432.406). EVERY other component is [ilustrasi] with stated assumptions: transaction cost 0,10% of position value; leverage loan Rp100.000.000 at 12%/year (1-day interest); forced-sale haircut 1% of position value; maintenance margin 25%. None of these is data \u2014 they are a worked example of the P&L engine's components."
+ },
+ "m9_nested_bootstrap": {
+  "B_outer": 500,
+  "N_mc_each": 10000,
+  "mean": 0.0324,
+  "sd": 0.0025,
+  "ci95": [
+   0.0281,
+   0.0377
+  ],
+  "min": 0.026,
+  "max": 0.0414,
+  "param_only_mean": 0.0329,
+  "param_only_sd": 0.0026,
+  "param_only_ci95": [
+   0.0286,
+   0.0384
+  ],
+  "mc_only_sd_N10000": 0.0004,
+  "iid_bootstrap_sd": 0.0022,
+  "nested_over_mc_only_ratio": 6.25,
+  "implied_mc_var_share_pct": 2.56,
+  "note": "Outer loop: iid-resample the 480 simple returns (B=500), re-estimate mu_log/sigma_log, re-simulate MC N=10.000, take VaR95. The param-only column recomputes VaR95 analytically (1,6449*sigma - mu) from the same re-estimated parameters \u2014 no MC noise \u2014 so it isolates the parameter/sampling component from the MC-error component (MC-only sd 0.0004 at N=10.000, [m9_canonical.json])."
+ },
+ "m9_block_lengths": {
+  "block5": {
+   "L": 5,
+   "n_blocks_per_draw": 96,
+   "n_distinct_blocks": 476,
+   "mean": 0.0284,
+   "sd": 0.0027,
+   "ci95": [
+    0.0229,
+    0.0335
+   ],
+   "ci_width": 0.0106
+  },
+  "block10": {
+   "L": 10,
+   "n_blocks_per_draw": 48,
+   "n_distinct_blocks": 471,
+   "mean": 0.0286,
+   "sd": 0.0028,
+   "ci95": [
+    0.0223,
+    0.034
+   ],
+   "ci_width": 0.0117
+  },
+  "block20": {
+   "L": 20,
+   "n_blocks_per_draw": 24,
+   "n_distinct_blocks": 461,
+   "mean": 0.0285,
+   "sd": 0.0029,
+   "ci95": [
+    0.0223,
+    0.0353
+   ],
+   "ci_width": 0.013
+  },
+  "note": "Moving-block bootstrap, B=10.000, seed 42 (fresh stream per length). Block-10 here is a re-run: it reproduces the canonical block-10 (sd 0.0029, CI95 [0.0223; 0.0340]) within MC noise. Longer blocks preserve more dependence but offer fewer distinct blocks (480-L+1). Circular / stationary bootstrap are alternatives, mentioned in the lesson without a full lab."
+ }
+}

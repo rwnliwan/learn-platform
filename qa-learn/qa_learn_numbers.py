@@ -2346,6 +2346,90 @@ FIXTURES = [
         ["0,7858 ± 0,0068", "0,7840 ± 0,0059",
          "0,7560 ± 0,0056"],
     ),
+    # M9.1 (ronde fix DeepSeek): range "ketiganya" WAJIB mencakup M4
+    # (VaR gap 0,0050, ES gap 0,0021); drift 10-hari 0,0075 dalam log;
+    # 0,0043 × √10 = 0,0136; "iid" vs "tidak berkorelasi (level)";
+    # [M4.2] hanya untuk 0,0328 (parametrik), 0,0329 = MC M9.
+    (
+        "mlf-m91-monte-carlo-simulation.ts",
+        ["VaR-nya 0,0050 di atas historis",
+         "ES-nya 0,0021 di bawah historis",
+         "tidak berkorelasi (level)",
+         "Dekomposisi lengkapnya: titik awal 0,0136",
+         "0,0075 dalam log",
+         "0,0329 (Rp3.290.000) [m9_canonical.json]",
+         "bila M4 ikut, [0,0286; 0,0336]"],
+        ["0,0329 [M4.2]", "0,0133", "0,005 dalam log",
+         "return iid antar hari",
+         "0,0043 di bawah ketiganya",
+         "0,0035–0,0038 DI ATAS ketiganya"],
+    ),
+    # M9.2 (ronde fix DeepSeek): dekomposisi stress korelasi
+    # 0,0431 → 0,0438 → 0,0445; beta SIMPLE kanonis 0,1209
+    # (bukan 0,1272 [M4.4, basis M4]); σ* label ≈0,0300–0,0301.
+    (
+        "mlf-m92-scenario-stress-testing.ts",
+        ["0,0431 (ρ=0,95, log)",
+         "0,1209 [m9_canonical]",
+         "≈1,5× [M4.5]",
+         "≈0.0300–0.0301 (kanonis 0.0301)",
+         "1,5323 dihitung dari σ eksak 0,0196172"],
+        ["0,1272", "stress korelasi yang sama",
+         "vol pernah berlipat ganda",
+         "seharusnya 0.0301"],
+    ),
+    # M9.3 (ronde fix DeepSeek): single-split test 0,7823 [M6.2]
+    # (bukan 0,7816 — itu GBM terkalibrasi / roc_drop); "≈ 4,9×";
+    # "250 hari perdagangan" (Basel, bukan kalender); hint 0.05.
+    # "0,7816" SENGAJA bukan must-not: masih sah di :101 (roc_drop
+    # 0,0388 = 0,7816−0,7428 [M7.5]) — must-not-nya frasa lengkapnya.
+    (
+        "mlf-m93-backtesting-walk-forward.ts",
+        ["0,7823 [M6.2]",
+         "Selisihnya kecil (0,0035)",
+         "≈ 4,9×",
+         "250 hari perdagangan"],
+        ["single-split test 0,7816", "4,5× lebih dalam",
+         "250 hari KALENDER",
+         "np.quantile(RETURNS[t-250:t], 0,05)"],
+    ),
+    # M9.4 (ronde fix DeepSeek): porsi μ naik 1,7%→13,4%, sensitivitas
+    # tetap 0,0005 konstan (linear, dVaR/dμ = −1); langkah 5 pp vs
+    # 2,5 pp; ranking |Δ| vs signed eksplisit; "sekitar sembilan
+    # kali lipat" (8,96×).
+    (
+        "mlf-m94-sensitivity-analysis.ts",
+        ["porsinya naik dari 1,7% menjadi 13,4%",
+         "0,073 vs 0,126 per pp",
+         "ΔVaR95 bertanda terbesar",
+         "|Δ| terbesar",
+         "berbeda dari lab 1 yang memakai 0,0208 bulat",
+         "sekitar sembilan kali lipat"],
+        ["sepuluh kali lipat", "sensitivitasnya naik",
+         "langkah yang sama besar", "seperti di lab 1",
+         "supaya kemiringannya bisa dibandingkan"],
+    ),
+    # M9.5 (ronde fix DeepSeek): selisih terbesar 0,0044; "≈33 kali
+    # (μ terbulat) / ≈35 kali (μ eksak)"; sd +32% vs lebar CI +26%
+    # (termasuk instans :115 "CI yang melebar 26%"); blok DENGAN
+    # pengembalian; "satu-dua observasi terburuk (≈1,2 hari)".
+    # "0,0284 ± 0,0022" SENGAJA bukan must-not: masih sah sebagai
+    # contoh yang DILARANG (step 5/12, distraktor kuis) — kelas
+    # gate 126 yang mengunci pemakaiannya sebagai pernyataan benar.
+    (
+        "mlf-m95-historical-simulation-bootstrap.ts",
+        ["selisih terbesar 0,0044",
+         "dengan μ eksak ≈35 kali",
+         "sd naik +32%",
+         "lebar CI melebar +26%",
+         "CI yang melebar 26%",
+         "blok ditarik ulang DENGAN pengembalian",
+         "satu-dua observasi terburuk (≈1,2 hari)"],
+        ["selisih terbesar 0,0043", "CI yang melebar 32%",
+         "+32% lebar sd", "Hanya urutan ANTAR-blok yang diacak",
+         "sekitar satu hari",
+         "0,0117)? Karena 480 hari hanya memberi 24 hari ekor"],
+    ),
 ]
 
 

@@ -147,8 +147,8 @@ export const wqb16: V2Lesson = {
       eyebrow: "Langkah 5 · Lab",
       title: "Hitung bobot decay dengan tangan (lalu dengan Python)",
       prose: [
-        "Implementasikan `decay_smooth`: bobot linear `d, d−1, …, 1` dikalikan `d` harga terakhir, dibagi jumlah bobot. Data mainan: `x = [3,0, 1,0, 4,0, 1,0, 5,0]` dengan indeks 0 = hari ini. Untuk decay 2: bobot 2/3 dan 1/3 → `(2·3 + 1·1)/3 = 2,333`. Untuk decay 4: bobot 0,4/0,3/0,2/0,1 → 2,400. Perhatikan betapa kecil perbedaannya — dan betapa besar dampaknya pada Sharpe nyata.",
-        "Setelah jalan, eksperimen: ganti `x` menjadi deret berisik `[5,0, 1,0, 5,0, 1,0, 5,0]` dan bandingkan decay 2 vs 4. Decay 4 akan jauh lebih “tenang” — itulah intuisi kenapa turnover turun saat decay membesar.",
+        "Implementasikan `decay_smooth`: bobot linear `d, d−1, …, 1` dikalikan `d` harga terakhir, dibagi jumlah bobot. Data mainan: `x = [3.0, 1.0, 4.0, 1.0, 5.0]` dengan indeks 0 = hari ini. Untuk decay 2: bobot 2/3 dan 1/3 → `(2·3 + 1·1)/3 = 2,333`. Untuk decay 4: bobot 0,4/0,3/0,2/0,1 → 2,400. Perhatikan betapa kecil perbedaannya — dan betapa besar dampaknya pada Sharpe nyata.",
+        "Setelah jalan, eksperimen: ganti `x` menjadi deret berisik `[5.0, 1.0, 5.0, 1.0, 5.0]` dan bandingkan decay 2 vs 4. Decay 4 akan jauh lebih “tenang” — itulah intuisi kenapa turnover turun saat decay membesar.",
       ],
       tasks: [
         { id: "t1", text: "Lengkapi `decay_smooth(x, d)` dengan bobot linear" },

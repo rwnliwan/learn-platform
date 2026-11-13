@@ -1,0 +1,145 @@
+[mlf-m91-monte-carlo-simulation.ts:27:body] OK: 5% × 480 = 24 hari; 0,0286 kuantil empiris, 0,0328/0,0329 parametrik/MC — tiga estimator, tiga asumsi, dilaporkan bersama. Benar.
+[mlf-m91-monte-carlo-simulation.ts:45:formulaNote] OK: bila μ_log empiris dipakai langsung di bentuk diskret S·exp(μ_log+σ_log Z), tak perlu koreksi Itô; simple = expm1(log). Benar.
+[mlf-m91-monte-carlo-simulation.ts:49:body] OK: autokorelasi squared-return 0,1043 menyangkal iid DAN vol konstan sekaligus, plus skew/kurtosis menyangkal normal → ketiga asumsi GBM gugur. Benar.
+[mlf-m91-monte-carlo-simulation.ts:68:body] OK: 0,0329 × Rp100 jt = Rp3,29 jt; 0,0407 × Rp100 jt = Rp4,07 jt; VaR kuantil, bukan maksimum. Benar.
+[mlf-m91-monte-carlo-simulation.ts:85:formulaNote] OK: σ/√N dengan σ=0,0196172 → 0,001962/0,000620/0,000196/0,000062; N×10 → SE÷√10≈3,16. Benar.
+[mlf-m91-monte-carlo-simulation.ts:102:formulaNote] KONTRADIKSI: √10 × 0,0286 = 0,0904, bukan 0,0903; 0,0903 berasal dari VaR tak-bulat 0,028563 — tulis basisnya (atau pakai 0,0904) agar konsisten dengan 0,0328×√10 = 0,1037.
+[mlf-m91-monte-carlo-simulation.ts:106:body] OK: drift log −0,000752/hari akumulasi linear, bukan √t; MC 10-hari 0,1038 vs √10-hist 0,0903 dan P(>0,0903)=0,0795≠0,05. Benar secara substansi.
+[mlf-m91-monte-carlo-simulation.ts:125:body] OK: tiap batch beri angka baru (range [0,0319;0,0333]); konvergen = ayunan antar-batch (sd 0,0004) ≪ error data (0,0022). Benar.
+[mlf-m91-monte-carlo-simulation.ts:144:body] OK: 10% × 0,0329 = 0,00329 ≈ 0,0033; model error tak menyusut dengan N. Benar.
+[mlf-m91-monte-carlo-simulation.ts:164:body] OK: MC & parametrik berbagi asumsi normal (0,0329 vs 0,0328); historis beda asumsi (0,0286); rentang [0,0286;0,0329] = informasi. Benar.
+[mlf-m91-monte-carlo-simulation.ts:341:why] OK: VaR95 kuantil, bukan maksimum; kerugian bisa melebihi pada 5% hari. Benar.
+[mlf-m91-monte-carlo-simulation.ts:343:why] OK: mean return −0,000558 (≈−0,06%) bukan kuantil; rata-rata 5% terburuk = ES95. Benar.
+[mlf-m91-monte-carlo-simulation.ts:344:why] OK: 0,0286 = kuantil empiris ke-24 dari 480, bukan minimum (hari terburuk). Benar.
+[mlf-m91-monte-carlo-simulation.ts:350:why] OK: 100.000 hari MC diundi dari μ_log,σ_log dari 480 hari yang sama — menambah aritmetika, bukan data. Benar.
+[mlf-m91-monte-carlo-simulation.ts:351:why] OK: MC≈param (0,0329 vs 0,0328, Δ0,0001=MC error); historis beda karena bentuk empiris (skew −0,5091), ES hist 0,0445 > param 0,0410. Benar.
+[mlf-m91-monte-carlo-simulation.ts:353:why] OK: MC dikonversi expm1 ke simple sebelum kuantil — keduanya simple; beda = asumsi distribusi, bukan log vs simple. Benar.
+[mlf-m91-monte-carlo-simulation.ts:359:why] OK: 0,000196/10 = 0,0000196; N×100 → SE÷10. Benar.
+[mlf-m91-monte-carlo-simulation.ts:360:why] OK: SE∝1/√N; N×100 bagi SE dengan 10, bukan 100. Benar.
+[mlf-m91-monte-carlo-simulation.ts:361:why] OK: σ tetap, SE=σ/√N; σ sd satu observasi, SE sd mean N observasi. Benar.
+[mlf-m91-monte-carlo-simulation.ts:368:why] OK: 0,0004 = sd antar-batch; SE mean 20 batch = sd/√20. Benar.
+[mlf-m91-monte-carlo-simulation.ts:369:why] OK: 0,0004/√20 = 0,0004/4,4721 = 0,000089 ≈ 0,00009. Benar.
+[mlf-m91-monte-carlo-simulation.ts:370:why] OK: pembagi √20 bukan 20; 0,0004/20 = 0,00002 terlalu kecil 4,47×. Benar.
+[mlf-m91-monte-carlo-simulation.ts:371:why] OK: ×√20 memperbesar (0,0004×4,4721≈0,0018) — arah salah; mean 20 batch lebih pasti. Benar.
+[mlf-m91-monte-carlo-simulation.ts:377:why] OK: 0,05 = peluang diasumsikan pemakai √10; MC beri peluang aktual 0,0795. Benar.
+[mlf-m91-monte-carlo-simulation.ts:378:why] OK: 0,0572 = P(rugi>0,10); ambang 0,0903 lebih rendah → P 0,0795 > 0,0572. Benar.
+[mlf-m91-monte-carlo-simulation.ts:379:why] OK: P(rugi>0,0903)=0,0795, bukan 0,05 — √10-hist meremehkan ekor 10-hari. Benar.
+[mlf-m91-monte-carlo-simulation.ts:380:why] OK: 0,1038 = besaran VaR (fraksi), bukan peluang; peluang = 0,0795 (sumbu lain). Benar.
+[mlf-m91-monte-carlo-simulation.ts:387:why] OK: N=10.000 sd 0,0004≤0,0005; N=100.000 → 0,0004/√10≈0,00013; error data 0,0022 tetap. Benar.
+[mlf-m91-monte-carlo-simulation.ts:388:why] OK: 0,0332 vs 0,0329 Δ0,0003, range [0,0319;0,0333]; konvergen = ayunan kecil, bukan nol. Benar.
+[mlf-m91-monte-carlo-simulation.ts:395:why] OK: σ salah tetap salah pada N apa pun; N hanya mengecilkan MC error — presisi palsu. Benar.
+[mlf-m91-monte-carlo-simulation.ts:396:why] OK: 10% input ≈0,0033 menenggelamkan range MC 0,0014; model error tak menyusut dengan N. Benar.
+[mlf-m91-monte-carlo-simulation.ts:398:why] OK: periode tenang → σ terlalu kecil → VaR terlalu kecil; risiko diremehkan, bukan dilebihkan. Benar.
+[mlf-m91-monte-carlo-simulation.ts:407:why] OK: rumus menyembunyikan asumsi normal — "paling ringkas", bukan "paling benar". Benar.
+[mlf-m91-monte-carlo-simulation.ts:413:why] OK: 0,0407−0,0329 = 0,0078 aritmetika hasil; ES = rata-rata beyond VaR (Rp4,07 jt). Benar.
+[mlf-m91-monte-carlo-simulation.ts:415:why] OK: mean semua hari −0,0006; 0,0078 bukan SE (SE mean N=100.000 = 0,000062). Benar.
+[mlf-m91-monte-carlo-simulation.ts:416:why] OK: 0,0078 terealisasi pada distribusi ini; historis 0,0445−0,0286=0,0159 beda — bukan konstanta. Benar.
+
+[mlf-m92-scenario-stress-testing.ts:26:body] OK: membedakan 2025 (shock −7,43%) vs 2026 (+3,39%); peringatan tahun. Benar (konsisten internal).
+[mlf-m92-scenario-stress-testing.ts:47:body] OK: ln(1−0,0853)=−0,08916≈−0,0892; log lebih negatif saat return negatif. Benar.
+[mlf-m92-scenario-stress-testing.ts:64:formulaNote] OK: 1,6449×0,0196+0,0006=0,03284≈0,0328; ×1,5→0,0490; ×2,0→0,0651; korelasi→1 σ_port 0,0267→0,0445. Benar.
+[mlf-m92-scenario-stress-testing.ts:82:formulaNote] OK: σ*=(0,05−0,000558)/1,6449=0,03006≈0,0301; 0,03006/0,0196172=1,5323≈1,53×. Benar.
+[mlf-m92-scenario-stress-testing.ts:86:body] OK: 0,05−0,0490=0,0010 < ketidakpastian σ harian — margin rapuh. Benar.
+[mlf-m92-scenario-stress-testing.ts:119:body] OK: "belum pernah" = peluang kecil, bukan nol; −13,98% hampir 2× shock tarif. Benar.
+[mlf-m92-scenario-stress-testing.ts:138:body] OK: 2×7.432.406 = 14.864.812; skala linear asumsi, bukan kesimpulan. Benar.
+[mlf-m92-scenario-stress-testing.ts:319:body] OK: hasil kecil = risiko kecil ATAU scenario shopping; pertanyaan "dipilih sebelum/sesudah hasil". Benar.
+[mlf-m92-scenario-stress-testing.ts:364:why] OK: 1,6449×0,0392+0,0006=0,06508≈0,0651 = σ×2,0. Benar.
+[mlf-m92-scenario-stress-testing.ts:365:why] OK: 0,0445 = korelasi→1 (σ_port 0,0267). Benar.
+[mlf-m92-scenario-stress-testing.ts:366:why] OK: VaR≈proporsional σ; +50% → 0,0328→0,0490. Benar.
+[mlf-m92-scenario-stress-testing.ts:372:why] OK: (0,0217+0,0268+0,0316)/3=0,0267; 1,6449×0,0267+0,0006=0,0445. Benar.
+[mlf-m92-scenario-stress-testing.ts:374:why] OK: korelasi bagian rumus σ_port; naik → σ_port 0,0196→0,0267. Benar.
+[mlf-m92-scenario-stress-testing.ts:375:why] OK: 0,0392/0,0651 = σ×2,0, bukan korelasi; korelasi→1 (0,0445) < σ×1,5 (0,0490). Benar.
+[mlf-m92-scenario-stress-testing.ts:381:why] OK: (0,05−0,0006)/1,6449=0,03003≈0,0301; rasio 1,53×. Benar.
+[mlf-m92-scenario-stress-testing.ts:382:why] OK: σ×1,5 → 0,0490, margin 0,0010 di bawah target, belum menyentuh. Benar.
+[mlf-m92-scenario-stress-testing.ts:383:why] OK: σ×2,0 → 0,0651 > 0,05, melampaui bukan menyentuh. Benar.
+[mlf-m92-scenario-stress-testing.ts:384:why] OK: σ 0,0196 → 0,0328 < 0,05; harus naik 53%. Benar.
+[mlf-m92-scenario-stress-testing.ts:391:why] OK: 0,0328→0,0445 basis SIMPLE (lesson ini); M4.5 basis LOG 0,0324→0,0431. Benar.
+[mlf-m92-scenario-stress-testing.ts:392:why] OK: korelasi naik → VaR naik (0,0324→0,0431), div ratio turun (1,353→1,0169). Benar.
+[mlf-m92-scenario-stress-testing.ts:393:why] OK: (0,0431−0,0324)/0,0324=0,33≈sepertiga. Benar.
+[mlf-m92-scenario-stress-testing.ts:411:why] OK: satu hari bukan bukti; korelasi naik saat stress (0,3752 vs 0,2775). Benar.
+
+[mlf-m93-backtesting-walk-forward.ts:27:body] OK: in-sample x=harapan → LR=0,p=1; kejujuran dari pemisahan waktu. Benar.
+[mlf-m93-backtesting-walk-forward.ts:45:formulaNote] OK: n=230,x=15,p=0,05 → LR=1,0279≈1,0275, p=0,3108; χ²₁ kritis 3,841. Benar (terverifikasi).
+[mlf-m93-backtesting-walk-forward.ts:49:body] OK: x/n=0,0652, 15−11,5=3,5; p=0,3108 = vonis tentang bukti, bukan model. Benar.
+[mlf-m93-backtesting-walk-forward.ts:68:body] OK: memilih p terbesar = memilih bukti; keempat varian dilaporkan, semua lolos. Benar.
+[mlf-m93-backtesting-walk-forward.ts:86:formulaNote] OK: n00=203,n01=11,n10=11,n11=4; π=15/229=0,0655; π01=11/214=0,0514; π11=4/15=0,2667; LR_ind=6,6442≈6,6456; LR_cc=7,6731; p 0,0099/0,0216. Benar.
+[mlf-m93-backtesting-walk-forward.ts:90:body] OK: 0,2667/0,0514=5,19; 0,2667/0,0655=4,07 — pembanding tertukar = salah aritmetika. Benar.
+[mlf-m93-backtesting-walk-forward.ts:110:body] OK: nested CV uji sampel acak, walk-forward uji waktu; 0,7816−0,7428=0,0388. Benar.
+[mlf-m93-backtesting-walk-forward.ts:129:body] OK: GREEN Basel = batas regulasi, bukan validasi; butuh coverage+independence+Basel. Benar.
+[mlf-m93-backtesting-walk-forward.ts:148:body] OK: 1−0,95²⁰=0,6415≈64%; empat varian dilaporkan & lolos. Benar.
+[mlf-m93-backtesting-walk-forward.ts:167:body] OK: LR_cc=LR_POF+LR_ind=7,6731 (p=0,0216) mencakup independence. Benar.
+[mlf-m93-backtesting-walk-forward.ts:387:why] OK: LR_cc = uji gabungan; Kupiec lolos (0,3108) + independence gagal (0,0099) konsisten. Benar.
+[mlf-m93-backtesting-walk-forward.ts:397:why] OK: p-value = P(data ekstrem|H0), bukan P(H0); 0,3108 = tak ada bukti menolak. Benar.
+[mlf-m93-backtesting-walk-forward.ts:407:why] OK: n besar → kuasa besar; p besar = hasil biasa, bukan varian terbaik. Benar.
+[mlf-m93-backtesting-walk-forward.ts:413:why] OK: 0,2667/0,0514=5,19 (5,2×); 4,1× untuk π=0,0655. Benar.
+[mlf-m93-backtesting-walk-forward.ts:414:why] OK: 5,2× vs π01; 4,1× vs π — keduanya benar dengan pembandingnya. Benar.
+[mlf-m93-backtesting-walk-forward.ts:415:why] OK: 0,2667/0,0655=4,07≈4,1×; 5,2× untuk π01. Benar.
+[mlf-m93-backtesting-walk-forward.ts:416:why] OK: 0,2667 vs 0,0514 beda 5,2×; LR_ind 6,6456 (p=0,0099) menolak. Benar.
+[mlf-m93-backtesting-walk-forward.ts:422:why] OK: LR_cc mencakup Kupiec; vonis menolak. Benar.
+[mlf-m93-backtesting-walk-forward.ts:423:why] OK: 6,6456>3,841; 7,6731=1,0275+6,6456>5,991. Benar.
+[mlf-m93-backtesting-walk-forward.ts:424:why] OK: p kecil = bukti melawan H0 independence, bukan mendukung. Benar.
+[mlf-m93-backtesting-walk-forward.ts:425:why] OK: LR_cc = coverage+independence; komponen independence yang menggagalkan. Benar.
+[mlf-m93-backtesting-walk-forward.ts:441:why] OK: 3≤4→GREEN; Basel hitung jumlah, bukan urutan. Benar.
+[mlf-m93-backtesting-walk-forward.ts:442:why] OK: 230×0,01=2,3 harapan Kupiec; Basel GREEN 0–4, YELLOW 5–9, RED≥10. Benar.
+[mlf-m93-backtesting-walk-forward.ts:443:why] OK: GREEN = syarat minimum, bukan validasi lengkap; independence gagal. Benar.
+[mlf-m93-backtesting-walk-forward.ts:450:why] OK: 1−0,95²⁰≈64%; keempat varian dilaporkan, semua lolos. Benar.
+[mlf-m93-backtesting-walk-forward.ts:458:why] OK: LR_cc mensyaratkan keduanya; "dua dari tiga" bukan aturan. Benar.
+[mlf-m93-backtesting-walk-forward.ts:459:why] OK: π11 5,2×π01 = clustering; risiko likuiditas, bukan catatan kaki. Benar.
+[mlf-m93-backtesting-walk-forward.ts:460:why] OK: LR_cc 7,6731 (p=0,0216) menolak; masalah adaptasi (0,1043), bukan model total. Benar.
+[mlf-m93-backtesting-walk-forward.ts:461:why] OK: Kupiec tak gagal (1,0275;p=0,3108); yang gagal independence & gabungan. Benar.
+
+[mlf-m94-sensitivity-analysis.ts:26:body] OK: VaR 0,0328 = jawaban untuk satu set input; sensitivitas = peta perubahan. Benar.
+[mlf-m94-sensitivity-analysis.ts:42:formulaNote] OK: μ_d −0,000558, σ_d 0,0196, z 1,645; tornado satu-input-satu-waktu. Benar.
+[mlf-m94-sensitivity-analysis.ts:47:body] OK: tornado = sensitivitas lokal di titik basis & gangguan tertentu. Benar.
+[mlf-m94-sensitivity-analysis.ts:65:body] OK: penjumlahan berlaku tanpa interaksi; koreksi multi-way +0,6 pp. Benar.
+[mlf-m94-sensitivity-analysis.ts:84:body] OK: LGD −1.299.500 per 0,05 → −259.900 per 0,01; margin 3.981.900/259.900≈15×. Benar.
+[mlf-m94-sensitivity-analysis.ts:103:body] OK: sensitivitas=model, ketidakpastian=estimasi; α paling sensitif tapi nol ketidakpastian. Benar.
+[mlf-m94-sensitivity-analysis.ts:122:body] OK: μ tak sensitif karena μ_d≪σ_d; klaim harus "di titik ini". Benar.
+[mlf-m94-sensitivity-analysis.ts:138:formulaNote] OK: σ×1,2 (0,0196172→0,02354); VaR 0,03928≈0,0393; +0,0065/0,032826=19,7%. Benar (dengan μ tak-bulat).
+[mlf-m94-sensitivity-analysis.ts:143:body] OK: 2×Δ10% ≈0,0392 (bulat) vs 0,0393 eksak; hanya karena linear dalam σ, gagal di α/interaksi. Benar.
+[mlf-m94-sensitivity-analysis.ts:327:body] OK: σ+10% → 0,0328→0,03605≈0,0361 (+9,8% dari basis 0,032826). Benar.
+[mlf-m94-sensitivity-analysis.ts:344:why] OK: σ+10% +9,8%, bukan terbesar. Benar.
+[mlf-m94-sensitivity-analysis.ts:345:why] OK: z +19,1–19,2%, z·σ=0,0322 dari 0,0328; α pilihan kebijakan. Benar.
+[mlf-m94-sensitivity-analysis.ts:346:why] OK: korelasi+0,1 hanya +5,8%, peringkat keempat. Benar.
+[mlf-m94-sensitivity-analysis.ts:347:why] OK: μ +1,5% terkecil; 0,0196/0,000558≈35. Benar.
+[mlf-m94-sensitivity-analysis.ts:353:why] OK: ±0,0005 hampir sebesar μ −0,000558 — gangguan relatif besar, dampak kecil. Benar.
+[mlf-m94-sensitivity-analysis.ts:354:why] OK: suku μ 0,0006/0,0328 <2%. Benar.
+[mlf-m94-sensitivity-analysis.ts:355:why] OK: μ ada di VaR95=−μ_d+1,645σ_d, sumbangan kecil. Benar.
+[mlf-m94-sensitivity-analysis.ts:356:why] OK: tanda μ soal arah; kecilnya efek soal ukuran relatif σ. Benar.
+[mlf-m94-sensitivity-analysis.ts:365:why] OK: 16,2%>15,6%; korelasi tinggi memperkuat. Benar.
+[mlf-m94-sensitivity-analysis.ts:398:why] OK: μ tak sensitif di titik ini karena μ_d≪σ_d. Benar.
+[mlf-m94-sensitivity-analysis.ts:399:why] OK: tornado lokal; uji di titik lain sebelum vonis. Benar.
+[mlf-m94-sensitivity-analysis.ts:400:why] OK: ranking berubah karena UKURAN μ (μ_d=−0,005 = 10×), bukan tanda. Benar.
+[mlf-m94-sensitivity-analysis.ts:401:why] OK: Δ sama karena linear dalam μ; sensitivitas relatif berubah dengan titik; input nonlinear Δ berubah. Benar.
+[mlf-m94-sensitivity-analysis.ts:407:why] OK: 0,0392 vs 0,0393 (Δ0,0001) karena linear σ; metode interpolasi gagal di α/interaksi. Benar.
+[mlf-m94-sensitivity-analysis.ts:408:why] OK: hitung ulang dari rumus; korelasi naik saat stress → 0,0393 meremehkan (+16,2% multi-way). Benar.
+[mlf-m94-sensitivity-analysis.ts:409:why] OK: 0,0361 = efek +10%; 2×0,0032=0,0064; jawaban 0,0393. Benar.
+[mlf-m94-sensitivity-analysis.ts:410:why] OK: 0,0431 = stress penuh; mini-case vol+20% korelasi tetap = 0,0393. Benar.
+[mlf-m94-sensitivity-analysis.ts:419:why] OK: ketiganya bisa dibandingkan lewat dampak profit (NT$). Benar.
+
+[mlf-m95-historical-simulation-bootstrap.ts:27:body] OK: 0,0286 HS, 0,0328 param, 0,0329 MC — tiga metode, data sama. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:43:formulaNote] OK: 5%×480=24; ES95 rata-rata 24 hari ≤ kuantil; ES99 ~5 hari (1%×480). Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:48:body] OK: HS asumsi stasioneritas (480 hari wakili besok), bukan janji pengulangan. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:66:body] OK: jendela dipilih dari pertanyaan, bukan dari VaR paling nyaman. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:81:formulaNote] OK: −(−0,0006+0,0196×(−1,6449))=0,03284≈0,0328; ES95 normal 0,0410. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:86:body] OK: 0,0286<0,0328; ES95 hist 0,0445>param 0,0410; ES99 hist 0,0775>param 0,0528. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:105:body] OK: sd bootstrap (0,0022) ≠ SE mean/½CI; laporkan interval [0,0229;0,0322]. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:224:body] OK: CI [−0,0024;+0,0012] mencakup 0 → drift tak terbukti ≠0. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:242:body] OK: CI iid [0,0229;0,0322] lebih sempit tapi memutus dependensi; block [0,0223;0,0340] mencakup 0,0328. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:328:body] OK: "0,0286" sendirian tak teraudit; jawaban lengkap = angka+interval+metode+ES. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:348:why] OK: HS asumsi stasioneritas, buta ekor luar sampel. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:354:why] OK: rumus sama di semua jendela; yang beda data (satu hari). Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:355:why] OK: 0,0557/0,0445≈1,25 (25% lebih besar); satu hari berbobot 4×. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:364:why] OK: kuantil 5% empiris < normal; ekor di balik VaR gemuk; −0,1398/0,0196≈7,1 sd. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:372:why] OK: sd bootstrap ≠ SE mean/½CI. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:373:why] OK: lebar 0,0322−0,0229=0,0093; titik 0,0286, mean 0,0284. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:375:why] OK: mean hampir sama → CI-lah informasinya; lebar 0,0093. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:382:why] OK: 0,0007/0,0022≈31,8%; CI 0,0093→0,0117 (pelebaran sistematis, bukan proporsional sempurna — wajar untuk percentile CI). Benar secara substansi.
+[mlf-m95-historical-simulation-bootstrap.ts:383:why] OK: data sama (480 hari), beda resampling; mean 0,0285 vs 0,0284 membuktikan. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:384:why] OK: pelebaran 32% sistematis karena dependensi (0,1043); konsisten di ES95 (0,0057→0,0062). Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:390:why] OK: CI iid terlalu sempit; "di luar CI iid" bukan vonis parametrik; block CI mencakup 0,0328. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:399:why] OK: CI mencakup 0 → drift negatif tak terbukti ≠0. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:400:why] OK: 0,0196/0,0006≈32,7; 480 hari belum cukup membuktikan drift kecil. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:402:why] OK: mean penting untuk horizon panjang; CI "tanda belum diketahui". Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:418:why] OK: "±sd" menyajikan sd bootstrap sebagai ketidakpastian mean; benar = interval. Benar.
+[mlf-m95-historical-simulation-bootstrap.ts:419:why] OK: angka+interval+metode+pembanding+ES tertelusur kanonis; CI block karena autokorelasi 0,1043. Benar.
