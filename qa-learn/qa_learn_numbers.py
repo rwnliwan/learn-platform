@@ -1450,6 +1450,656 @@ FIXTURES = [
         ["72,7%", "460"],
         ["120 → 120 → 123"],
     ),
+    # --- Track Machine Learning Finance, M1 (2026-11-12) ---
+    # Angka kanonis SPEC-MLF-M1 §3.3 (notebook credit scoring Septian,
+    # terverifikasi dari file .ipynb): dataset UCI 30.000, base rate 0,2212,
+    # test 6.000; LR ROC-AUC 0,7426 / PR-AUC 0,5049; GBM 0,7823 / 0,5597;
+    # GBM terkalibrasi 0,7816 / 0,5558; train GBM 0,8469 vs test 0,7823
+    # (gap 0,0646); threshold 0,10; hemat biaya notebook 45,2% vs 0,5 dan
+    # 59,8% vs approve-all.
+    (
+        "mlf1-tiga-tipe-satu-alur.ts",
+        ["ROC-AUC 0,7823", "ROC-AUC 0,7426", "default rate 0,2212"],
+        ["ROC-AUC 0,7824", "ROC-AUC 0,7427"],
+    ),
+    (
+        "mlf2-membaca-angka.ts",
+        ["0,9657", "[0,2108, 0,2318]", "[0,1500, 0,3107]"],
+        ["PPV 0,9900"],
+    ),
+    (
+        "mlf3-evaluasi-model.ts",
+        ["PR-AUC 0,5597", "2,53", "0,1342", "45,2 persen", "59,8 persen"],
+        ["PR-AUC 0,5598"],
+    ),
+    (
+        "mlf4-overfitting-underfitting.ts",
+        ["0,8469", "gap 0,0646", "CV MSE 1,4998"],
+        ["gap 0,646", "gap 0,00646"],
+    ),
+    # --- Track Machine Learning Finance, L0 (2026-11-12) ---
+    # Angka kanonis L0, terverifikasi dari notebook L0 yang sudah dieksekusi
+    # (/tmp/l0_numbers.py) + notebook credit scoring cell 10.
+    (
+        "mlf-l01-data-cleaning.ts",
+        ["3 dibagi 20 sama dengan 15 persen", "1,15 persen", "0,18 persen",
+         "3 dari 100 sama dengan 3 persen", "4 dari 10 sama dengan 40 persen",
+         "49 vs 52 baris"],
+        ["1,16 persen", "16 persen"],
+    ),
+    (
+        "mlf-l02-missing-data-imputasi.ts",
+        ["3,4833", "2,7000", "20,0 persen", "62,5 persen", "8,3 persen", "menjadi 2,6000",
+         "9 dari 12", "rata-rata 3,48 juta", "2, 5, 3, 1, 0, 1", "2, 5, 6, 1, 0, 1",
+         "5 sampai 10 persen laporkan",
+         "2,3000", "0,4000", "2,3375", "0,1998", "0,1332", "33,3 persen",
+         "konsisten dengan MAR"],
+        ["3,4834", "20,1 persen", "Median tidak bergerak", "11 dari 12",
+         "lebih dari 10 persen, laporkan",
+         "mekanismenya MAR", "barulah MCAR", "kesimpulan: MAR"],
+    ),
+    (
+        "mlf-l03-distribusi-outlier.ts",
+        ["0,068", "0,9988", "2,386", "1,068", "285,0", "2,80", "2,27",
+         "9 dari 12", "11 dari 16", "di bawah 2 biasa",
+         "nilai absolut di bawah 1 wajar",
+         "W 0,998", "W 0,586", "W 0,816", "0,905", "0,874", "0,887",
+         "pagar atas 960", "pagar atas 772,5", "pagar atas 8.450"],
+        ["2,387", "0,9989", "11 dari 12", "sampai 2 biasa"],
+    ),
+    (
+        "mlf-l04-data-wrangling.ts",
+        ["180.000 baris", "18 baris", "3.990",
+         "8 baris (6 → 8)", "150,0", "210,0", "satu per nasabah id 2–6"],
+        ["180.001 baris", "inner: 6 baris"],
+    ),
+    (
+        "mlf-l05-ab-testing.ts",
+        ["0,0992", "1,6489", "2.884", "0,378", "22,6 persen", "0,01",
+         "50 sampai di bawah 80 persen lemah", "SE pooled yang sama dengan uji-z",
+         "kuantil eksak 2.887",
+         "2,68", "0,0073", "1.060 vs 940", "Rp15 juta", "Rp150 juta",
+         "−Rp23,5 juta sampai Rp273,5 juta"],
+        ["0,0993", "2.885", "50 sampai 80 persen lemah"],
+    ),
+    # --- Track Machine Learning Finance, M2 (2026-11-12) ---
+    # Angka kanonis M2, terverifikasi dari notebook M2 yang sudah dieksekusi
+    # (colab/mlf-m2*-guided-task.ipynb, 25 check lolos, 0 error).
+    (
+        "mlf-m21-supervised-logistic-regression.ts",
+        ["ROC-AUC 0,7426", "0,6443", "0,7153", "0,6955",
+         # Fix DeepSeek M2 (2026-11-12): F7 enam koefisien, F15 empat
+         # setengah kali lipat, F12 telat ≤ 1 bulan.
+         "enam koefisien", "empat setengah kali lipat", "telat ≤ 1 bulan",
+         # Fill gap Luna M2 (2026-11-12): G1 IV train/test + cutoff Juli,
+         # G3 PAY_0 counts, G11 PR-AUC + balanced accuracy.
+         "0,8881", "0,8363", "0,6922", "0,5049", "0,5558", "0,0646",
+         "2.759", "14.737"],
+        ["ROC-AUC 0,7427", "0,6444",
+         "sembilan koefisien", "empat kali lipat", "tidak telat"],
+    ),
+    (
+        "mlf-m22-scorecard-woe-iv.ts",
+        ["IV 0,8761", "500 + 13 + 8 + 3 = 524", "0,6993",
+         # Fix DeepSeek M2 (2026-11-12): F2 band IV half-open, F6 tiga
+         # dari empat default, F9 PDO implisit, F14 bin half-open.
+         "0,02 ≤ IV < 0,1", "0,1 ≤ IV < 0,3", "0,3 ≤ IV < 0,5", "IV ≥ 0,5",
+         "tiga dari empat nasabah di bin ini default (0,7578)",
+         "PDO implisit ≈ 13,9", ">50–100 ribu", ">60",
+         # Fill gap Luna M2 (2026-11-12): G4 AIR + fairness, G5/G7
+         # konstruksi standar, G8 Wilson.
+         "1,1502", "0,3424", "0,6798", "0,7181", "28,8539", "487,1229",
+         "513,9", "0,5012", "0,6299", "0,7842"],
+        ["0,8762", "IV 0,8760",
+         "hampir pasti bermasalah", "points-to-double-odds",
+         "Monoton berarti bin-nya benar", "0,02–0,1 lemah", "60+"],
+    ),
+    (
+        "mlf-m23-pd-lgd-ead-expected-loss.ts",
+        ["0,1345", "NT$78.675.378", "0,9141", "NT$8.214.000",
+         # Fix DeepSeek M2 (2026-11-12): F4 PD 1 bulan sebagai proksi,
+         # F11 hanya 0,0181 yang tertelusur (0,0252 dihapus).
+         "PD 1 bulan dipakai sebagai proksi",
+         "selisih desil terbesar terkalibrasi 0,0181",
+         # Concept gate M2 (2026-11-12): bad rate +67% (lebih lambat dari
+         # approval +128%); EL +181% yang naik lebih cepat.
+         "EL naik lebih cepat (+181%)", "bad rate ikut naik (+67%)",
+         # Fill gap Luna M2 (2026-11-12): G2 LGD/CCF, G6 survival,
+         # G12 champion-challenger, G13 policy matrix.
+         "0,5163", "0,7248", "7.243.723", "0,2828", "0,3415", "0,1500",
+         "0,850", "0,0118"],
+        ["0,1346", "NT$78.675.379",
+         "0,0252", "PD 12 bulan", "12 bulan ke depan",
+         "bad rate dan EL naik lebih cepat"],
+    ),
+    (
+        "mlf-m24-vintage-rollrate-ifrs9.ts",
+        ["0,9388", "NT$457.366.208", "0,1867",
+         # Fix DeepSeek M2 (2026-11-12): F1 150.000 transisi, F3 91+ DPD,
+         # F4 PD/ECL 1 bln, F10 PD eksak, F19 NT$, F20 0,4258.
+         "150.000 transisi", "91 hari ke atas", "91+ DPD",
+         "PD 1 bln 0,1659", "PD 1 bln 0,6986", "Total ECL 1 bulan",
+         "2.088/2.989", "0,4258 ke bucket 1", "ECL/nasabah=NT$13031",
+         # Fill gap Luna M2 (2026-11-12): G8 Wilson, G9 PSI (koreksi
+         # share PAY_0 = 2: 8,89%, bukan 4,9%).
+         "0,0104", "0,0292", "0,8985", "8,89%", "0,6576"],
+        ["0,9389", "NT$457.366.209",
+         "150.798", "PD 12m 0,1659", "PD 12m 0,6986", "Total ECL 12 bulan",
+         "ECL 12m", "90 hari ke atas", "90+ DPD", "5 bulan", "ECL/nasabah=Rp"],
+    ),
+    (
+        "mlf-m25-reject-inference.ts",
+        ["0,2337", "0,2804", "0,3938", "0,000875",
+         # Fix DeepSeek M2 (2026-11-12): F5 bobot jinak, clip tak aktif.
+         "min 1,00 / median 1,02 / maks 4,27", "clip 0,05 tidak pernah aktif",
+         # Fill gap Luna M2 (2026-11-12): G10 alokasi per band, G12
+         # scorecard ≥ 520, G14 checklist, G15 scorecard card.
+         "0,0437", "0,0421", "0,0465", "3.135", "2.205", "2.793", "1.590"],
+        ["0,2338", "0,2805",
+         # Fill gap Luna M2 (2026-11-12): kuis baru memakai
+         # "bobot 20 / varians meledak / P(approve) = 0,05" sebagai contoh
+         # HIPOTETIS eksplisit (bukan simulasi UCI) — jadi jarum F5 harus
+         # sempit (klaim yang sama tentang simulasi UCI), plus tiga jarum
+         # yang menangkap rumusan F5 ASLI tanpa menabrak kuis hipotetis
+         # (dicek: ketiganya 0 hit di file M2 saat ini).
+         "bobot 20 di simulasi", "varians meledak di simulasi",
+         "P(approve) = 0,05 pada simulasi",
+         "bobot maksimal 20", "tanpa clip, varians",
+         "P(approve) = 0,05 mendapat bobot"],
+    ),
+    # --- Track Machine Learning Finance, M3 (2026-11-12) ---
+    # Angka kanonis M3, terverifikasi dari notebook M3 yang sudah dieksekusi
+    # (colab/mlf-m3*-guided-task.ipynb, 0 error).
+    # M3.1: silhouette FULL sample 0,3969 (bukan subsample 0,3913);
+    # M3.3: bill jump definisi bersih (baseline positif saja, 1.512 keluar).
+    (
+        "mlf-m31-unsupervised-clustering-anomaly.ts",
+        ["0,3969", "0,6318", "0,4367", "0,2099", "9,87 persen",
+         "1.500 nasabah", "655 dari 6.636", "[0,26; 0,50]"],
+        ["0,3913", "0,71–1,00", "0,51–0,70", "0,26–0,50",
+         "0,25 ke bawah"],
+    ),
+    (
+        "mlf-m32-network-link-analysis.ts",
+        ["0,6387", "0,8204", "0,1817", "10,42", "5,12",
+         "62 dari 72", "0,2877", "modularitas"],
+        ["Community adalah component yang lebih rapat",
+         "degree tiap anggota ring sama dengan jumlah anggota ring "
+         "dikurangi satu"],
+    ),
+    (
+        "mlf-m33-velocity-benford.ts",
+        ["0,3799", "0,1593", "0,2261", "92,3", "995,5", "0,0226",
+         "28.488", "1.512", "0,1761"],
+        ["4.561", "0,1662", "0,2311", "ditetapkan R = 0",
+         "masuk R ≥ 2"],
+    ),
+    (
+        "mlf-m34-behavioral-peer-group.ts",
+        ["0,3607", "0,2520", "6,67", "0,2640", "73,60%",
+         "3,257", "0,5551", "1,1454", "BILL_TREND"],
+        ["VELOCITY", "1,1466"],
+    ),
+    (
+        "mlf-m35-alert-triage-economics.ts",
+        ["0,7807", "0,8600", "0,7260", "0,6060", "NT$61.911",
+         "22.373.572", "0,986", "t_close = 0,010", "t_esc = 0,135",
+         "0,6888", "0,5985", "61.910,67", "6.747.320"],
+        ["22.373.693", "dekat dengan ekspektasi",
+         "4x lebih bernilai dari acak", "Selisih precision@500"],
+    ),
+    # --- Fill gap Luna M3 (2026-11-12) ---
+    # Kelas baru: angka [ilustrasi] (sintetis/contoh, dihitung skrip
+    # qa-learn/m3_gap_fill_calc.py) disalahbaca sebagai angka notebook.
+    # must-have mengunci angka [ilustrasi] kuncinya ada; must-not menangkap
+    # pelabelan "[notebook]" yang salah pada angka itu, plus nilai truncasi
+    # yang salah (EV k=1000 = 37.317.865, bukan 37.317.864).
+    (
+        "mlf-m31-unsupervised-clustering-anomaly.ts",
+        ["0,4500", "0,1755", "0,4354"],
+        ["0,4509 [notebook]", "0,4500 [notebook]", "0,1755 [notebook]",
+         "0,4354 [notebook]"],
+    ),
+    (
+        "mlf-m32-network-link-analysis.ts",
+        ["0,4088", "0,8210", "0,0006"],
+        ["0,4088 [notebook]", "0,8210 [notebook]"],
+    ),
+    (
+        "mlf-m33-velocity-benford.ts",
+        ["139.233", "0,0005", "0,0010"],
+        ["139.233 [notebook]"],
+    ),
+    (
+        "mlf-m35-alert-triage-economics.ts",
+        ["0,8577", "0,8397", "1.527.767", "0,4137", "80.955.456",
+         "2.845", "18.473.201", "8.750.000", "9.723.201"],
+        ["0,8577 [notebook]", "0,8397 [notebook]", "0,4137 [notebook]",
+         "37.317.864", "Rp1"],
+    ),
+    # --- Track Machine Learning Finance, M4 (2026-11-12) ---
+    # Angka kanonis M4, terverifikasi dari qa-learn/m4_canonical.json
+    # (skrip m4_canonical_calc.py, data pin data/m4_prices.csv 2026-11-12)
+    # dan notebook M4 yang sudah dieksekusi (0 error).
+    # M4.1: model pohon bergeser +-1-2pp antar unduhan yfinance live
+    # (revisi adjusted close ~1e-7); must-not "0,5063" mengunci varian
+    # live RF walk-forward agar tidak menggantikan kanonis 0,5250.
+    (
+        "mlf-m41-random-forest-ensembles.ts",
+        ["0,5250", "0,5688", "0,5062", "0,5326", "0,6000", "0,5261",
+         "1,0000", "0,4750", "0,2084", "0,5761", "0,4196", "0,5625",
+         "0,5188",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G8: threshold 0,60 akurasi 0,6125 / presisi 0,6176, NET
+         # +10,06% di 0,50. G9: Wilson LR [0,4913; 0,6430]; prob
+         # rata-rata model 0,4842.
+         "0,6125", "0,6176", "10,06%", "0,4913", "0,6430", "0,4842"],
+        ["0,5250 di atas naive", "RF mengalahkan naive",
+         "random split lebih baik", "train accuracy 0,5250",
+         "walk-forward RF 0,5326", "RF 0,5063",
+         # --- Review DeepSeek M4.1 (2026-11-12, terverifikasi induk) ---
+         # M1: TIGA titik bandel (x=7 label 1). M2: leakage bukan jaminan
+         # batas atas. S6: titik jenuh 300 pohon tak terukur. S7: klaim
+         # hafalan noise GBM tak terukur. N10: bar naive y=63,0 (bukan 62,6).
+         # "0,5063" SENGAJA bukan must-not lagi: fix N9 mendokumentasikan
+         # range live 0,5063-0,5188 secara eksplisit; yang dikunci adalah
+         # pola substitusi "RF 0,5063" (nilai live menggantikan kanonis).
+         "dua titik bandel", "batas ATAS yang optimistis",
+         "300 pohon sudah jauh melewati titik jenuh",
+         "menghafal noise lebih cepat", "62.6",
+         # --- Concept gate ronde fix M4 (2026-11-12) ---
+         # K1: patokan walk-forward = naive WF 0,5625 (90/160), bukan
+         # 58,04% keseluruhan (267/460) — sisa pola S4 di note pitfall.
+         "Patokan yang benar adalah naive-majority, bukan 0,50",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G8/G9: akurasi kanonis LR 0,5688 (91/160) — "0,5687" adalah
+         # artefak pembulatan float (91/160 = 0,56875), JANGAN pernah muncul.
+         # Threshold 0,60: akurasi 0,6125 / presisi 0,6176, NET +10,06%
+         # di 0,50; Wilson LR [0,4913; 0,6430]; prob rata-rata 0,4842.
+         "0,5687"],
+    ),
+    (
+        "mlf-m42-var-expected-shortfall.ts",
+        ["0,0286", "0,0445", "0,0328", "0,0410", "0,0336", "0,0424",
+         "0,0479", "0,0775", "2.856.323", "4.451.285", "0,0903",
+         "0,0290", "0,0380", "0,0438", "0,028563",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G3: worked example Rp100 jt — VaR99 0,0479 -> Rp4.792.081,
+         # ES99 0,0775 -> Rp7.750.165.
+         "4.792.081", "7.750.165"],
+        ["VaR95 0,0445", "ES95 0,0286", "VaR 10-hari 0,0286",
+         "Monte Carlo 0,0286", "0,0286 (Rp4.451.285)",
+         "0,0286 × √10 ≈ 0,0903",
+         # --- Review DeepSeek M4.2 (2026-11-12, terverifikasi induk 7/7) ---
+         # M1: ES95 0,1200 dari SATU observasi (-0,12); msg "rata-rata
+         # dua hari crash" (= 0,10) kontradiksi dgn angka yg ditegaskan.
+         # S1: tambah 1 obs -0,08 ke n=20 -> VaR95 +23,5% (0,0405->0,0500),
+         # bukan "nyaris tidak bergerak". N2: 22,56% dibulatkan jadi ~23%,
+         # bukan 22%. N4: ES99 = rata-rata ekor, bukan kerugian 1 hari.
+         "rata-rata dua hari crash", "nyaris tidak bergerak",
+         "22 persen lebih rendah", "termasuk 0,0775 (ES99 historis)"],
+    ),
+    (
+        "mlf-m43-var-backtesting-volatility.ts",
+        ["1,0000", "0,3108", "0,3079", "GREEN", "0,1043", "0,0366",
+         "0,0601", "0,8602", "4,6 hari", "0,0225", "0,0334", "0,0472",
+         "0,0184", "0,2113", "0,6489",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G1: Christoffersen VaR95 LR_ind 6,6456 / LR_cc 7,7056,
+         # pi11 0,2667. G4: EWMA LR_ind 5,7259, GARCH LR_ind 4,8068,
+         # VaR95 maks GARCH 0,1439; VaR95 hari terakhir EWMA 0,0490,
+         # GARCH 0,0315.
+         "6,6456", "7,7056", "0,2667", "5,7259", "4,8068", "0,1439",
+         "0,0490", "0,0315"],
+        ["model VaR sempurna", "Kupiec in-sample membuktikan",
+         "p = 1,0000 berarti", "zona Basel MERAH",
+         "VaR tak-kondisional 0,0601", "VaR95 kondisional 0,0372",
+         # --- Review DeepSeek M4.3 (2026-11-12, terverifikasi induk) ---
+         # M1: forecast 0,0203 DI BAWAH 0,0225 dan 0,0231 (bukan di antara).
+         # S2: bukan "ditarik menuju level jangka panjang". N1: 0,034.
+         # N3: half-life 4,6 hari = "sekitar 4-5 hari".
+         "di antara volatilitas terakhir", "hampir seminggu",
+         "0,94^9 ≈ 0,035", "ditarik kembali ke level jangka panjang",
+         "ditarik ke bawah menuju level jangka panjang"],
+    ),
+    (
+        "mlf-m44-greeks-risk-decomposition.ts",
+        ["388,03", "0,5665", "0,000460", "14,9867", "2,3801",
+         "9,8214", "43,17", "0,6011", "0,0324", "0,2532", "0,3370",
+         "0,4098", "7.619,38",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G2: perubahan SEBENARNYA S+1% = $44,49 (repricing), BUKAN
+         # $43,17 (itu perkiraan delta saja); gabungan sebenarnya 67,23
+         # vs Taylor 66,93; skenario BESAR sebenarnya 286,82 vs 292,12.
+         # Must-not: 43,17 disajikan sebagai perubahan sebenarnya, dan
+         # "43,17 + 1,34 = 44,50" (jumlah suku bulat = 44,51; 44,50
+         # adalah jumlah tak-bulat, pakai ≈).
+         "44,49", "66,93", "67,23", "286,82", "292,12"],
+        ["delta awal 0,6011", "theta 2,3801", "harga call 388,30",
+         # --- Review DeepSeek M4.4 (2026-11-12, terverifikasi induk) ---
+         # S2: vega puncak di jangka PANJANG (bukan menengah). N1: "persis"
+         # bertentangan dgn "≈". S3: dua himpunan korelasi berbeda. N2:
+         # jumlah VaR tanpa bobot bukan pembanding equal-weight.
+         # K2 (concept gate ronde fix): jual-beli mengubah bobot, BUKAN
+         # matriks korelasi return (korelasi = sifat return, bukan bobot).
+         "jangka menengah", "persis perkiraan delta",
+         "korelasi yang sama dengan yang dipakai dekomposisi",
+         "jauh lebih besar dari 0,0324",
+         "mengubah bobot portofolio dan matriks korelasinya",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G2: 43,17 = perkiraan delta SAJA — dilarang disajikan sebagai
+         # perubahan harga sebenarnya (yang benar $44,49).
+         "call naik $43,17", "call +$43,17",
+         "43,17 + 1,34 = 44,50"],
+    ),
+    (
+        "mlf-m45-drawdown-regime-stress.ts",
+        ["-0,4973", "-0,5791", "-0,4925", "-0,4363", "-0,1890",
+         "77,40%", "0,3316", "0,3752", "0,2775", "0,0262", "1,3530",
+         "1,0169", "0,0431", "0,0438", "478 hari",
+         # --- Fill gap Luna M4 (2026-11-12) ---
+         # G5: gabungan VaR95 0,0646 / VaR99 0,0914 / ES95 0,0811.
+         # G6: kesepakatan real-time 94,46%; vol esok hari HIGH 0,0192
+         # vs LOW 0,0191. G11: ES95 high-vol 0,0609, ES99 0,1139.
+         "0,0646", "0,0914", "0,0811", "94,46%", "0,0192", "0,0191",
+         "0,1139", "0,0609"],
+        ["portofolio sudah pulih", "PORT pulih", "korelasi 1,0000",
+         "diversifikasi tetap utuh", "max drawdown -0,3528",
+         # --- Review DeepSeek M4.5 (2026-11-12, terverifikasi induk) ---
+         # M1: persen dari LOG return = exp(r)-1: -14,8/-14,6/-12,6/-8,5
+         # (bukan -16,0/-15,7/-13,4/-8,9). S1: korelasi regime high 0,3752,
+         # bukan "mendekati 1". S3: ">2 tahun dari puncak", bukan ">1 tahun".
+         # N3: +33,0%/+35,5% dari angka tampil (bukan +33,1%/+35,3%).
+         "(sekitar −16,0%)", "(−15,7%)", "(−13,4%)", "(sekitar −8,9%)",
+         "korelasi antar saham mendekati 1",
+         "belum pulih setelah lebih dari 1 tahun",
+         "+33,1%", "+35,3%"],
+    ),
+    # --- Build M5 (2026-11-12, kanonis dari qa-learn/m5_canonical.json) ---
+    # M5.1: GD mangkuk x^2+10y^2 dari (4,4), 10 langkah.
+    (
+        "mlf-m51-gradient-descent-optimization.ts",
+        ["12,5264", "1,9452", "2,1469", "133869,2748",
+         "0,1701", "0,2319", "0,5193", "0,4807", "0,1005", "0,0994",
+         "0,6565", "0,3435", "0,0957", "2,2950", "0,6256", "0,5518",
+         "terhadap y adalah 20y",
+         # --- Review DeepSeek M5.1 S1: f langkah-11 eta 0,05 = 1,5756
+         # (bukan 1,9452 langkah-10).
+         "1,5756"],
+        ["η = 0,12 konvergen", "renormalisasi mentah menuju GMV",
+         "SGD konvergen ke titik",
+         # --- Review DeepSeek M5.1 (2026-11-13, terverifikasi induk) ---
+         # S1: f langkah-11 eta 0,05 = 1,5756 (bukan 1,9452 langkah-10).
+         # N1: 133869/180 = 744x (bukan 700x). N2: korelasi bukan fraksi
+         # waktu searah. N4: LR/GBM bukan semata GD.
+         "bergerak searah sepertiga waktu", "700 kali di atas skala", "700× skala gambar", "1,3838 vs 1,9452 di langkah ke-10", "dioptimasi dengan GD atau keturunannya"],
+    ),
+    # M5.2: Lagrange/KKT + max-Sharpe tak-terkendala ILL-POSED.
+    (
+        "mlf-m52-constrained-optimization-lagrange.ts",
+        ["0,1913", "0,6565", "0,3435",
+         "[0,5518; 0,2698; 0,1785]", "[0,5523; 0,2699; 0,1777]",
+         "0,6718", "1,0517", "−2,7279", "−1,0517", "[0; 0; 1]",
+         "0,0590", "0,7273", "0,0636", "0,09566", "0,9283",
+         # --- Review DeepSeek M5.2: return closed-form -0,1900
+         # (vs SLSQP -0,1903).
+         "−0,1900",
+         # --- Gap fill Luna M5.2 G4/G10 (2026-11-13, terverifikasi induk)
+         # G4: eigenvalue 0,088937/0,151142/0,310986, cond 3,5,
+         # det 0,004180. G10: cap vol 0,3026, kardinalitas 0,3093.
+         "0,088937", "0,151142", "0,310986", "3,5", "0,004180",
+         "0,3026", "0,3093", "0,3048",
+         # --- Concept gate M5 run 5 RAGU (2026-11-12): titik berhenti
+         # SLSQP ditampilkan SATU desimal — bentuk bulat [−11004; ...]
+         # jumlahnya 0, bukan 1 (artefak pembulatan).
+         "−3154,7", "−11003,8", "−3415,7", "−4554,6"],
+        # --- Concept gate M5 run 1 (2026-11-12): rantai "2 × 0,0957 =
+        # 0,1913" SALAH di 4 desimal (2 × 0,0957 = 0,1914; λ = 0,1913
+        # hanya dari varians tak-dibulatkan 0,09566) — kelas gate 26.
+        ["bobot optimal [−3154", "Sharpe 0,6697 merupakan maksimum",
+         "2 × 0,0957 = 0,1913", "[−11004; −12513; 23517]",
+         "[−4555; −9499; 14054]", "[−3154; −3786; 6941]",
+         # --- Review DeepSeek M5.2 (2026-11-13, terverifikasi induk) ---
+         # M1: Sharpe TIDAK homogen bila rf != 0 (S([0;0;1])=0,0590 vs
+         # S(2.[0;0;1])=0,1089). M2: lambda menaikkan varians (+0,0019).
+         # S1: return closed-form -0,1900 vs SLSQP -0,1903. N1: basis %.
+         "Sharpe ratio adalah HOMOGEN derajat nol", "pembilang dan penyebut sama-sama diskalakan", "menurunkan varians sekitar", "Keduanya sepakat pada return −0,1903", "di bawah 0,1 persen",
+         # --- Gap fill Luna M5.2 G4/G10 (2026-11-13) — pasangan angka
+         # yang salah: eigenvalue terkecil BUKAN 0,310986; kardinalitas
+         # BUKAN vol cap (0,3026); min holding BUKAN vol kardinalitas.
+         "eigenvalue terkecil 0,310986", "kardinalitas ≤ 2 → vol 0,3026",
+         "minimum holding 0,10 → vol 0,3093", "Σ lesson ini hampir singular"],
+    ),
+    # M5.3: Markowitz/frontier dari data pin (SIMPLE return, 480 hari).
+    (
+        "mlf-m53-markowitz-efficient-frontier.ts",
+        ["0,5523", "−0,1903", "0,2966", "0,0796", "0,5014", "0,0590",
+         "−0,1406", "0,3114", "0,3056", "0,0058", "0,0648", "0,2507",
+         "0,3488", "480 hari", "SIMPLE return",
+         # --- Fill gap Luna M5.3 (2026-11-13, terverifikasi induk) ---
+         # G1 turnover/biaya, G2 drift, G8 sisa kas, G9 downside-dev/ES95,
+         # G5 shrinkage delta 0,5.
+         "0,4380", "4,38bp", "0,3048", "0,0228", "Rp550.000", "0,2343",
+         "0,0429", "[0,4147; 0,3213; 0,2640]"],
+        ["frontier menjanjikan return", "frontier akan memberi return",
+         "frontier seluruhnya positif",
+         # --- Review DeepSeek M5.3 (2026-11-13, terverifikasi induk) ---
+         # M1: TIGA titik frontier positif (0,0025; 0,0410; 0,0796),
+         # bukan satu. S1: DUA titik aset tunggal (BBCA, KLBF).
+         "hanya satu titik frontier yang berada di atasnya", "hanya ujung UNVR yang berada di atas return 0", "seluruhnya berada di return negatif, kecuali ujung tertingginya", "Tiga titik aset tunggal (BBCA, KLBF)",
+         # --- Fill gap Luna M5.3 (2026-11-13) ---
+         # Biaya dari L1 PENUH (bukan L1/2); downside selalu lebih baik;
+         # ambang 2pp "3x bulanan" (yang benar ~2x: 9,85 vs 5,07);
+         # skala vol seragam mengubah GMV (yang benar: tidak).
+         "L1 × 20bp", "downside optimization selalu lebih baik",
+         "ambang 2pp tiga kali lebih mahal",
+         "GMV berubah bila semua vol dikali 1,1"],
+    ),
+    # M5.4: risk parity / risk budgeting + jembatan component VaR M4.4.
+    (
+        "mlf-m54-risk-parity-budgeting.ts",
+        ["0,398", "0,3212", "0,2808", "[0,3333; 0,3333; 0,3333]",
+         "−0,1575", "0,3037", "−0,6833", "0,5526", "0,4137",
+         "0,0324", "0,0082", "0,0109", "0,0133", "0,4098", "0,5157",
+         # --- Concept gate M5 run 6 (2026-11-12): dengan Sigma diagonal
+         # & vol sama, w_i ∝ √r_i — target [0,5;0,3;0,2] memberi bobot
+         # [0,4154; 0,3218; 0,2628], BUKAN [0,5; 0,3; 0,2].
+         "0,4154"],
+        ["bobot risk parity sama rata", "0,0324 lebih kecil dari 0,3037",
+         "equal-weight return −0,1575", "barulah keduanya berimpit",
+         # --- Review DeepSeek M5.4 (2026-11-13, terverifikasi induk) ---
+         # M1: Max-Sharpe 100% > GMV 55,26% (GMV bukan 'paling').
+         # M2: GMV lebih timpang (0,3752) dari EW (0,1638). S1: MC =
+         # turunan parsial, bobot lain TETAP. S2: risk_contrib lab
+         # tak-ternormalisasi (tanpa /sigma_p).
+         "paling terkonsentrasi", "paling timpang", "dengan bobot lain menyesuaikan", "RC_i = w_i * (Sigma w)_i untuk tiap aset"],
+    ),
+    # M5.5: Black-Litterman + shrinkage; estimation error / optimizer's curse.
+    (
+        "mlf-m55-black-litterman-shrinkage.ts",
+        ["0,4831", "−0,8780", "0,0955", "0,7671", "−0,6178",
+         # --- Review DeepSeek M5.5 S1: w.M (excess) = 0,2354;
+         # return posterior 0,2854 = 0,2354 + rf.
+         "0,2354",
+         "−0,4760", "[0,3147; 0; 0,6853]", "[0,2007; 0,2084; 0,2971]",
+         "−0,3272", "4/6",
+         "[0,4173; 0,2493; 0,3334]", "0,5807", "0,83",
+         "[0,196; 0,2175; 0,298]", "[0,1817; 0,2447; 0,3009]"],
+        ["BL memperbaiki return OOS", "posterior adalah ramalan",
+         # --- Gap fill M5.5 ronde Luna G3/G6/G7 (2026-11-13, terverifikasi
+         # induk dari m5_gap_fill_numbers.json) ---
+         # G6: tau sendirian TIDAK mengubah M (konvensi He-Litterman);
+         # G3: worst-case GMV −0,4760 TERBURUK (bukan terbaik);
+         # G7: walk-forward TIDAK membalikkan vonis split 240/240.
+         "tau 0,20 mengubah posterior", "GMV adalah yang terbaik secara worst-case",
+         "walk-forward membuktikan kemenangan GMV",
+         # --- Concept gate M5 run 6 (2026-11-12): Sharpe OOS MS −0,8780
+         # adalah yang TERTINGGI (bukan "terburuk kedua") — semua Sharpe
+         # OOS negatif, yang paling negatif (−1,3278 EW) yang terburuk.
+         "delta 0,0955 berarti 95,5%", "terburuk kedua setelah risk parity",
+         # --- Review DeepSeek M5.5 (2026-11-13, terverifikasi induk) ---
+         # M1: kode max_sharpe_w pakai Sigma^-1.Mu TANPA (mu-rf) -> rf=0.
+         # N1: SE UNVR 0,5807 LEBIH BESAR dari estimasi 0,4831. N2:
+         # delta shrinkage vs delta risk-aversion dibedakan.
+         "rf = 0,05, rumus tertutup dinormalisasi", "SE-nya sebesar estimasinya sendiri", "Nilai: delta = 0,0955 pada window penuh", "Di sini delta = 2,5, tau = 0,05"],
+    ),
+    # --- Build M6 (2026-11-13, kanonis dari qa-learn/m6_canonical.json) ---
+    # M6.1: grid/random/shrinking GBM + LR grid C; optimism 0,0042.
+    (
+        "mlf-m61-hyperparameter-tuning.ts",
+        ["0,7865", "0,7866", "0,7869", "0,7581", "54 fits", "81 fits",
+         "0,0042", "0,7827", "BUKAN Bayesian optimization",
+         "0,78613 vs 0,78517"],  # fill G4: rata-rata kelompok tak-dibulatkan
+        # --- Review finisher M6.1: grid terbaik 0,7865 (bukan 0,7866 —
+         # itu random search); 18×3 = 54 fits (bukan 162); optimism
+         # 0,7865 − 0,7823 = 0,0042 (bukan 0,0025).
+         # --- Review DeepSeek M6.1 (2026-11-13, 40 temuan, 0 noise):
+         # "SAMA PERSIS" hanya untuk ROC-AUC + Brier (PR-AUC naik
+         # 0,0001); "6 terbawah" salah peringkat (null = peringkat
+         # 12–17); "(seed 43)" DIPULIHKAN Chief (kanonis: m61_shrinking_random_search.seed = 43; notebook default_rng(SEED+1), SEED=42).
+         # --- Fill gap Luna M6.1 (2026-11-13, terverifikasi Chief):
+         # selisih antar-kelompok WAJIB dari nilai penuh, bukan angka
+         # tampil yang dibulatkan (kelas gate 89): 0,7861 vs 0,7852
+         # memberi 0,0009, bukan 0,0010; 0,7856 − 0,7841 = 0,0015,
+         # bukan 0,0016.
+         ["grid terbaik 0,7866", "Grid GBM: 162 fits", "optimism 0,0025",
+          "jumlah pohon GBM adalah n_estimators",
+          "SAMA PERSIS dengan GBM default",
+          "mengisi 6 terbawah", "hampir 0,02 di bawah fold terbaik",
+          "batangnya tampak hampir sama tinggi",
+          "paling jujur dan paling mahal",
+          "Selisih CV terbaik vs test-nya sendiri",
+          "membiaskan skor ke atas (di sini +0,0042",
+          "0,7861 vs 0,7852", "0,0015 di bawah depth 5"],
+    ),
+    # M6.2: nested CV 0,7858; bias leakage menurut rumus 0,0000.
+    (
+        "mlf-m62-cross-validation-nested-cv.ts",
+        ["0,7858", "0,7560", "0,7840", "0,5516", "1.327", "0,0000",
+         "125 kali latih", "275 kali latih",
+         "14.400 dari 19.200", "0,0030", "[0,7799; 0,7918]"],  # fill G5
+        # --- Concept gate M6 run 1 (2026-11-13, terverifikasi induk):
+         # −0,0035 adalah selisih ANTAR-PROTOKOL (single-split minus
+         # nested), BUKAN bias leakage menurut rumus s_test(λ̂_test) −
+         # s_test(λ̂_CV) = 0,7823 − 0,7823 = 0,0000 — kelas gate 81.
+         # Biaya 275 latih = grid PENUH kanonis; notebook memakai
+         # subset 8 konfigurasi = 125 latih — kelas gate 82.
+         # --- Review DeepSeek M6.2 (2026-11-13, 40 temuan, 0 noise):
+         # 5 konfigurasi unik (bukan 4); pemicu leakage = kandidat
+         # SETARA + noise besar (bukan selisih besar); "55× lipat"
+         # tanpa pembanding; 480 return → 460 observasi (warm-up 20).
+         # --- Fill gap Luna M6.2 (2026-11-13, terverifikasi Chief):
+         # dua training set berbagi 14.400 dari 19.200 baris (bukan
+         # "18.000 dari 24.000"); SE = sd/√5 ≈ 0,0030, CI naif
+         # [0,7799; 0,7918] — kelas gate 93.
+         ["GBM bias −0,0035", "bias vs nested jujur",
+          "bias terhadap nested yang jujur",
+          "bias optimis»-nya justru minus",
+          "nested − single-split = −0,0035",
+          "empat konfigurasi berbeda",
+          "selisih antar-konfigurasi BESAR",
+          "selisih antar-konfigurasi besar",
+          "makin besar selisih antar-konfigurasi",
+          "noise pengukurannya kecil dibanding selisih antar-konfigurasi",
+          "55× lipat — itulah mengapa",
+          "480 return SIMPLE harian, target",
+          "(125 kali latih) dan membandingkan",
+          "subset 8 konfigurasi dari grid kanonis 18",
+          "sekitar sepertiga sd",
+          "31 fitur (23 mentah + 8 turunan)",
+          "18.000 dari 24.000"],
+    ),
+    # M6.3: early stopping 50 pohon; L1 C=0,1 men-zero-kan 7 koefisien.
+    (
+        "mlf-m63-regularization-early-stopping.ts",
+        ["0,7823", "0,7638", "0,2128", "0,0159", "0,7418", "7 koefisien",
+         "0,0015", "0,7797", "0,9766"],
+        # --- Review finisher M6.3: TANPA early stopping test 400 pohon
+         # 0,7638 (bukan 0,7823 — itu DENGAN early stopping); L1
+         # men-zero-kan 7 (C=0,1), bukan 0; gap 0,0646 milik kurva
+         # DENGAN early stopping (flat), bukan tanpa.
+        # --- Review DeepSeek M6.3 (2026-11-13, 40 temuan, 0 noise):
+        # selisih 0,0026 bukan keunggulan mekanisme ES (fit terpisah,
+        # di bawah sd 0,0059); C = 1/λ hingga faktor ½ pada suku L2.
+        ["tanpa early stopping test 0,7823",
+         "L1 men-zero-kan 0 koefisien",
+         "gap 0,0646 pada 400 pohon tanpa early stopping",
+         "memilih puncaknya dari TEST — dan tetap kalah",
+         "memakai default (aktif), sehingga max_iter 100",
+         "punya train dan test yang sama-sama buruk",
+         "batas sinyal yang tersedia — rem lebih keras",
+         "Di sklearn, C = 1/λ."],
+    ),
+    # M6.4: kalibrasi GBM mentah terbaik; threshold 0,10 profit-max.
+    (
+        "mlf-m64-calibration-threshold-selection.ts",
+        ["0,1342", "0,0073", "0,1345", "0,0087", "8.214.000",
+         "18.994.456", "11.989.453", "0,0198", "0,0025",
+         "HASIL ILUSTRASI PROTOKOL LESSON", "8.430.500", "49,88%"],  # fill G2+G6
+        # --- Review finisher M6.4: Platt TIDAK memperbaiki Brier/ECE
+         # (0,1345/0,0087 vs mentah 0,1342/0,0073); profit-max di
+         # threshold 0,10 (bukan 0,50); ambang min-expected-loss ≠
+         # ambang profit-max bila cost ≠ profit.
+        # --- Review DeepSeek M6.4 (2026-11-13, 40 temuan, 0 noise):
+        # tabel threshold dihitung pada probabilitas Platt (Brier
+        # 0,1345) — label "GBM terkalibrasi" WAJIB sebut varian
+        # (Platt/sigmoid); bin [0,5–0,6) BUKAN penyimpangan terbesar.
+        # --- Fill gap Luna M6.4 (2026-11-13, terverifikasi Chief):
+        # angka threshold lesson ini WAJIB berlabel "hasil ilustrasi
+        # protokol lesson" (kontradiksi internal vs larangan M6.5
+        # memakai test untuk memilih threshold — kelas gate 90);
+        # pilihan-dengan-constraint approval ≥50% adalah 0,20
+        # (harga NT$8.430.500 vs profit-max) — kelas gate 92.
+        ["Platt memperbaiki Brier", "profit-max 0,50",
+         "min-expected-loss adalah threshold terbaik",
+         "penyimpangan TERBESAR",
+         "GBM terkalibrasi, test 6.000",
+         "Threshold (GBM terkalibrasi)",
+         "hanya 52 yang benar-benar default. Skor 0,8",
+         "Dengan base rate 0,2212, kelompok tambahan itu terlalu berisiko",
+         "menyumbang 0,0040 sisanya",
+         "jadi urutannya tetap.",
+         "dengan cv=3 [notebook]",
+         "menjadi 20% atau margin menjadi 15%"],
+    ),
+    # M6.5: winner's curse 0,0042; McNemar LR vs GBM p=0,0003.
+    (
+        "mlf-m65-automl-selection-bias.ts",
+        ["0,0042", "0,0003", "0,5383", "0,7858", "0,0397", "13,1601",
+         "0,3788", "0,0018", "54 konfigurasi", "0,7849"],  # fill G7+G8
+        # --- Review finisher M6.5: p=0,5383 TIDAK signifikan (GBM
+         # tertala vs default); winner's curse 0,0042 (bukan 0,0000);
+         # optimism 0,7865 − 0,7823 = 0,0042 (bukan 0,0025).
+        # --- Review DeepSeek M6.5 (2026-11-13, 40 temuan, 0 noise):
+        # optimisme terkecil 0,0014 hanya DUA konfigurasi (it100 +
+        # it200; it50 = 0,0015); 0,0042 = gap protokol CV-vs-holdout
+        # (bukan estimasi eksklusif curse); "terbaik" = terbaik di
+        # antara 27 konfigurasi random search (0,7866 < shrinking
+        # 0,7869); p-value χ² df=1 punya bentuk tertutup (erfc).
+        # --- Fill gap Luna M6.5 (2026-11-13, terverifikasi Chief):
+        # registry lintas sesi = 54 konfigurasi + 1 run gagal
+        # (bukan "satu pencarian, 18 kandidat" — kelas gate 91).
+        # --- Concept gate fill M6 (2026-11-13, 3 KONTRADIKSI, kelas
+        # gate 93): "0,7858 ± 0,0068" dilarang sebagai error bar
+        # estimasi — sd antar-fold BUKAN ketidakpastian mean (SE ≈
+        # 0,0030); tulis "(sd antar-fold 0,0068)".
+        ["p = 0,5383 signifikan", "GBM tertala menang signifikan",
+          "winner's curse 0,0000", "0,7865 − 0,7823 = 0,0025",
+          "tiga konfigurasi max_depth tanpa batas",
+          "juga 0,0042 (terkecil 0,0014, terbesar 0,0066) — curse KECIL",
+          "p-value dari χ² tidak bisa dihitung dengan rumus sederhana",
+          "menemukan yang terbaik 0,7866",
+          "terbaik 0,7866 — hanya 0,0001 di atas grid",
+          "skor CV 3-fold di train",
+          "sama dengan sang juara CV",
+          "satu-satunya estimasi di lesson ini yang tidak tercemar seleksi",
+          "Di sini biasnya 0,0042",
+          "Di sini curse kecil (0,0042)",
+          "VARIASI skor antar lipatan (0,7799–0,7974)",
+          "0,7858 ± 0,0068 adalah pemenang ranking",
+          "hanyalah nested CV (0,7858 ± 0,0068)",
+          "0,7858 ± 0,0068 adalah estimasi yang jujur"],
+    ),
 ]
 
 

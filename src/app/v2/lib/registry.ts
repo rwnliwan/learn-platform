@@ -27,6 +27,7 @@ import { REG_BIZ } from "./reg-biz";
 import { REG_DE } from "./reg-de";
 import { REG_DBA } from "./reg-dba";
 import { REG_WQB } from "./reg-wqb";
+import { REG_MLF } from "./reg-mlf";
 
 // TAHAP 3: all 294 lessons converted to v2 step format.
 // Each REG_* is produced by the per-track conversion agent (see reg-<track>.ts).
@@ -59,6 +60,7 @@ const REGISTRY: Record<string, V2Lesson> = {
   ...REG_DE,
   ...REG_DBA,
   ...REG_WQB,
+  ...REG_MLF,
 };
 
 export function getV2Lesson(slug: string): V2Lesson | null {

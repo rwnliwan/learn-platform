@@ -246,7 +246,7 @@ export const a35: V2Lesson = {
         "AUC = probabilitas ranking benar untuk pasangan acak; bukan akurasi, bukan recall, buta kalibrasi.",
         "KS = daya pisah (poin); Gini = 2xAUC-1. PR-AUC untuk kelas langka.",
         "Threshold dipilih dari expected cost, bukan dari AUC atau akurasi.",
-        "Untuk ECL/pricing: butuh probabilitas jujur (Brier rendah), bukan cuma ranking bagus.",
+        "Untuk ECL/pricing: butuh probabilitas terkalibrasi, bukan cuma ranking bagus (Brier rendah mendukung kualitas probabilistik; kalibrasi dicek via reliability diagram).",
       ],
       next: { label: "A3.6 — Kalibrasi", href: "/v2/learn/a36-kalibrasi" },
       quiz: [

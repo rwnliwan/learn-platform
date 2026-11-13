@@ -23,6 +23,9 @@ Guard regresi konten lesson. **WAJIB ALL PASS setelah setiap perubahan lesson.**
 | `qa_gg37_review_language.py` | GG-37: bahasa proses review bocor ke learner — pola tak-ambigu (`post-R\d`, `R\d+-fix`) + fragment P10-1. Frasa samar ("lama tidak", "tidak terlacak") sah di domain — masuk prompt review. |
 | `qa_r9_recompute.py` | GG-2 (diperkuat: hitung ulang RANTAI dari komponen tertulis, bukan bandingkan dua angka) + GG-3 (prose-vs-lab) + GG-14 (lintas-lesson) — fixture hitung ulang semua angka koreksi R9. |
 | `concept_gate.py` | Gerbang konsep pra-deploy (pengganti loop GG-5): klaim teorema/rumus/definisi dari lesson yang BERUBAH saja (git diff) diverifikasi via SATU panggilan DeepSeek murah. Deploy DITOLAK bila ada KONTRADIKSI. |
+| `qa_chapters_legacy.py` | chapters.ts tidak boleh kehilangan halaman legacy: semua slug baseline (`qa-learn/legacy_slugs.txt`, 300 slug per 2026-11-12) WAJIB hadir + semua `content/*.md` WAJIB terdaftar + tanpa duplikat. Kelas cacat 12 Nov 2026: regen `build-content.py` memangkas 296→197 dan nyaris 404-kan 103 halaman legacy live. |
+| `qa_mlf_deepseek_r1.py` | Kunci 11 kelas kesalahan review DeepSeek M1 (2026-11-12): cek generik repo-wide — formula median paritas-tunggal (F2) + band partisi berlubang (F6); fixture regresi 20 jangkar kalimat perbaikan + 4 rumusan lama yang wajib hilang. Kelas semantik (F1/F5/F7/F9/F10/F11/F3) tidak terkunci penuh oleh guard string — mitigasi: fixture + 11 kelas di prompt concept gate + frasa Brier di denylist `qa_absolute_claims.py`. |
+| `qa_deploy_size.py` | Tidak ada file di output build (`.vercel/output/static`) yang >= 25 MiB (batas keras Pages). Kelas cacat 12 Nov 2026: `v2/learn.html` 25,1 MiB karena halaman kurikulum menserialisasi semua lesson ke RSC payload — live sebelumnya sudah 24,85 MiB, 4 lesson MLF mendorongnya lewat. Perbaikan: props kurikulum diringkas ke 5 field (learn.html 26,3 MB → 0,19 MB). Jalankan SETELAH build, SEBELUM deploy. |
 
 Jalankan dari root repo ini:
 
@@ -45,6 +48,10 @@ python3 qa-learn/qa_gg20_starter_solution.py
 python3 qa-learn/qa_gg21_narrative_derivation.py
 python3 qa-learn/qa_gg37_review_language.py
 python3 qa-learn/qa_r9_recompute.py
+python3 qa-learn/qa_chapters_legacy.py
+python3 qa-learn/qa_mlf_deepseek_r1.py
+# SETELAH build, SEBELUM deploy (batas file Pages 25 MiB):
+python3 qa-learn/qa_deploy_size.py
 # Gerbang konsep — SEBELUM deploy, atas lesson yang berubah saja:
 python3 qa-learn/concept_gate.py [--base HEAD] [--files ...]
 ```

@@ -268,12 +268,15 @@ html[data-theme="dark"] .v2{
 .v2 .tgroup{margin-bottom:var(--sp-6)}
 .v2 .gblurb{font-size:13px;color:var(--text-muted);margin:calc(var(--sp-2) * -1) 0 var(--sp-3)}
 .v2 .tacc{margin-bottom:8px}
-.v2 .tacc-h{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--r-3);cursor:pointer;font:inherit;text-align:left;color:var(--text)}
+.v2 .tacc-h{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--r-3);cursor:pointer;font:inherit;text-align:left;color:var(--text);text-decoration:none}
 .v2 .tacc-h:hover{background:var(--bg-hover)}
 .v2 .tacc-h .tacc-n{font-weight:600;font-size:14px}
 .v2 .tacc-h .muted{margin-left:auto;font-size:12px}
 .v2 .tacc-h .chev{flex:none;width:9px;height:9px;border-right:2px solid var(--text-muted);border-bottom:2px solid var(--text-muted);transform:rotate(45deg);transition:transform var(--dur-1) var(--ease)}
 .v2 .tacc-h[aria-expanded="true"] .chev{transform:rotate(225deg)}
+.v2 .tacc-h .chev.go{transform:rotate(-45deg)}
+.v2 .backlink{display:inline-block;margin-bottom:var(--sp-3);font-size:13px;color:var(--text-muted);text-decoration:none}
+.v2 .backlink:hover{color:var(--text)}
 .v2 .tacc-h[aria-expanded="true"]{border-radius:var(--r-3) var(--r-3) 0 0;border-bottom:0}
 /* ikon track (Lucide) di header akordeon + baris dashboard + kartu misi */
 .v2 .i.ti{width:20px;height:20px;stroke-width:1.8;vertical-align:-4px;margin-right:2px}

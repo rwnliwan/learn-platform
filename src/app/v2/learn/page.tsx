@@ -1,7 +1,7 @@
+import Link from "next/link";
 import DashboardNav from "../lib/DashboardNav";
-import TrackAccordion, { type TrackGroup } from "./TrackAccordion";
-import { getV2Lessons } from "../lib/registry";
-import type { V2Lesson } from "../lib/types";
+import Icon from "../lib/icons";
+import { getV2Tracks } from "./tracks";
 
 export const metadata = {
   title: "Kurikulum — Learn v2",
@@ -12,30 +12,23 @@ export const metadata = {
 const FOUNDATION = new Set(["Statistika", "Probabilitas", "SQL", "Python"]);
 
 export default function V2Curriculum() {
-  const lessons = getV2Lessons();
-  const byTrack = new Map<string, V2Lesson[]>();
-  for (const l of lessons) {
-    const arr = byTrack.get(l.track) ?? [];
-    arr.push(l);
-    byTrack.set(l.track, arr);
-  }
-  const tracks = [...byTrack.entries()].sort((a, b) => b[1].length - a[1].length);
-
-  const groups: TrackGroup[] = [
+  const tracks = getV2Tracks();
+  const groups = [
     {
       id: "fondasi",
       title: "Fondasi",
       blurb:
         "Bekal teknis lintas peran — kuasai dulu sebelum masuk track peran.",
-      tracks: tracks.filter(([t]) => FOUNDATION.has(t)),
+      tracks: tracks.filter((t) => FOUNDATION.has(t.name)),
     },
     {
       id: "peran",
       title: "Track Peran",
       blurb: "Spesialisasi per peran dan domain: risiko, fraud, portfolio, data, pemasaran, kesehatan.",
-      tracks: tracks.filter(([t]) => !FOUNDATION.has(t)),
+      tracks: tracks.filter((t) => !FOUNDATION.has(t.name)),
     },
   ];
+  const totalLessons = tracks.reduce((a, t) => a + t.lessonCount, 0);
 
   return (
     <div className="shell">
@@ -44,9 +37,41 @@ export default function V2Curriculum() {
         <div className="main-in">
           <div className="page-h">
             <h1>Kurikulum</h1>
-            <span className="date">{lessons.length} lesson</span>
+            <span className="date">
+              {tracks.length} track · {totalLessons} lesson
+            </span>
           </div>
-          <TrackAccordion groups={groups} />
+          {groups.map((g) => (
+            <div key={g.id} className="tgroup">
+              <div className="sec">
+                <span>
+                  {g.title}{" "}
+                  <span className="muted">
+                    · {g.tracks.length} track ·{" "}
+                    {g.tracks.reduce((a, t) => a + t.lessonCount, 0)} lesson
+                  </span>
+                </span>
+              </div>
+              <p className="gblurb">{g.blurb}</p>
+              {g.tracks.map((t) => (
+                <section key={t.name} className="tacc">
+                  <Link
+                    className="tacc-h"
+                    href={`/v2/learn/track/${t.slug}`}
+                  >
+                    <span className="tacc-ic" aria-hidden="true">
+                      <Icon name={t.icon} className="i ti" />
+                    </span>
+                    <span className="tacc-n">{t.name}</span>
+                    <span className="muted">
+                      {t.lessonCount} lesson · ±{t.totalMinutes} mnt
+                    </span>
+                    <span className="chev go" aria-hidden="true" />
+                  </Link>
+                </section>
+              ))}
+            </div>
+          ))}
         </div>
       </main>
     </div>

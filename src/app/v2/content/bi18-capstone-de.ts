@@ -221,7 +221,7 @@ export const bi18: V2Lesson = {
         "PCA QC: kelompok terpisah = sinyal dominan.",
         "Laporan: angka + arah + QC, tanpa jargon berlebih.",
       ],
-      next: { label: "Indeks Kurikulum", href: "/learn" },
+      next: { label: "Indeks Kurikulum", href: "/v2/learn" },
       quiz: [
         {
           q: "Kenapa normalisasi sebelum DE?",

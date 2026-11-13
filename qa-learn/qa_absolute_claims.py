@@ -83,6 +83,15 @@ FORBIDDEN = [
     # bi13
     "satu-satunya cara melihat setiap CpG",
     "peak yang lolos hampir pasti nyata",
+    # mlf3 / a35 — F4 DeepSeek R1 (2026-11-12): Brier rendah disamakan
+    # dengan probabilitas jujur/terkalibrasi. Brier mencampur reliability +
+    # resolution; Brier rendah TIDAK membuktikan kalibrasi.
+    "jadi lebih terkalibrasi",
+    "GBM lebih terkalibrasi",
+    "Mana yang lebih terkalibrasi?",
+    "Brier rendah = probabilitas jujur",
+    "Brier sendiri sudah bisa dibandingkan — kecil lebih baik",
+    "probabilitas jujur (Brier rendah)",
     # biz13
     "turunkan ambang auto-jawab untuk bucket itu",
     "Baru layak beli",

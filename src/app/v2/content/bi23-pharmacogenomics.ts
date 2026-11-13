@@ -271,7 +271,7 @@ export const bi23: V2Lesson = {
         "PharmCAT: VCF → star allele (Named Allele Matcher) → fenotipe → rekomendasi.",
         "Batas: phenoconversion, bias ancestri, genotipe ≠ takdir; CPIC = aturan, bukan ML.",
       ],
-      next: { label: "Indeks Kurikulum", href: "/learn" },
+      next: { label: "Indeks Kurikulum", href: "/v2/learn" },
       quiz: [
         {
           q: "*1 pada CYP2D6*1 artinya…",
