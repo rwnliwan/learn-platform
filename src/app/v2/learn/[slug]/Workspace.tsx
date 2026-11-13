@@ -25,6 +25,7 @@ import {
 import { logVisit, pushDone, pushUndone, markMasteredLocal } from "../../lib/progress";
 import { Rating } from "ts-fsrs";
 import { recordReview, quizCardId, labCardId } from "../../lib/fsrs";
+import { shuffledOrder } from "../../lib/quizShuffle";
 import { logSignal } from "../../lib/confusion";
 import { SNAPSHOT_FILES } from "../../lib/snapshot-files";
 // ITEM 7 (aditif, Gelombang H): Time Capsule Predictions — titik prediksi
@@ -807,7 +808,7 @@ export default function Workspace({ lesson }: { lesson: V2Lesson }) {
                   onFirstOpen={() => logSignal(lesson.slug, step.id, "hint")}
                 />
               )}
-              {step.quiz && <QuizBlock quiz={step.quiz} answers={quizAnswers} setAnswers={setQuizAnswers} qIdx={quizIdx} setQIdx={setQuizIdx} onAnswer={(qi, oi, correct) => { try { recordReview(quizCardId(lesson.slug, step.id, qi), correct ? Rating.Good : Rating.Again); /* Career/gamifikasi: catat jawaban kuis ke localStorage (kontrak key v2:quiz:* di lib/career.ts). Sekali jawab per soal di UI, jadi "benar" = benar di percobaan pertama. */ localStorage.setItem(`v2:quiz:${lesson.slug}:${step.id}:${qi}`, JSON.stringify({ correct, ts: Date.now() })); } catch { /* noop */ } }} />}
+              {step.quiz && <QuizBlock quiz={step.quiz} seedKey={`${lesson.slug}:${step.id}`} answers={quizAnswers} setAnswers={setQuizAnswers} qIdx={quizIdx} setQIdx={setQuizIdx} onAnswer={(qi, oi, correct) => { try { recordReview(quizCardId(lesson.slug, step.id, qi), correct ? Rating.Good : Rating.Again); /* Career/gamifikasi: catat jawaban kuis ke localStorage (kontrak key v2:quiz:* di lib/career.ts). Sekali jawab per soal di UI, jadi "benar" = benar di percobaan pertama. */ localStorage.setItem(`v2:quiz:${lesson.slug}:${step.id}:${qi}`, JSON.stringify({ correct, ts: Date.now() })); } catch { /* noop */ } }} />}
               {/* Item 2: tangga petunjuk Socratic untuk kuis (di bawah QuizBlock) */}
               {step.quiz && (
                 <HintLadder
@@ -1240,6 +1241,7 @@ function QuizBlock({
   setAnswers,
   qIdx,
   setQIdx,
+  seedKey,
   onAnswer,
 }: {
   quiz: NonNullable<V2Step["quiz"]>;
@@ -1247,6 +1249,8 @@ function QuizBlock({
   setAnswers: (a: Record<number, number>) => void;
   qIdx: number;
   setQIdx: (i: number) => void;
+  /** `${lessonSlug}:${stepId}` — seed acak deterministik (lihat quizShuffle.ts). */
+  seedKey: string;
   /** additive hook: fired once per question, when an answer is first clicked */
   onAnswer?: (qIdx: number, optIdx: number, correct: boolean) => void;
 }) {
@@ -1255,17 +1259,14 @@ function QuizBlock({
   // F5: jangan ungkap penjelasan opsi benar setelah 1 klik salah.
   // Penjelasan opsi benar baru dibuka setelah SEMUA soal dijawab (attempt boundary).
   const attemptDone = quiz.every((_, i) => answers[i] !== undefined);
-  // Pilot practice-loop: acak urutan opsi per soal agar jawaban benar tidak
-  // selalu di posisi yang sama. Stabil selama mount (per soal). answers tetap
-  // menyimpan indeks ASLI opsi.
-  const order = useMemo(() => {
-    const idx = q.options.map((_, i) => i);
-    for (let i = idx.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [idx[i], idx[j]] = [idx[j], idx[i]];
-    }
-    return idx;
-  }, [quiz, qIdx]);
+  // MUST-1 fix (review Instinct 2026-11-14): acak urutan opsi per soal agar
+  // jawaban benar tidak selalu di posisi yang sama (konten: B = 60,3%).
+  // DETERMINISTIK per soal (seed slug:step:qi) — urutan sama di tiap reload,
+  // tanpa mismatch SSR/hydration. answers tetap menyimpan indeks ASLI opsi.
+  const order = useMemo(
+    () => shuffledOrder(q.options.length, `${seedKey}:${qIdx}`),
+    [quiz, qIdx, seedKey]
+  );
   const pickedOrig = answers[qIdx];
   return (
     <div style={{ marginTop: 16 }}>

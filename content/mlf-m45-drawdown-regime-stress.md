@@ -119,7 +119,7 @@ Semua angka memakai portofolio Rp100 juta dan VaR/ES parametrik normal (mean 0):
 
 ## 8. Regime-Conditional VaR — Ekor yang Membedakan Regime
 
-**Nilai [notebook]:** VaR95 high-vol 0,0261 vs low-vol 0,0294 — nyaris SAMA, bahkan sedikit lebih kecil di high-vol. Tapi VaR99 high-vol 0,0761 vs low-vol 0,0456 — jauh BERBEDA, hampir 1,7 kali lipat. VaR99 statis M4.2 (0,0479, seluruh window) berada DI ANTARA keduanya: ia meremehkan ekor tepat di regime high-vol (0,0479 vs 0,0761) dan melebih-lebihkan ekor di regime low-vol (0,0479 vs 0,0456). Dalam Rupiah pada Rp100 juta: kerugian 1-dari-100-hari di high-vol adalah Rp7.610.000, bukan Rp4.790.000 seperti kata VaR statis.
+**Nilai [notebook]:** VaR95 high-vol 0,0261 vs low-vol 0,0294 — nyaris SAMA, bahkan sedikit lebih kecil di high-vol. Tapi VaR99 high-vol 0,0761 vs low-vol 0,0456 — jauh BERBEDA, hampir 1,7 kali lipat. VaR99 statis M4.2 (0,0479, seluruh window) berada DI ANTARA keduanya: ia meremehkan ekor tepat di regime high-vol (0,0479 vs 0,0761) dan melebih-lebihkan ekor di regime low-vol (0,0479 vs 0,0456). Dalam Rupiah pada Rp100 juta: kerugian 1-dari-100-hari di high-vol adalah Rp7.610.000, bukan Rp4.792.081 seperti kata VaR statis.
 
 **Baik/buruk:** regime-conditional VaR bagus bila yang ditanya adalah «berapa buruk hari yang sangat buruk, di kondisi saat ini?» — ia jujur tentang ekor. Buruk bila dipakai sebagai angka tunggal untuk semua kondisi: VaR high-vol dihitung dari hanya 105 hari — kuantil 1% dari 105 hari praktis ditentukan oleh 1 hari terburuk, jadi angkanya tidak stabil.
 
@@ -159,18 +159,18 @@ Portofolio 2 aset mainan, bobot 50/50, vol harian 0,02 dan 0,03. Korelasi 0,30 �
 
 ## Mini-case: Rp100 Juta, Berapa Buffer yang Jujur?
 
-Portofolio Rp100 juta pada 2026-11-11 — masih terendam −35,28% di bawah puncak [notebook]. VaR statis (M4.2): VaR99 0,0479 → Rp4.790.000. Regime-conditional: high-vol VaR99 0,0761 → Rp7.610.000; low-vol 0,0456 → Rp4.560.000. Stress korelasi: VaR95 naik dari Rp3.240.000 menjadi Rp4.310.000. Buffer yang jujur memakai angka paling konservatif untuk kondisi saat ini: di episode high-vol, Rp7.610.000. Dan drawdown berkata: nilai pernah menyentuh Rp56.370.000, dan untuk kembali ke Rp100 juta dibutuhkan +77,40%. Keputusan: laporkan empat angka — maxDD −43,63% (belum pulih, terendam 243 hari), VaR99 high-vol Rp7.610.000 vs statis Rp4.790.000, VaR95 stress-korelasi Rp4.310.000, dan kebutuhan pulih +77,40%.
+Portofolio Rp100 juta pada 2026-11-11 — masih terendam −35,28% di bawah puncak [notebook]. VaR statis (M4.2): VaR99 0,0479 → Rp4.792.081. Regime-conditional: high-vol VaR99 0,0761 → Rp7.610.000; low-vol 0,0456 → Rp4.560.000. Stress korelasi: VaR95 naik dari Rp3.240.000 menjadi Rp4.310.000. Buffer yang jujur memakai angka paling konservatif untuk kondisi saat ini: di episode high-vol, Rp7.610.000. Dan drawdown berkata: nilai pernah menyentuh Rp56.370.000, dan untuk kembali ke Rp100 juta dibutuhkan +77,40%. Keputusan: laporkan empat angka — maxDD −43,63% (belum pulih, terendam 243 hari), VaR99 high-vol Rp7.610.000 vs statis Rp4.792.081, VaR95 stress-korelasi Rp4.310.000, dan kebutuhan pulih +77,40%.
 
 **Tabel keputusan — M4.2 + M4.3 + M4.5 dalam satu tempat (portofolio Rp100 juta):**
 
-- **Statis, historis (M4.2):** VaR95 0,0286 (Rp2.860.000) · VaR99 0,0479 (Rp4.790.000) · ES95 0,0445 (Rp4.450.000) · Buffer: Rp4.790.000 (VaR99) sebagai angka dasar bila tidak ada informasi kondisi.
+- **Statis, historis (M4.2):** VaR95 0,0286 (Rp2.856.323) · VaR99 0,0479 (Rp4.792.081) · ES95 0,0445 (Rp4.451.285) · Buffer: Rp4.792.081 (VaR99) sebagai angka dasar bila tidak ada informasi kondisi.
 - **Kondisional EWMA, 11 Nov 2026 (M4.3):** VaR95 0,0490 (Rp4.900.000) · VaR99 0,0694 (Rp6.940.000) · Buffer: Rp6.940.000 — EWMA bereaksi cepat pada vol terbaru.
 - **Kondisional GARCH, 11 Nov 2026 (M4.3):** VaR95 0,0315 (Rp3.150.000) · VaR99 0,0446 (Rp4.460.000) · Buffer: Rp4.460.000 — GARCH lebih tenang daripada EWMA pada tanggal yang sama.
 - **Regime high-vol (M4.5):** VaR95 0,0261 (Rp2.610.000) · VaR99 0,0761 (Rp7.610.000) · Buffer: Rp7.610.000 — angka paling konservatif; pakai ini selama episode high-vol.
 - **Regime low-vol (M4.5):** VaR95 0,0294 (Rp2.940.000) · VaR99 0,0456 (Rp4.560.000) · Buffer: Rp4.560.000 — sedikit di bawah buffer statis.
 - **Stress korelasi 0,95 (M4.5):** VaR95 0,0431 (Rp4.310.000) · Bukan buffer harian, melainkan uji ketahanan — «bila diversifikasi berhenti bekerja, VaR95 harianmu Rp4.310.000, bukan Rp3.240.000».
 
-**Contoh kegagalan agregasi:** manajer yang hanya memakai SATU angka — VaR99 statis Rp4.790.000 — dan merasa aman, padahal portofolio sedang di episode high-vol yang ekornya Rp7.610.000. Kekurangannya Rp2.820.000 — buffer kurang 37% dari yang dibutuhkan (2.820.000 / 7.610.000). VaR statis tidak «salah hitung» — ia benar sebagai rata-rata seluruh window — melainkan satu angka rata-rata dipakai untuk kondisi yang bukan rata-rata. Dan EWMA vs GARCH pun tidak sepakat pada 11 November 2026 (VaR95 0,0490 vs 0,0315): model kondisional yang berbeda memberi jawaban berbeda — itulah alasan tabel ini menampilkan semuanya, bukan memilih satu «pemenang» secara diam-diam.
+**Contoh kegagalan agregasi:** manajer yang hanya memakai SATU angka — VaR99 statis Rp4.792.081 — dan merasa aman, padahal portofolio sedang di episode high-vol yang ekornya Rp7.610.000. Kekurangannya Rp2.817.919 — buffer kurang 37% dari yang dibutuhkan (2.817.919 / 7.610.000). VaR statis tidak «salah hitung» — ia benar sebagai rata-rata seluruh window — melainkan satu angka rata-rata dipakai untuk kondisi yang bukan rata-rata. Dan EWMA vs GARCH pun tidak sepakat pada 11 November 2026 (VaR95 0,0490 vs 0,0315): model kondisional yang berbeda memberi jawaban berbeda — itulah alasan tabel ini menampilkan semuanya, bukan memilih satu «pemenang» secara diam-diam.
 
 ## Jembatan ke M9
 
@@ -197,5 +197,5 @@ Notebook: colab/mlf-m45-guided-task.ipynb — drawdown semua aset (BBCA maxDD �
 - Stress return & gabungan [ilustrasi]: shock return −10% → P&L langsung −Rp10.000.000, VaR/ES tidak berubah (0,0324); shock vol ×1,5 → vol 0,0295, VaR95 0,0486; gabungan (korelasi 0,95 + vol ×1,5 + return −10%) → vol 0,0393, VaR95 0,0646, DR 1,0169 — satu guncangan, satu pertanyaan.
 - Regime real-time (tanpa look-ahead): ambang expanding p75 mulai setelah 60 nilai; 361 hari dinilai, kesepakatan 94,46% (341/361) dengan full-sample, 54 vs 70 hari high (under-detect 16 hari); vol esok hari setelah label HIGH 0,0192 vs LOW 0,0191 — label bukan ramalan; ambang real-time terakhir 0,3316 = ambang full-sample.
 - Matriks skenario: ES99 high-vol 0,1139 vs low-vol 0,0561; stress korelasi 0,95 ES99 0,0698; maxDD portofolio −0,4363; DR normal 1,3530 vs stress 1,0169.
-- Tabel keputusan (M4.2 + M4.3 + M4.5): statis VaR99 0,0479; EWMA 11 Nov 2026 VaR99 0,0694; GARCH VaR99 0,0446; high-vol VaR99 0,0761; low-vol VaR99 0,0456; stress korelasi VaR95 0,0431 — buffer statis Rp4.790.000 kurang 37% (Rp2.820.000) dari ekor high-vol Rp7.610.000.
+- Tabel keputusan (M4.2 + M4.3 + M4.5): statis VaR99 0,0479; EWMA 11 Nov 2026 VaR99 0,0694; GARCH VaR99 0,0446; high-vol VaR99 0,0761; low-vol VaR99 0,0456; stress korelasi VaR95 0,0431 — buffer statis Rp4.792.081 kurang 37% (Rp2.817.919) dari ekor high-vol Rp7.610.000.
 - Jembatan ke M9: walk-forward, backtesting, dan Monte Carlo diperdalam di M9; tugas integratif memakai marginal/component VaR M4.4 — tanpa klaim optimasi sebelum M5.

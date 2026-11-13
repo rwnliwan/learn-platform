@@ -2430,6 +2430,29 @@ FIXTURES = [
          "sekitar satu hari",
          "0,0117)? Karena 480 hari hanya memberi 24 hari ekor"],
     ),
+    # Ronde fix review Instinct Track MLF (2026-11-14): 8 temuan, 8/8 BENAR.
+    # Sweep repo-wide 2026-11-14: ketiga frasa must-not 0 kemunculan di
+    # src/app/v2/content/*.ts + content/*.md SEBELUM fixture ditambah.
+    # "Rp2.860.000" SENGAJA bukan must-not mentah: masih sah di M4.2:26 /
+    # M4.3:37 sebagai alternatif pembulatan yang DIAJARKAN — yang dikunci
+    # hanya frasa spesifik "limit harian Rp2.860.000" (M9.5:573 lama).
+    # "return 1 November 2024" — jendela return yang benar 4 Nov 2024
+    # (M4.2:36/:57, M4.3:27/:37, M4.2:469 why kuis ikut diperbaiki di ronde ini).
+    (
+        "mlf1-tiga-tipe-satu-alur.ts",
+        ["Reinforcement learning di luar cakupan track ini"],
+        ["Reinforcement learning untuk trading didalami di M4"],
+    ),
+    (
+        "mlf-m42-var-expected-shortfall.ts",
+        ["return 4 November 2024 sampai 11 November 2026"],
+        ["return 1 November 2024"],
+    ),
+    (
+        "mlf-m95-historical-simulation-bootstrap.ts",
+        ["limit harian Rp2.856.323"],
+        ["limit harian Rp2.860.000"],
+    ),
 ]
 
 

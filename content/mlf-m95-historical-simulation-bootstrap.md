@@ -24,7 +24,7 @@ Angka acuan: portofolio equal-weight BBCA/KLBF/UNVR, SIMPLE daily returns (bukan
 
 Historical simulation (HS) adalah cara paling jujur — dan paling naif — menjawab «berapa VaR?»: urutkan 480 return harian dari yang terburuk ke yang terbaik, lalu baca kuantilnya. VaR95 adalah MINUS kuantil 5%: kerugian yang hanya dilampaui 5% hari. ES95 (Expected Shortfall) adalah MINUS rata-rata kerugian pada hari-hari yang LEBIH BURUK dari VaR95 — rata-rata ekornya. Definisi eksaknya: HS VaR = kuantil empiris dari return historis. Bukan «VaR dari data masa lalu yang pasti terulang» — masa lalu tidak berjanji terulang; HS hanya berkata «inilah yang TERJADI pada 480 hari itu, dan kuantilnya adalah ini».
 
-**Nilai [m9_canonical.json]:** VaR95 0,0286, ES95 0,0445, VaR99 0,0479, ES99 0,0775. Dalam rupiah per Rp100 juta (portofolio IDX): VaR95 Rp2.860.000, ES95 Rp4.450.000, VaR99 Rp4.790.000, ES99 Rp7.750.000. ES95 (0,0445) jauh lebih besar dari VaR95 (0,0286) — selisih 0,0159: begitu kerugian melewati VaR, rata-rata kerugiannya 56% lebih besar. ES95 dihitung dari 24 hari terburuk (5% dari 480), sedangkan ES99 hanya dari sekitar 5 hari (1% dari 480) — jauh lebih goyah. Laporkan n ekor bersama ES.
+**Nilai [m9_canonical.json]:** VaR95 0,0286, ES95 0,0445, VaR99 0,0479, ES99 0,0775. Dalam rupiah per Rp100 juta (portofolio IDX): VaR95 Rp2.856.323, ES95 Rp4.451.285, VaR99 Rp4.792.081, ES99 Rp7.750.165. ES95 (0,0445) jauh lebih besar dari VaR95 (0,0286) — selisih 0,0159: begitu kerugian melewati VaR, rata-rata kerugiannya 56% lebih besar. ES95 dihitung dari 24 hari terburuk (5% dari 480), sedangkan ES99 hanya dari sekitar 5 hari (1% dari 480) — jauh lebih goyah. Laporkan n ekor bersama ES.
 
 Satu hal yang wajib eksplisit: SIMPLE vs LOG return. Semua angka HS lesson ini memakai SIMPLE daily returns — konvensi yang sama dengan M4.2 VaR dan M5. Simulasi GBM di M9 memakai LOG returns — deret yang berbeda (mean log −0,0008 vs mean simple −0,0006). Jangan campur. «Rp» di sini hanya untuk portofolio IDX ini — metrik kredit UCI memakai NT$, bukan Rp.
 
@@ -154,7 +154,7 @@ Hasil [lab]: var95_iid_mean=0.0283; var95_blk_mean=0.0285; ci_iid=[0.0229; 0.032
 
 ## 12. Mini-case: Laporkan VaR95 dengan CI-nya ke Komite
 
-Jawaban lesson ini: «VaR95 HS (480 hari) 0,0286, CI95 bootstrap block-10 [0,0223; 0,0340]; parametrik 0,0328 sebagai pembanding; ES95 0,0445 karena ekor gemuk — dalam rupiah per Rp100 juta: VaR95 Rp2.860.000, ES95 Rp4.450.000.»
+Jawaban lesson ini: «VaR95 HS (480 hari) 0,0286, CI95 bootstrap block-10 [0,0223; 0,0340]; parametrik 0,0328 sebagai pembanding; ES95 0,0445 karena ekor gemuk — dalam rupiah per Rp100 juta: VaR95 Rp2.856.323, ES95 Rp4.451.285.»
 
 Tiap potong kalimat itu ada alasannya. «HS (480 hari)» — metodenya dan jendelanya, agar komite bisa mereplikasi dan menantang. «0,0286» — titiknya. «CI95 bootstrap block-10 [0,0223; 0,0340]» — pitanya, dari metode yang MENGAKUI dependensi waktu (autokorelasi kuadrat lag-1 0,1043 [M4.3]) — bukan CI iid [0,0229; 0,0322] yang lebih sempit tetapi palsu untuk data ini. «Parametrik 0,0328 sebagai pembanding» — metode kedua, agar komite melihat selisih antar-metode (0,0042) dan tahu bahwa selisih itu berada DI DALAM CI block. «ES95 0,0445 karena ekor gemuk» — angka yang sebenarnya menentukan cadangan kerugian bila VaR terlampaui: ES95 HS lebih besar dari param (0,0410), dan ES99 HS (0,0775) jauh lebih besar dari param (0,0528).
 
@@ -226,9 +226,9 @@ Ukur (HS/param/MC + generator + propagasi) → Uji (Kupiec + severity + independ
 
 ## 18. Setelah Track: Empat Jalur, Satu Artefak
 
-Tidak ada M10 — dan itu disengaja. Empat jalur: (1) Market risk quant — FHS dan EVT (merujuk M9.1 langkah 13 untuk FHS); (2) Model validation — uji ES formal Acerbi–Szekely (dirujuk M9.3 langkah 13) dan standar SR 11-7; (3) Credit risk — IRB dan IFRS 9 staging penuh (M2, M8); (4) Fraud/AML analytics — sistem triase produksi (M3, Siskamling, M7.5).
+Tidak ada M10 — dan itu disengaja. Empat jalur: (1) Market risk quant — FHS dan EVT (merujuk M9.1 langkah 13 untuk FHS); (2) Model validation — uji ES formal Acerbi–Szekely (dirujuk M9.3 langkah 13) dan standar SR 11-7; (3) Credit risk — IRB dan IFRS 9 staging penuh (M2, M8); (4) Fraud/AML analytics — sistem triase produksi (M3, Siskamling, M7.5). Dua topik yang sengaja TIDAK ada di keempat jalur itu: forecasting deret waktu (ARIMA, Prophet, LSTM) dan NLP keuangan (sentimen berita, parsing laporan) — keduanya adalah track tersendiri, bukan modul yang tertunda (lihat MLF1 langkah 9).
 
-Matriks gap→skill→artefak: «ekor di luar sampel» → FHS/EVT → laporan VaR dengan EVT; «uji ES formal» → Acerbi–Szekely → backtest ES; «drift di produksi» → PSI live → dashboard monitoring (M7.5); «stress regulasi» → skenario makro → laporan stress ala ICAAP; «threshold bisnis» → profit/LGD/margin → artefak keputusan (langkah 16). Pilih SATU jalur dan SATU artefak.
+Matriks gap→skill→artefak: «ekor di luar sampel» → FHS/EVT → laporan VaR dengan EVT; «uji ES formal» → Acerbi–Szekely → backtest ES; «drift di produksi» → PSI live → dashboard monitoring (M7.5); «stress regulasi» → skenario makro → laporan stress ala ICAAP; «threshold bisnis» → profit/LGD/margin → artefak keputusan (langkah 16); «meramal harga besok» → forecasting deret waktu (ARIMA/Prophet/LSTM) → track forecasting tersendiri; «membaca teks keuangan» → NLP (sentimen berita, parsing laporan) → track NLP tersendiri. Pilih SATU jalur dan SATU artefak.
 
 ---
 
@@ -239,7 +239,7 @@ Notebook: colab/mlf-m95-guided-task.ipynb — HS 480 hari + parametrik, jendela 
 ## Rangkuman
 
 - Tiga jawaban VaR95 atas data yang sama (SIMPLE returns, n=480): HS (480 hari) 0,0286, parametrik [M4.2] 0,0328, Monte Carlo [M9.1] 0,0329 (N=100.000), bootstrap mean 0,0284 — VaR bukan satu bilangan, melainkan keluaran dari satu metode atas satu data.
-- Historical simulation = kuantil empiris, tanpa asumsi distribusi: VaR95 0,0286, ES95 0,0445 (24 hari terburuk), VaR99 0,0479, ES99 0,0775 (sekitar 5 hari); Rp per Rp100 juta: VaR95 Rp2.860.000, ES95 Rp4.450.000.
+- Historical simulation = kuantil empiris, tanpa asumsi distribusi: VaR95 0,0286, ES95 0,0445 (24 hari terburuk), VaR99 0,0479, ES99 0,0775 (sekitar 5 hari); Rp per Rp100 juta: VaR95 Rp2.856.323, ES95 Rp4.451.285.
 - Jendela HS mengubah jawaban: 120 hari → VaR95 0,0283, ES95 0,0557; 250 hari → 0,0311 / 0,0467; 480 hari → 0,0286 / 0,0445 — VaR95 bergerak 0,0028 (sekitar 10%); ES95 jendela 120 hari 25% lebih besar karena hari −0,1398 (2026-10-16 [M9.2]) berbobot empat kali lebih besar.
 - Parametrik [M4.2]: VaR95 0,0328, ES95 0,0410, VaR99 0,0462, ES99 0,0528 — VaR95 hist LEBIH KECIL dari param, tetapi ES95 hist LEBIH BESAR dari param dan ES99 hist (0,0775) jauh di atas param (0,0528): kuantil 5% empiris lebih kecil dari normal, ekor DI BALIK VaR lebih gemuk dari normal.
 - Bootstrap iid (B=10.000, seed 42): VaR95 mean 0,0284, sd 0,0022, CI95 [0,0229; 0,0322]; ES95 mean 0,0440, sd 0,0057, CI95 [0,0346; 0,0569] — CI mengukur ketidakpastian SAMPLING; laporkan intervalnya, bukan «mean ± sd».

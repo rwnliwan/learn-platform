@@ -13,6 +13,7 @@ export const mlf1: V2Lesson = {
       title: "Peta lesson dan tujuan",
       prose: [
         "Machine learning di finance bukan sulap: ia adalah cara sistematis mengubah data masa lalu menjadi keputusan — siapa yang diberi kredit, transaksi mana yang diperiksa, kapan risiko naik.",
+        "Track ini punya empat pembeda yang tidak dimiliki kursus ML-finance biasa: stress test tiga skenario (M2.3), policy simulator (M2.3), fairness audit + mitigasi (M2.2, M7), dan adverse-action reason codes (M2.2) — semuanya diajarkan dengan angka yang bisa direplikasi, bukan sekadar disebut.",
         "Tujuan lesson ini:",
         "• Menyebutkan tiga tipe machine learning dan penggunaannya di finance.",
         "• Menjelaskan workflow ML end-to-end: framing, data, fitur, model, evaluasi, threshold, monitoring.",
@@ -201,7 +202,7 @@ export const mlf1: V2Lesson = {
         "Satu peringatan untuk data berwaktu: harga saham dan return adalah time series — pengamatan hari ini bergantung pada kemarin, bukan sampel independen yang bisa diacak. Model yang dilatih dengan split acak pada data seperti ini bisa mengintip masa depan lewat tetangga waktunya. Aturan yang sama dengan validasi kredit: latih di masa lalu, uji di masa depan. Pendalamannya di M4 (regime dan volatilitas) dan M9 (walk-forward validation).",
         "Gambar di bawah menunjukkan loop-nya: state (posisi portofolio) → aksi (beli, jual, tahan) → reward (profit dikurangi risiko) → state berikutnya (harga bergerak). Loop ini berulang ribuan kali di simulasi sebelum agen dipakai.",
         "Baik atau buruk: reinforcement learning bagus bila reward benar-benar mencerminkan tujuan bisnis dan lingkungan simulasinya mirip pasar nyata. Buruk bila reward-nya bisa diakali — agen menemukan celah simulator yang tidak ada di pasar nyata. Itu disebut reward hacking: skor naik, uang nyata hilang.",
-        "Mitigasi: desain reward bersama orang yang paham bisnis, tambahkan penalti risiko secara eksplisit, dan uji agen di data yang tidak pernah dilihatnya selama latihan — termasuk periode krisis. Reinforcement learning untuk trading didalami di M4.",
+        "Mitigasi: desain reward bersama orang yang paham bisnis, tambahkan penalti risiko secara eksplisit, dan uji agen di data yang tidak pernah dilihatnya selama latihan — termasuk periode krisis. Reinforcement learning di luar cakupan track ini — ia butuh simulator pasar, dan desain reward-nya adalah bidang tersendiri.",
       ],
       figure: {
         svg: `<svg viewBox="0 0 480 240" role="img" aria-label="Diagram loop: state, aksi, reward, state berikutnya">
@@ -468,6 +469,7 @@ print(f"z(5000)={(5000 - mean) / sd:.2f} z(4200)={(4200 - mean) / sd:.2f}")`,
         "Data kecil dan hasil harus bisa dijelaskan ke regulator? Mulai dari model sederhana yang interpretable — logistic regression — sebelum model kompleks. Notebook credit scoring membuktikan polanya: LR 0,7426 dulu, GBM 0,7823 kemudian.",
         "Tidak yakin labelmu benar? Jangan melatih dulu — bersihkan label dan datanya (L0). Model yang dilatih di atas label yang salah akan salah dengan percaya diri.",
         "Peta M2 — apa yang menanti di modul credit scoring. Scorecard: fitur mentah diubah menjadi bin, tiap bin diberi Weight of Evidence (WoE), lalu Information Value (IV) mengukur seberapa kuat fitur itu membedakan default dan lancar; skor akhirnya dijumlahkan menjadi scorecard yang bisa dijelaskan ke nasabah dan regulator. Roll-rate: migrasi status keterlambatan — current → 1–30 DPD → 31–60 DPD → 61–90 DPD → default — menunjukkan seberapa cepat tunggakan memburuk. Reject inference: karena model hanya melihat pinjaman yang disetujui, M2 mengajarkan cara menginferensi outcome pelamar yang ditolak (extrapolation, reweighting, fuzzy augmentation). Vintage analysis dan IFRS 9 staging menyusul di modul yang sama. Ini peta konsep saja — pengajaran penuhnya di M2.",
+        "Yang TIDAK diajarkan track ini — dan itu disengaja. Prediksi harga / forecasting deret waktu (ARIMA, Prophet, LSTM): track ini mengukur risiko dari data yang ada, bukan meramal harga besok — forecasting butuh data dan metode deret waktu yang berbeda, dan itu track tersendiri. NLP keuangan (sentimen berita, parsing laporan keuangan dan disclosure): track ini bekerja dengan angka dan tabel, bukan teks — NLP butuh korpus teks dan model bahasa, dan itu juga track tersendiri. Reinforcement learning juga di luar cakupan (lihat langkah 5). Bila kamu datang untuk «memprediksi harga saham», track ini bukan jalannya — track ini mengajarkanmu mengukur, membandingkan, dan memvalidasi model atas data yang sudah terjadi.",
       ],
       tasks: [],
     },

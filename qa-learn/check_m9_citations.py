@@ -83,6 +83,14 @@ NUM_HOME = {
     "0,0445": {"M4.2", "M9.5"},
     "0,0479": {"M4.2", "M9.5"},
     "0,0775": {"M4.2", "M9.5"},
+    # rupiah tak-dibulatkan (m4_canonical.json *_rp100jt; ronde fix Instinct
+    # 2026-11-14 — menggantikan Rp2.860.000/Rp4.450.000/Rp4.790.000/Rp7.750.000
+    # yang dibulatkan; nilai bulat tetap ada di m9_canonical var95_hist_rp /
+    # es95_hist_rp sebagai pembulatan 10^4, bukan nilai eksak)
+    "2.856.323": {"M4.2"},
+    "4.451.285": {"M4.2"},
+    "4.792.081": {"M4.2"},
+    "7.750.165": {"M4.2"},
     "0,0328": {"M4.2", "M9.1", "M9.4"},
     "0,0410": {"M4.2", "M9.5"},
     "0,0462": {"M4.2", "M9.5"},

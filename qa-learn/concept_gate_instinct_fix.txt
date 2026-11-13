@@ -1,0 +1,60 @@
+# Concept gate — ronde fix review Instinct Track MLF (2026-11-14)
+# VERDIK CHIEF (bukan DeepSeek) — panggilan model DILARANG ronde ini (tugas koordinator #11:
+# JANGAN pakai Kelontong AI; saldo 4 coin; verifikasi Chief yang menilai).
+# Metode: ekstraksi diff-scoped concept_gate.py (changed_files + changed_line_ranges vs HEAD)
+# dijalankan; verifikasi tiap baris berubah dilakukan Chief manual terhadap sumber kanonis.
+#
+# Ekstraksi: 7 file TS berubah, 172 klaim full-file, 27 baris berubah.
+# TEMUAN METODOLOGIS (jujur dicatat): 0 klaim jatuh di baris berubah — BUKAN karena tidak
+# ada perubahan, melainkan karena dua keterbatasan ekstraktor yang SUDAH didokumentasikan
+# di AGENTS.md: (a) prose langkah (prose: array) TIDAK PERNAH diekstrak — hanya field
+# body/formulaNote/formula/why; (b) 2 why kuis yang berubah (M4.2:469, M4.5:634) tidak
+# mengandung kata kunci KEYWORDS sehingga terfilter. Jadi gate model akan PASS vakum
+# ("tidak ada klaim konsep di lesson berubah") — verdict PASS di bawah ini adalah verdict
+# CHIEF atas ke-27 baris berubah, bukan verdict model. Prompt yang akan dikirim ke model
+# disimpan di concept_gate_instinct_fix_prompt.txt (89.882 karakter) sebagai arsip.
+#
+# Format verdict per baris: [file:line] VERDICT: OK — <bukti singkat>
+# Sumber kebenaran: qa-learn/m4_canonical.json (var/es_hist_*_rp100jt),
+# qa-learn/m6_canonical.json (m64_thresholds), qa-learn/m7_canonical.json
+# (m71_air_sex_by_threshold), notebook M4/M6/M7 (angka yang dikutip lesson).
+
+[mlf1-tiga-tipe-satu-alur.ts:16] VERDICT: OK — 4 USP + pointer lesson terverifikasi: stress test tiga skenario di M2.3 (:252 baseline/Adverse/Severe, :467 +49%/+194%, kuis :589); policy simulator M2.3 (tabel threshold langkah 5 + Colab); fairness audit M2.2/M7 (M2.2 scorecard, M7.1 metrik); reason codes M2.2.
+[mlf1-tiga-tipe-satu-alur.ts:205] VERDICT: OK — "Reinforcement learning di luar cakupan track ini — ia butuh simulator pasar, dan desain reward-nya adalah bidang tersendiri." Konsisten dengan SHOULD-2 (janji lama "didalami di M4" dihapus); "reinforcement" 0x di M4/M5/M9 terverifikasi Chief saat review.
+[mlf1-tiga-tipe-satu-alur.ts:472] VERDICT: OK — Kotak out-of-scope: forecasting (ARIMA/Prophet/LSTM) + NLP keuangan (sentimen, parsing laporan) dinyatakan di luar cakupan dengan alasan 1 kalimat tiap; RL dirujuk ke langkah 5; konsisten dengan matriks M9.5:634 yang diperbarui di ronde yang sama.
+[mlf-m42-var-expected-shortfall.ts:36] VERDICT: OK — Return 4 Nov 2024–11 Nov 2026; 481 baris harga 1 Nov 2024–11 Nov 2026; batas unduh 12 Nov 2026 eksklusif. Rekonsiliasi: 480 return + 1 baris harga awal = 481 baris; 1 Nov 2024 = Jumat, return pertama = Senin 4 Nov.
+[mlf-m42-var-expected-shortfall.ts:57] VERDICT: OK — Sama seperti :36, format ringkas «n = 480 return, 4 Nov 2024–11 Nov 2026 (harga 1 Nov 2024–11 Nov 2026)».
+[mlf-m42-var-expected-shortfall.ts:469] VERDICT: OK — why kuis distraktor: "480 hari yang sama (4 Nov 2024–11 Nov 2026, window return) — window-nya identik." Jendela return benar; logika distraktor utuh (window identik, jadi bukan penyebab beda VaR95/VaR99).
+[mlf-m43-var-backtesting-volatility.ts:27] VERDICT: OK — Perbaikan kelas yang sama dengan SHOULD-3 (ditemukan sweep ronde ini, bukan temuan Instinct): "480 hari perdagangan 2024-11-04 sampai 2026-11-11 (dari 481 baris harga 2024-11-01 sampai 2026-11-11; data diunduh dengan batas akhir 2026-11-12 yang eksklusif)". :443 (window unduh 2024-11-01 s.d. 2026-11-12, 481 baris → 480 return) sudah benar dan TIDAK disentuh.
+[mlf-m43-var-backtesting-volatility.ts:37] VERDICT: OK — Sama seperti :27, format "Nilai".
+[mlf-m45-drawdown-regime-stress.ts:463] VERDICT: OK — Rp4.792.081 = var_hist_99_rp100jt di m4_canonical.json (0,0479 tak-dibulatkan × Rp100 jt).
+[mlf-m45-drawdown-regime-stress.ts:506] VERDICT: OK — Rp4.792.081 (statis); Rp7.610.000 = 0,0761 × 1e8; Rp4.560.000 = 0,0456 × 1e8; Rp3.240.000/Rp4.310.000 stress-korelasi tidak berubah (perkalian desimal tampil, konvensi lama).
+[mlf-m45-drawdown-regime-stress.ts:508] VERDICT: OK — VaR95 Rp2.856.323 + VaR99 Rp4.792.081 + ES95 Rp4.451.285 (ketiganya *_rp100jt kanonis) + buffer Rp4.792.081.
+[mlf-m45-drawdown-regime-stress.ts:514] VERDICT: OK — Shortfall dihitung ulang: 7.610.000 − 4.792.081 = 2.817.919; 2.817.919 / 7.610.000 = 0,3703 → "37%" tetap benar (pembulatan).
+[mlf-m45-drawdown-regime-stress.ts:517] VERDICT: OK — "VaR99 high-vol Rp7.610.000 vs statis Rp4.792.081".
+[mlf-m45-drawdown-regime-stress.ts:634] VERDICT: OK — why kuis: "VaR99 statis 0,0479 = Rp4.792.081 dari nilai tak-dibulatkan [M4.2]" + selisih Rp2.817.919 (= 7.610.000 − 4.792.081). Aritmetika menutup.
+[mlf-m45-drawdown-regime-stress.ts:679] VERDICT: OK — "buffer statis Rp4.792.081 kurang 37% (Rp2.817.919) dari ekor high-vol Rp7.610.000" — konsisten dengan :514.
+[mlf-m91-monte-carlo-simulation.ts:15] VERDICT: OK — Kalimat handoff NIT-2: "Governance selesai di M8.5 — model sudah divalidasi, diberi tier, didokumentasikan, dan disetujui lewat komite." Terverifikasi: M8.5 = lesson terakhir M8 (governance approval workflow: komite/pemilik/validator/audit, tiga dokumen wajib dibaca :123, sign-off); tier di M8.2 (model risk rating/inventory); validasi M8.1; capstone M8.5:289 memakai SEMUA M8.1–M8.5. "Selesai di M8.5" = busur M8 tuntas di lesson terakhirnya, bukan klaim tiering diajarkan di M8.5.
+[mlf-m91-monte-carlo-simulation.ts:16] VERDICT: OK — VaR95 Rp2.856.323 + ES95 Rp4.451.285 (kanonis M4.2); sisa angka paragraf (Rp3.280.000/Rp3.290.000/Rp4.100.000/Rp4.070.000/Rp10.380.000/Rp9.030.000) tidak berubah — perkalian langsung desimal tampil, konvensi lama.
+[mlf-m91-monte-carlo-simulation.ts:153] VERDICT: OK — Sama seperti :16 (Fakta di meja).
+[mlf-m95-historical-simulation-bootstrap.ts:36] VERDICT: OK — Keempat angka HS tak-dibulatkan: Rp2.856.323 / Rp4.451.285 / Rp4.792.081 / Rp7.750.165 (var/es_hist_95/99_rp100jt, m4_canonical.json).
+[mlf-m95-historical-simulation-bootstrap.ts:447] VERDICT: OK — VaR95 Rp2.856.323, ES95 Rp4.451.285.
+[mlf-m95-historical-simulation-bootstrap.ts:448] VERDICT: OK — "Rp2.856.323 dan Rp4.451.285 per Rp100 juta".
+[mlf-m95-historical-simulation-bootstrap.ts:573] VERDICT: OK — "«limit harian Rp2.856.323»" (dulu Rp2.860.000 — frasa lama kini 0 kemunculan repo-wide).
+[mlf-m95-historical-simulation-bootstrap.ts:633] VERDICT: OK — Dua gap ditambahkan ke narasi empat jalur (forecasting + NLP = track tersendiri, bukan modul tertunda; rujuk MLF1 langkah 9). Konsisten dengan MLF1:472.
+[mlf-m95-historical-simulation-bootstrap.ts:634] VERDICT: OK — Dua entri ditambahkan ke matriks gap→skill→artefak («meramal harga besok» → forecasting → track tersendiri; «membaca teks keuangan» → NLP → track tersendiri).
+[mlf-m95-historical-simulation-bootstrap.ts:644] VERDICT: OK — VaR95 Rp2.856.323, ES95 Rp4.451.285 (rangkuman).
+[mlf-m95-historical-simulation-bootstrap.ts:779] VERDICT: OK — VaR95 Rp2.856.323, ES95 Rp4.451.285 (rangkuman akhir).
+[mlf-m23-pd-lgd-ead-expected-loss.ts:204] VERDICT: OK — Tabel threshold + AIR, semua angka dari kanonik: t=0,10 approval 28,5%/bad 6,67%/profit +NT$8.214.000/AIR 0,8694; 0,15 49,9%/8,99%/+NT$5.490.500/0,8906; 0,20 65,1%/11,13%/−NT$216.500/0,9432; 0,50 88,05%/15,96%/−NT$18.994.456/0,9898 (m64_thresholds + m71_air_sex_by_threshold; approval 0,499 ditulis 49,9% sesuai pembulatan lesson ini). Monotonisitas dalam 4 baris terverifikasi: approval naik, bad naik, profit turun, AIR naik menuju 1,00; 0,8694 = AIR terendah → "titik AIR TERBURUK di antara keempatnya" benar. Pointer "threshold per-grup di M7.4" terverifikasi (mlf-m74:34). Catatan: AIR t=0,05 (0,9183) TIDAK dimasukkan — di luar 4 baris tabel; klaim "membaik" dibatasi eksplisit "di keempat baris ini" agar tidak mengklaim monoton global.
+
+# Batas yang TIDAK diubah (sengaja, dengan alasan):
+# - M4.2:26 + M4.3:37(lama)/:37(baris ajar): "Rp2.860.000" sebagai alternatif pembulatan yang
+#   DIAJARKAN (0,0286 yang dibulatkan memberi Rp2.860.000) — teks pengajaran, bukan inkonsistensi.
+# - Rupiah regime/kondisional/parametrik/MC (Rp7.610.000, Rp4.560.000, Rp3.280.000, dst.) tetap
+#   perkalian langsung desimal tampil — nilai tak-bulatnya TIDAK ADA di m4_canonical.json.
+# - M4.1:26/:476 "window 2024-11-01 sampai 2026-11-11" = window HARGA/fitur (460 baris fitur),
+#   bukan klaim window return — dibiarkan.
+#
+# CONCEPT-GATE (CHIEF): PASS — 27/27 OK, 0 KONTRADIKSI, 0 RAGU.
+# Catatan untuk ronde berikut: ekstraktor gate TIDAK membaca prose — ronde yang mengubah prose
+# WAJIB verdict Chief manual seperti file ini, atau perluasan ekstraktor ke prose (AGENTS.md).

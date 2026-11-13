@@ -8,6 +8,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## Learn MLF — guard bias posisi kuis: TS diganti rendered-position (2026-11-14, ronde fix Instinct)
+- MUST-1 (B=60,3% di konten tersimpan) diperbaiki dengan acak-saat-render DETERMINISTIK di v2 (`src/app/v2/lib/quizShuffle.ts`, seed `${slug}:${stepId}:${qi}`; `QuizBlock` di Workspace.tsx). Legacy TIDAK diacak — mirror `.md` MLF tidak berisi blok kuis.
+- `qa-learn/check_quiz_position_bias.py --fail` mengukur distribusi TERSIMPAN (TS) — ia tetap FAIL by design (B=60,3% di TS tidak berubah) dan TIDAK LAGI menjadi gate MUST-1. Gate yang berlaku: `qa-learn/check_quiz_rendered_positions.mjs` (simulasi urutan render; PASS ronde fix: 463 soal, A=92/B=125/C=130/D=116, max 28,1% ≤ 35%).
+- JANGAN "perbaiki" guard TS dengan rebalance statis konten — itu akan merusak jawaban tersimpan yang sudah benar; distribusi tersimpan yang timpang SUDAH BENAR selama render mengacak.
+
 ## Learn MLF — notebook cwd + eksekusi paralel (2026-11-13, M8 build)
 - nbconvert menjalankan kernel dengan cwd `colab/`, sehingga path relatif `data/...` GAGAL. Notebook WAJIB tahan terhadap itu: helper `find_file` (coba repo-root dulu, lalu relatif). M8 sudah pakai; M7.5 punya masalah laten yang sama bila dieksekusi ulang — patch di ronde fix M8 + re-upload di deploy M8.
 - JANGAN eksekusi 5 notebook paralel: load 9–28, timeout, kernel mati. Stagger + `OMP_NUM_THREADS=2`; eksekusi ulang sebaiknya saat VM sepi.

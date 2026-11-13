@@ -2,7 +2,9 @@
 
 ## Masalah: VaR 0,0286 dari 480 Hari — dan 480 Hari Itu Sampel Kecil
 
-Komite risiko memegang satu angka: VaR95 historis portofolio 0,0286 — pada 95% hari, kerugian harian tidak melebihi 2,86% (Rp2.860.000 pada portofolio Rp100.000.000). Angka itu dihitung dari 480 hari perdagangan, 2024-11-04 sampai 2026-11-11 [M4]. Terdengar kokoh — sampai kamu bertanya: 480 hari itu berapa banyak «hari buruk» yang sempat terlihat? Kuantil 5% dari 480 hari hanya bersandar pada 24 hari terburuk (5% × 480 = 24). Seluruh penilaian ekormu — dan ES95 historis 0,0445 (Rp4.450.000), rata-rata kerugian pada 24 hari terburuk itu — berdiri di atas 24 observasi.
+Governance selesai di M8.5 — model sudah divalidasi, diberi tier, didokumentasikan, dan disetujui lewat komite. Sekarang kita validasi lewat simulasi: M9 menguji apakah angka-angka yang sudah disetujui itu bertahan bila dunia diundi ulang.
+
+Komite risiko memegang satu angka: VaR95 historis portofolio 0,0286 — pada 95% hari, kerugian harian tidak melebihi 2,86% (Rp2.856.323 pada portofolio Rp100.000.000). Angka itu dihitung dari 480 hari perdagangan, 2024-11-04 sampai 2026-11-11 [M4]. Terdengar kokoh — sampai kamu bertanya: 480 hari itu berapa banyak «hari buruk» yang sempat terlihat? Kuantil 5% dari 480 hari hanya bersandar pada 24 hari terburuk (5% × 480 = 24). Seluruh penilaian ekormu — dan ES95 historis 0,0445 (Rp4.451.285), rata-rata kerugian pada 24 hari terburuk itu — berdiri di atas 24 observasi.
 
 Monte Carlo (MC) menjawab kekurangan itu: bila sejarah terlalu pendek, SIMULASIKAN sejarah yang lain. Ambil distribusi return harian yang diestimasi dari 480 hari itu, lalu undi 100.000 «hari» baru dari distribusi tersebut — hari-hari yang tidak pernah terjadi, tapi COCOK dengan sifat statistik hari-hari yang pernah terjadi. VaR95 MC 1-hari (N=100.000) adalah 0,0329 (Rp3.290.000) [m9_canonical.json] — sedikit di atas VaR95 historis 0,0286 dan hampir sama dengan VaR95 parametrik 0,0328 [M4.2].
 
@@ -118,7 +120,7 @@ Seberapa sensitif VaR terhadap σ yang salah? Dari rumus parametrik, VaR95 ≈ �
 
 ## 8. Mini-Case: Putuskan — VaR MC, Historis, atau Parametrik yang Dilaporkan ke Komite?
 
-Fakta di meja: portofolio equal-weight BBCA/KLBF/UNVR, Rp100.000.000, n=480 hari (2024-11-04→2026-11-11); VaR95 1-hari: historis 0,0286 (Rp2.860.000), parametrik 0,0328 (Rp3.280.000), MC univariat N=100.000 0,0329 (Rp3.290.000); ES95: historis 0,0445 (Rp4.450.000), parametrik 0,0410 (Rp4.100.000), MC 0,0407 (Rp4.070.000); MC joint-normal M4 0,0336/0,0424 [M4.2]; MC error antar-batch (20 batch, N=10.000): mean 0,0326 (sd 0,0004; SE 0,00009), range [0,0319; 0,0333]; bootstrap VaR95 (M9.5): CI95 iid [0,0229; 0,0322], block-10 [0,0223; 0,0340]; VaR95 10-hari MC 0,1038 (Rp10.380.000) vs √10-hist 0,0903 (Rp9.030.000).
+Fakta di meja: portofolio equal-weight BBCA/KLBF/UNVR, Rp100.000.000, n=480 hari (2024-11-04→2026-11-11); VaR95 1-hari: historis 0,0286 (Rp2.856.323), parametrik 0,0328 (Rp3.280.000), MC univariat N=100.000 0,0329 (Rp3.290.000); ES95: historis 0,0445 (Rp4.451.285), parametrik 0,0410 (Rp4.100.000), MC 0,0407 (Rp4.070.000); MC joint-normal M4 0,0336/0,0424 [M4.2]; MC error antar-batch (20 batch, N=10.000): mean 0,0326 (sd 0,0004; SE 0,00009), range [0,0319; 0,0333]; bootstrap VaR95 (M9.5): CI95 iid [0,0229; 0,0322], block-10 [0,0223; 0,0340]; VaR95 10-hari MC 0,1038 (Rp10.380.000) vs √10-hist 0,0903 (Rp9.030.000).
 
 Jawaban yang SALAH ada tiga. «MC 0,0329, karena N=100.000 paling besar» — salah: N besar mengecilkan MC error, bukan model error. «Historis 0,0286, karena tanpa asumsi» — salah: kuantil 5%-nya hanya bersandar pada 24 hari, dan CI95 bootstrap-nya selebar [0,0223; 0,0340] (block-10). «Parametrik 0,0328, karena ada rumusnya» — salah: rumus itu menyembunyikan asumsi normal di balik keanggunannya.
 

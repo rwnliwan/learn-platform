@@ -4,6 +4,8 @@
 
 Tiga pengajuan kredit. P1: penghasilan 2,4 juta/bulan, 1 kali terlambat 90 hari. P2: 1,7 juta, 2 kali terlambat. P3: 4,2 juta, belum pernah terlambat. Insting berkata P3 aman dan P2 berisiko — tapi insting tidak bisa diuji. Model ML menjawab dengan cara yang bisa diuji: belajar dari 12 nasabah masa lalu (7 lancar, 5 default; base rate default 5/12 = 0,4167).
 
+Track ini punya empat pembeda yang tidak dimiliki kursus ML-finance biasa: stress test tiga skenario (M2.3), policy simulator (M2.3), fairness audit + mitigasi (M2.2, M7), dan adverse-action reason codes (M2.2) — semuanya diajarkan dengan angka yang bisa direplikasi, bukan sekadar disebut.
+
 ---
 
 ## 1. Supervised Learning
@@ -44,7 +46,7 @@ Mencari pola tanpa label: clustering (kelompok) dan anomaly detection (penyimpan
 
 ## 3. Reinforcement Learning
 
-Belajar dari reward, bukan label. Cocok untuk keputusan berurutan: trading, penetapan harga.
+Belajar dari reward, bukan label. Cocok untuk keputusan berurutan: trading, penetapan harga. Reinforcement learning di luar cakupan track ini — ia butuh simulator pasar, dan desain reward-nya adalah bidang tersendiri.
 
 **Nilai:** agen trading, reward = profit − 0,5 × risiko. Aksi beli: profit 0,08, risiko 0,10 → reward = 0,08 − 0,5 × 0,10 = 0,03. Aksi tahan: reward 0. Agen memilih beli.
 
@@ -93,6 +95,10 @@ Asumsi ilustrasi: limit Rp10.000.000, LGD 45%, margin 5%. P2 (prediksi default, 
 ## Peta M2 — Credit Scoring
 
 Scorecard: fitur mentah → bin → Weight of Evidence (WoE) → Information Value (IV) → skor yang bisa dijelaskan. Roll-rate: migrasi current → 1–30 DPD → 31–60 DPD → 61–90 DPD → default. Reject inference: inferensi outcome pelamar yang ditolak (extrapolation, reweighting, fuzzy augmentation). Vintage analysis dan IFRS 9 staging menyusul. Peta konsep saja — pengajaran penuh di M2.
+
+## Yang TIDAK Diajarkan Track Ini
+
+Yang TIDAK diajarkan track ini — dan itu disengaja. Prediksi harga / forecasting deret waktu (ARIMA, Prophet, LSTM): track ini mengukur risiko dari data yang ada, bukan meramal harga besok — forecasting butuh data dan metode deret waktu yang berbeda, dan itu track tersendiri. NLP keuangan (sentimen berita, parsing laporan keuangan dan disclosure): track ini bekerja dengan angka dan tabel, bukan teks — NLP butuh korpus teks dan model bahasa, dan itu juga track tersendiri. Reinforcement learning juga di luar cakupan (lihat langkah 5). Bila kamu datang untuk «memprediksi harga saham», track ini bukan jalannya — track ini mengajarkanmu mengukur, membandingkan, dan memvalidasi model atas data yang sudah terjadi.
 
 ## Guided Task di Colab
 

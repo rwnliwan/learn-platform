@@ -4,7 +4,7 @@
 
 Seorang manajer risiko memegang BBCA, KLBF, dan UNVR dalam porsi sama — Rp100 juta total, rebalance tiap hari. Direksi bertanya dua hal setiap sore. Pertama: «dengan keyakinan 95 persen, berapa kerugian maksimum kita besok?» Kedua: «bila besok termasuk 5 persen hari terburuk itu, rata-rata kita rugi berapa?»
 
-Pertanyaan pertama dijawab VaR95. Pertanyaan kedua dijawab ES95 — dan keduanya memakai data yang sama: 480 return harian portofolio itu (return 1 November 2024 sampai 11 November 2026; window harga 1 November 2024 sampai 12 November 2026 — 481 baris harga, 480 return) [notebook]. Simpangan baku hariannya 0,0196, volatilitas tahunannya 0,3114. VaR95 historis 0,0286 (Rp2.856.323 per Rp100 jt — dari nilai tak-dibulatkan 0,028563; 0,0286 yang dibulatkan memberi Rp2.860.000); ES95 historis 0,0445 (Rp4.451.285 per Rp100 jt) [notebook].
+Pertanyaan pertama dijawab VaR95. Pertanyaan kedua dijawab ES95 — dan keduanya memakai data yang sama: 480 return harian portofolio itu (return 4 November 2024 sampai 11 November 2026; dari 481 baris harga 1 November 2024 sampai 11 November 2026; data diunduh dengan batas akhir 12 November 2026 yang eksklusif) [notebook]. Simpangan baku hariannya 0,0196, volatilitas tahunannya 0,3114. VaR95 historis 0,0286 (Rp2.856.323 per Rp100 jt — dari nilai tak-dibulatkan 0,028563; 0,0286 yang dibulatkan memberi Rp2.860.000); ES95 historis 0,0445 (Rp4.451.285 per Rp100 jt) [notebook].
 
 ---
 
@@ -16,7 +16,7 @@ VaR pada tingkat keyakinan alpha adalah kerugian sedemikian rupa sehingga peluan
 
 **Baik/buruk:** VaR historis bagus karena tanpa asumsi — ia tidak peduli distribusinya normal atau tidak. Buruk bila datanya pendek atau rezimnya berubah: VaR historis dari 480 hari yang tenang meremehkan risiko bila besok rezimnya berubah (lihat M4.3).
 
-**Mitigasi:** jangan pernah melaporkan VaR tanpa n dan tanpa window-nya. «VaR95 0,0286» tanpa «n = 480 return, 1 Nov 2024–11 Nov 2026 (harga 1 Nov 2024–12 Nov 2026)» adalah angka tanpa konteks.
+**Mitigasi:** jangan pernah melaporkan VaR tanpa n dan tanpa window-nya. «VaR95 0,0286» tanpa «n = 480 return, 4 Nov 2024–11 Nov 2026 (harga 1 Nov 2024–11 Nov 2026)» adalah angka tanpa konteks.
 
 $$\mathrm{VaR}_{\alpha} = -\inf\{x : P(R \leq x) \geq 1 - \alpha\}$$
 

@@ -46,6 +46,8 @@ Threshold 0,10 (bukan 0,5) dipilih dari biaya — bukan kebiasaan.
 
 **Nilai:** confusion matrix GBM terkalibrasi @0,10, test 6.000 [notebook] — TP 1.213, FP 3.077, TN 1.596, FN 114. Precision 0,2828, recall 0,9141, F1 0,4319, akurasi 0,4682. Tabel kebijakan: 0,10 → approval 0,285, bad rate 0,0667, EL NT$11.989.453, profit NT$8.214.000. 0,15 → 0,499 / 0,0899 / NT$23.813.003 / NT$5.490.500. 0,20 → 0,651 / 0,1113 / NT$33.683.252 / −NT$216.500.
 
+**Tabel yang sama, ditambah satu kolom — dampak fairness [M7.1]:** 0,10 → approval 28,5%, bad 6,67%, profit +NT$8.214.000, AIR (SEX) 0,8694. 0,15 → 49,9% / 8,99% / +NT$5.490.500 / 0,8906. 0,20 → 65,1% / 11,13% / −NT$216.500 / 0,9432. 0,50 → 88,05% / 15,96% / −NT$18.994.456 / 0,9898. Di keempat baris ini, menaikkan threshold menaikkan approval DAN bad rate, dan profit TURUN — tapi AIR justru MEMBAIK (mendekati 1,00). Profit-max (0,10) adalah titik AIR TERBURUK di antara keempatnya — tabel kebijakan yang hanya berisi profit adalah simulator yang belum lengkap: angka fairness-nya dihitung di M7.1, cara memperbaikinya (threshold per-grup) di M7.4. Versi interaktif tabel ini — geser threshold, lihat keempat kolom bergerak — ada di Colab (policy simulator).
+
 **Gambar:** profit vs threshold — hijau di 0,10 dan 0,15, merah di 0,20.
 
 **Baik/buruk:** akurasi 0,4682 bukan kegagalan — harga dari biaya asimetris (satu default merugikan sembilan kali satu margin yang hilang). Threshold bagus bila dipilih dari tabel kebijakan dengan biaya eksplisit. Buruk bila disalin dari bank lain tanpa hitung ulang.
