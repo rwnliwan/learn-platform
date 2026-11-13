@@ -2246,6 +2246,106 @@ FIXTURES = [
          "Cohort MATANG"],
         ["label belum matang = 0", "fairness_flag=False"],
     ),
+    # M8.1 (ronde fix DeepSeek): band ECE hanya overall + per half;
+    # per grup gate n>=200 (n<200 = TEMUAN-INVESTIGASI); pemicu
+    # KUNING = |Δbad rate| 1,06 pp + ECE grup masuk band; band
+    # |Δapproval| KUNING 1,0-3,0 pp; lini 3 -> komite audit.
+    (
+        "mlf-m81-model-validation-framework.ts",
+        ["TEMUAN-INVESTIGASI", "n ≥ 200", "Pascasarjana 0,0210",
+         "|Δapproval| 1,0–3,0 pp",
+         "lini 3 melapor ke komite audit"],
+        ["satu-satunya pemicu",
+         "ambang 0,02 yang sama berlaku per grup",
+         "kira-kira dua kali sd antar-fold",
+         "selisih sekitar 9 nasabah default",
+         "mendekati ambang MERAH",
+         "ECE kanonis [m8_canonical.json, M7.1]",
+         "potensi kerugian dari keputusan",
+         "ketiganya melapor ke dewan/komite risiko; lini 2 tidak pernah melapor ke lini 1."],
+    ),
+    # M8.2 (ronde fix DeepSeek): matriks = aturan jumlah level
+    # (C+M>=3 Tier 1; =2 Tier 2; <=1 Tier 3); "shadow" tercatat vs
+    # "model tak terdaftar"; EL yang ditahan = EL bruto
+    # counterfactual, bukan nilai bersih.
+    (
+        "mlf-m82-model-risk-rating-inventory.ts",
+        ["jumlah level ≥ 3", "model tak terdaftar",
+         "EL bruto yang dihindari",
+         "materiality, kompleksitas, atau breadth-nya sendiri turun"],
+        ["exposure tinggi dan/atau kompleksitas tinggi",
+         "SHADOW MODEL", "limit Rp miliaran",
+         "ECE test 0,0087 [M7.5]", "(2,51%) di atas realised",
+         "tier turun hanya bila materiality atau kompleksitasnya sendiri turun",
+         "tier turun hanya bila materiality/kompleksitasnya sendiri turun"],
+    ),
+    # M8.3 (ronde fix DeepSeek): 0,0710 = rentang (maks-min)
+    # antar-chunk, BUKAN drop vs full-test (drop = 0,0388);
+    # ECE 0,0087 dari [M6.4]; PSI AGE + AIR EDUCATION disitir
+    # ke kunci kanonik; kolom 6-10 bukan "SIAPA, KAPAN, BAGAIMANA".
+    (
+        "mlf-m83-model-card-documentation.ts",
+        ["rentang (maks−min) antar-chunk [m75_pseudo_time_roc_spread]",
+         "m75_psi_features_train_vs_test.AGE.psi",
+         "m71_by_group.EDUCATION.summary.air_min_over_max"],
+        ["ECE 0,0087 [M7.5]",
+         "ambang alert monitoring 0,02 [M7.5]",
+         "kolom 6–10: SIAPA, KAPAN, dan BAGAIMANA mengembalikannya",
+         "Owner: [ilustrasi] — Risk Manager",
+         "tidak ada — v1 adalah versi produksi pertama"],
+    ),
+    # M8.4 (ronde fix DeepSeek): gagal 5 gate (G1, G2, G3, G4, G7);
+    # baseline monitoring PER MODEL + gap champion-challenger;
+    # LR terkalibrasi 1.166 [m8_lr_calibrated_thr010]; approve-all
+    # 82.155.456 = realised loss seluruh test.
+    (
+        "mlf-m84-deployment-shadow-canary-champion.ts",
+        ["gagal 5 gate (G1, G2, G3, G4, G7)",
+         "baseline PER MODEL", "m8_lr_calibrated_thr010",
+         "realised loss seluruh test"],
+        ["gagal 4 gate",
+         "AIR per grup tidak di bawah 0,80 [M7.5]",
+         "adalah 14 kali nilai kritis", "ECE > 0,02 dua periode",
+         "misal 0,1058/0,0965"],
+    ),
+    # M8.5 (ronde fix DeepSeek): PSI 0,5811 = simulasi drift S2;
+    # gerbang 6 = VERIFIKASI kriteria rollback (ditulis gerbang 1);
+    # RACI sign-off: R = validator/owner/legal-risk, A = komite.
+    (
+        "mlf-m85-governance-approval-workflow.ts",
+        ["PSI simulasi drift S2 0,5811",
+         "m71_air_sex_by_threshold.0.15.air",
+         "verifikasi kriteria rollback yang ditulis di gerbang 1"],
+        ["PSI 0,5811 [M7.5]", "6 Rollback criteria",
+         "C = legal dan risk manager",
+         "A = komite (yang menerima atau menolak opini validasi)",
+         "tanpa drift [M7.5]"],
+    ),
+    # M6.2/M6.5 (sweep "± sd", batch ronde fix M8): penyajian angka
+    # "mean ± sd antar-fold" diganti "mean (sd antar-fold ...)".
+    # Yang DIPERTAHANKAN (bukan must-not): CI dengan SE
+    # (0,7858 ± 0,0060), judul/pengajaran generik "mean ± sd",
+    # band lab, dan distraktor kuis M6.2:556 ("±0,0056" tanpa spasi
+    # + why yang membetulkan) — fixture memakai pola "X ± Y"
+    # dengan spasi agar tidak false-positive pada situs-situs itu.
+    (
+        "mlf-m62-cross-validation-nested-cv.ts",
+        ["0,7858 (sd antar-fold 0,0068)",
+         "0,7840 (sd antar-fold 0,0059",
+         "0,7560 (sd antar-fold 0,0056)",
+         "0,78584 ± 1,96 × 0,00304"],
+        ["0,7858 ± 0,0068", "0,7840 ± 0,0059",
+         "0,7560 ± 0,0056", "mean 0,7858 ± 0,0068",
+         "CI naif = 0,7858 ± 1,96 × 0,0030 → [0,7799; 0,7918]"],
+    ),
+    (
+        "mlf-m65-automl-selection-bias.ts",
+        ["0,7858 (sd antar-fold 0,0068)",
+         "0,7840 (sd antar-fold 0,0059)",
+         "0,7560 (sd antar-fold 0,0056)"],
+        ["0,7858 ± 0,0068", "0,7840 ± 0,0059",
+         "0,7560 ± 0,0056"],
+    ),
 ]
 
 

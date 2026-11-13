@@ -54,9 +54,9 @@ $$\bar{s} = \frac{1}{K}\sum_{k=1}^{K} s_k, \qquad \mathrm{sd} = \sqrt{\frac{1}{K
 
 **Nilai:** band mean ± sd adalah alat baca cepat, bukan uji statistik. Selisih 0,0280 (GBM vs LR) adalah sekitar 5× sd — meyakinkan. Sebaliknya, selisih 0,0018 antara nested CV GBM (0,7858) dan CV biasa GBM (0,7840) adalah sekitar seperempat sd — kecil dibanding goyangan, jangan dibesar-besarkan. Sebagai gambaran turunan [ilustrasi]: standard error dari mean kira-kira sd/√5 ≈ 0,0025–0,0026 — TAPI angka itu terlalu optimis, karena kelima skor fold saling berkorelasi (train set-nya tumpang tindih 75%).
 
-**Baik/buruk:** mean ± sd bagus karena jujur tentang ketidakpastian. Buruk bila dibaca sebagai interval kepercayaan formal: sd antar-fold BUKAN standard error, dan band yang tumpang tindih BUKAN berarti «tidak ada beda» (uji perbandingan model yang benar memakai skor fold BERPASANGAN — dibahas di M6.5).
+**Baik/buruk:** mean beserta sd antar-fold-nya bagus karena jujur tentang goyangan SATU skor fold — bukan tentang ketidakpastian mean. Buruk bila dibaca sebagai interval kepercayaan formal: sd antar-fold BUKAN standard error, dan band yang tumpang tindih BUKAN berarti «tidak ada beda» (uji perbandingan model yang benar memakai skor fold BERPASANGAN — dibahas di M6.5).
 
-**Mitigasi:** laporkan SELALU mean ± sd (dan K-nya), jangan pernah mean saja. Bila dua model berselisih kurang dari satu sd, jangan menyatakan pemenang dari angka itu saja.
+**Mitigasi:** laporkan SELALU mean beserta sd antar-fold-nya (dan K-nya), jangan pernah mean saja. Bila dua model berselisih kurang dari satu sd, jangan menyatakan pemenang dari angka itu saja.
 
 ---
 
@@ -200,9 +200,9 @@ Notebook: colab/mlf-m62-guided-task.ipynb — flagship single-split, CV 5-fold, 
 
 - Satu split adalah satu undian: LR single-split 0,7426 vs CV 0,7560 (selisih 0,0134); GBM 0,7823 vs 0,7840 (selisih 0,0017) [notebook].
 - K-fold: K lipatan, tiap baris menjadi test tepat sekali; K = 5 default. Stratified menjaga base rate 0,2212 (~1.327 default per fold 6.000 baris).
-- Mean ± sd: GBM 0,7840 ± 0,0059 (band [0,7781; 0,7899]) vs LR 0,7560 ± 0,0056 (band [0,7504; 0,7616]) — band tidak bersinggungan; sd antar-fold bukan ketidakpastian mean.
+- Mean beserta sd antar-fold-nya: GBM 0,7840 (sd antar-fold 0,0059; band [0,7781; 0,7899]) vs LR 0,7560 (sd antar-fold 0,0056; band [0,7504; 0,7616]) — band tidak bersinggungan; sd antar-fold bukan ketidakpastian mean.
 - Ketidakpastian tuning: skor outer nested GBM 0,7974; 0,7782; 0,7878; 0,7859; 0,7799 — mean 0,7858, sd 0,0068, SE mean ≈ 0,0030, CI 95% NAIF [0,7799; 0,7918]; CI naif optimistis karena train antar-fold tumpang tindih 75% — laporkan skor per fold + mean + sd + rentang, jangan klaim CI formal.
-- Nested CV (outer 5 / inner 3, 18 konfigurasi, 275 kali latih): GBM 0,7858 ± 0,0068 — estimasi JUJUR prosedur tuning, LEBIH TINGGI dari single-split 0,7823 (+0,0035), hanya +0,0018 atas CV biasa.
+- Nested CV (outer 5 / inner 3, 18 konfigurasi, 275 kali latih): GBM 0,7858 (sd antar-fold 0,0068) — estimasi JUJUR prosedur tuning, LEBIH TINGGI dari single-split 0,7823 (+0,0035), hanya +0,0018 atas CV biasa.
 - Workflow anti-leakage: transformer yang belajar dari data (scaler, imputer, seleksi fitur, PCA) di-fit DI DALAM fold — Pipeline/ColumnTransformer menjaminnya; yang di-fit sebelum split sudah melihat validation fold.
 - Konfigurasi terbaik berganti tiap outer fold (50/5/0,1; 200/3/0,05; 100/5/0,05; 100/3/0,1; 50/5/0,05) — permukaan tuning datar (rentang CV grid 0,7827–0,7865).
 - Leakage dalam tuning: LR bias 0,0000 (C terbaik menurut test = menurut CV = 1); GBM bias 0,0000 (konfigurasi terbaik menurut test = menurut CV = 100/5/0,05; skor test yang sama 0,7823) — bias ~0 karena gain tuning kecil, pilihan sama, data besar; bias MEMBESAR bila search space besar / data kecil.

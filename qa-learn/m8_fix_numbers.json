@@ -1,0 +1,32 @@
+{
+  "m8_lr_calibrated_thr010": {
+    "model": "LR terkalibrasi Platt/sigmoid (CalibratedClassifierCV cv=3, estimator = Pipeline StandardScaler + LogisticRegression)",
+    "threshold": 0.1,
+    "roc_auc": 0.7427,
+    "n_approved": 1166,
+    "approval_rate": 0.1943,
+    "bad_rate_approved": 0.0909,
+    "realised_profit_NT": 17461000,
+    "realised_loss_NT": 15574500,
+    "net_profit_realised_NT": 1886500,
+    "total_cost_NT": 39374000,
+    "lesson_claim_n_approved": 1166,
+    "note": "M8.4 M3: the lesson claimed 1.166 approvals for calibrated LR at 0.10. Compare n_approved above with the claim. Economics (bad rate / profit) decide whether calibration explains the challenger gap -- not the approval count alone."
+  },
+  "m8_approve_all_realised_loss": {
+    "n_default_test": 1327,
+    "sum_limit_default_test_NT": 182567680,
+    "realised_loss_all_test_NT": 82155456,
+    "lesson_claim_NT": 82155456,
+    "expected_loss_all_test_NT_m8_tiering": 78675378,
+    "note": "M8.4 S6: realised loss if EVERY test applicant is approved (sum LIMIT_BAL of default rows x LGD 0.45). This is NOT the expected loss 78.675.378 (sum of calibrated proba x LGD x LIMIT over all test rows)."
+  },
+  "m8_mean_scores_test": {
+    "mean_calibrated_gbm_proba": 0.2217,
+    "mean_raw_gbm_proba": 0.2219,
+    "test_base_rate": 0.2212,
+    "lesson_claim_mean_calibrated": 0.2217,
+    "note": "M8.4 S1: 0.2217 is the MEAN CALIBRATED PROBA on test, not the base rate (0.2212). Mean predicted proba != base rate; cite as 'mean calibrated proba [notebook]' wherever used."
+  },
+  "runtime_seconds": 5.7
+}

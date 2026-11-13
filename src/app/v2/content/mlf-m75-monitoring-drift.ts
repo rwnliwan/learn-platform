@@ -754,6 +754,7 @@ print(f"drift_flag={drift_flag}")`,
         "Fairness monitoring: dashboard per periode/grup (approval, AIR, gap TPR/FPR/FNR, ECE/Brier per grup + n + label matang) dengan alert fairness terpisah dari alert overall; approval overall 25,17%–33,67% tanpa tren sementara AIR SEX [simulasi] 0,710 di chunk 2 — overall diam, fairness bergerak.",
         "Lab: PSI parsial 3 bin UTILIZATION = 0,0006 (dari PSI penuh 0,0013); alert chunk 2 = waspada (1) tapi retrain = 0; S1 aman (0) retrain 0; S2 kritis (2) retrain 1.",
       ],
+      next: { label: "Lanjut: MLF-M8.1 — Model Validation Framework", href: "/v2/learn/mlf-m81-model-validation-framework" },
     },
   ],
 };

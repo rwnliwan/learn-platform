@@ -592,9 +592,10 @@ WHY_CHECKS = [
      "Berapa total fits untuk grid GBM (18 konfigurasi, 3-fold) dan grid LR (5 nilai C, 5-fold)?",
      [("fits GBM", 18 * 3, 0, ""),
       ("fits LR", 5 * 5, 0, "")]),
-    # M6.2 Q1: band CV LR = mean ± sd = [0,7504; 0,7616].
+    # M6.2 Q1: band CV LR = mean ± sd = [0,7504; 0,7616] (band deskriptif;
+    # soal dirombak ronde fix M8: "mean (sd antar-fold ...)").
     ("mlf-m62-cross-validation-nested-cv.ts",
-     "LR pada data UCI: 5-fold stratified CV memberi mean ROC-AUC 0,7560 ± 0,0056. Apa bacaan yang benar?",
+     "LR pada data UCI: 5-fold stratified CV memberi mean ROC-AUC 0,7560 (sd antar-fold 0,0056). Apa bacaan yang benar?",
      [("band bawah", 0.7560 - 0.0056, 4, ""),
       ("band atas", 0.7560 + 0.0056, 4, "")]),
     # M6.2 Q2: base rate 0,2212; goyangan 1 sd satu fold 6.000 baris.
@@ -677,8 +678,9 @@ WHY_CHECKS = [
      [("chi2", (abs(36 - 30) - 1) ** 2 / (36 + 30), 4, ""),
       ("p", 0.5383, 4, "")]),
     # M6.5 Q4: keunggulan tertala atas default 0,0018.
+    # (Soal dirombak ronde fix M8: "mean (sd antar-fold ...)" — angka sama.)
     ("mlf-m65-automl-selection-bias.ts",
-     "Protokol adil (nested CV) [notebook]: LR tertala 0,7560 ± 0,0056; GBM default 0,7840 ± 0,0059; GBM tertala 0,7858 ± 0,0068. Siapa «pemenang jujur», dan apa catatannya?",
+     "Protokol adil (nested CV) [notebook]: LR tertala 0,7560 (sd antar-fold 0,0056); GBM default 0,7840 (sd antar-fold 0,0059); GBM tertala 0,7858 (sd antar-fold 0,0068). Siapa «pemenang jujur», dan apa catatannya?",
      [("keunggulan tertala", 0.7858 - 0.7840, 4, "")]),
     # M6.5 Q8: selisih pasangan kedua 0,0018.
     ("mlf-m65-automl-selection-bias.ts",

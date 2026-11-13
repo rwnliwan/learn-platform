@@ -1,0 +1,78 @@
+{
+  "m8_bootstrap_ci": {
+    "method": "Percentile bootstrap, B=2000, seed 42, resampling TEST rows with the calibrated GBM model FIXED (no refit). CI measures sampling uncertainty of the test set -- what a validator needs before calling a 0,06 pp breach 'real'.",
+    "test_n6000": {
+      "bad_rate_approved": {
+        "point": 0.0667,
+        "ci95": [
+          0.0547,
+          0.0785
+        ]
+      },
+      "approval_rate": {
+        "point": 0.285,
+        "ci95": [
+          0.2733,
+          0.2965
+        ]
+      },
+      "ece_10bin": {
+        "point": 0.0087,
+        "ci95": [
+          0.0077,
+          0.0214
+        ]
+      },
+      "net_profit_NT": {
+        "point": 8214000,
+        "ci95": [
+          5575975,
+          10802787
+        ]
+      }
+    },
+    "half_diff_B_minus_A": {
+      "bad_rate_pp": {
+        "point": 1.06,
+        "ci95": [
+          -1.26,
+          3.35
+        ],
+        "p_cross_zero": 0.197,
+        "note": "CI selisih bad rate antar-half MELEWATI 0 -- selisih 1,06 pp TIDAK signifikan pada 95%: sebagian besar CI di atas 0 tapi batas bawahnya di bawah 0."
+      },
+      "roc_auc": {
+        "point": -0.0139,
+        "ci95": [
+          -0.0428,
+          0.0132
+        ]
+      },
+      "ece": {
+        "point": -0.001,
+        "ci95": [
+          -0.0142,
+          0.0118
+        ]
+      }
+    },
+    "group_ece": {
+      "age_60plus_n76": {
+        "point": 0.1208,
+        "ci95": [
+          0.0839,
+          0.2225
+        ],
+        "note": "ECE AGE 60+ 0,1208 -- CI bootstrap SANGAT lebar: bukti kenapa n<200 adalah TEMUAN-INVESTIGASI, bukan pemicu band."
+      },
+      "edu_pascasarjana_n2130": {
+        "point": 0.021,
+        "ci95": [
+          0.0159,
+          0.0387
+        ]
+      }
+    }
+  },
+  "runtime_seconds": 40.1
+}

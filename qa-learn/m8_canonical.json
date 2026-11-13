@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "seed": 42,
+    "sklearn": "1.9.1",
+    "scipy": "1.11.4",
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "data": "data/uci_default_credit.xls",
+    "threshold": 0.1,
+    "lgd": 0.45,
+    "margin": 0.05,
+    "approval_rule_champion": "approve iff calibrated GBM proba < 0.10",
+    "approval_rule_challenger": "approve iff LR raw proba < 0.10 (LR is NOT calibrated; its 0.10 means something different from the champion's 0.10 -- labelled wherever used)",
+    "note": "All numbers computed from the data above; nothing invented. Rounded to 4 decimals except counts (integers) and money (integers, NT$).",
+    "notes": " | Gap fill Luna G1: m8_bootstrap_ci (B=2000, seed 42)."
+  },
+  "repro_flagship": {
+    "lr_roc_auc": 0.7426,
+    "lr_pr_auc": 0.5049,
+    "lr_brier": 0.1427,
+    "gbm_roc_auc": 0.7823,
+    "gbm_pr_auc": 0.5597,
+    "gbm_brier": 0.1342,
+    "gbm_cal_roc_auc": 0.7816,
+    "gbm_cal_pr_auc": 0.5558,
+    "gbm_cal_brier": 0.1345,
+    "gbm_train_roc_auc": 0.8469,
+    "gbm_train_test_gap": 0.0646,
+    "threshold": 0.1,
+    "cost_010": 33046500,
+    "profit_010": 8214000,
+    "approval_010": 0.285,
+    "bad_rate_010": 0.0667,
+    "sex_air_010": 0.8694
+  },
+  "locked_verification": {
+    "gbm_roc_auc": {
+      "computed": 0.7823,
+      "locked": 0.7823,
+      "diff": 0.0,
+      "match": true
+    },
+    "lr_roc_auc": {
+      "computed": 0.7426,
+      "locked": 0.7426,
+      "diff": 0.0,
+      "match": true
+    },
+    "gbm_cal_roc_auc": {
+      "computed": 0.7816,
+      "locked": 0.7816,
+      "diff": 0.0,
+      "match": true
+    },
+    "gbm_train_roc_auc": {
+      "computed": 0.8469,
+      "locked": 0.8469,
+      "diff": 0.0,
+      "match": true
+    },
+    "sex_air": {
+      "computed": 0.8694,
+      "locked": 0.8693,
+      "diff": 0.0001,
+      "match": true
+    },
+    "cost_010": {
+      "computed": 33046500,
+      "locked": 33046500,
+      "diff": 0,
+      "match": true
+    },
+    "profit_010": {
+      "computed": 8214000,
+      "locked": 8214000,
+      "diff": 0,
+      "match": true
+    }
+  },
+  "m8_validation_halves": {
+    "A": {
+      "n": 3000,
+      "base_rate": 0.2213,
+      "roc_auc_cal": 0.7885,
+      "pr_auc_cal": 0.5656,
+      "approval_rate": 0.2877,
+      "bad_rate_approved": 0.0614,
+      "ece_10bin": 0.0114,
+      "brier_cal": 0.1329
+    },
+    "B": {
+      "n": 3000,
+      "base_rate": 0.221,
+      "roc_auc_cal": 0.7746,
+      "pr_auc_cal": 0.548,
+      "approval_rate": 0.2823,
+      "bad_rate_approved": 0.072,
+      "ece_10bin": 0.0104,
+      "brier_cal": 0.1361
+    },
+    "diff_B_minus_A": {
+      "roc_auc": -0.0139,
+      "pr_auc": -0.0176,
+      "approval_rate_pp": -0.54,
+      "bad_rate_pp": 1.06,
+      "ece": -0.001,
+      "brier": 0.0032,
+      "base_rate_pp": -0.03
+    },
+    "note": "Test 6.000 split stratified into halves A/B (n=3.000 each, seed 42). A validator re-checks outcomes on a fresh split: half-to-half swings show how much of a 'finding' is noise."
+  },
+  "m8_tiering": {
+    "n_test": 6000,
+    "total_limit_test_NT": 1007777680,
+    "approved_limit_NT": 424180000,
+    "approved_limit_share": 0.4209,
+    "expected_loss_approved_NT": 11989453,
+    "expected_loss_all_test_NT": 78675378,
+    "expected_loss_rate_approved": 0.0283,
+    "realised_loss_approved_NT": 11695500,
+    "realised_profit_approved_NT": 19909500,
+    "net_profit_approved_NT": 8214000,
+    "total_cost_010_NT": 33046500,
+    "note": "Materiality for tiering (M8.2): the model decides over NT$ millions of credit limit on 6.000 test applicants; expected loss uses the CALIBRATED proba (0.7816 model), LGD 0.45, EAD = LIMIT_BAL. Scale to the full book by multiplying by (book size / 6.000) -- the test set is a 1/5 stratified sample of the 30.000-row data, NOT the live book."
+  },
+  "m8_seed_sensitivity": {
+    "seeds": [
+      {
+        "seed": 42,
+        "gbm_raw_roc_auc": 0.7823,
+        "gbm_cal_roc_auc": 0.7816,
+        "gbm_cal_pr_auc": 0.5558,
+        "approval_rate_cal": 0.285,
+        "brier_cal": 0.1345
+      },
+      {
+        "seed": 43,
+        "gbm_raw_roc_auc": 0.7807,
+        "gbm_cal_roc_auc": 0.781,
+        "gbm_cal_pr_auc": 0.5615,
+        "approval_rate_cal": 0.2893,
+        "brier_cal": 0.1346
+      },
+      {
+        "seed": 44,
+        "gbm_raw_roc_auc": 0.7782,
+        "gbm_cal_roc_auc": 0.7826,
+        "gbm_cal_pr_auc": 0.5588,
+        "approval_rate_cal": 0.283,
+        "brier_cal": 0.1343
+      },
+      {
+        "seed": 45,
+        "gbm_raw_roc_auc": 0.7754,
+        "gbm_cal_roc_auc": 0.7796,
+        "gbm_cal_pr_auc": 0.5603,
+        "approval_rate_cal": 0.2885,
+        "brier_cal": 0.1346
+      },
+      {
+        "seed": 46,
+        "gbm_raw_roc_auc": 0.777,
+        "gbm_cal_roc_auc": 0.7796,
+        "gbm_cal_pr_auc": 0.56,
+        "approval_rate_cal": 0.2867,
+        "brier_cal": 0.1346
+      }
+    ],
+    "gbm_raw_roc_auc_range": [
+      0.7754,
+      0.7823
+    ],
+    "gbm_raw_roc_auc_spread": 0.0069,
+    "gbm_raw_roc_auc_mean": 0.7787,
+    "gbm_raw_roc_auc_sd_ddof1": 0.0028,
+    "gbm_cal_roc_auc_range": [
+      0.7796,
+      0.7826
+    ],
+    "gbm_cal_roc_auc_spread": 0.003,
+    "approval_rate_range": [
+      0.283,
+      0.2893
+    ],
+    "approval_rate_spread_pp": 0.63,
+    "note": "Same split (seed 42), only the GBM random_state varies (42..46). Spread = max-min across 5 seeds; sd is ddof=1. A model whose ROC-AUC moves a lot when only the seed changes is not reproducible -- its '0.7823' is a lottery ticket, not a measurement."
+  },
+  "m8_champion_challenger": {
+    "threshold": 0.1,
+    "champion": {
+      "model": "GBM terkalibrasi (Platt/sigmoid)",
+      "roc_auc": 0.7816,
+      "pr_auc": 0.5558,
+      "n_approved": 1710,
+      "approval_rate": 0.285,
+      "bad_rate_approved": 0.0667,
+      "net_profit_realised_NT": 8214000,
+      "total_cost_NT": 33046500
+    },
+    "challenger": {
+      "model": "LR (Pipeline StandardScaler + LogisticRegression, RAW proba -- not calibrated)",
+      "roc_auc": 0.7426,
+      "pr_auc": 0.5049,
+      "n_approved": 1215,
+      "approval_rate": 0.2025,
+      "bad_rate_approved": 0.0914,
+      "net_profit_realised_NT": 1823000,
+      "total_cost_NT": 39437500
+    },
+    "profit_delta_challenger_minus_champion_NT": -6391000,
+    "cost_delta_challenger_minus_champion_NT": 6391000,
+    "approval_delta_pp": -8.25,
+    "disagreement_rate": 0.1942,
+    "n_disagree": 1165,
+    "mcnemar": {
+      "b_champion_approves_challenger_rejects": 830,
+      "c_challenger_approves_champion_rejects": 335,
+      "chi2_continuity_corrected": 209.473,
+      "p_chi2_sf": 0.0,
+      "p_erfc_closed_form": 0.0
+    },
+    "note": "Challenger LR is evaluated on its RAW proba at the SAME 0.10 threshold -- its 0.10 is not the champion's 0.10 (LR is not calibrated; its Brier 0.1427 vs champion 0.1345). The profit gap is therefore partly a calibration artefact, not pure ranking skill -- say so in the lesson. McNemar tests whether the two models' DECISIONS differ more than chance, not whether one is better."
+  },
+  "m8_shadow": {
+    "n_shadow_decisions": 6000,
+    "n_would_differ": 1165,
+    "disagreement_rate": 0.1942,
+    "challenger_would_approve_champion_rejects": {
+      "n": 335,
+      "bad_rate_among_them": 0.1821,
+      "n_default_among_them": 61,
+      "realised_loss_if_acted_NT": 9243000,
+      "margin_if_acted_NT": 4382000
+    },
+    "challenger_would_reject_champion_approves": {
+      "n": 830,
+      "good_rate_among_them": 0.9229,
+      "n_good_among_them": 766,
+      "margin_forgone_if_acted_NT": 6354000
+    },
+    "note": "Shadow mode: the challenger decides on the same applicants but its decisions are RECORDED, not acted on. The two cells above are what switching would have changed on this test set -- the price of the switch, measured before paying it."
+  },
+  "m8_lr_calibrated_thr010": {
+    "model": "LR terkalibrasi Platt/sigmoid (CalibratedClassifierCV cv=3, estimator = Pipeline StandardScaler + LogisticRegression)",
+    "threshold": 0.1,
+    "roc_auc": 0.7427,
+    "n_approved": 1166,
+    "approval_rate": 0.1943,
+    "bad_rate_approved": 0.0909,
+    "realised_profit_NT": 17461000,
+    "realised_loss_NT": 15574500,
+    "net_profit_realised_NT": 1886500,
+    "total_cost_NT": 39374000,
+    "note": "M8.4 M3: calibrated LR at 0.10 approves FEWER than raw LR (1.166 vs 1.215) and earns only +NT$63.500 more (+1.886.500 vs +1.823.000) -- still NT$6.327.500 below the champion (+8.214.000). Calibration explains only a small part of the challenger gap; the rest is ranking (ROC 0.7427 vs 0.7816)."
+  },
+  "m8_approve_all_realised_loss": {
+    "n_default_test": 1327,
+    "sum_limit_default_test_NT": 182567680,
+    "realised_loss_all_test_NT": 82155456,
+    "expected_loss_all_test_NT_m8_tiering": 78675378,
+    "note": "M8.4 S6: realised loss if EVERY test applicant is approved (sum LIMIT_BAL of default rows x LGD 0.45). This is NOT the expected loss 78.675.378 (sum of calibrated proba x LGD x LIMIT over all test rows)."
+  },
+  "m8_mean_scores_test": {
+    "mean_calibrated_gbm_proba": 0.2217,
+    "mean_raw_gbm_proba": 0.2219,
+    "test_base_rate": 0.2212,
+    "note": "M8.4 S1: 0.2217 is the MEAN CALIBRATED PROBA on test, not the base rate (0.2212). Mean predicted proba != base rate; cite as 'mean calibrated proba [notebook]' wherever used."
+  },
+  "runtime_seconds": 29.2,
+  "m8_bootstrap_ci": {
+    "method": "Percentile bootstrap, B=2000, seed 42, resampling TEST rows with the calibrated GBM model FIXED (no refit). CI measures sampling uncertainty of the test set -- what a validator needs before calling a 0,06 pp breach 'real'.",
+    "test_n6000": {
+      "bad_rate_approved": {
+        "point": 0.0667,
+        "ci95": [
+          0.0547,
+          0.0785
+        ]
+      },
+      "approval_rate": {
+        "point": 0.285,
+        "ci95": [
+          0.2733,
+          0.2965
+        ]
+      },
+      "ece_10bin": {
+        "point": 0.0087,
+        "ci95": [
+          0.0077,
+          0.0214
+        ]
+      },
+      "net_profit_NT": {
+        "point": 8214000,
+        "ci95": [
+          5575975,
+          10802787
+        ]
+      }
+    },
+    "half_diff_B_minus_A": {
+      "bad_rate_pp": {
+        "point": 1.06,
+        "ci95": [
+          -1.26,
+          3.35
+        ],
+        "p_cross_zero": 0.197,
+        "note": "CI selisih bad rate antar-half MELEWATI 0 -- selisih 1,06 pp TIDAK signifikan pada 95%: sebagian besar CI di atas 0 tapi batas bawahnya di bawah 0."
+      },
+      "roc_auc": {
+        "point": -0.0139,
+        "ci95": [
+          -0.0428,
+          0.0132
+        ]
+      },
+      "ece": {
+        "point": -0.001,
+        "ci95": [
+          -0.0142,
+          0.0118
+        ]
+      }
+    },
+    "group_ece": {
+      "age_60plus_n76": {
+        "point": 0.1208,
+        "ci95": [
+          0.0839,
+          0.2225
+        ],
+        "note": "ECE AGE 60+ 0,1208 -- CI bootstrap SANGAT lebar: bukti kenapa n<200 adalah TEMUAN-INVESTIGASI, bukan pemicu band."
+      },
+      "edu_pascasarjana_n2130": {
+        "point": 0.021,
+        "ci95": [
+          0.0159,
+          0.0387
+        ]
+      }
+    }
+  }
+}

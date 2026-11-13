@@ -38,6 +38,11 @@ import { mlfM72 } from "../content/mlf-m72-bias-audit-sources";
 import { mlfM73 } from "../content/mlf-m73-explainability-shap-lime";
 import { mlfM74 } from "../content/mlf-m74-fairness-mitigation";
 import { mlfM75 } from "../content/mlf-m75-monitoring-drift";
+import { mlfM81 } from "../content/mlf-m81-model-validation-framework";
+import { mlfM82 } from "../content/mlf-m82-model-risk-rating-inventory";
+import { mlfM83 } from "../content/mlf-m83-model-card-documentation";
+import { mlfM84 } from "../content/mlf-m84-deployment-shadow-canary-champion";
+import { mlfM85 } from "../content/mlf-m85-governance-approval-workflow";
 
 export const REG_MLF: Record<string, V2Lesson> = {
   "mlf-l01-data-cleaning": mlfL01,
@@ -79,4 +84,9 @@ export const REG_MLF: Record<string, V2Lesson> = {
   "mlf-m73-explainability-shap-lime": mlfM73,
   "mlf-m74-fairness-mitigation": mlfM74,
   "mlf-m75-monitoring-drift": mlfM75,
+  "mlf-m81-model-validation-framework": mlfM81,
+  "mlf-m82-model-risk-rating-inventory": mlfM82,
+  "mlf-m83-model-card-documentation": mlfM83,
+  "mlf-m84-deployment-shadow-canary-champion": mlfM84,
+  "mlf-m85-governance-approval-workflow": mlfM85,
 };

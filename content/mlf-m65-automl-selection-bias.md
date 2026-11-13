@@ -90,7 +90,7 @@ $$\chi^2 = \frac{(|b - c| - 1)^2}{b + c}, \qquad \text{tolak } H_0 \text{ bila }
 
 SIGNIFIKAN (apakah perbedaan ini nyata?) dan PENTING (apakah perbedaan ini cukup besar untuk mengubah keputusan?) harus selalu dibedakan. LR vs GBM: signifikan (p = 0,0003) DAN penting (selisih ROC-AUC 0,0397). GBM vs tertala: tidak signifikan (p = 0,5383) dan tidak penting (selisih 0,0018 di nested CV). Kombinasi ketiga yang paling berbahaya: signifikan tapi TIDAK penting — muncul begitu sampelmu besar.
 
-**Nilai [notebook]:** GBM tertala 0,7858 ± 0,0068 vs GBM default 0,7840 ± 0,0059: selisih 0,0018, sementara simpangan baku antar-fold 0,0068 — selisih itu hanya sekitar seperempat dari satu simpangan baku (0,0018 / 0,0068 ≈ 0,26).
+**Nilai [notebook]:** GBM tertala 0,7858 (sd antar-fold 0,0068) vs GBM default 0,7840 (sd antar-fold 0,0059): selisih 0,0018, sementara simpangan baku antar-fold 0,0068 — selisih itu hanya sekitar seperempat dari satu simpangan baku (0,0018 / 0,0068 ≈ 0,26).
 
 $$\Delta = 0{,}7858 - 0{,}7840 = 0{,}0018 \ll \mathrm{sd} = 0{,}0068, \qquad \frac{\Delta}{\mathrm{sd}} \approx 0{,}26$$
 
@@ -104,7 +104,7 @@ $$\Delta = 0{,}7858 - 0{,}7840 = 0{,}0018 \ll \mathrm{sd} = 0{,}0068, \qquad \fr
 
 Tiga aturan: (1) SELEKSI DI DALAM, EVALUASI DI LUAR (nested CV); (2) TEST TERKUNCI — dibuka SEKALI, di akhir, untuk keputusan final; (3) SATU METRIK UTAMA, ditetapkan sebelum pencarian (di sini ROC-AUC).
 
-**Nilai [notebook]:** LR tertala (nested CV) 0,7560 ± 0,0056 (outer fold: 0,7635; 0,7476; 0,7600; 0,7523; 0,7568); GBM default (5-fold CV biasa, tanpa tuning sudah tak-bias) 0,7840 ± 0,0059 (fold: 0,7940; 0,7762; 0,7832; 0,7856; 0,7808); GBM tertala (nested CV) 0,7858 ± 0,0068 (outer fold: 0,7974; 0,7782; 0,7878; 0,7859; 0,7799). Konfigurasi terbaik BERGANTI di tiap outer fold (fold 1: max_iter 50, max_depth 5, learning_rate 0,10; fold 2: max_iter 200, max_depth 3, learning_rate 0,05) — «konfigurasi terbaik» adalah artefak lipatan, bukan sifat model.
+**Nilai [notebook]:** LR tertala (nested CV) 0,7560 (sd antar-fold 0,0056) (outer fold: 0,7635; 0,7476; 0,7600; 0,7523; 0,7568); GBM default (5-fold CV biasa, tanpa tuning sudah tak-bias) 0,7840 (sd antar-fold 0,0059) (fold: 0,7940; 0,7762; 0,7832; 0,7856; 0,7808); GBM tertala (nested CV) 0,7858 (sd antar-fold 0,0068) (outer fold: 0,7974; 0,7782; 0,7878; 0,7859; 0,7799). Konfigurasi terbaik BERGANTI di tiap outer fold (fold 1: max_iter 50, max_depth 5, learning_rate 0,10; fold 2: max_iter 200, max_depth 3, learning_rate 0,05) — «konfigurasi terbaik» adalah artefak lipatan, bukan sifat model.
 
 $$\bar{S}_{\mathrm{nested}} = \frac{1}{5} \sum_{f=1}^{5} S_f, \qquad S_f = \text{skor outer fold } f \text{ (seleksi hanya di inner fold)}$$
 
@@ -126,11 +126,11 @@ Di M4.1 kamu sudah belajar random forest, bagging, boosting, stacking — di sin
 
 ## 10. Worked Example: Putuskan Pemenang yang Jujur
 
-**Langkah A — ranking yang adil.** Skor nested CV: LR tertala 0,7560 ± 0,0056; GBM default 0,7840 ± 0,0059; GBM tertala 0,7858 ± 0,0068. Pemenang ranking: GBM tertala, 0,7858. LR tertinggal 0,0298 — konsisten dengan McNemar LR vs GBM (p = 0,0003): LR kalah secara meyakinkan.
+**Langkah A — ranking yang adil.** Skor nested CV: LR tertala 0,7560 (sd antar-fold 0,0056); GBM default 0,7840 (sd antar-fold 0,0059); GBM tertala 0,7858 (sd antar-fold 0,0068). Pemenang ranking: GBM tertala, 0,7858. LR tertinggal 0,0298 — konsisten dengan McNemar LR vs GBM (p = 0,0003): LR kalah secara meyakinkan.
 
 **Langkah B — apakah kemenangan atas GBM default nyata?** Selisih 0,7858 − 0,7840 = 0,0018 vs sd 0,0068 (rasio 0,26×). McNemar p = 0,5383, tidak signifikan. Kemenangan tuning atas default TIDAK TERBUKTI.
 
-**Langkah C — putuskan dengan jujur.** Pemenang yang jujur (nested CV): GBM tertala, 0,7858 ± 0,0068 — kalimat lengkapnya: «GBM tertala adalah pemenang ranking dalam protokol yang adil, TETAPI keunggulannya atas GBM default (0,0018) berada di dalam noise (sd 0,0068) dan tidak signifikan (McNemar p = 0,5383); bila kesederhanaan, kecepatan, atau biaya dihitung, GBM default adalah pilihan yang sama sahnya.» Jangan laporkan 0,7865 (skor CV pemenang) sebagai performa — laporkan 0,7858 (nested CV) atau 0,7823 (test tunggal), dengan menjelaskan yang mana.
+**Langkah C — putuskan dengan jujur.** Pemenang yang jujur (nested CV): GBM tertala, 0,7858 (sd antar-fold 0,0068) — kalimat lengkapnya: «GBM tertala adalah pemenang ranking dalam protokol yang adil, TETAPI keunggulannya atas GBM default (0,0018) berada di dalam noise (sd 0,0068) dan tidak signifikan (McNemar p = 0,5383); bila kesederhanaan, kecepatan, atau biaya dihitung, GBM default adalah pilihan yang sama sahnya.» Jangan laporkan 0,7865 (skor CV pemenang) sebagai performa — laporkan 0,7858 (nested CV) atau 0,7823 (test tunggal), dengan menjelaskan yang mana.
 
 **Mitigasi:** tulis keputusan model dalam TIGA BARIS: (1) ranking + skor protokol adil; (2) uji signifikansi vs pesaing terdekat; (3) ukuran efek vs noise. Bila baris (2) dan (3) berkata «tidak terbukti», tuliskan itu.
 
@@ -183,8 +183,8 @@ Notebook: colab/mlf-m65-guided-task.ipynb — flagship LR/GBM, grid 18 konfigura
 - Penyebabnya seleksi atas noise (Ŝ = S + ε): peringkat berubah (K15 peringkat-15 CV menyamai skor test tertinggi) dan empat konfigurasi seri di test 0,7823.
 - McNemar (threshold 0,5, test 6.000) [notebook]: LR vs GBM b = 132, c = 199, χ² = 13,1601, p (metode chi2) = 0,0003 → GBM menang SIGNIFIKAN; GBM vs tertala b = 36, c = 30, χ² = 0,3788, p = 0,5383 → TIDAK signifikan, kemenangan tuning TIDAK TERBUKTI.
 - Signifikan ≠ penting: selisih nested-CV tertala vs default 0,0018 hanya ~0,26× sd antar-fold 0,0068.
-- Protokol adil: nested CV — LR tertala 0,7560 ± 0,0056; GBM default 0,7840 ± 0,0059; GBM tertala 0,7858 ± 0,0068; konfigurasi terbaik berganti tiap outer fold; test terkunci; satu metrik utama (ROC-AUC).
-- Pemenang jujur: GBM tertala, 0,7858 ± 0,0068 — dengan catatan keunggulannya atas default tidak signifikan dan tidak penting; GBM default sama sahnya bila kesederhanaan dihitung. Jangan laporkan 0,7865 sebagai performa.
+- Protokol adil: nested CV — LR tertala 0,7560 (sd antar-fold 0,0056); GBM default 0,7840 (sd antar-fold 0,0059); GBM tertala 0,7858 (sd antar-fold 0,0068); konfigurasi terbaik berganti tiap outer fold; test terkunci; satu metrik utama (ROC-AUC).
+- Pemenang jujur: GBM tertala, 0,7858 (sd antar-fold 0,0068) — dengan catatan keunggulannya atas default tidak signifikan dan tidak penting; GBM default sama sahnya bila kesederhanaan dihitung. Jangan laporkan 0,7865 sebagai performa.
 - Jebakan: leaderboard-chasing, test peeking (test yang diintip bukan lagi test tak-bias), AutoML kotak hitam tanpa jejak seleksi.
 - Lab: McNemar manual χ² = 13,1601, signifikan (p kanonis 0,0003); winner's curse 18 konfigurasi — optimisme rata-rata 0,0042, pemenang test K1 = 0,7823, seri 4 arah.
 - Single vs ensemble (M4.1 sudah mengajarkan ensembles — di sini hanya opsi seleksi, tanpa angka baru): tiga kandidat kanonis di frontier Pareto — LR tertala 0,7560, GBM default 0,7840, GBM tertala 0,7858; posisi ensemble belum diukur [ilustrasi]; ensemble hanya layak bila peningkatan cukup besar dan stabil untuk membayar kompleksitas tambahannya.
